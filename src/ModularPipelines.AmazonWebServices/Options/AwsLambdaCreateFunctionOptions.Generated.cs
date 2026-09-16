@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "create-function")]
-public record AwsLambdaCreateFunctionOptions : AwsOptions
+public record AwsLambdaCreateFunctionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Lambda function. To create a function, you need a deployment package and an execution role . The deployment package is a .zip file archive or container image that contains your function code. The execu- tion role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing. If the deployment package is a container image , then you set the pack- age type to Image . For a container image, the code prope...
+    /// </summary>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="Role">The Amazon Resource Name (ARN) of the function's execution role. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsLambdaCreateFunctionOptions(
+        string FunctionName,
+        string Role
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FunctionName);
+        this.FunctionName = FunctionName;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+    }
+
+    private AwsLambdaCreateFunctionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaCreateFunctionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaCreateFunctionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?
+    /// </summary>
     [CliOption("--function-name")]
-    public string? FunctionName { get; set; }
+    public string? FunctionName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the function's execution role. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role")]
+    public string? Role { get; private init; }
 
     /// <summary>
     /// The identifier of the function's runtime . Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks cre- ating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation . For a list of all currently supported runtimes, see Supported run- times . Possible values: o nodejs o nodejs4.3 o nodejs6.10 o nodejs8.10 o nodejs10.x o nodejs12.x o nodejs14.x o nodejs16.x o nodejs18.x o nodejs20.x o nodejs22.x o nodejs24.x o java8 o java8.al2 o java11 o java17 o java21 o java25 o python2.7 o python3.6 o python3.7 o python3.8 o python3.9 o python3.10 o python3.11 o python3.12 o python3.13 o python3.14 o dotnetcore1.0 o dotnetcore2.0 o dotnetcore2.1 o dotnetcore3.1 o dotnet6 o dotnet8 o dotnet10 o nodejs4.3-edge o go1.x o ruby2.5 o ruby2.7 o ruby3.2 o ruby3.3 o ruby3.4 o ruby4.0 o provided o provided.al2 o provided.al2023 o nodejs26.x o python3.15 o java8.al2023 o java11.al2023 o java17.al2023
     /// </summary>
     [CliOption("--runtime")]
-    public AwsLambdaCreateFunctionRuntime? Runtime { get; set; }
-
-    [CliOption("--role")]
-    public string? Role { get; set; }
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model . Constraints: o min: 0 o max: 128 o pattern: [^\s]+
@@ -54,7 +98,7 @@ public record AwsLambdaCreateFunctionOptions : AwsOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see Lambda execution en- vironment . Constraints: o min: 1 o max: 5400
+    /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum al- lowed value is 900 seconds. For functions using Lambda Managed In- stances, asynchronous invocations and event source mapping invoca- tions (except Amazon MQ and Amazon DocumentDB) support a maximum al- lowed value of 5,400 seconds (90 minutes). For more information, see Lambda execution environment . Constraints: o min: 1 o max: 5400
     /// </summary>
     [CliOption("--timeout")]
     public int? Timeout { get; set; }
@@ -65,14 +109,17 @@ public record AwsLambdaCreateFunctionOptions : AwsOptions
     [CliOption("--memory-size")]
     public int? MemorySize { get; set; }
 
-    [CliFlag("--publish")]
+    /// <summary>
+    /// Set to true to publish the first version of the function during cre- ation.
+    /// </summary>
+    [CliFlag("--publish", NegatedName = "--no-publish")]
     public bool? Publish { get; set; }
 
     /// <summary>
     /// Specifies where to publish the function version or configuration. Possible values: o LATEST_PUBLISHED
     /// </summary>
     [CliOption("--publish-to")]
-    public AwsLambdaCreateFunctionPublishTo? PublishTo { get; set; }
+    public string? PublishTo { get; set; }
 
     /// <summary>
     /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the inter- net only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC . SubnetIds -&gt; (list) A list of VPC subnet IDs. Constraints: o min: 0 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) A list of VPC security group IDs. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* Ipv6AllowedForDualStack -&gt; (boolean) Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets. Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string,Ipv6AllowedForDualStack=boolean JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "Ipv6AllowedForDualStack": true|false }
@@ -123,7 +170,7 @@ public record AwsLambdaCreateFunctionOptions : AwsOptions
     public IEnumerable<string>? Layers { get; set; }
 
     /// <summary>
-    /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system. Constraints: o min: 0 o max: 1 (structure) Details about the connection between a Lambda function and an Amazon EFS file system or an Amazon S3 Files file system . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access point that provides access to the file system. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-zA-Z-]*:elasticfilesys- tem:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ac- cess-point/fsap-[a-f0-9]{17}$|^arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40} LocalMountPath -&gt; (string) [required] The path where the function can access the file system, starting with /mnt/ . Constraints: o min: 0 o max: 160 o pattern: /mnt/[a-zA-Z0-9-_.]+ Shorthand Syntax: Arn=string,LocalMountPath=string ... JSON Syntax: [ { "Arn": "string", "LocalMountPath": "string" } ... ]
+    /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system. Constraints: o min: 0 o max: 1 (structure) Details about the connection between a Lambda function and an Amazon EFS file system or an Amazon S3 file system . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access point that provides access to the file system. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-zA-Z-]*:elasticfilesys- tem:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ac- cess-point/fsap-[a-f0-9]{17}$|^arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40} LocalMountPath -&gt; (string) [required] The path where the function can access the file system, starting with /mnt/ . Constraints: o min: 0 o max: 160 o pattern: /mnt/[a-zA-Z0-9-_.]+ S3FilesConfig -&gt; (structure) The configuration for how your function accesses data on an Amazon S3 file system. Valid only when the file system access point ARN is an Amazon S3 Files access point. If you specify a different access point type (for example, Amazon Elastic File System), the operation returns an InvalidParameterExcep- tion . DirectS3Read -&gt; (string) Specifies if a function reads from the file system for the lowest latency, or through Amazon S3 Files feature "direct Amazon S3 bucket reads" for the highest through- put. Valid values: o AUTO (default) Direct reads are active for functions you configure with 512 MB or more of memory. o ENABLED Enforces all reads are directly from the Ama- zon S3 bucket, regardless of available memory (less than 512 MB). o DISABLED Routes all reads through the file system, re- gardless of memory configuration. To use direct reads, you must grant the execution role the s3:GetObject and s3:GetObjectVersion permissions. If a direct read fails, Lambda automatically falls back to reading through the file system. Possible values: o ENABLED o DISABLED o AUTO Shorthand Syntax: Arn=string,LocalMountPath=string,S3FilesConfig={DirectS3Read=string} ... JSON Syntax: [ { "Arn": "string", "LocalMountPath": "string", "S3FilesConfig": { "DirectS3Read": "ENABLED"|"DISABLED"|"AUTO" } } ... ]
     /// </summary>
     [CliOption("--file-system-configs", GroupValues = true)]
     public IEnumerable<string>? FileSystemConfigs { get; set; }
@@ -193,5 +240,22 @@ public record AwsLambdaCreateFunctionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

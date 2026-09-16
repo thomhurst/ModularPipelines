@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +22,54 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrass", "start-bulk-deployment")]
-public record AwsGreengrassStartBulkDeploymentOptions : AwsOptions
+public record AwsGreengrassStartBulkDeploymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version de- ployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExecutionRoleArn"></param>
+    /// <param name="InputFileUri"></param>
+    public AwsGreengrassStartBulkDeploymentOptions(
+        string ExecutionRoleArn,
+        string InputFileUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(InputFileUri);
+        this.InputFileUri = InputFileUri;
+    }
+
+    private AwsGreengrassStartBulkDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassStartBulkDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassStartBulkDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    [CliOption("--execution-role-arn")]
+    public string? ExecutionRoleArn { get; private init; }
+
+    [CliOption("--input-file-uri")]
+    public string? InputFileUri { get; private init; }
+
     [SecretValue]
     [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
-
-    [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
-
-    [CliOption("--input-file-uri")]
-    public string? InputFileUri { get; set; }
 
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -41,5 +79,22 @@ public record AwsGreengrassStartBulkDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "create-auto-scaling-configuration")]
-public record AwsApprunnerCreateAutoScalingConfigurationOptions : AwsOptions
+public record AwsApprunnerCreateAutoScalingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create an App Runner automatic scaling configuration resource. App Run- ner requires this resource when you create or update App Runner ser- vices and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same AutoScalingConfigurationName . The call returns incremental AutoScalingConfigurationRevision values. When you create a service and con...
+    /// </summary>
+    /// <param name="AutoScalingConfigurationName">A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates re- vision number 1 of this name. When you use the same name in subse- quent calls, App Runner creates incremental revisions of the config- uration. NOTE: Prior to the release of Auto scale configuration enhancements , the name DefaultConfiguration was reserved. This restriction is no longer in place. You can now manage De- faultConfiguration the same way you manage your custom auto scaling configurations. This means you can do the following with the DefaultConfiguration that App Runner provides: o Create new revisions of the DefaultConfiguration . o Delete the revisions of the DefaultConfiguration . o Delete the auto scaling configuration for which the App Runner DefaultConfiguration was created. o If you delete the auto scaling configuration you can create another custom auto scaling configuration with the same De- faultConfiguration name. The original DefaultConfiguration re- source provided by App Runner remains in your account unless you make changes to it. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}</param>
+    public AwsApprunnerCreateAutoScalingConfigurationOptions(
+        string AutoScalingConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingConfigurationName);
+        this.AutoScalingConfigurationName = AutoScalingConfigurationName;
+    }
+
+    private AwsApprunnerCreateAutoScalingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerCreateAutoScalingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerCreateAutoScalingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates re- vision number 1 of this name. When you use the same name in subse- quent calls, App Runner creates incremental revisions of the config- uration. NOTE: Prior to the release of Auto scale configuration enhancements , the name DefaultConfiguration was reserved. This restriction is no longer in place. You can now manage De- faultConfiguration the same way you manage your custom auto scaling configurations. This means you can do the following with the DefaultConfiguration that App Runner provides: o Create new revisions of the DefaultConfiguration . o Delete the revisions of the DefaultConfiguration . o Delete the auto scaling configuration for which the App Runner DefaultConfiguration was created. o If you delete the auto scaling configuration you can create another custom auto scaling configuration with the same De- faultConfiguration name. The original DefaultConfiguration re- source provided by App Runner remains in your account unless you make changes to it. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
+    /// </summary>
     [CliOption("--auto-scaling-configuration-name")]
-    public string? AutoScalingConfigurationName { get; set; }
+    public string? AutoScalingConfigurationName { get; private init; }
 
     /// <summary>
     /// The maximum number of concurrent requests that you want an instance to process. If the number of concurrent requests exceeds this limit, App Runner scales up your service. Default: 100 Constraints: o min: 1 o max: 200
@@ -53,5 +90,22 @@ public record AwsApprunnerCreateAutoScalingConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

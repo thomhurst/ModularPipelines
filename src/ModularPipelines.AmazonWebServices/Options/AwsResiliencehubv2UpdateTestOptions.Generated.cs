@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehubv2", "update-test")]
-public record AwsResiliencehubv2UpdateTestOptions : AwsOptions
+public record AwsResiliencehubv2UpdateTestOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--test-id")]
-    public string? TestId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the configuration of an existing test. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TestId">The identifier of the test to update. Constraints: o min: 1</param>
+    /// <param name="ServiceArn">The ARN of the service the test belongs to. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    public AwsResiliencehubv2UpdateTestOptions(
+        string TestId,
+        string ServiceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TestId);
+        this.TestId = TestId;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+    }
+
+    private AwsResiliencehubv2UpdateTestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubv2UpdateTestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubv2UpdateTestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the test to update. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--test-id")]
+    public string? TestId { get; private init; }
+
+    /// <summary>
+    /// The ARN of the service the test belongs to. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// </summary>
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string? ServiceArn { get; private init; }
 
     /// <summary>
     /// The updated logging configuration for the test. s3BucketName -&gt; (string) The name of the S3 bucket for log delivery. cloudWatchLogGroupArn -&gt; (string) The ARN of the CloudWatch Logs log group for log delivery. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} logSchemaVersion -&gt; (string) The version of the log schema. Shorthand Syntax: s3BucketName=string,cloudWatchLogGroupArn=string,logSchemaVersion=string JSON Syntax: { "s3BucketName": "string", "cloudWatchLogGroupArn": "string", "logSchemaVersion": "string" }
@@ -41,7 +85,7 @@ public record AwsResiliencehubv2UpdateTestOptions : AwsOptions
     public IEnumerable<string>? StopConditions { get; set; }
 
     /// <summary>
-    /// The updated IAM execution role name. Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}
+    /// The updated IAM execution role name. Constraints: o min: 1 o max: 576 o pattern: ([A-Za-z0-9_+=,.@\-]+/)*[A-Za-z0-9_+=,.@\-]+
     /// </summary>
     [CliOption("--role-name")]
     public string? RoleName { get; set; }
@@ -57,5 +101,22 @@ public record AwsResiliencehubv2UpdateTestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

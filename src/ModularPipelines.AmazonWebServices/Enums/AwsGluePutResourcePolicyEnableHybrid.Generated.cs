@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enablehybrid.
+/// Allowed values for --enable-hybrid.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGluePutResourcePolicyEnableHybrid
 {
-    [EnumValue("TRUE")]
-    True = 1,
-
     [EnumValue("FALSE")]
-    False = 2
+    False,
+
+    [EnumValue("TRUE")]
+    True
 }

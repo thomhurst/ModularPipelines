@@ -28,7 +28,7 @@ public interface IAwsPinpointSmsVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfigurationSetEventDestinationAsync(AwsPinpointSmsVoiceCreateConfigurationSetEventDestinationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateConfigurationSetEventDestinationAsync(AwsPinpointSmsVoiceCreateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface IAwsPinpointSmsVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationSetEventDestinationAsync(AwsPinpointSmsVoiceDeleteConfigurationSetEventDestinationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteConfigurationSetEventDestinationAsync(AwsPinpointSmsVoiceDeleteConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IAwsPinpointSmsVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationSetAsync(AwsPinpointSmsVoiceDeleteConfigurationSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteConfigurationSetAsync(AwsPinpointSmsVoiceDeleteConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IAwsPinpointSmsVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConfigurationSetEventDestinationsAsync(AwsPinpointSmsVoiceGetConfigurationSetEventDestinationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetConfigurationSetEventDestinationsAsync(AwsPinpointSmsVoiceGetConfigurationSetEventDestinationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -98,7 +98,7 @@ public interface IAwsPinpointSmsVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationSetEventDestinationAsync(AwsPinpointSmsVoiceUpdateConfigurationSetEventDestinationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateConfigurationSetEventDestinationAsync(AwsPinpointSmsVoiceUpdateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

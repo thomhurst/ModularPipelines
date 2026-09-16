@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "describe-acme-account")]
-public record AwsAcmDescribeAcmeAccountOptions : AwsOptions
+public record AwsAcmDescribeAcmeAccountOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--acme-endpoint-arn")]
-    public string? AcmeEndpointArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns detailed metadata about the specified ACME account, including its status, public key thumbprint, and associated external account binding. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+</param>
+    /// <param name="AccountUrl">The URL of the ACME account.</param>
+    public AwsAcmDescribeAcmeAccountOptions(
+        string AcmeEndpointArn,
+        string AccountUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcmeEndpointArn);
+        this.AcmeEndpointArn = AcmeEndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(AccountUrl);
+        this.AccountUrl = AccountUrl;
+    }
+
+    private AwsAcmDescribeAcmeAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmDescribeAcmeAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmDescribeAcmeAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--acme-endpoint-arn")]
+    public string? AcmeEndpointArn { get; private init; }
+
+    /// <summary>
+    /// The URL of the ACME account.
+    /// </summary>
     [CliOption("--account-url")]
-    public string? AccountUrl { get; set; }
+    public string? AccountUrl { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --pricingplan.
+/// Allowed values for --pricing-plan.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLocationCreateTrackerPricingPlan
 {
-    [EnumValue("RequestBasedUsage")]
-    RequestBasedUsage = 1,
+    [EnumValue("MobileAssetManagement")]
+    MobileAssetManagement,
 
     [EnumValue("MobileAssetTracking")]
-    MobileAssetTracking = 2,
+    MobileAssetTracking,
 
-    [EnumValue("MobileAssetManagement")]
-    MobileAssetManagement = 3
+    [EnumValue("RequestBasedUsage")]
+    RequestBasedUsage
 }

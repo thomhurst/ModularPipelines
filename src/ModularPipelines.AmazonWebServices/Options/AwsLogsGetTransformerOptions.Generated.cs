@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "get-transformer")]
-public record AwsLogsGetTransformerOptions : AwsOptions
+public record AwsLogsGetTransformerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the information about the log transformer associated with this log group. This operation returns data only for transformers created at the log group level. To get information for an account-level transformer, use DescribeAccountPolicies . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LogGroupIdentifier">Specify either the name or ARN of the log group to return trans- former information for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    public AwsLogsGetTransformerOptions(
+        string LogGroupIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupIdentifier);
+        this.LogGroupIdentifier = LogGroupIdentifier;
+    }
+
+    private AwsLogsGetTransformerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsGetTransformerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsGetTransformerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify either the name or ARN of the log group to return trans- former information for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// </summary>
     [CliOption("--log-group-identifier")]
-    public string? LogGroupIdentifier { get; set; }
+    public string? LogGroupIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

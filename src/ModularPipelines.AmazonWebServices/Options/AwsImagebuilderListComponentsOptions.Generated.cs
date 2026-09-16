@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of components that can be filtered by name, or by us- ing the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when s...
+/// Returns the list of components that can be filtered by name, or by us- ing the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -35,7 +35,10 @@ public record AwsImagebuilderListComponentsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--by-name")]
+    /// <summary>
+    /// Returns the list of components for the specified name.
+    /// </summary>
+    [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }
 
     [CliOption("--cli-input-json")]

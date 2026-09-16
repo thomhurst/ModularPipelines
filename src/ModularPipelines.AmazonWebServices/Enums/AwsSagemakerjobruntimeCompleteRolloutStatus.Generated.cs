@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerjobruntimeCompleteRolloutStatus
 {
-    [EnumValue("ready")]
-    Ready = 1,
-
     [EnumValue("failed")]
-    Failed = 2
+    Failed,
+
+    [EnumValue("ready")]
+    Ready
 }

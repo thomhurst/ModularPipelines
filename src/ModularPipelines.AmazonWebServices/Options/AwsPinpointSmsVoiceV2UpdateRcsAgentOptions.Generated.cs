@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "update-rcs-agent")]
-public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rcs-agent-id")]
-    public string? RcsAgentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// Updates the configuration of an existing RCS agent. You can update the opt-out list, deletion protection, two-way messaging settings, and self-managed opt-outs configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RcsAgentId">The unique identifier of the RCS agent to update. You can use either the RcsAgentId or RcsAgentArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    public AwsPinpointSmsVoiceV2UpdateRcsAgentOptions(
+        string RcsAgentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RcsAgentId);
+        this.RcsAgentId = RcsAgentId;
+    }
+
+    private AwsPinpointSmsVoiceV2UpdateRcsAgentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2UpdateRcsAgentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2UpdateRcsAgentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the RCS agent to update. You can use either the RcsAgentId or RcsAgentArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--rcs-agent-id")]
+    public string? RcsAgentId { get; private init; }
+
+    /// <summary>
+    /// By default this is set to false. When set to true the RCS agent can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
@@ -33,7 +73,10 @@ public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; set; }
 
-    [CliFlag("--self-managed-opt-outs-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// </summary>
+    [CliFlag("--self-managed-opt-outs-enabled", NegatedName = "--no-self-managed-opt-outs-enabled")]
     public bool? SelfManagedOptOutsEnabled { get; set; }
 
     /// <summary>
@@ -48,7 +91,10 @@ public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions
     [CliOption("--two-way-channel-role")]
     public string? TwoWayChannelRole { get; set; }
 
-    [CliFlag("--two-way-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+    /// </summary>
+    [CliFlag("--two-way-enabled", NegatedName = "--no-two-way-enabled")]
     public bool? TwoWayEnabled { get; set; }
 
     /// <summary>
@@ -80,5 +126,22 @@ public record AwsPinpointSmsVoiceV2UpdateRcsAgentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

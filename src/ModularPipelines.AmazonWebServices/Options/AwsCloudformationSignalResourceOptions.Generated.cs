@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "signal-resource")]
-public record AwsCloudformationSignalResourceOptions : AwsOptions
+public record AwsCloudformationSignalResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends a signal to the specified resource with a success or failure sta- tus. You can use the SignalResource operation in conjunction with a creation policy or update policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackName">The stack name or unique stack ID that includes the resource that you want to signal. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
+    /// <param name="LogicalResourceId">The logical ID of the resource that you want to signal. The logical ID is the name of the resource that given in the template.</param>
+    /// <param name="UniqueId">A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a differ- ent unique ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Status">The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update. Possible values: o SUCCESS o FAILURE</param>
+    public AwsCloudformationSignalResourceOptions(
+        string StackName,
+        string LogicalResourceId,
+        string UniqueId,
+        AwsCloudformationSignalResourceStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+        global::System.ArgumentNullException.ThrowIfNull(LogicalResourceId);
+        this.LogicalResourceId = LogicalResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(UniqueId);
+        this.UniqueId = UniqueId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsCloudformationSignalResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationSignalResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationSignalResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The stack name or unique stack ID that includes the resource that you want to signal. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// </summary>
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string? StackName { get; private init; }
 
+    /// <summary>
+    /// The logical ID of the resource that you want to signal. The logical ID is the name of the resource that given in the template.
+    /// </summary>
     [CliOption("--logical-resource-id")]
-    public string? LogicalResourceId { get; set; }
+    public string? LogicalResourceId { get; private init; }
 
+    /// <summary>
+    /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a differ- ent unique ID. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--unique-id")]
-    public string? UniqueId { get; set; }
+    public string? UniqueId { get; private init; }
 
+    /// <summary>
+    /// The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update. Possible values: o SUCCESS o FAILURE
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsCloudformationSignalResourceStatus? Status { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

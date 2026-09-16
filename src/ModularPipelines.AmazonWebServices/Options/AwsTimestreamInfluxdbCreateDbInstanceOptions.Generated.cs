@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,20 +23,124 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-influxdb", "create-db-instance")]
-public record AwsTimestreamInfluxdbCreateDbInstanceOptions : AwsOptions
+public record AwsTimestreamInfluxdbCreateDbInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Timestream for InfluxDB DB instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*</param>
+    /// <param name="Password">The password of the initial admin user created in InfluxDB v2. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an op- erator token. These attributes will be stored in a Secret created in Secrets Manager in your account. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="DbInstanceType">The Timestream for InfluxDB DB instance type to run InfluxDB on. Possible values: o db.influx.medium o db.influx.large o db.influx.xlarge o db.influx.2xlarge o db.influx.4xlarge o db.influx.8xlarge o db.influx.12xlarge o db.influx.16xlarge o db.influx.24xlarge</param>
+    /// <param name="VpcSubnetIds">A list of VPC subnet IDs to associate with the DB instance. Provide at least two VPC subnet IDs in different availability zones when de- ploying with a Multi-AZ standby. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 0 o max: 64 o pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="VpcSecurityGroupIds">A list of VPC security group IDs to associate with the DB instance. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 64 o pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="AllocatedStorage">The amount of storage to allocate for your DB storage type in GiB (gibibytes). Constraints: o min: 20 o max: 15360</param>
+    public AwsTimestreamInfluxdbCreateDbInstanceOptions(
+        string Name,
+        string Password,
+        AwsTimestreamInfluxdbCreateDbInstanceDbInstanceType DbInstanceType,
+        IEnumerable<string> VpcSubnetIds,
+        IEnumerable<string> VpcSecurityGroupIds,
+        int AllocatedStorage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceType);
+        this.DbInstanceType = DbInstanceType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VpcSubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VpcSubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VpcSubnetIds));
+            }
+
+            VpcSubnetIds = materialized;
+        }
+        this.VpcSubnetIds = VpcSubnetIds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VpcSecurityGroupIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VpcSecurityGroupIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VpcSecurityGroupIds));
+            }
+
+            VpcSecurityGroupIds = materialized;
+        }
+        this.VpcSecurityGroupIds = VpcSecurityGroupIds;
+        this.AllocatedStorage = AllocatedStorage;
+    }
+
+    private AwsTimestreamInfluxdbCreateDbInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamInfluxdbCreateDbInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamInfluxdbCreateDbInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The password of the initial admin user created in InfluxDB v2. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an op- erator token. These attributes will be stored in a Secret created in Secrets Manager in your account. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; private init; }
+
+    /// <summary>
+    /// The Timestream for InfluxDB DB instance type to run InfluxDB on. Possible values: o db.influx.medium o db.influx.large o db.influx.xlarge o db.influx.2xlarge o db.influx.4xlarge o db.influx.8xlarge o db.influx.12xlarge o db.influx.16xlarge o db.influx.24xlarge
+    /// </summary>
+    [CliOption("--db-instance-type")]
+    public AwsTimestreamInfluxdbCreateDbInstanceDbInstanceType? DbInstanceType { get; private init; }
+
+    /// <summary>
+    /// A list of VPC subnet IDs to associate with the DB instance. Provide at least two VPC subnet IDs in different availability zones when de- ploying with a Multi-AZ standby. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 0 o max: 64 o pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--vpc-subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? VpcSubnetIds { get; private init; }
+
+    /// <summary>
+    /// A list of VPC security group IDs to associate with the DB instance. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 64 o pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--vpc-security-group-ids", GroupValues = true)]
+    public IEnumerable<string>? VpcSecurityGroupIds { get; private init; }
+
+    /// <summary>
+    /// The amount of storage to allocate for your DB storage type in GiB (gibibytes). Constraints: o min: 20 o max: 15360
+    /// </summary>
+    [CliOption("--allocated-storage")]
+    public int? AllocatedStorage { get; private init; }
 
     /// <summary>
     /// The username of the initial admin user created in InfluxDB. Must start with a letter and can't end with a hyphen or contain two con- secutive hyphens. For example, my-user1. This username will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Amazon Se- crets Manager in your account. Constraints: o min: 1 o max: 64
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; set; }
-
-    [SecretValue]
-    [CliOption("--password")]
-    public string? Password { get; set; }
 
     /// <summary>
     /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users. Constraints: o min: 1 o max: 64
@@ -49,16 +154,10 @@ public record AwsTimestreamInfluxdbCreateDbInstanceOptions : AwsOptions
     [CliOption("--bucket")]
     public string? Bucket { get; set; }
 
-    [CliOption("--db-instance-type")]
-    public string? DbInstanceType { get; set; }
-
-    [CliOption("--vpc-subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? VpcSubnetIds { get; set; }
-
-    [CliOption("--vpc-security-group-ids", GroupValues = true)]
-    public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
-
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Configures the DB instance with a public IP to facilitate access.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -66,9 +165,6 @@ public record AwsTimestreamInfluxdbCreateDbInstanceOptions : AwsOptions
     /// </summary>
     [CliOption("--db-storage-type")]
     public AwsTimestreamInfluxdbCreateDbInstanceDbStorageType? DbStorageType { get; set; }
-
-    [CliOption("--allocated-storage")]
-    public int? AllocatedStorage { get; set; }
 
     /// <summary>
     /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For exam- ple, DB parameter groups can specify the limit for query concur- rency. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
@@ -129,5 +225,22 @@ public record AwsTimestreamInfluxdbCreateDbInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

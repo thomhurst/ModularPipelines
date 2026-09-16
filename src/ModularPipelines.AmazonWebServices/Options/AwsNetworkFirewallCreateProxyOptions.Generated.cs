@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "create-proxy")]
-public record AwsNetworkFirewallCreateProxyOptions : AwsOptions
+public record AwsNetworkFirewallCreateProxyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--proxy-name")]
-    public string? ProxyName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Network Firewall Proxy Attaches a Proxy configuration to a NAT Gateway. To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagRe- source . To retrieve information about proxies, use ListProxies and De- scribeProxy . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProxyName">The descriptive name of the proxy. You can't change the name of a proxy after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="NatGatewayId">A unique identifier for the NAT gateway to use with proxy resources. Constraints: o min: 1</param>
+    /// <param name="TlsInterceptProperties">TLS decryption on traffic to filter on attributes in the HTTP header. PcaArn -&gt; (string) Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certifi- cates which applications trust through the same root, establish- ing a secure and consistent trust model for encrypted communica- tion. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* TlsInterceptMode -&gt; (string) Specifies whether to enable or disable TLS Intercept Mode. Possible values: o ENABLED o DISABLED Shorthand Syntax: PcaArn=string,TlsInterceptMode=string JSON Syntax: { "PcaArn": "string", "TlsInterceptMode": "ENABLED"|"DISABLED" }</param>
+    public AwsNetworkFirewallCreateProxyOptions(
+        string ProxyName,
+        string NatGatewayId,
+        string TlsInterceptProperties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProxyName);
+        this.ProxyName = ProxyName;
+        global::System.ArgumentNullException.ThrowIfNull(NatGatewayId);
+        this.NatGatewayId = NatGatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(TlsInterceptProperties);
+        this.TlsInterceptProperties = TlsInterceptProperties;
+    }
+
+    private AwsNetworkFirewallCreateProxyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallCreateProxyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallCreateProxyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
+    [CliOption("--proxy-name")]
+    public string? ProxyName { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the NAT gateway to use with proxy resources. Constraints: o min: 1
+    /// </summary>
     [CliOption("--nat-gateway-id")]
-    public string? NatGatewayId { get; set; }
+    public string? NatGatewayId { get; private init; }
+
+    /// <summary>
+    /// TLS decryption on traffic to filter on attributes in the HTTP header. PcaArn -&gt; (string) Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certifi- cates which applications trust through the same root, establish- ing a secure and consistent trust model for encrypted communica- tion. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* TlsInterceptMode -&gt; (string) Specifies whether to enable or disable TLS Intercept Mode. Possible values: o ENABLED o DISABLED Shorthand Syntax: PcaArn=string,TlsInterceptMode=string JSON Syntax: { "PcaArn": "string", "TlsInterceptMode": "ENABLED"|"DISABLED" }
+    /// </summary>
+    [CliOption("--tls-intercept-properties")]
+    public string? TlsInterceptProperties { get; private init; }
 
     /// <summary>
     /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
@@ -45,9 +99,6 @@ public record AwsNetworkFirewallCreateProxyOptions : AwsOptions
     [CliOption("--listener-properties", GroupValues = true)]
     public IEnumerable<string>? ListenerProperties { get; set; }
 
-    [CliOption("--tls-intercept-properties")]
-    public string? TlsInterceptProperties { get; set; }
-
     /// <summary>
     /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -59,5 +110,22 @@ public record AwsNetworkFirewallCreateProxyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

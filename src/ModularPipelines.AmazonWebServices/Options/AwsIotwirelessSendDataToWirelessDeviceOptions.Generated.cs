@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "send-data-to-wireless-device")]
-public record AwsIotwirelessSendDataToWirelessDeviceOptions : AwsOptions
+public record AwsIotwirelessSendDataToWirelessDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends a decrypted application data frame to a device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the wireless device to receive the data. Constraints: o max: 256</param>
+    /// <param name="TransmitMode">The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode). Constraints: o min: 0 o max: 1</param>
+    /// <param name="PayloadData">The binary to be sent to the end device, encoded in base64. Constraints: o max: 2048 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$</param>
+    public AwsIotwirelessSendDataToWirelessDeviceOptions(
+        string Id,
+        int TransmitMode,
+        string PayloadData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        this.TransmitMode = TransmitMode;
+        global::System.ArgumentNullException.ThrowIfNull(PayloadData);
+        this.PayloadData = PayloadData;
+    }
+
+    private AwsIotwirelessSendDataToWirelessDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessSendDataToWirelessDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessSendDataToWirelessDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the wireless device to receive the data. Constraints: o max: 256
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode). Constraints: o min: 0 o max: 1
+    /// </summary>
     [CliOption("--transmit-mode")]
-    public int? TransmitMode { get; set; }
+    public int? TransmitMode { get; private init; }
 
+    /// <summary>
+    /// The binary to be sent to the end device, encoded in base64. Constraints: o max: 2048 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+    /// </summary>
     [CliOption("--payload-data")]
-    public string? PayloadData { get; set; }
+    public string? PayloadData { get; private init; }
 
     /// <summary>
     /// Metadata about the message request. LoRaWAN -&gt; (structure) LoRaWAN device info. FPort -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 ParticipatingGateways -&gt; (structure) Choose the gateways that you want to use for the downlink data traffic when the wireless device is running in class B or class C mode. DownlinkMode -&gt; (string) [required] Indicates whether to send the downlink message in sequen- tial mode or concurrent mode, or to use only the chosen gateways from the previous uplink message transmission. Possible values: o SEQUENTIAL o CONCURRENT o USING_UPLINK_GATEWAY GatewayList -&gt; (list) [required] The list of gateways that you want to use for sending the downlink data traffic. (structure) Gateway list item object that specifies the frequency and list of gateways for which the downlink message should be sent. GatewayId -&gt; (string) [required] The ID of the wireless gateways that you want to add to the list of gateways when sending downlink messages. Constraints: o max: 256 DownlinkFrequency -&gt; (integer) [required] The frequency to use for the gateways when sending a downlink message to the wireless device. Constraints: o min: 100000000 o max: 1000000000 TransmissionInterval -&gt; (integer) [required] The duration of time for which AWS IoT Core for LoRaWAN will wait before transmitting the payload to the next gateway. Constraints: o min: 1 o max: 604800 Sidewalk -&gt; (structure) The Sidewalk account credentials. Seq -&gt; (integer) The sequence number. Constraints: o min: 0 o max: 16383 MessageType -&gt; (string) Sidewalk device message type. Default value is CUSTOM_COM- MAND_ID_NOTIFY . Possible values: o CUSTOM_COMMAND_ID_NOTIFY o CUSTOM_COMMAND_ID_GET o CUSTOM_COMMAND_ID_SET o CUSTOM_COMMAND_ID_RESP AckModeRetryDurationSecs -&gt; (integer) The duration of time in seconds to retry sending the ACK. Constraints: o min: 0 o max: 604800 JSON Syntax: { "LoRaWAN": { "FPort": integer, "ParticipatingGateways": { "DownlinkMode": "SEQUENTIAL"|"CONCURRENT"|"USING_UPLINK_GATEWAY", "GatewayList": [ { "GatewayId": "string", "DownlinkFrequency": integer } ... ], "TransmissionInterval": integer } }, "Sidewalk": { "Seq": integer, "MessageType": "CUSTOM_COMMAND_ID_NOTIFY"|"CUSTOM_COMMAND_ID_GET"|"CUSTOM_COMMAND_ID_SET"|"CUSTOM_COMMAND_ID_RESP", "AckModeRetryDurationSecs": integer } }
@@ -41,5 +91,22 @@ public record AwsIotwirelessSendDataToWirelessDeviceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

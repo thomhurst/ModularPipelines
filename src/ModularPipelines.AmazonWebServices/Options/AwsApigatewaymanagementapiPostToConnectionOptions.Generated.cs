@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewaymanagementapi", "post-to-connection")]
-public record AwsApigatewaymanagementapiPostToConnectionOptions : AwsOptions
+public record AwsApigatewaymanagementapiPostToConnectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--data")]
-    public string? Data { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sends the provided data to the specified connection. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Data">The data to be sent to the client specified by its connection id. Constraints: o max: 131072</param>
+    /// <param name="ConnectionId">The identifier of the connection that a specific client is using.</param>
+    public AwsApigatewaymanagementapiPostToConnectionOptions(
+        string Data,
+        string ConnectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Data);
+        this.Data = Data;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionId);
+        this.ConnectionId = ConnectionId;
+    }
+
+    private AwsApigatewaymanagementapiPostToConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewaymanagementapiPostToConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewaymanagementapiPostToConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The data to be sent to the client specified by its connection id. Constraints: o max: 131072
+    /// </summary>
+    [CliOption("--data")]
+    public string? Data { get; private init; }
+
+    /// <summary>
+    /// The identifier of the connection that a specific client is using.
+    /// </summary>
     [CliOption("--connection-id")]
-    public string? ConnectionId { get; set; }
+    public string? ConnectionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

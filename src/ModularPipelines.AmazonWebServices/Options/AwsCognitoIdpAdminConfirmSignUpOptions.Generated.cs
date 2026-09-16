@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "admin-confirm-sign-up")]
-public record AwsCognitoIdpAdminConfirmSignUpOptions : AwsOptions
+public record AwsCognitoIdpAdminConfirmSignUpOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Confirms user sign-up as an administrator. This request sets a user account active in a user pool that requires confirmation of new user accounts before they can sign in. You can con- figure your user pool to not send confirmation codes to new users and instead confirm them with this API operation on the back end. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize request...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to confirm a user's sign-up request. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    public AwsCognitoIdpAdminConfirmSignUpOptions(
+        string UserPoolId,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    private AwsCognitoIdpAdminConfirmSignUpOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpAdminConfirmSignUpOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpAdminConfirmSignUpOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to confirm a user's sign-up request. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// </summary>
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public string? Username { get; private init; }
 
     /// <summary>
     /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your work- flow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see Connecting API actions to Lambda triggers in the Amazon Cognito Developer Guide . NOTE: When you use the ClientMetadata parameter, note that Amazon Cog- nito won't do the following: o Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't in- clude triggers, the ClientMetadata parameter serves no pur- pose. o Validate the ClientMetadata value. o Encrypt the ClientMetadata value. Don't send sensitive infor- mation in this parameter. key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,22 @@ public record AwsCognitoIdpAdminConfirmSignUpOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

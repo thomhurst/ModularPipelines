@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "associate-enclave-certificate-iam-role")]
-public record AwsEc2AssociateEnclaveCertificateIamRoleOptions : AwsOptions
+public record AwsEc2AssociateEnclaveCertificateIamRoleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates an Identity and Access Management (IAM) role with an Cer- tificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves User Guide . When the IAM role is associated with the ACM certificate, the certifi- cate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the as...
+    /// </summary>
+    /// <param name="CertificateArn">The ARN of the ACM certificate with which to associate the IAM role.</param>
+    /// <param name="RoleArn">The ARN of the IAM role to associate with the ACM certificate. You can associate up to 16 IAM roles with an ACM certificate.</param>
+    public AwsEc2AssociateEnclaveCertificateIamRoleOptions(
+        string CertificateArn,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateArn);
+        this.CertificateArn = CertificateArn;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsEc2AssociateEnclaveCertificateIamRoleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AssociateEnclaveCertificateIamRoleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AssociateEnclaveCertificateIamRoleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the ACM certificate with which to associate the IAM role.
+    /// </summary>
     [CliOption("--certificate-arn")]
-    public string? CertificateArn { get; set; }
+    public string? CertificateArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role to associate with the ACM certificate. You can associate up to 16 IAM roles with an ACM certificate.
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,22 @@ public record AwsEc2AssociateEnclaveCertificateIamRoleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

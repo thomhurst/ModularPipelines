@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-account", "start-profile-update-task")]
-public record AwsPartnercentralAccountStartProfileUpdateTaskOptions : AwsOptions
+public record AwsPartnercentralAccountStartProfileUpdateTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Initiates a profile update task to modify partner profile information asynchronously. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">The unique identifier of the partner account. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})</param>
+    /// <param name="TaskDetails">The details of the profile updates to be performed. DisplayName -&gt; (string) [required] The updated display name for the partner profile. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Description -&gt; (string) [required] The updated description for the partner profile. Constraints: o min: 1 o max: 600 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ WebsiteUrl -&gt; (string) [required] The updated website URL for the partner profile. Constraints: o min: 1 o max: 256 o pattern: (https|HTTPS):\/\/[^\/\s]+(\/\S*)? LogoUrl -&gt; (string) [required] The updated logo URL for the partner profile. Constraints: o min: 1 o max: 256 o pattern: (https|HTTPS):\/\/[^\/\s]+(\/\S*)? PrimarySolutionType -&gt; (string) [required] The updated primary solution type for the partner profile. Possible values: o SOFTWARE_PRODUCTS o CONSULTING_SERVICES o PROFESSIONAL_SERVICES o MANAGED_SERVICES o HARDWARE_PRODUCTS o COMMUNICATION_SERVICES o VALUE_ADDED_RESALE_AWS_SERVICES o TRAINING_SERVICES IndustrySegments -&gt; (list) [required] The updated industry segments for the partner profile. Constraints: o min: 1 o max: 3 (string) Possible values: o AGRICULTURE_MINING o BIOTECHNOLOGY o BUSINESS_CONSUMER_SERVICES o BUSINESS_SERV o COMMUNICATIONS o COMPUTER_HARDWARE o COMPUTERS_ELECTRONICS o COMPUTER_SOFTWARE o CONSUMER_GOODS o CONSUMER_RELATED o EDUCATION o ENERGY_UTILITIES o FINANCIAL_SERVICES o GAMING o GOVERNMENT o GOVERNMENT_EDUCATION_PUBLIC_SERVICES o HEALTHCARE o HEALTHCARE_PHARMACEUTICALS_BIOTECH o INDUSTRIAL_ENERGY o INTERNET_SPECIFIC o LIFE_SCIENCES o MANUFACTURING o MEDIA_ENTERTAINMENT_LEISURE o MEDIA_ENTERTAINMENT o MEDICAL_HEALTH o NON_PROFIT_ORGANIZATION o OTHER o PROFESSIONAL_SERVICES o REAL_ESTATE_CONSTRUCTION o RETAIL o RETAIL_WHOLESALE_DISTRIBUTION o SEMICONDUCTOR_ELECTR o SOFTWARE_INTERNET o TELECOMMUNICATIONS o TRANSPORTATION_LOGISTICS o TRAVEL_HOSPITALITY o WHOLESALE_DISTRIBUTION TranslationSourceLocale -&gt; (string) [required] The updated translation source locale for the partner profile. Constraints: o pattern: [a-z]{2}-[A-Z]{2} LocalizedContents -&gt; (list) The updated localized content for the partner profile. Constraints: o min: 0 o max: 20 (structure) Contains localized content for a partner profile in a spe- cific language or locale. DisplayName -&gt; (string) [required] The localized display name for the partner. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Description -&gt; (string) [required] The localized description of the partner's business and services. Constraints: o min: 1 o max: 600 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ WebsiteUrl -&gt; (string) [required] The localized website URL for the partner. Constraints: o min: 1 o max: 256 o pattern: (https|HTTPS):\/\/[^\/\s]+(\/\S*)? LogoUrl -&gt; (string) [required] The URL to the partner's logo image for this locale. Constraints: o min: 1 o max: 256 o pattern: (https|HTTPS):\/\/[^\/\s]+(\/\S*)? Locale -&gt; (string) [required] The locale or language code for the localized content. Constraints: o pattern: [a-z]{2}-[A-Z]{2} Headquarters -&gt; (structure) The ISO 3166 country and subdivision codes for the partner's headquarters location. If you omit this field, the service re- tains the existing headquarters value. CountryCode -&gt; (string) [required] The ISO 3166-1 alpha-2 country code of the partner's head- quarters. For example, US , BR , or DE . Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} SubdivisionCode -&gt; (string) [required] The subdivision portion of the ISO 3166-2 code for the part- ner's headquarters (for example, SP from BR-SP , NSW from AU-NSW , or 13 from JP-13 ). Constraints: o min: 1 o max: 3 o pattern: [A-Z0-9]{1,3} Shorthand Syntax: DisplayName=string,Description=string,WebsiteUrl=string,LogoUrl=string,PrimarySolutionType=string,IndustrySegments=string,string,TranslationSourceLocale=string,LocalizedContents=[{DisplayName=string,Description=string,WebsiteUrl=string,LogoUrl=string,Locale=string},{DisplayName=string,Description=string,WebsiteUrl=string,LogoUrl=string,Locale=string}],Headquarters={CountryCode=string,SubdivisionCode=string} JSON Syntax: { "DisplayName": "string", "Description": "string", "WebsiteUrl": "string", "LogoUrl": "string", "PrimarySolutionType": "SOFTWARE_PRODUCTS"|"CONSULTING_SERVICES"|"PROFESSIONAL_SERVICES"|"MANAGED_SERVICES"|"HARDWARE_PRODUCTS"|"COMMUNICATION_SERVICES"|"VALUE_ADDED_RESALE_AWS_SERVICES"|"TRAINING_SERVICES", "IndustrySegments": ["AGRICULTURE_MINING"|"BIOTECHNOLOGY"|"BUSINESS_CONSUMER_SERVICES"|"BUSINESS_SERV"|"COMMUNICATIONS"|"COMPUTER_HARDWARE"|"COMPUTERS_ELECTRONICS"|"COMPUTER_SOFTWARE"|"CONSUMER_GOODS"|"CONSUMER_RELATED"|"EDUCATION"|"ENERGY_UTILITIES"|"FINANCIAL_SERVICES"|"GAMING"|"GOVERNMENT"|"GOVERNMENT_EDUCATION_PUBLIC_SERVICES"|"HEALTHCARE"|"HEALTHCARE_PHARMACEUTICALS_BIOTECH"|"INDUSTRIAL_ENERGY"|"INTERNET_SPECIFIC"|"LIFE_SCIENCES"|"MANUFACTURING"|"MEDIA_ENTERTAINMENT_LEISURE"|"MEDIA_ENTERTAINMENT"|"MEDICAL_HEALTH"|"NON_PROFIT_ORGANIZATION"|"OTHER"|"PROFESSIONAL_SERVICES"|"REAL_ESTATE_CONSTRUCTION"|"RETAIL"|"RETAIL_WHOLESALE_DISTRIBUTION"|"SEMICONDUCTOR_ELECTR"|"SOFTWARE_INTERNET"|"TELECOMMUNICATIONS"|"TRANSPORTATION_LOGISTICS"|"TRAVEL_HOSPITALITY"|"WHOLESALE_DISTRIBUTION", ...], "TranslationSourceLocale": "string", "LocalizedContents": [ { "DisplayName": "string", "Description": "string", "WebsiteUrl": "string", "LogoUrl": "string", "Locale": "string" } ... ], "Headquarters": { "CountryCode": "string", "SubdivisionCode": "string" } }</param>
+    public AwsPartnercentralAccountStartProfileUpdateTaskOptions(
+        string Catalog,
+        string Identifier,
+        string TaskDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(TaskDetails);
+        this.TaskDetails = TaskDetails;
+    }
+
+    private AwsPartnercentralAccountStartProfileUpdateTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralAccountStartProfileUpdateTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralAccountStartProfileUpdateTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the partner account. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// The details of the profile updates to be performed. DisplayName -&gt; (string) [required] The updated display name for the partner profile. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Description -&gt; (string) [required] The updated description for the partner profile. Constraints: o min: 1 o max: 600 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ WebsiteUrl -&gt; (string) [required] The updated website URL for the partner profile. Constraints: o min: 1 o max: 256 o pattern: (https|HTTPS):\/\/[^\/\s]+(\/\S*)? LogoUrl -&gt; (string) [required] The updated logo URL for the partner profile. Constraints: o min: 1 o max: 256 o pattern: (https|HTTPS):\/\/[^\/\s]+(\/\S*)? PrimarySolutionType -&gt; (string) [required] The updated primary solution type for the partner profile. Possible values: o SOFTWARE_PRODUCTS o CONSULTING_SERVICES o PROFESSIONAL_SERVICES o MANAGED_SERVICES o HARDWARE_PRODUCTS o COMMUNICATION_SERVICES o VALUE_ADDED_RESALE_AWS_SERVICES o TRAINING_SERVICES IndustrySegments -&gt; (list) [required] The updated industry segments for the partner profile. Constraints: o min: 1 o max: 3 (string) Possible values: o AGRICULTURE_MINING o BIOTECHNOLOGY o BUSINESS_CONSUMER_SERVICES o BUSINESS_SERV o COMMUNICATIONS o COMPUTER_HARDWARE o COMPUTERS_ELECTRONICS o COMPUTER_SOFTWARE o CONSUMER_GOODS o CONSUMER_RELATED o EDUCATION o ENERGY_UTILITIES o FINANCIAL_SERVICES o GAMING o GOVERNMENT o GOVERNMENT_EDUCATION_PUBLIC_SERVICES o HEALTHCARE o HEALTHCARE_PHARMACEUTICALS_BIOTECH o INDUSTRIAL_ENERGY o INTERNET_SPECIFIC o LIFE_SCIENCES o MANUFACTURING o MEDIA_ENTERTAINMENT_LEISURE o MEDIA_ENTERTAINMENT o MEDICAL_HEALTH o NON_PROFIT_ORGANIZATION o OTHER o PROFESSIONAL_SERVICES o REAL_ESTATE_CONSTRUCTION o RETAIL o RETAIL_WHOLESALE_DISTRIBUTION o SEMICONDUCTOR_ELECTR o SOFTWARE_INTERNET o TELECOMMUNICATIONS o TRANSPORTATION_LOGISTICS o TRAVEL_HOSPITALITY o WHOLESALE_DISTRIBUTION TranslationSourceLocale -&gt; (string) [required] The updated translation source locale for the partner profile. Constraints: o pattern: [a-z]{2}-[A-Z]{2} LocalizedContents -&gt; (list) The updated localized content for the partner profile. Constraints: o min: 0 o max: 20 (structure) Contains localized content for a partner profile in a spe- cific language or locale. DisplayName -&gt; (string) [required] The localized display name for the partner. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Description -&gt; (string) [required] The localized description of the partner's business and services. Constraints: o min: 1 o max: 600 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ WebsiteUrl -&gt; (string) [required] The localized website URL for the partner. Constraints: o min: 1 o max: 256 o pattern: (https|HTTPS):\/\/[^\/\s]+(\/\S*)? LogoUrl -&gt; (string) [required] The URL to the partner's logo image for this locale. Constraints: o min: 1 o max: 256 o pattern: (https|HTTPS):\/\/[^\/\s]+(\/\S*)? Locale -&gt; (string) [required] The locale or language code for the localized content. Constraints: o pattern: [a-z]{2}-[A-Z]{2} Headquarters -&gt; (structure) The ISO 3166 country and subdivision codes for the partner's headquarters location. If you omit this field, the service re- tains the existing headquarters value. CountryCode -&gt; (string) [required] The ISO 3166-1 alpha-2 country code of the partner's head- quarters. For example, US , BR , or DE . Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} SubdivisionCode -&gt; (string) [required] The subdivision portion of the ISO 3166-2 code for the part- ner's headquarters (for example, SP from BR-SP , NSW from AU-NSW , or 13 from JP-13 ). Constraints: o min: 1 o max: 3 o pattern: [A-Z0-9]{1,3} Shorthand Syntax: DisplayName=string,Description=string,WebsiteUrl=string,LogoUrl=string,PrimarySolutionType=string,IndustrySegments=string,string,TranslationSourceLocale=string,LocalizedContents=[{DisplayName=string,Description=string,WebsiteUrl=string,LogoUrl=string,Locale=string},{DisplayName=string,Description=string,WebsiteUrl=string,LogoUrl=string,Locale=string}],Headquarters={CountryCode=string,SubdivisionCode=string} JSON Syntax: { "DisplayName": "string", "Description": "string", "WebsiteUrl": "string", "LogoUrl": "string", "PrimarySolutionType": "SOFTWARE_PRODUCTS"|"CONSULTING_SERVICES"|"PROFESSIONAL_SERVICES"|"MANAGED_SERVICES"|"HARDWARE_PRODUCTS"|"COMMUNICATION_SERVICES"|"VALUE_ADDED_RESALE_AWS_SERVICES"|"TRAINING_SERVICES", "IndustrySegments": ["AGRICULTURE_MINING"|"BIOTECHNOLOGY"|"BUSINESS_CONSUMER_SERVICES"|"BUSINESS_SERV"|"COMMUNICATIONS"|"COMPUTER_HARDWARE"|"COMPUTERS_ELECTRONICS"|"COMPUTER_SOFTWARE"|"CONSUMER_GOODS"|"CONSUMER_RELATED"|"EDUCATION"|"ENERGY_UTILITIES"|"FINANCIAL_SERVICES"|"GAMING"|"GOVERNMENT"|"GOVERNMENT_EDUCATION_PUBLIC_SERVICES"|"HEALTHCARE"|"HEALTHCARE_PHARMACEUTICALS_BIOTECH"|"INDUSTRIAL_ENERGY"|"INTERNET_SPECIFIC"|"LIFE_SCIENCES"|"MANUFACTURING"|"MEDIA_ENTERTAINMENT_LEISURE"|"MEDIA_ENTERTAINMENT"|"MEDICAL_HEALTH"|"NON_PROFIT_ORGANIZATION"|"OTHER"|"PROFESSIONAL_SERVICES"|"REAL_ESTATE_CONSTRUCTION"|"RETAIL"|"RETAIL_WHOLESALE_DISTRIBUTION"|"SEMICONDUCTOR_ELECTR"|"SOFTWARE_INTERNET"|"TELECOMMUNICATIONS"|"TRANSPORTATION_LOGISTICS"|"TRAVEL_HOSPITALITY"|"WHOLESALE_DISTRIBUTION", ...], "TranslationSourceLocale": "string", "LocalizedContents": [ { "DisplayName": "string", "Description": "string", "WebsiteUrl": "string", "LogoUrl": "string", "Locale": "string" } ... ], "Headquarters": { "CountryCode": "string", "SubdivisionCode": "string" } }
+    /// </summary>
+    [CliOption("--task-details")]
+    public string? TaskDetails { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
@@ -35,13 +89,27 @@ public record AwsPartnercentralAccountStartProfileUpdateTaskOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--task-details")]
-    public string? TaskDetails { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

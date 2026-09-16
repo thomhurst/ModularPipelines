@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "list-payment-instruments")]
-public record AwsBedrockAgentcoreListPaymentInstrumentsOptions : AwsOptions
+public record AwsBedrockAgentcoreListPaymentInstrumentsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List payment instruments for a manager. See also: AWS API Documentation list-payment-instruments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: paymentInstruments
+    /// </summary>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns the payment instruments. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    public AwsBedrockAgentcoreListPaymentInstrumentsOptions(
+        string PaymentManagerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentManagerArn);
+        this.PaymentManagerArn = PaymentManagerArn;
+    }
+
+    private AwsBedrockAgentcoreListPaymentInstrumentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreListPaymentInstrumentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreListPaymentInstrumentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the payment manager that owns the payment instruments. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--payment-manager-arn")]
+    public string? PaymentManagerArn { get; private init; }
+
     /// <summary>
     /// The user ID associated with the payment instruments. Constraints: o min: 0 o max: 120
     /// </summary>
@@ -33,9 +73,6 @@ public record AwsBedrockAgentcoreListPaymentInstrumentsOptions : AwsOptions
     /// </summary>
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
-
-    [CliOption("--payment-manager-arn")]
-    public string? PaymentManagerArn { get; set; }
 
     /// <summary>
     /// The ID of the payment connector to filter by. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
@@ -67,5 +104,22 @@ public record AwsBedrockAgentcoreListPaymentInstrumentsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

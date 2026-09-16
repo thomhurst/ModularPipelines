@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "get-ingress-point")]
-public record AwsMailmanagerGetIngressPointOptions : AwsOptions
+public record AwsMailmanagerGetIngressPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Fetch ingress endpoint resource attributes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IngressPointId">The identifier of an ingress endpoint. Constraints: o min: 1 o max: 100</param>
+    public AwsMailmanagerGetIngressPointOptions(
+        string IngressPointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IngressPointId);
+        this.IngressPointId = IngressPointId;
+    }
+
+    private AwsMailmanagerGetIngressPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerGetIngressPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerGetIngressPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of an ingress endpoint. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--ingress-point-id")]
-    public string? IngressPointId { get; set; }
+    public string? IngressPointId { get; private init; }
 
     /// <summary>
     /// Whether to include the trust store contents in the response. Use IN- CLUDE to retrieve trust store certificate and CRL contents. Possible values: o EXCLUDE o INCLUDE
@@ -36,5 +73,22 @@ public record AwsMailmanagerGetIngressPointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

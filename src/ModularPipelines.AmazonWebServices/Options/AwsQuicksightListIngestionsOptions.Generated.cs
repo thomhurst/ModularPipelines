@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "list-ingestions")]
-public record AwsQuicksightListIngestionsOptions : AwsOptions
+public record AwsQuicksightListIngestionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account. See also: AWS API Documentation list-ingestions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
+    /// </summary>
+    /// <param name="DataSetId">The ID of the dataset used in the ingestion.</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    public AwsQuicksightListIngestionsOptions(
+        string DataSetId,
+        string AwsAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+    }
+
+    private AwsQuicksightListIngestionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightListIngestionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightListIngestionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the dataset used in the ingestion.
+    /// </summary>
+    [CliOption("--data-set-id")]
+    public string? DataSetId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsQuicksightListIngestionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("internetmonitor", "create-monitor")]
-public record AwsInternetmonitorCreateMonitorOptions : AwsOptions
+public record AwsInternetmonitorCreateMonitorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: VPCs, Network Load Balancers (NLBs), Amazon CloudFront distributions, and Amazon WorkSpaces directories. Internet Monitor then publishes in- ternet measurements from Amazon Web Services that are specific to the city-networks . That is, the locations and ASNs (typically internet service providers or ISPs), where clients access your application. For more inf...
+    /// </summary>
+    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsInternetmonitorCreateMonitorOptions(
+        string MonitorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+    }
+
+    private AwsInternetmonitorCreateMonitorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInternetmonitorCreateMonitorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInternetmonitorCreateMonitorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    public string? MonitorName { get; private init; }
 
     /// <summary>
     /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront distributions, or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add NLBs or WorkSpaces directories together with any other re- sources. NOTE: If you add only Amazon VPC resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has in- ternet connectivity. (string) Constraints: o min: 20 o max: 2048 o pattern: arn:.* Syntax: "string" "string" ...
@@ -74,5 +111,22 @@ public record AwsInternetmonitorCreateMonitorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

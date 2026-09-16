@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -33,6 +33,21 @@ public class AwsSesv2 : IAwsSesv2
     #region Commands
 
     /// <summary>
+    /// Associates an S/MIME certificate with an email identity. After the cer- tificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is en- abled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN). o If the email identity is a domain, you must specify a FromAddress that belongs to that domai...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AssociateEmailIdentityCertificateAsync(
+        AwsSesv2AssociateEmailIdentityCertificateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves batches of metric data collected based on your sending activ- ity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -40,11 +55,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetMetricDataAsync(
-        AwsSesv2BatchGetMetricDataOptions? options = null,
+        AwsSesv2BatchGetMetricDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2BatchGetMetricDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +70,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelExportJobAsync(
-        AwsSesv2CancelExportJobOptions? options = null,
+        AwsSesv2CancelExportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CancelExportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +85,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConfigurationSetEventDestinationAsync(
-        AwsSesv2CreateConfigurationSetEventDestinationOptions? options = null,
+        AwsSesv2CreateConfigurationSetEventDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateConfigurationSetEventDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +100,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConfigurationSetAsync(
-        AwsSesv2CreateConfigurationSetOptions? options = null,
+        AwsSesv2CreateConfigurationSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateConfigurationSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +115,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateContactListAsync(
-        AwsSesv2CreateContactListOptions? options = null,
+        AwsSesv2CreateContactListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateContactListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +130,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateContactAsync(
-        AwsSesv2CreateContactOptions? options = null,
+        AwsSesv2CreateContactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateContactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +145,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCustomVerificationEmailTemplateAsync(
-        AwsSesv2CreateCustomVerificationEmailTemplateOptions? options = null,
+        AwsSesv2CreateCustomVerificationEmailTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateCustomVerificationEmailTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +160,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDedicatedIpPoolAsync(
-        AwsSesv2CreateDedicatedIpPoolOptions? options = null,
+        AwsSesv2CreateDedicatedIpPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateDedicatedIpPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +175,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDeliverabilityTestReportAsync(
-        AwsSesv2CreateDeliverabilityTestReportOptions? options = null,
+        AwsSesv2CreateDeliverabilityTestReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateDeliverabilityTestReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +190,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEmailIdentityAsync(
-        AwsSesv2CreateEmailIdentityOptions? options = null,
+        AwsSesv2CreateEmailIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateEmailIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +205,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEmailIdentityPolicyAsync(
-        AwsSesv2CreateEmailIdentityPolicyOptions? options = null,
+        AwsSesv2CreateEmailIdentityPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateEmailIdentityPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +220,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEmailTemplateAsync(
-        AwsSesv2CreateEmailTemplateOptions? options = null,
+        AwsSesv2CreateEmailTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateEmailTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +235,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateExportJobAsync(
-        AwsSesv2CreateExportJobOptions? options = null,
+        AwsSesv2CreateExportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateExportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +250,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateImportJobAsync(
-        AwsSesv2CreateImportJobOptions? options = null,
+        AwsSesv2CreateImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +265,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMultiRegionEndpointAsync(
-        AwsSesv2CreateMultiRegionEndpointOptions? options = null,
+        AwsSesv2CreateMultiRegionEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateMultiRegionEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +280,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTenantAsync(
-        AwsSesv2CreateTenantOptions? options = null,
+        AwsSesv2CreateTenantOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateTenantOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +295,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTenantResourceAssociationAsync(
-        AwsSesv2CreateTenantResourceAssociationOptions? options = null,
+        AwsSesv2CreateTenantResourceAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2CreateTenantResourceAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +310,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConfigurationSetEventDestinationAsync(
-        AwsSesv2DeleteConfigurationSetEventDestinationOptions? options = null,
+        AwsSesv2DeleteConfigurationSetEventDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteConfigurationSetEventDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +325,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConfigurationSetAsync(
-        AwsSesv2DeleteConfigurationSetOptions? options = null,
+        AwsSesv2DeleteConfigurationSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteConfigurationSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +340,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteContactListAsync(
-        AwsSesv2DeleteContactListOptions? options = null,
+        AwsSesv2DeleteContactListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteContactListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +355,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteContactAsync(
-        AwsSesv2DeleteContactOptions? options = null,
+        AwsSesv2DeleteContactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteContactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +370,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCustomVerificationEmailTemplateAsync(
-        AwsSesv2DeleteCustomVerificationEmailTemplateOptions? options = null,
+        AwsSesv2DeleteCustomVerificationEmailTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteCustomVerificationEmailTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +385,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDedicatedIpPoolAsync(
-        AwsSesv2DeleteDedicatedIpPoolOptions? options = null,
+        AwsSesv2DeleteDedicatedIpPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteDedicatedIpPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +400,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEmailIdentityAsync(
-        AwsSesv2DeleteEmailIdentityOptions? options = null,
+        AwsSesv2DeleteEmailIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteEmailIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +415,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEmailIdentityPolicyAsync(
-        AwsSesv2DeleteEmailIdentityPolicyOptions? options = null,
+        AwsSesv2DeleteEmailIdentityPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteEmailIdentityPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +430,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEmailTemplateAsync(
-        AwsSesv2DeleteEmailTemplateOptions? options = null,
+        AwsSesv2DeleteEmailTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteEmailTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +445,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMultiRegionEndpointAsync(
-        AwsSesv2DeleteMultiRegionEndpointOptions? options = null,
+        AwsSesv2DeleteMultiRegionEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteMultiRegionEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +460,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSuppressedDestinationAsync(
-        AwsSesv2DeleteSuppressedDestinationOptions? options = null,
+        AwsSesv2DeleteSuppressedDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteSuppressedDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +475,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTenantAsync(
-        AwsSesv2DeleteTenantOptions? options = null,
+        AwsSesv2DeleteTenantOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteTenantOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +490,26 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTenantResourceAssociationAsync(
-        AwsSesv2DeleteTenantResourceAssociationOptions? options = null,
+        AwsSesv2DeleteTenantResourceAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2DeleteTenantResourceAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose cer- tificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 retu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DisassociateEmailIdentityCertificateAsync(
+        AwsSesv2DisassociateEmailIdentityCertificateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -494,7 +524,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetAccountOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +535,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBlacklistReportsAsync(
-        AwsSesv2GetBlacklistReportsOptions? options = null,
+        AwsSesv2GetBlacklistReportsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetBlacklistReportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +550,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigurationSetEventDestinationsAsync(
-        AwsSesv2GetConfigurationSetEventDestinationsOptions? options = null,
+        AwsSesv2GetConfigurationSetEventDestinationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetConfigurationSetEventDestinationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +565,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigurationSetAsync(
-        AwsSesv2GetConfigurationSetOptions? options = null,
+        AwsSesv2GetConfigurationSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetConfigurationSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +580,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetContactListAsync(
-        AwsSesv2GetContactListOptions? options = null,
+        AwsSesv2GetContactListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetContactListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +595,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetContactAsync(
-        AwsSesv2GetContactOptions? options = null,
+        AwsSesv2GetContactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetContactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +610,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCustomVerificationEmailTemplateAsync(
-        AwsSesv2GetCustomVerificationEmailTemplateOptions? options = null,
+        AwsSesv2GetCustomVerificationEmailTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetCustomVerificationEmailTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -595,11 +625,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDedicatedIpAsync(
-        AwsSesv2GetDedicatedIpOptions? options = null,
+        AwsSesv2GetDedicatedIpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetDedicatedIpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -610,11 +640,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDedicatedIpPoolAsync(
-        AwsSesv2GetDedicatedIpPoolOptions? options = null,
+        AwsSesv2GetDedicatedIpPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetDedicatedIpPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -629,7 +659,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetDedicatedIpsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetDedicatedIpsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -644,7 +674,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetDeliverabilityDashboardOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetDeliverabilityDashboardOptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +685,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDeliverabilityTestReportAsync(
-        AwsSesv2GetDeliverabilityTestReportOptions? options = null,
+        AwsSesv2GetDeliverabilityTestReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetDeliverabilityTestReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -670,11 +700,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDomainDeliverabilityCampaignAsync(
-        AwsSesv2GetDomainDeliverabilityCampaignOptions? options = null,
+        AwsSesv2GetDomainDeliverabilityCampaignOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetDomainDeliverabilityCampaignOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -685,11 +715,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDomainStatisticsReportAsync(
-        AwsSesv2GetDomainStatisticsReportOptions? options = null,
+        AwsSesv2GetDomainStatisticsReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetDomainStatisticsReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -700,11 +730,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEmailAddressInsightsAsync(
-        AwsSesv2GetEmailAddressInsightsOptions? options = null,
+        AwsSesv2GetEmailAddressInsightsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetEmailAddressInsightsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -715,11 +745,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEmailIdentityAsync(
-        AwsSesv2GetEmailIdentityOptions? options = null,
+        AwsSesv2GetEmailIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetEmailIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -730,11 +760,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEmailIdentityPoliciesAsync(
-        AwsSesv2GetEmailIdentityPoliciesOptions? options = null,
+        AwsSesv2GetEmailIdentityPoliciesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetEmailIdentityPoliciesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -745,11 +775,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEmailTemplateAsync(
-        AwsSesv2GetEmailTemplateOptions? options = null,
+        AwsSesv2GetEmailTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetEmailTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -760,11 +790,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetExportJobAsync(
-        AwsSesv2GetExportJobOptions? options = null,
+        AwsSesv2GetExportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetExportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -775,11 +805,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetImportJobAsync(
-        AwsSesv2GetImportJobOptions? options = null,
+        AwsSesv2GetImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -790,11 +820,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMessageInsightsAsync(
-        AwsSesv2GetMessageInsightsOptions? options = null,
+        AwsSesv2GetMessageInsightsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetMessageInsightsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -805,11 +835,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMultiRegionEndpointAsync(
-        AwsSesv2GetMultiRegionEndpointOptions? options = null,
+        AwsSesv2GetMultiRegionEndpointOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetMultiRegionEndpointOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -820,11 +850,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetReputationEntityAsync(
-        AwsSesv2GetReputationEntityOptions? options = null,
+        AwsSesv2GetReputationEntityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetReputationEntityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -835,11 +865,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSuppressedDestinationAsync(
-        AwsSesv2GetSuppressedDestinationOptions? options = null,
+        AwsSesv2GetSuppressedDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetSuppressedDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -850,11 +880,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTenantAsync(
-        AwsSesv2GetTenantOptions? options = null,
+        AwsSesv2GetTenantOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2GetTenantOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -869,7 +899,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListConfigurationSetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListConfigurationSetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -884,7 +914,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListContactListsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListContactListsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -895,11 +925,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListContactsAsync(
-        AwsSesv2ListContactsOptions? options = null,
+        AwsSesv2ListContactsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListContactsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -914,7 +944,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListCustomVerificationEmailTemplatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListCustomVerificationEmailTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -929,7 +959,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListDedicatedIpPoolsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListDedicatedIpPoolsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -944,7 +974,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListDeliverabilityTestReportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListDeliverabilityTestReportsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -955,11 +985,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDomainDeliverabilityCampaignsAsync(
-        AwsSesv2ListDomainDeliverabilityCampaignsOptions? options = null,
+        AwsSesv2ListDomainDeliverabilityCampaignsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListDomainDeliverabilityCampaignsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -974,7 +1004,22 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListEmailIdentitiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListEmailIdentitiesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the S/MIME certificates that are associated with the specified email identity. The results include certificates in all states, such as PROVISIONING , ACTIVE , INACTIVE , DEPROVISIONING , and FAILED . If a certificate has passed its expiration time, it's returned with a status of FAILED . We recommend using pagination to ensure that the operation returns quickly and successfully. When there are more results than fit in a single response, the response includes a NextToken value that you use ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListEmailIdentityCertificatesAsync(
+        AwsSesv2ListEmailIdentityCertificatesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -989,7 +1034,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListEmailTemplatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListEmailTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1004,7 +1049,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListExportJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListExportJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1019,7 +1064,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListImportJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListImportJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1034,7 +1079,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListMultiRegionEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListMultiRegionEndpointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1049,7 +1094,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListRecommendationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListRecommendationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1064,7 +1109,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListReputationEntitiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListReputationEntitiesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1075,11 +1120,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListResourceTenantsAsync(
-        AwsSesv2ListResourceTenantsOptions? options = null,
+        AwsSesv2ListResourceTenantsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListResourceTenantsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1094,7 +1139,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListSuppressedDestinationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListSuppressedDestinationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1105,11 +1150,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsSesv2ListTagsForResourceOptions? options = null,
+        AwsSesv2ListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1120,11 +1165,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTenantResourcesAsync(
-        AwsSesv2ListTenantResourcesOptions? options = null,
+        AwsSesv2ListTenantResourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListTenantResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1139,7 +1184,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListTenantsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2ListTenantsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1154,7 +1199,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutAccountDedicatedIpWarmupAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutAccountDedicatedIpWarmupAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1165,11 +1210,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutAccountDetailsAsync(
-        AwsSesv2PutAccountDetailsOptions? options = null,
+        AwsSesv2PutAccountDetailsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutAccountDetailsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1180,11 +1225,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutAccountPricingAttributesAsync(
-        AwsSesv2PutAccountPricingAttributesOptions? options = null,
+        AwsSesv2PutAccountPricingAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutAccountPricingAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1199,7 +1244,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutAccountSendingAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutAccountSendingAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1214,7 +1259,7 @@ public class AwsSesv2 : IAwsSesv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutAccountSuppressionAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutAccountSuppressionAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1225,11 +1270,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutAccountVdmAttributesAsync(
-        AwsSesv2PutAccountVdmAttributesOptions? options = null,
+        AwsSesv2PutAccountVdmAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutAccountVdmAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1240,11 +1285,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetArchivingOptionsAsync(
-        AwsSesv2PutConfigurationSetArchivingOptionsOptions? options = null,
+        AwsSesv2PutConfigurationSetArchivingOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutConfigurationSetArchivingOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1255,11 +1300,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetDeliveryOptionsAsync(
-        AwsSesv2PutConfigurationSetDeliveryOptionsOptions? options = null,
+        AwsSesv2PutConfigurationSetDeliveryOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutConfigurationSetDeliveryOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1270,11 +1315,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetReputationOptionsAsync(
-        AwsSesv2PutConfigurationSetReputationOptionsOptions? options = null,
+        AwsSesv2PutConfigurationSetReputationOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutConfigurationSetReputationOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1285,11 +1330,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetSendingOptionsAsync(
-        AwsSesv2PutConfigurationSetSendingOptionsOptions? options = null,
+        AwsSesv2PutConfigurationSetSendingOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutConfigurationSetSendingOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1300,11 +1345,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetSuppressionOptionsAsync(
-        AwsSesv2PutConfigurationSetSuppressionOptionsOptions? options = null,
+        AwsSesv2PutConfigurationSetSuppressionOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutConfigurationSetSuppressionOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1315,11 +1360,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetTrackingOptionsAsync(
-        AwsSesv2PutConfigurationSetTrackingOptionsOptions? options = null,
+        AwsSesv2PutConfigurationSetTrackingOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutConfigurationSetTrackingOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1330,11 +1375,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConfigurationSetVdmOptionsAsync(
-        AwsSesv2PutConfigurationSetVdmOptionsOptions? options = null,
+        AwsSesv2PutConfigurationSetVdmOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutConfigurationSetVdmOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1345,11 +1390,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutDedicatedIpInPoolAsync(
-        AwsSesv2PutDedicatedIpInPoolOptions? options = null,
+        AwsSesv2PutDedicatedIpInPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutDedicatedIpInPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1360,11 +1405,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutDedicatedIpPoolScalingAttributesAsync(
-        AwsSesv2PutDedicatedIpPoolScalingAttributesOptions? options = null,
+        AwsSesv2PutDedicatedIpPoolScalingAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutDedicatedIpPoolScalingAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1375,11 +1420,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutDedicatedIpWarmupAttributesAsync(
-        AwsSesv2PutDedicatedIpWarmupAttributesOptions? options = null,
+        AwsSesv2PutDedicatedIpWarmupAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutDedicatedIpWarmupAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1390,11 +1435,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutDeliverabilityDashboardOptionAsync(
-        AwsSesv2PutDeliverabilityDashboardOptionOptions? options = null,
+        AwsSesv2PutDeliverabilityDashboardOptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutDeliverabilityDashboardOptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1405,11 +1450,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutEmailIdentityConfigurationSetAttributesAsync(
-        AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions? options = null,
+        AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1420,11 +1465,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutEmailIdentityDkimAttributesAsync(
-        AwsSesv2PutEmailIdentityDkimAttributesOptions? options = null,
+        AwsSesv2PutEmailIdentityDkimAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutEmailIdentityDkimAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1435,11 +1480,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutEmailIdentityDkimSigningAttributesAsync(
-        AwsSesv2PutEmailIdentityDkimSigningAttributesOptions? options = null,
+        AwsSesv2PutEmailIdentityDkimSigningAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutEmailIdentityDkimSigningAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1450,11 +1495,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutEmailIdentityFeedbackAttributesAsync(
-        AwsSesv2PutEmailIdentityFeedbackAttributesOptions? options = null,
+        AwsSesv2PutEmailIdentityFeedbackAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutEmailIdentityFeedbackAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1465,11 +1510,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutEmailIdentityMailFromAttributesAsync(
-        AwsSesv2PutEmailIdentityMailFromAttributesOptions? options = null,
+        AwsSesv2PutEmailIdentityMailFromAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutEmailIdentityMailFromAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1480,11 +1525,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutSuppressedDestinationAsync(
-        AwsSesv2PutSuppressedDestinationOptions? options = null,
+        AwsSesv2PutSuppressedDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutSuppressedDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1495,11 +1540,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutTenantSuppressionAttributesAsync(
-        AwsSesv2PutTenantSuppressionAttributesOptions? options = null,
+        AwsSesv2PutTenantSuppressionAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2PutTenantSuppressionAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1510,11 +1555,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendBulkEmailAsync(
-        AwsSesv2SendBulkEmailOptions? options = null,
+        AwsSesv2SendBulkEmailOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2SendBulkEmailOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1525,11 +1570,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendCustomVerificationEmailAsync(
-        AwsSesv2SendCustomVerificationEmailOptions? options = null,
+        AwsSesv2SendCustomVerificationEmailOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2SendCustomVerificationEmailOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1540,11 +1585,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendEmailAsync(
-        AwsSesv2SendEmailOptions? options = null,
+        AwsSesv2SendEmailOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2SendEmailOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1555,11 +1600,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsSesv2TagResourceOptions? options = null,
+        AwsSesv2TagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2TagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1570,11 +1615,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestRenderEmailTemplateAsync(
-        AwsSesv2TestRenderEmailTemplateOptions? options = null,
+        AwsSesv2TestRenderEmailTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2TestRenderEmailTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1585,11 +1630,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsSesv2UntagResourceOptions? options = null,
+        AwsSesv2UntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1600,11 +1645,26 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateConfigurationSetEventDestinationAsync(
-        AwsSesv2UpdateConfigurationSetEventDestinationOptions? options = null,
+        AwsSesv2UpdateConfigurationSetEventDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateConfigurationSetEventDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left un- changed. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateConfigurationSetAsync(
+        AwsSesv2UpdateConfigurationSetOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1615,11 +1675,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateContactListAsync(
-        AwsSesv2UpdateContactListOptions? options = null,
+        AwsSesv2UpdateContactListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateContactListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1630,11 +1690,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateContactAsync(
-        AwsSesv2UpdateContactOptions? options = null,
+        AwsSesv2UpdateContactOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateContactOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1645,11 +1705,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCustomVerificationEmailTemplateAsync(
-        AwsSesv2UpdateCustomVerificationEmailTemplateOptions? options = null,
+        AwsSesv2UpdateCustomVerificationEmailTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateCustomVerificationEmailTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1660,11 +1720,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateEmailIdentityPolicyAsync(
-        AwsSesv2UpdateEmailIdentityPolicyOptions? options = null,
+        AwsSesv2UpdateEmailIdentityPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateEmailIdentityPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1675,11 +1735,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateEmailTemplateAsync(
-        AwsSesv2UpdateEmailTemplateOptions? options = null,
+        AwsSesv2UpdateEmailTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateEmailTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1690,11 +1750,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateReputationEntityCustomerManagedStatusAsync(
-        AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions? options = null,
+        AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1705,11 +1765,11 @@ public class AwsSesv2 : IAwsSesv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateReputationEntityPolicyAsync(
-        AwsSesv2UpdateReputationEntityPolicyOptions? options = null,
+        AwsSesv2UpdateReputationEntityPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSesv2UpdateReputationEntityPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateHostedZoneAsync(
-        AwsRoute53globalresolverAssociateHostedZoneOptions? options = null,
+        AwsRoute53globalresolverAssociateHostedZoneOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverAssociateHostedZoneOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchCreateFirewallRuleAsync(
-        AwsRoute53globalresolverBatchCreateFirewallRuleOptions? options = null,
+        AwsRoute53globalresolverBatchCreateFirewallRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverBatchCreateFirewallRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDeleteFirewallRuleAsync(
-        AwsRoute53globalresolverBatchDeleteFirewallRuleOptions? options = null,
+        AwsRoute53globalresolverBatchDeleteFirewallRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverBatchDeleteFirewallRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdateFirewallRuleAsync(
-        AwsRoute53globalresolverBatchUpdateFirewallRuleOptions? options = null,
+        AwsRoute53globalresolverBatchUpdateFirewallRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverBatchUpdateFirewallRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,26 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAccessSourceAsync(
-        AwsRoute53globalresolverCreateAccessSourceOptions? options = null,
+        AwsRoute53globalresolverCreateAccessSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverCreateAccessSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates an access token for a DNS view. Access tokens provide to- ken-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services C...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAccessTokenAsync(
+        AwsRoute53globalresolverCreateAccessTokenOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +130,26 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDnsViewAsync(
-        AwsRoute53globalresolverCreateDnsViewOptions? options = null,
+        AwsRoute53globalresolverCreateDnsViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverCreateDnsViewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a firewall domain list. Domain lists are reusable sets of do- main specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Service...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateFirewallDomainListAsync(
+        AwsRoute53globalresolverCreateFirewallDomainListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +160,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateFirewallRuleAsync(
-        AwsRoute53globalresolverCreateFirewallRuleOptions? options = null,
+        AwsRoute53globalresolverCreateFirewallRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverCreateFirewallRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +175,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateGlobalResolverAsync(
-        AwsRoute53globalresolverCreateGlobalResolverOptions? options = null,
+        AwsRoute53globalresolverCreateGlobalResolverOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverCreateGlobalResolverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +190,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAccessSourceAsync(
-        AwsRoute53globalresolverDeleteAccessSourceOptions? options = null,
+        AwsRoute53globalresolverDeleteAccessSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverDeleteAccessSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +205,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAccessTokenAsync(
-        AwsRoute53globalresolverDeleteAccessTokenOptions? options = null,
+        AwsRoute53globalresolverDeleteAccessTokenOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverDeleteAccessTokenOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +220,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDnsViewAsync(
-        AwsRoute53globalresolverDeleteDnsViewOptions? options = null,
+        AwsRoute53globalresolverDeleteDnsViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverDeleteDnsViewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +235,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteFirewallDomainListAsync(
-        AwsRoute53globalresolverDeleteFirewallDomainListOptions? options = null,
+        AwsRoute53globalresolverDeleteFirewallDomainListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverDeleteFirewallDomainListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +250,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteFirewallRuleAsync(
-        AwsRoute53globalresolverDeleteFirewallRuleOptions? options = null,
+        AwsRoute53globalresolverDeleteFirewallRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverDeleteFirewallRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +265,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteGlobalResolverAsync(
-        AwsRoute53globalresolverDeleteGlobalResolverOptions? options = null,
+        AwsRoute53globalresolverDeleteGlobalResolverOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverDeleteGlobalResolverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +280,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableDnsViewAsync(
-        AwsRoute53globalresolverDisableDnsViewOptions? options = null,
+        AwsRoute53globalresolverDisableDnsViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverDisableDnsViewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +295,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateHostedZoneAsync(
-        AwsRoute53globalresolverDisassociateHostedZoneOptions? options = null,
+        AwsRoute53globalresolverDisassociateHostedZoneOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverDisassociateHostedZoneOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +310,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableDnsViewAsync(
-        AwsRoute53globalresolverEnableDnsViewOptions? options = null,
+        AwsRoute53globalresolverEnableDnsViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverEnableDnsViewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +325,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAccessSourceAsync(
-        AwsRoute53globalresolverGetAccessSourceOptions? options = null,
+        AwsRoute53globalresolverGetAccessSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverGetAccessSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +340,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAccessTokenAsync(
-        AwsRoute53globalresolverGetAccessTokenOptions? options = null,
+        AwsRoute53globalresolverGetAccessTokenOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverGetAccessTokenOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +355,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDnsViewAsync(
-        AwsRoute53globalresolverGetDnsViewOptions? options = null,
+        AwsRoute53globalresolverGetDnsViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverGetDnsViewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +370,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFirewallDomainListAsync(
-        AwsRoute53globalresolverGetFirewallDomainListOptions? options = null,
+        AwsRoute53globalresolverGetFirewallDomainListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverGetFirewallDomainListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +385,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFirewallRuleAsync(
-        AwsRoute53globalresolverGetFirewallRuleOptions? options = null,
+        AwsRoute53globalresolverGetFirewallRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverGetFirewallRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +400,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetGlobalResolverAsync(
-        AwsRoute53globalresolverGetGlobalResolverOptions? options = null,
+        AwsRoute53globalresolverGetGlobalResolverOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverGetGlobalResolverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +415,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHostedZoneAssociationAsync(
-        AwsRoute53globalresolverGetHostedZoneAssociationOptions? options = null,
+        AwsRoute53globalresolverGetHostedZoneAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverGetHostedZoneAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +430,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetManagedFirewallDomainListAsync(
-        AwsRoute53globalresolverGetManagedFirewallDomainListOptions? options = null,
+        AwsRoute53globalresolverGetManagedFirewallDomainListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverGetManagedFirewallDomainListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +445,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportFirewallDomainsAsync(
-        AwsRoute53globalresolverImportFirewallDomainsOptions? options = null,
+        AwsRoute53globalresolverImportFirewallDomainsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverImportFirewallDomainsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -434,7 +464,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListAccessSourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListAccessSourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +475,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAccessTokensAsync(
-        AwsRoute53globalresolverListAccessTokensOptions? options = null,
+        AwsRoute53globalresolverListAccessTokensOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListAccessTokensOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +490,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDnsViewsAsync(
-        AwsRoute53globalresolverListDnsViewsOptions? options = null,
+        AwsRoute53globalresolverListDnsViewsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListDnsViewsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -479,7 +509,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListFirewallDomainListsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListFirewallDomainListsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +520,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListFirewallDomainsAsync(
-        AwsRoute53globalresolverListFirewallDomainsOptions? options = null,
+        AwsRoute53globalresolverListFirewallDomainsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListFirewallDomainsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +535,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListFirewallRulesAsync(
-        AwsRoute53globalresolverListFirewallRulesOptions? options = null,
+        AwsRoute53globalresolverListFirewallRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListFirewallRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -524,7 +554,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListGlobalResolversOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListGlobalResolversOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -539,7 +569,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListHostedZoneAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListHostedZoneAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +580,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListManagedFirewallDomainListsAsync(
-        AwsRoute53globalresolverListManagedFirewallDomainListsOptions? options = null,
+        AwsRoute53globalresolverListManagedFirewallDomainListsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListManagedFirewallDomainListsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -569,7 +599,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListSharedDnsViewsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListSharedDnsViewsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +610,26 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsRoute53globalresolverListTagsForResourceOptions? options = null,
+        AwsRoute53globalresolverListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Adds or updates tags for a Route 53 Global Resolver resource. Tags are key-value pairs that help you organize and identify your resources. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TagResourceAsync(
+        AwsRoute53globalresolverTagResourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -595,11 +640,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsRoute53globalresolverUntagResourceOptions? options = null,
+        AwsRoute53globalresolverUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -610,11 +655,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAccessSourceAsync(
-        AwsRoute53globalresolverUpdateAccessSourceOptions? options = null,
+        AwsRoute53globalresolverUpdateAccessSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverUpdateAccessSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -625,11 +670,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAccessTokenAsync(
-        AwsRoute53globalresolverUpdateAccessTokenOptions? options = null,
+        AwsRoute53globalresolverUpdateAccessTokenOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverUpdateAccessTokenOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -640,11 +685,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDnsViewAsync(
-        AwsRoute53globalresolverUpdateDnsViewOptions? options = null,
+        AwsRoute53globalresolverUpdateDnsViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverUpdateDnsViewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +700,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFirewallDomainsAsync(
-        AwsRoute53globalresolverUpdateFirewallDomainsOptions? options = null,
+        AwsRoute53globalresolverUpdateFirewallDomainsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverUpdateFirewallDomainsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -670,11 +715,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateFirewallRuleAsync(
-        AwsRoute53globalresolverUpdateFirewallRuleOptions? options = null,
+        AwsRoute53globalresolverUpdateFirewallRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverUpdateFirewallRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -685,11 +730,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGlobalResolverAsync(
-        AwsRoute53globalresolverUpdateGlobalResolverOptions? options = null,
+        AwsRoute53globalresolverUpdateGlobalResolverOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverUpdateGlobalResolverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -700,11 +745,11 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateHostedZoneAssociationAsync(
-        AwsRoute53globalresolverUpdateHostedZoneAssociationOptions? options = null,
+        AwsRoute53globalresolverUpdateHostedZoneAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53globalresolverUpdateHostedZoneAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

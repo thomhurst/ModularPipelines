@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-pricing-calculator", "list-bill-estimate-input-usage-modifications")]
-public record AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOptions : AwsOptions
+public record AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the input usage modifications associated with a bill estimate. See also: AWS API Documentation list-bill-estimate-input-usage-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: ite...
+    /// </summary>
+    /// <param name="BillEstimateId">The unique identifier of the bill estimate to list input usage modi- fications for. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    public AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOptions(
+        string BillEstimateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BillEstimateId);
+        this.BillEstimateId = BillEstimateId;
+    }
+
+    private AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the bill estimate to list input usage modi- fications for. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--bill-estimate-id")]
-    public string? BillEstimateId { get; set; }
+    public string? BillEstimateId { get; private init; }
 
     /// <summary>
     /// Filters to apply to the list of input usage modifications. (structure) Represents a filter for listing usage data. name -&gt; (string) [required] The name of the filter attribute. Possible values: o USAGE_ACCOUNT_ID o SERVICE_CODE o USAGE_TYPE o OPERATION o LOCATION o USAGE_GROUP o HISTORICAL_USAGE_ACCOUNT_ID o HISTORICAL_SERVICE_CODE o HISTORICAL_USAGE_TYPE o HISTORICAL_OPERATION o HISTORICAL_LOCATION values -&gt; (list) [required] The values to filter by. (string) matchOption -&gt; (string) The match option for the filter (e.g., equals, contains). Possible values: o EQUALS o STARTS_WITH o CONTAINS Shorthand Syntax: name=string,values=string,string,matchOption=string ... JSON Syntax: [ { "name": "USAGE_ACCOUNT_ID"|"SERVICE_CODE"|"USAGE_TYPE"|"OPERATION"|"LOCATION"|"USAGE_GROUP"|"HISTORICAL_USAGE_ACCOUNT_ID"|"HISTORICAL_SERVICE_CODE"|"HISTORICAL_USAGE_TYPE"|"HISTORICAL_OPERATION"|"HISTORICAL_LOCATION", "values": ["string", ...], "matchOption": "EQUALS"|"STARTS_WITH"|"CONTAINS" } ... ]
@@ -55,5 +92,22 @@ public record AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

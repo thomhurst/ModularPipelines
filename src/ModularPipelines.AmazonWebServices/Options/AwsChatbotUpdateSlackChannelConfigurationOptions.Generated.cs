@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chatbot", "update-slack-channel-configuration")]
-public record AwsChatbotUpdateSlackChannelConfigurationOptions : AwsOptions
+public record AwsChatbotUpdateSlackChannelConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--chat-configuration-arn")]
-    public string? ChatConfigurationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a Slack channel configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChatConfigurationArn">The Amazon Resource Name (ARN) of the SlackChannelConfiguration to update. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="SlackChannelId">The ID of the Slack channel. To get this ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9]+</param>
+    public AwsChatbotUpdateSlackChannelConfigurationOptions(
+        string ChatConfigurationArn,
+        string SlackChannelId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChatConfigurationArn);
+        this.ChatConfigurationArn = ChatConfigurationArn;
+        global::System.ArgumentNullException.ThrowIfNull(SlackChannelId);
+        this.SlackChannelId = SlackChannelId;
+    }
+
+    private AwsChatbotUpdateSlackChannelConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChatbotUpdateSlackChannelConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChatbotUpdateSlackChannelConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration to update. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// </summary>
+    [CliOption("--chat-configuration-arn")]
+    public string? ChatConfigurationArn { get; private init; }
+
+    /// <summary>
+    /// The ID of the Slack channel. To get this ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9]+
+    /// </summary>
     [CliOption("--slack-channel-id")]
-    public string? SlackChannelId { get; set; }
+    public string? SlackChannelId { get; private init; }
 
     /// <summary>
     /// The name of the Slack channel. Constraints: o min: 1 o max: 255
@@ -57,7 +101,10 @@ public record AwsChatbotUpdateSlackChannelConfigurationOptions : AwsOptions
     [CliOption("--guardrail-policy-arns", GroupValues = true)]
     public IEnumerable<string>? GuardrailPolicyArns { get; set; }
 
-    [CliFlag("--user-authorization-required")]
+    /// <summary>
+    /// Enables use of a user role requirement in your chat configuration.
+    /// </summary>
+    [CliFlag("--user-authorization-required", NegatedName = "--no-user-authorization-required")]
     public bool? UserAuthorizationRequired { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -65,5 +112,22 @@ public record AwsChatbotUpdateSlackChannelConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

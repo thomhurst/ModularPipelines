@@ -10,22 +10,66 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing: o HealthOmics variant stores o HealthOmics annotation stores o Private workflows See also: AWS API Documentation
+/// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing: o HealthOmics variant stores o HealthOmics annotation stores o Private workflows See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "create-share")]
-public record AwsOmicsCreateShareOptions : AwsOptions
+public record AwsOmicsCreateShareOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing: o HealthOmics variant stores o HealthOmics annotation stores o Private workflows See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN of the resource to be shared.</param>
+    /// <param name="PrincipalSubscriber">The principal subscriber is the account being offered shared access to the resource.</param>
+    public AwsOmicsCreateShareOptions(
+        string ResourceArn,
+        string PrincipalSubscriber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalSubscriber);
+        this.PrincipalSubscriber = PrincipalSubscriber;
+    }
+
+    private AwsOmicsCreateShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsCreateShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsCreateShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the resource to be shared.
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The principal subscriber is the account being offered shared access to the resource.
+    /// </summary>
     [CliOption("--principal-subscriber")]
-    public string? PrincipalSubscriber { get; set; }
+    public string? PrincipalSubscriber { get; private init; }
 
     /// <summary>
     /// A name that the owner defines for the share. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
@@ -38,5 +82,22 @@ public record AwsOmicsCreateShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

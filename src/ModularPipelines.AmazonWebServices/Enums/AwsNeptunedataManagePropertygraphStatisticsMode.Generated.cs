@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptunedataManagePropertygraphStatisticsMode
 {
     [EnumValue("disableAutoCompute")]
-    DisableAutoCompute = 1,
+    DisableAutoCompute,
 
     [EnumValue("enableAutoCompute")]
-    EnableAutoCompute = 2,
+    EnableAutoCompute,
 
     [EnumValue("refresh")]
-    Refresh = 3
+    Refresh
 }

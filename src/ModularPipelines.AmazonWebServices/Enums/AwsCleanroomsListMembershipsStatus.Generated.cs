@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCleanroomsListMembershipsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("REMOVED")]
-    Removed = 2,
+    Active,
 
     [EnumValue("COLLABORATION_DELETED")]
-    CollaborationDeleted = 3
+    CollaborationDeleted,
+
+    [EnumValue("REMOVED")]
+    Removed
 }

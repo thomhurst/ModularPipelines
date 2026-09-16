@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --breachaction.
+/// Allowed values for --breach-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftServerlessCreateUsageLimitBreachAction
 {
-    [EnumValue("log")]
-    Log = 1,
+    [EnumValue("deactivate")]
+    Deactivate,
 
     [EnumValue("emit-metric")]
-    EmitMetric = 2,
+    EmitMetric,
 
-    [EnumValue("deactivate")]
-    Deactivate = 3
+    [EnumValue("log")]
+    Log
 }

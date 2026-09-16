@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudformation", "register-publisher")]
 public record AwsCloudformationRegisterPublisherOptions : AwsOptions
 {
-    [CliFlag("--accept-terms-and-conditions")]
+    /// <summary>
+    /// Whether you accept the Terms and Conditions for publishing exten- sions in the CloudFormation registry. You must accept the terms and conditions in order to register to publish public extensions to the CloudFormation registry. The default is false .
+    /// </summary>
+    [CliFlag("--accept-terms-and-conditions", NegatedName = "--no-accept-terms-and-conditions")]
     public bool? AcceptTermsAndConditions { get; set; }
 
     /// <summary>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "get-configuration-bundle-version")]
-public record AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions : AwsOptions
+public record AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bundle-id")]
-    public string? BundleId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a specific version of a configuration bundle by its version iden- tifier. See also: AWS API Documentation get-configuration-bundle-version uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="BundleId">The unique identifier of the configuration bundle. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="VersionId">The version identifier of the configuration bundle version to re- trieve. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    public AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions(
+        string BundleId,
+        string VersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BundleId);
+        this.BundleId = BundleId;
+        global::System.ArgumentNullException.ThrowIfNull(VersionId);
+        this.VersionId = VersionId;
+    }
+
+    private AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the configuration bundle. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--bundle-id")]
+    public string? BundleId { get; private init; }
+
+    /// <summary>
+    /// The version identifier of the configuration bundle version to re- trieve. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--version-id")]
-    public string? VersionId { get; set; }
+    public string? VersionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "delete-tags")]
-public record AwsSagemakerDeleteTagsOptions : AwsOptions
+public record AwsSagemakerDeleteTagsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified tags from an SageMaker resource. To list a resource's tags, use the ListTags API. NOTE: When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API. NOTE: When you call this API to delete tags from a SageMaker Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Domain or User Profile launched before you call...
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource whose tags you want to delete. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+</param>
+    /// <param name="TagKeys">An array or one or more tag keys to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
+    public AwsSagemakerDeleteTagsOptions(
+        string ResourceArn,
+        IEnumerable<string> TagKeys
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TagKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TagKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TagKeys));
+            }
+
+            TagKeys = materialized;
+        }
+        this.TagKeys = TagKeys;
+    }
+
+    private AwsSagemakerDeleteTagsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDeleteTagsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDeleteTagsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource whose tags you want to delete. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// An array or one or more tag keys to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
-    public IEnumerable<string>? TagKeys { get; set; }
+    public IEnumerable<string>? TagKeys { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --tokentypehint.
+/// Allowed values for --token-type-hint.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSigninIntrospectOauth2TokenWithIamTokenTypeHint
 {
     [EnumValue("access_token")]
-    AccessToken = 0,
+    AccessToken,
 
     [EnumValue("refresh_token")]
-    RefreshToken = 1
+    RefreshToken
 }

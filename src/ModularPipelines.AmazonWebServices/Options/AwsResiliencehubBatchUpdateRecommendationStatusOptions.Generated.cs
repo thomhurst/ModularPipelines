@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "batch-update-recommendation-status")]
-public record AwsResiliencehubBatchUpdateRecommendationStatusOptions : AwsOptions
+public record AwsResiliencehubBatchUpdateRecommendationStatusOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-arn")]
-    public string? AppArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables you to include or exclude one or more operational recommenda- tions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="RequestEntries">Defines the list of operational recommendations that need to be in- cluded or excluded. Constraints: o min: 1 o max: 50 (structure) Defines the operational recommendation item that is to be in- cluded or excluded. appComponentId -&gt; (string) Indicates the identifier of the AppComponent. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{0,254}$ entryId -&gt; (string) [required] An identifier for an entry in this batch that is used to com- municate the result. NOTE: The entryId s of a batch request need to be unique within a request. Constraints: o min: 1 o max: 255 excludeReason -&gt; (string) Indicates the reason for excluding an operational recommenda- tion. Possible values: o AlreadyImplemented o NotRelevant o ComplexityOfImplementation excluded -&gt; (boolean) [required] Indicates if the operational recommendation needs to be ex- cluded. If set to True, the operational recommendation will be excluded. item -&gt; (structure) The operational recommendation item. resourceId -&gt; (string) Resource identifier of the operational recommendation item. Constraints: o min: 1 o max: 500 targetAccountId -&gt; (string) Identifier of the target Amazon Web Services account. Constraints: o pattern: ^[0-9]{12}$ targetRegion -&gt; (string) Identifier of the target Amazon Web Services Region. Constraints: o pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$ referenceId -&gt; (string) [required] Reference identifier of the operational recommendation item. Constraints: o min: 1 o max: 500 Shorthand Syntax: appComponentId=string,entryId=string,excludeReason=string,excluded=boolean,item={resourceId=string,targetAccountId=string,targetRegion=string},referenceId=string ... JSON Syntax: [ { "appComponentId": "string", "entryId": "string", "excludeReason": "AlreadyImplemented"|"NotRelevant"|"ComplexityOfImplementation", "excluded": true|false, "item": { "resourceId": "string", "targetAccountId": "string", "targetRegion": "string" }, "referenceId": "string" } ... ]</param>
+    public AwsResiliencehubBatchUpdateRecommendationStatusOptions(
+        string AppArn,
+        IEnumerable<string> RequestEntries
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppArn);
+        this.AppArn = AppArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RequestEntries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RequestEntries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RequestEntries));
+            }
+
+            RequestEntries = materialized;
+        }
+        this.RequestEntries = RequestEntries;
+    }
+
+    private AwsResiliencehubBatchUpdateRecommendationStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubBatchUpdateRecommendationStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubBatchUpdateRecommendationStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
+    [CliOption("--app-arn")]
+    public string? AppArn { get; private init; }
+
+    /// <summary>
+    /// Defines the list of operational recommendations that need to be in- cluded or excluded. Constraints: o min: 1 o max: 50 (structure) Defines the operational recommendation item that is to be in- cluded or excluded. appComponentId -&gt; (string) Indicates the identifier of the AppComponent. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{0,254}$ entryId -&gt; (string) [required] An identifier for an entry in this batch that is used to com- municate the result. NOTE: The entryId s of a batch request need to be unique within a request. Constraints: o min: 1 o max: 255 excludeReason -&gt; (string) Indicates the reason for excluding an operational recommenda- tion. Possible values: o AlreadyImplemented o NotRelevant o ComplexityOfImplementation excluded -&gt; (boolean) [required] Indicates if the operational recommendation needs to be ex- cluded. If set to True, the operational recommendation will be excluded. item -&gt; (structure) The operational recommendation item. resourceId -&gt; (string) Resource identifier of the operational recommendation item. Constraints: o min: 1 o max: 500 targetAccountId -&gt; (string) Identifier of the target Amazon Web Services account. Constraints: o pattern: ^[0-9]{12}$ targetRegion -&gt; (string) Identifier of the target Amazon Web Services Region. Constraints: o pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$ referenceId -&gt; (string) [required] Reference identifier of the operational recommendation item. Constraints: o min: 1 o max: 500 Shorthand Syntax: appComponentId=string,entryId=string,excludeReason=string,excluded=boolean,item={resourceId=string,targetAccountId=string,targetRegion=string},referenceId=string ... JSON Syntax: [ { "appComponentId": "string", "entryId": "string", "excludeReason": "AlreadyImplemented"|"NotRelevant"|"ComplexityOfImplementation", "excluded": true|false, "item": { "resourceId": "string", "targetAccountId": "string", "targetRegion": "string" }, "referenceId": "string" } ... ]
+    /// </summary>
     [CliOption("--request-entries", GroupValues = true)]
-    public IEnumerable<string>? RequestEntries { get; set; }
+    public IEnumerable<string>? RequestEntries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

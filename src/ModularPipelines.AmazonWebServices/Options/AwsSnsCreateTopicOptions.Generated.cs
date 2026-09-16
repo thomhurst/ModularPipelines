@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "create-topic")]
-public record AwsSnsCreateTopicOptions : AwsOptions
+public record AwsSnsCreateTopicOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a topic to which notifications can be published. Users can cre- ate at most 100,000 standard topics (at most 1,000 FIFO topics). For more information, see Creating an Amazon SNS topic in the Amazon SNS Developer Guide . This action is idempotent, so if the requester al- ready owns a topic with the specified name, that topic's ARN is re- turned without creating a new topic. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and low- ercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long. For a FIFO (first-in-first-out) topic, the name must end with the .fifo suffix.</param>
+    public AwsSnsCreateTopicOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSnsCreateTopicOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsCreateTopicOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsCreateTopicOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and low- ercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long. For a FIFO (first-in-first-out) topic, the name must end with the .fifo suffix.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A map of attributes with their corresponding values. The following lists names, descriptions, and values of the special request parameters that the CreateTopic action uses: o DeliveryPolicy The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints. o DisplayName The display name to use for a topic with SMS sub- scriptions. o Policy The policy that defines who can access your topic. By de- fault, only the topic owner can publish or subscribe to the topic. o TracingConfig Tracing mode of an Amazon SNS topic. By default TracingConfig is set to PassThrough , and the topic passes through the tracing header it receives from an Amazon SNS publisher to its subscriptions. If set to Active , Amazon SNS will vend X-Ray seg- ment data to topic owner account if the sampled flag in the trac- ing header is true. This is only supported on standard topics. o HTTP o HTTPSuccessFeedbackRoleArn Indicates successful message deliv- ery status for an Amazon SNS topic that is subscribed to an HTTP endpoint. o HTTPSuccessFeedbackSampleRate Indicates percentage of success- ful messages to sample for an Amazon SNS topic that is sub- scribed to an HTTP endpoint. o HTTPFailureFeedbackRoleArn Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an HTTP endpoint. o Amazon Data Firehose o FirehoseSuccessFeedbackRoleArn Indicates successful message de- livery status for an Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint. o FirehoseSuccessFeedbackSampleRate Indicates percentage of suc- cessful messages to sample for an Amazon SNS topic that is sub- scribed to an Amazon Data Firehose endpoint. o FirehoseFailureFeedbackRoleArn Indicates failed message deliv- ery status for an Amazon SNS topic that is subscribed to an Ama- zon Data Firehose endpoint. o Lambda o LambdaSuccessFeedbackRoleArn Indicates successful message de- livery status for an Amazon SNS topic that is subscribed to an Lambda endpoint. o LambdaSuccessFeedbackSampleRate Indicates percentage of suc- cessful messages to sample for an Amazon SNS topic that is sub- scribed to an Lambda endpoint. o LambdaFailureFeedbackRoleArn Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Lambda endpoint. o Platform application endpoint o ApplicationSuccessFeedbackRoleArn Indicates successful message delivery status for an Amazon SNS topic that is subscribed to a platform application endpoint. o ApplicationSuccessFeedbackSampleRate Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an platform application endpoint. o ApplicationFailureFeedbackRoleArn Indicates failed message de- livery status for an Amazon SNS topic that is subscribed to an platform application endpoint. NOTE: In addition to being able to configure topic attributes for mes- sage delivery status of notification messages sent to Amazon SNS application endpoints, you can also configure application at- tributes for the delivery status of push notification messages sent to push notification services. For example, For more information, see Using Amazon SNS Applica- tion Attributes for Message Delivery Status . o Amazon SQS o SQSSuccessFeedbackRoleArn Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint. o SQSSuccessFeedbackSampleRate Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint. o SQSFailureFeedbackRoleArn Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint. NOTE: The &lt;ENDPOINT&gt;SuccessFeedbackRoleArn and &lt;ENDPOINT&gt;FailureFeed- backRoleArn attributes are used to give Amazon SNS write access to use CloudWatch Logs on your behalf. The &lt;ENDPOINT&gt;Success- FeedbackSampleRate attribute is for specifying the sample rate percentage (0-100) of successfully delivered messages. After you configure the &lt;ENDPOINT&gt;FailureFeedbackRoleArn attribute, then all failed message deliveries generate CloudWatch Logs. The following attribute applies only to server-side encryption : o KmsMasterKeyId The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SNS or a custom CMK. For more informa- tion, see Key Terms . For more examples, see KeyId in the Key Man- agement Service API Reference . The following attributes apply only to FIFO topics : o ArchivePolicy The policy that sets the retention period for mes- sages stored in the message archive of an Amazon SNS FIFO topic. o ContentBasedDeduplication Enables content-based deduplication for FIFO topics. o By default, ContentBasedDeduplication is set to false . If you create a FIFO topic and this attribute is false , you must spec- ify a value for the MessageDeduplicationId parameter for the Publish action. o When you set ContentBasedDeduplication to true , Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the MessageDeduplicationId parameter for the Publish action. o FifoThroughputScope Enables higher throughput for your FIFO topic by adjusting the scope of deduplication. This attribute has two possible values: o Topic The scope of message deduplication is across the entire topic. This is the default value and maintains existing behav- ior, with a maximum throughput of 3000 messages per second or 20MB per second, whichever comes first. o MessageGroup The scope of deduplication is within each individ- ual message group, which enables higher throughput per topic subject to regional quotas. For more information on quotas or to request an increase, see Amazon SNS service quotas in the Amazon Web Services General Reference. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +85,22 @@ public record AwsSnsCreateTopicOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

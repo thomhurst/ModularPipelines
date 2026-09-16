@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehubv2", "wait", "failure-mode-assessment-success")]
-public record AwsResiliencehubv2WaitFailureModeAssessmentSuccessOptions : AwsOptions
+public record AwsResiliencehubv2WaitFailureModeAssessmentSuccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Wait until a failure mode assessment completes successfully It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation failure-mode-assessment-success is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a ...
+    /// </summary>
+    /// <param name="ServiceArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    public AwsResiliencehubv2WaitFailureModeAssessmentSuccessOptions(
+        string ServiceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+    }
+
+    private AwsResiliencehubv2WaitFailureModeAssessmentSuccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubv2WaitFailureModeAssessmentSuccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubv2WaitFailureModeAssessmentSuccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// </summary>
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string? ServiceArn { get; private init; }
 
     /// <summary>
     /// Specifies the assessment statuses to include in the results. Constraints: o min: 0 o max: 5 (string) Possible values: o NOT_STARTED o PENDING o IN_PROGRESS o FAILED o SUCCESS Syntax: "string" "string" ...
@@ -48,7 +85,7 @@ public record AwsResiliencehubv2WaitFailureModeAssessmentSuccessOptions : AwsOpt
     /// The field to use for sorting failure mode assessments. Possible values: o STARTED_AT
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsResiliencehubv2WaitFailureModeAssessmentSuccessSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order for results. Possible values: o ASC o DESC
@@ -80,5 +117,22 @@ public record AwsResiliencehubv2WaitFailureModeAssessmentSuccessOptions : AwsOpt
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

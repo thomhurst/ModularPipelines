@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --apikeysecretsource.
+/// Allowed values for --api-key-secret-source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderApiKeySecretSource
 {
-    [EnumValue("MANAGED")]
-    Managed = 1,
-
     [EnumValue("EXTERNAL")]
-    External = 2
+    External,
+
+    [EnumValue("MANAGED")]
+    Managed
 }

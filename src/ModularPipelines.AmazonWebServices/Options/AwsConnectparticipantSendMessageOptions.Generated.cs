@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectparticipant", "send-message")]
-public record AwsConnectparticipantSendMessageOptions : AwsOptions
+public record AwsConnectparticipantSendMessageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--content-type")]
-    public string? ContentType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sends a message. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContentType">The type of the content. Possible types are text/plain , text/mark- down , application/json , and application/vnd.amazonaws.connect.mes- sage.interactive.response . Supported types on the contact are configured through SupportedMes- sagingContentTypes on StartChatContact and StartOutboundChatContact . For Apple Messages for Business, SMS, and WhatsApp Business Messag- ing contacts, only text/plain is supported. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Content">The content of the message. o For text/plain and text/markdown , the Length Constraints are Min- imum of 1, Maximum of 1024. o For application/json , the Length Constraints are Minimum of 1, Maximum of 12000. o For application/vnd.amazonaws.connect.message.interactive.response , the Length Constraints are Minimum of 1, Maximum of 12288. Constraints: o min: 1 o max: 16384</param>
+    /// <param name="ConnectionToken">The authentication token associated with the connection. Constraints: o min: 1 o max: 1000</param>
+    public AwsConnectparticipantSendMessageOptions(
+        string ContentType,
+        string Content,
+        string ConnectionToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContentType);
+        this.ContentType = ContentType;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionToken);
+        this.ConnectionToken = ConnectionToken;
+    }
+
+    private AwsConnectparticipantSendMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectparticipantSendMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectparticipantSendMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the content. Possible types are text/plain , text/mark- down , application/json , and application/vnd.amazonaws.connect.mes- sage.interactive.response . Supported types on the contact are configured through SupportedMes- sagingContentTypes on StartChatContact and StartOutboundChatContact . For Apple Messages for Business, SMS, and WhatsApp Business Messag- ing contacts, only text/plain is supported. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--content-type")]
+    public string? ContentType { get; private init; }
+
+    /// <summary>
+    /// The content of the message. o For text/plain and text/markdown , the Length Constraints are Min- imum of 1, Maximum of 1024. o For application/json , the Length Constraints are Minimum of 1, Maximum of 12000. o For application/vnd.amazonaws.connect.message.interactive.response , the Length Constraints are Minimum of 1, Maximum of 12288. Constraints: o min: 1 o max: 16384
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
+
+    /// <summary>
+    /// The authentication token associated with the connection. Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [SecretValue]
+    [CliOption("--connection-token")]
+    public string? ConnectionToken { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -35,14 +90,27 @@ public record AwsConnectparticipantSendMessageOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [SecretValue]
-    [CliOption("--connection-token")]
-    public string? ConnectionToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

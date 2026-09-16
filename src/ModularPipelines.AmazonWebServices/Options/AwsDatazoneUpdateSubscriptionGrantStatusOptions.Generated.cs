@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "update-subscription-grant-status")]
-public record AwsDatazoneUpdateSubscriptionGrantStatusOptions : AwsOptions
+public record AwsDatazoneUpdateSubscriptionGrantStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the status of the specified subscription grant status in Amazon DataZone. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a subscription grant status is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the subscription grant the status of which is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="AssetIdentifier">The identifier of the asset the subscription grant status of which is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Status">The status to be updated as part of the UpdateSubscriptionGrantSta- tus action. Possible values: o GRANT_PENDING o REVOKE_PENDING o GRANT_IN_PROGRESS o REVOKE_IN_PROGRESS o GRANTED o REVOKED o GRANT_FAILED o REVOKE_FAILED</param>
+    public AwsDatazoneUpdateSubscriptionGrantStatusOptions(
+        string DomainIdentifier,
+        string Identifier,
+        string AssetIdentifier,
+        AwsDatazoneUpdateSubscriptionGrantStatusStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(AssetIdentifier);
+        this.AssetIdentifier = AssetIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsDatazoneUpdateSubscriptionGrantStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneUpdateSubscriptionGrantStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneUpdateSubscriptionGrantStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon DataZone domain in which a subscription grant status is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier of the subscription grant the status of which is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The identifier of the asset the subscription grant status of which is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--asset-identifier")]
-    public string? AssetIdentifier { get; set; }
+    public string? AssetIdentifier { get; private init; }
 
+    /// <summary>
+    /// The status to be updated as part of the UpdateSubscriptionGrantSta- tus action. Possible values: o GRANT_PENDING o REVOKE_PENDING o GRANT_IN_PROGRESS o REVOKE_IN_PROGRESS o GRANTED o REVOKED o GRANT_FAILED o REVOKE_FAILED
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsDatazoneUpdateSubscriptionGrantStatusStatus? Status { get; private init; }
 
     /// <summary>
     /// Specifies the error message that is returned if the operation cannot be successfully completed. message -&gt; (string) The description of the error message. Shorthand Syntax: message=string JSON Syntax: { "message": "string" }
@@ -50,5 +109,22 @@ public record AwsDatazoneUpdateSubscriptionGrantStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

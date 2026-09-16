@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "get-compute-auth-token")]
-public record AwsGameliftGetComputeAuthTokenOptions : AwsOptions
+public record AwsGameliftGetComputeAuthTokenOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Requests an authentication token from Amazon GameLift Servers for a compute resource in an Amazon GameLift Servers fleet. Game servers that are running on the compute use this token to communicate with the Ama- zon GameLift Servers service, such as when calling the Amazon GameLift Servers server SDK action InitSDK() . Authentication tokens are valid for a limited time span, so you need to request a fresh token before the c...
+    /// </summary>
+    /// <param name="FleetId">A unique identifier for the fleet that the compute is registered to. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="ComputeName">The name of the compute resource you are requesting the authentica- tion token for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:com- pute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$</param>
+    public AwsGameliftGetComputeAuthTokenOptions(
+        string FleetId,
+        string ComputeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        global::System.ArgumentNullException.ThrowIfNull(ComputeName);
+        this.ComputeName = ComputeName;
+    }
+
+    private AwsGameliftGetComputeAuthTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftGetComputeAuthTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftGetComputeAuthTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the fleet that the compute is registered to. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// </summary>
+    [CliOption("--fleet-id")]
+    public string? FleetId { get; private init; }
+
+    /// <summary>
+    /// The name of the compute resource you are requesting the authentica- tion token for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:com- pute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$
+    /// </summary>
     [CliOption("--compute-name")]
-    public string? ComputeName { get; set; }
+    public string? ComputeName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

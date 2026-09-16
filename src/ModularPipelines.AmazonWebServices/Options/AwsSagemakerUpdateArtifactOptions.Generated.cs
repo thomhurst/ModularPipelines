@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-artifact")]
-public record AwsSagemakerUpdateArtifactOptions : AwsOptions
+public record AwsSagemakerUpdateArtifactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an artifact. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ArtifactArn">The Amazon Resource Name (ARN) of the artifact to update. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:arti- fact/.*</param>
+    public AwsSagemakerUpdateArtifactOptions(
+        string ArtifactArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ArtifactArn);
+        this.ArtifactArn = ArtifactArn;
+    }
+
+    private AwsSagemakerUpdateArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the artifact to update. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:arti- fact/.*
+    /// </summary>
     [CliOption("--artifact-arn")]
-    public string? ArtifactArn { get; set; }
+    public string? ArtifactArn { get; private init; }
 
     /// <summary>
     /// The new name for the artifact. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
@@ -48,5 +85,22 @@ public record AwsSagemakerUpdateArtifactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

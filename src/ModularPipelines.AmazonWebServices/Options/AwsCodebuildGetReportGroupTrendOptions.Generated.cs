@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "get-report-group-trend")]
-public record AwsCodebuildGetReportGroupTrendOptions : AwsOptions
+public record AwsCodebuildGetReportGroupTrendOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Analyzes and accumulates test report values for the specified test re- ports. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReportGroupArn">The ARN of the report group that contains the reports to analyze. Constraints: o min: 1</param>
+    /// <param name="TrendField">The test report value to accumulate. This must be one of the follow- ing values: Test reports: DURATION Accumulate the test run times for the specified reports. PASS_RATE Accumulate the percentage of tests that passed for the specified test reports. TOTAL Accumulate the total number of tests for the specified test reports. Code coverage reports: BRANCH_COVERAGE Accumulate the branch coverage percentages for the specified test reports. BRANCHES_COVERED Accumulate the branches covered values for the specified test re- ports. BRANCHES_MISSED Accumulate the branches missed values for the specified test re- ports. LINE_COVERAGE Accumulate the line coverage percentages for the specified test re- ports. LINES_COVERED Accumulate the lines covered values for the specified test reports. LINES_MISSED Accumulate the lines not covered values for the specified test re- ports. Possible values: o PASS_RATE o DURATION o TOTAL o LINE_COVERAGE o LINES_COVERED o LINES_MISSED o BRANCH_COVERAGE o BRANCHES_COVERED o BRANCHES_MISSED</param>
+    public AwsCodebuildGetReportGroupTrendOptions(
+        string ReportGroupArn,
+        AwsCodebuildGetReportGroupTrendTrendField TrendField
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportGroupArn);
+        this.ReportGroupArn = ReportGroupArn;
+        global::System.ArgumentNullException.ThrowIfNull(TrendField);
+        this.TrendField = TrendField;
+    }
+
+    private AwsCodebuildGetReportGroupTrendOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildGetReportGroupTrendOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildGetReportGroupTrendOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the report group that contains the reports to analyze. Constraints: o min: 1
+    /// </summary>
     [CliOption("--report-group-arn")]
-    public string? ReportGroupArn { get; set; }
+    public string? ReportGroupArn { get; private init; }
+
+    /// <summary>
+    /// The test report value to accumulate. This must be one of the follow- ing values: Test reports: DURATION Accumulate the test run times for the specified reports. PASS_RATE Accumulate the percentage of tests that passed for the specified test reports. TOTAL Accumulate the total number of tests for the specified test reports. Code coverage reports: BRANCH_COVERAGE Accumulate the branch coverage percentages for the specified test reports. BRANCHES_COVERED Accumulate the branches covered values for the specified test re- ports. BRANCHES_MISSED Accumulate the branches missed values for the specified test re- ports. LINE_COVERAGE Accumulate the line coverage percentages for the specified test re- ports. LINES_COVERED Accumulate the lines covered values for the specified test reports. LINES_MISSED Accumulate the lines not covered values for the specified test re- ports. Possible values: o PASS_RATE o DURATION o TOTAL o LINE_COVERAGE o LINES_COVERED o LINES_MISSED o BRANCH_COVERAGE o BRANCHES_COVERED o BRANCHES_MISSED
+    /// </summary>
+    [CliOption("--trend-field")]
+    public AwsCodebuildGetReportGroupTrendTrendField? TrendField { get; private init; }
 
     /// <summary>
     /// The number of reports to analyze. This operation always retrieves the most recent reports. If this parameter is omitted, the most recent 100 reports are ana- lyzed. Constraints: o min: 1 o max: 100
@@ -30,13 +78,27 @@ public record AwsCodebuildGetReportGroupTrendOptions : AwsOptions
     [CliOption("--num-of-reports")]
     public int? NumOfReports { get; set; }
 
-    [CliOption("--trend-field")]
-    public string? TrendField { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

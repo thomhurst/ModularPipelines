@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "terminate-service-job")]
-public record AwsBatchTerminateServiceJobOptions : AwsOptions
+public record AwsBatchTerminateServiceJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Terminates a service job in a job queue. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The service job ID of the service job to terminate.</param>
+    /// <param name="Reason">A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob oper- ations on the service job.</param>
+    public AwsBatchTerminateServiceJobOptions(
+        string JobId,
+        string Reason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(Reason);
+        this.Reason = Reason;
+    }
+
+    private AwsBatchTerminateServiceJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchTerminateServiceJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchTerminateServiceJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The service job ID of the service job to terminate.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string? JobId { get; private init; }
+
+    /// <summary>
+    /// A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob oper- ations on the service job.
+    /// </summary>
     [CliOption("--reason")]
-    public string? Reason { get; set; }
+    public string? Reason { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

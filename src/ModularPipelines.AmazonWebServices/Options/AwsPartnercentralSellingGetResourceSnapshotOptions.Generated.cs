@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "get-resource-snapshot")]
-public record AwsPartnercentralSellingGetResourceSnapshotOptions : AwsOptions
+public record AwsPartnercentralSellingGetResourceSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this action to retrieve a specific snapshot record. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the snapshot from the production AWS environment. o Sandbox: Retrieves the snapshot from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="EngagementIdentifier">The unique identifier of the engagement associated with the snap- shot. This field links the snapshot to a specific engagement con- text. Constraints: o pattern: eng-[0-9a-z]{14}</param>
+    /// <param name="ResourceType">Specifies the type of resource that was snapshotted. This field de- termines the structure and content of the snapshot payload. Valid value includes:Opportunity : For opportunity-related data. Possible values: o Opportunity</param>
+    /// <param name="ResourceIdentifier">The unique identifier of the specific resource that was snapshotted. The format and constraints of this identifier depend on the Re- sourceType specified. For Opportunity type, it will be an opportu- nity ID Constraints: o pattern: O[0-9]{1,19}</param>
+    /// <param name="ResourceSnapshotTemplateIdentifier">he name of the template that defines the schema for the snapshot. This template determines which subset of the resource data is in- cluded in the snapshot and must correspond to an existing and valid template for the specified ResourceType . Constraints: o pattern: [a-zA-Z0-9]{3,80}</param>
+    public AwsPartnercentralSellingGetResourceSnapshotOptions(
+        string Catalog,
+        string EngagementIdentifier,
+        string ResourceType,
+        string ResourceIdentifier,
+        string ResourceSnapshotTemplateIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(EngagementIdentifier);
+        this.EngagementIdentifier = EngagementIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSnapshotTemplateIdentifier);
+        this.ResourceSnapshotTemplateIdentifier = ResourceSnapshotTemplateIdentifier;
+    }
+
+    private AwsPartnercentralSellingGetResourceSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingGetResourceSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingGetResourceSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the snapshot from the production AWS environment. o Sandbox: Retrieves the snapshot from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the engagement associated with the snap- shot. This field links the snapshot to a specific engagement con- text. Constraints: o pattern: eng-[0-9a-z]{14}
+    /// </summary>
     [CliOption("--engagement-identifier")]
-    public string? EngagementIdentifier { get; set; }
+    public string? EngagementIdentifier { get; private init; }
 
+    /// <summary>
+    /// Specifies the type of resource that was snapshotted. This field de- termines the structure and content of the snapshot payload. Valid value includes:Opportunity : For opportunity-related data. Possible values: o Opportunity
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the specific resource that was snapshotted. The format and constraints of this identifier depend on the Re- sourceType specified. For Opportunity type, it will be an opportu- nity ID Constraints: o pattern: O[0-9]{1,19}
+    /// </summary>
     [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
+    public string? ResourceIdentifier { get; private init; }
 
+    /// <summary>
+    /// he name of the template that defines the schema for the snapshot. This template determines which subset of the resource data is in- cluded in the snapshot and must correspond to an existing and valid template for the specified ResourceType . Constraints: o pattern: [a-zA-Z0-9]{3,80}
+    /// </summary>
     [CliOption("--resource-snapshot-template-identifier")]
-    public string? ResourceSnapshotTemplateIdentifier { get; set; }
+    public string? ResourceSnapshotTemplateIdentifier { get; private init; }
 
     /// <summary>
     /// Specifies which revision of the snapshot to retrieve. If omitted re- turns the latest revision. Constraints: o min: 1
@@ -47,5 +112,22 @@ public record AwsPartnercentralSellingGetResourceSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

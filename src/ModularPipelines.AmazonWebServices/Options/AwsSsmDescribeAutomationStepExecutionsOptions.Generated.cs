@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "describe-automation-step-executions")]
-public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions
+public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Information about all active and terminated step executions in an Au- tomation workflow. See also: AWS API Documentation describe-automation-step-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
+    /// </summary>
+    /// <param name="AutomationExecutionId">The Automation execution ID for which you want step execution de- scriptions. Constraints: o min: 36 o max: 36</param>
+    public AwsSsmDescribeAutomationStepExecutionsOptions(
+        string AutomationExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutomationExecutionId);
+        this.AutomationExecutionId = AutomationExecutionId;
+    }
+
+    private AwsSsmDescribeAutomationStepExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDescribeAutomationStepExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDescribeAutomationStepExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Automation execution ID for which you want step execution de- scriptions. Constraints: o min: 36 o max: 36
+    /// </summary>
     [CliOption("--automation-execution-id")]
-    public string? AutomationExecutionId { get; set; }
+    public string? AutomationExecutionId { get; private init; }
 
     /// <summary>
     /// One or more filters to limit the number of step executions returned by the request. Constraints: o min: 1 o max: 6 (structure) A filter to limit the amount of step execution information re- turned by the call. Key -&gt; (string) [required] One or more keys to limit the results. Possible values: o StartTimeBefore o StartTimeAfter o StepExecutionStatus o StepExecutionId o StepName o Action o ParentStepExecutionId o ParentStepIteration o ParentStepIteratorValue Values -&gt; (list) [required] The values of the filter key. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "StartTimeBefore"|"StartTimeAfter"|"StepExecutionStatus"|"StepExecutionId"|"StepName"|"Action"|"ParentStepExecutionId"|"ParentStepIteration"|"ParentStepIteratorValue", "Values": ["string", ...] } ... ]
@@ -31,7 +68,10 @@ public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// Indicates whether to list step executions in reverse order by start time. The default value is 'false'.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -58,5 +98,22 @@ public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "get-schema-by-definition")]
-public record AwsGlueGetSchemaByDefinitionOptions : AwsOptions
+public record AwsGlueGetSchemaByDefinitionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--schema-id")]
-    public string? SchemaId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a schema by the SchemaDefinition . The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default reg- istry, if none is supplied), that schemas metadata is returned. Other- wise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SchemaId">This is a wrapper structure to contain schema identity fields. The structure contains: o SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. o SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }</param>
+    /// <param name="SchemaDefinition">The definition of the schema for which schema details are required. Constraints: o min: 1 o max: 170000 o pattern: .*\S.*</param>
+    public AwsGlueGetSchemaByDefinitionOptions(
+        string SchemaId,
+        string SchemaDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaId);
+        this.SchemaId = SchemaId;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaDefinition);
+        this.SchemaDefinition = SchemaDefinition;
+    }
+
+    private AwsGlueGetSchemaByDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueGetSchemaByDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueGetSchemaByDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// This is a wrapper structure to contain schema identity fields. The structure contains: o SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. o SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
+    /// </summary>
+    [CliOption("--schema-id")]
+    public string? SchemaId { get; private init; }
+
+    /// <summary>
+    /// The definition of the schema for which schema details are required. Constraints: o min: 1 o max: 170000 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--schema-definition")]
-    public string? SchemaDefinition { get; set; }
+    public string? SchemaDefinition { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

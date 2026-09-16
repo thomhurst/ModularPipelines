@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "update-organization-configuration")]
-public record AwsGuarddutyUpdateOrganizationConfigurationOptions : AwsOptions
+public record AwsGuarddutyUpdateOrganizationConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--auto-enable")]
+    /// <summary>
+    /// Configures the delegated administrator account with the provided val- ues. You must provide a value for either autoEnableOrganizationMembers or autoEnable , but not both. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more infor- mation, see Runtime Monitoring . There might be ...
+    /// </summary>
+    /// <param name="DetectorId">The ID of the detector that configures the delegated administrator. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    public AwsGuarddutyUpdateOrganizationConfigurationOptions(
+        string DetectorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+    }
+
+    private AwsGuarddutyUpdateOrganizationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyUpdateOrganizationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyUpdateOrganizationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the detector that configures the delegated administrator. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
+    [CliOption("--detector-id")]
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// Represents whether to automatically enable member accounts in the organization. This applies to only new member accounts, not the ex- isting member accounts. When a new account joins the organization, the chosen features will be enabled for them by default. Even though this is still supported, we recommend using AutoEnable- OrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable .
+    /// </summary>
+    [CliFlag("--auto-enable", NegatedName = "--no-auto-enable")]
     public bool? AutoEnable { get; set; }
 
     /// <summary>
@@ -51,5 +91,22 @@ public record AwsGuarddutyUpdateOrganizationConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

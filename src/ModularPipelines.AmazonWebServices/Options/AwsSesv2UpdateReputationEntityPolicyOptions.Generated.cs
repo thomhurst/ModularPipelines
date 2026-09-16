@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "update-reputation-entity-policy")]
-public record AwsSesv2UpdateReputationEntityPolicyOptions : AwsOptions
+public record AwsSesv2UpdateReputationEntityPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the reputation management policy for a reputation entity. The policy determines how the entity responds to reputation findings, such as automatically pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-man- aged (predefined policies). You can select from none, standard, and strict policies. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE</param>
+    /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1</param>
+    /// <param name="ReputationEntityPolicy">The Amazon Resource Name (ARN) of the reputation management policy to apply to this entity. This is an Amazon Web Services Amazon SES-managed policy. Constraints: o min: 1</param>
+    public AwsSesv2UpdateReputationEntityPolicyOptions(
+        string ReputationEntityType,
+        string ReputationEntityReference,
+        string ReputationEntityPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReputationEntityType);
+        this.ReputationEntityType = ReputationEntityType;
+        global::System.ArgumentNullException.ThrowIfNull(ReputationEntityReference);
+        this.ReputationEntityReference = ReputationEntityReference;
+        global::System.ArgumentNullException.ThrowIfNull(ReputationEntityPolicy);
+        this.ReputationEntityPolicy = ReputationEntityPolicy;
+    }
+
+    private AwsSesv2UpdateReputationEntityPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2UpdateReputationEntityPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2UpdateReputationEntityPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE
+    /// </summary>
     [CliOption("--reputation-entity-type")]
-    public string? ReputationEntityType { get; set; }
+    public string? ReputationEntityType { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1
+    /// </summary>
     [CliOption("--reputation-entity-reference")]
-    public string? ReputationEntityReference { get; set; }
+    public string? ReputationEntityReference { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the reputation management policy to apply to this entity. This is an Amazon Web Services Amazon SES-managed policy. Constraints: o min: 1
+    /// </summary>
     [CliOption("--reputation-entity-policy")]
-    public string? ReputationEntityPolicy { get; set; }
+    public string? ReputationEntityPolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

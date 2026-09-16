@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "create-transit-gateway-route-table-attachment")]
-public record AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions : AwsOptions
+public record AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--peering-id")]
-    public string? PeeringId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a transit gateway route table attachment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PeeringId">The ID of the peer for the Constraints: o min: 0 o max: 50 o pattern: ^peering-([0-9a-f]{8,17})$</param>
+    /// <param name="TransitGatewayRouteTableArn">The ARN of the transit gateway route table for the attachment re- quest. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-ta- ble/tgw-rtb-9876543210123456" . Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
+    public AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions(
+        string PeeringId,
+        string TransitGatewayRouteTableArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PeeringId);
+        this.PeeringId = PeeringId;
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayRouteTableArn);
+        this.TransitGatewayRouteTableArn = TransitGatewayRouteTableArn;
+    }
+
+    private AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the peer for the Constraints: o min: 0 o max: 50 o pattern: ^peering-([0-9a-f]{8,17})$
+    /// </summary>
+    [CliOption("--peering-id")]
+    public string? PeeringId { get; private init; }
+
+    /// <summary>
+    /// The ARN of the transit gateway route table for the attachment re- quest. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-ta- ble/tgw-rtb-9876543210123456" . Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--transit-gateway-route-table-arn")]
-    public string? TransitGatewayRouteTableArn { get; set; }
+    public string? TransitGatewayRouteTableArn { get; private init; }
 
     /// <summary>
     /// The routing policy label to apply to the Transit Gateway route table attachment for traffic routing decisions. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
@@ -52,5 +96,22 @@ public record AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions :
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

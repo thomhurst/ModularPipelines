@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer-automation", "rollback-automation-event")]
-public record AwsComputeOptimizerAutomationRollbackAutomationEventOptions : AwsOptions
+public record AwsComputeOptimizerAutomationRollbackAutomationEventOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates a rollback for a completed automation event. NOTE: Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using AssociateAccounts . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventId">The ID of the automation event to roll back. Constraints: o pattern: [0-9A-Za-z]{16}</param>
+    public AwsComputeOptimizerAutomationRollbackAutomationEventOptions(
+        string EventId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventId);
+        this.EventId = EventId;
+    }
+
+    private AwsComputeOptimizerAutomationRollbackAutomationEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerAutomationRollbackAutomationEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerAutomationRollbackAutomationEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the automation event to roll back. Constraints: o pattern: [0-9A-Za-z]{16}
+    /// </summary>
     [CliOption("--event-id")]
-    public string? EventId { get; set; }
+    public string? EventId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
@@ -37,5 +74,22 @@ public record AwsComputeOptimizerAutomationRollbackAutomationEventOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

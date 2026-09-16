@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,14 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "get-tokens-from-refresh-token")]
-public record AwsCognitoIdpGetTokensFromRefreshTokenOptions : AwsOptions
+public record AwsCognitoIdpGetTokensFromRefreshTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If re- fresh token rotation is disabled, issues new ID and access tokens only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RefreshToken">A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete and after an optional grace period. Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
+    /// <param name="ClientId">The app client that issued the refresh token to the user who wants to request new tokens. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    public AwsCognitoIdpGetTokensFromRefreshTokenOptions(
+        string RefreshToken,
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RefreshToken);
+        this.RefreshToken = RefreshToken;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    private AwsCognitoIdpGetTokensFromRefreshTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpGetTokensFromRefreshTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpGetTokensFromRefreshTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete and after an optional grace period. Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// </summary>
     [SecretValue]
     [CliOption("--refresh-token")]
-    public string? RefreshToken { get; set; }
+    public string? RefreshToken { get; private init; }
 
+    /// <summary>
+    /// The app client that issued the refresh token to the user who wants to request new tokens. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
     /// <summary>
     /// The client secret of the requested app client, if the client has a secret. Constraints: o min: 24 o max: 64 o pattern: [\w+]+
@@ -54,5 +98,22 @@ public record AwsCognitoIdpGetTokensFromRefreshTokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

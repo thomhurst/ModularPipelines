@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "create-connect-client-add-in")]
-public record AwsWorkspacesCreateConnectClientAddInOptions : AwsOptions
+public record AwsWorkspacesCreateConnectClientAddInOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a client-add-in for Connect Customer within a directory. You can create only one Connect Customer client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Connect Customer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The directory identifier for which to configure the client add-in. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="Name">The name of the client add-in. Constraints: o min: 1 o max: 64 o pattern: ^.*$</param>
+    /// <param name="Url">The endpoint URL of the Connect Customer client add-in. Constraints: o min: 1 o max: 1024 o pattern: ^(http|https)\://\S+</param>
+    public AwsWorkspacesCreateConnectClientAddInOptions(
+        string ResourceId,
+        string Name,
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    private AwsWorkspacesCreateConnectClientAddInOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesCreateConnectClientAddInOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesCreateConnectClientAddInOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The directory identifier for which to configure the client add-in. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// The name of the client add-in. Constraints: o min: 1 o max: 64 o pattern: ^.*$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The endpoint URL of the Connect Customer client add-in. Constraints: o min: 1 o max: 1024 o pattern: ^(http|https)\://\S+
+    /// </summary>
     [CliOption("--url")]
-    public string? Url { get; set; }
+    public string? Url { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

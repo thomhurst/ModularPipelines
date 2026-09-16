@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "get-object-tagging")]
-public record AwsS3apiGetObjectTaggingOptions : AwsOptions
+public record AwsS3apiGetObjectTaggingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Returns the tag-set of an object. You send the GET request against the tagging subresource associated with the object. To use this operation, you must have permission to perform the s3:GetO- bjectTagging action. By default, the GET action returns information about current version of an object. For a versioned bucket, you can have multiple versions of an object in your bucket. To retrieve tags of any other version, use the versionId que...
+    /// </summary>
+    /// <param name="Bucket">The bucket name containing the object for which to get the tagging information. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Key">Object key for which to get the tagging information. Constraints: o min: 1</param>
+    public AwsS3apiGetObjectTaggingOptions(
+        string Bucket,
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    private AwsS3apiGetObjectTaggingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiGetObjectTaggingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiGetObjectTaggingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name containing the object for which to get the tagging information. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Object key for which to get the tagging information. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string? Key { get; private init; }
 
     /// <summary>
     /// The versionId of the object for which to get the tagging informa- tion.
@@ -44,12 +87,29 @@ public record AwsS3apiGetObjectTaggingOptions : AwsOptions
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiGetObjectTaggingRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

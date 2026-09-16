@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-load-balancer-tls-certificate")]
-public record AwsLightsailCreateLoadBalancerTlsCertificateOptions : AwsOptions
+public record AwsLightsailCreateLoadBalancerTlsCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an SSL/TLS certificate for an Amazon Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The CreateLoadBalancerTlsCertificate operation supports tag-based ac- cess control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail De- veloper Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerName">The load balancer name where you want to create the SSL/TLS certifi- cate. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="CertificateName">The SSL/TLS certificate name. You can have up to 10 certificates in your account at one time. Each Lightsail load balancer can have up to 2 certificates associated with it at one time. There is also an overall limit to the number of certificates that can be issue in a 365-day period. For more infor- mation, see Limits . Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="CertificateDomainName">The domain name (example.com ) for your SSL/TLS certificate.</param>
+    public AwsLightsailCreateLoadBalancerTlsCertificateOptions(
+        string LoadBalancerName,
+        string CertificateName,
+        string CertificateDomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateName);
+        this.CertificateName = CertificateName;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateDomainName);
+        this.CertificateDomainName = CertificateDomainName;
+    }
+
+    private AwsLightsailCreateLoadBalancerTlsCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateLoadBalancerTlsCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateLoadBalancerTlsCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The load balancer name where you want to create the SSL/TLS certifi- cate. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    public string? LoadBalancerName { get; private init; }
 
+    /// <summary>
+    /// The SSL/TLS certificate name. You can have up to 10 certificates in your account at one time. Each Lightsail load balancer can have up to 2 certificates associated with it at one time. There is also an overall limit to the number of certificates that can be issue in a 365-day period. For more infor- mation, see Limits . Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--certificate-name")]
-    public string? CertificateName { get; set; }
+    public string? CertificateName { get; private init; }
 
+    /// <summary>
+    /// The domain name (example.com ) for your SSL/TLS certificate.
+    /// </summary>
     [CliOption("--certificate-domain-name")]
-    public string? CertificateDomainName { get; set; }
+    public string? CertificateDomainName { get; private init; }
 
     /// <summary>
     /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (*.example.com ). (string) Syntax: "string" "string" ...
@@ -47,5 +98,22 @@ public record AwsLightsailCreateLoadBalancerTlsCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

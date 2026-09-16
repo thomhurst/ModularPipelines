@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,11 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secretsmanager", "update-secret")]
-public record AwsSecretsmanagerUpdateSecretOptions : AwsOptions
+public record AwsSecretsmanagerUpdateSecretOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the details of a secret, including metadata and the secret value. To change the secret value, you can also use PutSecretValue . To change the rotation configuration of a secret, use RotateSecret in- stead. To change a secret so that it is managed by another service, you need to recreate the secret in that service. See Secrets Manager secrets managed by other Amazon Web Services services . We recommend you avoid calling UpdateSecret at a sustained rate of more than once every 10 minutes....
+    /// </summary>
+    /// <param name="SecretId">The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048</param>
+    public AwsSecretsmanagerUpdateSecretOptions(
+        string SecretId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretId);
+        this.SecretId = SecretId;
+    }
+
+    private AwsSecretsmanagerUpdateSecretOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecretsmanagerUpdateSecretOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecretsmanagerUpdateSecretOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
-    public string? SecretId { get; set; }
+    public string? SecretId { get; private init; }
 
     /// <summary>
     /// If you include SecretString or SecretBinary , then Secrets Manager creates a new version for the secret, and this parameter specifies the unique identifier for the new version. NOTE: If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret. Constraints: o min: 32 o max: 64
@@ -70,5 +107,22 @@ public record AwsSecretsmanagerUpdateSecretOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

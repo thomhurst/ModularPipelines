@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudtrailListDashboardsType
 {
-    [EnumValue("MANAGED")]
-    Managed = 1,
-
     [EnumValue("CUSTOM")]
-    Custom = 2
+    Custom,
+
+    [EnumValue("MANAGED")]
+    Managed
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "check-no-public-access")]
-public record AwsAccessanalyzerCheckNoPublicAccessOptions : AwsOptions
+public record AwsAccessanalyzerCheckNoPublicAccessOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-document")]
-    public string? PolicyDocument { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Checks whether a resource policy can grant public access to the speci- fied resource type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyDocument">The JSON policy document to evaluate for public access.</param>
+    /// <param name="ResourceType">The type of resource to evaluate for public access. For example, to check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the resource type. For resource types not supported as valid values, IAM Access Ana- lyzer will return an error. Possible values: o AWS::DynamoDB::Table o AWS::DynamoDB::Stream o AWS::EFS::FileSystem o AWS::OpenSearchService::Domain o AWS::Kinesis::Stream o AWS::Kinesis::StreamConsumer o AWS::KMS::Key o AWS::Lambda::Function o AWS::S3::Bucket o AWS::S3::AccessPoint o AWS::S3Express::DirectoryBucket o AWS::S3::Glacier o AWS::S3Outposts::Bucket o AWS::S3Outposts::AccessPoint o AWS::SecretsManager::Secret o AWS::SNS::Topic o AWS::SQS::Queue o AWS::IAM::AssumeRolePolicyDocument o AWS::S3Tables::TableBucket o AWS::ApiGateway::RestApi o AWS::CodeArtifact::Domain o AWS::Backup::BackupVault o AWS::CloudTrail::Dashboard o AWS::CloudTrail::EventDataStore o AWS::S3Tables::Table o AWS::S3Express::AccessPoint</param>
+    public AwsAccessanalyzerCheckNoPublicAccessOptions(
+        string PolicyDocument,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
+        this.PolicyDocument = PolicyDocument;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsAccessanalyzerCheckNoPublicAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerCheckNoPublicAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerCheckNoPublicAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The JSON policy document to evaluate for public access.
+    /// </summary>
+    [CliOption("--policy-document")]
+    public string? PolicyDocument { get; private init; }
+
+    /// <summary>
+    /// The type of resource to evaluate for public access. For example, to check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the resource type. For resource types not supported as valid values, IAM Access Ana- lyzer will return an error. Possible values: o AWS::DynamoDB::Table o AWS::DynamoDB::Stream o AWS::EFS::FileSystem o AWS::OpenSearchService::Domain o AWS::Kinesis::Stream o AWS::Kinesis::StreamConsumer o AWS::KMS::Key o AWS::Lambda::Function o AWS::S3::Bucket o AWS::S3::AccessPoint o AWS::S3Express::DirectoryBucket o AWS::S3::Glacier o AWS::S3Outposts::Bucket o AWS::S3Outposts::AccessPoint o AWS::SecretsManager::Secret o AWS::SNS::Topic o AWS::SQS::Queue o AWS::IAM::AssumeRolePolicyDocument o AWS::S3Tables::TableBucket o AWS::ApiGateway::RestApi o AWS::CodeArtifact::Domain o AWS::Backup::BackupVault o AWS::CloudTrail::Dashboard o AWS::CloudTrail::EventDataStore o AWS::S3Tables::Table o AWS::S3Express::AccessPoint
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

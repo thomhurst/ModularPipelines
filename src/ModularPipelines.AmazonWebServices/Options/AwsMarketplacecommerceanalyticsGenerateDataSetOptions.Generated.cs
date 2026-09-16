@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplacecommerceanalytics", "generate-data-set")]
-public record AwsMarketplacecommerceanalyticsGenerateDataSetOptions : AwsOptions
+public record AwsMarketplacecommerceanalyticsGenerateDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Given a data set type and data set publication date, asynchronously publishes the requested data set to the specified S3 bucket and noti- fies the specified SNS topic once the data is available. Returns a unique request identifier that can be used to correlate requests with notifications from the SNS topic. Data sets will be published in comma-separated values (CSV) format with the file name {data_set_type}_YYYY-MM-DD.csv. If a file with the same name already exists (e.g. if the same data set is...
+    /// </summary>
+    /// <param name="DataSetType">The desired data set type. o customer_subscriber_hourly_monthly_subscriptions From 2017-09-15 to present: Available daily by 24:00 UTC. o customer_subscriber_annual_subscriptions From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_usage_by_instance_type From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_fees From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_free_trial_conversions From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_new_instances From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_new_product_subscribers From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_canceled_product_subscribers From 2017-09-15 to present: Available daily by 24:00 UTC. o monthly_revenue_billing_and_revenue_data From 2017-09-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. Data includes metered transactions (e.g. hourly) from one month prior. o monthly_revenue_annual_subscriptions From 2017-09-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. Data includes up-front software charges (e.g. annual) from one month prior. o monthly_revenue_field_demonstration_usage From 2018-03-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. o monthly_revenue_flexible_payment_schedule From 2018-11-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. o disbursed_amount_by_product From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_instance_hours From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_customer_geo From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_age_of_uncollected_funds From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_age_of_disbursed_funds From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_age_of_past_due_funds From 2018-04-07 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_uncollected_funds_breakdown From 2019-10-04 to present: Available every 30 days by 24:00 UTC. o sales_compensation_billed_revenue From 2017-09-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. Data includes metered transactions (e.g. hourly) from one month prior, and up-front software charges (e.g. annual) from one month prior. o us_sales_and_use_tax_records From 2017-09-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. o disbursed_amount_by_product_with_uncollected_funds This data set is deprecated. Download related reports from AMMP instead! o customer_profile_by_industry This data set is deprecated. Download related reports from AMMP instead! o customer_profile_by_revenue This data set is deprecated. Download related reports from AMMP instead! o customer_profile_by_geography This data set is deprecated. Down- load related reports from AMMP instead! Possible values: o customer_subscriber_hourly_monthly_subscriptions o customer_subscriber_annual_subscriptions o daily_business_usage_by_instance_type o daily_business_fees o daily_business_free_trial_conversions o daily_business_new_instances o daily_business_new_product_subscribers o daily_business_canceled_product_subscribers o monthly_revenue_billing_and_revenue_data o monthly_revenue_annual_subscriptions o monthly_revenue_field_demonstration_usage o monthly_revenue_flexible_payment_schedule o disbursed_amount_by_product o disbursed_amount_by_product_with_uncollected_funds o disbursed_amount_by_instance_hours o disbursed_amount_by_customer_geo o disbursed_amount_by_age_of_uncollected_funds o disbursed_amount_by_age_of_disbursed_funds o disbursed_amount_by_age_of_past_due_funds o disbursed_amount_by_uncollected_funds_breakdown o customer_profile_by_industry o customer_profile_by_revenue o customer_profile_by_geography o sales_compensation_billed_revenue o us_sales_and_use_tax_records Constraints: o min: 1 o max: 255</param>
+    /// <param name="DataSetPublicationDate"></param>
+    /// <param name="RoleNameArn"></param>
+    /// <param name="DestinationS3BucketName"></param>
+    /// <param name="SnsTopicArn"></param>
+    public AwsMarketplacecommerceanalyticsGenerateDataSetOptions(
+        string DataSetType,
+        string DataSetPublicationDate,
+        string RoleNameArn,
+        string DestinationS3BucketName,
+        string SnsTopicArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetType);
+        this.DataSetType = DataSetType;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetPublicationDate);
+        this.DataSetPublicationDate = DataSetPublicationDate;
+        global::System.ArgumentNullException.ThrowIfNull(RoleNameArn);
+        this.RoleNameArn = RoleNameArn;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationS3BucketName);
+        this.DestinationS3BucketName = DestinationS3BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(SnsTopicArn);
+        this.SnsTopicArn = SnsTopicArn;
+    }
+
+    private AwsMarketplacecommerceanalyticsGenerateDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplacecommerceanalyticsGenerateDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplacecommerceanalyticsGenerateDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The desired data set type. o customer_subscriber_hourly_monthly_subscriptions From 2017-09-15 to present: Available daily by 24:00 UTC. o customer_subscriber_annual_subscriptions From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_usage_by_instance_type From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_fees From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_free_trial_conversions From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_new_instances From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_new_product_subscribers From 2017-09-15 to present: Available daily by 24:00 UTC. o daily_business_canceled_product_subscribers From 2017-09-15 to present: Available daily by 24:00 UTC. o monthly_revenue_billing_and_revenue_data From 2017-09-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. Data includes metered transactions (e.g. hourly) from one month prior. o monthly_revenue_annual_subscriptions From 2017-09-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. Data includes up-front software charges (e.g. annual) from one month prior. o monthly_revenue_field_demonstration_usage From 2018-03-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. o monthly_revenue_flexible_payment_schedule From 2018-11-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. o disbursed_amount_by_product From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_instance_hours From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_customer_geo From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_age_of_uncollected_funds From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_age_of_disbursed_funds From 2017-09-15 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_age_of_past_due_funds From 2018-04-07 to present: Available every 30 days by 24:00 UTC. o disbursed_amount_by_uncollected_funds_breakdown From 2019-10-04 to present: Available every 30 days by 24:00 UTC. o sales_compensation_billed_revenue From 2017-09-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. Data includes metered transactions (e.g. hourly) from one month prior, and up-front software charges (e.g. annual) from one month prior. o us_sales_and_use_tax_records From 2017-09-15 to present: Available monthly on the 15th day of the month by 24:00 UTC. o disbursed_amount_by_product_with_uncollected_funds This data set is deprecated. Download related reports from AMMP instead! o customer_profile_by_industry This data set is deprecated. Download related reports from AMMP instead! o customer_profile_by_revenue This data set is deprecated. Download related reports from AMMP instead! o customer_profile_by_geography This data set is deprecated. Down- load related reports from AMMP instead! Possible values: o customer_subscriber_hourly_monthly_subscriptions o customer_subscriber_annual_subscriptions o daily_business_usage_by_instance_type o daily_business_fees o daily_business_free_trial_conversions o daily_business_new_instances o daily_business_new_product_subscribers o daily_business_canceled_product_subscribers o monthly_revenue_billing_and_revenue_data o monthly_revenue_annual_subscriptions o monthly_revenue_field_demonstration_usage o monthly_revenue_flexible_payment_schedule o disbursed_amount_by_product o disbursed_amount_by_product_with_uncollected_funds o disbursed_amount_by_instance_hours o disbursed_amount_by_customer_geo o disbursed_amount_by_age_of_uncollected_funds o disbursed_amount_by_age_of_disbursed_funds o disbursed_amount_by_age_of_past_due_funds o disbursed_amount_by_uncollected_funds_breakdown o customer_profile_by_industry o customer_profile_by_revenue o customer_profile_by_geography o sales_compensation_billed_revenue o us_sales_and_use_tax_records Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--data-set-type")]
-    public string? DataSetType { get; set; }
+    public string? DataSetType { get; private init; }
 
     [CliOption("--data-set-publication-date")]
-    public string? DataSetPublicationDate { get; set; }
+    public string? DataSetPublicationDate { get; private init; }
 
     [CliOption("--role-name-arn")]
-    public string? RoleNameArn { get; set; }
+    public string? RoleNameArn { get; private init; }
 
     [CliOption("--destination-s3-bucket-name")]
-    public string? DestinationS3BucketName { get; set; }
+    public string? DestinationS3BucketName { get; private init; }
+
+    [CliOption("--sns-topic-arn")]
+    public string? SnsTopicArn { get; private init; }
 
     [CliOption("--destination-s3-prefix")]
     public string? DestinationS3Prefix { get; set; }
-
-    [CliOption("--sns-topic-arn")]
-    public string? SnsTopicArn { get; set; }
 
     [CliOption("--customer-defined-values", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomerDefinedValues { get; set; }
@@ -48,5 +101,22 @@ public record AwsMarketplacecommerceanalyticsGenerateDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

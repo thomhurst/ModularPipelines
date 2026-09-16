@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb-elastic", "apply-pending-maintenance-action")]
-public record AwsDocdbElasticApplyPendingMaintenanceActionOptions : AwsOptions
+public record AwsDocdbElasticApplyPendingMaintenanceActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The type of pending maintenance action to be applied to the resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplyAction">The pending maintenance action to apply to the resource. Valid actions are: o ENGINE_UPDATE o ENGINE_UPGRADE o SECURITY_UPDATE o OS_UPDATE o MASTER_USER_PASSWORD_UPDATE Constraints: o min: 1 o max: 256</param>
+    /// <param name="OptInType">A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type IMMEDIATE can't be undone. Possible values: o IMMEDIATE o NEXT_MAINTENANCE o APPLY_ON o UNDO_OPT_IN</param>
+    /// <param name="ResourceArn">The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which the pending maintenance action applies. Constraints: o min: 1 o max: 256</param>
+    public AwsDocdbElasticApplyPendingMaintenanceActionOptions(
+        string ApplyAction,
+        AwsDocdbElasticApplyPendingMaintenanceActionOptInType OptInType,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplyAction);
+        this.ApplyAction = ApplyAction;
+        global::System.ArgumentNullException.ThrowIfNull(OptInType);
+        this.OptInType = OptInType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsDocdbElasticApplyPendingMaintenanceActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbElasticApplyPendingMaintenanceActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbElasticApplyPendingMaintenanceActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The pending maintenance action to apply to the resource. Valid actions are: o ENGINE_UPDATE o ENGINE_UPGRADE o SECURITY_UPDATE o OS_UPDATE o MASTER_USER_PASSWORD_UPDATE Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--apply-action")]
-    public string? ApplyAction { get; set; }
+    public string? ApplyAction { get; private init; }
+
+    /// <summary>
+    /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type IMMEDIATE can't be undone. Possible values: o IMMEDIATE o NEXT_MAINTENANCE o APPLY_ON o UNDO_OPT_IN
+    /// </summary>
+    [CliOption("--opt-in-type")]
+    public AwsDocdbElasticApplyPendingMaintenanceActionOptInType? OptInType { get; private init; }
+
+    /// <summary>
+    /// The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which the pending maintenance action applies. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
 
     /// <summary>
     /// A specific date to apply the pending maintenance action. Required if opt-in-type is APPLY_ON . Format: yyyy/MM/dd HH:mm-yyyy/MM/dd HH:mm Constraints: o min: 1 o max: 256
@@ -30,16 +88,27 @@ public record AwsDocdbElasticApplyPendingMaintenanceActionOptions : AwsOptions
     [CliOption("--apply-on")]
     public string? ApplyOn { get; set; }
 
-    [CliOption("--opt-in-type")]
-    public string? OptInType { get; set; }
-
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --optimizeisolinefor.
+/// Allowed values for --optimize-isoline-for.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoRoutesCalculateIsolinesOptimizeIsolineFor
 {
     [EnumValue("AccurateCalculation")]
-    AccurateCalculation = 1,
+    AccurateCalculation,
 
     [EnumValue("BalancedCalculation")]
-    BalancedCalculation = 2,
+    BalancedCalculation,
 
     [EnumValue("FastCalculation")]
-    FastCalculation = 3
+    FastCalculation
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "get-deployment")]
-public record AwsApigatewayGetDeploymentOptions : AwsOptions
+public record AwsApigatewayGetDeploymentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets information about a Deployment resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="DeploymentId">The identifier of the Deployment resource to get information about.</param>
+    public AwsApigatewayGetDeploymentOptions(
+        string RestApiId,
+        string DeploymentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentId);
+        this.DeploymentId = DeploymentId;
+    }
+
+    private AwsApigatewayGetDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayGetDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayGetDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
+    [CliOption("--rest-api-id")]
+    public string? RestApiId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Deployment resource to get information about.
+    /// </summary>
     [CliOption("--deployment-id")]
-    public string? DeploymentId { get; set; }
+    public string? DeploymentId { get; private init; }
 
     /// <summary>
     /// A query parameter to retrieve the specified embedded resources of the returned Deployment resource in the response. In a REST API call, this embed parameter value is a list of comma-separated strings, as in GET /restapis/{restapi_id}/deployments/{deploy- ment_id}?embed=var1,var2 . The SDK and other platform-dependent li- braries might use a different format for the list. Currently, this request supports only retrieval of the embedded API summary this way. Hence, the parameter value must be a single-valued list con- taining only the "apisummary" string. For example, GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary . (string) Syntax: "string" "string" ...
@@ -38,5 +82,22 @@ public record AwsApigatewayGetDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

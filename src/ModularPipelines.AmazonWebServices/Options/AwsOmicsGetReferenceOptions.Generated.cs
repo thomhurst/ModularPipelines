@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,11 +21,54 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("omics", "get-reference")]
 public record AwsOmicsGetReferenceOptions : AwsOptions
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    /// <summary>
+    /// Downloads parts of data from a reference genome and returns the refer- ence file in the same format that it was uploaded. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The reference's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="ReferenceStoreId">The reference's store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="PartNumber">The part number to retrieve. Constraints: o min: 1 o max: 10000</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsOmicsGetReferenceOptions(
+        string Id,
+        string ReferenceStoreId,
+        int PartNumber,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(ReferenceStoreId);
+        this.ReferenceStoreId = ReferenceStoreId;
+        this.PartNumber = PartNumber;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string Id, out string ReferenceStoreId, out int PartNumber, out string Outfile)
+    {
+        Id = this.Id;
+        ReferenceStoreId = this.ReferenceStoreId;
+        PartNumber = this.PartNumber;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The reference's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// The reference's store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--reference-store-id")]
-    public string? ReferenceStoreId { get; set; }
+    public string ReferenceStoreId { get; private init; }
+
+    /// <summary>
+    /// The part number to retrieve. Constraints: o min: 1 o max: 10000
+    /// </summary>
+    [CliOption("--part-number")]
+    public int PartNumber { get; private init; }
 
     /// <summary>
     /// The range to retrieve. Constraints: o min: 1 o max: 127 o pattern: [\p{N}||\p{P}]+
@@ -34,13 +76,16 @@ public record AwsOmicsGetReferenceOptions : AwsOptions
     [CliOption("--range")]
     public string? Range { get; set; }
 
-    [CliOption("--part-number")]
-    public int? PartNumber { get; set; }
-
     /// <summary>
     /// The file to retrieve. Possible values: o SOURCE o INDEX outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--file")]
-    public AwsOmicsGetReferenceFile? File { get; set; }
+    public string? File { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

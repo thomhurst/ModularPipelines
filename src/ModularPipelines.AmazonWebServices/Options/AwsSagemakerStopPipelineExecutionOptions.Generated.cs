@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "stop-pipeline-execution")]
-public record AwsSagemakerStopPipelineExecutionOptions : AwsOptions
+public record AwsSagemakerStopPipelineExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops a pipeline execution. Callback Step A pipeline execution won't stop while a callback step is running. When you call StopPipelineExecution on a pipeline execution with a running callback step, SageMaker Pipelines sends an additional Amazon SQS mes- sage to the specified SQS queue. The body of the SQS message contains a "Status" field which is set to "Stopping". You should add logic to your Amazon SQS message consumer to take any needed action (for example, resource cleanup) upon receipt of ...
+    /// </summary>
+    /// <param name="PipelineExecutionArn">The Amazon Resource Name (ARN) of the pipeline execution. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*</param>
+    public AwsSagemakerStopPipelineExecutionOptions(
+        string PipelineExecutionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineExecutionArn);
+        this.PipelineExecutionArn = PipelineExecutionArn;
+    }
+
+    private AwsSagemakerStopPipelineExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerStopPipelineExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerStopPipelineExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the pipeline execution. Constraints: o min: 0 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*
+    /// </summary>
     [CliOption("--pipeline-execution-arn")]
-    public string? PipelineExecutionArn { get; set; }
+    public string? PipelineExecutionArn { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. Constraints: o min: 32 o max: 128
@@ -37,5 +74,22 @@ public record AwsSagemakerStopPipelineExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

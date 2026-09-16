@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "get-object-attributes")]
-public record AwsS3apiGetObjectAttributesOptions : AwsOptions
+public record AwsS3apiGetObjectAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves all of the metadata from an object without returning the ob- ject itself. This operation is useful if you're interested only in an object's metadata. GetObjectAttributes combines the functionality of HeadObject and ListParts . All of the data returned with both of those individual calls can be returned with a single call to GetObjectAttributes . NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Zonal endpoint. These end- points supp...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket that contains the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Key">The object key. Constraints: o min: 1</param>
+    /// <param name="ObjectAttributes">Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned. (string) Possible values: o ETag o Checksum o ObjectParts o StorageClass o ObjectSize Syntax: "string" "string" ...</param>
+    public AwsS3apiGetObjectAttributesOptions(
+        string Bucket,
+        string Key,
+        IEnumerable<string> ObjectAttributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ObjectAttributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ObjectAttributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ObjectAttributes));
+            }
+
+            ObjectAttributes = materialized;
+        }
+        this.ObjectAttributes = ObjectAttributes;
+    }
+
+    private AwsS3apiGetObjectAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiGetObjectAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiGetObjectAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket that contains the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The object key. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string? Key { get; private init; }
+
+    /// <summary>
+    /// Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned. (string) Possible values: o ETag o Checksum o ObjectParts o StorageClass o ObjectSize Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--object-attributes", GroupValues = true)]
+    public IEnumerable<string>? ObjectAttributes { get; private init; }
 
     /// <summary>
     /// The version ID used to reference a specific version of the object. NOTE: S3 Versioning isn't enabled and supported for directory buckets. For this API operation, only the null value of the version ID is supported by directory buckets. You can only specify null to the versionId query parameter in the request.
@@ -68,7 +132,7 @@ public record AwsS3apiGetObjectAttributesOptions : AwsOptions
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiGetObjectAttributesRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
@@ -76,13 +140,27 @@ public record AwsS3apiGetObjectAttributesOptions : AwsOptions
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CliOption("--object-attributes", GroupValues = true)]
-    public IEnumerable<string>? ObjectAttributes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

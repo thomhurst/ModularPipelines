@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --signaltype.
+/// Allowed values for --signal-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsObservabilityadminTestTelemetryPipelineSignalType
 {
     [EnumValue("LOG")]
-    Log = 1,
+    Log,
 
     [EnumValue("METRIC")]
-    Metric = 2
+    Metric
 }

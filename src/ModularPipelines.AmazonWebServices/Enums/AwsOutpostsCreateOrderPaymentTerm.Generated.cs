@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --paymentterm.
+/// Allowed values for --payment-term.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsCreateOrderPaymentTerm
 {
-    [EnumValue("THREE_YEARS")]
-    ThreeYears = 1,
+    [EnumValue("FIVE_YEARS")]
+    FiveYears,
 
     [EnumValue("ONE_YEAR")]
-    OneYear = 2,
+    OneYear,
 
-    [EnumValue("FIVE_YEARS")]
-    FiveYears = 3
+    [EnumValue("THREE_YEARS")]
+    ThreeYears
 }

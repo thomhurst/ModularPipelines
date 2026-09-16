@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --featureset.
+/// Allowed values for --feature-set.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOrganizationsCreateOrganizationFeatureSet
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("CONSOLIDATED_BILLING")]
-    ConsolidatedBilling = 2
+    ConsolidatedBilling
 }

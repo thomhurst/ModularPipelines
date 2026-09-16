@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "list-tags-for-certificate")]
-public record AwsAcmListTagsForCertificateOptions : AwsOptions
+public record AwsAcmListTagsForCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate action. NOTE: This action applies only to the certificate resource type. For all other ACM resource types, use ListTagsForResource instead. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificateArn">String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form: arn:aws:acm:region:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    public AwsAcmListTagsForCertificateOptions(
+        string CertificateArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateArn);
+        this.CertificateArn = CertificateArn;
+    }
+
+    private AwsAcmListTagsForCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmListTagsForCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmListTagsForCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form: arn:aws:acm:region:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
     [CliOption("--certificate-arn")]
-    public string? CertificateArn { get; set; }
+    public string? CertificateArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

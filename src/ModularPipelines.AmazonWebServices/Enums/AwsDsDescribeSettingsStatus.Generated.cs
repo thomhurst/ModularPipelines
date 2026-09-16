@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDsDescribeSettingsStatus
 {
-    [EnumValue("Requested")]
-    Requested = 1,
-
-    [EnumValue("Updating")]
-    Updating = 2,
-
-    [EnumValue("Updated")]
-    Updated = 3,
+    [EnumValue("Default")]
+    Default,
 
     [EnumValue("Failed")]
-    Failed = 4,
+    Failed,
 
-    [EnumValue("Default")]
-    Default = 5
+    [EnumValue("Requested")]
+    Requested,
+
+    [EnumValue("Updated")]
+    Updated,
+
+    [EnumValue("Updating")]
+    Updating
 }

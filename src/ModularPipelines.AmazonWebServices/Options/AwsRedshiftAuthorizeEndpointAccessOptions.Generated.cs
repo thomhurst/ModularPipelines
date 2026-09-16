@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "authorize-endpoint-access")]
-public record AwsRedshiftAuthorizeEndpointAccessOptions : AwsOptions
+public record AwsRedshiftAuthorizeEndpointAccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Grants access to a cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Account">The Amazon Web Services account ID to grant access to. Constraints: o max: 2147483647</param>
+    public AwsRedshiftAuthorizeEndpointAccessOptions(
+        string Account
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Account);
+        this.Account = Account;
+    }
+
+    private AwsRedshiftAuthorizeEndpointAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftAuthorizeEndpointAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftAuthorizeEndpointAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID to grant access to. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--account")]
+    public string? Account { get; private init; }
+
     /// <summary>
     /// The cluster identifier of the cluster to grant access to. Constraints: o max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
-
-    [CliOption("--account")]
-    public string? Account { get; set; }
 
     /// <summary>
     /// The virtual private cloud (VPC) identifiers to grant access to. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
@@ -41,5 +78,22 @@ public record AwsRedshiftAuthorizeEndpointAccessOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

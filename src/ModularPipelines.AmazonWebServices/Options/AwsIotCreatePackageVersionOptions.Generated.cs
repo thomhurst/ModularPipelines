@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-package-version")]
-public record AwsIotCreatePackageVersionOptions : AwsOptions
+public record AwsIotCreatePackageVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--package-name")]
-    public string? PackageName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new version for an existing IoT software package. Requires permission to access the CreatePackageVersion and GetIndexingConfiguration actions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageName">The name of the associated software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="VersionName">The name of the new package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+</param>
+    public AwsIotCreatePackageVersionOptions(
+        string PackageName,
+        string VersionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageName);
+        this.PackageName = PackageName;
+        global::System.ArgumentNullException.ThrowIfNull(VersionName);
+        this.VersionName = VersionName;
+    }
+
+    private AwsIotCreatePackageVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreatePackageVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreatePackageVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the associated software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+
+    /// </summary>
+    [CliOption("--package-name")]
+    public string? PackageName { get; private init; }
+
+    /// <summary>
+    /// The name of the new package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+
+    /// </summary>
     [CliOption("--version-name")]
-    public string? VersionName { get; set; }
+    public string? VersionName { get; private init; }
 
     /// <summary>
     /// A summary of the package version being created. This can be used to outline the package's contents or purpose. Constraints: o min: 0 o max: 1024 o pattern: [^\p{C}]+
@@ -71,5 +115,22 @@ public record AwsIotCreatePackageVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

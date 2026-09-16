@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --maxeventsize.
+/// Allowed values for --max-event-size.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudtrailPutEventConfigurationMaxEventSize
 {
-    [EnumValue("Standard")]
-    Standard = 1,
-
     [EnumValue("Large")]
-    Large = 2
+    Large,
+
+    [EnumValue("Standard")]
+    Standard
 }

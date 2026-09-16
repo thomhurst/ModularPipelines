@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --modeltype.
+/// Allowed values for --model-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFrauddetectorDescribeModelVersionsModelType
 {
+    [EnumValue("ACCOUNT_TAKEOVER_INSIGHTS")]
+    AccountTakeoverInsights,
+
     [EnumValue("ONLINE_FRAUD_INSIGHTS")]
-    OnlineFraudInsights = 1,
+    OnlineFraudInsights,
 
     [EnumValue("TRANSACTION_FRAUD_INSIGHTS")]
-    TransactionFraudInsights = 2,
-
-    [EnumValue("ACCOUNT_TAKEOVER_INSIGHTS")]
-    AccountTakeoverInsights = 3
+    TransactionFraudInsights
 }

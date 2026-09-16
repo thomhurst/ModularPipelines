@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "get-object-acl")]
-public record AwsS3apiGetObjectAclOptions : AwsOptions
+public record AwsS3apiGetObjectAclOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Returns the access control list (ACL) of an object. To use this opera- tion, you must have s3:GetObjectAcl permissions or READ_ACP access to the object. For more information, see Mapping of ACL permissions and access policy permissions in the Amazon S3 User Guide This functionality is not supported for Amazon S3 on Outposts. By default, GET returns ACL information about the current version of an object. To return ACL information about ...
+    /// </summary>
+    /// <param name="Bucket">The bucket name that contains the object for which to get the ACL information. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide .</param>
+    /// <param name="Key">The key of the object for which to get the ACL information. Constraints: o min: 1</param>
+    public AwsS3apiGetObjectAclOptions(
+        string Bucket,
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    private AwsS3apiGetObjectAclOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiGetObjectAclOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiGetObjectAclOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name that contains the object for which to get the ACL information. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide .
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The key of the object for which to get the ACL information. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string? Key { get; private init; }
 
     /// <summary>
     /// Version ID used to reference a specific version of the object. NOTE: This functionality is not supported for directory buckets.
@@ -38,7 +81,7 @@ public record AwsS3apiGetObjectAclOptions : AwsOptions
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiGetObjectAclRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
@@ -51,5 +94,22 @@ public record AwsS3apiGetObjectAclOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

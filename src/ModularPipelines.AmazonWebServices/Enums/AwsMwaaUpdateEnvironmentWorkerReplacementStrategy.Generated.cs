@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --workerreplacementstrategy.
+/// Allowed values for --worker-replacement-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMwaaUpdateEnvironmentWorkerReplacementStrategy
 {
     [EnumValue("FORCED")]
-    Forced = 1,
+    Forced,
 
     [EnumValue("GRACEFUL")]
-    Graceful = 2
+    Graceful
 }

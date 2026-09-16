@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,28 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "create-firewall-rule")]
-public record AwsRoute53resolverCreateFirewallRuleOptions : AwsOptions
+public record AwsRoute53resolverCreateFirewallRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: o FirewallDomainListId match a customer-managed or AWS-managed domain list. o DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). o FirewallRuleType match one of the rule-type variants returned by ListFirewall...
+    /// </summary>
+    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group where you want to create the rule. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Priority">The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by or- der of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the num- bers, for example, use 100, 200, and so on. You can change the pri- ority setting for the rules in a rule group at any time.</param>
+    /// <param name="Action">The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule: o ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules. o ALERT - Permit the request and send metrics and logs to Cloud Watch. o BLOCK - Disallow the request. This option requires additional de- tails in the rule's BlockResponse . Possible values: o ALLOW o BLOCK o ALERT</param>
+    /// <param name="Name">A name that lets you identify the rule in the rule group. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
+    public AwsRoute53resolverCreateFirewallRuleOptions(
+        string FirewallRuleGroupId,
+        int Priority,
+        AwsRoute53resolverCreateFirewallRuleAction Action,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallRuleGroupId);
+        this.FirewallRuleGroupId = FirewallRuleGroupId;
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsRoute53resolverCreateFirewallRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverCreateFirewallRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverCreateFirewallRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the firewall rule group where you want to create the rule. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--firewall-rule-group-id")]
+    public string? FirewallRuleGroupId { get; private init; }
+
+    /// <summary>
+    /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by or- der of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the num- bers, for example, use 100, 200, and so on. You can change the pri- ority setting for the rules in a rule group at any time.
+    /// </summary>
+    [CliOption("--priority")]
+    public int? Priority { get; private init; }
+
+    /// <summary>
+    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule: o ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules. o ALERT - Permit the request and send metrics and logs to Cloud Watch. o BLOCK - Disallow the request. This option requires additional de- tails in the rule's BlockResponse . Possible values: o ALLOW o BLOCK o ALERT
+    /// </summary>
+    [CliOption("--action")]
+    public AwsRoute53resolverCreateFirewallRuleAction? Action { get; private init; }
+
+    /// <summary>
+    /// A name that lets you identify the rule in the rule group. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CliOption("--firewall-rule-group-id")]
-    public string? FirewallRuleGroupId { get; set; }
-
     /// <summary>
     /// The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton . Constraints: o min: 1 o max: 64
     /// </summary>
     [CliOption("--firewall-domain-list-id")]
     public string? FirewallDomainListId { get; set; }
-
-    [CliOption("--priority")]
-    public int? Priority { get; set; }
-
-    [CliOption("--action")]
-    public string? Action { get; set; }
 
     /// <summary>
     /// The way that you want DNS Firewall to block the request, used with the rule action setting BLOCK . o NODATA - Respond indicating that the query was successful, but no response is available for it. o NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist. o OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* set- tings. This setting is required if the rule action setting is BLOCK . Possible values: o NODATA o NXDOMAIN o OVERRIDE
@@ -59,16 +119,13 @@ public record AwsRoute53resolverCreateFirewallRuleOptions : AwsOptions
     /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain . Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Possible values: o CNAME
     /// </summary>
     [CliOption("--block-override-dns-type")]
-    public AwsRoute53resolverCreateFirewallRuleBlockOverrideDnsType? BlockOverrideDnsType { get; set; }
+    public string? BlockOverrideDnsType { get; set; }
 
     /// <summary>
     /// The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Constraints: o min: 0 o max: 604800
     /// </summary>
     [CliOption("--block-override-ttl")]
     public int? BlockOverrideTtl { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN : (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN : Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list. Possible values: o INSPECT_REDIRECTION_DOMAIN o TRUST_REDIRECTION_DOMAIN
@@ -105,5 +162,22 @@ public record AwsRoute53resolverCreateFirewallRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

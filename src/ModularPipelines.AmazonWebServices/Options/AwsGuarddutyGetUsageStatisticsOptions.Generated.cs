@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "get-usage-statistics")]
-public record AwsGuarddutyGetUsageStatisticsOptions : AwsOptions
+public record AwsGuarddutyGetUsageStatisticsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="UsageStatisticType">The type of usage statistics to retrieve. Possible values: o SUM_BY_ACCOUNT o SUM_BY_DATA_SOURCE o SUM_BY_RESOURCE o TOP_RESOURCES o SUM_BY_FEATURES o TOP_ACCOUNTS_BY_FEATURE</param>
+    /// <param name="UsageCriteria">Represents the criteria used for querying usage. AccountIds -&gt; (list) The account IDs to aggregate usage statistics from. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 DataSources -&gt; (list) The data sources to aggregate usage statistics from. (string) Possible values: o FLOW_LOGS o CLOUD_TRAIL o DNS_LOGS o S3_LOGS o KUBERNETES_AUDIT_LOGS o EC2_MALWARE_SCAN Resources -&gt; (list) The resources to aggregate usage statistics from. Only accepts exact resource names. (string) Features -&gt; (list) The features to aggregate usage statistics from. (string) Possible values: o FLOW_LOGS o CLOUD_TRAIL o DNS_LOGS o S3_DATA_EVENTS o EKS_AUDIT_LOGS o EBS_MALWARE_PROTECTION o RDS_LOGIN_EVENTS o LAMBDA_NETWORK_LOGS o EKS_RUNTIME_MONITORING o EC2_RUNTIME_MONITORING o FARGATE_RUNTIME_MONITORING o RDS_DBI_PROTECTION_PROVISIONED o RDS_DBI_PROTECTION_SERVERLESS o AI_PROTECTION Shorthand Syntax: AccountIds=string,string,DataSources=string,string,Resources=string,string,Features=string,string JSON Syntax: { "AccountIds": ["string", ...], "DataSources": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_LOGS"|"KUBERNETES_AUDIT_LOGS"|"EC2_MALWARE_SCAN", ...], "Resources": ["string", ...], "Features": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"EC2_RUNTIME_MONITORING"|"FARGATE_RUNTIME_MONITORING"|"RDS_DBI_PROTECTION_PROVISIONED"|"RDS_DBI_PROTECTION_SERVERLESS"|"AI_PROTECTION", ...] }</param>
+    public AwsGuarddutyGetUsageStatisticsOptions(
+        string DetectorId,
+        AwsGuarddutyGetUsageStatisticsUsageStatisticType UsageStatisticType,
+        string UsageCriteria
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(UsageStatisticType);
+        this.UsageStatisticType = UsageStatisticType;
+        global::System.ArgumentNullException.ThrowIfNull(UsageCriteria);
+        this.UsageCriteria = UsageCriteria;
+    }
+
+    private AwsGuarddutyGetUsageStatisticsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyGetUsageStatisticsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyGetUsageStatisticsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
 
+    /// <summary>
+    /// The type of usage statistics to retrieve. Possible values: o SUM_BY_ACCOUNT o SUM_BY_DATA_SOURCE o SUM_BY_RESOURCE o TOP_RESOURCES o SUM_BY_FEATURES o TOP_ACCOUNTS_BY_FEATURE
+    /// </summary>
     [CliOption("--usage-statistic-type")]
-    public string? UsageStatisticType { get; set; }
+    public AwsGuarddutyGetUsageStatisticsUsageStatisticType? UsageStatisticType { get; private init; }
 
+    /// <summary>
+    /// Represents the criteria used for querying usage. AccountIds -&gt; (list) The account IDs to aggregate usage statistics from. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 DataSources -&gt; (list) The data sources to aggregate usage statistics from. (string) Possible values: o FLOW_LOGS o CLOUD_TRAIL o DNS_LOGS o S3_LOGS o KUBERNETES_AUDIT_LOGS o EC2_MALWARE_SCAN Resources -&gt; (list) The resources to aggregate usage statistics from. Only accepts exact resource names. (string) Features -&gt; (list) The features to aggregate usage statistics from. (string) Possible values: o FLOW_LOGS o CLOUD_TRAIL o DNS_LOGS o S3_DATA_EVENTS o EKS_AUDIT_LOGS o EBS_MALWARE_PROTECTION o RDS_LOGIN_EVENTS o LAMBDA_NETWORK_LOGS o EKS_RUNTIME_MONITORING o EC2_RUNTIME_MONITORING o FARGATE_RUNTIME_MONITORING o RDS_DBI_PROTECTION_PROVISIONED o RDS_DBI_PROTECTION_SERVERLESS o AI_PROTECTION Shorthand Syntax: AccountIds=string,string,DataSources=string,string,Resources=string,string,Features=string,string JSON Syntax: { "AccountIds": ["string", ...], "DataSources": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_LOGS"|"KUBERNETES_AUDIT_LOGS"|"EC2_MALWARE_SCAN", ...], "Resources": ["string", ...], "Features": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"EC2_RUNTIME_MONITORING"|"FARGATE_RUNTIME_MONITORING"|"RDS_DBI_PROTECTION_PROVISIONED"|"RDS_DBI_PROTECTION_SERVERLESS"|"AI_PROTECTION", ...] }
+    /// </summary>
     [CliOption("--usage-criteria")]
-    public string? UsageCriteria { get; set; }
+    public string? UsageCriteria { get; private init; }
 
     /// <summary>
     /// The currency unit you would like to view your usage statistics in. Current valid values are USD.
@@ -55,5 +107,22 @@ public record AwsGuarddutyGetUsageStatisticsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

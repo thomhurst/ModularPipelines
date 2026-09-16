@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "create-advanced-prompt-optimization-job")]
-public record AwsBedrockCreateAdvancedPromptOptimizationJobOptions : AwsOptions
+public record AwsBedrockCreateAdvancedPromptOptimizationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an advanced prompt optimization job. The job optimizes your prompt templates for specific models using your evaluation dataset and criteria. See also: AWS API Documentation create-advanced-prompt-optimization-job uses document type values. Doc- ument types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand sy...
+    /// </summary>
+    /// <param name="JobName">A name for the advanced prompt optimization job. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9.+-]*</param>
+    /// <param name="InputConfig">Specifies the S3 location of your JSONL input file containing prompt templates and evaluation samples. s3Uri -&gt; (string) [required] The S3 URI of the JSONL input file containing prompt templates and evaluation samples. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }</param>
+    /// <param name="OutputConfig">Specifies the S3 location where optimization results will be stored. s3Uri -&gt; (string) [required] The S3 URI prefix where the optimization results will be writ- ten. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/ Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }</param>
+    /// <param name="ModelConfigurations">A list of model configurations specifying the target models for prompt optimization. You can specify up to 5 models. Constraints: o min: 1 o max: 5 (structure) Contains the configuration for a model used in an advanced prompt optimization job, including the model ID and inference parameters. modelId -&gt; (string) [required] The model to use for optimization. The value depends on the resource that you use: o If you use a base model, specify the model ID or its ARN. For a list of model IDs, see Models at a glance in the Ama- zon Bedrock User Guide. o If you use a cross-Region (system-defined) inference pro- file, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for inference profiles in the Amazon Bedrock User Guide. o If you use an application inference profile, specify its full ARN, including the account ID and Region. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|))|(arn:aws(|-us-gov|-cn|-iso|-iso-b|-iso-f):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:ap- plication-inference-pro- file/[a-zA-Z0-9-:.]+)|(arn:aws(|-us-gov|-cn|-iso|-iso-b|-iso-f):bedrock:[a-z0-9-]{1,20}:([0-9]{12})?:in- ference-pro- file/[a-zA-Z0-9-:.]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foun- da- tion-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))) inferenceConfig -&gt; (structure) The inference configuration for the model, including parame- ters such as maximum tokens, temperature, and top-p. maxTokens -&gt; (integer) The maximum number of tokens to allow in the generated response. The default value is the maximum allowed value for the model that you are using. Constraints: o min: 1 temperature -&gt; (float) The likelihood of the model selecting higher-probability options while generating a response. A lower value makes the model more likely to choose higher-probability op- tions, while a higher value makes the model more likely to choose lower-probability options. Constraints: o min: 0 o max: 1 topP -&gt; (float) The percentage of most-likely candidates that the model considers for the next token. For example, if you choose a value of 0.8 for topP , the model selects from the top 80% of the probability distribution of tokens that could be next in the sequence. Constraints: o min: 0 o max: 1 stopSequences -&gt; (list) A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response. Constraints: o min: 0 o max: 2500 (string) Constraints: o min: 1 additionalModelRequestFields -&gt; (map) Additional model request fields. Use this to pass model-spe- cific parameters that are not included in the standard infer- ence configuration. key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (document) Shorthand Syntax: modelId=string,inferenceConfig={maxTokens=integer,temperature=float,topP=float,stopSequences=[string,string]} ... JSON Syntax: [ { "modelId": "string", "inferenceConfig": { "maxTokens": integer, "temperature": float, "topP": float, "stopSequences": ["string", ...] }, "additionalModelRequestFields": {"string": {...} ...} } ... ]</param>
+    public AwsBedrockCreateAdvancedPromptOptimizationJobOptions(
+        string JobName,
+        string InputConfig,
+        string OutputConfig,
+        IEnumerable<string> ModelConfigurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+        global::System.ArgumentNullException.ThrowIfNull(InputConfig);
+        this.InputConfig = InputConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ModelConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ModelConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ModelConfigurations));
+            }
+
+            ModelConfigurations = materialized;
+        }
+        this.ModelConfigurations = ModelConfigurations;
+    }
+
+    private AwsBedrockCreateAdvancedPromptOptimizationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockCreateAdvancedPromptOptimizationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockCreateAdvancedPromptOptimizationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the advanced prompt optimization job. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9.+-]*
+    /// </summary>
     [CliOption("--job-name")]
-    public string? JobName { get; set; }
+    public string? JobName { get; private init; }
+
+    /// <summary>
+    /// Specifies the S3 location of your JSONL input file containing prompt templates and evaluation samples. s3Uri -&gt; (string) [required] The S3 URI of the JSONL input file containing prompt templates and evaluation samples. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
+    /// </summary>
+    [CliOption("--input-config")]
+    public string? InputConfig { get; private init; }
+
+    /// <summary>
+    /// Specifies the S3 location where optimization results will be stored. s3Uri -&gt; (string) [required] The S3 URI prefix where the optimization results will be writ- ten. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/ Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; private init; }
+
+    /// <summary>
+    /// A list of model configurations specifying the target models for prompt optimization. You can specify up to 5 models. Constraints: o min: 1 o max: 5 (structure) Contains the configuration for a model used in an advanced prompt optimization job, including the model ID and inference parameters. modelId -&gt; (string) [required] The model to use for optimization. The value depends on the resource that you use: o If you use a base model, specify the model ID or its ARN. For a list of model IDs, see Models at a glance in the Ama- zon Bedrock User Guide. o If you use a cross-Region (system-defined) inference pro- file, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for inference profiles in the Amazon Bedrock User Guide. o If you use an application inference profile, specify its full ARN, including the account ID and Region. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|))|(arn:aws(|-us-gov|-cn|-iso|-iso-b|-iso-f):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:ap- plication-inference-pro- file/[a-zA-Z0-9-:.]+)|(arn:aws(|-us-gov|-cn|-iso|-iso-b|-iso-f):bedrock:[a-z0-9-]{1,20}:([0-9]{12})?:in- ference-pro- file/[a-zA-Z0-9-:.]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foun- da- tion-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))) inferenceConfig -&gt; (structure) The inference configuration for the model, including parame- ters such as maximum tokens, temperature, and top-p. maxTokens -&gt; (integer) The maximum number of tokens to allow in the generated response. The default value is the maximum allowed value for the model that you are using. Constraints: o min: 1 temperature -&gt; (float) The likelihood of the model selecting higher-probability options while generating a response. A lower value makes the model more likely to choose higher-probability op- tions, while a higher value makes the model more likely to choose lower-probability options. Constraints: o min: 0 o max: 1 topP -&gt; (float) The percentage of most-likely candidates that the model considers for the next token. For example, if you choose a value of 0.8 for topP , the model selects from the top 80% of the probability distribution of tokens that could be next in the sequence. Constraints: o min: 0 o max: 1 stopSequences -&gt; (list) A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response. Constraints: o min: 0 o max: 2500 (string) Constraints: o min: 1 additionalModelRequestFields -&gt; (map) Additional model request fields. Use this to pass model-spe- cific parameters that are not included in the standard infer- ence configuration. key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (document) Shorthand Syntax: modelId=string,inferenceConfig={maxTokens=integer,temperature=float,topP=float,stopSequences=[string,string]} ... JSON Syntax: [ { "modelId": "string", "inferenceConfig": { "maxTokens": integer, "temperature": float, "topP": float, "stopSequences": ["string", ...] }, "additionalModelRequestFields": {"string": {...} ...} } ... ]
+    /// </summary>
+    [CliOption("--model-configurations", GroupValues = true)]
+    public IEnumerable<string>? ModelConfigurations { get; private init; }
 
     /// <summary>
     /// A description of the advanced prompt optimization job. Constraints: o min: 1 o max: 500
@@ -38,12 +116,6 @@ public record AwsBedrockCreateAdvancedPromptOptimizationJobOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--input-config")]
-    public string? InputConfig { get; set; }
-
-    [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
-
     /// <summary>
     /// The Amazon Resource Name (ARN) of the KMS key used for encrypting the output data. If not specified, the output is encrypted with an Amazon-owned KMS key. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
     /// </summary>
@@ -56,13 +128,27 @@ public record AwsBedrockCreateAdvancedPromptOptimizationJobOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--model-configurations", GroupValues = true)]
-    public IEnumerable<string>? ModelConfigurations { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

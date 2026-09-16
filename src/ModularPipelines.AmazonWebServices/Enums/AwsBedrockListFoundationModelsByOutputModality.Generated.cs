@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --byoutputmodality.
+/// Allowed values for --by-output-modality.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockListFoundationModelsByOutputModality
 {
-    [EnumValue("TEXT")]
-    Text = 1,
+    [EnumValue("EMBEDDING")]
+    Embedding,
 
     [EnumValue("IMAGE")]
-    Image = 2,
+    Image,
 
-    [EnumValue("EMBEDDING")]
-    Embedding = 3
+    [EnumValue("TEXT")]
+    Text
 }

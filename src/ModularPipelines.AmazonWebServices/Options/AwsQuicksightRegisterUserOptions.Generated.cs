@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "register-user")]
-public record AwsQuicksightRegisterUserOptions : AwsOptions
+public record AwsQuicksightRegisterUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this regis- tration URL to create their account. Quick Sight doesn't send a regis- tration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in th...
+    /// </summary>
+    /// <param name="IdentityType">The identity type that your Quick Sight account uses to manage the identity of users. Possible values: o IAM o QUICKSIGHT o IAM_IDENTITY_CENTER</param>
+    /// <param name="Email">The email address of the user that you want to register.</param>
+    /// <param name="UserRole">The Amazon Quick Sight role for the user. The user role can be one of the following: o READER : A user who has read-only access to dashboards. o AUTHOR : A user who can create data sources, datasets, analyses, and dashboards. o ADMIN : A user who is an author, who can also manage Amazon Quick Sight settings. o READER_PRO : Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive sum- maries from dashboards. o AUTHOR_PRO : Author Pro adds Generative BI capabilities to the Au- thor role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and generate executive summaries from dashboards. o ADMIN_PRO : Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing. o RESTRICTED_READER : This role isn't currently available for use. o RESTRICTED_AUTHOR : This role isn't currently available for use. Possible values: o ADMIN o AUTHOR o READER o RESTRICTED_AUTHOR o RESTRICTED_READER o ADMIN_PRO o AUTHOR_PRO o READER_PRO</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the user is in. Cur- rently, you use the ID for the Amazon Web Services account that con- tains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace. Currently, you should set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    public AwsQuicksightRegisterUserOptions(
+        AwsQuicksightRegisterUserIdentityType IdentityType,
+        string Email,
+        AwsQuicksightRegisterUserUserRole UserRole,
+        string AwsAccountId,
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityType);
+        this.IdentityType = IdentityType;
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+        global::System.ArgumentNullException.ThrowIfNull(UserRole);
+        this.UserRole = UserRole;
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    private AwsQuicksightRegisterUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightRegisterUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightRegisterUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identity type that your Quick Sight account uses to manage the identity of users. Possible values: o IAM o QUICKSIGHT o IAM_IDENTITY_CENTER
+    /// </summary>
     [CliOption("--identity-type")]
-    public string? IdentityType { get; set; }
+    public AwsQuicksightRegisterUserIdentityType? IdentityType { get; private init; }
 
+    /// <summary>
+    /// The email address of the user that you want to register.
+    /// </summary>
     [CliOption("--email")]
-    public string? Email { get; set; }
+    public string? Email { get; private init; }
 
+    /// <summary>
+    /// The Amazon Quick Sight role for the user. The user role can be one of the following: o READER : A user who has read-only access to dashboards. o AUTHOR : A user who can create data sources, datasets, analyses, and dashboards. o ADMIN : A user who is an author, who can also manage Amazon Quick Sight settings. o READER_PRO : Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive sum- maries from dashboards. o AUTHOR_PRO : Author Pro adds Generative BI capabilities to the Au- thor role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and generate executive summaries from dashboards. o ADMIN_PRO : Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing. o RESTRICTED_READER : This role isn't currently available for use. o RESTRICTED_AUTHOR : This role isn't currently available for use. Possible values: o ADMIN o AUTHOR o READER o RESTRICTED_AUTHOR o RESTRICTED_READER o ADMIN_PRO o AUTHOR_PRO o READER_PRO
+    /// </summary>
     [CliOption("--user-role")]
-    public string? UserRole { get; set; }
+    public AwsQuicksightRegisterUserUserRole? UserRole { get; private init; }
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that the user is in. Cur- rently, you use the ID for the Amazon Web Services account that con- tains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The namespace. Currently, you should set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
+    [CliOption("--namespace")]
+    public string? Namespace { get; private init; }
 
     /// <summary>
     /// The ARN of the IAM user or role that you are registering with Amazon Quick Sight.
@@ -41,12 +113,6 @@ public record AwsQuicksightRegisterUserOptions : AwsOptions
     /// </summary>
     [CliOption("--session-name")]
     public string? SessionName { get; set; }
-
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
-
-    [CliOption("--namespace")]
-    public string? Namespace { get; set; }
 
     /// <summary>
     /// The Amazon Quick Sight user name that you want to create for the user you are registering. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+
@@ -89,5 +155,22 @@ public record AwsQuicksightRegisterUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

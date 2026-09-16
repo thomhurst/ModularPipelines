@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "remove-layer-version-permission")]
-public record AwsLambdaRemoveLayerVersionPermissionOptions : AwsOptions
+public record AwsLambdaRemoveLayerVersionPermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes a statement from the permissions policy for a version of an Lambda layer . For more information, see AddLayerVersionPermission . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    /// <param name="VersionNumber">The version number.</param>
+    /// <param name="StatementId">The identifier that was specified when the statement was added. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z0-9-_]+)</param>
+    public AwsLambdaRemoveLayerVersionPermissionOptions(
+        string LayerName,
+        int VersionNumber,
+        string StatementId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LayerName);
+        this.LayerName = LayerName;
+        this.VersionNumber = VersionNumber;
+        global::System.ArgumentNullException.ThrowIfNull(StatementId);
+        this.StatementId = StatementId;
+    }
+
+    private AwsLambdaRemoveLayerVersionPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaRemoveLayerVersionPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaRemoveLayerVersionPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--layer-name")]
-    public string? LayerName { get; set; }
+    public string? LayerName { get; private init; }
 
+    /// <summary>
+    /// The version number.
+    /// </summary>
     [CliOption("--version-number")]
-    public int? VersionNumber { get; set; }
+    public int? VersionNumber { get; private init; }
 
+    /// <summary>
+    /// The identifier that was specified when the statement was added. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z0-9-_]+)
+    /// </summary>
     [CliOption("--statement-id")]
-    public string? StatementId { get; set; }
+    public string? StatementId { get; private init; }
 
     /// <summary>
     /// Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it.
@@ -41,5 +91,22 @@ public record AwsLambdaRemoveLayerVersionPermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "add-application-cloud-watch-logging-option")]
-public record AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions : AwsOptions
+public record AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds an Amazon CloudWatch log stream to monitor application configura- tion errors. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The Kinesis Data Analytics application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CloudWatchLoggingOption">Provides the Amazon CloudWatch log stream Amazon Resource Name (ARN). LogStreamARN -&gt; (string) [required] The ARN of the CloudWatch log to receive application messages. Constraints: o min: 1 o max: 2048 o pattern: arn:.* Shorthand Syntax: LogStreamARN=string JSON Syntax: { "LogStreamARN": "string" }</param>
+    public AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions(
+        string ApplicationName,
+        string CloudWatchLoggingOption
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(CloudWatchLoggingOption);
+        this.CloudWatchLoggingOption = CloudWatchLoggingOption;
+    }
+
+    private AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Kinesis Data Analytics application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Provides the Amazon CloudWatch log stream Amazon Resource Name (ARN). LogStreamARN -&gt; (string) [required] The ARN of the CloudWatch log to receive application messages. Constraints: o min: 1 o max: 2048 o pattern: arn:.* Shorthand Syntax: LogStreamARN=string JSON Syntax: { "LogStreamARN": "string" }
+    /// </summary>
+    [CliOption("--cloud-watch-logging-option")]
+    public string? CloudWatchLoggingOption { get; private init; }
 
     /// <summary>
     /// The version ID of the SQL-based Kinesis Data Analytics application. You must provide the CurrentApplicationVersionId or the Conditional- Token .You can retrieve the application version ID using De- scribeApplication . For better concurrency support, use the Condi- tionalToken parameter instead of CurrentApplicationVersionId . Constraints: o min: 1 o max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
     public int? CurrentApplicationVersionId { get; set; }
-
-    [CliOption("--cloud-watch-logging-option")]
-    public string? CloudWatchLoggingOption { get; set; }
 
     /// <summary>
     /// A value you use to implement strong concurrency for application up- dates. You must provide the CurrentApplicationVersionId or the Con- ditionalToken . You get the application's current ConditionalToken using DescribeApplication . For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId . Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9-_+/=]+
@@ -46,5 +90,22 @@ public record AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

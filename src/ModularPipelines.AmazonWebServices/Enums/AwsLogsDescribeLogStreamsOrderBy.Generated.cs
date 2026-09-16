@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --orderby.
+/// Allowed values for --order-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsDescribeLogStreamsOrderBy
 {
-    [EnumValue("LogStreamName")]
-    LogStreamName = 1,
-
     [EnumValue("LastEventTime")]
-    LastEventTime = 2
+    LastEventTime,
+
+    [EnumValue("LogStreamName")]
+    LogStreamName
 }

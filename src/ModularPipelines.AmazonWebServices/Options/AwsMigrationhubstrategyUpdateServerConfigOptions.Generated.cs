@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migrationhubstrategy", "update-server-config")]
-public record AwsMigrationhubstrategyUpdateServerConfigOptions : AwsOptions
+public record AwsMigrationhubstrategyUpdateServerConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of the specified server. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerId">The ID of the server. Constraints: o min: 1 o max: 27 o pattern: .*\S.*</param>
+    public AwsMigrationhubstrategyUpdateServerConfigOptions(
+        string ServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+    }
+
+    private AwsMigrationhubstrategyUpdateServerConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationhubstrategyUpdateServerConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationhubstrategyUpdateServerConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the server. Constraints: o min: 1 o max: 27 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--server-id")]
-    public string? ServerId { get; set; }
+    public string? ServerId { get; private init; }
 
     /// <summary>
     /// The preferred strategy options for the application component. See the response from GetServerStrategies . isPreferred -&gt; (boolean) Indicates if a specific strategy is preferred for the applica- tion component. strategy -&gt; (string) Type of transformation. For example, Rehost, Replatform, and so on. Possible values: o Rehost o Retirement o Refactor o Replatform o Retain o Relocate o Repurchase targetDestination -&gt; (string) Destination information about where the application component can migrate to. For example, EC2 , ECS , and so on. Possible values: o None specified o AWS Elastic BeanStalk o AWS Fargate o Amazon Elastic Cloud Compute (EC2) o Amazon Elastic Container Service (ECS) o Amazon Elastic Kubernetes Service (EKS) o Aurora MySQL o Aurora PostgreSQL o Amazon Relational Database Service on MySQL o Amazon Relational Database Service on PostgreSQL o Amazon DocumentDB o Amazon DynamoDB o Amazon Relational Database Service o Babelfish for Aurora PostgreSQL toolName -&gt; (string) The name of the tool that can be used to transform an applica- tion component using this strategy. Possible values: o App2Container o Porting Assistant For .NET o End of Support Migration o Windows Web Application Migration Assistant o Application Migration Service o Strategy Recommendation Support o In Place Operating System Upgrade o Schema Conversion Tool o Database Migration Service o Native SQL Server Backup/Restore Shorthand Syntax: isPreferred=boolean,strategy=string,targetDestination=string,toolName=string JSON Syntax: { "isPreferred": true|false, "strategy": "Rehost"|"Retirement"|"Refactor"|"Replatform"|"Retain"|"Relocate"|"Repurchase", "targetDestination": "None specified"|"AWS Elastic BeanStalk"|"AWS Fargate"|"Amazon Elastic Cloud Compute (EC2)"|"Amazon Elastic Container Service (ECS)"|"Amazon Elastic Kubernetes Service (EKS)"|"Aurora MySQL"|"Aurora PostgreSQL"|"Amazon Relational Database Service on MySQL"|"Amazon Relational Database Service on PostgreSQL"|"Amazon DocumentDB"|"Amazon DynamoDB"|"Amazon Relational Database Service"|"Babelfish for Aurora PostgreSQL", "toolName": "App2Container"|"Porting Assistant For .NET"|"End of Support Migration"|"Windows Web Application Migration Assistant"|"Application Migration Service"|"Strategy Recommendation Support"|"In Place Operating System Upgrade"|"Schema Conversion Tool"|"Database Migration Service"|"Native SQL Server Backup/Restore" }
@@ -35,5 +72,22 @@ public record AwsMigrationhubstrategyUpdateServerConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

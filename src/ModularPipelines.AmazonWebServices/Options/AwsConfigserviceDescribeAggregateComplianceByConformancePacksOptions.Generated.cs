@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "describe-aggregate-compliance-by-conformance-packs")]
-public record AwsConfigserviceDescribeAggregateComplianceByConformancePacksOptions : AwsOptions
+public record AwsConfigserviceDescribeAggregateComplianceByConformancePacksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of the existing and deleted conformance packs and their associated compliance status with the count of compliant and noncompli- ant Config rules within each conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data. NOTE: The results can return an empty result page, but if you have a next- Token , the results are displayed on the next page. See also: AWS API Documentation desc...
+    /// </summary>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    public AwsConfigserviceDescribeAggregateComplianceByConformancePacksOptions(
+        string ConfigurationAggregatorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationAggregatorName);
+        this.ConfigurationAggregatorName = ConfigurationAggregatorName;
+    }
+
+    private AwsConfigserviceDescribeAggregateComplianceByConformancePacksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceDescribeAggregateComplianceByConformancePacksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceDescribeAggregateComplianceByConformancePacksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--configuration-aggregator-name")]
-    public string? ConfigurationAggregatorName { get; set; }
+    public string? ConfigurationAggregatorName { get; private init; }
 
     /// <summary>
     /// Filters the result by AggregateConformancePackComplianceFilters ob- ject. ConformancePackName -&gt; (string) The name of the conformance pack. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]* ComplianceType -&gt; (string) The compliance status of the conformance pack. Possible values: o COMPLIANT o NON_COMPLIANT o INSUFFICIENT_DATA AccountId -&gt; (string) The 12-digit Amazon Web Services account ID of the source ac- count. Constraints: o pattern: \d{12} AwsRegion -&gt; (string) The source Amazon Web Services Region from where the data is ag- gregated. Constraints: o min: 1 o max: 64 Shorthand Syntax: ConformancePackName=string,ComplianceType=string,AccountId=string,AwsRegion=string JSON Syntax: { "ConformancePackName": "string", "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"INSUFFICIENT_DATA", "AccountId": "string", "AwsRegion": "string" }
@@ -55,5 +92,22 @@ public record AwsConfigserviceDescribeAggregateComplianceByConformancePacksOptio
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

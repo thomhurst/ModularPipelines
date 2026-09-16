@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalytics", "add-application-input-processing-configuration")]
-public record AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptions : AwsOptions
+public record AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Adds an InputProcessingConfiguration to an application. An input processor preprocesses records on the input stream before the applica- tion's SQL code executes. Currently, the only input processor available is AWS Lambda . ...
+    /// </summary>
+    /// <param name="ApplicationName">Name of the application to which you want to add the input process- ing configuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">Version of the application to which you want to add the input pro- cessing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is re- turned. Constraints: o min: 1 o max: 999999999</param>
+    /// <param name="InputId">The ID of the input configuration to add the input processing con- figuration to. You can get a list of the input IDs for an applica- tion using the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="InputProcessingConfiguration">The InputProcessingConfiguration to add to the application. InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code. ResourceARN -&gt; (string) [required] The ARN of the AWS Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda Constraints: o min: 1 o max: 2048 o pattern: arn:.* RoleARN -&gt; (string) [required] The ARN of the IAM role that is used to access the AWS Lambda function. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: InputLambdaProcessor={ResourceARN=string,RoleARN=string} JSON Syntax: { "InputLambdaProcessor": { "ResourceARN": "string", "RoleARN": "string" } }</param>
+    public AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptions(
+        string ApplicationName,
+        int CurrentApplicationVersionId,
+        string InputId,
+        string InputProcessingConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        this.CurrentApplicationVersionId = CurrentApplicationVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(InputId);
+        this.InputId = InputId;
+        global::System.ArgumentNullException.ThrowIfNull(InputProcessingConfiguration);
+        this.InputProcessingConfiguration = InputProcessingConfiguration;
+    }
+
+    private AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the application to which you want to add the input process- ing configuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
 
+    /// <summary>
+    /// Version of the application to which you want to add the input pro- cessing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is re- turned. Constraints: o min: 1 o max: 999999999
+    /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; set; }
+    public int? CurrentApplicationVersionId { get; private init; }
 
+    /// <summary>
+    /// The ID of the input configuration to add the input processing con- figuration to. You can get a list of the input IDs for an applica- tion using the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--input-id")]
-    public string? InputId { get; set; }
+    public string? InputId { get; private init; }
 
+    /// <summary>
+    /// The InputProcessingConfiguration to add to the application. InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code. ResourceARN -&gt; (string) [required] The ARN of the AWS Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda Constraints: o min: 1 o max: 2048 o pattern: arn:.* RoleARN -&gt; (string) [required] The ARN of the IAM role that is used to access the AWS Lambda function. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: InputLambdaProcessor={ResourceARN=string,RoleARN=string} JSON Syntax: { "InputLambdaProcessor": { "ResourceARN": "string", "RoleARN": "string" } }
+    /// </summary>
     [CliOption("--input-processing-configuration")]
-    public string? InputProcessingConfiguration { get; set; }
+    public string? InputProcessingConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

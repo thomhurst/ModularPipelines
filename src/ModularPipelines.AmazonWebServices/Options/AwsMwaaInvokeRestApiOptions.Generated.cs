@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mwaa", "invoke-rest-api")]
-public record AwsMwaaInvokeRestApiOptions : AwsOptions
+public record AwsMwaaInvokeRestApiOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API See also: AWS API Documentation invoke-rest-api uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="Name">The name of the Amazon MWAA environment. For example, MyMWAAEnviron- ment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*</param>
+    /// <param name="Path">The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances . For more information, see Apache Airflow API Constraints: o min: 1 o max: 64</param>
+    /// <param name="Method">The HTTP method used for making Airflow REST API calls. For example, POST . Possible values: o GET o PUT o POST o PATCH o DELETE</param>
+    public AwsMwaaInvokeRestApiOptions(
+        string Name,
+        string Path,
+        AwsMwaaInvokeRestApiMethod Method
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        global::System.ArgumentNullException.ThrowIfNull(Method);
+        this.Method = Method;
+    }
+
+    private AwsMwaaInvokeRestApiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMwaaInvokeRestApiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMwaaInvokeRestApiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon MWAA environment. For example, MyMWAAEnviron- ment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances . For more information, see Apache Airflow API Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--path")]
-    public string? Path { get; set; }
+    public string? Path { get; private init; }
 
+    /// <summary>
+    /// The HTTP method used for making Airflow REST API calls. For example, POST . Possible values: o GET o PUT o POST o PATCH o DELETE
+    /// </summary>
     [CliOption("--method")]
-    public string? Method { get; set; }
+    public AwsMwaaInvokeRestApiMethod? Method { get; private init; }
 
     /// <summary>
     /// Query parameters to be included in the Apache Airflow REST API call, provided as a JSON object. JSON Syntax: {...}
@@ -47,5 +99,22 @@ public record AwsMwaaInvokeRestApiOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

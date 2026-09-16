@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "delete-access-grants-instance-resource-policy")]
-public record AwsS3controlDeleteAccessGrantsInstanceResourcePolicyOptions : AwsOptions
+public record AwsS3controlDeleteAccessGrantsInstanceResourcePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the resource policy of the S3 Access Grants instance. The re- source policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance. Permissions You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permis- sion to use this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    public AwsS3controlDeleteAccessGrantsInstanceResourcePolicyOptions(
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    private AwsS3controlDeleteAccessGrantsInstanceResourcePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlDeleteAccessGrantsInstanceResourcePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlDeleteAccessGrantsInstanceResourcePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

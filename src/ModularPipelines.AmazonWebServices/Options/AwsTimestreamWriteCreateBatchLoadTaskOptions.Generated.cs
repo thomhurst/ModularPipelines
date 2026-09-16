@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-write", "create-batch-load-task")]
-public record AwsTimestreamWriteCreateBatchLoadTaskOptions : AwsOptions
+public record AwsTimestreamWriteCreateBatchLoadTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Timestream batch load task. A batch load task processes data from a CSV source in an S3 location and writes to a Timestream ta- ble. A mapping from source to target is defined in a batch load task. Errors and events are written to a report at an S3 location. For the report, if the KMS key is not specified, the report will be encrypted with an S3 managed key when SSE_S3 is the option. Otherwise an error is thrown. For more information, see Amazon Web Services managed keys . Service ...
+    /// </summary>
+    /// <param name="DataSourceConfiguration">Defines configuration details about the data source for a batch load task. DataSourceS3Configuration -&gt; (structure) [required] Configuration of an S3 location for a file which contains data to load. BucketName -&gt; (string) [required] The bucket name of the customer S3 bucket. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKeyPrefix -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+ CsvConfiguration -&gt; (structure) A delimited data format where the column separator can be a comma and the record separator is a newline character. ColumnSeparator -&gt; (string) Column separator can be one of comma (','), pipe (' | ), semicolon (';'), tab('/t'), or blank space (' '). System Message: WARNING/2 (&lt;string&gt;:, line 781) Inline substitution_reference start-string without end-string. Constraints: o min: 1 o max: 1 EscapeChar -&gt; (string) Escape character can be one of Constraints: o min: 1 o max: 1 QuoteChar -&gt; (string) Can be single quote (') or double quote ("). Constraints: o min: 1 o max: 1 NullValue -&gt; (string) Can be blank space (' '). Constraints: o min: 1 o max: 256 TrimWhiteSpace -&gt; (boolean) Specifies to trim leading and trailing white space. DataFormat -&gt; (string) [required] This is currently CSV. Possible values: o CSV Shorthand Syntax: DataSourceS3Configuration={BucketName=string,ObjectKeyPrefix=string},CsvConfiguration={ColumnSeparator=string,EscapeChar=string,QuoteChar=string,NullValue=string,TrimWhiteSpace=boolean},DataFormat=string JSON Syntax: { "DataSourceS3Configuration": { "BucketName": "string", "ObjectKeyPrefix": "string" }, "CsvConfiguration": { "ColumnSeparator": "string", "EscapeChar": "string", "QuoteChar": "string", "NullValue": "string", "TrimWhiteSpace": true|false }, "DataFormat": "CSV" }</param>
+    /// <param name="ReportConfiguration">Report configuration for a batch load task. This contains details about where error reports are stored. ReportS3Configuration -&gt; (structure) Configuration of an S3 location to write error reports and events for a batch load. BucketName -&gt; (string) [required] Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKeyPrefix -&gt; (string) Constraints: o min: 1 o max: 928 o pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+ EncryptionOption -&gt; (string) Possible values: o SSE_S3 o SSE_KMS KmsKeyId -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: ReportS3Configuration={BucketName=string,ObjectKeyPrefix=string,EncryptionOption=string,KmsKeyId=string} JSON Syntax: { "ReportS3Configuration": { "BucketName": "string", "ObjectKeyPrefix": "string", "EncryptionOption": "SSE_S3"|"SSE_KMS", "KmsKeyId": "string" } }</param>
+    /// <param name="TargetDatabaseName">Target Timestream database for a batch load task. Constraints: o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="TargetTableName">Target Timestream table for a batch load task. Constraints: o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsTimestreamWriteCreateBatchLoadTaskOptions(
+        string DataSourceConfiguration,
+        string ReportConfiguration,
+        string TargetDatabaseName,
+        string TargetTableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceConfiguration);
+        this.DataSourceConfiguration = DataSourceConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(ReportConfiguration);
+        this.ReportConfiguration = ReportConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDatabaseName);
+        this.TargetDatabaseName = TargetDatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TargetTableName);
+        this.TargetTableName = TargetTableName;
+    }
+
+    private AwsTimestreamWriteCreateBatchLoadTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamWriteCreateBatchLoadTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamWriteCreateBatchLoadTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Defines configuration details about the data source for a batch load task. DataSourceS3Configuration -&gt; (structure) [required] Configuration of an S3 location for a file which contains data to load. BucketName -&gt; (string) [required] The bucket name of the customer S3 bucket. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKeyPrefix -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+ CsvConfiguration -&gt; (structure) A delimited data format where the column separator can be a comma and the record separator is a newline character. ColumnSeparator -&gt; (string) Column separator can be one of comma (','), pipe (' | ), semicolon (';'), tab('/t'), or blank space (' '). System Message: WARNING/2 (&lt;string&gt;:, line 781) Inline substitution_reference start-string without end-string. Constraints: o min: 1 o max: 1 EscapeChar -&gt; (string) Escape character can be one of Constraints: o min: 1 o max: 1 QuoteChar -&gt; (string) Can be single quote (') or double quote ("). Constraints: o min: 1 o max: 1 NullValue -&gt; (string) Can be blank space (' '). Constraints: o min: 1 o max: 256 TrimWhiteSpace -&gt; (boolean) Specifies to trim leading and trailing white space. DataFormat -&gt; (string) [required] This is currently CSV. Possible values: o CSV Shorthand Syntax: DataSourceS3Configuration={BucketName=string,ObjectKeyPrefix=string},CsvConfiguration={ColumnSeparator=string,EscapeChar=string,QuoteChar=string,NullValue=string,TrimWhiteSpace=boolean},DataFormat=string JSON Syntax: { "DataSourceS3Configuration": { "BucketName": "string", "ObjectKeyPrefix": "string" }, "CsvConfiguration": { "ColumnSeparator": "string", "EscapeChar": "string", "QuoteChar": "string", "NullValue": "string", "TrimWhiteSpace": true|false }, "DataFormat": "CSV" }
+    /// </summary>
+    [CliOption("--data-source-configuration")]
+    public string? DataSourceConfiguration { get; private init; }
+
+    /// <summary>
+    /// Report configuration for a batch load task. This contains details about where error reports are stored. ReportS3Configuration -&gt; (structure) Configuration of an S3 location to write error reports and events for a batch load. BucketName -&gt; (string) [required] Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKeyPrefix -&gt; (string) Constraints: o min: 1 o max: 928 o pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+ EncryptionOption -&gt; (string) Possible values: o SSE_S3 o SSE_KMS KmsKeyId -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: ReportS3Configuration={BucketName=string,ObjectKeyPrefix=string,EncryptionOption=string,KmsKeyId=string} JSON Syntax: { "ReportS3Configuration": { "BucketName": "string", "ObjectKeyPrefix": "string", "EncryptionOption": "SSE_S3"|"SSE_KMS", "KmsKeyId": "string" } }
+    /// </summary>
+    [CliOption("--report-configuration")]
+    public string? ReportConfiguration { get; private init; }
+
+    /// <summary>
+    /// Target Timestream database for a batch load task. Constraints: o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--target-database-name")]
+    public string? TargetDatabaseName { get; private init; }
+
+    /// <summary>
+    /// Target Timestream table for a batch load task. Constraints: o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--target-table-name")]
+    public string? TargetTableName { get; private init; }
+
     /// <summary>
     /// Constraints: o min: 1 o max: 64
     /// </summary>
@@ -35,18 +105,6 @@ public record AwsTimestreamWriteCreateBatchLoadTaskOptions : AwsOptions
     [CliOption("--data-model-configuration")]
     public string? DataModelConfiguration { get; set; }
 
-    [CliOption("--data-source-configuration")]
-    public string? DataSourceConfiguration { get; set; }
-
-    [CliOption("--report-configuration")]
-    public string? ReportConfiguration { get; set; }
-
-    [CliOption("--target-database-name")]
-    public string? TargetDatabaseName { get; set; }
-
-    [CliOption("--target-table-name")]
-    public string? TargetTableName { get; set; }
-
     /// <summary>
     /// --cli-input-json | --cli-input-yaml (string) Reads arguments from the JSON string provided. The JSON string follows the format provided by
     /// </summary>
@@ -58,5 +116,22 @@ public record AwsTimestreamWriteCreateBatchLoadTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

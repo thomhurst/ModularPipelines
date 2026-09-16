@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --computetype.
+/// Allowed values for --compute-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftCreateFleetComputeType
 {
-    [EnumValue("EC2")]
-    Ec2 = 1,
-
     [EnumValue("ANYWHERE")]
-    Anywhere = 2
+    Anywhere,
+
+    [EnumValue("EC2")]
+    Ec2
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "update-plugin")]
-public record AwsQbusinessUpdatePluginOptions : AwsOptions
+public record AwsQbusinessUpdatePluginOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an Amazon Q Business plugin. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The identifier of the application the plugin is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="PluginId">The identifier of the plugin. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    public AwsQbusinessUpdatePluginOptions(
+        string ApplicationId,
+        string PluginId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(PluginId);
+        this.PluginId = PluginId;
+    }
+
+    private AwsQbusinessUpdatePluginOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessUpdatePluginOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessUpdatePluginOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the application the plugin is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the plugin. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--plugin-id")]
-    public string? PluginId { get; set; }
+    public string? PluginId { get; private init; }
 
     /// <summary>
     /// The name of the plugin. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
@@ -63,5 +107,22 @@ public record AwsQbusinessUpdatePluginOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

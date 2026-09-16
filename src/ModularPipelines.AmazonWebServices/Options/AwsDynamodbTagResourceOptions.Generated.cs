@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "tag-resource")]
-public record AwsDynamodbTagResourceOptions : AwsOptions
+public record AwsDynamodbTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account. o TagResource is an asynchronous operation. If you issue a ListTag- sOfResource request immediately after a TagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTag...
+    /// </summary>
+    /// <param name="ResourceArn">Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1283</param>
+    /// <param name="Tags">The tags to be assigned to the Amazon DynamoDB resource. (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single DynamoDB table. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the applica- tion of a tag. For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide . Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Dy- namoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsDynamodbTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsDynamodbTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1283
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The tags to be assigned to the Amazon DynamoDB resource. (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single DynamoDB table. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the applica- tion of a tag. For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide . Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Dy- namoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

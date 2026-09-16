@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "update-site-rack-physical-properties")]
-public record AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions : AwsOptions
+public record AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the physical and logistical details for a rack at a site. For more information about hardware requirements for racks, see Network readiness checklist in the Amazon Web Services Outposts User Guide. To update a rack at a site with an order of IN_PROGRESS , you must wait for the order to complete or cancel the order. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
+    public AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions(
+        string SiteId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SiteId);
+        this.SiteId = SiteId;
+    }
+
+    private AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
+    /// </summary>
     [CliOption("--site-id")]
-    public string? SiteId { get; set; }
+    public string? SiteId { get; private init; }
 
     /// <summary>
     /// The power draw, in kVA, available at the hardware placement position for the rack. Possible values: o POWER_5_KVA o POWER_10_KVA o POWER_15_KVA o POWER_30_KVA
@@ -84,5 +121,22 @@ public record AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

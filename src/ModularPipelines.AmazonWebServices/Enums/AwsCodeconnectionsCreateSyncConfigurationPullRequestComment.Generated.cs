@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --pullrequestcomment.
+/// Allowed values for --pull-request-comment.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodeconnectionsCreateSyncConfigurationPullRequestComment
 {
-    [EnumValue("ENABLED")]
-    Enabled = 1,
-
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("ENABLED")]
+    Enabled
 }

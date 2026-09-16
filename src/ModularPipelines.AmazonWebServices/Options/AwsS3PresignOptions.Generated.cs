@@ -19,11 +19,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "presign")]
-public record AwsS3PresignOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string S3Uri
-) : AwsOptions
+public record AwsS3PresignOptions : AwsOptions
 {
+    /// <summary>
+    /// Generate a pre-signed URL for an Amazon S3 object. This allows anyone who receives the pre-signed URL to retrieve the S3 object with an HTTP GET request. All presigned URL's now use sigv4 so the region needs to be configured explicitly.
+    /// </summary>
+    /// <param name="S3Uri">S3 URI to operate on.</param>
+    public AwsS3PresignOptions(
+        string S3Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3Uri);
+        this.S3Uri = S3Uri;
+    }
+
+    public void Deconstruct(out string S3Uri)
+    {
+        S3Uri = this.S3Uri;
+    }
+
     [CliOption("--expires-in")]
     public int? ExpiresIn { get; set; }
+
+    /// <summary>
+    /// S3 URI to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string S3Uri { get; private init; }
 
 }

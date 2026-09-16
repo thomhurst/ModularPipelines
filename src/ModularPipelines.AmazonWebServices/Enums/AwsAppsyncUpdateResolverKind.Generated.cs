@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppsyncUpdateResolverKind
 {
-    [EnumValue("UNIT")]
-    Unit = 1,
-
     [EnumValue("PIPELINE")]
-    Pipeline = 2
+    Pipeline,
+
+    [EnumValue("UNIT")]
+    Unit
 }

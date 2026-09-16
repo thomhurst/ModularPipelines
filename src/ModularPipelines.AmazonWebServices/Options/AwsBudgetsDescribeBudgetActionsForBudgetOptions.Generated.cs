@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("budgets", "describe-budget-actions-for-budget")]
-public record AwsBudgetsDescribeBudgetActionsForBudgetOptions : AwsOptions
+public record AwsBudgetsDescribeBudgetActionsForBudgetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes all of the budget actions for a budget. See also: AWS API Documentation describe-budget-actions-for-budget is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Actions
+    /// </summary>
+    /// <param name="AccountId">The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="BudgetName">A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    public AwsBudgetsDescribeBudgetActionsForBudgetOptions(
+        string AccountId,
+        string BudgetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(BudgetName);
+        this.BudgetName = BudgetName;
+    }
+
+    private AwsBudgetsDescribeBudgetActionsForBudgetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBudgetsDescribeBudgetActionsForBudgetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBudgetsDescribeBudgetActionsForBudgetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// </summary>
     [CliOption("--budget-name")]
-    public string? BudgetName { get; set; }
+    public string? BudgetName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsBudgetsDescribeBudgetActionsForBudgetOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

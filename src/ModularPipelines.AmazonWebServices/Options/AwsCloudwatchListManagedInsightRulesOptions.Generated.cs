@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "list-managed-insight-rules")]
-public record AwsCloudwatchListManagedInsightRulesOptions : AwsOptions
+public record AwsCloudwatchListManagedInsightRulesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list that contains the number of managed Contributor Insights rules in your account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN of an Amazon Web Services resource that has managed Contrib- utor Insights rules. Constraints: o min: 1 o max: 1024</param>
+    public AwsCloudwatchListManagedInsightRulesOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsCloudwatchListManagedInsightRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchListManagedInsightRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchListManagedInsightRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of an Amazon Web Services resource that has managed Contrib- utor Insights rules. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     /// <summary>
     /// Include this value to get the next set of rules if the value was re- turned by the previous operation.
@@ -43,5 +80,22 @@ public record AwsCloudwatchListManagedInsightRulesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

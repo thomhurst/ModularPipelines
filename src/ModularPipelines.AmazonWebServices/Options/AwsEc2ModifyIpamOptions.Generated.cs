@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-ipam")]
-public record AwsEc2ModifyIpamOptions : AwsOptions
+public record AwsEc2ModifyIpamOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modify the configurations of an IPAM. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamId">The ID of the IPAM you want to modify.</param>
+    public AwsEc2ModifyIpamOptions(
+        string IpamId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamId);
+        this.IpamId = IpamId;
+    }
+
+    private AwsEc2ModifyIpamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyIpamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyIpamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM you want to modify.
+    /// </summary>
     [CliOption("--ipam-id")]
-    public string? IpamId { get; set; }
+    public string? IpamId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The description of the IPAM you want to modify.
@@ -52,19 +92,39 @@ public record AwsEc2ModifyIpamOptions : AwsOptions
     [CliOption("--tier")]
     public AwsEc2ModifyIpamTier? Tier { get; set; }
 
-    [CliFlag("--enable-private-gua")]
+    /// <summary>
+    /// Enable this option to use your own GUA ranges as private IPv6 ad- dresses. This option is disabled by default.
+    /// </summary>
+    [CliFlag("--enable-private-gua", NegatedName = "--no-enable-private-gua")]
     public bool? EnablePrivateGua { get; set; }
 
     /// <summary>
     /// A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide . Possible values: o ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM. o resource-owner : The Amazon Web Services account that owns the IP address is charged for the active IP address. Possible values: o ipam-owner o resource-owner
     /// </summary>
     [CliOption("--metered-account")]
-    public AwsEc2ModifyIpamMeteredAccount? MeteredAccount { get; set; }
+    public string? MeteredAccount { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

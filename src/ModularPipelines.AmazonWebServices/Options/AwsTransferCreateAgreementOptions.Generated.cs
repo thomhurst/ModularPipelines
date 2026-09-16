@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,31 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "create-agreement")]
-public record AwsTransferCreateAgreementOptions : AwsOptions
+public record AwsTransferCreateAgreementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relation- ship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, cer- tificate, and other attributes. The partner is identified with the PartnerProfileId , and the AS2 process is identified with the LocalProfileId . NOTE...
+    /// </summary>
+    /// <param name="ServerId">A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="LocalProfileId">A unique identifier for the AS2 local profile. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})</param>
+    /// <param name="PartnerProfileId">A unique identifier for the partner profile used in the agreement. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})</param>
+    /// <param name="AccessRole">Connectors are used to send files using either the AS2 or SFTP pro- tocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and speci- fying the file paths in the request parameter, SendFilePaths . We use the files parent directory (for example, for --send-file-paths /bucket/dir/file.txt , parent directory is /bucket/dir/ ) to tem- porarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file contain- ing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer . If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Man- ager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFile- Transfer request. Additionally, make sure that the role provides se- cretsmanager:GetSecretValue permission to Secrets Manager. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+</param>
+    public AwsTransferCreateAgreementOptions(
+        string ServerId,
+        string LocalProfileId,
+        string PartnerProfileId,
+        string AccessRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+        global::System.ArgumentNullException.ThrowIfNull(LocalProfileId);
+        this.LocalProfileId = LocalProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerProfileId);
+        this.PartnerProfileId = PartnerProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(AccessRole);
+        this.AccessRole = AccessRole;
+    }
+
+    private AwsTransferCreateAgreementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferCreateAgreementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferCreateAgreementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--server-id")]
+    public string? ServerId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the AS2 local profile. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--local-profile-id")]
+    public string? LocalProfileId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the partner profile used in the agreement. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--partner-profile-id")]
+    public string? PartnerProfileId { get; private init; }
+
+    /// <summary>
+    /// Connectors are used to send files using either the AS2 or SFTP pro- tocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and speci- fying the file paths in the request parameter, SendFilePaths . We use the files parent directory (for example, for --send-file-paths /bucket/dir/file.txt , parent directory is /bucket/dir/ ) to tem- porarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file contain- ing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer . If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Man- ager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFile- Transfer request. Additionally, make sure that the role provides se- cretsmanager:GetSecretValue permission to Secrets Manager. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+
+    /// </summary>
+    [CliOption("--access-role")]
+    public string? AccessRole { get; private init; }
+
     /// <summary>
     /// A name or short description to identify the agreement. Constraints: o min: 1 o max: 200 o pattern: [\u0021-\u007E]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--server-id")]
-    public string? ServerId { get; set; }
-
-    [CliOption("--local-profile-id")]
-    public string? LocalProfileId { get; set; }
-
-    [CliOption("--partner-profile-id")]
-    public string? PartnerProfileId { get; set; }
-
     /// <summary>
     /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /*amzn-s3-demo-bucket* /home/mydirectory . Constraints: o min: 0 o max: 1024 o pattern: (|/.*)
     /// </summary>
     [CliOption("--base-directory")]
     public string? BaseDirectory { get; set; }
-
-    [CliOption("--access-role")]
-    public string? AccessRole { get; set; }
 
     /// <summary>
     /// The status of the agreement. The agreement can be either ACTIVE or INACTIVE . Possible values: o ACTIVE o INACTIVE
@@ -81,5 +139,22 @@ public record AwsTransferCreateAgreementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

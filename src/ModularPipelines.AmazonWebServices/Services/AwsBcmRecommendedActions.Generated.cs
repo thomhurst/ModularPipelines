@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -44,7 +44,7 @@ public class AwsBcmRecommendedActions : IAwsBcmRecommendedActions
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmRecommendedActionsListRecommendedActionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmRecommendedActionsListRecommendedActionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

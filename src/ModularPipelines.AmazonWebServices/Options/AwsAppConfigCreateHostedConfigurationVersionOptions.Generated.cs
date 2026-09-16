@@ -21,23 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("appconfig", "create-hosted-configuration-version")]
 public record AwsAppConfigCreateHostedConfigurationVersionOptions : AwsOptions
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    /// <summary>
+    /// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more informa- tion, see Type reference for AWS.AppConfig.FeatureFlags in the AppCon- fig User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: o min: 1 o max: 128</param>
+    /// <param name="Content">The configuration data, as bytes. NOTE: AppConfig accepts any type of data, including text formats like JSON or TOML, or binary formats like protocol buffers or com- pressed data.</param>
+    /// <param name="ContentType">A standard MIME type describing the format of the configuration con- tent. For more information, see Content-Type . Constraints: o min: 1 o max: 255</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsAppConfigCreateHostedConfigurationVersionOptions(
+        string ApplicationId,
+        string ConfigurationProfileId,
+        string Content,
+        string ContentType,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationProfileId);
+        this.ConfigurationProfileId = ConfigurationProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(ContentType);
+        this.ContentType = ContentType;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string ApplicationId, out string ConfigurationProfileId, out string Content, out string ContentType, out string Outfile)
+    {
+        ApplicationId = this.ApplicationId;
+        ConfigurationProfileId = this.ConfigurationProfileId;
+        Content = this.Content;
+        ContentType = this.ContentType;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The application ID. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--application-id")]
+    public string ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The configuration profile ID. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--configuration-profile-id")]
-    public string? ConfigurationProfileId { get; set; }
+    public string ConfigurationProfileId { get; private init; }
+
+    /// <summary>
+    /// The configuration data, as bytes. NOTE: AppConfig accepts any type of data, including text formats like JSON or TOML, or binary formats like protocol buffers or com- pressed data.
+    /// </summary>
+    [CliOption("--content")]
+    public string Content { get; private init; }
+
+    /// <summary>
+    /// A standard MIME type describing the format of the configuration con- tent. For more information, see Content-Type . Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--content-type")]
+    public string ContentType { get; private init; }
 
     /// <summary>
     /// A description of the configuration. NOTE: Due to HTTP limitations, this field only supports ASCII charac- ters. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
-
-    [CliOption("--content-type")]
-    public string? ContentType { get; set; }
 
     /// <summary>
     /// An optional locking token used to prevent race conditions from over- writing configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configu- ration versions in rapid succession, specify the version number of the latest hosted configuration version.
@@ -50,5 +99,11 @@ public record AwsAppConfigCreateHostedConfigurationVersionOptions : AwsOptions
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "delete-cluster-snapshot")]
-public record AwsRedshiftDeleteClusterSnapshotOptions : AwsOptions
+public record AwsRedshiftDeleteClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified manual snapshot. The snapshot must be in the available state, with no other users authorized to access the snapshot. Unlike automated snapshots, manual snapshots are retained even after you delete your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual snapshot explicitly to avoid getting charged. If other accounts are authorized to access the snapshot, you must revoke all of the authorizations before you can delete the snap- shot. See al...
+    /// </summary>
+    /// <param name="SnapshotIdentifier">The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available , failed , or cancelled state. Constraints: o max: 2147483647</param>
+    public AwsRedshiftDeleteClusterSnapshotOptions(
+        string SnapshotIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotIdentifier);
+        this.SnapshotIdentifier = SnapshotIdentifier;
+    }
+
+    private AwsRedshiftDeleteClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftDeleteClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftDeleteClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available , failed , or cancelled state. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--snapshot-identifier")]
-    public string? SnapshotIdentifier { get; set; }
+    public string? SnapshotIdentifier { get; private init; }
 
     /// <summary>
     /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster. Constraints: o max: 2147483647
@@ -35,5 +72,22 @@ public record AwsRedshiftDeleteClusterSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

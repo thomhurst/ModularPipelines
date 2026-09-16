@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "get-run-task")]
-public record AwsOmicsGetRunTaskOptions : AwsOptions
+public record AwsOmicsGetRunTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets detailed information about a run task using its ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The workflow run ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="TaskId">The task's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    public AwsOmicsGetRunTaskOptions(
+        string Id,
+        string TaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+    }
+
+    private AwsOmicsGetRunTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsGetRunTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsGetRunTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The workflow run ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The task's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--task-id")]
-    public string? TaskId { get; set; }
+    public string? TaskId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

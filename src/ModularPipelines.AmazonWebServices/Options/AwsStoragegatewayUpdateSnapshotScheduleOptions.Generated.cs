@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "update-snapshot-schedule")]
-public record AwsStoragegatewayUpdateSnapshotScheduleOptions : AwsOptions
+public record AwsStoragegatewayUpdateSnapshotScheduleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a snapshot schedule configured for a gateway volume. This oper- ation is only supported in the cached volume and stored volume gateway types. The default snapshot schedule for volume is once every 24 hours, start- ing at the creation time of the volume. You can use this API to change the snapshot schedule configured for the volume. In the request you must identify the gateway volume whose snapshot schedule you want to update, and the schedule information, including when you want the snap...
+    /// </summary>
+    /// <param name="VolumeArn">The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)</param>
+    /// <param name="StartAt">The hour of the day at which the snapshot schedule begins repre- sented as hh , where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway. Constraints: o min: 0 o max: 23</param>
+    /// <param name="RecurrenceInHours">Frequency of snapshots. Specify the number of hours between snap- shots. Constraints: o min: 1 o max: 24</param>
+    public AwsStoragegatewayUpdateSnapshotScheduleOptions(
+        string VolumeArn,
+        int StartAt,
+        int RecurrenceInHours
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VolumeArn);
+        this.VolumeArn = VolumeArn;
+        this.StartAt = StartAt;
+        this.RecurrenceInHours = RecurrenceInHours;
+    }
+
+    private AwsStoragegatewayUpdateSnapshotScheduleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayUpdateSnapshotScheduleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayUpdateSnapshotScheduleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)
+    /// </summary>
     [CliOption("--volume-arn")]
-    public string? VolumeArn { get; set; }
+    public string? VolumeArn { get; private init; }
 
+    /// <summary>
+    /// The hour of the day at which the snapshot schedule begins repre- sented as hh , where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway. Constraints: o min: 0 o max: 23
+    /// </summary>
     [CliOption("--start-at")]
-    public int? StartAt { get; set; }
+    public int? StartAt { get; private init; }
 
+    /// <summary>
+    /// Frequency of snapshots. Specify the number of hours between snap- shots. Constraints: o min: 1 o max: 24
+    /// </summary>
     [CliOption("--recurrence-in-hours")]
-    public int? RecurrenceInHours { get; set; }
+    public int? RecurrenceInHours { get; private init; }
 
     /// <summary>
     /// Optional description of the snapshot that overwrites the existing description. Constraints: o min: 1 o max: 255
@@ -47,5 +96,22 @@ public record AwsStoragegatewayUpdateSnapshotScheduleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --streamnameoutputmode.
+/// Allowed values for --stream-name-output-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediapackagev2CreateOriginEndpointStreamNameOutputMode
 {
     [EnumValue("INDEX")]
-    Index = 1,
+    Index,
 
     [EnumValue("PASSTHROUGH_NAME")]
-    PassthroughName = 2
+    PassthroughName
 }

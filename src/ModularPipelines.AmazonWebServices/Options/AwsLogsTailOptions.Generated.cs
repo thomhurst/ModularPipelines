@@ -21,6 +21,23 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("logs", "tail")]
 public record AwsLogsTailOptions : AwsOptions
 {
+    /// <summary>
+    /// Tails the logs for a CloudWatch Logs group. By default, the command re- turns logs from all associated CloudWatch Logs streams during the past ten minutes. Note that there is no guarantee for exact timestamp order- ing of logs.
+    /// </summary>
+    /// <param name="GroupName">The group_name operand.</param>
+    public AwsLogsTailOptions(
+        string GroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+    }
+
+    public void Deconstruct(out string GroupName)
+    {
+        GroupName = this.GroupName;
+    }
+
     [CliOption("--since")]
     public string? Since { get; set; }
 
@@ -33,10 +50,16 @@ public record AwsLogsTailOptions : AwsOptions
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
-    [CliOption("--log-stream-names")]
-    public string? LogStreamNames { get; set; }
+    [CliOption("--log-stream-names", GroupValues = true)]
+    public IEnumerable<string>? LogStreamNames { get; set; }
 
     [CliOption("--log-stream-name-prefix")]
     public string? LogStreamNamePrefix { get; set; }
+
+    /// <summary>
+    /// The group_name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GroupName { get; private init; }
 
 }

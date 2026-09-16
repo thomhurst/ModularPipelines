@@ -39,7 +39,7 @@ public record AwsEcsListDaemonTaskDefinitionsOptions : AwsOptions
     /// The revision filter to apply. Specify LAST_REGISTERED to return only the last registered revision for each daemon task definition family. Possible values: o LAST_REGISTERED
     /// </summary>
     [CliOption("--revision")]
-    public AwsEcsListDaemonTaskDefinitionsRevision? Revision { get; set; }
+    public string? Revision { get; set; }
 
     /// <summary>
     /// The daemon task definition status to filter the ListDaemonTaskDefin- itions results with. By default, only ACTIVE daemon task definitions are listed. If you set this parameter to DELETE_IN_PROGRESS , only daemon task definitions that are in the process of being deleted are listed. If you set this parameter to ALL , all daemon task defini- tions are listed regardless of status. Possible values: o ACTIVE o DELETE_IN_PROGRESS o ALL

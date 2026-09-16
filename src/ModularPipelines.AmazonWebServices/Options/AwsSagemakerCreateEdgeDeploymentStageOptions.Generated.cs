@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-edge-deployment-stage")]
-public record AwsSagemakerCreateEdgeDeploymentStageOptions : AwsOptions
+public record AwsSagemakerCreateEdgeDeploymentStageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--edge-deployment-plan-name")]
-    public string? EdgeDeploymentPlanName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new stage in an existing edge deployment plan. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EdgeDeploymentPlanName">The name of the edge deployment plan. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="Stages">List of stages to be added to the edge deployment plan. (structure) Contains information about a stage in an edge deployment plan. StageName -&gt; (string) [required] The name of the stage. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceSelectionConfig -&gt; (structure) [required] Configuration of the devices in the stage. DeviceSubsetType -&gt; (string) [required] Type of device subsets to deploy to the current stage. Possible values: o PERCENTAGE o SELECTION o NAMECONTAINS Percentage -&gt; (integer) Percentage of devices in the fleet to deploy to the cur- rent stage. Constraints: o max: 100 DeviceNames -&gt; (list) List of devices chosen to deploy. (string) Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceNameContains -&gt; (string) A filter to select devices with names containing this name. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeploymentConfig -&gt; (structure) Configuration of the deployment details. FailureHandlingPolicy -&gt; (string) [required] Toggle that determines whether to rollback to previous configuration if the current deployment fails. By default this is turned on. You may turn this off if you want to investigate the errors yourself. Possible values: o ROLLBACK_ON_FAILURE o DO_NOTHING Shorthand Syntax: StageName=string,DeviceSelectionConfig={DeviceSubsetType=string,Percentage=integer,DeviceNames=[string,string],DeviceNameContains=string},DeploymentConfig={FailureHandlingPolicy=string} ... JSON Syntax: [ { "StageName": "string", "DeviceSelectionConfig": { "DeviceSubsetType": "PERCENTAGE"|"SELECTION"|"NAMECONTAINS", "Percentage": integer, "DeviceNames": ["string", ...], "DeviceNameContains": "string" }, "DeploymentConfig": { "FailureHandlingPolicy": "ROLLBACK_ON_FAILURE"|"DO_NOTHING" } } ... ]</param>
+    public AwsSagemakerCreateEdgeDeploymentStageOptions(
+        string EdgeDeploymentPlanName,
+        IEnumerable<string> Stages
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EdgeDeploymentPlanName);
+        this.EdgeDeploymentPlanName = EdgeDeploymentPlanName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Stages);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Stages));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Stages));
+            }
+
+            Stages = materialized;
+        }
+        this.Stages = Stages;
+    }
+
+    private AwsSagemakerCreateEdgeDeploymentStageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateEdgeDeploymentStageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateEdgeDeploymentStageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the edge deployment plan. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--edge-deployment-plan-name")]
+    public string? EdgeDeploymentPlanName { get; private init; }
+
+    /// <summary>
+    /// List of stages to be added to the edge deployment plan. (structure) Contains information about a stage in an edge deployment plan. StageName -&gt; (string) [required] The name of the stage. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceSelectionConfig -&gt; (structure) [required] Configuration of the devices in the stage. DeviceSubsetType -&gt; (string) [required] Type of device subsets to deploy to the current stage. Possible values: o PERCENTAGE o SELECTION o NAMECONTAINS Percentage -&gt; (integer) Percentage of devices in the fleet to deploy to the cur- rent stage. Constraints: o max: 100 DeviceNames -&gt; (list) List of devices chosen to deploy. (string) Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceNameContains -&gt; (string) A filter to select devices with names containing this name. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeploymentConfig -&gt; (structure) Configuration of the deployment details. FailureHandlingPolicy -&gt; (string) [required] Toggle that determines whether to rollback to previous configuration if the current deployment fails. By default this is turned on. You may turn this off if you want to investigate the errors yourself. Possible values: o ROLLBACK_ON_FAILURE o DO_NOTHING Shorthand Syntax: StageName=string,DeviceSelectionConfig={DeviceSubsetType=string,Percentage=integer,DeviceNames=[string,string],DeviceNameContains=string},DeploymentConfig={FailureHandlingPolicy=string} ... JSON Syntax: [ { "StageName": "string", "DeviceSelectionConfig": { "DeviceSubsetType": "PERCENTAGE"|"SELECTION"|"NAMECONTAINS", "Percentage": integer, "DeviceNames": ["string", ...], "DeviceNameContains": "string" }, "DeploymentConfig": { "FailureHandlingPolicy": "ROLLBACK_ON_FAILURE"|"DO_NOTHING" } } ... ]
+    /// </summary>
     [CliOption("--stages", GroupValues = true)]
-    public IEnumerable<string>? Stages { get; set; }
+    public IEnumerable<string>? Stages { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

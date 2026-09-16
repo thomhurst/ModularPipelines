@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cost-optimization-hub", "list-enrollment-statuses")]
 public record AwsCostOptimizationHubListEnrollmentStatusesOptions : AwsOptions
 {
-    [CliFlag("--include-organization-info")]
+    /// <summary>
+    /// Indicates whether to return the enrollment status for the organiza- tion.
+    /// </summary>
+    [CliFlag("--include-organization-info", NegatedName = "--no-include-organization-info")]
     public bool? IncludeOrganizationInfo { get; set; }
 
     /// <summary>

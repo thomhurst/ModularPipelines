@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-group")]
-public record AwsQuicksightCreateGroupOptions : AwsOptions
+public record AwsQuicksightCreateGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use the CreateGroup operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is `` arn:aws:quicksight:&lt;your-region&gt;:&lt;relevant-aws-account-id&gt; :group/de- fault/&lt;group-name&gt; `` . System Message: WARNING/2 (&lt;string&gt;:, line 25) Inline literal start-string without end-string. The response is a group object. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GroupName">A name for the group that you want to create. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace that you want the group to be a part of. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    public AwsQuicksightCreateGroupOptions(
+        string GroupName,
+        string AwsAccountId,
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    private AwsQuicksightCreateGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the group that you want to create. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+
+    /// </summary>
     [CliOption("--group-name")]
-    public string? GroupName { get; set; }
+    public string? GroupName { get; private init; }
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The namespace that you want the group to be a part of. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
+    [CliOption("--namespace")]
+    public string? Namespace { get; private init; }
 
     /// <summary>
     /// A description for the group that you want to create. Constraints: o min: 1 o max: 512
@@ -30,16 +87,27 @@ public record AwsQuicksightCreateGroupOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
-
-    [CliOption("--namespace")]
-    public string? Namespace { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

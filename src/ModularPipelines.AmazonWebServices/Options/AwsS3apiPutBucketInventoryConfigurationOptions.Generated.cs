@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-inventory-configuration")]
-public record AwsS3apiPutBucketInventoryConfigurationOptions : AwsOptions
+public record AwsS3apiPutBucketInventoryConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This implementation of the PUT action adds an S3 Inventory configura- tion (identified by the inventory ID) to the bucket. You can have up to 1,000 inventory configurations per bucket. Amazon S3 inventory generates inventories of the objects in the bucket on a daily or weekly basis, and the results are published to a flat file. The bucket that is inventoried is called the source bucket, and the bucket where the inventory flat file is stored is called the desti- nation bucket. The destination buc...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket where the inventory configuration will be stored. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
+    /// <param name="Id">The ID used to identify the inventory configuration.</param>
+    /// <param name="InventoryConfiguration">Specifies the inventory configuration. Destination -&gt; (structure) [required] Contains information about where to publish the inventory re- sults. S3BucketDestination -&gt; (structure) [required] Contains the bucket name, file format, bucket owner (op- tional), and prefix (optional) where inventory results are published. AccountId -&gt; (string) The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data. NOTE: Although this value is optional, we strongly recommend that you set it to help prevent problems if the desti- nation bucket ownership changes. Bucket -&gt; (string) [required] The Amazon Resource Name (ARN) of the bucket where inven- tory results will be published. Format -&gt; (string) [required] Specifies the output format of the inventory results. Possible values: o CSV o ORC o Parquet Prefix -&gt; (string) The prefix that is prepended to all inventory results. Encryption -&gt; (structure) Contains the type of server-side encryption used to en- crypt the inventory results. SSES3 -&gt; (structure) Specifies the use of SSE-S3 to encrypt delivered in- ventory reports. SSEKMS -&gt; (structure) Specifies the use of SSE-KMS to encrypt delivered in- ventory reports. KeyId -&gt; (string) [required] Specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key to use for encrypting inventory reports. IsEnabled -&gt; (boolean) [required] Specifies whether the inventory is enabled or disabled. If set to True , an inventory list is generated. If set to False , no inventory list is generated. Filter -&gt; (structure) Specifies an inventory filter. The inventory only includes ob- jects that meet the filter's criteria. Prefix -&gt; (string) [required] The prefix that an object must have to be included in the in- ventory results. Id -&gt; (string) [required] The ID used to identify the inventory configuration. IncludedObjectVersions -&gt; (string) [required] Object versions to include in the inventory list. If set to All , the list includes all the object versions, which adds the ver- sion-related fields VersionId , IsLatest , and DeleteMarker to the list. If set to Current , the list does not contain these version-related fields. Possible values: o All o Current OptionalFields -&gt; (list) Contains the optional fields that are included in the inventory results. NOTE: The following optional fields are supported for directory buckets Size | LastModifiedDate | StorageClass | ETag | Is- MultipartUploaded | EncryptionStatus | BucketKeyStatus | ChecksumAlgorithm | LifecycleExpirationDate. Throws Mal- formedXML error if unsupported optional field is provided. (string) Possible values: o Size o LastModifiedDate o StorageClass o ETag o IsMultipartUploaded o ReplicationStatus o EncryptionStatus o ObjectLockRetainUntilDate o ObjectLockMode o ObjectLockLegalHoldStatus o ObjectLockEventHoldStatus o ObjectLockEventHoldDuration o IntelligentTieringAccessTier o BucketKeyStatus o ChecksumAlgorithm o ObjectAccessControlList o ObjectOwner o LifecycleExpirationDate Schedule -&gt; (structure) [required] Specifies the schedule for generating inventory results. Frequency -&gt; (string) [required] Specifies how frequently inventory results are produced. Possible values: o Daily o Weekly JSON Syntax: { "Destination": { "S3BucketDestination": { "AccountId": "string", "Bucket": "string", "Format": "CSV"|"ORC"|"Parquet", "Prefix": "string", "Encryption": { "SSES3": { }, "SSEKMS": { "KeyId": "string" } } } }, "IsEnabled": true|false, "Filter": { "Prefix": "string" }, "Id": "string", "IncludedObjectVersions": "All"|"Current", "OptionalFields": ["Size"|"LastModifiedDate"|"StorageClass"|"ETag"|"IsMultipartUploaded"|"ReplicationStatus"|"EncryptionStatus"|"ObjectLockRetainUntilDate"|"ObjectLockMode"|"ObjectLockLegalHoldStatus"|"ObjectLockEventHoldStatus"|"ObjectLockEventHoldDuration"|"IntelligentTieringAccessTier"|"BucketKeyStatus"|"ChecksumAlgorithm"|"ObjectAccessControlList"|"ObjectOwner"|"LifecycleExpirationDate", ...], "Schedule": { "Frequency": "Daily"|"Weekly" } }</param>
+    public AwsS3apiPutBucketInventoryConfigurationOptions(
+        string Bucket,
+        string Id,
+        string InventoryConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(InventoryConfiguration);
+        this.InventoryConfiguration = InventoryConfiguration;
+    }
+
+    private AwsS3apiPutBucketInventoryConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketInventoryConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketInventoryConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket where the inventory configuration will be stored. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
+    /// <summary>
+    /// The ID used to identify the inventory configuration.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// Specifies the inventory configuration. Destination -&gt; (structure) [required] Contains information about where to publish the inventory re- sults. S3BucketDestination -&gt; (structure) [required] Contains the bucket name, file format, bucket owner (op- tional), and prefix (optional) where inventory results are published. AccountId -&gt; (string) The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data. NOTE: Although this value is optional, we strongly recommend that you set it to help prevent problems if the desti- nation bucket ownership changes. Bucket -&gt; (string) [required] The Amazon Resource Name (ARN) of the bucket where inven- tory results will be published. Format -&gt; (string) [required] Specifies the output format of the inventory results. Possible values: o CSV o ORC o Parquet Prefix -&gt; (string) The prefix that is prepended to all inventory results. Encryption -&gt; (structure) Contains the type of server-side encryption used to en- crypt the inventory results. SSES3 -&gt; (structure) Specifies the use of SSE-S3 to encrypt delivered in- ventory reports. SSEKMS -&gt; (structure) Specifies the use of SSE-KMS to encrypt delivered in- ventory reports. KeyId -&gt; (string) [required] Specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key to use for encrypting inventory reports. IsEnabled -&gt; (boolean) [required] Specifies whether the inventory is enabled or disabled. If set to True , an inventory list is generated. If set to False , no inventory list is generated. Filter -&gt; (structure) Specifies an inventory filter. The inventory only includes ob- jects that meet the filter's criteria. Prefix -&gt; (string) [required] The prefix that an object must have to be included in the in- ventory results. Id -&gt; (string) [required] The ID used to identify the inventory configuration. IncludedObjectVersions -&gt; (string) [required] Object versions to include in the inventory list. If set to All , the list includes all the object versions, which adds the ver- sion-related fields VersionId , IsLatest , and DeleteMarker to the list. If set to Current , the list does not contain these version-related fields. Possible values: o All o Current OptionalFields -&gt; (list) Contains the optional fields that are included in the inventory results. NOTE: The following optional fields are supported for directory buckets Size | LastModifiedDate | StorageClass | ETag | Is- MultipartUploaded | EncryptionStatus | BucketKeyStatus | ChecksumAlgorithm | LifecycleExpirationDate. Throws Mal- formedXML error if unsupported optional field is provided. (string) Possible values: o Size o LastModifiedDate o StorageClass o ETag o IsMultipartUploaded o ReplicationStatus o EncryptionStatus o ObjectLockRetainUntilDate o ObjectLockMode o ObjectLockLegalHoldStatus o ObjectLockEventHoldStatus o ObjectLockEventHoldDuration o IntelligentTieringAccessTier o BucketKeyStatus o ChecksumAlgorithm o ObjectAccessControlList o ObjectOwner o LifecycleExpirationDate Schedule -&gt; (structure) [required] Specifies the schedule for generating inventory results. Frequency -&gt; (string) [required] Specifies how frequently inventory results are produced. Possible values: o Daily o Weekly JSON Syntax: { "Destination": { "S3BucketDestination": { "AccountId": "string", "Bucket": "string", "Format": "CSV"|"ORC"|"Parquet", "Prefix": "string", "Encryption": { "SSES3": { }, "SSEKMS": { "KeyId": "string" } } } }, "IsEnabled": true|false, "Filter": { "Prefix": "string" }, "Id": "string", "IncludedObjectVersions": "All"|"Current", "OptionalFields": ["Size"|"LastModifiedDate"|"StorageClass"|"ETag"|"IsMultipartUploaded"|"ReplicationStatus"|"EncryptionStatus"|"ObjectLockRetainUntilDate"|"ObjectLockMode"|"ObjectLockLegalHoldStatus"|"ObjectLockEventHoldStatus"|"ObjectLockEventHoldDuration"|"IntelligentTieringAccessTier"|"BucketKeyStatus"|"ChecksumAlgorithm"|"ObjectAccessControlList"|"ObjectOwner"|"LifecycleExpirationDate", ...], "Schedule": { "Frequency": "Daily"|"Weekly" } }
+    /// </summary>
     [CliOption("--inventory-configuration")]
-    public string? InventoryConfiguration { get; set; }
+    public string? InventoryConfiguration { get; private init; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied). NOTE: For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented .
@@ -41,5 +92,22 @@ public record AwsS3apiPutBucketInventoryConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

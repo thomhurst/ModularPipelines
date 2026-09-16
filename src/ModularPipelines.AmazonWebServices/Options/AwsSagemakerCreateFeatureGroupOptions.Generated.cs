@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-feature-group")]
-public record AwsSagemakerCreateFeatureGroupOptions : AwsOptions
+public record AwsSagemakerCreateFeatureGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--feature-group-name")]
-    public string? FeatureGroupName { get; set; }
-
-    [CliOption("--record-identifier-feature-name")]
-    public string? RecordIdentifierFeatureName { get; set; }
-
-    [CliOption("--event-time-feature-name")]
-    public string? EventTimeFeatureName { get; set; }
-
-    [CliOption("--feature-definitions", GroupValues = true)]
-    public IEnumerable<string>? FeatureDefinitions { get; set; }
+    private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You can turn the OnlineStore on or off by specifying True for the EnableOnlineStore flag in OnlineStoreConfig . You can also include an Amazon Web Services KMS key ID (KMSKeyId ) for at-rest encryption of the OnlineStore . The default value is False . SecurityConfig -&gt; (structure) Use to specify KMS Key ID (KMSKeyId ) for at-rest encryption of your OnlineStore . KmsKeyId -&gt; (string) The Amazon Web Services Key Management Service (KMS) key ARN that SageMaker Feature Store uses to encrypt the Amazon S3 objects at rest using Amazon S3 server-side encryption. The caller (either user or IAM role) of CreateFeatureGroup must have below permissions to the OnlineStore KmsKeyId : o "kms:Encrypt" o "kms:Decrypt" o "kms:DescribeKey" o "kms:CreateGrant" o "kms:RetireGrant" o "kms:ReEncryptFrom" o "kms:ReEncryptTo" o "kms:GenerateDataKey" o "kms:ListAliases" o "kms:ListGrants" o "kms:RevokeGrant" The caller (either user or IAM role) to all DataPlane opera- tions (PutRecord , GetRecord , DeleteRecord ) must have the following permissions to the KmsKeyId : o "kms:Decrypt" Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* EnableOnlineStore -&gt; (boolean) Turn OnlineStore off by specifying False for the EnableOnline- Store flag. Turn OnlineStore on by specifying True for the En- ableOnlineStore flag. The default value is False . TtlDuration -&gt; (structure) Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDura- tion . For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide. Unit -&gt; (string) TtlDuration time unit. Possible values: o Seconds o Minutes o Hours o Days o Weeks Value -&gt; (integer) TtlDuration time value. Constraints: o min: 1 StorageType -&gt; (string) Option for different tiers of low latency storage for real-time data retrieval. o Standard : A managed low latency data store for feature groups. o InMemory : A managed data store for feature groups that sup- ports very low latency retrieval. Possible values: o Standard o InMemory Shorthand Syntax: SecurityConfig={KmsKeyId=string},EnableOnlineStore=boolean,TtlDuration={Unit=string,Value=integer},StorageType=string JSON Syntax: { "SecurityConfig": { "KmsKeyId": "string" }, "EnableOnlineStore": true|false, "TtlDuration": { "Unit": "Seconds"|"Minutes"|"Hours"|"Days"|"Weeks", "Value": integer }, "StorageType": "Standard"|"InMemory" }
+    /// Create a new FeatureGroup . A FeatureGroup is a group of Features de- fined in the FeatureStore to describe a Record . The FeatureGroup defines the schema and features contained in the Fea- tureGroup . A FeatureGroup definition is composed of a list of Features , a RecordIdentifierFeatureName , an EventTimeFeatureName and configu- rations for its OnlineStore and OfflineStore . Check Amazon Web Ser- vices service quotas to see the FeatureGroup s quota for your Amazon Web Services account. Note th...
+    /// </summary>
+    /// <param name="FeatureGroupName">The name of the FeatureGroup . The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. The name: o Must start with an alphanumeric character. o Can only include alphanumeric characters, underscores, and hy- phens. Spaces are not allowed. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="RecordIdentifierFeatureName">The name of the Feature whose value uniquely identifies a Record de- fined in the FeatureStore . Only the latest record per identifier value will be stored in the OnlineStore . RecordIdentifierFeature- Name must be one of feature definitions' names. You use the RecordIdentifierFeatureName to access data in a Feature- Store . This name: o Must start with an alphanumeric character. o Can only contains alphanumeric characters, hyphens, underscores. Spaces are not allowed. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="EventTimeFeatureName">The name of the feature that stores the EventTime of a Record in a FeatureGroup . An EventTime is a point in time when a new event occurs that corre- sponds to the creation or update of a Record in a FeatureGroup . All Records in the FeatureGroup must have a corresponding EventTime . An EventTime can be a String or Fractional . o Fractional : EventTime feature values must be a Unix timestamp in seconds. o String : EventTime feature values must be an ISO-8601 string in the format. The following formats are supported yyyy-MM-dd'T'HH:mm:ssZ and yyyy-MM-dd'T'HH:mm:ss.SSSZ where yyyy , MM , and dd represent the year, month, and day respectively and HH , mm , ss , and if applicable, SSS represent the hour, month, sec- ond and milliseconds respsectively. 'T' and Z are constants. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="FeatureDefinitions">A list of Feature names and types. Name and Type is compulsory per Feature . Valid feature FeatureType s are Integral , Fractional and String . FeatureName s cannot be any of the following: is_deleted , write_time , api_invocation_time You can create up to 2,500 FeatureDefinition s per FeatureGroup . Constraints: o min: 1 o max: 2500 (structure) A list of features. You must include FeatureName and FeatureType . Valid feature FeatureType s are Integral , Fractional and String . FeatureName -&gt; (string) [required] The name of a feature. The type must be a string. FeatureName cannot be any of the following: is_deleted , write_time , api_invocation_time . The name: o Must start with an alphanumeric character. o Can only include alphanumeric characters, underscores, and hyphens. Spaces are not allowed. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} FeatureType -&gt; (string) [required] The value type of a feature. Valid values are Integral, Frac- tional, or String. Possible values: o Integral o Fractional o String CollectionType -&gt; (string) A grouping of elements where each element within the collec- tion must have the same feature type (String , Integral , or Fractional ). o List : An ordered collection of elements. o Set : An unordered collection of unique elements. o Vector : A specialized list that represents a fixed-size array of elements. The vector dimension is determined by you. Must have elements with fractional feature types. Possible values: o List o Set o Vector CollectionConfig -&gt; (tagged union structure) Configuration for your collection. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: VectorConfig. VectorConfig -&gt; (structure) Configuration for your vector collection type. o Dimension : The number of elements in your vector. Dimension -&gt; (integer) [required] The number of elements in your vector. Constraints: o min: 1 o max: 8192 Shorthand Syntax: FeatureName=string,FeatureType=string,CollectionType=string,CollectionConfig={VectorConfig={Dimension=integer}} ... JSON Syntax: [ { "FeatureName": "string", "FeatureType": "Integral"|"Fractional"|"String", "CollectionType": "List"|"Set"|"Vector", "CollectionConfig": { "VectorConfig": { "Dimension": integer } } } ... ]</param>
+    public AwsSagemakerCreateFeatureGroupOptions(
+        string FeatureGroupName,
+        string RecordIdentifierFeatureName,
+        string EventTimeFeatureName,
+        IEnumerable<string> FeatureDefinitions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FeatureGroupName);
+        this.FeatureGroupName = FeatureGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(RecordIdentifierFeatureName);
+        this.RecordIdentifierFeatureName = RecordIdentifierFeatureName;
+        global::System.ArgumentNullException.ThrowIfNull(EventTimeFeatureName);
+        this.EventTimeFeatureName = EventTimeFeatureName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FeatureDefinitions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FeatureDefinitions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FeatureDefinitions));
+            }
+
+            FeatureDefinitions = materialized;
+        }
+        this.FeatureDefinitions = FeatureDefinitions;
+    }
+
+    private AwsSagemakerCreateFeatureGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateFeatureGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateFeatureGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the FeatureGroup . The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. The name: o Must start with an alphanumeric character. o Can only include alphanumeric characters, underscores, and hy- phens. Spaces are not allowed. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63}
+    /// </summary>
+    [CliOption("--feature-group-name")]
+    public string? FeatureGroupName { get; private init; }
+
+    /// <summary>
+    /// The name of the Feature whose value uniquely identifies a Record de- fined in the FeatureStore . Only the latest record per identifier value will be stored in the OnlineStore . RecordIdentifierFeature- Name must be one of feature definitions' names. You use the RecordIdentifierFeatureName to access data in a Feature- Store . This name: o Must start with an alphanumeric character. o Can only contains alphanumeric characters, hyphens, underscores. Spaces are not allowed. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}
+    /// </summary>
+    [CliOption("--record-identifier-feature-name")]
+    public string? RecordIdentifierFeatureName { get; private init; }
+
+    /// <summary>
+    /// The name of the feature that stores the EventTime of a Record in a FeatureGroup . An EventTime is a point in time when a new event occurs that corre- sponds to the creation or update of a Record in a FeatureGroup . All Records in the FeatureGroup must have a corresponding EventTime . An EventTime can be a String or Fractional . o Fractional : EventTime feature values must be a Unix timestamp in seconds. o String : EventTime feature values must be an ISO-8601 string in the format. The following formats are supported yyyy-MM-dd'T'HH:mm:ssZ and yyyy-MM-dd'T'HH:mm:ss.SSSZ where yyyy , MM , and dd represent the year, month, and day respectively and HH , mm , ss , and if applicable, SSS represent the hour, month, sec- ond and milliseconds respsectively. 'T' and Z are constants. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}
+    /// </summary>
+    [CliOption("--event-time-feature-name")]
+    public string? EventTimeFeatureName { get; private init; }
+
+    /// <summary>
+    /// A list of Feature names and types. Name and Type is compulsory per Feature . Valid feature FeatureType s are Integral , Fractional and String . FeatureName s cannot be any of the following: is_deleted , write_time , api_invocation_time You can create up to 2,500 FeatureDefinition s per FeatureGroup . Constraints: o min: 1 o max: 2500 (structure) A list of features. You must include FeatureName and FeatureType . Valid feature FeatureType s are Integral , Fractional and String . FeatureName -&gt; (string) [required] The name of a feature. The type must be a string. FeatureName cannot be any of the following: is_deleted , write_time , api_invocation_time . The name: o Must start with an alphanumeric character. o Can only include alphanumeric characters, underscores, and hyphens. Spaces are not allowed. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} FeatureType -&gt; (string) [required] The value type of a feature. Valid values are Integral, Frac- tional, or String. Possible values: o Integral o Fractional o String CollectionType -&gt; (string) A grouping of elements where each element within the collec- tion must have the same feature type (String , Integral , or Fractional ). o List : An ordered collection of elements. o Set : An unordered collection of unique elements. o Vector : A specialized list that represents a fixed-size array of elements. The vector dimension is determined by you. Must have elements with fractional feature types. Possible values: o List o Set o Vector CollectionConfig -&gt; (tagged union structure) Configuration for your collection. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: VectorConfig. VectorConfig -&gt; (structure) Configuration for your vector collection type. o Dimension : The number of elements in your vector. Dimension -&gt; (integer) [required] The number of elements in your vector. Constraints: o min: 1 o max: 8192 Shorthand Syntax: FeatureName=string,FeatureType=string,CollectionType=string,CollectionConfig={VectorConfig={Dimension=integer}} ... JSON Syntax: [ { "FeatureName": "string", "FeatureType": "Integral"|"Fractional"|"String", "CollectionType": "List"|"Set"|"Vector", "CollectionConfig": { "VectorConfig": { "Dimension": integer } } } ... ]
+    /// </summary>
+    [CliOption("--feature-definitions", GroupValues = true)]
+    public IEnumerable<string>? FeatureDefinitions { get; private init; }
+
+    /// <summary>
+    /// You can turn the OnlineStore on or off by specifying True for the EnableOnlineStore flag in OnlineStoreConfig . You can also include an Amazon Web Services KMS key ID (KMSKeyId ) for at-rest encryption of the OnlineStore . The default value is False . SecurityConfig -&gt; (structure) Use to specify KMS Key ID (KMSKeyId ) for at-rest encryption of your OnlineStore . KmsKeyId -&gt; (string) The Amazon Web Services Key Management Service (KMS) key ARN that SageMaker Feature Store uses to encrypt the Amazon S3 objects at rest using Amazon S3 server-side encryption. The caller (either user or IAM role) of CreateFeatureGroup must have below permissions to the OnlineStore KmsKeyId : o "kms:Encrypt" o "kms:Decrypt" o "kms:DescribeKey" o "kms:CreateGrant" o "kms:RetireGrant" o "kms:ReEncryptFrom" o "kms:ReEncryptTo" o "kms:GenerateDataKey" o "kms:ListAliases" o "kms:ListGrants" o "kms:RevokeGrant" The caller (either user or IAM role) to all DataPlane opera- tions (PutRecord , GetRecord , DeleteRecord ) must have the following permissions to the KmsKeyId : o "kms:Decrypt" Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* EnableOnlineStore -&gt; (boolean) Turn OnlineStore off by specifying False for the EnableOnline- Store flag. Turn OnlineStore on by specifying True for the En- ableOnlineStore flag. The default value is False . TtlDuration -&gt; (structure) Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDura- tion . For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide. Unit -&gt; (string) TtlDuration time unit. Possible values: o Seconds o Minutes o Hours o Days o Weeks Value -&gt; (integer) TtlDuration time value. Constraints: o min: 1 StorageType -&gt; (string) Option for different tiers of low latency storage for real-time data retrieval. o Standard : A managed low latency data store for feature groups. o Standard_V2 : A managed low latency data store for feature groups that supports partial updates to individual features using the UpdateRecord operation. Choose this storage type at feature group creation time if your use case requires updating specific feature values without rewriting the entire record. o InMemory : A managed data store for feature groups that sup- ports very low latency retrieval. Possible values: o Standard o Standard_V2 o InMemory Shorthand Syntax: SecurityConfig={KmsKeyId=string},EnableOnlineStore=boolean,TtlDuration={Unit=string,Value=integer},StorageType=string JSON Syntax: { "SecurityConfig": { "KmsKeyId": "string" }, "EnableOnlineStore": true|false, "TtlDuration": { "Unit": "Seconds"|"Minutes"|"Hours"|"Days"|"Weeks", "Value": integer }, "StorageType": "Standard"|"Standard_V2"|"InMemory" }
     /// </summary>
     [CliOption("--online-store-config")]
     public string? OnlineStoreConfig { get; set; }
@@ -74,5 +143,22 @@ public record AwsSagemakerCreateFeatureGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

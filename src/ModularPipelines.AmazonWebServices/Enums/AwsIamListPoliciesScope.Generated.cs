@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIamListPoliciesScope
 {
     [EnumValue("All")]
-    All = 1,
+    All,
 
     [EnumValue("AWS")]
-    Aws = 2,
+    Aws,
 
     [EnumValue("Local")]
-    Local = 3
+    Local
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,8 +23,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "create-app")]
-public record AwsResiliencehubCreateAppOptions : AwsOptions
+public record AwsResiliencehubCreateAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Re- silience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elast...
+    /// </summary>
+    /// <param name="Name">Name of the application. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
+    public AwsResiliencehubCreateAppOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsResiliencehubCreateAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubCreateAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubCreateAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the application. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// Assessment execution schedule with 'Daily' or 'Disabled' values. Possible values: o Disabled o Daily
     /// </summary>
@@ -55,9 +95,6 @@ public record AwsResiliencehubCreateAppOptions : AwsOptions
     [CliOption("--event-subscriptions", GroupValues = true)]
     public IEnumerable<string>? EventSubscriptions { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// Defines the roles and credentials that Resilience Hub would use while creating the application, importing its resources, and running an assessment. crossAccountRoleArns -&gt; (list) Defines a list of role Amazon Resource Names (ARNs) to be used in other accounts. These ARNs are used for querying purposes while importing resources and assessing your application. NOTE: o These ARNs are required only when your resources are in other accounts and you have different role name in these accounts. Else, the invoker role name will be used in the other accounts. o These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):iam::[0-9]{12}:role/(([^/][!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64}$ invokerRoleName -&gt; (string) Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Ser- vice Principle to obtain a read-only access to your application resources while running an assessment. If your IAM role includes a path, you must include the path in the invokerRoleName parameter. For example, if your IAM role's ARN is arn:aws:iam:123456789012:role/my-path/role-name , you should pass my-path/role-name . NOTE: o You must have iam:passRole permission for this role while creating or updating the application. o Currently, invokerRoleName accepts only [A-Za-z0-9_+=,.@-] characters. Constraints: o pattern: ^([^/]([!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64}$ type -&gt; (string) [required] Defines how Resilience Hub scans your resources. It can scan for the resources by using a pre-existing role in your Amazon Web Services account, or by using the credentials of the current IAM user. Possible values: o LegacyIAMUser o RoleBased Shorthand Syntax: crossAccountRoleArns=string,string,invokerRoleName=string,type=string JSON Syntax: { "crossAccountRoleArns": ["string", ...], "invokerRoleName": "string", "type": "LegacyIAMUser"|"RoleBased" }
     /// </summary>
@@ -81,5 +118,22 @@ public record AwsResiliencehubCreateAppOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

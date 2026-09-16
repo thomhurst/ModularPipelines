@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "get-top-path-statistics-by-traffic")]
-public record AwsWafv2GetTopPathStatisticsByTrafficOptions : AwsOptions
+public record AwsWafv2GetTopPathStatisticsByTrafficOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--web-acl-arn")]
-    public string? WebAclArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves aggregated statistics about the top URI paths accessed by bot traffic for a specified web ACL and time window. You can use this oper- ation to analyze which paths on your web application receive the most bot traffic and identify the specific bots accessing those paths. The operation supports filtering by bot category, organization, or name, and allows you to drill down into specific path prefixes to view de- tailed URI-level statistics. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WebAclArn">The Amazon Resource Name (ARN) of the web ACL for which you want to retrieve path statistics. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="Scope">Specifies whether the web ACL is for an Amazon Web Services Cloud- Front distribution or for a regional application. A regional appli- cation can be an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an Amazon Web Services App Runner ser- vice, or an Amazon Web Services Verified Access instance. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="TimeWindow">The time window for which you want to retrieve path statistics. The time window must be within the data retention period for your web ACL. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }</param>
+    /// <param name="Limit">The maximum number of path statistics to return. Valid values are 1 to 100. Constraints: o min: 1 o max: 100</param>
+    /// <param name="NumberOfTopTrafficBotsPerPath">The maximum number of top bots to include in the statistics for each path. Valid values are 1 to 10. Constraints: o min: 1 o max: 10</param>
+    public AwsWafv2GetTopPathStatisticsByTrafficOptions(
+        string WebAclArn,
+        AwsWafv2GetTopPathStatisticsByTrafficScope Scope,
+        string TimeWindow,
+        int Limit,
+        int NumberOfTopTrafficBotsPerPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebAclArn);
+        this.WebAclArn = WebAclArn;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(TimeWindow);
+        this.TimeWindow = TimeWindow;
+        this.Limit = Limit;
+        this.NumberOfTopTrafficBotsPerPath = NumberOfTopTrafficBotsPerPath;
+    }
+
+    private AwsWafv2GetTopPathStatisticsByTrafficOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2GetTopPathStatisticsByTrafficOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2GetTopPathStatisticsByTrafficOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the web ACL for which you want to retrieve path statistics. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--web-acl-arn")]
+    public string? WebAclArn { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the web ACL is for an Amazon Web Services Cloud- Front distribution or for a regional application. A regional appli- cation can be an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an Amazon Web Services App Runner ser- vice, or an Amazon Web Services Verified Access instance. Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsWafv2GetTopPathStatisticsByTrafficScope? Scope { get; private init; }
+
+    /// <summary>
+    /// The time window for which you want to retrieve path statistics. The time window must be within the data retention period for your web ACL. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }
+    /// </summary>
+    [CliOption("--time-window")]
+    public string? TimeWindow { get; private init; }
+
+    /// <summary>
+    /// The maximum number of path statistics to return. Valid values are 1 to 100. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--limit")]
+    public int? Limit { get; private init; }
+
+    /// <summary>
+    /// The maximum number of top bots to include in the statistics for each path. Valid values are 1 to 10. Constraints: o min: 1 o max: 10
+    /// </summary>
+    [CliOption("--number-of-top-traffic-bots-per-path")]
+    public int? NumberOfTopTrafficBotsPerPath { get; private init; }
 
     /// <summary>
     /// A URI path prefix to filter the results. When you specify this para- meter, the operation returns statistics for individual URIs within the specified path prefix. For example, if you specify /api , the response includes statistics for paths like /api/v1/users and /api/v2/orders . If you don't specify this parameter, the operation returns top-level path statistics. Constraints: o min: 1 o max: 512 o pattern: ^\/[^ ]*$
     /// </summary>
     [CliOption("--uri-path-prefix")]
     public string? UriPathPrefix { get; set; }
-
-    [CliOption("--time-window")]
-    public string? TimeWindow { get; set; }
 
     /// <summary>
     /// Filters the results to include only traffic from bots in the speci- fied category. For example, you can filter by ai to see only AI crawler traffic, or search_engine to see only search engine bot traffic. When you apply this filter, the Source field is populated in the response. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
@@ -54,12 +124,6 @@ public record AwsWafv2GetTopPathStatisticsByTrafficOptions : AwsOptions
     [CliOption("--bot-name")]
     public string? BotName { get; set; }
 
-    [CliOption("--limit")]
-    public int? Limit { get; set; }
-
-    [CliOption("--number-of-top-traffic-bots-per-path")]
-    public int? NumberOfTopTrafficBotsPerPath { get; set; }
-
     /// <summary>
     /// When you request a list of objects with a Limit setting, if the num- ber of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
     /// </summary>
@@ -71,5 +135,22 @@ public record AwsWafv2GetTopPathStatisticsByTrafficOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

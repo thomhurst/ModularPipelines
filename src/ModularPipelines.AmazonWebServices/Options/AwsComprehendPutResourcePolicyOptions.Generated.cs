@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "put-resource-policy")]
-public record AwsComprehendPutResourcePolicyOptions : AwsOptions
+public record AwsComprehendPutResourcePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Attaches a resource-based policy to a custom model. You can use this policy to authorize an entity in another Amazon Web Services account to import the custom model, which replicates it in Amazon Comprehend in their account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the custom model to attach the policy to. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier|entity-recog- nizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?</param>
+    /// <param name="ResourcePolicy">The JSON resource-based policy to attach to your custom model. Pro- vide your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON for your policy, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy: "{\"attribute\": \"value\", \"attribute\": [\"value\"]}" To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values: '{"attribute": "value", "attribute": ["value"]}' Constraints: o min: 1 o max: 20000 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    public AwsComprehendPutResourcePolicyOptions(
+        string ResourceArn,
+        string ResourcePolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(ResourcePolicy);
+        this.ResourcePolicy = ResourcePolicy;
+    }
+
+    private AwsComprehendPutResourcePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendPutResourcePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendPutResourcePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the custom model to attach the policy to. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier|entity-recog- nizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The JSON resource-based policy to attach to your custom model. Pro- vide your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON for your policy, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy: "{\"attribute\": \"value\", \"attribute\": [\"value\"]}" To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values: '{"attribute": "value", "attribute": ["value"]}' Constraints: o min: 1 o max: 20000 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// </summary>
     [CliOption("--resource-policy")]
-    public string? ResourcePolicy { get; set; }
+    public string? ResourcePolicy { get; private init; }
 
     /// <summary>
     /// The revision ID that Amazon Comprehend assigned to the policy that you are updating. If you are creating a new policy that has no prior version, don't use this parameter. Amazon Comprehend creates the re- vision ID for you. Constraints: o max: 64 o pattern: [0-9A-Fa-f]+
@@ -38,5 +82,22 @@ public record AwsComprehendPutResourcePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

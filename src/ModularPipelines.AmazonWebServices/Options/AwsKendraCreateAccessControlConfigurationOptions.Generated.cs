@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "create-access-control-configuration")]
-public record AwsKendraCreateAccessControlConfigurationOptions : AwsOptions
+public record AwsKendraCreateAccessControlConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an access configuration for your documents. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these...
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index to create an access control configura- tion for your documents. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Name">A name for the access control configuration. Constraints: o min: 1 o max: 200 o pattern: [\S\s]*</param>
+    public AwsKendraCreateAccessControlConfigurationOptions(
+        string IndexId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsKendraCreateAccessControlConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraCreateAccessControlConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraCreateAccessControlConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index to create an access control configura- tion for your documents. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
+    [CliOption("--index-id")]
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// A name for the access control configuration. Constraints: o min: 1 o max: 200 o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A description for the access control configuration. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
@@ -58,5 +102,22 @@ public record AwsKendraCreateAccessControlConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

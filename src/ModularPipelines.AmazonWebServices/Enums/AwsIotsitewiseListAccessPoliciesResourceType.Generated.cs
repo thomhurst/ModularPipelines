@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseListAccessPoliciesResourceType
 {
     [EnumValue("PORTAL")]
-    Portal = 1,
+    Portal,
 
     [EnumValue("PROJECT")]
-    Project = 2
+    Project
 }

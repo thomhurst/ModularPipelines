@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography-data", "generate-as2805-kek-validation")]
-public record AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions : AwsOptions
+public record AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a KekValidationRequest or a KekValidationResponse for node-to-node initialization between payment processing nodes using Australian Standard 2805 (AS2805) . During node-to-node initialization, both communicating nodes must vali- date that they possess the correct Key Encrypting Keys (KEKs) before proceeding with session key exchange. In AS2805, the sending KEK (KEKs) of one node corresponds to the receiving KEK (KEKr) of its partner node. Each node uses its KEK to encrypt and decrypt s...
+    /// </summary>
+    /// <param name="KeyIdentifier">The keyARN of sending KEK that Amazon Web Services Payment Cryptog- raphy uses for node-to-node initialization Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="KekValidationType">Defines whether to generate a KEK validation request or KEK valida- tion response for node-to-node initialization. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: KekValidationRequest, KekValidationRe- sponse. KekValidationRequest -&gt; (structure) Parameter information for generating a KEK validation request during node-to-node initialization. DeriveKeyAlgorithm -&gt; (string) [required] The key derivation algorithm to use for generating a KEK val- idation request. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 RandomKeyMaxLength -&gt; (string) The maximum length of the random key to generate for a KEK validation request. Possible values: o BYTES_8 o BYTES_16 o BYTES_24 KekValidationResponse -&gt; (structure) Parameter information for generating a KEK validation response during node-to-node initialization. RandomKeySend -&gt; (string) [required] The random key send value received from the initiating node to generate a KEK validation response. Constraints: o min: 16 o max: 48 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}|[0-9a-fA-F]{48}) Shorthand Syntax: KekValidationRequest={DeriveKeyAlgorithm=string,RandomKeyMaxLength=string},KekValidationResponse={RandomKeySend=string} JSON Syntax: { "KekValidationRequest": { "DeriveKeyAlgorithm": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"HMAC_SHA224", "RandomKeyMaxLength": "BYTES_8"|"BYTES_16"|"BYTES_24" }, "KekValidationResponse": { "RandomKeySend": "string" } }</param>
+    /// <param name="RandomKeySendVariantMask">The key variant to use for generating a random key for KEK valida- tion during node-to-node initialization. Possible values: o VARIANT_MASK_82C0 o VARIANT_MASK_82</param>
+    public AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions(
+        string KeyIdentifier,
+        string KekValidationType,
+        AwsPaymentCryptographyDataGenerateAs2805KekValidationRandomKeySendVariantMask RandomKeySendVariantMask
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyIdentifier);
+        this.KeyIdentifier = KeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(KekValidationType);
+        this.KekValidationType = KekValidationType;
+        global::System.ArgumentNullException.ThrowIfNull(RandomKeySendVariantMask);
+        this.RandomKeySendVariantMask = RandomKeySendVariantMask;
+    }
+
+    private AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The keyARN of sending KEK that Amazon Web Services Payment Cryptog- raphy uses for node-to-node initialization Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--key-identifier")]
-    public string? KeyIdentifier { get; set; }
+    public string? KeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// Defines whether to generate a KEK validation request or KEK valida- tion response for node-to-node initialization. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: KekValidationRequest, KekValidationRe- sponse. KekValidationRequest -&gt; (structure) Parameter information for generating a KEK validation request during node-to-node initialization. DeriveKeyAlgorithm -&gt; (string) [required] The key derivation algorithm to use for generating a KEK val- idation request. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 RandomKeyMaxLength -&gt; (string) The maximum length of the random key to generate for a KEK validation request. Possible values: o BYTES_8 o BYTES_16 o BYTES_24 KekValidationResponse -&gt; (structure) Parameter information for generating a KEK validation response during node-to-node initialization. RandomKeySend -&gt; (string) [required] The random key send value received from the initiating node to generate a KEK validation response. Constraints: o min: 16 o max: 48 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}|[0-9a-fA-F]{48}) Shorthand Syntax: KekValidationRequest={DeriveKeyAlgorithm=string,RandomKeyMaxLength=string},KekValidationResponse={RandomKeySend=string} JSON Syntax: { "KekValidationRequest": { "DeriveKeyAlgorithm": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"HMAC_SHA224", "RandomKeyMaxLength": "BYTES_8"|"BYTES_16"|"BYTES_24" }, "KekValidationResponse": { "RandomKeySend": "string" } }
+    /// </summary>
     [CliOption("--kek-validation-type")]
-    public string? KekValidationType { get; set; }
+    public string? KekValidationType { get; private init; }
 
+    /// <summary>
+    /// The key variant to use for generating a random key for KEK valida- tion during node-to-node initialization. Possible values: o VARIANT_MASK_82C0 o VARIANT_MASK_82
+    /// </summary>
     [CliOption("--random-key-send-variant-mask")]
-    public string? RandomKeySendVariantMask { get; set; }
+    public AwsPaymentCryptographyDataGenerateAs2805KekValidationRandomKeySendVariantMask? RandomKeySendVariantMask { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

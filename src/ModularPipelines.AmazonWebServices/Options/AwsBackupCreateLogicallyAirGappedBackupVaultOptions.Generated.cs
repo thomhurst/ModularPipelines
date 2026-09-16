@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "create-logically-air-gapped-backup-vault")]
-public record AwsBackupCreateLogicallyAirGappedBackupVaultOptions : AwsOptions
+public record AwsBackupCreateLogicallyAirGappedBackupVaultOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of reten- tion days, the minimum number of retention days, and optionally can in- clude tags and a creator request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are cre- ated. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="MinRetentionDays">This setting specifies the minimum retention period that the vault retains its recovery points. The minimum value accepted is 7 days.</param>
+    /// <param name="MaxRetentionDays">The maximum retention period that the vault retains its recovery points.</param>
+    public AwsBackupCreateLogicallyAirGappedBackupVaultOptions(
+        string BackupVaultName,
+        int MinRetentionDays,
+        int MaxRetentionDays
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
+        this.BackupVaultName = BackupVaultName;
+        this.MinRetentionDays = MinRetentionDays;
+        this.MaxRetentionDays = MaxRetentionDays;
+    }
+
+    private AwsBackupCreateLogicallyAirGappedBackupVaultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCreateLogicallyAirGappedBackupVaultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCreateLogicallyAirGappedBackupVaultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are cre- ated. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// </summary>
     [CliOption("--backup-vault-name")]
-    public string? BackupVaultName { get; set; }
+    public string? BackupVaultName { get; private init; }
+
+    /// <summary>
+    /// This setting specifies the minimum retention period that the vault retains its recovery points. The minimum value accepted is 7 days.
+    /// </summary>
+    [CliOption("--min-retention-days")]
+    public int? MinRetentionDays { get; private init; }
+
+    /// <summary>
+    /// The maximum retention period that the vault retains its recovery points.
+    /// </summary>
+    [CliOption("--max-retention-days")]
+    public int? MaxRetentionDays { get; private init; }
 
     /// <summary>
     /// The tags to assign to the vault. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -37,12 +92,6 @@ public record AwsBackupCreateLogicallyAirGappedBackupVaultOptions : AwsOptions
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CliOption("--min-retention-days")]
-    public int? MinRetentionDays { get; set; }
-
-    [CliOption("--max-retention-days")]
-    public int? MaxRetentionDays { get; set; }
-
     /// <summary>
     /// The ARN of the customer-managed KMS key to use for encrypting the logically air-gapped backup vault. If not specified, the vault will be encrypted with an Amazon Web Services-owned key managed by Amazon Web Services Backup.
     /// </summary>
@@ -54,5 +103,22 @@ public record AwsBackupCreateLogicallyAirGappedBackupVaultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

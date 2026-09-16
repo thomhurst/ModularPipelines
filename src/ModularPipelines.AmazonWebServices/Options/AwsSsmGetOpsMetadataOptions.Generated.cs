@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-ops-metadata")]
-public record AwsSsmGetOpsMetadataOptions : AwsOptions
+public record AwsSsmGetOpsMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// View operational metadata related to an application in Application Man- ager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OpsMetadataArn">The Amazon Resource Name (ARN) of an OpsMetadata Object to view. Constraints: o min: 1 o max: 1011 o pattern: arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmeta- data\/([a-zA-Z0-9-_\.\/]*)</param>
+    public AwsSsmGetOpsMetadataOptions(
+        string OpsMetadataArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OpsMetadataArn);
+        this.OpsMetadataArn = OpsMetadataArn;
+    }
+
+    private AwsSsmGetOpsMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetOpsMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetOpsMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an OpsMetadata Object to view. Constraints: o min: 1 o max: 1011 o pattern: arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmeta- data\/([a-zA-Z0-9-_\.\/]*)
+    /// </summary>
     [CliOption("--ops-metadata-arn")]
-    public string? OpsMetadataArn { get; set; }
+    public string? OpsMetadataArn { get; private init; }
 
     /// <summary>
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. Constraints: o min: 1 o max: 10
@@ -43,5 +80,22 @@ public record AwsSsmGetOpsMetadataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

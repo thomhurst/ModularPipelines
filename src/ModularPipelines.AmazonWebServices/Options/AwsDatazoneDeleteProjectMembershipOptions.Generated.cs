@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "delete-project-membership")]
-public record AwsDatazoneDeleteProjectMembershipOptions : AwsOptions
+public record AwsDatazoneDeleteProjectMembershipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes project membership in Amazon DataZone. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where project membership is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="ProjectIdentifier">The ID of the Amazon DataZone project the membership to which is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Member">The project member whose project membership is deleted. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userIdentifier, groupIdentifier. userIdentifier -&gt; (string) The user ID of a project member. groupIdentifier -&gt; (string) The ID of the group of a project member. Shorthand Syntax: userIdentifier=string,groupIdentifier=string JSON Syntax: { "userIdentifier": "string", "groupIdentifier": "string" }</param>
+    public AwsDatazoneDeleteProjectMembershipOptions(
+        string DomainIdentifier,
+        string ProjectIdentifier,
+        string Member
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectIdentifier);
+        this.ProjectIdentifier = ProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Member);
+        this.Member = Member;
+    }
+
+    private AwsDatazoneDeleteProjectMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneDeleteProjectMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneDeleteProjectMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain where project membership is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID of the Amazon DataZone project the membership to which is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--project-identifier")]
-    public string? ProjectIdentifier { get; set; }
+    public string? ProjectIdentifier { get; private init; }
 
+    /// <summary>
+    /// The project member whose project membership is deleted. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userIdentifier, groupIdentifier. userIdentifier -&gt; (string) The user ID of a project member. groupIdentifier -&gt; (string) The ID of the group of a project member. Shorthand Syntax: userIdentifier=string,groupIdentifier=string JSON Syntax: { "userIdentifier": "string", "groupIdentifier": "string" }
+    /// </summary>
     [CliOption("--member")]
-    public string? Member { get; set; }
+    public string? Member { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

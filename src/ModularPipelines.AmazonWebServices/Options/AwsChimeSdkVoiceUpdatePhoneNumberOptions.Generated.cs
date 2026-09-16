@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "update-phone-number")]
-public record AwsChimeSdkVoiceUpdatePhoneNumberOptions : AwsOptions
+public record AwsChimeSdkVoiceUpdatePhoneNumberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Me- dia Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pend- ing updates to outbound calling names must b...
+    /// </summary>
+    /// <param name="PhoneNumberId">The phone number ID. Constraints: o pattern: .*\S.*</param>
+    public AwsChimeSdkVoiceUpdatePhoneNumberOptions(
+        string PhoneNumberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PhoneNumberId);
+        this.PhoneNumberId = PhoneNumberId;
+    }
+
+    private AwsChimeSdkVoiceUpdatePhoneNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceUpdatePhoneNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceUpdatePhoneNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The phone number ID. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--phone-number-id")]
-    public string? PhoneNumberId { get; set; }
+    public string? PhoneNumberId { get; private init; }
 
     /// <summary>
     /// The product type. Possible values: o VoiceConnector o SipMediaApplicationDialIn
@@ -48,5 +85,22 @@ public record AwsChimeSdkVoiceUpdatePhoneNumberOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

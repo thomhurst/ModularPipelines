@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --labelsize.
+/// Allowed values for --label-size.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoMapsGetStaticMapLabelSize
 {
-    [EnumValue("Small")]
-    Small = 1,
-
     [EnumValue("Large")]
-    Large = 2
+    Large,
+
+    [EnumValue("Small")]
+    Small
 }

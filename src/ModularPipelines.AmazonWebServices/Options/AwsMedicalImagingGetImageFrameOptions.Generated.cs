@@ -21,13 +21,60 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medical-imaging", "get-image-frame")]
 public record AwsMedicalImagingGetImageFrameOptions : AwsOptions
 {
+    /// <summary>
+    /// Get an image frame (pixel data) for an image set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="ImageSetId">The image set identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="ImageFrameInformation">Information about the image frame (pixel data) identifier. imageFrameId -&gt; (string) [required] The image frame (pixel data) identifier. Constraints: o pattern: [0-9a-z]{32} Shorthand Syntax: imageFrameId=string JSON Syntax: { "imageFrameId": "string" } outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsMedicalImagingGetImageFrameOptions(
+        string DatastoreId,
+        string ImageSetId,
+        string ImageFrameInformation,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+        global::System.ArgumentNullException.ThrowIfNull(ImageSetId);
+        this.ImageSetId = ImageSetId;
+        global::System.ArgumentNullException.ThrowIfNull(ImageFrameInformation);
+        this.ImageFrameInformation = ImageFrameInformation;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string DatastoreId, out string ImageSetId, out string ImageFrameInformation, out string Outfile)
+    {
+        DatastoreId = this.DatastoreId;
+        ImageSetId = this.ImageSetId;
+        ImageFrameInformation = this.ImageFrameInformation;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
     [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
+    public string DatastoreId { get; private init; }
 
+    /// <summary>
+    /// The image set identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
     [CliOption("--image-set-id")]
-    public string? ImageSetId { get; set; }
+    public string ImageSetId { get; private init; }
 
+    /// <summary>
+    /// Information about the image frame (pixel data) identifier. imageFrameId -&gt; (string) [required] The image frame (pixel data) identifier. Constraints: o pattern: [0-9a-z]{32} Shorthand Syntax: imageFrameId=string JSON Syntax: { "imageFrameId": "string" } outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--image-frame-information")]
-    public string? ImageFrameInformation { get; set; }
+    public string ImageFrameInformation { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elementalinference", "create-dictionary")]
-public record AwsElementalinferenceCreateDictionaryOptions : AwsOptions
+public record AwsElementalinferenceCreateDictionaryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles out- put. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A user-friendly name for this dictionary. Constraints: o pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?</param>
+    /// <param name="Language">The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por. Possible values: o eng o fra o ita o deu o spa o por</param>
+    public AwsElementalinferenceCreateDictionaryOptions(
+        string Name,
+        AwsElementalinferenceCreateDictionaryLanguage Language
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Language);
+        this.Language = Language;
+    }
+
+    private AwsElementalinferenceCreateDictionaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElementalinferenceCreateDictionaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElementalinferenceCreateDictionaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-friendly name for this dictionary. Constraints: o pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por. Possible values: o eng o fra o ita o deu o spa o por
+    /// </summary>
     [CliOption("--language")]
-    public string? Language { get; set; }
+    public AwsElementalinferenceCreateDictionaryLanguage? Language { get; private init; }
 
     /// <summary>
     /// The dictionary entries payload. Contains the custom words and phrases for the dictionary. Maximum size is 40,960 characters. Constraints: o min: 0 o max: 40960
@@ -45,5 +90,22 @@ public record AwsElementalinferenceCreateDictionaryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

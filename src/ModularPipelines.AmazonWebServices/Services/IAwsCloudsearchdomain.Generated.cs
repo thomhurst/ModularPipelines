@@ -22,13 +22,23 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsCloudsearchdomain
 {
     /// <summary>
+    /// Retrieves a list of documents that match the specified search criteria. How you specify the search criteria depends on which query parser you use. Amazon CloudSearch supports four query parsers: o simple : search all text and text-array fields for the specified string. Search for phrases, individual terms, and prefixes. o structured : search specific fields, construct compound queries using Boolean operators, and use advanced features such as term boosting and proximity searching. o lucene : spe...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> SearchAsync(AwsCloudsearchdomainSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Retrieves autocomplete suggestions for a partial query string. You can use suggestions enable you to display likely matches before users fin- ish typing. In Amazon CloudSearch, suggestions are based on the con- tents of a particular text field. When you request suggestions, Amazon CloudSearch finds all of the documents whose values in the suggester field start with the specified query string. The beginning of the field must match the query string to be considered a match. For more information ab...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SuggestAsync(AwsCloudsearchdomainSuggestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SuggestAsync(AwsCloudsearchdomainSuggestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +48,7 @@ public interface IAwsCloudsearchdomain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UploadDocumentsAsync(AwsCloudsearchdomainUploadDocumentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UploadDocumentsAsync(AwsCloudsearchdomainUploadDocumentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

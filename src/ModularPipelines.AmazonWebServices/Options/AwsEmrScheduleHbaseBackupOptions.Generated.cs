@@ -21,20 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr", "schedule-hbase-backup")]
 public record AwsEmrScheduleHbaseBackupOptions : AwsOptions
 {
+    /// <summary>
+    /// Adds a step to schedule automated HBase backup. This command is only available when using Amazon EMR versionsearlier than 4.0.
+    /// </summary>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    /// <param name="Type">Backup type. You can specify 'incremental' or 'full'.</param>
+    /// <param name="Dir">The Amazon S3 location of the Hbase backup. Example: s3://my- bucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.</param>
+    /// <param name="Interval">The time between backups.</param>
+    /// <param name="Unit">The time unit for backup's time-interval. You can specify one of the following values: 'minutes', 'hours', or 'days'.</param>
+    public AwsEmrScheduleHbaseBackupOptions(
+        string ClusterId,
+        string Type,
+        string Dir,
+        string Interval,
+        string Unit
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Dir);
+        this.Dir = Dir;
+        global::System.ArgumentNullException.ThrowIfNull(Interval);
+        this.Interval = Interval;
+        global::System.ArgumentNullException.ThrowIfNull(Unit);
+        this.Unit = Unit;
+    }
+
+    public void Deconstruct(out string ClusterId, out string Type, out string Dir, out string Interval, out string Unit)
+    {
+        ClusterId = this.ClusterId;
+        Type = this.Type;
+        Dir = this.Dir;
+        Interval = this.Interval;
+        Unit = this.Unit;
+    }
+
+    /// <summary>
+    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// </summary>
     [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    public string ClusterId { get; private init; }
 
+    /// <summary>
+    /// Backup type. You can specify 'incremental' or 'full'.
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string Type { get; private init; }
 
+    /// <summary>
+    /// The Amazon S3 location of the Hbase backup. Example: s3://my- bucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.
+    /// </summary>
     [CliOption("--dir")]
-    public string? Dir { get; set; }
+    public string Dir { get; private init; }
 
+    /// <summary>
+    /// The time between backups.
+    /// </summary>
     [CliOption("--interval")]
-    public string? Interval { get; set; }
+    public string Interval { get; private init; }
 
+    /// <summary>
+    /// The time unit for backup's time-interval. You can specify one of the following values: 'minutes', 'hours', or 'days'.
+    /// </summary>
     [CliOption("--unit")]
-    public string? Unit { get; set; }
+    public string Unit { get; private init; }
 
     /// <summary>
     /// The time of the first backup in ISO format. e.g. 2014-04-21T05:26:10Z. Default is now.

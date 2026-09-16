@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --xksproxyconnectivity.
+/// Allowed values for --xks-proxy-connectivity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsCreateCustomKeyStoreXksProxyConnectivity
 {
     [EnumValue("PUBLIC_ENDPOINT")]
-    PublicEndpoint = 1,
+    PublicEndpoint,
 
     [EnumValue("VPC_ENDPOINT_SERVICE")]
-    VpcEndpointService = 2
+    VpcEndpointService
 }

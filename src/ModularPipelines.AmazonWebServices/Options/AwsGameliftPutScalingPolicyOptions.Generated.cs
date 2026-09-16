@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "put-scaling-policy")]
-public record AwsGameliftPutScalingPolicyOptions : AwsOptions
+public record AwsGameliftPutScalingPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Container Creates or updates a scaling policy for a fleet. Scaling policies are used to automatically scale a fleet's hosting capacity to meet player demand. An active scaling policy instructs Amazon GameLift Servers to track a fleet metric and automatically change the fleet's capacity when a certain threshold is reached. There are two types of scaling poli- cies: target-based and rule-based. Use a target-based policy to quickly and efficiently...
+    /// </summary>
+    /// <param name="Name">A descriptive label that is associated with a fleet's scaling pol- icy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="FleetId">A unique identifier for the fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="MetricName">Name of the Amazon GameLift Servers-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift Servers with Amazon CloudWatch . o ActivatingGameSessions -- Game sessions in the process of being created. o ActiveGameSessions -- Game sessions that are currently running. o ActiveInstances -- Fleet instances that are currently running at least one game session. o AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity. o AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included. o CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player. o IdleInstances -- Active instances that are currently hosting zero game sessions. o PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy. o PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions. o QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination. o WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-prior- ity destination. Possible values: o ActivatingGameSessions o ActiveGameSessions o ActiveInstances o AvailableGameSessions o AvailablePlayerSessions o CurrentPlayerSessions o IdleInstances o PercentAvailableGameSessions o PercentIdleInstances o QueueDepth o WaitTime o ConcurrentActivatableGameSessions</param>
+    public AwsGameliftPutScalingPolicyOptions(
+        string Name,
+        string FleetId,
+        AwsGameliftPutScalingPolicyMetricName MetricName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+    }
+
+    private AwsGameliftPutScalingPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftPutScalingPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftPutScalingPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A descriptive label that is associated with a fleet's scaling pol- icy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// </summary>
     [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    public string? FleetId { get; private init; }
+
+    /// <summary>
+    /// Name of the Amazon GameLift Servers-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift Servers with Amazon CloudWatch . o ActivatingGameSessions -- Game sessions in the process of being created. o ActiveGameSessions -- Game sessions that are currently running. o ActiveInstances -- Fleet instances that are currently running at least one game session. o AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity. o AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included. o CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player. o IdleInstances -- Active instances that are currently hosting zero game sessions. o PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy. o PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions. o QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination. o WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-prior- ity destination. Possible values: o ActivatingGameSessions o ActiveGameSessions o ActiveInstances o AvailableGameSessions o AvailablePlayerSessions o CurrentPlayerSessions o IdleInstances o PercentAvailableGameSessions o PercentIdleInstances o QueueDepth o WaitTime o ConcurrentActivatableGameSessions
+    /// </summary>
+    [CliOption("--metric-name")]
+    public AwsGameliftPutScalingPolicyMetricName? MetricName { get; private init; }
 
     /// <summary>
     /// Amount of adjustment to make, based on the scaling adjustment type.
@@ -58,9 +112,6 @@ public record AwsGameliftPutScalingPolicyOptions : AwsOptions
     [CliOption("--evaluation-periods")]
     public int? EvaluationPeriods { get; set; }
 
-    [CliOption("--metric-name")]
-    public string? MetricName { get; set; }
-
     /// <summary>
     /// The type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and spec- ify a TargetConfiguration . For a rule-based policy set the follow- ing parameters: MetricName , ComparisonOperator , Threshold , Evalu- ationPeriods , ScalingAdjustmentType , and ScalingAdjustment . Possible values: o RuleBased o TargetBased
     /// </summary>
@@ -78,5 +129,22 @@ public record AwsGameliftPutScalingPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

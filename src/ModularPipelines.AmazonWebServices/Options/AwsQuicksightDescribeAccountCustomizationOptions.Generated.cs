@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "describe-account-customization")]
-public record AwsQuicksightDescribeAccountCustomizationOptions : AwsOptions
+public record AwsQuicksightDescribeAccountCustomizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight con- sole evaluates which customizations to apply by running this API opera- tion with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved. o Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the po...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to describe Quick Sight customizations for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    public AwsQuicksightDescribeAccountCustomizationOptions(
+        string AwsAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+    }
+
+    private AwsQuicksightDescribeAccountCustomizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightDescribeAccountCustomizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightDescribeAccountCustomizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that you want to describe Quick Sight customizations for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
     /// <summary>
     /// The Quick Sight namespace that you want to describe Quick Sight cus- tomizations for. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
@@ -30,7 +67,10 @@ public record AwsQuicksightDescribeAccountCustomizationOptions : AwsOptions
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CliFlag("--resolved")]
+    /// <summary>
+    /// The Resolved flag works with the other parameters to determine which view of Quick Sight customizations is returned. You can add this flag to your command to use the same view that Quick Sight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved , to reveal customizations that are configured at different levels.
+    /// </summary>
+    [CliFlag("--resolved", NegatedName = "--no-resolved")]
     public bool? Resolved { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,22 @@ public record AwsQuicksightDescribeAccountCustomizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

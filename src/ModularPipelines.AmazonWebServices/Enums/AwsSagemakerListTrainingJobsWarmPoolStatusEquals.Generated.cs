@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --warmpoolstatusequals.
+/// Allowed values for --warm-pool-status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListTrainingJobsWarmPoolStatusEquals
 {
     [EnumValue("Available")]
-    Available = 1,
-
-    [EnumValue("Terminated")]
-    Terminated = 2,
-
-    [EnumValue("Reused")]
-    Reused = 3,
+    Available,
 
     [EnumValue("InUse")]
-    InUse = 4
+    InUse,
+
+    [EnumValue("Reused")]
+    Reused,
+
+    [EnumValue("Terminated")]
+    Terminated
 }

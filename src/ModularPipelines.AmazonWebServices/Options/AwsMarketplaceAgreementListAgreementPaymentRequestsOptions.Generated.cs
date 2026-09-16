@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "list-agreement-payment-requests")]
-public record AwsMarketplaceAgreementListAgreementPaymentRequestsOptions : AwsOptions
+public record AwsMarketplaceAgreementListAgreementPaymentRequestsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying op- tional parameters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxRe- sults (1-50, default 50) and nextToken parameters. See also: AWS API Documentation list-agreement-payment-requests is a paginated o...
+    /// </summary>
+    /// <param name="PartyType">The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Ac- ceptor to list payment requests where you are the buyer. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z]+</param>
+    public AwsMarketplaceAgreementListAgreementPaymentRequestsOptions(
+        string PartyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PartyType);
+        this.PartyType = PartyType;
+    }
+
+    private AwsMarketplaceAgreementListAgreementPaymentRequestsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementListAgreementPaymentRequestsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementListAgreementPaymentRequestsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Ac- ceptor to list payment requests where you are the buyer. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z]+
+    /// </summary>
     [CliOption("--party-type")]
-    public string? PartyType { get; set; }
+    public string? PartyType { get; private init; }
 
     /// <summary>
     /// An optional parameter to list payment requests by agreement type (e.g., PurchaseAgreement ). Constraints: o min: 1 o max: 64 o pattern: [A-Za-z]+
@@ -74,5 +111,22 @@ public record AwsMarketplaceAgreementListAgreementPaymentRequestsOptions : AwsOp
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -21,13 +21,35 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deploy", "push")]
 public record AwsDeployPushOptions : AwsOptions
 {
+    /// <summary>
+    /// Bundles and uploads to Amazon Simple Storage Service (Amazon S3) an ap- plication revision, which is a zip archive file that contains deploy- able content and an accompanying Application Specification file (App- Spec file). If the upload is successful, a message is returned that de- scribes how to call the create-deployment command to deploy the appli- cation revision from Amazon S3 to target Amazon Elastic Compute Cloud (Amazon EC2) instances.
+    /// </summary>
+    /// <param name="ApplicationName"></param>
+    /// <param name="S3Location"></param>
+    public AwsDeployPushOptions(
+        string ApplicationName,
+        string S3Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(S3Location);
+        this.S3Location = S3Location;
+    }
+
+    public void Deconstruct(out string ApplicationName, out string S3Location)
+    {
+        ApplicationName = this.ApplicationName;
+        S3Location = this.S3Location;
+    }
+
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string ApplicationName { get; private init; }
 
     [CliOption("--s3-location")]
-    public string? S3Location { get; set; }
+    public string S3Location { get; private init; }
 
-    [CliFlag("--ignore-hidden-files")]
+    [CliFlag("--ignore-hidden-files", NegatedName = "--no-ignore-hidden-files")]
     public bool? IgnoreHiddenFiles { get; set; }
 
     [CliOption("--source")]

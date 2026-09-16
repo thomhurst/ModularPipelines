@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "modify-replication-task")]
-public record AwsDmsModifyReplicationTaskOptions : AwsOptions
+public record AwsDmsModifyReplicationTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it. For more information about DMS tasks, see Working with Migration Tasks in the Database Migration Service User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationTaskArn">The Amazon Resource Name (ARN) of the replication task.</param>
+    public AwsDmsModifyReplicationTaskOptions(
+        string ReplicationTaskArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationTaskArn);
+        this.ReplicationTaskArn = ReplicationTaskArn;
+    }
+
+    private AwsDmsModifyReplicationTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsModifyReplicationTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsModifyReplicationTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the replication task.
+    /// </summary>
     [CliOption("--replication-task-arn")]
-    public string? ReplicationTaskArn { get; set; }
+    public string? ReplicationTaskArn { get; private init; }
 
     /// <summary>
     /// The replication task identifier. Constraints: o Must contain 1-255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.
@@ -77,5 +114,22 @@ public record AwsDmsModifyReplicationTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

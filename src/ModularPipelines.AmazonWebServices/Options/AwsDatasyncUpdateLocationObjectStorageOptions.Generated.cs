@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "update-location-object-storage")]
-public record AwsDatasyncUpdateLocationObjectStorageOptions : AwsOptions
+public record AwsDatasyncUpdateLocationObjectStorageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the following configuration parameters of the object storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an object storage system . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocationArn">Specifies the ARN of the object storage system location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    public AwsDatasyncUpdateLocationObjectStorageOptions(
+        string LocationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocationArn);
+        this.LocationArn = LocationArn;
+    }
+
+    private AwsDatasyncUpdateLocationObjectStorageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncUpdateLocationObjectStorageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncUpdateLocationObjectStorageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the object storage system location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// </summary>
     [CliOption("--location-arn")]
-    public string? LocationArn { get; set; }
+    public string? LocationArn { get; private init; }
 
     /// <summary>
     /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443). Constraints: o min: 1 o max: 65536
@@ -95,5 +132,22 @@ public record AwsDatasyncUpdateLocationObjectStorageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

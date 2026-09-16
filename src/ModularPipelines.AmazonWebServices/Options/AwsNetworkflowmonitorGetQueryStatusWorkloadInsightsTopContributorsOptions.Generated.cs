@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkflowmonitor", "get-query-status-workload-insights-top-contributors")]
-public record AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions : AwsOptions
+public record AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scope-id")]
-    public string? ScopeId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Return the data for a query with the Network Flow Monitor query inter- face. Specify the query that you want to return results for by provid- ing a query ID and a monitor name. This query returns the top contribu- tors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopC...
+    /// </summary>
+    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account.</param>
+    /// <param name="QueryId">The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.</param>
+    public AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions(
+        string ScopeId,
+        string QueryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScopeId);
+        this.ScopeId = ScopeId;
+        global::System.ArgumentNullException.ThrowIfNull(QueryId);
+        this.QueryId = QueryId;
+    }
+
+    private AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account.
+    /// </summary>
+    [CliOption("--scope-id")]
+    public string? ScopeId { get; private init; }
+
+    /// <summary>
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// </summary>
     [CliOption("--query-id")]
-    public string? QueryId { get; set; }
+    public string? QueryId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

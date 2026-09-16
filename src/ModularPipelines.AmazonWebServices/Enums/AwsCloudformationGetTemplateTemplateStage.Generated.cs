@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --templatestage.
+/// Allowed values for --template-stage.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationGetTemplateTemplateStage
 {
     [EnumValue("Original")]
-    Original = 1,
+    Original,
 
     [EnumValue("Processed")]
-    Processed = 2
+    Processed
 }

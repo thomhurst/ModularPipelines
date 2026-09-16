@@ -64,13 +64,22 @@ public record AwsLogsFilterLogEventsOptions : AwsOptions
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
-    [CliFlag("--start-from-head")]
+    /// <summary>
+    /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first re- quest. On subsequent requests, the nextToken determines the sort di- rection. To continue paginating in the same direction, provide the returned nextToken . If you provide both nextToken and startFromHead , the direction of the nextToken is used. NOTE: Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC . A request with start- FromHead set to false and a startTime before this date returns an InvalidParameterException .
+    /// </summary>
+    [CliFlag("--start-from-head", NegatedName = "--no-start-from-head")]
     public bool? StartFromHead { get; set; }
 
-    [CliFlag("--interleaved")]
+    /// <summary>
+    /// If the value is true, the operation attempts to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. Important As of June 17, 2019, this parameter is ignored and the value is assumed to be true. The response from this operation always interleaves events from multiple log streams within a log group.
+    /// </summary>
+    [CliFlag("--interleaved", NegatedName = "--no-interleaved")]
     public bool? Interleaved { get; set; }
 
-    [CliFlag("--unmask")]
+    /// <summary>
+    /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false . To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+    /// </summary>
+    [CliFlag("--unmask", NegatedName = "--no-unmask")]
     public bool? Unmask { get; set; }
 
     [CliOption("--cli-input-json")]

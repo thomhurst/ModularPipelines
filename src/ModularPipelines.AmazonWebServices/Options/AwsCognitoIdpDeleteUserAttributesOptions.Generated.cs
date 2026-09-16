@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "delete-user-attributes")]
-public record AwsCognitoIdpDeleteUserAttributesOptions : AwsOptions
+public record AwsCognitoIdpDeleteUserAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-attribute-names", GroupValues = true)]
-    public IEnumerable<string>? UserAttributeNames { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes attributes from the currently signed-in user. For example, your application can submit a request to this operation when a user wants to remove their birthdate attribute value. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and...
+    /// </summary>
+    /// <param name="UserAttributeNames">An array of strings representing the user attribute names you want to delete. For custom attributes, you must prepend the custom: prefix to the attribute name, for example custom:department . (string) Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Syntax: "string" "string" ...</param>
+    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
+    public AwsCognitoIdpDeleteUserAttributesOptions(
+        IEnumerable<string> UserAttributeNames,
+        string AccessToken
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserAttributeNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserAttributeNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserAttributeNames));
+            }
+
+            UserAttributeNames = materialized;
+        }
+        this.UserAttributeNames = UserAttributeNames;
+        global::System.ArgumentNullException.ThrowIfNull(AccessToken);
+        this.AccessToken = AccessToken;
+    }
+
+    private AwsCognitoIdpDeleteUserAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpDeleteUserAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpDeleteUserAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array of strings representing the user attribute names you want to delete. For custom attributes, you must prepend the custom: prefix to the attribute name, for example custom:department . (string) Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--user-attribute-names", GroupValues = true)]
+    public IEnumerable<string>? UserAttributeNames { get; private init; }
+
+    /// <summary>
+    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
-    public string? AccessToken { get; set; }
+    public string? AccessToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

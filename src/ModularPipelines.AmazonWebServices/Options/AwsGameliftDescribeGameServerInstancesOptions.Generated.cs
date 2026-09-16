@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "describe-game-server-instances")]
-public record AwsGameliftDescribeGameServerInstancesOptions : AwsOptions
+public record AwsGameliftDescribeGameServerInstancesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2 (FleetIQ) Retrieves status information about the Amazon EC2 instances associated with a Amazon GameLift Servers FleetIQ game server group. Use this op- eration to detect when instances are active or not available to host new game servers. To request status for all instances in the game server group, provide a game server group ID only. To request status for specific instances, provide the game server group ID and one or more instance IDs. Use th...
+    /// </summary>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
+    public AwsGameliftDescribeGameServerInstancesOptions(
+        string GameServerGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameServerGroupName);
+        this.GameServerGroupName = GameServerGroupName;
+    }
+
+    private AwsGameliftDescribeGameServerInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftDescribeGameServerInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftDescribeGameServerInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// </summary>
     [CliOption("--game-server-group-name")]
-    public string? GameServerGroupName { get; set; }
+    public string? GameServerGroupName { get; private init; }
 
     /// <summary>
     /// The Amazon EC2 instance IDs that you want to retrieve status on. Amazon EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0 . To retrieve all instances in the game server group, leave this parameter empty. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 19 o max: 19 o pattern: ^i-[0-9a-zA-Z]{17}$ Syntax: "string" "string" ...
@@ -55,5 +92,22 @@ public record AwsGameliftDescribeGameServerInstancesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

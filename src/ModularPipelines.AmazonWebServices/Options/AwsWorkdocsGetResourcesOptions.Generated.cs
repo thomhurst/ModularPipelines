@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -40,7 +39,7 @@ public record AwsWorkdocsGetResourcesOptions : AwsOptions
     /// The collection type. Possible values: o SHARED_WITH_ME
     /// </summary>
     [CliOption("--collection-type")]
-    public AwsWorkdocsGetResourcesCollectionType? CollectionType { get; set; }
+    public string? CollectionType { get; set; }
 
     /// <summary>
     /// The maximum number of resources to return. Constraints: o min: 1 o max: 999

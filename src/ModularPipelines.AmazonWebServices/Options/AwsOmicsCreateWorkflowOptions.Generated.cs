@@ -87,7 +87,7 @@ public record AwsOmicsCreateWorkflowOptions : AwsOptions
     /// The computational accelerator specified to run the workflow. Possible values: o GPU Constraints: o min: 1 o max: 64
     /// </summary>
     [CliOption("--accelerators")]
-    public AwsOmicsCreateWorkflowAccelerators? Accelerators { get; set; }
+    public string? Accelerators { get; set; }
 
     /// <summary>
     /// The default storage type for runs that use this workflow. The stor- ageType can be overridden at run time. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. STATIC storage allocates a fixed amount of storage. For more infor- mation about dynamic and static storage types, see Run storage types in the Amazon Web Services HealthOmics User Guide . Possible values: o STATIC o DYNAMIC Constraints: o min: 1 o max: 64

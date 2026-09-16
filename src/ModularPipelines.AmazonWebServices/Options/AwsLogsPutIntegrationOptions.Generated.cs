@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-integration")]
-public record AwsLogsPutIntegrationOptions : AwsOptions
+public record AwsLogsPutIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an integration between CloudWatch Logs and another service in this account. Currently, only integrations with OpenSearch Service are supported, and currently you can have only one integration in your ac- count. Integrating with OpenSearch Service makes it possible for you to create curated vended logs dashboards, powered by OpenSearch Service analyt- ics. For more information, see Vended log dashboards powered by Amazon OpenSearch Service . You can use this operation only to create a new...
+    /// </summary>
+    /// <param name="IntegrationName">A name for the integration. Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="ResourceConfig">A structure that contains configuration information for the integra- tion that you are creating. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: openSearchResourceConfig. openSearchResourceConfig -&gt; (structure) This structure contains configuration details about an integra- tion between CloudWatch Logs and OpenSearch Service. kmsKeyArn -&gt; (string) To have the vended dashboard data encrypted with KMS instead of the CloudWatch Logs default encryption method, specify the ARN of the KMS key that you want to use. dataSourceRoleArn -&gt; (string) [required] Specify the ARN of an IAM role that CloudWatch Logs will use to create the integration. This role must have the permis- sions necessary to access the OpenSearch Service collection to be able to create the dashboards. For more information about the permissions needed, see Permissions that the inte- gration needs in the CloudWatch Logs User Guide. dashboardViewerPrincipals -&gt; (list) [required] Specify the ARNs of IAM roles and IAM users who you want to grant permission to for viewing the dashboards. WARNING: In addition to specifying these users here, you must also grant them the CloudWatchOpenSearchDashboardAccess IAM policy. For more information, see IAM policies for users . (string) applicationArn -&gt; (string) If you want to use an existing OpenSearch Service application for your integration with OpenSearch Service, specify it here. If you omit this, a new application will be created. retentionDays -&gt; (integer) [required] Specify how many days that you want the data derived by OpenSearch Service to be retained in the index that the dash- board refers to. This also sets the maximum time period that you can choose when viewing data in the dashboard. Choosing a longer time frame will incur additional costs. Constraints: o min: 1 o max: 30 Shorthand Syntax: openSearchResourceConfig={kmsKeyArn=string,dataSourceRoleArn=string,dashboardViewerPrincipals=[string,string],applicationArn=string,retentionDays=integer} JSON Syntax: { "openSearchResourceConfig": { "kmsKeyArn": "string", "dataSourceRoleArn": "string", "dashboardViewerPrincipals": ["string", ...], "applicationArn": "string", "retentionDays": integer } }</param>
+    /// <param name="IntegrationType">The type of integration. Currently, the only supported type is OPENSEARCH . Possible values: o OPENSEARCH</param>
+    public AwsLogsPutIntegrationOptions(
+        string IntegrationName,
+        string ResourceConfig,
+        string IntegrationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationName);
+        this.IntegrationName = IntegrationName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceConfig);
+        this.ResourceConfig = ResourceConfig;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationType);
+        this.IntegrationType = IntegrationType;
+    }
+
+    private AwsLogsPutIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the integration. Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
     [CliOption("--integration-name")]
-    public string? IntegrationName { get; set; }
+    public string? IntegrationName { get; private init; }
 
+    /// <summary>
+    /// A structure that contains configuration information for the integra- tion that you are creating. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: openSearchResourceConfig. openSearchResourceConfig -&gt; (structure) This structure contains configuration details about an integra- tion between CloudWatch Logs and OpenSearch Service. kmsKeyArn -&gt; (string) To have the vended dashboard data encrypted with KMS instead of the CloudWatch Logs default encryption method, specify the ARN of the KMS key that you want to use. dataSourceRoleArn -&gt; (string) [required] Specify the ARN of an IAM role that CloudWatch Logs will use to create the integration. This role must have the permis- sions necessary to access the OpenSearch Service collection to be able to create the dashboards. For more information about the permissions needed, see Permissions that the inte- gration needs in the CloudWatch Logs User Guide. dashboardViewerPrincipals -&gt; (list) [required] Specify the ARNs of IAM roles and IAM users who you want to grant permission to for viewing the dashboards. WARNING: In addition to specifying these users here, you must also grant them the CloudWatchOpenSearchDashboardAccess IAM policy. For more information, see IAM policies for users . (string) applicationArn -&gt; (string) If you want to use an existing OpenSearch Service application for your integration with OpenSearch Service, specify it here. If you omit this, a new application will be created. retentionDays -&gt; (integer) [required] Specify how many days that you want the data derived by OpenSearch Service to be retained in the index that the dash- board refers to. This also sets the maximum time period that you can choose when viewing data in the dashboard. Choosing a longer time frame will incur additional costs. Constraints: o min: 1 o max: 30 Shorthand Syntax: openSearchResourceConfig={kmsKeyArn=string,dataSourceRoleArn=string,dashboardViewerPrincipals=[string,string],applicationArn=string,retentionDays=integer} JSON Syntax: { "openSearchResourceConfig": { "kmsKeyArn": "string", "dataSourceRoleArn": "string", "dashboardViewerPrincipals": ["string", ...], "applicationArn": "string", "retentionDays": integer } }
+    /// </summary>
     [CliOption("--resource-config")]
-    public string? ResourceConfig { get; set; }
+    public string? ResourceConfig { get; private init; }
 
+    /// <summary>
+    /// The type of integration. Currently, the only supported type is OPENSEARCH . Possible values: o OPENSEARCH
+    /// </summary>
     [CliOption("--integration-type")]
-    public string? IntegrationType { get; set; }
+    public string? IntegrationType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

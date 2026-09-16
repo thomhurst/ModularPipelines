@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("controltower", "update-enabled-control")]
-public record AwsControltowerUpdateEnabledControlOptions : AwsOptions
+public record AwsControltowerUpdateEnabledControlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--parameters", GroupValues = true)]
-    public IEnumerable<string>? Parameters { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the configuration of an already enabled control. If the enabled control shows an EnablementStatus of SUCCEEDED, supply parameters that are different from the currently configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the re- quest. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services Control Tower updates the control to match any valid parame- ters that you supply. If the DriftSummary status for the control shows as DRIFTED , ...
+    /// </summary>
+    /// <param name="Parameters">A key/value pair, where Key is of type String and Value is of type Document . (structure) A key/value pair, where Key is of type String and Value is of type Document . key -&gt; (string) [required] The key of a key/value pair. value -&gt; (document) [required] The value of a key/value pair. Shorthand Syntax: key=string ... JSON Syntax: [ { "key": "string", "value": {...} } ... ]</param>
+    /// <param name="EnabledControlIdentifier">The ARN of the enabled control that will be updated. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    public AwsControltowerUpdateEnabledControlOptions(
+        IEnumerable<string> Parameters,
+        string EnabledControlIdentifier
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Parameters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Parameters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Parameters));
+            }
+
+            Parameters = materialized;
+        }
+        this.Parameters = Parameters;
+        global::System.ArgumentNullException.ThrowIfNull(EnabledControlIdentifier);
+        this.EnabledControlIdentifier = EnabledControlIdentifier;
+    }
+
+    private AwsControltowerUpdateEnabledControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsControltowerUpdateEnabledControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsControltowerUpdateEnabledControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A key/value pair, where Key is of type String and Value is of type Document . (structure) A key/value pair, where Key is of type String and Value is of type Document . key -&gt; (string) [required] The key of a key/value pair. value -&gt; (document) [required] The value of a key/value pair. Shorthand Syntax: key=string ... JSON Syntax: [ { "key": "string", "value": {...} } ... ]
+    /// </summary>
+    [CliOption("--parameters", GroupValues = true)]
+    public IEnumerable<string>? Parameters { get; private init; }
+
+    /// <summary>
+    /// The ARN of the enabled control that will be updated. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// </summary>
     [CliOption("--enabled-control-identifier")]
-    public string? EnabledControlIdentifier { get; set; }
+    public string? EnabledControlIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

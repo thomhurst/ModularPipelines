@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "get-document-content")]
-public record AwsQbusinessGetDocumentContentOptions : AwsOptions
+public record AwsQbusinessGetDocumentContentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the Amazon Q Business application contain- ing the document. This ensures the request is scoped to the correct application environment and its associated security policies. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the index where documents are indexed. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="DocumentId">The unique identifier of the document that is indexed via BatchPut- Document API or file-upload or connector sync. It is also found in chat or chatSync response. Constraints: o min: 1 o max: 1825 o pattern: \P{C}*</param>
+    public AwsQbusinessGetDocumentContentOptions(
+        string ApplicationId,
+        string IndexId,
+        string DocumentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(DocumentId);
+        this.DocumentId = DocumentId;
+    }
+
+    private AwsQbusinessGetDocumentContentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessGetDocumentContentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessGetDocumentContentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q Business application contain- ing the document. This ensures the request is scoped to the correct application environment and its associated security policies. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the index where documents are indexed. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the document that is indexed via BatchPut- Document API or file-upload or connector sync. It is also found in chat or chatSync response. Constraints: o min: 1 o max: 1825 o pattern: \P{C}*
+    /// </summary>
+    [CliOption("--document-id")]
+    public string? DocumentId { get; private init; }
 
     /// <summary>
     /// The identifier of the data source from which the document was in- gested. This field is not present if the document is ingested by di- rectly calling the BatchPutDocument API. If the document is from a file-upload data source, the datasource will be "up- loaded-docs-file-stat-datasourceid". Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
-
-    [CliOption("--document-id")]
-    public string? DocumentId { get; set; }
 
     /// <summary>
     /// Document outputFormat. Defaults to RAW if not selected. Possible values: o RAW o EXTRACTED
@@ -48,5 +99,22 @@ public record AwsQbusinessGetDocumentContentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

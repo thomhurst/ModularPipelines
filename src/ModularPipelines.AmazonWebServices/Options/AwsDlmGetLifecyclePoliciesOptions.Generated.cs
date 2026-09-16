@@ -57,7 +57,7 @@ public record AwsDlmGetLifecyclePoliciesOptions : AwsOptions
     /// [Default policies only] Specifies the type of default policy to get. Specify one of the following: o VOLUME - To get only the default policy for EBS snapshots o INSTANCE - To get only the default policy for EBS-backed AMIs o ALL - To get all default policies Possible values: o VOLUME o INSTANCE o ALL
     /// </summary>
     [CliOption("--default-policy-type")]
-    public AwsDlmGetLifecyclePoliciesDefaultPolicyType? DefaultPolicyType { get; set; }
+    public string? DefaultPolicyType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

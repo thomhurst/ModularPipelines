@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elb", "delete-load-balancer-listeners")]
-public record AwsElbDeleteLoadBalancerListenersOptions : AwsOptions
+public record AwsElbDeleteLoadBalancerListenersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified listeners from the specified load balancer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer.</param>
+    /// <param name="LoadBalancerPorts">The client port numbers of the listeners. (integer) Syntax: integer integer ...</param>
+    public AwsElbDeleteLoadBalancerListenersOptions(
+        string LoadBalancerName,
+        IEnumerable<string> LoadBalancerPorts
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LoadBalancerPorts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LoadBalancerPorts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LoadBalancerPorts));
+            }
+
+            LoadBalancerPorts = materialized;
+        }
+        this.LoadBalancerPorts = LoadBalancerPorts;
+    }
+
+    private AwsElbDeleteLoadBalancerListenersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbDeleteLoadBalancerListenersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbDeleteLoadBalancerListenersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
+    [CliOption("--load-balancer-name")]
+    public string? LoadBalancerName { get; private init; }
+
+    /// <summary>
+    /// The client port numbers of the listeners. (integer) Syntax: integer integer ...
+    /// </summary>
     [CliOption("--load-balancer-ports", GroupValues = true)]
-    public IEnumerable<string>? LoadBalancerPorts { get; set; }
+    public IEnumerable<string>? LoadBalancerPorts { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

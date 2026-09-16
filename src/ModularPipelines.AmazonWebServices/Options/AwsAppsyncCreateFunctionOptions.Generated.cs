@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "create-function")]
-public record AwsAppsyncCreateFunctionOptions : AwsOptions
+public record AwsAppsyncCreateFunctionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a Function object. A function is a reusable entity. You can use multiple functions to com- pose the resolver logic. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The GraphQL API ID.</param>
+    /// <param name="Name">The Function name. The function name does not have to be unique. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="DataSourceName">The Function DataSource name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    public AwsAppsyncCreateFunctionOptions(
+        string ApiId,
+        string Name,
+        string DataSourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceName);
+        this.DataSourceName = DataSourceName;
+    }
+
+    private AwsAppsyncCreateFunctionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncCreateFunctionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncCreateFunctionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The GraphQL API ID.
+    /// </summary>
+    [CliOption("--api-id")]
+    public string? ApiId { get; private init; }
+
+    /// <summary>
+    /// The Function name. The function name does not have to be unique. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Function DataSource name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// </summary>
+    [CliOption("--data-source-name")]
+    public string? DataSourceName { get; private init; }
 
     /// <summary>
     /// The Function description.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--data-source-name")]
-    public string? DataSourceName { get; set; }
 
     /// <summary>
     /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template. Constraints: o min: 1 o max: 65536 o pattern: ^.*$
@@ -83,5 +134,22 @@ public record AwsAppsyncCreateFunctionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

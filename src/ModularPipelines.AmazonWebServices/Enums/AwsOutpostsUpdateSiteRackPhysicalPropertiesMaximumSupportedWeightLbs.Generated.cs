@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --maximumsupportedweightlbs.
+/// Allowed values for --maximum-supported-weight-lbs.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesMaximumSupportedWeightLbs
 {
-    [EnumValue("NO_LIMIT")]
-    NoLimit = 1,
-
     [EnumValue("MAX_1400_LBS")]
-    Max_1400Lbs = 2,
+    Max1400Lbs,
 
     [EnumValue("MAX_1600_LBS")]
-    Max_1600Lbs = 3,
+    Max1600Lbs,
 
     [EnumValue("MAX_1800_LBS")]
-    Max_1800Lbs = 4,
+    Max1800Lbs,
 
     [EnumValue("MAX_2000_LBS")]
-    Max_2000Lbs = 5
+    Max2000Lbs,
+
+    [EnumValue("NO_LIMIT")]
+    NoLimit
 }

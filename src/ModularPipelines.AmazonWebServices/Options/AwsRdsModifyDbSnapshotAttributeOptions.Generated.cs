@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "modify-db-snapshot-attribute")]
-public record AwsRdsModifyDbSnapshotAttributeOptions : AwsOptions
+public record AwsRdsModifyDbSnapshotAttributeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-snapshot-identifier")]
-    public string? DbSnapshotIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are au- thorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all Amazon Web Services accounts. NOTE: Don't ...
+    /// </summary>
+    /// <param name="DbSnapshotIdentifier">The identifier for the DB snapshot to modify the attributes for.</param>
+    /// <param name="AttributeName">The name of the DB snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual DB snapshot, set this value to restore . NOTE: To view the list of attributes available to modify, use the De- scribeDBSnapshotAttributes API operation.</param>
+    public AwsRdsModifyDbSnapshotAttributeOptions(
+        string DbSnapshotIdentifier,
+        string AttributeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbSnapshotIdentifier);
+        this.DbSnapshotIdentifier = DbSnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeName);
+        this.AttributeName = AttributeName;
+    }
+
+    private AwsRdsModifyDbSnapshotAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsModifyDbSnapshotAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsModifyDbSnapshotAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the DB snapshot to modify the attributes for.
+    /// </summary>
+    [CliOption("--db-snapshot-identifier")]
+    public string? DbSnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the DB snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual DB snapshot, set this value to restore . NOTE: To view the list of attributes available to modify, use the De- scribeDBSnapshotAttributes API operation.
+    /// </summary>
     [CliOption("--attribute-name")]
-    public string? AttributeName { get; set; }
+    public string? AttributeName { get; private init; }
 
     /// <summary>
     /// A list of DB snapshot attributes to add to the attribute specified by AttributeName . To authorize other Amazon Web Services accounts to copy or restore a manual snapshot, set this list to include one or more Amazon Web Services account IDs, or all to make the manual DB snapshot restor- able by any Amazon Web Services account. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all Amazon Web Services accounts. (string) Syntax: "string" "string" ...
@@ -44,5 +88,22 @@ public record AwsRdsModifyDbSnapshotAttributeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

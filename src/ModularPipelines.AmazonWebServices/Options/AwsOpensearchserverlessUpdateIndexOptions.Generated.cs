@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearchserverless", "update-index")]
-public record AwsOpensearchserverlessUpdateIndexOptions : AwsOptions
+public record AwsOpensearchserverlessUpdateIndexOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic seman- tic enrichment ingestion and search. For more information, see About automatic semantic enrichment . See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and ob...
+    /// </summary>
+    /// <param name="Id">The unique identifier of the collection containing the index to up- date. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}</param>
+    /// <param name="IndexName">The name of the index to update.</param>
+    public AwsOpensearchserverlessUpdateIndexOptions(
+        string Id,
+        string IndexName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(IndexName);
+        this.IndexName = IndexName;
+    }
+
+    private AwsOpensearchserverlessUpdateIndexOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchserverlessUpdateIndexOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchserverlessUpdateIndexOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the collection containing the index to up- date. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The name of the index to update.
+    /// </summary>
     [CliOption("--index-name")]
-    public string? IndexName { get; set; }
+    public string? IndexName { get; private init; }
 
     /// <summary>
     /// The updated JSON schema definition for the index, including field mappings and settings. JSON Syntax: {...}
@@ -38,5 +82,22 @@ public record AwsOpensearchserverlessUpdateIndexOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

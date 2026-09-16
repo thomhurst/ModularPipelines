@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "update-script")]
-public record AwsGameliftUpdateScriptOptions : AwsOptions
+public record AwsGameliftUpdateScriptOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2 Updates Realtime script metadata and content. To update script metadata, specify the script ID and provide updated name and/or version values. To update script content, provide an updated zip file by pointing to either a local file or an Amazon S3 bucket location. You can use either method regardless of how the original script was uploaded. Use the Ver- sion parameter to track updates to the script. If the call is successful, the updated metadat...
+    /// </summary>
+    /// <param name="ScriptId">A unique identifier for the Realtime script to update. You can use either the script ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(script-\S+|arn:.*:script\/script-\S+)$</param>
+    public AwsGameliftUpdateScriptOptions(
+        string ScriptId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScriptId);
+        this.ScriptId = ScriptId;
+    }
+
+    private AwsGameliftUpdateScriptOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftUpdateScriptOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftUpdateScriptOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the Realtime script to update. You can use either the script ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(script-\S+|arn:.*:script\/script-\S+)$
+    /// </summary>
     [CliOption("--script-id")]
-    public string? ScriptId { get; set; }
+    public string? ScriptId { get; private init; }
 
     /// <summary>
     /// A descriptive label that is associated with a script. Script names do not need to be unique. Constraints: o min: 1 o max: 1024
@@ -53,5 +90,22 @@ public record AwsGameliftUpdateScriptOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

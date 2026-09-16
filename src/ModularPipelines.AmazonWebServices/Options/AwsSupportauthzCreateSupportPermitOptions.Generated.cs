@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("supportauthz", "create-support-permit")]
-public record AwsSupportauthzCreateSupportPermitOptions : AwsOptions
+public record AwsSupportauthzCreateSupportPermitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--permit")]
-    public string? Permit { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a support permit that authorizes an AWS support operator to perform specified actions on specified resources. The permit is crypto- graphically signed using a customer-managed AWS KMS key (ECC_NIST_P384, SIGN_VERIFY) to ensure non-repudiation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Permit">The permit definition specifying the actions, resources, and time-window conditions that the support operator is authorized to use. actions -&gt; (tagged union structure) [required] The set of actions that the support operator is authorized to perform. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: allActions, actions. allActions -&gt; (structure) Authorizes all available support actions. actions -&gt; (list) A list of specific support actions to authorize. Maximum of 10 actions. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 3 o max: 255 o pattern: [a-z][a-z0-9-]*:[A-Za-z0-9_.-]+ resources -&gt; (tagged union structure) [required] The set of resources that the support operator is authorized to act upon. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: allResourcesInRegion, resources. allResourcesInRegion -&gt; (structure) Authorizes the support operator to act on all resources in the Region. resources -&gt; (list) A list of specific resource identifiers that the support op- erator is authorized to act upon. Maximum of 5 resources. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9:/_.-]+ conditions -&gt; (list) The time-window conditions that constrain when the permit is valid. Maximum of 2 conditions. Constraints: o min: 0 o max: 2 (tagged union structure) A time-window condition that constrains when a support permit is valid. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: allowAfter, allowBefore. allowAfter -&gt; (timestamp) The earliest time at which the permit becomes valid. allowBefore -&gt; (timestamp) The latest time at which the permit remains valid. Shorthand Syntax: actions={allActions={},actions=[string,string]},resources={allResourcesInRegion={},resources=[string,string]},conditions=[{allowAfter=timestamp,allowBefore=timestamp},{allowAfter=timestamp,allowBefore=timestamp}] JSON Syntax: { "actions": { "allActions": { }, "actions": ["string", ...] }, "resources": { "allResourcesInRegion": { }, "resources": ["string", ...] }, "conditions": [ { "allowAfter": timestamp, "allowBefore": timestamp } ... ] }</param>
+    /// <param name="Name">A customer-chosen name for the support permit. Must be between 1 and 256 alphanumeric characters. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]{1,256}</param>
+    /// <param name="SigningKeyInfo">The signing key information used to sign the permit. Must reference an AWS KMS key with key usage SIGN_VERIFY and key spec ECC_NIST_P384. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kmsKey. kmsKey -&gt; (string) The ARN of the AWS KMS key used to sign the permit. The key must have key spec ECC_NIST_P384 and key usage SIGN_VERIFY. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9/:_-]{1,512} Shorthand Syntax: kmsKey=string JSON Syntax: { "kmsKey": "string" }</param>
+    public AwsSupportauthzCreateSupportPermitOptions(
+        string Permit,
+        string Name,
+        string SigningKeyInfo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Permit);
+        this.Permit = Permit;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SigningKeyInfo);
+        this.SigningKeyInfo = SigningKeyInfo;
+    }
+
+    private AwsSupportauthzCreateSupportPermitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportauthzCreateSupportPermitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportauthzCreateSupportPermitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The permit definition specifying the actions, resources, and time-window conditions that the support operator is authorized to use. actions -&gt; (tagged union structure) [required] The set of actions that the support operator is authorized to perform. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: allActions, actions. allActions -&gt; (structure) Authorizes all available support actions. actions -&gt; (list) A list of specific support actions to authorize. Maximum of 10 actions. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 3 o max: 255 o pattern: [a-z][a-z0-9-]*:[A-Za-z0-9_.-]+ resources -&gt; (tagged union structure) [required] The set of resources that the support operator is authorized to act upon. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: allResourcesInRegion, resources. allResourcesInRegion -&gt; (structure) Authorizes the support operator to act on all resources in the Region. resources -&gt; (list) A list of specific resource identifiers that the support op- erator is authorized to act upon. Maximum of 5 resources. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9:/_.-]+ conditions -&gt; (list) The time-window conditions that constrain when the permit is valid. Maximum of 2 conditions. Constraints: o min: 0 o max: 2 (tagged union structure) A time-window condition that constrains when a support permit is valid. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: allowAfter, allowBefore. allowAfter -&gt; (timestamp) The earliest time at which the permit becomes valid. allowBefore -&gt; (timestamp) The latest time at which the permit remains valid. Shorthand Syntax: actions={allActions={},actions=[string,string]},resources={allResourcesInRegion={},resources=[string,string]},conditions=[{allowAfter=timestamp,allowBefore=timestamp},{allowAfter=timestamp,allowBefore=timestamp}] JSON Syntax: { "actions": { "allActions": { }, "actions": ["string", ...] }, "resources": { "allResourcesInRegion": { }, "resources": ["string", ...] }, "conditions": [ { "allowAfter": timestamp, "allowBefore": timestamp } ... ] }
+    /// </summary>
+    [CliOption("--permit")]
+    public string? Permit { get; private init; }
+
+    /// <summary>
+    /// A customer-chosen name for the support permit. Must be between 1 and 256 alphanumeric characters. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]{1,256}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The signing key information used to sign the permit. Must reference an AWS KMS key with key usage SIGN_VERIFY and key spec ECC_NIST_P384. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kmsKey. kmsKey -&gt; (string) The ARN of the AWS KMS key used to sign the permit. The key must have key spec ECC_NIST_P384 and key usage SIGN_VERIFY. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9/:_-]{1,512} Shorthand Syntax: kmsKey=string JSON Syntax: { "kmsKey": "string" }
+    /// </summary>
+    [CliOption("--signing-key-info")]
+    public string? SigningKeyInfo { get; private init; }
 
     /// <summary>
     /// A human-readable description of why this permit is being created. Maximum length of 1024 characters. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--signing-key-info")]
-    public string? SigningKeyInfo { get; set; }
 
     /// <summary>
     /// The display identifier of the AWS Support case associated with this permit. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9:/-]{1,512}
@@ -62,5 +113,22 @@ public record AwsSupportauthzCreateSupportPermitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

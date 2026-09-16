@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "get-extension")]
-public record AwsAppConfigGetExtensionOptions : AwsOptions
+public record AwsAppConfigGetExtensionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about an AppConfig extension. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExtensionIdentifier">The name, the ID, or the Amazon Resource Name (ARN) of the exten- sion. Constraints: o min: 1 o max: 2048</param>
+    public AwsAppConfigGetExtensionOptions(
+        string ExtensionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExtensionIdentifier);
+        this.ExtensionIdentifier = ExtensionIdentifier;
+    }
+
+    private AwsAppConfigGetExtensionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigGetExtensionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigGetExtensionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name, the ID, or the Amazon Resource Name (ARN) of the exten- sion. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--extension-identifier")]
-    public string? ExtensionIdentifier { get; set; }
+    public string? ExtensionIdentifier { get; private init; }
 
     /// <summary>
     /// The extension version number. If no version number was defined, App- Config uses the highest version.
@@ -35,5 +72,22 @@ public record AwsAppConfigGetExtensionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

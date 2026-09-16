@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,45 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "update-organization-configuration")]
-public record AwsSecurityhubUpdateOrganizationConfigurationOptions : AwsOptions
+public record AwsSecurityhubUpdateOrganizationConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--auto-enable")]
-    public bool? AutoEnable { get; set; }
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of your organization in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this opera- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutoEnable">Whether to automatically enable Security Hub CSPM in new member ac- counts when they join the organization. If set to true , then Security Hub CSPM is automatically enabled in new accounts. If set to false , then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false . If the ConfigurationType of your organization is set to CENTRAL , then this field is set to false and can't be changed in the home Re- gion and linked Regions. However, in that case, the delegated admin- istrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization ac- counts.</param>
+    public AwsSecurityhubUpdateOrganizationConfigurationOptions(
+        bool AutoEnable
+    )
+    {
+        this.AutoEnable = AutoEnable;
+    }
+
+    private AwsSecurityhubUpdateOrganizationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubUpdateOrganizationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubUpdateOrganizationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Whether to automatically enable Security Hub CSPM in new member ac- counts when they join the organization. If set to true , then Security Hub CSPM is automatically enabled in new accounts. If set to false , then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false . If the ConfigurationType of your organization is set to CENTRAL , then this field is set to false and can't be changed in the home Re- gion and linked Regions. However, in that case, the delegated admin- istrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization ac- counts.
+    /// </summary>
+    [CliFlag("--auto-enable", NegatedName = "--no-auto-enable")]
+    public bool? AutoEnable { get; private init; }
 
     /// <summary>
     /// Whether to automatically enable Security Hub CSPM default standards in new member accounts when they join the organization. The default value of this parameter is equal to DEFAULT . If equal to DEFAULT , then Security Hub CSPM default standards are automatically enabled for new member accounts. If equal to NONE , then default standards are not automatically enabled for new member accounts. If the ConfigurationType of your organization is set to CENTRAL , then this field is set to NONE and can't be changed in the home Re- gion and linked Regions. However, in that case, the delegated admin- istrator can create a configuration policy in which specific secu- rity standards are enabled and associate the policy with new organi- zation accounts. Possible values: o NONE o DEFAULT
@@ -42,5 +78,22 @@ public record AwsSecurityhubUpdateOrganizationConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

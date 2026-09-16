@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "create-billing-view")]
-public record AwsBillingCreateBillingViewOptions : AwsOptions
+public record AwsBillingCreateBillingViewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a billing view with the specified billing view attributes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the billing view. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_\+=\.\-@]+</param>
+    /// <param name="SourceViews">A list of billing views used as the data source for the custom billing view. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...</param>
+    public AwsBillingCreateBillingViewOptions(
+        string Name,
+        IEnumerable<string> SourceViews
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SourceViews);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SourceViews));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SourceViews));
+            }
+
+            SourceViews = materialized;
+        }
+        this.SourceViews = SourceViews;
+    }
+
+    private AwsBillingCreateBillingViewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingCreateBillingViewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingCreateBillingViewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the billing view. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_\+=\.\-@]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// A list of billing views used as the data source for the custom billing view. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--source-views", GroupValues = true)]
+    public IEnumerable<string>? SourceViews { get; private init; }
 
     /// <summary>
     /// The description of the billing view. Constraints: o min: 0 o max: 1024 o pattern: ([ a-zA-Z0-9_\+=\.\-@]+)?
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--source-views", GroupValues = true)]
-    public IEnumerable<string>? SourceViews { get; set; }
 
     /// <summary>
     /// See Expression . Billing view only supports LINKED_ACCOUNT , Tags , and CostCategories . dimensions -&gt; (structure) The specific Dimension to use for Expression . key -&gt; (string) [required] The names of the metadata types that you can use to filter and group your results. Possible values: o LINKED_ACCOUNT values -&gt; (list) [required] The metadata values that you can use to filter and group your results. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* tags -&gt; (structure) The specific Tag to use for Expression . key -&gt; (string) [required] The key for the tag. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* values -&gt; (list) [required] The specific value of the tag. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* costCategories -&gt; (structure) The filter that's based on CostCategory values. key -&gt; (string) [required] The unique name of the Cost Category. Constraints: o min: 1 o max: 50 o pattern: (?! )[\p{L}\p{N}\p{Z}-_]*(?&lt;! ) values -&gt; (list) [required] The specific value of the Cost Category. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* timeRange -&gt; (structure) Specifies a time range filter for the billing view data. beginDateInclusive -&gt; (timestamp) The inclusive start date of the time range. endDateInclusive -&gt; (timestamp) The inclusive end date of the time range. Shorthand Syntax: dimensions={key=string,values=[string,string]},tags={key=string,values=[string,string]},costCategories={key=string,values=[string,string]},timeRange={beginDateInclusive=timestamp,endDateInclusive=timestamp} JSON Syntax: { "dimensions": { "key": "LINKED_ACCOUNT", "values": ["string", ...] }, "tags": { "key": "string", "values": ["string", ...] }, "costCategories": { "key": "string", "values": ["string", ...] }, "timeRange": { "beginDateInclusive": timestamp, "endDateInclusive": timestamp } }
@@ -58,5 +113,22 @@ public record AwsBillingCreateBillingViewOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

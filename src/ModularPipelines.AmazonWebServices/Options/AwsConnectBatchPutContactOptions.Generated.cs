@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "batch-put-contact")]
-public record AwsConnectBatchPutContactOptions : AwsOptions
+public record AwsConnectBatchPutContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API. Allows you to create a batch of contacts in Connect Customer. The out- bound campaigns capability ingests dial requests via the PutDialRequestBatch API. It then uses BatchPutContact to create con- tacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the sam...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactDataRequestList">List of individual contact requests. Constraints: o min: 1 o max: 25 (structure) Request object with information to create a contact. SystemEndpoint -&gt; (structure) Endpoint associated with the Connect Customer instance from which outbound contact will be initiated for the campaign. Type -&gt; (string) Type of the endpoint. Possible values: o TELEPHONE_NUMBER o VOIP o CONTACT_FLOW o CONNECT_PHONENUMBER_ARN o EMAIL_ADDRESS Address -&gt; (string) Address of the endpoint. Constraints: o min: 0 o max: 256 CustomerEndpoint -&gt; (structure) Endpoint of the customer for which contact will be initiated. Type -&gt; (string) Type of the endpoint. Possible values: o TELEPHONE_NUMBER o VOIP o CONTACT_FLOW o CONNECT_PHONENUMBER_ARN o EMAIL_ADDRESS Address -&gt; (string) Address of the endpoint. Constraints: o min: 0 o max: 256 RequestIdentifier -&gt; (string) Identifier to uniquely identify individual requests in the batch. Constraints: o max: 80 QueueId -&gt; (string) The identifier of the queue associated with the Connect Cus- tomer instance in which contacts that are created will be queued. Attributes -&gt; (map) List of attributes to be stored in a contact. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Campaign -&gt; (structure) Structure to store information associated with a campaign. CampaignId -&gt; (string) A unique identifier for a campaign. Constraints: o min: 1 o max: 100 OutboundStrategy -&gt; (structure) Information about the outbound strategy. Type -&gt; (string) [required] Type of the outbound strategy. Possible values: o AGENT_FIRST Config -&gt; (structure) Config of the outbound strategy. AgentFirst -&gt; (structure) The config of agent first outbound strategy. Preview -&gt; (structure) Information about preview configuration of agent first outbound strategy PostAcceptTimeoutConfig -&gt; (structure) [required] Countdown timer configuration after the agent accepted the preview outbound contact. DurationInSeconds -&gt; (integer) [required] Duration in seconds for the countdown timer after the agent accepted the contact. Constraints: o min: 0 AllowedUserActions -&gt; (list) [required] The actions the agent can perform after accept- ing the preview outbound contact. (string) Possible values: o CALL o DISCARD JSON Syntax: [ { "SystemEndpoint": { "Type": "TELEPHONE_NUMBER"|"VOIP"|"CONTACT_FLOW"|"CONNECT_PHONENUMBER_ARN"|"EMAIL_ADDRESS", "Address": "string" }, "CustomerEndpoint": { "Type": "TELEPHONE_NUMBER"|"VOIP"|"CONTACT_FLOW"|"CONNECT_PHONENUMBER_ARN"|"EMAIL_ADDRESS", "Address": "string" }, "RequestIdentifier": "string", "QueueId": "string", "Attributes": {"string": "string" ...}, "Campaign": { "CampaignId": "string" }, "OutboundStrategy": { "Type": "AGENT_FIRST", "Config": { "AgentFirst": { "Preview": { "PostAcceptTimeoutConfig": { "DurationInSeconds": integer }, "AllowedUserActions": ["CALL"|"DISCARD", ...] } } } } } ... ]</param>
+    public AwsConnectBatchPutContactOptions(
+        string InstanceId,
+        IEnumerable<string> ContactDataRequestList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ContactDataRequestList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ContactDataRequestList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ContactDataRequestList));
+            }
+
+            ContactDataRequestList = materialized;
+        }
+        this.ContactDataRequestList = ContactDataRequestList;
+    }
+
+    private AwsConnectBatchPutContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectBatchPutContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectBatchPutContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// List of individual contact requests. Constraints: o min: 1 o max: 25 (structure) Request object with information to create a contact. SystemEndpoint -&gt; (structure) Endpoint associated with the Connect Customer instance from which outbound contact will be initiated for the campaign. Type -&gt; (string) Type of the endpoint. Possible values: o TELEPHONE_NUMBER o VOIP o CONTACT_FLOW o CONNECT_PHONENUMBER_ARN o EMAIL_ADDRESS Address -&gt; (string) Address of the endpoint. Constraints: o min: 0 o max: 256 CustomerEndpoint -&gt; (structure) Endpoint of the customer for which contact will be initiated. Type -&gt; (string) Type of the endpoint. Possible values: o TELEPHONE_NUMBER o VOIP o CONTACT_FLOW o CONNECT_PHONENUMBER_ARN o EMAIL_ADDRESS Address -&gt; (string) Address of the endpoint. Constraints: o min: 0 o max: 256 RequestIdentifier -&gt; (string) Identifier to uniquely identify individual requests in the batch. Constraints: o max: 80 QueueId -&gt; (string) The identifier of the queue associated with the Connect Cus- tomer instance in which contacts that are created will be queued. Attributes -&gt; (map) List of attributes to be stored in a contact. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Campaign -&gt; (structure) Structure to store information associated with a campaign. CampaignId -&gt; (string) A unique identifier for a campaign. Constraints: o min: 1 o max: 100 OutboundStrategy -&gt; (structure) Information about the outbound strategy. Type -&gt; (string) [required] Type of the outbound strategy. Possible values: o AGENT_FIRST Config -&gt; (structure) Config of the outbound strategy. AgentFirst -&gt; (structure) The config of agent first outbound strategy. Preview -&gt; (structure) Information about preview configuration of agent first outbound strategy PostAcceptTimeoutConfig -&gt; (structure) [required] Countdown timer configuration after the agent accepted the preview outbound contact. DurationInSeconds -&gt; (integer) [required] Duration in seconds for the countdown timer after the agent accepted the contact. Constraints: o min: 0 AllowedUserActions -&gt; (list) [required] The actions the agent can perform after accept- ing the preview outbound contact. (string) Possible values: o CALL o DISCARD JSON Syntax: [ { "SystemEndpoint": { "Type": "TELEPHONE_NUMBER"|"VOIP"|"CONTACT_FLOW"|"CONNECT_PHONENUMBER_ARN"|"EMAIL_ADDRESS", "Address": "string" }, "CustomerEndpoint": { "Type": "TELEPHONE_NUMBER"|"VOIP"|"CONTACT_FLOW"|"CONNECT_PHONENUMBER_ARN"|"EMAIL_ADDRESS", "Address": "string" }, "RequestIdentifier": "string", "QueueId": "string", "Attributes": {"string": "string" ...}, "Campaign": { "CampaignId": "string" }, "OutboundStrategy": { "Type": "AGENT_FIRST", "Config": { "AgentFirst": { "Preview": { "PostAcceptTimeoutConfig": { "DurationInSeconds": integer }, "AllowedUserActions": ["CALL"|"DISCARD", ...] } } } } } ... ]
+    /// </summary>
+    [CliOption("--contact-data-request-list", GroupValues = true)]
+    public IEnumerable<string>? ContactDataRequestList { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
     /// </summary>
@@ -29,16 +90,27 @@ public record AwsConnectBatchPutContactOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
-
-    [CliOption("--contact-data-request-list", GroupValues = true)]
-    public IEnumerable<string>? ContactDataRequestList { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-insights", "update-component-configuration")]
-public record AwsApplicationInsightsUpdateComponentConfigurationOptions : AwsOptions
+public record AwsApplicationInsightsUpdateComponentConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the monitoring configurations for the component. The configura- tion input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigura- tionRecommendation . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ComponentName">The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)</param>
+    public AwsApplicationInsightsUpdateComponentConfigurationOptions(
+        string ResourceGroupName,
+        string ComponentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroupName);
+        this.ResourceGroupName = ResourceGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ComponentName);
+        this.ComponentName = ComponentName;
+    }
+
+    private AwsApplicationInsightsUpdateComponentConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationInsightsUpdateComponentConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationInsightsUpdateComponentConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// </summary>
     [CliOption("--resource-group-name")]
-    public string? ResourceGroupName { get; set; }
+    public string? ResourceGroupName { get; private init; }
 
+    /// <summary>
+    /// The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)
+    /// </summary>
     [CliOption("--component-name")]
-    public string? ComponentName { get; set; }
+    public string? ComponentName { get; private init; }
 
-    [CliFlag("--monitor")]
+    /// <summary>
+    /// Indicates whether the application component is monitored.
+    /// </summary>
+    [CliFlag("--monitor", NegatedName = "--no-monitor")]
     public bool? Monitor { get; set; }
 
     /// <summary>
@@ -42,7 +89,10 @@ public record AwsApplicationInsightsUpdateComponentConfigurationOptions : AwsOpt
     [CliOption("--component-configuration")]
     public string? ComponentConfiguration { get; set; }
 
-    [CliFlag("--auto-config-enabled")]
+    /// <summary>
+    /// Automatically configures the component by applying the recommended configurations.
+    /// </summary>
+    [CliFlag("--auto-config-enabled", NegatedName = "--no-auto-config-enabled")]
     public bool? AutoConfigEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -50,5 +100,22 @@ public record AwsApplicationInsightsUpdateComponentConfigurationOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

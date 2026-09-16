@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secretsmanager", "put-resource-policy")]
-public record AwsSecretsmanagerPutResourcePolicyOptions : AwsOptions
+public record AwsSecretsmanagerPutResourcePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attaches a resource-based permission policy to a secret. A re- source-based policy is optional. For more information, see Authentication and access control for Secrets Manager For information about attaching a policy in the console, see Attach a permissions policy to a secret . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager even...
+    /// </summary>
+    /// <param name="SecretId">The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ResourcePolicy">A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see Permissions policy examples . Constraints: o min: 1 o max: 20480</param>
+    public AwsSecretsmanagerPutResourcePolicyOptions(
+        string SecretId,
+        string ResourcePolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretId);
+        this.SecretId = SecretId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourcePolicy);
+        this.ResourcePolicy = ResourcePolicy;
+    }
+
+    private AwsSecretsmanagerPutResourcePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecretsmanagerPutResourcePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecretsmanagerPutResourcePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
-    public string? SecretId { get; set; }
+    public string? SecretId { get; private init; }
 
+    /// <summary>
+    /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see Permissions policy examples . Constraints: o min: 1 o max: 20480
+    /// </summary>
     [CliOption("--resource-policy")]
-    public string? ResourcePolicy { get; set; }
+    public string? ResourcePolicy { get; private init; }
 
-    [CliFlag("--block-public-policy")]
+    /// <summary>
+    /// Specifies whether to block resource-based policies that allow broad access to the secret, for example those that use a wildcard for the principal. By default, public policies aren't blocked. WARNING: Resource policy validation and the BlockPublicPolicy parameter help protect your resources by preventing public access from be- ing granted through the resource policies that are directly at- tached to your secrets. In addition to using these features, carefully inspect the following policies to confirm that they do not grant public access: o Identity-based policies attached to associated Amazon Web Ser- vices principals (for example, IAM roles) o Resource-based policies attached to associated Amazon Web Ser- vices resources (for example, Key Management Service (KMS) keys) To review permissions to your secrets, see Determine who has permissions to your secrets .
+    /// </summary>
+    [CliFlag("--block-public-policy", NegatedName = "--no-block-public-policy")]
     public bool? BlockPublicPolicy { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -37,5 +84,22 @@ public record AwsSecretsmanagerPutResourcePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

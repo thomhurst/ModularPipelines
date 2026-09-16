@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --elasticfilesystemexclusion.
+/// Allowed values for --elastic-file-system-exclusion.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyVpcEncryptionControlElasticFileSystemExclusion
 {
-    [EnumValue("enable")]
-    Enable = 1,
-
     [EnumValue("disable")]
-    Disable = 2
+    Disable,
+
+    [EnumValue("enable")]
+    Enable
 }

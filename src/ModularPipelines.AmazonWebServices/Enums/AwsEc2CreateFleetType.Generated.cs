@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateFleetType
 {
-    [EnumValue("request")]
-    Request = 1,
+    [EnumValue("instant")]
+    Instant,
 
     [EnumValue("maintain")]
-    Maintain = 2,
+    Maintain,
 
-    [EnumValue("instant")]
-    Instant = 3
+    [EnumValue("request")]
+    Request
 }

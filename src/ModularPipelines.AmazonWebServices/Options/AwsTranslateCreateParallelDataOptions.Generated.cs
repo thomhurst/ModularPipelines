@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("translate", "create-parallel-data")]
-public record AwsTranslateCreateParallelDataOptions : AwsOptions
+public record AwsTranslateCreateParallelDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your trans- lation output. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A custom name for the parallel data resource in Amazon Translate. You must assign a name that is unique in the account and region. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$</param>
+    /// <param name="ParallelDataConfig">Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: o TSV o CSV o TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }</param>
+    public AwsTranslateCreateParallelDataOptions(
+        string Name,
+        string ParallelDataConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ParallelDataConfig);
+        this.ParallelDataConfig = ParallelDataConfig;
+    }
+
+    private AwsTranslateCreateParallelDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranslateCreateParallelDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranslateCreateParallelDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A custom name for the parallel data resource in Amazon Translate. You must assign a name that is unique in the account and region. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Specifies the format and S3 location of the parallel data input file. S3Uri -&gt; (string) The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Format -&gt; (string) The format of the parallel data input file. Possible values: o TSV o CSV o TMX Shorthand Syntax: S3Uri=string,Format=string JSON Syntax: { "S3Uri": "string", "Format": "TSV"|"CSV"|"TMX" }
+    /// </summary>
+    [CliOption("--parallel-data-config")]
+    public string? ParallelDataConfig { get; private init; }
 
     /// <summary>
     /// A custom description for the parallel data resource in Amazon Trans- late. Constraints: o max: 256 o pattern: [\P{M}\p{M}]{0,256}
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--parallel-data-config")]
-    public string? ParallelDataConfig { get; set; }
 
     /// <summary>
     /// The encryption key used to encrypt this object. Type -&gt; (string) [required] The type of encryption key used by Amazon Translate to encrypt this object. Possible values: o KMS Id -&gt; (string) [required] The Amazon Resource Name (ARN) of the encryption key being used to encrypt this object. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "KMS", "Id": "string" }
@@ -58,5 +102,22 @@ public record AwsTranslateCreateParallelDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

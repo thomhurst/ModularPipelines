@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("grafana", "create-workspace-service-account")]
-public record AwsGrafanaCreateWorkspaceServiceAccountOptions : AwsOptions
+public record AwsGrafanaCreateWorkspaceServiceAccountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After cre- ating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above. NOTE: For more information about service accounts,...
+    /// </summary>
+    /// <param name="Name">A name for the service account. The name must be unique within the workspace, as it determines the ID associated with the service ac- count. Constraints: o min: 1 o max: 128</param>
+    /// <param name="GrafanaRole">The permission level to use for this service account. NOTE: For more information about the roles and the permissions each has, see User roles in the Amazon Managed Grafana User Guide . Possible values: o ADMIN o EDITOR o VIEWER</param>
+    /// <param name="WorkspaceId">The ID of the workspace within which to create the service account. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    public AwsGrafanaCreateWorkspaceServiceAccountOptions(
+        string Name,
+        AwsGrafanaCreateWorkspaceServiceAccountGrafanaRole GrafanaRole,
+        string WorkspaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(GrafanaRole);
+        this.GrafanaRole = GrafanaRole;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsGrafanaCreateWorkspaceServiceAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGrafanaCreateWorkspaceServiceAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGrafanaCreateWorkspaceServiceAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the service account. The name must be unique within the workspace, as it determines the ID associated with the service ac- count. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The permission level to use for this service account. NOTE: For more information about the roles and the permissions each has, see User roles in the Amazon Managed Grafana User Guide . Possible values: o ADMIN o EDITOR o VIEWER
+    /// </summary>
     [CliOption("--grafana-role")]
-    public string? GrafanaRole { get; set; }
+    public AwsGrafanaCreateWorkspaceServiceAccountGrafanaRole? GrafanaRole { get; private init; }
 
+    /// <summary>
+    /// The ID of the workspace within which to create the service account. Constraints: o pattern: g-[0-9a-f]{10}
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

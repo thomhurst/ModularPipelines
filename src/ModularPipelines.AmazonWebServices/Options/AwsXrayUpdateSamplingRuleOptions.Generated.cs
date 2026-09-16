@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "update-sampling-rule")]
-public record AwsXrayUpdateSamplingRuleOptions : AwsOptions
+public record AwsXrayUpdateSamplingRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies a sampling rule's configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SamplingRuleUpdate">The rule and fields to change. RuleName -&gt; (string) The name of the sampling rule. Specify a rule by either name or ARN, but not both. Constraints: o min: 1 o max: 32 RuleARN -&gt; (string) The ARN of the sampling rule. Specify a rule by either name or ARN, but not both. ResourceARN -&gt; (string) Matches the ARN of the Amazon Web Services resource on which the service runs. Constraints: o max: 500 Priority -&gt; (integer) The priority of the sampling rule. FixedRate -&gt; (double) The percentage of matching requests to instrument, after the reservoir is exhausted. ReservoirSize -&gt; (integer) A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used di- rectly by services, but applies to all services using the rule collectively. Host -&gt; (string) Matches the hostname from a request URL. Constraints: o max: 64 ServiceName -&gt; (string) Matches the name that the service uses to identify itself in segments. Constraints: o max: 64 ServiceType -&gt; (string) Matches the origin that the service uses to identify its type in segments. Constraints: o max: 64 HTTPMethod -&gt; (string) Matches the HTTP method of a request. Constraints: o max: 10 URLPath -&gt; (string) Matches the path from a request URL. Constraints: o max: 128 Attributes -&gt; (map) Matches attributes derived from the request. Constraints: o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 32 value -&gt; (string) Constraints: o min: 1 o max: 32 SamplingRateBoost -&gt; (structure) Specifies the multiplier applied to the base sampling rate. This boost allows you to temporarily increase sampling without chang- ing the rule's configuration. MaxRate -&gt; (double) [required] Defines max temporary sampling rate to apply when a boost is triggered. Calculated boost rate by X-Ray will be less than or equal to this max rate. Constraints: o min: 0 o max: 1 CooldownWindowMinutes -&gt; (integer) [required] Sets the time window (in minutes) in which only one sampling rate boost can be triggered. After a boost occurs, no further boosts are allowed until the next window. Constraints: o min: 0 Shorthand Syntax: RuleName=string,RuleARN=string,ResourceARN=string,Priority=integer,FixedRate=double,ReservoirSize=integer,Host=string,ServiceName=string,ServiceType=string,HTTPMethod=string,URLPath=string,Attributes={KeyName1=string,KeyName2=string},SamplingRateBoost={MaxRate=double,CooldownWindowMinutes=integer} JSON Syntax: { "RuleName": "string", "RuleARN": "string", "ResourceARN": "string", "Priority": integer, "FixedRate": double, "ReservoirSize": integer, "Host": "string", "ServiceName": "string", "ServiceType": "string", "HTTPMethod": "string", "URLPath": "string", "Attributes": {"string": "string" ...}, "SamplingRateBoost": { "MaxRate": double, "CooldownWindowMinutes": integer } }</param>
+    public AwsXrayUpdateSamplingRuleOptions(
+        string SamplingRuleUpdate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SamplingRuleUpdate);
+        this.SamplingRuleUpdate = SamplingRuleUpdate;
+    }
+
+    private AwsXrayUpdateSamplingRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayUpdateSamplingRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayUpdateSamplingRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The rule and fields to change. RuleName -&gt; (string) The name of the sampling rule. Specify a rule by either name or ARN, but not both. Constraints: o min: 1 o max: 32 RuleARN -&gt; (string) The ARN of the sampling rule. Specify a rule by either name or ARN, but not both. ResourceARN -&gt; (string) Matches the ARN of the Amazon Web Services resource on which the service runs. Constraints: o max: 500 Priority -&gt; (integer) The priority of the sampling rule. FixedRate -&gt; (double) The percentage of matching requests to instrument, after the reservoir is exhausted. ReservoirSize -&gt; (integer) A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used di- rectly by services, but applies to all services using the rule collectively. Host -&gt; (string) Matches the hostname from a request URL. Constraints: o max: 64 ServiceName -&gt; (string) Matches the name that the service uses to identify itself in segments. Constraints: o max: 64 ServiceType -&gt; (string) Matches the origin that the service uses to identify its type in segments. Constraints: o max: 64 HTTPMethod -&gt; (string) Matches the HTTP method of a request. Constraints: o max: 10 URLPath -&gt; (string) Matches the path from a request URL. Constraints: o max: 128 Attributes -&gt; (map) Matches attributes derived from the request. Constraints: o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 32 value -&gt; (string) Constraints: o min: 1 o max: 32 SamplingRateBoost -&gt; (structure) Specifies the multiplier applied to the base sampling rate. This boost allows you to temporarily increase sampling without chang- ing the rule's configuration. MaxRate -&gt; (double) [required] Defines max temporary sampling rate to apply when a boost is triggered. Calculated boost rate by X-Ray will be less than or equal to this max rate. Constraints: o min: 0 o max: 1 CooldownWindowMinutes -&gt; (integer) [required] Sets the time window (in minutes) in which only one sampling rate boost can be triggered. After a boost occurs, no further boosts are allowed until the next window. Constraints: o min: 0 Shorthand Syntax: RuleName=string,RuleARN=string,ResourceARN=string,Priority=integer,FixedRate=double,ReservoirSize=integer,Host=string,ServiceName=string,ServiceType=string,HTTPMethod=string,URLPath=string,Attributes={KeyName1=string,KeyName2=string},SamplingRateBoost={MaxRate=double,CooldownWindowMinutes=integer} JSON Syntax: { "RuleName": "string", "RuleARN": "string", "ResourceARN": "string", "Priority": integer, "FixedRate": double, "ReservoirSize": integer, "Host": "string", "ServiceName": "string", "ServiceType": "string", "HTTPMethod": "string", "URLPath": "string", "Attributes": {"string": "string" ...}, "SamplingRateBoost": { "MaxRate": double, "CooldownWindowMinutes": integer } }
+    /// </summary>
     [CliOption("--sampling-rule-update")]
-    public string? SamplingRuleUpdate { get; set; }
+    public string? SamplingRuleUpdate { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

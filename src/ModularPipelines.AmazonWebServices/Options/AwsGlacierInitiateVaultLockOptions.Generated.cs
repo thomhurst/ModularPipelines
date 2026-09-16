@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glacier", "initiate-vault-lock")]
-public record AwsGlacierInitiateVaultLockOptions : AwsOptions
+public record AwsGlacierInitiateVaultLockOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This operation initiates the vault locking process by doing the follow- ing: o Installing a vault lock policy on the specified vault. o Setting the lock state of vault lock to InProgress . o Returning a lock ID, which is used to complete the vault locking process. You can set one vault lock policy for each vault and this policy can be up to 20 KB in size. For more information about vault lock policies, see Amazon Glacier Access Control with Vault Lock Policies . You must complete the vault locki...
+    /// </summary>
+    /// <param name="AccountId">The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the re- quest. You can either specify an AWS account ID or optionally a sin- gle '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="VaultName">The name of the vault.</param>
+    public AwsGlacierInitiateVaultLockOptions(
+        string AccountId,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    private AwsGlacierInitiateVaultLockOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlacierInitiateVaultLockOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlacierInitiateVaultLockOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the re- quest. You can either specify an AWS account ID or optionally a sin- gle '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The name of the vault.
+    /// </summary>
     [CliOption("--vault-name")]
-    public string? VaultName { get; set; }
+    public string? VaultName { get; private init; }
 
     /// <summary>
     /// The vault lock policy as a JSON string, which uses "" as an escape character. Policy -&gt; (string) The vault lock policy. Shorthand Syntax: Policy=string JSON Syntax: { "Policy": "string" }
@@ -38,5 +82,22 @@ public record AwsGlacierInitiateVaultLockOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

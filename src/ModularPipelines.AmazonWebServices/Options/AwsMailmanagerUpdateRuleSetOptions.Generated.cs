@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "update-rule-set")]
-public record AwsMailmanagerUpdateRuleSetOptions : AwsOptions
+public record AwsMailmanagerUpdateRuleSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update attributes of an already provisioned rule set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleSetId">The identifier of a rule set you want to update. Constraints: o min: 1 o max: 100</param>
+    public AwsMailmanagerUpdateRuleSetOptions(
+        string RuleSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleSetId);
+        this.RuleSetId = RuleSetId;
+    }
+
+    private AwsMailmanagerUpdateRuleSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerUpdateRuleSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerUpdateRuleSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of a rule set you want to update. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--rule-set-id")]
-    public string? RuleSetId { get; set; }
+    public string? RuleSetId { get; private init; }
 
     /// <summary>
     /// A user-friendly name for the rule set resource. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9_.-]+
@@ -41,5 +78,22 @@ public record AwsMailmanagerUpdateRuleSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

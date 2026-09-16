@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "describe-resource-groups")]
-public record AwsInspectorDescribeResourceGroupsOptions : AwsOptions
+public record AwsInspectorDescribeResourceGroupsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the resource groups that are specified by the ARNs of the re- source groups. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceGroupArns">The ARN that specifies the resource group that you want to describe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    public AwsInspectorDescribeResourceGroupsOptions(
+        IEnumerable<string> ResourceGroupArns
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceGroupArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceGroupArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceGroupArns));
+            }
+
+            ResourceGroupArns = materialized;
+        }
+        this.ResourceGroupArns = ResourceGroupArns;
+    }
+
+    private AwsInspectorDescribeResourceGroupsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorDescribeResourceGroupsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorDescribeResourceGroupsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN that specifies the resource group that you want to describe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--resource-group-arns", GroupValues = true)]
-    public IEnumerable<string>? ResourceGroupArns { get; set; }
+    public IEnumerable<string>? ResourceGroupArns { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

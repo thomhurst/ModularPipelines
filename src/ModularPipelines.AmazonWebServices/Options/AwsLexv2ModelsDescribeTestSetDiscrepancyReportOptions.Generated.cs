@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "describe-test-set-discrepancy-report")]
-public record AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions : AwsOptions
+public record AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets metadata information about the test set discrepancy report. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TestSetDiscrepancyReportId">The unique identifier of the test set discrepancy report. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    public AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions(
+        string TestSetDiscrepancyReportId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TestSetDiscrepancyReportId);
+        this.TestSetDiscrepancyReportId = TestSetDiscrepancyReportId;
+    }
+
+    private AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the test set discrepancy report. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--test-set-discrepancy-report-id")]
-    public string? TestSetDiscrepancyReportId { get; set; }
+    public string? TestSetDiscrepancyReportId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

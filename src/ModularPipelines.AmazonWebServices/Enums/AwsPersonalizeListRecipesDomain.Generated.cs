@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsPersonalizeListRecipesDomain
 {
     [EnumValue("ECOMMERCE")]
-    Ecommerce = 1,
+    Ecommerce,
 
     [EnumValue("VIDEO_ON_DEMAND")]
-    VideoOnDemand = 2
+    VideoOnDemand
 }

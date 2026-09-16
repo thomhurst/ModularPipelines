@@ -21,8 +21,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("neptunedata", "execute-open-cypher-explain-query")]
 public record AwsNeptunedataExecuteOpenCypherExplainQueryOptions : AwsOptions
 {
+    /// <summary>
+    /// Executes an openCypher explain request. See The openCypher explain fea- ture for more information. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys availab...
+    /// </summary>
+    /// <param name="OpenCypherQuery">The openCypher query string.</param>
+    /// <param name="ExplainMode">The openCypher explain mode. Can be one of: static , dynamic , or details . Possible values: o static o dynamic o details outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsNeptunedataExecuteOpenCypherExplainQueryOptions(
+        string OpenCypherQuery,
+        string ExplainMode,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OpenCypherQuery);
+        this.OpenCypherQuery = OpenCypherQuery;
+        global::System.ArgumentNullException.ThrowIfNull(ExplainMode);
+        this.ExplainMode = ExplainMode;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string OpenCypherQuery, out string ExplainMode, out string Outfile)
+    {
+        OpenCypherQuery = this.OpenCypherQuery;
+        ExplainMode = this.ExplainMode;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The openCypher query string.
+    /// </summary>
     [CliOption("--open-cypher-query")]
-    public string? OpenCypherQuery { get; set; }
+    public string OpenCypherQuery { get; private init; }
+
+    /// <summary>
+    /// The openCypher explain mode. Can be one of: static , dynamic , or details . Possible values: o static o dynamic o details outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliOption("--explain-mode")]
+    public string ExplainMode { get; private init; }
 
     /// <summary>
     /// The openCypher query parameters.
@@ -30,7 +66,10 @@ public record AwsNeptunedataExecuteOpenCypherExplainQueryOptions : AwsOptions
     [CliOption("--parameters")]
     public string? Parameters { get; set; }
 
-    [CliOption("--explain-mode")]
-    public string? ExplainMode { get; set; }
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

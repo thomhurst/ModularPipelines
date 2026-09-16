@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targetselection.
+/// Allowed values for --target-selection.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotCreateJobTargetSelection
 {
     [EnumValue("CONTINUOUS")]
-    Continuous = 1,
+    Continuous,
 
     [EnumValue("SNAPSHOT")]
-    Snapshot = 2
+    Snapshot
 }

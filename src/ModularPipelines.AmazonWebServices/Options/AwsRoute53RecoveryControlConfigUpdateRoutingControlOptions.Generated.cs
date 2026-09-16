@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-control-config", "update-routing-control")]
-public record AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions : AwsOptions
+public record AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--routing-control-arn")]
-    public string? RoutingControlArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recov- ery Controller. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RoutingControlArn">The Amazon Resource Name (ARN) of the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$</param>
+    /// <param name="RoutingControlName">The name of the routing control. Constraints: o min: 1 o max: 64 o pattern: ^\S+$</param>
+    public AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions(
+        string RoutingControlArn,
+        string RoutingControlName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoutingControlArn);
+        this.RoutingControlArn = RoutingControlArn;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingControlName);
+        this.RoutingControlName = RoutingControlName;
+    }
+
+    private AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// </summary>
+    [CliOption("--routing-control-arn")]
+    public string? RoutingControlArn { get; private init; }
+
+    /// <summary>
+    /// The name of the routing control. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// </summary>
     [CliOption("--routing-control-name")]
-    public string? RoutingControlName { get; set; }
+    public string? RoutingControlName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

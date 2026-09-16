@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog-appregistry", "sync-resource")]
-public record AwsServicecatalogAppregistrySyncResourceOptions : AwsOptions
+public record AwsServicecatalogAppregistrySyncResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Syncs the resource with current AppRegistry records. Specifically, the resources AppRegistry system tags sync with its asso- ciated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have per- missions to read and update the resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceType">The type of resource of which the application will be associated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE</param>
+    /// <param name="Resource">An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudForma- tion stack, or an Amazon S3 bucket. Constraints: o min: 1 o max: 256 o pattern: \S+</param>
+    public AwsServicecatalogAppregistrySyncResourceOptions(
+        AwsServicecatalogAppregistrySyncResourceResourceType ResourceType,
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    private AwsServicecatalogAppregistrySyncResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogAppregistrySyncResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogAppregistrySyncResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of resource of which the application will be associated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE
+    /// </summary>
+    [CliOption("--resource-type")]
+    public AwsServicecatalogAppregistrySyncResourceResourceType? ResourceType { get; private init; }
+
+    /// <summary>
+    /// An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudForma- tion stack, or an Amazon S3 bucket. Constraints: o min: 1 o max: 256 o pattern: \S+
+    /// </summary>
     [CliOption("--resource")]
-    public string? Resource { get; set; }
+    public string? Resource { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

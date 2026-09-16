@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediapackagev2", "delete-origin-endpoint")]
-public record AwsMediapackagev2DeleteOriginEndpointOptions : AwsOptions
+public record AwsMediapackagev2DeleteOriginEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OriginEndpointName">The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsMediapackagev2DeleteOriginEndpointOptions(
+        string ChannelGroupName,
+        string ChannelName,
+        string OriginEndpointName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelGroupName);
+        this.ChannelGroupName = ChannelGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+        global::System.ArgumentNullException.ThrowIfNull(OriginEndpointName);
+        this.OriginEndpointName = OriginEndpointName;
+    }
+
+    private AwsMediapackagev2DeleteOriginEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediapackagev2DeleteOriginEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediapackagev2DeleteOriginEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-group-name")]
-    public string? ChannelGroupName { get; set; }
+    public string? ChannelGroupName { get; private init; }
 
+    /// <summary>
+    /// The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    public string? ChannelName { get; private init; }
 
+    /// <summary>
+    /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--origin-endpoint-name")]
-    public string? OriginEndpointName { get; set; }
+    public string? OriginEndpointName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

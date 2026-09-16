@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "batch-get-router-network-interface")]
-public record AwsMediaconnectBatchGetRouterNetworkInterfaceOptions : AwsOptions
+public record AwsMediaconnectBatchGetRouterNetworkInterfaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arns">The Amazon Resource Names (ARNs) of the router network interfaces you want to retrieve information about. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12} Syntax: "string" "string" ...</param>
+    public AwsMediaconnectBatchGetRouterNetworkInterfaceOptions(
+        IEnumerable<string> Arns
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Arns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Arns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Arns));
+            }
+
+            Arns = materialized;
+        }
+        this.Arns = Arns;
+    }
+
+    private AwsMediaconnectBatchGetRouterNetworkInterfaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectBatchGetRouterNetworkInterfaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectBatchGetRouterNetworkInterfaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Names (ARNs) of the router network interfaces you want to retrieve information about. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--arns", GroupValues = true)]
-    public IEnumerable<string>? Arns { get; set; }
+    public IEnumerable<string>? Arns { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

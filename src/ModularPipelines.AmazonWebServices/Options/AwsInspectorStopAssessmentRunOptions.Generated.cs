@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "stop-assessment-run")]
-public record AwsInspectorStopAssessmentRunOptions : AwsOptions
+public record AwsInspectorStopAssessmentRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops the assessment run that is specified by the ARN of the assessment run. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssessmentRunArn">The ARN of the assessment run that you want to stop. Constraints: o min: 1 o max: 300</param>
+    public AwsInspectorStopAssessmentRunOptions(
+        string AssessmentRunArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentRunArn);
+        this.AssessmentRunArn = AssessmentRunArn;
+    }
+
+    private AwsInspectorStopAssessmentRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorStopAssessmentRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorStopAssessmentRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the assessment run that you want to stop. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--assessment-run-arn")]
-    public string? AssessmentRunArn { get; set; }
+    public string? AssessmentRunArn { get; private init; }
 
     /// <summary>
     /// An input option that can be set to either START_EVALUATION or SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent from collecting data and begins the results evaluation and the findings generation process. SKIP_EVALUATION cancels the assessment run immediately, after which no findings are generated. Possible values: o START_EVALUATION o SKIP_EVALUATION
@@ -36,5 +73,22 @@ public record AwsInspectorStopAssessmentRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

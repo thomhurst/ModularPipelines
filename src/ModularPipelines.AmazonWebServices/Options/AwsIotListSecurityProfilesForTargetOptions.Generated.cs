@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "list-security-profiles-for-target")]
-public record AwsIotListSecurityProfilesForTargetOptions : AwsOptions
+public record AwsIotListSecurityProfilesForTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--recursive")]
-    public bool? Recursive { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Lists the Device Defender security profiles attached to a target (thing group...
+    /// </summary>
+    /// <param name="SecurityProfileTargetArn">The ARN of the target (thing group) whose attached security profiles you want to get.</param>
+    public AwsIotListSecurityProfilesForTargetOptions(
+        string SecurityProfileTargetArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityProfileTargetArn);
+        this.SecurityProfileTargetArn = SecurityProfileTargetArn;
+    }
+
+    private AwsIotListSecurityProfilesForTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotListSecurityProfilesForTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotListSecurityProfilesForTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the target (thing group) whose attached security profiles you want to get.
+    /// </summary>
     [CliOption("--security-profile-target-arn")]
-    public string? SecurityProfileTargetArn { get; set; }
+    public string? SecurityProfileTargetArn { get; private init; }
+
+    /// <summary>
+    /// If true, return child groups too.
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
+    public bool? Recursive { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +92,22 @@ public record AwsIotListSecurityProfilesForTargetOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

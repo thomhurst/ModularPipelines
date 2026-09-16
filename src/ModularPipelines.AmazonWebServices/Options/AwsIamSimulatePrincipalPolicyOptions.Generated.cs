@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "simulate-principal-policy")]
-public record AwsIamSimulatePrincipalPolicyOptions : AwsOptions
+public record AwsIamSimulatePrincipalPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also in- cludes all of the policies that are attached to groups that the user belongs to. You can simulate resources that don't exist in your ac- count. You can optionally include a list of one or more additional policies specifi...
+    /// </summary>
+    /// <param name="PolicySourceArn">The Amazon Resource Name (ARN) of a user, group, or role whose poli- cies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are asso- ciated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user be- longs to. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maxi- mum character counts of a managed policy with no whitespaces, see IAM and STS character quotas . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ActionNames">A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser . (string) Constraints: o min: 3 o max: 128 Syntax: "string" "string" ...</param>
+    public AwsIamSimulatePrincipalPolicyOptions(
+        string PolicySourceArn,
+        IEnumerable<string> ActionNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicySourceArn);
+        this.PolicySourceArn = PolicySourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ActionNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ActionNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ActionNames));
+            }
+
+            ActionNames = materialized;
+        }
+        this.ActionNames = ActionNames;
+    }
+
+    private AwsIamSimulatePrincipalPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamSimulatePrincipalPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamSimulatePrincipalPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of a user, group, or role whose poli- cies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are asso- ciated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user be- longs to. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maxi- mum character counts of a managed policy with no whitespaces, see IAM and STS character quotas . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--policy-source-arn")]
-    public string? PolicySourceArn { get; set; }
+    public string? PolicySourceArn { get; private init; }
+
+    /// <summary>
+    /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser . (string) Constraints: o min: 3 o max: 128 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--action-names", GroupValues = true)]
+    public IEnumerable<string>? ActionNames { get; private init; }
 
     /// <summary>
     /// An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...
@@ -42,9 +100,6 @@ public record AwsIamSimulatePrincipalPolicyOptions : AwsOptions
     /// </summary>
     [CliOption("--policy-exclusion-list", GroupValues = true)]
     public IEnumerable<string>? PolicyExclusionList { get; set; }
-
-    [CliOption("--action-names", GroupValues = true)]
-    public IEnumerable<string>? ActionNames { get; set; }
 
     /// <summary>
     /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value de- faults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation deter- mines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the Re- sourcePolicy parameter. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . NOTE: Simulation of resource-based policies isn't supported for IAM roles. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
@@ -106,5 +161,22 @@ public record AwsIamSimulatePrincipalPolicyOptions : AwsOptions
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

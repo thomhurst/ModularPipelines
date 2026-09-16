@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "replace-network-acl-association")]
-public record AwsEc2ReplaceNetworkAclAssociationOptions : AwsOptions
+public record AwsEc2ReplaceNetworkAclAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Changes which network ACL a subnet is associated with. By default when you create a subnet, it's automatically associated with the default network ACL. For more information, see Network ACLs in the Amazon VPC User Guide . This is an idempotent operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssociationId">The ID of the current association between the original network ACL and the subnet.</param>
+    /// <param name="NetworkAclId">The ID of the new network ACL to associate with the subnet.</param>
+    public AwsEc2ReplaceNetworkAclAssociationOptions(
+        string AssociationId,
+        string NetworkAclId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssociationId);
+        this.AssociationId = AssociationId;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkAclId);
+        this.NetworkAclId = NetworkAclId;
+    }
+
+    private AwsEc2ReplaceNetworkAclAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ReplaceNetworkAclAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ReplaceNetworkAclAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the current association between the original network ACL and the subnet.
+    /// </summary>
     [CliOption("--association-id")]
-    public string? AssociationId { get; set; }
+    public string? AssociationId { get; private init; }
 
+    /// <summary>
+    /// The ID of the new network ACL to associate with the subnet.
+    /// </summary>
     [CliOption("--network-acl-id")]
-    public string? NetworkAclId { get; set; }
+    public string? NetworkAclId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

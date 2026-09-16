@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +22,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "create-agreement-request")]
-public record AwsMarketplaceAgreementCreateAgreementRequestOptions : AwsOptions
+public record AwsMarketplaceAgreementCreateAgreementRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an agreement request that acts as a quote for the terms you want to accept. The agreement request captures the requested terms, calculates charges, and returns a summary. Use AcceptAgreementRequest with the returned agreementRequestId to finalize the agreement. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Intent">The purpose and desired outcome of the agreement request. This is a required parameter that determines how the agreement request is processed. o NEW Creates a new agreement for terms in the request. o AMEND Modifies an existing agreement with terms that are accepted in the request. o REPLACE Creates a new agreement with accepted terms and replaces the existing agreement. Possible values: o NEW o AMEND o REPLACE</param>
+    /// <param name="RequestedTerms">A list of terms that define what is being accepted as part of the agreement. Some terms require configuration. Constraints: o min: 1 o max: 30 (structure) Defines what is being accepted as part of the agreement creation or update request, and it includes their configurations. id -&gt; (string) [required] The unique identifier of the term in the agreement proposal. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9+=;,.@\-_]+ configuration -&gt; (tagged union structure) Additional configuration for the requested terms. This con- figuration is applicable only to the terms that accept a cus- tomer-provided configuration, such as ConfigurableUpfront- PricingTerm . NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: configurableUpfrontPric- ingTermConfiguration, renewalTermConfiguration, variable- PaymentTermConfiguration. configurableUpfrontPricingTermConfiguration -&gt; (structure) Defines a prepaid payment model that allows buyers to configure the entitlements they want to purchase and the duration. selectorValue -&gt; (string) [required] Defines the length of time for which the particular pricing/dimension is being purchased by the acceptor. Constraints: o min: 1 o max: 4096 o pattern: (.)+ dimensions -&gt; (list) [required] Defines the dimensions that the acceptor has purchased from the overall set of dimensions presented in the rate card. Constraints: o min: 1 (structure) Defines the dimensions that the acceptor has pur- chased from the overall set of dimensions pre- sented in the rate card. dimensionKey -&gt; (string) [required] The name of key value of the dimension. Constraints: o min: 1 o max: 4096 o pattern: (.)+ dimensionValue -&gt; (integer) [required] The number of units of the dimension the accep- tor has purchased. NOTE: For Agreements with ConfigurableUpfront- PricingTerm , the RateCard section will de- fine the prices and dimensions defined by the seller (proposer), whereas the Configu- ration section will define the actual di- mensions, prices, and units the buyer has chosen to accept. Constraints: o min: 0 renewalTermConfiguration -&gt; (structure) Additional parameters specified by the acceptor while ac- cepting the term. enableAutoRenew -&gt; (boolean) [required] Defines whether the acceptor has chosen to auto-renew the agreement when it reaches its end date. Can be set to True or False . The acceptor can change this value within the limits set by LockoutPeriod and MaxRenewals . variablePaymentTermConfiguration -&gt; (structure) Additional parameters specified by the acceptor while ac- cepting the variable payment term. paymentRequestApprovalStrategy -&gt; (string) [required] Defines the strategy for approving payment requests. Values include AUTO_APPROVE_ON_EXPIRATION and WAIT_FOR_APPROVAL Possible values: o AUTO_APPROVE_ON_EXPIRATION o WAIT_FOR_APPROVAL expirationDuration -&gt; (string) Defines the duration after which a payment request is automatically approved if no further action is taken. This only applies when the payment request approval strategy is set to AUTO_APPROVE_ON_EXPIRATION . The duration is represented in the ISO_8601 format (e.g., P10D for 10 days). Constraints: o pattern: ([-+]?)P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? JSON Syntax: [ { "id": "string", "configuration": { "configurableUpfrontPricingTermConfiguration": { "selectorValue": "string", "dimensions": [ { "dimensionKey": "string", "dimensionValue": integer } ... ] }, "renewalTermConfiguration": { "enableAutoRenew": true|false }, "variablePaymentTermConfiguration": { "paymentRequestApprovalStrategy": "AUTO_APPROVE_ON_EXPIRATION"|"WAIT_FOR_APPROVAL", "expirationDuration": "string" } } } ... ]</param>
+    public AwsMarketplaceAgreementCreateAgreementRequestOptions(
+        AwsMarketplaceAgreementCreateAgreementRequestIntent Intent,
+        IEnumerable<string> RequestedTerms
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Intent);
+        this.Intent = Intent;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RequestedTerms);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RequestedTerms));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RequestedTerms));
+            }
+
+            RequestedTerms = materialized;
+        }
+        this.RequestedTerms = RequestedTerms;
+    }
+
+    private AwsMarketplaceAgreementCreateAgreementRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementCreateAgreementRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementCreateAgreementRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The purpose and desired outcome of the agreement request. This is a required parameter that determines how the agreement request is processed. o NEW Creates a new agreement for terms in the request. o AMEND Modifies an existing agreement with terms that are accepted in the request. o REPLACE Creates a new agreement with accepted terms and replaces the existing agreement. Possible values: o NEW o AMEND o REPLACE
+    /// </summary>
+    [CliOption("--intent")]
+    public AwsMarketplaceAgreementCreateAgreementRequestIntent? Intent { get; private init; }
+
+    /// <summary>
+    /// A list of terms that define what is being accepted as part of the agreement. Some terms require configuration. Constraints: o min: 1 o max: 30 (structure) Defines what is being accepted as part of the agreement creation or update request, and it includes their configurations. id -&gt; (string) [required] The unique identifier of the term in the agreement proposal. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9+=;,.@\-_]+ configuration -&gt; (tagged union structure) Additional configuration for the requested terms. This con- figuration is applicable only to the terms that accept a cus- tomer-provided configuration, such as ConfigurableUpfront- PricingTerm . NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: configurableUpfrontPric- ingTermConfiguration, renewalTermConfiguration, variable- PaymentTermConfiguration. configurableUpfrontPricingTermConfiguration -&gt; (structure) Defines a prepaid payment model that allows buyers to configure the entitlements they want to purchase and the duration. selectorValue -&gt; (string) [required] Defines the length of time for which the particular pricing/dimension is being purchased by the acceptor. Constraints: o min: 1 o max: 4096 o pattern: (.)+ dimensions -&gt; (list) [required] Defines the dimensions that the acceptor has purchased from the overall set of dimensions presented in the rate card. Constraints: o min: 1 (structure) Defines the dimensions that the acceptor has pur- chased from the overall set of dimensions pre- sented in the rate card. dimensionKey -&gt; (string) [required] The name of key value of the dimension. Constraints: o min: 1 o max: 4096 o pattern: (.)+ dimensionValue -&gt; (integer) [required] The number of units of the dimension the accep- tor has purchased. NOTE: For Agreements with ConfigurableUpfront- PricingTerm , the RateCard section will de- fine the prices and dimensions defined by the seller (proposer), whereas the Configu- ration section will define the actual di- mensions, prices, and units the buyer has chosen to accept. Constraints: o min: 0 renewalTermConfiguration -&gt; (structure) Additional parameters specified by the acceptor while ac- cepting the term. enableAutoRenew -&gt; (boolean) [required] Defines whether the acceptor has chosen to auto-renew the agreement when it reaches its end date. Can be set to True or False . The acceptor can change this value within the limits set by LockoutPeriod and MaxRenewals . variablePaymentTermConfiguration -&gt; (structure) Additional parameters specified by the acceptor while ac- cepting the variable payment term. paymentRequestApprovalStrategy -&gt; (string) [required] Defines the strategy for approving payment requests. Values include AUTO_APPROVE_ON_EXPIRATION and WAIT_FOR_APPROVAL Possible values: o AUTO_APPROVE_ON_EXPIRATION o WAIT_FOR_APPROVAL expirationDuration -&gt; (string) Defines the duration after which a payment request is automatically approved if no further action is taken. This only applies when the payment request approval strategy is set to AUTO_APPROVE_ON_EXPIRATION . The duration is represented in the ISO_8601 format (e.g., P10D for 10 days). Constraints: o pattern: ([-+]?)P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? JSON Syntax: [ { "id": "string", "configuration": { "configurableUpfrontPricingTermConfiguration": { "selectorValue": "string", "dimensions": [ { "dimensionKey": "string", "dimensionValue": integer } ... ] }, "renewalTermConfiguration": { "enableAutoRenew": true|false }, "variablePaymentTermConfiguration": { "paymentRequestApprovalStrategy": "AUTO_APPROVE_ON_EXPIRATION"|"WAIT_FOR_APPROVAL", "expirationDuration": "string" } } } ... ]
+    /// </summary>
+    [CliOption("--requested-terms", GroupValues = true)]
+    public IEnumerable<string>? RequestedTerms { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--intent")]
-    public string? Intent { get; set; }
-
-    [CliOption("--requested-terms", GroupValues = true)]
-    public IEnumerable<string>? RequestedTerms { get; set; }
 
     /// <summary>
     /// The agreement's identifier that the request acts upon. WARNING: This parameter is required for all non-NEW intents (i.e., AMEND or REPLACE ). Don't provide this parameter if the intent is NEW . Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
@@ -58,5 +114,22 @@ public record AwsMarketplaceAgreementCreateAgreementRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

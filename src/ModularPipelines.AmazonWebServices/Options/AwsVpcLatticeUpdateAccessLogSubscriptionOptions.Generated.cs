@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "update-access-log-subscription")]
-public record AwsVpcLatticeUpdateAccessLogSubscriptionOptions : AwsOptions
+public record AwsVpcLatticeUpdateAccessLogSubscriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--access-log-subscription-identifier")]
-    public string? AccessLogSubscriptionIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the specified access log subscription. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccessLogSubscriptionIdentifier">The ID or ARN of the access log subscription. Constraints: o min: 17 o max: 2048 o pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscrip- tion/als-[0-9a-z]{17}))</param>
+    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the access log destination. Constraints: o min: 20 o max: 2048 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
+    public AwsVpcLatticeUpdateAccessLogSubscriptionOptions(
+        string AccessLogSubscriptionIdentifier,
+        string DestinationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessLogSubscriptionIdentifier);
+        this.AccessLogSubscriptionIdentifier = AccessLogSubscriptionIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationArn);
+        this.DestinationArn = DestinationArn;
+    }
+
+    private AwsVpcLatticeUpdateAccessLogSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeUpdateAccessLogSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeUpdateAccessLogSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the access log subscription. Constraints: o min: 17 o max: 2048 o pattern: ((als-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:accesslogsubscrip- tion/als-[0-9a-z]{17}))
+    /// </summary>
+    [CliOption("--access-log-subscription-identifier")]
+    public string? AccessLogSubscriptionIdentifier { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the access log destination. Constraints: o min: 20 o max: 2048 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
+    /// </summary>
     [CliOption("--destination-arn")]
-    public string? DestinationArn { get; set; }
+    public string? DestinationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

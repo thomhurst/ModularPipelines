@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "get-api-key")]
-public record AwsApigatewayGetApiKeyOptions : AwsOptions
+public record AwsApigatewayGetApiKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about the current ApiKey resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiKey">The identifier of the ApiKey resource.</param>
+    public AwsApigatewayGetApiKeyOptions(
+        string ApiKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiKey);
+        this.ApiKey = ApiKey;
+    }
+
+    private AwsApigatewayGetApiKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayGetApiKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayGetApiKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the ApiKey resource.
+    /// </summary>
     [SecretValue]
     [CliOption("--api-key")]
-    public string? ApiKey { get; set; }
+    public string? ApiKey { get; private init; }
 
-    [CliFlag("--include-value")]
+    /// <summary>
+    /// A boolean flag to specify whether (true ) or not (false ) the result contains the key value.
+    /// </summary>
+    [CliFlag("--include-value", NegatedName = "--no-include-value")]
     public bool? IncludeValue { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -34,5 +74,22 @@ public record AwsApigatewayGetApiKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

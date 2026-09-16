@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-a2i-runtime", "list-human-loops")]
-public record AwsSagemakerA2iRuntimeListHumanLoopsOptions : AwsOptions
+public record AwsSagemakerA2iRuntimeListHumanLoopsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included. See also: AWS API Documentation list-human-loops is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
+    /// </summary>
+    /// <param name="FlowDefinitionArn">The Amazon Resource Name (ARN) of a flow definition. Constraints: o max: 1024 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:flow-def- inition/.*</param>
+    public AwsSagemakerA2iRuntimeListHumanLoopsOptions(
+        string FlowDefinitionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowDefinitionArn);
+        this.FlowDefinitionArn = FlowDefinitionArn;
+    }
+
+    private AwsSagemakerA2iRuntimeListHumanLoopsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerA2iRuntimeListHumanLoopsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerA2iRuntimeListHumanLoopsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of a flow definition. Constraints: o max: 1024 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:flow-def- inition/.*
+    /// </summary>
+    [CliOption("--flow-definition-arn")]
+    public string? FlowDefinitionArn { get; private init; }
+
     /// <summary>
     /// (Optional) The timestamp of the date when you want the human loops to begin in ISO 8601 format. For example, 2020-02-24 .
     /// </summary>
@@ -35,14 +74,11 @@ public record AwsSagemakerA2iRuntimeListHumanLoopsOptions : AwsOptions
     [CliOption("--creation-time-before")]
     public string? CreationTimeBefore { get; set; }
 
-    [CliOption("--flow-definition-arn")]
-    public string? FlowDefinitionArn { get; set; }
-
     /// <summary>
     /// Optional. The order for displaying results. Valid values: Ascending and Descending . Possible values: o Ascending o Descending
     /// </summary>
     [CliOption("--sort-order")]
-    public AwsSagemakerA2iRuntimeListHumanLoopsSortOrder? SortOrder { get; set; }
+    public string? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -68,5 +104,22 @@ public record AwsSagemakerA2iRuntimeListHumanLoopsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

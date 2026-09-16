@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-ipam-pool")]
-public record AwsEc2DeleteIpamPoolOptions : AwsOptions
+public record AwsEc2DeleteIpamPoolOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete an IPAM pool. NOTE: You cannot delete an IPAM pool if there are allocations in it or CIDRs provisioned to it. To release allocations, see ReleaseIpamPoolAllocation . To deprovision pool CIDRs, see DeprovisionIpamPoolCidr . For more information, see Delete a pool in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamPoolId">The ID of the pool to delete.</param>
+    public AwsEc2DeleteIpamPoolOptions(
+        string IpamPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamPoolId);
+        this.IpamPoolId = IpamPoolId;
+    }
+
+    private AwsEc2DeleteIpamPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteIpamPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteIpamPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the pool to delete.
+    /// </summary>
+    [CliOption("--ipam-pool-id")]
+    public string? IpamPoolId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--ipam-pool-id")]
-    public string? IpamPoolId { get; set; }
-
-    [CliFlag("--cascade")]
+    /// <summary>
+    /// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools. WARNING: You can only use this option to delete pools in the private scope or pools in the public scope with a source resource. A source resource is a resource used to provision CIDRs to a re- source planning pool.
+    /// </summary>
+    [CliFlag("--cascade", NegatedName = "--no-cascade")]
     public bool? Cascade { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +78,22 @@ public record AwsEc2DeleteIpamPoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

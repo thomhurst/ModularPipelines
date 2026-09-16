@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --uplinkgbps.
+/// Allowed values for --uplink-gbps.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesUplinkGbps
 {
-    [EnumValue("UPLINK_1G")]
-    Uplink_1G = 1,
+    [EnumValue("UPLINK_100G")]
+    Uplink100G,
 
     [EnumValue("UPLINK_10G")]
-    Uplink_10G = 2,
+    Uplink10G,
+
+    [EnumValue("UPLINK_1G")]
+    Uplink1G,
 
     [EnumValue("UPLINK_40G")]
-    Uplink_40G = 3,
-
-    [EnumValue("UPLINK_100G")]
-    Uplink_100G = 4
+    Uplink40G
 }

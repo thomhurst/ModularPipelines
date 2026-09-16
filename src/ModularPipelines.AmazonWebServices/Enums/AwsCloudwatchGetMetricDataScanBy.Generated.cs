@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scanby.
+/// Allowed values for --scan-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudwatchGetMetricDataScanBy
 {
-    [EnumValue("TimestampDescending")]
-    TimestampDescending = 1,
-
     [EnumValue("TimestampAscending")]
-    TimestampAscending = 2
+    TimestampAscending,
+
+    [EnumValue("TimestampDescending")]
+    TimestampDescending
 }

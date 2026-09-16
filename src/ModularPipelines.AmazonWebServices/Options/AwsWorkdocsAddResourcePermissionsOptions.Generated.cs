@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workdocs", "add-resource-permissions")]
-public record AwsWorkdocsAddResourcePermissionsOptions : AwsOptions
+public record AwsWorkdocsAddResourcePermissionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="Principals">The users, groups, or organization being granted permission. (structure) Describes the recipient type and ID, if available. Id -&gt; (string) [required] The ID of the recipient. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+ Type -&gt; (string) [required] The type of the recipient. Possible values: o USER o GROUP o INVITE o ANONYMOUS o ORGANIZATION Role -&gt; (string) [required] The role of the recipient. Possible values: o VIEWER o CONTRIBUTOR o OWNER o COOWNER Shorthand Syntax: Id=string,Type=string,Role=string ... JSON Syntax: [ { "Id": "string", "Type": "USER"|"GROUP"|"INVITE"|"ANONYMOUS"|"ORGANIZATION", "Role": "VIEWER"|"CONTRIBUTOR"|"OWNER"|"COOWNER" } ... ]</param>
+    public AwsWorkdocsAddResourcePermissionsOptions(
+        string ResourceId,
+        IEnumerable<string> Principals
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Principals);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Principals));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Principals));
+            }
+
+            Principals = materialized;
+        }
+        this.Principals = Principals;
+    }
+
+    private AwsWorkdocsAddResourcePermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkdocsAddResourcePermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkdocsAddResourcePermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// The users, groups, or organization being granted permission. (structure) Describes the recipient type and ID, if available. Id -&gt; (string) [required] The ID of the recipient. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+ Type -&gt; (string) [required] The type of the recipient. Possible values: o USER o GROUP o INVITE o ANONYMOUS o ORGANIZATION Role -&gt; (string) [required] The role of the recipient. Possible values: o VIEWER o CONTRIBUTOR o OWNER o COOWNER Shorthand Syntax: Id=string,Type=string,Role=string ... JSON Syntax: [ { "Id": "string", "Type": "USER"|"GROUP"|"INVITE"|"ANONYMOUS"|"ORGANIZATION", "Role": "VIEWER"|"CONTRIBUTOR"|"OWNER"|"COOWNER" } ... ]
+    /// </summary>
+    [CliOption("--principals", GroupValues = true)]
+    public IEnumerable<string>? Principals { get; private init; }
+
     /// <summary>
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
-
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
-
-    [CliOption("--principals", GroupValues = true)]
-    public IEnumerable<string>? Principals { get; set; }
 
     /// <summary>
     /// The notification options. SendEmail -&gt; (boolean) Boolean value to indicate an email notification should be sent to the recipients. EmailMessage -&gt; (string) Text value to be included in the email body. Constraints: o min: 0 o max: 2048 Shorthand Syntax: SendEmail=boolean,EmailMessage=string JSON Syntax: { "SendEmail": true|false, "EmailMessage": "string" }
@@ -46,5 +101,22 @@ public record AwsWorkdocsAddResourcePermissionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

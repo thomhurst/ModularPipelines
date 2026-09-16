@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --phonenumbertype.
+/// Allowed values for --phone-number-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceSearchAvailablePhoneNumbersPhoneNumberType
 {
     [EnumValue("Local")]
-    Local = 1,
+    Local,
 
     [EnumValue("TollFree")]
-    TollFree = 2
+    TollFree
 }

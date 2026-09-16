@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "update-vpc-ingress-connection")]
-public record AwsApprunnerUpdateVpcIngressConnectionOptions : AwsOptions
+public record AwsApprunnerUpdateVpcIngressConnectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--vpc-ingress-connection-arn")]
-    public string? VpcIngressConnectionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be up- dated: o AVAILABLE o FAILED_CREATION o FAILED_UPDATE See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpcIngressConnectionArn">The Amazon Resource Name (Arn) for the App Runner VPC Ingress Con- nection resource that you want to update. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="IngressVpcConfiguration">Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to update the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: o min: 0 o max: 51200 o pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: o min: 0 o max: 51200 o pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }</param>
+    public AwsApprunnerUpdateVpcIngressConnectionOptions(
+        string VpcIngressConnectionArn,
+        string IngressVpcConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcIngressConnectionArn);
+        this.VpcIngressConnectionArn = VpcIngressConnectionArn;
+        global::System.ArgumentNullException.ThrowIfNull(IngressVpcConfiguration);
+        this.IngressVpcConfiguration = IngressVpcConfiguration;
+    }
+
+    private AwsApprunnerUpdateVpcIngressConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerUpdateVpcIngressConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerUpdateVpcIngressConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (Arn) for the App Runner VPC Ingress Con- nection resource that you want to update. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// </summary>
+    [CliOption("--vpc-ingress-connection-arn")]
+    public string? VpcIngressConnectionArn { get; private init; }
+
+    /// <summary>
+    /// Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to update the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: o min: 0 o max: 51200 o pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: o min: 0 o max: 51200 o pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }
+    /// </summary>
     [CliOption("--ingress-vpc-configuration")]
-    public string? IngressVpcConfiguration { get; set; }
+    public string? IngressVpcConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

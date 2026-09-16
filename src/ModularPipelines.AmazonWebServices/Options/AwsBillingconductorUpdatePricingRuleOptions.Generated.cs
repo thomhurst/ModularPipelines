@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billingconductor", "update-pricing-rule")]
-public record AwsBillingconductorUpdatePricingRuleOptions : AwsOptions
+public record AwsBillingconductorUpdatePricingRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing pricing rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the pricing rule to update. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10}</param>
+    public AwsBillingconductorUpdatePricingRuleOptions(
+        string Arn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+    }
+
+    private AwsBillingconductorUpdatePricingRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingconductorUpdatePricingRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingconductorUpdatePricingRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the pricing rule to update. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10}
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
 
     /// <summary>
     /// The new name of the pricing rule. The name must be unique to each pricing rule. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
@@ -50,7 +87,7 @@ public record AwsBillingconductorUpdatePricingRuleOptions : AwsOptions
     public int? ModifierPercentage { get; set; }
 
     /// <summary>
-    /// The set of tiering configurations for the pricing rule. FreeTier -&gt; (structure) [required] The possible Amazon Web Services Free Tier configurations. Activated -&gt; (boolean) [required] Activate or deactivate application of Amazon Web Services Free Tier. Shorthand Syntax: FreeTier={Activated=boolean} JSON Syntax: { "FreeTier": { "Activated": true|false } }
+    /// The set of tiering configurations for the pricing rule. FreeTier -&gt; (structure) The possible Amazon Web Services Free Tier configurations. Activated -&gt; (boolean) [required] Activate or deactivate application of Amazon Web Services Free Tier. CustomTiers -&gt; (list) The set of custom tiers for the pricing rule. Constraints: o min: 1 o max: 10 (structure) A custom tier for the pricing rule. Each custom tier applies a rate to the usage that falls within the tier's range. BeginRangeInclusive -&gt; (double) [required] The inclusive start of the usage range that this tier ap- plies to. Constraints: o min: 0 EndRangeExclusive -&gt; (double) The exclusive end of the usage range that this tier ap- plies to. If you don't specify a value, this tier applies to all usage that is greater than or equal to Begin- RangeInclusive . Constraints: o min: 0 RateValue -&gt; (double) [required] The rate that's applied to the usage that falls within this tier. Constraints: o min: 0 Shorthand Syntax: FreeTier={Activated=boolean},CustomTiers=[{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double},{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double}] JSON Syntax: { "FreeTier": { "Activated": true|false }, "CustomTiers": [ { "BeginRangeInclusive": double, "EndRangeExclusive": double, "RateValue": double } ... ] }
     /// </summary>
     [CliOption("--tiering")]
     public string? Tiering { get; set; }
@@ -60,5 +97,22 @@ public record AwsBillingconductorUpdatePricingRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

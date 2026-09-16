@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --revocationmode.
+/// Allowed values for --revocation-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftstreamsRevokeStreamUrlRevocationMode
 {
-    [EnumValue("REVOKE_URL")]
-    RevokeUrl = 1,
-
     [EnumValue("REVOKE_AND_TERMINATE_SESSIONS")]
-    RevokeAndTerminateSessions = 2
+    RevokeAndTerminateSessions,
+
+    [EnumValue("REVOKE_URL")]
+    RevokeUrl
 }

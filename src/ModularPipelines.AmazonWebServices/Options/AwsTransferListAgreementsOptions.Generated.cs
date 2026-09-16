@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "list-agreements")]
-public record AwsTransferListAgreementsOptions : AwsOptions
+public record AwsTransferListAgreementsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken , you can supply that value to continue listing agreements from where you left off. See also: AWS API Documentation list-agreements is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set...
+    /// </summary>
+    /// <param name="ServerId">The identifier of the server for which you want a list of agree- ments. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    public AwsTransferListAgreementsOptions(
+        string ServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+    }
+
+    private AwsTransferListAgreementsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferListAgreementsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferListAgreementsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the server for which you want a list of agree- ments. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// </summary>
     [CliOption("--server-id")]
-    public string? ServerId { get; set; }
+    public string? ServerId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsTransferListAgreementsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

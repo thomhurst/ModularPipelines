@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListDomainsStatus
 {
-    [EnumValue("CREATING")]
-    Creating = 1,
-
     [EnumValue("AVAILABLE")]
-    Available = 2,
+    Available,
+
+    [EnumValue("CREATING")]
+    Creating,
 
     [EnumValue("CREATION_FAILED")]
-    CreationFailed = 3,
-
-    [EnumValue("DELETING")]
-    Deleting = 4,
+    CreationFailed,
 
     [EnumValue("DELETED")]
-    Deleted = 5,
+    Deleted,
+
+    [EnumValue("DELETING")]
+    Deleting,
 
     [EnumValue("DELETION_FAILED")]
-    DeletionFailed = 6
+    DeletionFailed
 }

@@ -51,7 +51,7 @@ public record AwsSagemakerListResourceCatalogsOptions : AwsOptions
     /// The value on which the resource catalog list is sorted. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsSagemakerListResourceCatalogsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

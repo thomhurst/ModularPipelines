@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --changesettype.
+/// Allowed values for --change-set-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationCreateChangeSetChangeSetType
 {
     [EnumValue("CREATE")]
-    Create = 1,
-
-    [EnumValue("UPDATE")]
-    Update = 2,
+    Create,
 
     [EnumValue("IMPORT")]
-    Import = 3
+    Import,
+
+    [EnumValue("UPDATE")]
+    Update
 }

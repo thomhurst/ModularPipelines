@@ -10,24 +10,84 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the Application. Only Applications that don't have any Applica- tion Associations can be deleted. See also: AWS API Documentation
+/// Deletes an application. If the application has associations, you must delete them first. Alternatively, use the force option to delete the application and remove its associations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appintegrations", "delete-application")]
-public record AwsAppintegrationsDeleteApplicationOptions : AwsOptions
+public record AwsAppintegrationsDeleteApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an application. If the application has associations, you must delete them first. Alternatively, use the force option to delete the application and remove its associations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the Application. Constraints: o min: 1 o max: 2048 o pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$</param>
+    public AwsAppintegrationsDeleteApplicationOptions(
+        string Arn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+    }
+
+    private AwsAppintegrationsDeleteApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppintegrationsDeleteApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppintegrationsDeleteApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Application. Constraints: o min: 1 o max: 2048 o pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to delete the application even if it still has ap- plication associations. If true , the operation removes the applica- tion and its associations. If false or absent, the delete fails when associations exist. WARNING: Setting this parameter to true permanently removes all of the application's associations. Doing so might impact other re- sources that rely on and reference the application. This action can't be undone.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
+    public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

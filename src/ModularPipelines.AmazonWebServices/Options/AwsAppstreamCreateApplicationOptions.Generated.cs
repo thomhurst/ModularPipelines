@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,118 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "create-application")]
-public record AwsAppstreamCreateApplicationOptions : AwsOptions
+public record AwsAppstreamCreateApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an application. Applications are a WorkSpaces Applications resource that stores the de- tails about how to launch applications on Elastic fleet streaming in- stances. An application consists of the launch details, icon, and dis- play name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets. See also: AWS API Docu...
+    /// </summary>
+    /// <param name="Name">The name of the application. This name is visible to users when dis- play name is not specified. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="IconS3Location">The location in S3 of the application icon. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    /// <param name="LaunchPath">The launch path of the application. Constraints: o min: 1</param>
+    /// <param name="Platforms">The platforms the application supports. WINDOWS_SERVER_2019, AMA- ZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets. Constraints: o max: 4 (string) Possible values: o WINDOWS o WINDOWS_SERVER_2016 o WINDOWS_SERVER_2019 o WINDOWS_SERVER_2022 o WINDOWS_SERVER_2025 o AMAZON_LINUX2 o RHEL8 o ROCKY_LINUX8 o UBUNTU_PRO_2404 Syntax: "string" "string" ...</param>
+    /// <param name="InstanceFamilies">The instance families the application supports. Valid values are GENERAL_PURPOSE and GRAPHICS_G4. (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="AppBlockArn">The app block ARN to which the application should be associated Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$</param>
+    public AwsAppstreamCreateApplicationOptions(
+        string Name,
+        string IconS3Location,
+        string LaunchPath,
+        IEnumerable<string> Platforms,
+        IEnumerable<string> InstanceFamilies,
+        string AppBlockArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(IconS3Location);
+        this.IconS3Location = IconS3Location;
+        global::System.ArgumentNullException.ThrowIfNull(LaunchPath);
+        this.LaunchPath = LaunchPath;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Platforms);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Platforms));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Platforms));
+            }
+
+            Platforms = materialized;
+        }
+        this.Platforms = Platforms;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceFamilies);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceFamilies));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceFamilies));
+            }
+
+            InstanceFamilies = materialized;
+        }
+        this.InstanceFamilies = InstanceFamilies;
+        global::System.ArgumentNullException.ThrowIfNull(AppBlockArn);
+        this.AppBlockArn = AppBlockArn;
+    }
+
+    private AwsAppstreamCreateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamCreateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamCreateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application. This name is visible to users when dis- play name is not specified. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The location in S3 of the application icon. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// </summary>
+    [CliOption("--icon-s3-location")]
+    public string? IconS3Location { get; private init; }
+
+    /// <summary>
+    /// The launch path of the application. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--launch-path")]
+    public string? LaunchPath { get; private init; }
+
+    /// <summary>
+    /// The platforms the application supports. WINDOWS_SERVER_2019, AMA- ZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets. Constraints: o max: 4 (string) Possible values: o WINDOWS o WINDOWS_SERVER_2016 o WINDOWS_SERVER_2019 o WINDOWS_SERVER_2022 o WINDOWS_SERVER_2025 o AMAZON_LINUX2 o RHEL8 o ROCKY_LINUX8 o UBUNTU_PRO_2404 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--platforms", GroupValues = true)]
+    public IEnumerable<string>? Platforms { get; private init; }
+
+    /// <summary>
+    /// The instance families the application supports. Valid values are GENERAL_PURPOSE and GRAPHICS_G4. (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--instance-families", GroupValues = true)]
+    public IEnumerable<string>? InstanceFamilies { get; private init; }
+
+    /// <summary>
+    /// The app block ARN to which the application should be associated Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// </summary>
+    [CliOption("--app-block-arn")]
+    public string? AppBlockArn { get; private init; }
 
     /// <summary>
     /// The display name of the application. This name is visible to users in the application catalog. Constraints: o max: 100
@@ -37,12 +146,6 @@ public record AwsAppstreamCreateApplicationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--icon-s3-location")]
-    public string? IconS3Location { get; set; }
-
-    [CliOption("--launch-path")]
-    public string? LaunchPath { get; set; }
-
     /// <summary>
     /// The working directory of the application. Constraints: o min: 1
     /// </summary>
@@ -55,15 +158,6 @@ public record AwsAppstreamCreateApplicationOptions : AwsOptions
     [CliOption("--launch-parameters")]
     public string? LaunchParameters { get; set; }
 
-    [CliOption("--platforms", GroupValues = true)]
-    public IEnumerable<string>? Platforms { get; set; }
-
-    [CliOption("--instance-families", GroupValues = true)]
-    public IEnumerable<string>? InstanceFamilies { get; set; }
-
-    [CliOption("--app-block-arn")]
-    public string? AppBlockArn { get; set; }
-
     /// <summary>
     /// The tags assigned to the application. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -75,5 +169,22 @@ public record AwsAppstreamCreateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

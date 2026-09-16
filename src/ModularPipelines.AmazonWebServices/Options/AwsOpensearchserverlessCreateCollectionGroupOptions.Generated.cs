@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearchserverless", "create-collection-group")]
-public record AwsOpensearchserverlessCreateCollectionGroupOptions : AwsOptions
+public record AwsOpensearchserverlessCreateCollectionGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a collection group within OpenSearch Serverless. Collection groups let you manage OpenSearch Compute Units (OCUs) at a group level, with multiple collections sharing the group's capacity limits. For more information, see Managing collection groups . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the collection group. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="StandbyReplicas">Indicates whether standby replicas should be used for a collection group. Possible values: o ENABLED o DISABLED</param>
+    public AwsOpensearchserverlessCreateCollectionGroupOptions(
+        string Name,
+        AwsOpensearchserverlessCreateCollectionGroupStandbyReplicas StandbyReplicas
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(StandbyReplicas);
+        this.StandbyReplicas = StandbyReplicas;
+    }
+
+    private AwsOpensearchserverlessCreateCollectionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchserverlessCreateCollectionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchserverlessCreateCollectionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the collection group. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Indicates whether standby replicas should be used for a collection group. Possible values: o ENABLED o DISABLED
+    /// </summary>
     [CliOption("--standby-replicas")]
-    public string? StandbyReplicas { get; set; }
+    public AwsOpensearchserverlessCreateCollectionGroupStandbyReplicas? StandbyReplicas { get; private init; }
 
     /// <summary>
     /// A description of the collection group. Constraints: o min: 0 o max: 1000
@@ -65,5 +109,22 @@ public record AwsOpensearchserverlessCreateCollectionGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +21,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "start-audience-generation-job")]
-public record AwsCleanroomsmlStartAudienceGenerationJobOptions : AwsOptions
+public record AwsCleanroomsmlStartAudienceGenerationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Information necessary to start the audience generation job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the audience generation job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="ConfiguredAudienceModelArn">The Amazon Resource Name (ARN) of the configured audience model that is used for this audience generation job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="SeedAudience">The seed audience that is used to generate the audience. dataSource -&gt; (structure) Defines the Amazon S3 bucket where the seed audience for the generating audience is stored. A valid data source is a JSON line file in the following format: {"user_id": "111111"} {"user_id": "222222"} ... s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: o min: 1 o max: 1285 o pattern: s3://.+ roleArn -&gt; (string) [required] The ARN of the IAM role that can read the Amazon S3 bucket where the seed audience is stored. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ sqlParameters -&gt; (structure) The protected SQL query parameters. queryString -&gt; (string) The query string to be submitted. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) associated with the analysis template within a collaboration. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) The protected query SQL parameters. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 sqlComputeConfiguration -&gt; (tagged union structure) Provides configuration information for the instances that will perform the compute work. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: worker. worker -&gt; (structure) The worker instances that will perform the compute work. type -&gt; (string) The instance type of the compute workers that are used. Possible values: o CR.1X o CR.4X o CR.8X number -&gt; (integer) The number of compute workers that are used. Constraints: o min: 2 o max: 1024 properties -&gt; (tagged union structure) The configuration properties for the worker compute envi- ronment. These properties allow you to customize the com- pute settings for your Clean Rooms workloads. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: spark. spark -&gt; (map) The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 200 value -&gt; (string) Constraints: o min: 0 o max: 500 JSON Syntax: { "dataSource": { "s3Uri": "string" }, "roleArn": "string", "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }, "sqlComputeConfiguration": { "worker": { "type": "CR.1X"|"CR.4X"|"CR.8X", "number": integer, "properties": { "spark": {"string": "string" ...} } } } }</param>
+    public AwsCleanroomsmlStartAudienceGenerationJobOptions(
+        string Name,
+        string ConfiguredAudienceModelArn,
+        string SeedAudience
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredAudienceModelArn);
+        this.ConfiguredAudienceModelArn = ConfiguredAudienceModelArn;
+        global::System.ArgumentNullException.ThrowIfNull(SeedAudience);
+        this.SeedAudience = SeedAudience;
+    }
+
+    private AwsCleanroomsmlStartAudienceGenerationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlStartAudienceGenerationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlStartAudienceGenerationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the audience generation job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the configured audience model that is used for this audience generation job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+
+    /// </summary>
     [CliOption("--configured-audience-model-arn")]
-    public string? ConfiguredAudienceModelArn { get; set; }
+    public string? ConfiguredAudienceModelArn { get; private init; }
 
+    /// <summary>
+    /// The seed audience that is used to generate the audience. dataSource -&gt; (structure) Defines the Amazon S3 bucket where the seed audience for the generating audience is stored. A valid data source is a JSON line file in the following format: {"user_id": "111111"} {"user_id": "222222"} ... s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: o min: 1 o max: 1285 o pattern: s3://.+ roleArn -&gt; (string) [required] The ARN of the IAM role that can read the Amazon S3 bucket where the seed audience is stored. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ sqlParameters -&gt; (structure) The protected SQL query parameters. queryString -&gt; (string) The query string to be submitted. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) associated with the analysis template within a collaboration. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) The protected query SQL parameters. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 sqlComputeConfiguration -&gt; (tagged union structure) Provides configuration information for the instances that will perform the compute work. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: worker. worker -&gt; (structure) The worker instances that will perform the compute work. type -&gt; (string) The instance type of the compute workers that are used. Possible values: o CR.1X o CR.4X o CR.8X number -&gt; (integer) The number of compute workers that are used. Constraints: o min: 2 o max: 1024 properties -&gt; (tagged union structure) The configuration properties for the worker compute envi- ronment. These properties allow you to customize the com- pute settings for your Clean Rooms workloads. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: spark. spark -&gt; (map) The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 200 value -&gt; (string) Constraints: o min: 0 o max: 500 JSON Syntax: { "dataSource": { "s3Uri": "string" }, "roleArn": "string", "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }, "sqlComputeConfiguration": { "worker": { "type": "CR.1X"|"CR.4X"|"CR.8X", "number": integer, "properties": { "spark": {"string": "string" ...} } } } }
+    /// </summary>
     [CliOption("--seed-audience")]
-    public string? SeedAudience { get; set; }
+    public string? SeedAudience { get; private init; }
 
-    [CliFlag("--include-seed-in-output")]
+    /// <summary>
+    /// Whether the seed audience is included in the audience generation output.
+    /// </summary>
+    [CliFlag("--include-seed-in-output", NegatedName = "--no-include-seed-in-output")]
     public bool? IncludeSeedInOutput { get; set; }
 
     /// <summary>
@@ -57,5 +111,22 @@ public record AwsCleanroomsmlStartAudienceGenerationJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

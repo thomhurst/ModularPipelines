@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListImagesSortBy
 {
     [EnumValue("CREATION_TIME")]
-    CreationTime = 1,
-
-    [EnumValue("LAST_MODIFIED_TIME")]
-    LastModifiedTime = 2,
+    CreationTime,
 
     [EnumValue("IMAGE_NAME")]
-    ImageName = 3
+    ImageName,
+
+    [EnumValue("LAST_MODIFIED_TIME")]
+    LastModifiedTime
 }

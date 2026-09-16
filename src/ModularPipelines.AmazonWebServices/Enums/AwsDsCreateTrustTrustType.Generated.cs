@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --trusttype.
+/// Allowed values for --trust-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDsCreateTrustTrustType
 {
-    [EnumValue("Forest")]
-    Forest = 1,
-
     [EnumValue("External")]
-    External = 2
+    External,
+
+    [EnumValue("Forest")]
+    Forest
 }

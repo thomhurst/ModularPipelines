@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptAttachmentAsync(
-        AwsNetworkmanagerAcceptAttachmentOptions? options = null,
+        AwsNetworkmanagerAcceptAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerAcceptAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateConnectPeerAsync(
-        AwsNetworkmanagerAssociateConnectPeerOptions? options = null,
+        AwsNetworkmanagerAssociateConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerAssociateConnectPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateCustomerGatewayAsync(
-        AwsNetworkmanagerAssociateCustomerGatewayOptions? options = null,
+        AwsNetworkmanagerAssociateCustomerGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerAssociateCustomerGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateLinkAsync(
-        AwsNetworkmanagerAssociateLinkOptions? options = null,
+        AwsNetworkmanagerAssociateLinkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerAssociateLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateTransitGatewayConnectPeerAsync(
-        AwsNetworkmanagerAssociateTransitGatewayConnectPeerOptions? options = null,
+        AwsNetworkmanagerAssociateTransitGatewayConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerAssociateTransitGatewayConnectPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectAttachmentAsync(
-        AwsNetworkmanagerCreateConnectAttachmentOptions? options = null,
+        AwsNetworkmanagerCreateConnectAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateConnectAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectionAsync(
-        AwsNetworkmanagerCreateConnectionOptions? options = null,
+        AwsNetworkmanagerCreateConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectPeerAsync(
-        AwsNetworkmanagerCreateConnectPeerOptions? options = null,
+        AwsNetworkmanagerCreateConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateConnectPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCoreNetworkAsync(
-        AwsNetworkmanagerCreateCoreNetworkOptions? options = null,
+        AwsNetworkmanagerCreateCoreNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateCoreNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCoreNetworkPrefixListAssociationAsync(
-        AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions? options = null,
+        AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDeviceAsync(
-        AwsNetworkmanagerCreateDeviceOptions? options = null,
+        AwsNetworkmanagerCreateDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDirectConnectGatewayAttachmentAsync(
-        AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions? options = null,
+        AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -224,7 +224,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateGlobalNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateGlobalNetworkOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLinkAsync(
-        AwsNetworkmanagerCreateLinkOptions? options = null,
+        AwsNetworkmanagerCreateLinkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSiteAsync(
-        AwsNetworkmanagerCreateSiteOptions? options = null,
+        AwsNetworkmanagerCreateSiteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateSiteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSiteToSiteVpnAttachmentAsync(
-        AwsNetworkmanagerCreateSiteToSiteVpnAttachmentOptions? options = null,
+        AwsNetworkmanagerCreateSiteToSiteVpnAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateSiteToSiteVpnAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayPeeringAsync(
-        AwsNetworkmanagerCreateTransitGatewayPeeringOptions? options = null,
+        AwsNetworkmanagerCreateTransitGatewayPeeringOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateTransitGatewayPeeringOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTransitGatewayRouteTableAttachmentAsync(
-        AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions? options = null,
+        AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVpcAttachmentAsync(
-        AwsNetworkmanagerCreateVpcAttachmentOptions? options = null,
+        AwsNetworkmanagerCreateVpcAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerCreateVpcAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAttachmentAsync(
-        AwsNetworkmanagerDeleteAttachmentOptions? options = null,
+        AwsNetworkmanagerDeleteAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConnectionAsync(
-        AwsNetworkmanagerDeleteConnectionOptions? options = null,
+        AwsNetworkmanagerDeleteConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConnectPeerAsync(
-        AwsNetworkmanagerDeleteConnectPeerOptions? options = null,
+        AwsNetworkmanagerDeleteConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteConnectPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCoreNetworkAsync(
-        AwsNetworkmanagerDeleteCoreNetworkOptions? options = null,
+        AwsNetworkmanagerDeleteCoreNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteCoreNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCoreNetworkPolicyVersionAsync(
-        AwsNetworkmanagerDeleteCoreNetworkPolicyVersionOptions? options = null,
+        AwsNetworkmanagerDeleteCoreNetworkPolicyVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteCoreNetworkPolicyVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCoreNetworkPrefixListAssociationAsync(
-        AwsNetworkmanagerDeleteCoreNetworkPrefixListAssociationOptions? options = null,
+        AwsNetworkmanagerDeleteCoreNetworkPrefixListAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteCoreNetworkPrefixListAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDeviceAsync(
-        AwsNetworkmanagerDeleteDeviceOptions? options = null,
+        AwsNetworkmanagerDeleteDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteGlobalNetworkAsync(
-        AwsNetworkmanagerDeleteGlobalNetworkOptions? options = null,
+        AwsNetworkmanagerDeleteGlobalNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteGlobalNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLinkAsync(
-        AwsNetworkmanagerDeleteLinkOptions? options = null,
+        AwsNetworkmanagerDeleteLinkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePeeringAsync(
-        AwsNetworkmanagerDeletePeeringOptions? options = null,
+        AwsNetworkmanagerDeletePeeringOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeletePeeringOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteResourcePolicyAsync(
-        AwsNetworkmanagerDeleteResourcePolicyOptions? options = null,
+        AwsNetworkmanagerDeleteResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +490,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSiteAsync(
-        AwsNetworkmanagerDeleteSiteOptions? options = null,
+        AwsNetworkmanagerDeleteSiteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeleteSiteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +505,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeregisterTransitGatewayAsync(
-        AwsNetworkmanagerDeregisterTransitGatewayOptions? options = null,
+        AwsNetworkmanagerDeregisterTransitGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDeregisterTransitGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -524,7 +524,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDescribeGlobalNetworksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDescribeGlobalNetworksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateConnectPeerAsync(
-        AwsNetworkmanagerDisassociateConnectPeerOptions? options = null,
+        AwsNetworkmanagerDisassociateConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDisassociateConnectPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +550,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateCustomerGatewayAsync(
-        AwsNetworkmanagerDisassociateCustomerGatewayOptions? options = null,
+        AwsNetworkmanagerDisassociateCustomerGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDisassociateCustomerGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +565,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateLinkAsync(
-        AwsNetworkmanagerDisassociateLinkOptions? options = null,
+        AwsNetworkmanagerDisassociateLinkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDisassociateLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +580,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateTransitGatewayConnectPeerAsync(
-        AwsNetworkmanagerDisassociateTransitGatewayConnectPeerOptions? options = null,
+        AwsNetworkmanagerDisassociateTransitGatewayConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerDisassociateTransitGatewayConnectPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -595,11 +595,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteCoreNetworkChangeSetAsync(
-        AwsNetworkmanagerExecuteCoreNetworkChangeSetOptions? options = null,
+        AwsNetworkmanagerExecuteCoreNetworkChangeSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerExecuteCoreNetworkChangeSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -610,11 +610,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectAttachmentAsync(
-        AwsNetworkmanagerGetConnectAttachmentOptions? options = null,
+        AwsNetworkmanagerGetConnectAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetConnectAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -625,11 +625,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectionsAsync(
-        AwsNetworkmanagerGetConnectionsOptions? options = null,
+        AwsNetworkmanagerGetConnectionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetConnectionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -640,11 +640,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectPeerAssociationsAsync(
-        AwsNetworkmanagerGetConnectPeerAssociationsOptions? options = null,
+        AwsNetworkmanagerGetConnectPeerAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetConnectPeerAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +655,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectPeerAsync(
-        AwsNetworkmanagerGetConnectPeerOptions? options = null,
+        AwsNetworkmanagerGetConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetConnectPeerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -670,11 +670,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCoreNetworkChangeEventsAsync(
-        AwsNetworkmanagerGetCoreNetworkChangeEventsOptions? options = null,
+        AwsNetworkmanagerGetCoreNetworkChangeEventsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetCoreNetworkChangeEventsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -685,11 +685,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCoreNetworkChangeSetAsync(
-        AwsNetworkmanagerGetCoreNetworkChangeSetOptions? options = null,
+        AwsNetworkmanagerGetCoreNetworkChangeSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetCoreNetworkChangeSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -700,11 +700,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCoreNetworkAsync(
-        AwsNetworkmanagerGetCoreNetworkOptions? options = null,
+        AwsNetworkmanagerGetCoreNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetCoreNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -715,11 +715,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCoreNetworkPolicyAsync(
-        AwsNetworkmanagerGetCoreNetworkPolicyOptions? options = null,
+        AwsNetworkmanagerGetCoreNetworkPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetCoreNetworkPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -730,11 +730,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCustomerGatewayAssociationsAsync(
-        AwsNetworkmanagerGetCustomerGatewayAssociationsOptions? options = null,
+        AwsNetworkmanagerGetCustomerGatewayAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetCustomerGatewayAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -745,11 +745,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDevicesAsync(
-        AwsNetworkmanagerGetDevicesOptions? options = null,
+        AwsNetworkmanagerGetDevicesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetDevicesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -760,11 +760,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDirectConnectGatewayAttachmentAsync(
-        AwsNetworkmanagerGetDirectConnectGatewayAttachmentOptions? options = null,
+        AwsNetworkmanagerGetDirectConnectGatewayAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetDirectConnectGatewayAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -775,11 +775,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLinkAssociationsAsync(
-        AwsNetworkmanagerGetLinkAssociationsOptions? options = null,
+        AwsNetworkmanagerGetLinkAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetLinkAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -790,11 +790,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLinksAsync(
-        AwsNetworkmanagerGetLinksOptions? options = null,
+        AwsNetworkmanagerGetLinksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetLinksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -805,11 +805,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNetworkResourceCountsAsync(
-        AwsNetworkmanagerGetNetworkResourceCountsOptions? options = null,
+        AwsNetworkmanagerGetNetworkResourceCountsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetNetworkResourceCountsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -820,11 +820,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNetworkResourceRelationshipsAsync(
-        AwsNetworkmanagerGetNetworkResourceRelationshipsOptions? options = null,
+        AwsNetworkmanagerGetNetworkResourceRelationshipsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetNetworkResourceRelationshipsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -835,11 +835,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNetworkResourcesAsync(
-        AwsNetworkmanagerGetNetworkResourcesOptions? options = null,
+        AwsNetworkmanagerGetNetworkResourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetNetworkResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -850,11 +850,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNetworkRoutesAsync(
-        AwsNetworkmanagerGetNetworkRoutesOptions? options = null,
+        AwsNetworkmanagerGetNetworkRoutesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetNetworkRoutesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -865,11 +865,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNetworkTelemetryAsync(
-        AwsNetworkmanagerGetNetworkTelemetryOptions? options = null,
+        AwsNetworkmanagerGetNetworkTelemetryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetNetworkTelemetryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -880,11 +880,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourcePolicyAsync(
-        AwsNetworkmanagerGetResourcePolicyOptions? options = null,
+        AwsNetworkmanagerGetResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -895,11 +895,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRouteAnalysisAsync(
-        AwsNetworkmanagerGetRouteAnalysisOptions? options = null,
+        AwsNetworkmanagerGetRouteAnalysisOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetRouteAnalysisOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -910,11 +910,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSitesAsync(
-        AwsNetworkmanagerGetSitesOptions? options = null,
+        AwsNetworkmanagerGetSitesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetSitesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -925,11 +925,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSiteToSiteVpnAttachmentAsync(
-        AwsNetworkmanagerGetSiteToSiteVpnAttachmentOptions? options = null,
+        AwsNetworkmanagerGetSiteToSiteVpnAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetSiteToSiteVpnAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -940,11 +940,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayConnectPeerAssociationsAsync(
-        AwsNetworkmanagerGetTransitGatewayConnectPeerAssociationsOptions? options = null,
+        AwsNetworkmanagerGetTransitGatewayConnectPeerAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetTransitGatewayConnectPeerAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -955,11 +955,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayPeeringAsync(
-        AwsNetworkmanagerGetTransitGatewayPeeringOptions? options = null,
+        AwsNetworkmanagerGetTransitGatewayPeeringOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetTransitGatewayPeeringOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -970,11 +970,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayRegistrationsAsync(
-        AwsNetworkmanagerGetTransitGatewayRegistrationsOptions? options = null,
+        AwsNetworkmanagerGetTransitGatewayRegistrationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetTransitGatewayRegistrationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -985,11 +985,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTransitGatewayRouteTableAttachmentAsync(
-        AwsNetworkmanagerGetTransitGatewayRouteTableAttachmentOptions? options = null,
+        AwsNetworkmanagerGetTransitGatewayRouteTableAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetTransitGatewayRouteTableAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1000,11 +1000,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVpcAttachmentAsync(
-        AwsNetworkmanagerGetVpcAttachmentOptions? options = null,
+        AwsNetworkmanagerGetVpcAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerGetVpcAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1015,11 +1015,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAttachmentRoutingPolicyAssociationsAsync(
-        AwsNetworkmanagerListAttachmentRoutingPolicyAssociationsOptions? options = null,
+        AwsNetworkmanagerListAttachmentRoutingPolicyAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListAttachmentRoutingPolicyAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1034,7 +1034,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListAttachmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListAttachmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1049,7 +1049,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListConnectPeersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListConnectPeersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1060,11 +1060,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCoreNetworkPolicyVersionsAsync(
-        AwsNetworkmanagerListCoreNetworkPolicyVersionsOptions? options = null,
+        AwsNetworkmanagerListCoreNetworkPolicyVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListCoreNetworkPolicyVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1075,11 +1075,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCoreNetworkPrefixListAssociationsAsync(
-        AwsNetworkmanagerListCoreNetworkPrefixListAssociationsOptions? options = null,
+        AwsNetworkmanagerListCoreNetworkPrefixListAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListCoreNetworkPrefixListAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1090,11 +1090,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCoreNetworkRoutingInformationAsync(
-        AwsNetworkmanagerListCoreNetworkRoutingInformationOptions? options = null,
+        AwsNetworkmanagerListCoreNetworkRoutingInformationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListCoreNetworkRoutingInformationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1109,7 +1109,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListCoreNetworksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListCoreNetworksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1124,7 +1124,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListOrganizationServiceAccessStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListOrganizationServiceAccessStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1139,7 +1139,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListPeeringsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListPeeringsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1150,11 +1150,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsNetworkmanagerListTagsForResourceOptions? options = null,
+        AwsNetworkmanagerListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1165,11 +1165,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutAttachmentRoutingPolicyLabelAsync(
-        AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions? options = null,
+        AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1180,11 +1180,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutCoreNetworkPolicyAsync(
-        AwsNetworkmanagerPutCoreNetworkPolicyOptions? options = null,
+        AwsNetworkmanagerPutCoreNetworkPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerPutCoreNetworkPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1195,11 +1195,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutResourcePolicyAsync(
-        AwsNetworkmanagerPutResourcePolicyOptions? options = null,
+        AwsNetworkmanagerPutResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerPutResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1210,11 +1210,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterTransitGatewayAsync(
-        AwsNetworkmanagerRegisterTransitGatewayOptions? options = null,
+        AwsNetworkmanagerRegisterTransitGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerRegisterTransitGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1225,11 +1225,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectAttachmentAsync(
-        AwsNetworkmanagerRejectAttachmentOptions? options = null,
+        AwsNetworkmanagerRejectAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerRejectAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1240,11 +1240,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveAttachmentRoutingPolicyLabelAsync(
-        AwsNetworkmanagerRemoveAttachmentRoutingPolicyLabelOptions? options = null,
+        AwsNetworkmanagerRemoveAttachmentRoutingPolicyLabelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerRemoveAttachmentRoutingPolicyLabelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1255,11 +1255,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreCoreNetworkPolicyVersionAsync(
-        AwsNetworkmanagerRestoreCoreNetworkPolicyVersionOptions? options = null,
+        AwsNetworkmanagerRestoreCoreNetworkPolicyVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerRestoreCoreNetworkPolicyVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1270,11 +1270,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartOrganizationServiceAccessUpdateAsync(
-        AwsNetworkmanagerStartOrganizationServiceAccessUpdateOptions? options = null,
+        AwsNetworkmanagerStartOrganizationServiceAccessUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerStartOrganizationServiceAccessUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1285,11 +1285,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartRouteAnalysisAsync(
-        AwsNetworkmanagerStartRouteAnalysisOptions? options = null,
+        AwsNetworkmanagerStartRouteAnalysisOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerStartRouteAnalysisOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1300,11 +1300,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsNetworkmanagerTagResourceOptions? options = null,
+        AwsNetworkmanagerTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1315,11 +1315,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsNetworkmanagerUntagResourceOptions? options = null,
+        AwsNetworkmanagerUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1330,11 +1330,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateConnectionAsync(
-        AwsNetworkmanagerUpdateConnectionOptions? options = null,
+        AwsNetworkmanagerUpdateConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUpdateConnectionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1345,11 +1345,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCoreNetworkAsync(
-        AwsNetworkmanagerUpdateCoreNetworkOptions? options = null,
+        AwsNetworkmanagerUpdateCoreNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUpdateCoreNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1360,11 +1360,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDeviceAsync(
-        AwsNetworkmanagerUpdateDeviceOptions? options = null,
+        AwsNetworkmanagerUpdateDeviceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUpdateDeviceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1375,11 +1375,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDirectConnectGatewayAttachmentAsync(
-        AwsNetworkmanagerUpdateDirectConnectGatewayAttachmentOptions? options = null,
+        AwsNetworkmanagerUpdateDirectConnectGatewayAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUpdateDirectConnectGatewayAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1390,11 +1390,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGlobalNetworkAsync(
-        AwsNetworkmanagerUpdateGlobalNetworkOptions? options = null,
+        AwsNetworkmanagerUpdateGlobalNetworkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUpdateGlobalNetworkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1405,11 +1405,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateLinkAsync(
-        AwsNetworkmanagerUpdateLinkOptions? options = null,
+        AwsNetworkmanagerUpdateLinkOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUpdateLinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1420,11 +1420,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateNetworkResourceMetadataAsync(
-        AwsNetworkmanagerUpdateNetworkResourceMetadataOptions? options = null,
+        AwsNetworkmanagerUpdateNetworkResourceMetadataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUpdateNetworkResourceMetadataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1435,11 +1435,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSiteAsync(
-        AwsNetworkmanagerUpdateSiteOptions? options = null,
+        AwsNetworkmanagerUpdateSiteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUpdateSiteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1450,11 +1450,11 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateVpcAttachmentAsync(
-        AwsNetworkmanagerUpdateVpcAttachmentOptions? options = null,
+        AwsNetworkmanagerUpdateVpcAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNetworkmanagerUpdateVpcAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

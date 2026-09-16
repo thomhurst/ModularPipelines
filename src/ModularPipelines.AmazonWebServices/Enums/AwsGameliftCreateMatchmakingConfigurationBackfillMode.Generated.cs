@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --backfillmode.
+/// Allowed values for --backfill-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftCreateMatchmakingConfigurationBackfillMode
 {
     [EnumValue("AUTOMATIC")]
-    Automatic = 1,
+    Automatic,
 
     [EnumValue("MANUAL")]
-    Manual = 2
+    Manual
 }

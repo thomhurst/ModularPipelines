@@ -22,6 +22,45 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBedrockAgentcoreInvokeAgentRuntimeOptions : AwsOptions
 {
     /// <summary>
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock Agent- Core Runtime and receives responses in real-time. To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a quali- fier to target a specific endpoint of the agent. This operation supports streaming responses, a...
+    /// </summary>
+    /// <param name="AgentRuntimeArn">The identifier of the agent runtime to invoke. You can specify ei- ther the full Amazon Web Services Resource Name (ARN) or the agent ID. If you use the agent ID, you must also provide the accountId query parameter.</param>
+    /// <param name="Payload">The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the spec- ified content type. For most agents, this is a JSON object contain- ing the user's request. Constraints: o min: 0 o max: 100000000 outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsBedrockAgentcoreInvokeAgentRuntimeOptions(
+        string AgentRuntimeArn,
+        string Payload,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentRuntimeArn);
+        this.AgentRuntimeArn = AgentRuntimeArn;
+        global::System.ArgumentNullException.ThrowIfNull(Payload);
+        this.Payload = Payload;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string AgentRuntimeArn, out string Payload, out string Outfile)
+    {
+        AgentRuntimeArn = this.AgentRuntimeArn;
+        Payload = this.Payload;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The identifier of the agent runtime to invoke. You can specify ei- ther the full Amazon Web Services Resource Name (ARN) or the agent ID. If you use the agent ID, you must also provide the accountId query parameter.
+    /// </summary>
+    [CliOption("--agent-runtime-arn")]
+    public string AgentRuntimeArn { get; private init; }
+
+    /// <summary>
+    /// The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the spec- ified content type. For most agents, this is a JSON object contain- ing the user's request. Constraints: o min: 0 o max: 100000000 outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliOption("--payload")]
+    public string Payload { get; private init; }
+
+    /// <summary>
     /// The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include ap- plication/json for JSON data. Constraints: o min: 1 o max: 256
     /// </summary>
     [CliOption("--content-type")]
@@ -93,9 +132,6 @@ public record AwsBedrockAgentcoreInvokeAgentRuntimeOptions : AwsOptions
     [CliOption("--baggage")]
     public string? Baggage { get; set; }
 
-    [CliOption("--agent-runtime-arn")]
-    public string? AgentRuntimeArn { get; set; }
-
     /// <summary>
     /// The qualifier to use for the agent runtime. This is an endpoint name that points to a specific version. If not specified, Amazon Bedrock AgentCore uses the default endpoint of the agent runtime.
     /// </summary>
@@ -108,7 +144,10 @@ public record AwsBedrockAgentcoreInvokeAgentRuntimeOptions : AwsOptions
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CliOption("--payload")]
-    public string? Payload { get; set; }
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

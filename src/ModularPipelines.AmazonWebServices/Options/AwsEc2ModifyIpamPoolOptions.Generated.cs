@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-ipam-pool")]
-public record AwsEc2ModifyIpamPoolOptions : AwsOptions
+public record AwsEc2ModifyIpamPoolOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modify the configurations of an IPAM pool. For more information, see Modify a pool in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamPoolId">The ID of the IPAM pool you want to modify.</param>
+    public AwsEc2ModifyIpamPoolOptions(
+        string IpamPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamPoolId);
+        this.IpamPoolId = IpamPoolId;
+    }
+
+    private AwsEc2ModifyIpamPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyIpamPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyIpamPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM pool you want to modify.
+    /// </summary>
     [CliOption("--ipam-pool-id")]
-    public string? IpamPoolId { get; set; }
+    public string? IpamPoolId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The description of the IPAM pool you want to modify.
@@ -33,7 +73,10 @@ public record AwsEc2ModifyIpamPoolOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--auto-import")]
+    /// <summary>
+    /// If true, IPAM will continuously look for resources within the CIDR range of this pool and automatically import them as allocations into your IPAM. The CIDRs that will be allocated for these resources must not already be allocated to other resources in order for the import to succeed. IPAM will import a CIDR regardless of its compliance with the pool's allocation rules, so a resource might be imported and subsequently marked as noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the largest CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will randomly im- port one of them only. A locale must be set on the pool for this feature to work.
+    /// </summary>
+    [CliFlag("--auto-import", NegatedName = "--no-auto-import")]
     public bool? AutoImport { get; set; }
 
     /// <summary>
@@ -54,7 +97,10 @@ public record AwsEc2ModifyIpamPoolOptions : AwsOptions
     [CliOption("--allocation-default-netmask-length")]
     public int? AllocationDefaultNetmaskLength { get; set; }
 
-    [CliFlag("--clear-allocation-default-netmask-length")]
+    /// <summary>
+    /// fault-netmask-length (boolean) Clear the default netmask length allocation rule for this pool.
+    /// </summary>
+    [CliFlag("--clear-allocation-default-netmask-length", NegatedName = "--no-clear-allocation-default-netmask-length")]
     public bool? ClearAllocationDefaultNetmaskLength { get; set; }
 
     /// <summary>
@@ -74,5 +120,22 @@ public record AwsEc2ModifyIpamPoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

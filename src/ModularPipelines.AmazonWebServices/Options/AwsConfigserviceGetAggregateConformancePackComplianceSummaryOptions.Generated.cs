@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "get-aggregate-conformance-pack-compliance-summary")]
-public record AwsConfigserviceGetAggregateConformancePackComplianceSummaryOptions : AwsOptions
+public record AwsConfigserviceGetAggregateConformancePackComplianceSummaryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region. NOTE: The results can return an empty result page, but if you have a next- Token, the results are displayed on the next page. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    public AwsConfigserviceGetAggregateConformancePackComplianceSummaryOptions(
+        string ConfigurationAggregatorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationAggregatorName);
+        this.ConfigurationAggregatorName = ConfigurationAggregatorName;
+    }
+
+    private AwsConfigserviceGetAggregateConformancePackComplianceSummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceGetAggregateConformancePackComplianceSummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceGetAggregateConformancePackComplianceSummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--configuration-aggregator-name")]
-    public string? ConfigurationAggregatorName { get; set; }
+    public string? ConfigurationAggregatorName { get; private init; }
 
     /// <summary>
     /// Filters the results based on the AggregateConformancePackCompliance- SummaryFilters object. AccountId -&gt; (string) The 12-digit Amazon Web Services account ID of the source ac- count. Constraints: o pattern: \d{12} AwsRegion -&gt; (string) The source Amazon Web Services Region from where the data is ag- gregated. Constraints: o min: 1 o max: 64 Shorthand Syntax: AccountId=string,AwsRegion=string JSON Syntax: { "AccountId": "string", "AwsRegion": "string" }
@@ -56,5 +93,22 @@ public record AwsConfigserviceGetAggregateConformancePackComplianceSummaryOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

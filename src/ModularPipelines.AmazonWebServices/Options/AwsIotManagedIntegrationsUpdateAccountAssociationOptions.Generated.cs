@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "update-account-association")]
-public record AwsIotManagedIntegrationsUpdateAccountAssociationOptions : AwsOptions
+public record AwsIotManagedIntegrationsUpdateAccountAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the properties of an existing account association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountAssociationId">The unique identifier of the account association to update. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+</param>
+    public AwsIotManagedIntegrationsUpdateAccountAssociationOptions(
+        string AccountAssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountAssociationId);
+        this.AccountAssociationId = AccountAssociationId;
+    }
+
+    private AwsIotManagedIntegrationsUpdateAccountAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsUpdateAccountAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsUpdateAccountAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the account association to update. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--account-association-id")]
-    public string? AccountAssociationId { get; set; }
+    public string? AccountAssociationId { get; private init; }
 
     /// <summary>
     /// The new name to assign to the account association. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
@@ -41,5 +78,22 @@ public record AwsIotManagedIntegrationsUpdateAccountAssociationOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

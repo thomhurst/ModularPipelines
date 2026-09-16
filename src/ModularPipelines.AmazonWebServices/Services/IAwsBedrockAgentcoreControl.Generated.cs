@@ -33,7 +33,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddDataSetExamplesAsync(AwsBedrockAgentcoreControlAddDataSetExamplesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> AddDataSetExamplesAsync(AwsBedrockAgentcoreControlAddDataSetExamplesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -43,7 +43,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchPutGatewayRateLimitsAsync(AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> BatchPutGatewayRateLimitsAsync(AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -53,7 +53,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAgentRuntimeEndpointAsync(AwsBedrockAgentcoreControlCreateAgentRuntimeEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateAgentRuntimeEndpointAsync(AwsBedrockAgentcoreControlCreateAgentRuntimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Creates an Amazon Bedrock AgentCore Runtime. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreateAgentRuntimeAsync(AwsBedrockAgentcoreControlCreateAgentRuntimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -63,7 +73,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApiKeyCredentialProviderAsync(AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateApiKeyCredentialProviderAsync(AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -73,7 +83,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBrowserAsync(AwsBedrockAgentcoreControlCreateBrowserOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateBrowserAsync(AwsBedrockAgentcoreControlCreateBrowserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -83,7 +93,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBrowserProfileAsync(AwsBedrockAgentcoreControlCreateBrowserProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateBrowserProfileAsync(AwsBedrockAgentcoreControlCreateBrowserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -93,7 +103,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCapacityProviderAsync(AwsBedrockAgentcoreControlCreateCapacityProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateCapacityProviderAsync(AwsBedrockAgentcoreControlCreateCapacityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -103,7 +113,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCodeInterpreterAsync(AwsBedrockAgentcoreControlCreateCodeInterpreterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateCodeInterpreterAsync(AwsBedrockAgentcoreControlCreateCodeInterpreterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -113,7 +123,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfigurationBundleAsync(AwsBedrockAgentcoreControlCreateConfigurationBundleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateConfigurationBundleAsync(AwsBedrockAgentcoreControlCreateConfigurationBundleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Creates a new consent portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreateConsentPortalAsync(AwsBedrockAgentcoreControlCreateConsentPortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -123,7 +143,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSetAsync(AwsBedrockAgentcoreControlCreateDataSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateDataSetAsync(AwsBedrockAgentcoreControlCreateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -133,7 +153,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSetVersionAsync(AwsBedrockAgentcoreControlCreateDataSetVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateDataSetVersionAsync(AwsBedrockAgentcoreControlCreateDataSetVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -143,7 +163,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEvaluatorAsync(AwsBedrockAgentcoreControlCreateEvaluatorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateEvaluatorAsync(AwsBedrockAgentcoreControlCreateEvaluatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an in- tegration point between your agent and external services. If you specify CUSTOM_JWT as the authorizerType , you must provide an authorizerConfiguration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreateGatewayAsync(AwsBedrockAgentcoreControlCreateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -153,7 +183,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGatewayRateLimitAsync(AwsBedrockAgentcoreControlCreateGatewayRateLimitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateGatewayRateLimitAsync(AwsBedrockAgentcoreControlCreateGatewayRateLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -163,7 +193,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGatewayRuleAsync(AwsBedrockAgentcoreControlCreateGatewayRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateGatewayRuleAsync(AwsBedrockAgentcoreControlCreateGatewayRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -173,7 +203,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGatewayTargetAsync(AwsBedrockAgentcoreControlCreateGatewayTargetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateGatewayTargetAsync(AwsBedrockAgentcoreControlCreateGatewayTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -183,7 +213,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHarnessEndpointAsync(AwsBedrockAgentcoreControlCreateHarnessEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateHarnessEndpointAsync(AwsBedrockAgentcoreControlCreateHarnessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Operation to create a harness. See also: AWS API Documentation create-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreateHarnessAsync(AwsBedrockAgentcoreControlCreateHarnessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -193,7 +233,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMemoryAsync(AwsBedrockAgentcoreControlCreateMemoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateMemoryAsync(AwsBedrockAgentcoreControlCreateMemoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -203,7 +243,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOauth2CredentialProviderAsync(AwsBedrockAgentcoreControlCreateOauth2CredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateOauth2CredentialProviderAsync(AwsBedrockAgentcoreControlCreateOauth2CredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -213,7 +253,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOnlineEvaluationConfigAsync(AwsBedrockAgentcoreControlCreateOnlineEvaluationConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateOnlineEvaluationConfigAsync(AwsBedrockAgentcoreControlCreateOnlineEvaluationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -223,7 +263,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePaymentConnectorAsync(AwsBedrockAgentcoreControlCreatePaymentConnectorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreatePaymentConnectorAsync(AwsBedrockAgentcoreControlCreatePaymentConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -233,7 +273,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePaymentCredentialProviderAsync(AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreatePaymentCredentialProviderAsync(AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Creates a new payment manager in your Amazon Web Services account. A payment manager serves as the top-level resource for managing payment processing capabilities, including payment connectors that integrate with supported payment providers. If you specify CUSTOM_JWT as the authorizerType , you must provide an authorizerConfiguration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreatePaymentManagerAsync(AwsBedrockAgentcoreControlCreatePaymentManagerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -243,17 +293,27 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePolicyEngineAsync(AwsBedrockAgentcoreControlCreatePolicyEngineOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreatePolicyEngineAsync(AwsBedrockAgentcoreControlCreatePolicyEngineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with Agent- Core Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensur- ing agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's ...
+    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with Agent- Core Gateway. Using Cedar or Dogwood, you can define fine-grained poli- cies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePolicyAsync(AwsBedrockAgentcoreControlCreatePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreatePolicyAsync(AwsBedrockAgentcoreControlCreatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Creates a new registry in your Amazon Web Services account. A registry serves as a centralized catalog for organizing and managing registry records, including MCP servers, A2A agents, agent skills, and custom resource types. If you specify CUSTOM_JWT as the authorizerType , you must provide an authorizerConfiguration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreateRegistryAsync(AwsBedrockAgentcoreControlCreateRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -263,7 +323,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRegistryRecordAsync(AwsBedrockAgentcoreControlCreateRegistryRecordOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateRegistryRecordAsync(AwsBedrockAgentcoreControlCreateRegistryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -273,7 +333,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkloadIdentityAsync(AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CreateWorkloadIdentityAsync(AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -283,7 +343,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAgentRuntimeEndpointAsync(AwsBedrockAgentcoreControlDeleteAgentRuntimeEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteAgentRuntimeEndpointAsync(AwsBedrockAgentcoreControlDeleteAgentRuntimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -293,7 +353,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAgentRuntimeAsync(AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteAgentRuntimeAsync(AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -303,7 +363,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApiKeyCredentialProviderAsync(AwsBedrockAgentcoreControlDeleteApiKeyCredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteApiKeyCredentialProviderAsync(AwsBedrockAgentcoreControlDeleteApiKeyCredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -313,7 +373,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBrowserAsync(AwsBedrockAgentcoreControlDeleteBrowserOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteBrowserAsync(AwsBedrockAgentcoreControlDeleteBrowserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -323,7 +383,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBrowserProfileAsync(AwsBedrockAgentcoreControlDeleteBrowserProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteBrowserProfileAsync(AwsBedrockAgentcoreControlDeleteBrowserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -333,7 +393,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCapacityProviderAsync(AwsBedrockAgentcoreControlDeleteCapacityProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteCapacityProviderAsync(AwsBedrockAgentcoreControlDeleteCapacityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -343,7 +403,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCodeInterpreterAsync(AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteCodeInterpreterAsync(AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -353,7 +413,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationBundleAsync(AwsBedrockAgentcoreControlDeleteConfigurationBundleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteConfigurationBundleAsync(AwsBedrockAgentcoreControlDeleteConfigurationBundleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Deletes a consent portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeleteConsentPortalAsync(AwsBedrockAgentcoreControlDeleteConsentPortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -363,7 +433,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSetExamplesAsync(AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteDataSetExamplesAsync(AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -373,7 +443,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSetAsync(AwsBedrockAgentcoreControlDeleteDataSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteDataSetAsync(AwsBedrockAgentcoreControlDeleteDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -383,7 +453,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEvaluatorAsync(AwsBedrockAgentcoreControlDeleteEvaluatorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteEvaluatorAsync(AwsBedrockAgentcoreControlDeleteEvaluatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -393,7 +463,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGatewayAsync(AwsBedrockAgentcoreControlDeleteGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteGatewayAsync(AwsBedrockAgentcoreControlDeleteGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -403,7 +473,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGatewayRateLimitAsync(AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteGatewayRateLimitAsync(AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -413,7 +483,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGatewayRuleAsync(AwsBedrockAgentcoreControlDeleteGatewayRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteGatewayRuleAsync(AwsBedrockAgentcoreControlDeleteGatewayRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -423,7 +493,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGatewayTargetAsync(AwsBedrockAgentcoreControlDeleteGatewayTargetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteGatewayTargetAsync(AwsBedrockAgentcoreControlDeleteGatewayTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -433,7 +503,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHarnessEndpointAsync(AwsBedrockAgentcoreControlDeleteHarnessEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteHarnessEndpointAsync(AwsBedrockAgentcoreControlDeleteHarnessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -443,7 +513,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHarnessAsync(AwsBedrockAgentcoreControlDeleteHarnessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteHarnessAsync(AwsBedrockAgentcoreControlDeleteHarnessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -453,7 +523,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMemoryAsync(AwsBedrockAgentcoreControlDeleteMemoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteMemoryAsync(AwsBedrockAgentcoreControlDeleteMemoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -463,7 +533,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOauth2CredentialProviderAsync(AwsBedrockAgentcoreControlDeleteOauth2CredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteOauth2CredentialProviderAsync(AwsBedrockAgentcoreControlDeleteOauth2CredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -473,7 +543,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOnlineEvaluationConfigAsync(AwsBedrockAgentcoreControlDeleteOnlineEvaluationConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteOnlineEvaluationConfigAsync(AwsBedrockAgentcoreControlDeleteOnlineEvaluationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -483,7 +553,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePaymentConnectorAsync(AwsBedrockAgentcoreControlDeletePaymentConnectorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeletePaymentConnectorAsync(AwsBedrockAgentcoreControlDeletePaymentConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -493,7 +563,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePaymentCredentialProviderAsync(AwsBedrockAgentcoreControlDeletePaymentCredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeletePaymentCredentialProviderAsync(AwsBedrockAgentcoreControlDeletePaymentCredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -503,7 +573,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePaymentManagerAsync(AwsBedrockAgentcoreControlDeletePaymentManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeletePaymentManagerAsync(AwsBedrockAgentcoreControlDeletePaymentManagerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -513,7 +583,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePolicyEngineAsync(AwsBedrockAgentcoreControlDeletePolicyEngineOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeletePolicyEngineAsync(AwsBedrockAgentcoreControlDeletePolicyEngineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -523,7 +593,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePolicyAsync(AwsBedrockAgentcoreControlDeletePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeletePolicyAsync(AwsBedrockAgentcoreControlDeletePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -533,7 +603,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRegistryAsync(AwsBedrockAgentcoreControlDeleteRegistryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteRegistryAsync(AwsBedrockAgentcoreControlDeleteRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -543,7 +613,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRegistryRecordAsync(AwsBedrockAgentcoreControlDeleteRegistryRecordOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteRegistryRecordAsync(AwsBedrockAgentcoreControlDeleteRegistryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -553,7 +623,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsBedrockAgentcoreControlDeleteResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsBedrockAgentcoreControlDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -563,7 +633,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkloadIdentityAsync(AwsBedrockAgentcoreControlDeleteWorkloadIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> DeleteWorkloadIdentityAsync(AwsBedrockAgentcoreControlDeleteWorkloadIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -573,7 +643,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentRuntimeEndpointAsync(AwsBedrockAgentcoreControlGetAgentRuntimeEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetAgentRuntimeEndpointAsync(AwsBedrockAgentcoreControlGetAgentRuntimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -583,7 +653,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentRuntimeAsync(AwsBedrockAgentcoreControlGetAgentRuntimeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetAgentRuntimeAsync(AwsBedrockAgentcoreControlGetAgentRuntimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -593,7 +663,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApiKeyCredentialProviderAsync(AwsBedrockAgentcoreControlGetApiKeyCredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetApiKeyCredentialProviderAsync(AwsBedrockAgentcoreControlGetApiKeyCredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -603,7 +673,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBrowserAsync(AwsBedrockAgentcoreControlGetBrowserOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetBrowserAsync(AwsBedrockAgentcoreControlGetBrowserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -613,7 +683,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBrowserProfileAsync(AwsBedrockAgentcoreControlGetBrowserProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetBrowserProfileAsync(AwsBedrockAgentcoreControlGetBrowserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -623,7 +693,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCapacityProviderAsync(AwsBedrockAgentcoreControlGetCapacityProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetCapacityProviderAsync(AwsBedrockAgentcoreControlGetCapacityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -633,7 +703,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCodeInterpreterAsync(AwsBedrockAgentcoreControlGetCodeInterpreterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetCodeInterpreterAsync(AwsBedrockAgentcoreControlGetCodeInterpreterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -643,7 +713,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConfigurationBundleAsync(AwsBedrockAgentcoreControlGetConfigurationBundleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetConfigurationBundleAsync(AwsBedrockAgentcoreControlGetConfigurationBundleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -653,7 +723,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConfigurationBundleVersionAsync(AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetConfigurationBundleVersionAsync(AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Retrieves information about a consent portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetConsentPortalAsync(AwsBedrockAgentcoreControlGetConsentPortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -663,7 +743,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataSetAsync(AwsBedrockAgentcoreControlGetDataSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetDataSetAsync(AwsBedrockAgentcoreControlGetDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -673,7 +753,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvaluatorAsync(AwsBedrockAgentcoreControlGetEvaluatorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetEvaluatorAsync(AwsBedrockAgentcoreControlGetEvaluatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -683,7 +763,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGatewayAsync(AwsBedrockAgentcoreControlGetGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetGatewayAsync(AwsBedrockAgentcoreControlGetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -693,7 +773,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGatewayRateLimitAsync(AwsBedrockAgentcoreControlGetGatewayRateLimitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetGatewayRateLimitAsync(AwsBedrockAgentcoreControlGetGatewayRateLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -703,7 +783,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGatewayRuleAsync(AwsBedrockAgentcoreControlGetGatewayRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetGatewayRuleAsync(AwsBedrockAgentcoreControlGetGatewayRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -713,7 +793,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGatewayTargetAsync(AwsBedrockAgentcoreControlGetGatewayTargetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetGatewayTargetAsync(AwsBedrockAgentcoreControlGetGatewayTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -723,7 +803,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHarnessEndpointAsync(AwsBedrockAgentcoreControlGetHarnessEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetHarnessEndpointAsync(AwsBedrockAgentcoreControlGetHarnessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -733,7 +813,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHarnessAsync(AwsBedrockAgentcoreControlGetHarnessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetHarnessAsync(AwsBedrockAgentcoreControlGetHarnessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -743,7 +823,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMemoryAsync(AwsBedrockAgentcoreControlGetMemoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetMemoryAsync(AwsBedrockAgentcoreControlGetMemoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -753,7 +833,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOauth2CredentialProviderAsync(AwsBedrockAgentcoreControlGetOauth2CredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetOauth2CredentialProviderAsync(AwsBedrockAgentcoreControlGetOauth2CredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -763,7 +843,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOnlineEvaluationConfigAsync(AwsBedrockAgentcoreControlGetOnlineEvaluationConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetOnlineEvaluationConfigAsync(AwsBedrockAgentcoreControlGetOnlineEvaluationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -773,7 +853,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPaymentConnectorAsync(AwsBedrockAgentcoreControlGetPaymentConnectorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPaymentConnectorAsync(AwsBedrockAgentcoreControlGetPaymentConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -783,7 +863,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPaymentCredentialProviderAsync(AwsBedrockAgentcoreControlGetPaymentCredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPaymentCredentialProviderAsync(AwsBedrockAgentcoreControlGetPaymentCredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -793,7 +873,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPaymentManagerAsync(AwsBedrockAgentcoreControlGetPaymentManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPaymentManagerAsync(AwsBedrockAgentcoreControlGetPaymentManagerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -803,7 +883,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyEngineAsync(AwsBedrockAgentcoreControlGetPolicyEngineOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPolicyEngineAsync(AwsBedrockAgentcoreControlGetPolicyEngineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -813,17 +893,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyEngineSummaryAsync(AwsBedrockAgentcoreControlGetPolicyEngineSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPolicyEngineSummaryAsync(AwsBedrockAgentcoreControlGetPolicyEngineSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies. See also: AWS API Documentation
+    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered transla- tion, enabling non-technical users to create policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyGenerationAsync(AwsBedrockAgentcoreControlGetPolicyGenerationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPolicyGenerationAsync(AwsBedrockAgentcoreControlGetPolicyGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -833,7 +913,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyGenerationSummaryAsync(AwsBedrockAgentcoreControlGetPolicyGenerationSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPolicyGenerationSummaryAsync(AwsBedrockAgentcoreControlGetPolicyGenerationSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -843,7 +923,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyAsync(AwsBedrockAgentcoreControlGetPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPolicyAsync(AwsBedrockAgentcoreControlGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -853,7 +933,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicySummaryAsync(AwsBedrockAgentcoreControlGetPolicySummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetPolicySummaryAsync(AwsBedrockAgentcoreControlGetPolicySummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -863,7 +943,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRegistryAsync(AwsBedrockAgentcoreControlGetRegistryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetRegistryAsync(AwsBedrockAgentcoreControlGetRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -873,7 +953,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRegistryRecordAsync(AwsBedrockAgentcoreControlGetRegistryRecordOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetRegistryRecordAsync(AwsBedrockAgentcoreControlGetRegistryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -883,7 +963,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsBedrockAgentcoreControlGetResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetResourcePolicyAsync(AwsBedrockAgentcoreControlGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -903,7 +983,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkloadIdentityAsync(AwsBedrockAgentcoreControlGetWorkloadIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetWorkloadIdentityAsync(AwsBedrockAgentcoreControlGetWorkloadIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -913,7 +993,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentRuntimeEndpointsAsync(AwsBedrockAgentcoreControlListAgentRuntimeEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListAgentRuntimeEndpointsAsync(AwsBedrockAgentcoreControlListAgentRuntimeEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -933,7 +1013,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentRuntimeVersionsByCapacityProviderAsync(AwsBedrockAgentcoreControlListAgentRuntimeVersionsByCapacityProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListAgentRuntimeVersionsByCapacityProviderAsync(AwsBedrockAgentcoreControlListAgentRuntimeVersionsByCapacityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -943,7 +1023,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentRuntimeVersionsAsync(AwsBedrockAgentcoreControlListAgentRuntimeVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListAgentRuntimeVersionsAsync(AwsBedrockAgentcoreControlListAgentRuntimeVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1013,7 +1093,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConfigurationBundleVersionsAsync(AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListConfigurationBundleVersionsAsync(AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Lists all of the consent portals in your account. See also: AWS API Documentation list-consent-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: consentPortals
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListConsentPortalsAsync(AwsBedrockAgentcoreControlListConsentPortalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1023,7 +1113,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSetExamplesAsync(AwsBedrockAgentcoreControlListDataSetExamplesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListDataSetExamplesAsync(AwsBedrockAgentcoreControlListDataSetExamplesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1043,7 +1133,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSetVersionsAsync(AwsBedrockAgentcoreControlListDataSetVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListDataSetVersionsAsync(AwsBedrockAgentcoreControlListDataSetVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1063,7 +1153,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGatewayRateLimitsAsync(AwsBedrockAgentcoreControlListGatewayRateLimitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListGatewayRateLimitsAsync(AwsBedrockAgentcoreControlListGatewayRateLimitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1073,7 +1163,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGatewayRulesAsync(AwsBedrockAgentcoreControlListGatewayRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListGatewayRulesAsync(AwsBedrockAgentcoreControlListGatewayRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1093,7 +1183,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGatewayTargetsAsync(AwsBedrockAgentcoreControlListGatewayTargetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListGatewayTargetsAsync(AwsBedrockAgentcoreControlListGatewayTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1103,7 +1193,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHarnessEndpointsAsync(AwsBedrockAgentcoreControlListHarnessEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListHarnessEndpointsAsync(AwsBedrockAgentcoreControlListHarnessEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1123,7 +1213,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHarnessVersionsAsync(AwsBedrockAgentcoreControlListHarnessVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListHarnessVersionsAsync(AwsBedrockAgentcoreControlListHarnessVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1163,7 +1253,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPaymentConnectorsAsync(AwsBedrockAgentcoreControlListPaymentConnectorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListPaymentConnectorsAsync(AwsBedrockAgentcoreControlListPaymentConnectorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1193,7 +1283,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPoliciesAsync(AwsBedrockAgentcoreControlListPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListPoliciesAsync(AwsBedrockAgentcoreControlListPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1217,13 +1307,13 @@ public interface IAwsBedrockAgentcoreControl
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can di...
+    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-pow- ered policy generation process, allowing users to review and select from multiple generated policy options. See also: AWS API Documentation list-policy-generation-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPolicyGenerationAssetsAsync(AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListPolicyGenerationAssetsAsync(AwsBedrockAgentcoreControlListPolicyGenerationAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1233,7 +1323,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPolicyGenerationsAsync(AwsBedrockAgentcoreControlListPolicyGenerationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListPolicyGenerationsAsync(AwsBedrockAgentcoreControlListPolicyGenerationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1243,7 +1333,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPolicyGenerationSummariesAsync(AwsBedrockAgentcoreControlListPolicyGenerationSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListPolicyGenerationSummariesAsync(AwsBedrockAgentcoreControlListPolicyGenerationSummariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1253,7 +1343,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPolicySummariesAsync(AwsBedrockAgentcoreControlListPolicySummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListPolicySummariesAsync(AwsBedrockAgentcoreControlListPolicySummariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1273,7 +1363,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRegistryRecordsAsync(AwsBedrockAgentcoreControlListRegistryRecordsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListRegistryRecordsAsync(AwsBedrockAgentcoreControlListRegistryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1283,7 +1373,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsBedrockAgentcoreControlListTagsForResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ListTagsForResourceAsync(AwsBedrockAgentcoreControlListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1303,7 +1393,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsBedrockAgentcoreControlPutResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PutResourcePolicyAsync(AwsBedrockAgentcoreControlPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1313,17 +1403,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetTokenVaultCmkAsync(AwsBedrockAgentcoreControlSetTokenVaultCmkOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SetTokenVaultCmkAsync(AwsBedrockAgentcoreControlSetTokenVaultCmkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Initiates the AI-powered generation of Cedar policies from natural lan- guage descriptions within the AgentCore Policy system. This feature en- ables both technical and non-technical users to create policies by de- scribing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated polic...
+    /// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Gener- ated polic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPolicyGenerationAsync(AwsBedrockAgentcoreControlStartPolicyGenerationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> StartPolicyGenerationAsync(AwsBedrockAgentcoreControlStartPolicyGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1333,7 +1423,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SubmitRegistryRecordForApprovalAsync(AwsBedrockAgentcoreControlSubmitRegistryRecordForApprovalOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SubmitRegistryRecordForApprovalAsync(AwsBedrockAgentcoreControlSubmitRegistryRecordForApprovalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1343,7 +1433,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SynchronizeGatewayTargetsAsync(AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SynchronizeGatewayTargetsAsync(AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1353,7 +1443,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsBedrockAgentcoreControlTagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> TagResourceAsync(AwsBedrockAgentcoreControlTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1363,7 +1453,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsBedrockAgentcoreControlUntagResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UntagResourceAsync(AwsBedrockAgentcoreControlUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1373,7 +1463,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAgentRuntimeEndpointAsync(AwsBedrockAgentcoreControlUpdateAgentRuntimeEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateAgentRuntimeEndpointAsync(AwsBedrockAgentcoreControlUpdateAgentRuntimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Updates an existing Amazon Secure Agent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateAgentRuntimeAsync(AwsBedrockAgentcoreControlUpdateAgentRuntimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1383,7 +1483,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApiKeyCredentialProviderAsync(AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateApiKeyCredentialProviderAsync(AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1393,7 +1493,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCapacityProviderAsync(AwsBedrockAgentcoreControlUpdateCapacityProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateCapacityProviderAsync(AwsBedrockAgentcoreControlUpdateCapacityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1403,7 +1503,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationBundleAsync(AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateConfigurationBundleAsync(AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Updates an existing consent portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateConsentPortalAsync(AwsBedrockAgentcoreControlUpdateConsentPortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1413,7 +1523,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataSetExamplesAsync(AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateDataSetExamplesAsync(AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1423,7 +1533,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataSetAsync(AwsBedrockAgentcoreControlUpdateDataSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateDataSetAsync(AwsBedrockAgentcoreControlUpdateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1433,7 +1543,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEvaluatorAsync(AwsBedrockAgentcoreControlUpdateEvaluatorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateEvaluatorAsync(AwsBedrockAgentcoreControlUpdateEvaluatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Updates an existing gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateGatewayAsync(AwsBedrockAgentcoreControlUpdateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1443,7 +1563,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewayRateLimitAsync(AwsBedrockAgentcoreControlUpdateGatewayRateLimitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateGatewayRateLimitAsync(AwsBedrockAgentcoreControlUpdateGatewayRateLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1453,7 +1573,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewayRuleAsync(AwsBedrockAgentcoreControlUpdateGatewayRuleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateGatewayRuleAsync(AwsBedrockAgentcoreControlUpdateGatewayRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1463,7 +1583,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewayTargetAsync(AwsBedrockAgentcoreControlUpdateGatewayTargetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateGatewayTargetAsync(AwsBedrockAgentcoreControlUpdateGatewayTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1473,7 +1593,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHarnessEndpointAsync(AwsBedrockAgentcoreControlUpdateHarnessEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateHarnessEndpointAsync(AwsBedrockAgentcoreControlUpdateHarnessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Operation to update a harness. See also: AWS API Documentation update-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateHarnessAsync(AwsBedrockAgentcoreControlUpdateHarnessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1483,7 +1613,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMemoryAsync(AwsBedrockAgentcoreControlUpdateMemoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateMemoryAsync(AwsBedrockAgentcoreControlUpdateMemoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1493,7 +1623,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOauth2CredentialProviderAsync(AwsBedrockAgentcoreControlUpdateOauth2CredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateOauth2CredentialProviderAsync(AwsBedrockAgentcoreControlUpdateOauth2CredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1503,7 +1633,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOnlineEvaluationConfigAsync(AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateOnlineEvaluationConfigAsync(AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1513,7 +1643,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePaymentConnectorAsync(AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdatePaymentConnectorAsync(AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1523,7 +1653,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePaymentCredentialProviderAsync(AwsBedrockAgentcoreControlUpdatePaymentCredentialProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdatePaymentCredentialProviderAsync(AwsBedrockAgentcoreControlUpdatePaymentCredentialProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Updates an existing payment manager. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdatePaymentManagerAsync(AwsBedrockAgentcoreControlUpdatePaymentManagerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1533,7 +1673,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePolicyEngineAsync(AwsBedrockAgentcoreControlUpdatePolicyEngineOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdatePolicyEngineAsync(AwsBedrockAgentcoreControlUpdatePolicyEngineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1543,7 +1683,17 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePolicyAsync(AwsBedrockAgentcoreControlUpdatePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdatePolicyAsync(AwsBedrockAgentcoreControlUpdatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Updates an existing registry. This operation uses PATCH semantics, so you only need to specify the fields you want to change. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateRegistryAsync(AwsBedrockAgentcoreControlUpdateRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1553,7 +1703,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRegistryRecordAsync(AwsBedrockAgentcoreControlUpdateRegistryRecordOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateRegistryRecordAsync(AwsBedrockAgentcoreControlUpdateRegistryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1563,7 +1713,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRegistryRecordStatusAsync(AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateRegistryRecordStatusAsync(AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -1573,7 +1723,7 @@ public interface IAwsBedrockAgentcoreControl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkloadIdentityAsync(AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateWorkloadIdentityAsync(AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

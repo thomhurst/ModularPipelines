@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --groupsharingpreference.
+/// Allowed values for --group-sharing-preference.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBcmPricingCalculatorUpdateBillScenarioGroupSharingPreference
 {
     [EnumValue("OPEN")]
-    Open = 1,
+    Open,
 
     [EnumValue("PRIORITIZED")]
-    Prioritized = 2,
+    Prioritized,
 
     [EnumValue("RESTRICTED")]
-    Restricted = 3
+    Restricted
 }

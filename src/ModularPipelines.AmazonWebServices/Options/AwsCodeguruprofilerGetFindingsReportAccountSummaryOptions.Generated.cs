@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("codeguruprofiler", "get-findings-report-account-summary")]
 public record AwsCodeguruprofilerGetFindingsReportAccountSummaryOptions : AwsOptions
 {
-    [CliFlag("--daily-reports-only")]
+    /// <summary>
+    /// A Boolean value indicating whether to only return reports from daily profiles. If set to True , only analysis data from daily profiles is returned. If set to False , analysis data is returned from smaller time windows (for example, one hour).
+    /// </summary>
+    [CliFlag("--daily-reports-only", NegatedName = "--no-daily-reports-only")]
     public bool? DailyReportsOnly { get; set; }
 
     /// <summary>

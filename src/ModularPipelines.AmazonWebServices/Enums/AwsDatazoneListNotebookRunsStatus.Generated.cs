@@ -16,24 +16,24 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListNotebookRunsStatus
 {
-    [EnumValue("QUEUED")]
-    Queued = 1,
+    [EnumValue("FAILED")]
+    Failed,
 
-    [EnumValue("STARTING")]
-    Starting = 2,
+    [EnumValue("QUEUED")]
+    Queued,
 
     [EnumValue("RUNNING")]
-    Running = 3,
+    Running,
 
-    [EnumValue("STOPPING")]
-    Stopping = 4,
+    [EnumValue("STARTING")]
+    Starting,
 
     [EnumValue("STOPPED")]
-    Stopped = 5,
+    Stopped,
+
+    [EnumValue("STOPPING")]
+    Stopping,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 6,
-
-    [EnumValue("FAILED")]
-    Failed = 7
+    Succeeded
 }

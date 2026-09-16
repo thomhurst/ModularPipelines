@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-gateway", "create-gateway")]
-public record AwsBackupGatewayCreateGatewayOptions : AwsOptions
+public record AwsBackupGatewayCreateGatewayOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a backup gateway. After you create a gateway, you can associate it with a server using the AssociateGatewayToServer operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActivationKey">The activation key of the created gateway. Constraints: o min: 1 o max: 50 o pattern: [0-9a-zA-Z\-]+</param>
+    /// <param name="GatewayDisplayName">The display name of the created gateway. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]*</param>
+    /// <param name="GatewayType">The type of created gateway. Possible values: o BACKUP_VM</param>
+    public AwsBackupGatewayCreateGatewayOptions(
+        string ActivationKey,
+        string GatewayDisplayName,
+        string GatewayType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivationKey);
+        this.ActivationKey = ActivationKey;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayDisplayName);
+        this.GatewayDisplayName = GatewayDisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayType);
+        this.GatewayType = GatewayType;
+    }
+
+    private AwsBackupGatewayCreateGatewayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupGatewayCreateGatewayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupGatewayCreateGatewayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The activation key of the created gateway. Constraints: o min: 1 o max: 50 o pattern: [0-9a-zA-Z\-]+
+    /// </summary>
     [CliOption("--activation-key")]
-    public string? ActivationKey { get; set; }
+    public string? ActivationKey { get; private init; }
 
+    /// <summary>
+    /// The display name of the created gateway. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--gateway-display-name")]
-    public string? GatewayDisplayName { get; set; }
+    public string? GatewayDisplayName { get; private init; }
 
+    /// <summary>
+    /// The type of created gateway. Possible values: o BACKUP_VM
+    /// </summary>
     [CliOption("--gateway-type")]
-    public string? GatewayType { get; set; }
+    public string? GatewayType { get; private init; }
 
     /// <summary>
     /// A list of up to 50 tags to assign to the gateway. Each tag is a key-value pair. (structure) A key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, num- bers, and the following characters: + - = . _ : /. Spaces are not allowed in tag values. Key -&gt; (string) [required] The key part of a tag's key-value pair. The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value part of a tag's key-value pair. Constraints: o min: 0 o max: 256 o pattern: [^\x00]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,22 @@ public record AwsBackupGatewayCreateGatewayOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

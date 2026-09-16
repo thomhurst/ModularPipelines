@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "restore-db-cluster-to-point-in-time")]
-public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions
+public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupReten- tionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the RestoreType is set to copy-on-write , the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ ...
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The name of the new DB cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Valid for: Aurora DB clusters and Multi-AZ DB clusters</param>
+    public AwsRdsRestoreDbClusterToPointInTimeOptions(
+        string DbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+    }
+
+    private AwsRdsRestoreDbClusterToPointInTimeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsRestoreDbClusterToPointInTimeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsRestoreDbClusterToPointInTimeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new DB cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The type of restore to be performed. You can specify one of the fol- lowing values: o full-copy - The new DB cluster is restored as a full copy of the source DB cluster. o copy-on-write - The new DB cluster is restored as a clone of the source DB cluster. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -41,9 +77,12 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions
     /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints: o Must be before the latest restorable time for the DB instance o Must be specified if UseLatestRestorableTime parameter isn't pro- vided o Can't be specified if the UseLatestRestorableTime parameter is en- abled o Can't be specified if the RestoreType parameter is copy-on-write Example: 2015-03-07T23:45:00Z Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--restore-to-time")]
-    public AwsRdsRestoreDbClusterToPointInTimeRestoreToTime? RestoreToTime { get; set; }
+    public string? RestoreToTime { get; set; }
 
-    [CliFlag("--use-latest-restorable-time")]
+    /// <summary>
+    /// Specifies whether to restore the DB cluster to the latest restorable backup time. By default, the DB cluster isn't restored to the latest restorable backup time. Constraints: Can't be specified if RestoreToTime parameter is pro- vided. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
 
     /// <summary>
@@ -82,7 +121,10 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide . Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
@@ -103,10 +145,16 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the DB cluster. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -133,7 +181,10 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB clus- ter is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnet- GroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies: o If the default VPC in the target Region doesnt have an internet gateway attached to it, the DB cluster is private. o If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public. If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies: o If the subnets are part of a VPC that doesnt have an internet gateway attached to it, the DB cluster is private. o If the subnets are part of a VPC that has an internet gateway at- tached to it, the DB cluster is public. Valid for: Multi-AZ DB clusters only
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -146,7 +197,7 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions
     /// The network type of the DB cluster. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
     /// </summary>
     [CliOption("--network-type")]
-    public AwsRdsRestoreDbClusterToPointInTimeNetworkType? NetworkType { get; set; }
+    public string? NetworkType { get; set; }
 
     /// <summary>
     /// The resource ID of the source DB cluster from which to restore.
@@ -190,7 +241,10 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to turn on Performance Insights for the DB clus- ter.
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -229,10 +283,16 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--enable-vpc-networking")]
+    /// <summary>
+    /// Specifies whether to enable VPC networking for the restored DB clus- ter. Set this parameter to false to create a cluster without the VPC network interface (ENI). This parameter must be used together with EnableInternetAccessGate- way . When both parameters are specified, IAM database authentica- tion is required. You must also specify EnableIAMDatabaseAuthentica- tion . Valid for Cluster Type: Aurora PostgreSQL clusters
+    /// </summary>
+    [CliFlag("--enable-vpc-networking", NegatedName = "--no-enable-vpc-networking")]
     public bool? EnableVpcNetworking { get; set; }
 
-    [CliFlag("--enable-internet-access-gateway")]
+    /// <summary>
+    /// Specifies that the restored DB cluster should use internet-based connectivity through an internet access gateway. This allows clients to connect to the cluster over the internet without requiring a VPC. This parameter must be used together with EnableVPCNetworking set to false . When both parameters are specified, IAM database authentica- tion is required. You must also specify EnableIAMDatabaseAuthentica- tion . Valid for Cluster Type: Aurora PostgreSQL clusters
+    /// </summary>
+    [CliFlag("--enable-internet-access-gateway", NegatedName = "--no-enable-internet-access-gateway")]
     public bool? EnableInternetAccessGateway { get; set; }
 
     /// <summary>
@@ -246,5 +306,22 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -64,7 +64,10 @@ public record AwsElasticacheDescribeUpdateActionsOptions : AwsOptions
     [CliOption("--update-action-status", GroupValues = true)]
     public IEnumerable<string>? UpdateActionStatus { get; set; }
 
-    [CliFlag("--show-node-level-update-status")]
+    /// <summary>
+    /// Dictates whether to include node level update status in the response
+    /// </summary>
+    [CliFlag("--show-node-level-update-status", NegatedName = "--no-show-node-level-update-status")]
     public bool? ShowNodeLevelUpdateStatus { get; set; }
 
     [CliOption("--cli-input-json")]

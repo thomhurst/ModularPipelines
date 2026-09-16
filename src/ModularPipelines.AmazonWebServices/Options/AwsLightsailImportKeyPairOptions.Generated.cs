@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "import-key-pair")]
-public record AwsLightsailImportKeyPairOptions : AwsOptions
+public record AwsLightsailImportKeyPairOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--key-pair-name")]
-    public string? KeyPairName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Imports a public SSH key from a specific key pair. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyPairName">The name of the key pair for which you want to import the public key. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="PublicKeyBase64">A base64-encoded public key of the ssh-rsa type.</param>
+    public AwsLightsailImportKeyPairOptions(
+        string KeyPairName,
+        string PublicKeyBase64
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyPairName);
+        this.KeyPairName = KeyPairName;
+        global::System.ArgumentNullException.ThrowIfNull(PublicKeyBase64);
+        this.PublicKeyBase64 = PublicKeyBase64;
+    }
+
+    private AwsLightsailImportKeyPairOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailImportKeyPairOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailImportKeyPairOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the key pair for which you want to import the public key. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--key-pair-name")]
+    public string? KeyPairName { get; private init; }
+
+    /// <summary>
+    /// A base64-encoded public key of the ssh-rsa type.
+    /// </summary>
     [CliOption("--public-key-base64")]
-    public string? PublicKeyBase64 { get; set; }
+    public string? PublicKeyBase64 { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

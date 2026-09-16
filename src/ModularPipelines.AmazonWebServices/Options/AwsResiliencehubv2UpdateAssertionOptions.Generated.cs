@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehubv2", "update-assertion")]
-public record AwsResiliencehubv2UpdateAssertionOptions : AwsOptions
+public record AwsResiliencehubv2UpdateAssertionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a resilience assertion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="AssertionId">The unique identifier of the assertion to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}</param>
+    public AwsResiliencehubv2UpdateAssertionOptions(
+        string ServiceArn,
+        string AssertionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+        global::System.ArgumentNullException.ThrowIfNull(AssertionId);
+        this.AssertionId = AssertionId;
+    }
+
+    private AwsResiliencehubv2UpdateAssertionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubv2UpdateAssertionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubv2UpdateAssertionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// </summary>
+    [CliOption("--service-arn")]
+    public string? ServiceArn { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the assertion to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--assertion-id")]
-    public string? AssertionId { get; set; }
+    public string? AssertionId { get; private init; }
 
     /// <summary>
     /// The updated text content of the assertion. Constraints: o min: 1 o max: 1000
@@ -38,5 +82,22 @@ public record AwsResiliencehubv2UpdateAssertionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

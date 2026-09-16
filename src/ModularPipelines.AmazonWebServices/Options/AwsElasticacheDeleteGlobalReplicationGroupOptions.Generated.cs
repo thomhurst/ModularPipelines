@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "delete-global-replication-group")]
-public record AwsElasticacheDeleteGlobalReplicationGroupOptions : AwsOptions
+public record AwsElasticacheDeleteGlobalReplicationGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-replication-group-id")]
-    public string? GlobalReplicationGroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--retain-primary-replication-group")]
-    public bool? RetainPrimaryReplicationGroup { get; set; }
+    /// <summary>
+    /// Deleting a Global datastore is a two-step process: o First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global datastore. o Once the Global datastore contains only the primary cluster, you can use the DeleteGlobalReplicationGroup API to delete the Global datas- tore while retainining the primary cluster using RetainPrimaryRepli- cationGroup=true . Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the...
+    /// </summary>
+    /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
+    /// <param name="RetainPrimaryReplicationGroup">tion-group (boolean) [required] The primary replication group is retained as a standalone replica- tion group.</param>
+    public AwsElasticacheDeleteGlobalReplicationGroupOptions(
+        string GlobalReplicationGroupId,
+        bool RetainPrimaryReplicationGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalReplicationGroupId);
+        this.GlobalReplicationGroupId = GlobalReplicationGroupId;
+        this.RetainPrimaryReplicationGroup = RetainPrimaryReplicationGroup;
+    }
+
+    private AwsElasticacheDeleteGlobalReplicationGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheDeleteGlobalReplicationGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheDeleteGlobalReplicationGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Global datastore
+    /// </summary>
+    [CliOption("--global-replication-group-id")]
+    public string? GlobalReplicationGroupId { get; private init; }
+
+    /// <summary>
+    /// tion-group (boolean) [required] The primary replication group is retained as a standalone replica- tion group.
+    /// </summary>
+    [CliFlag("--retain-primary-replication-group", NegatedName = "--no-retain-primary-replication-group")]
+    public bool? RetainPrimaryReplicationGroup { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --analysisstatus.
+/// Allowed values for --analysis-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCeListCommitmentPurchaseAnalysesAnalysisStatus
 {
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 1,
+    [EnumValue("FAILED")]
+    Failed,
 
     [EnumValue("PROCESSING")]
-    Processing = 2,
+    Processing,
 
-    [EnumValue("FAILED")]
-    Failed = 3
+    [EnumValue("SUCCEEDED")]
+    Succeeded
 }

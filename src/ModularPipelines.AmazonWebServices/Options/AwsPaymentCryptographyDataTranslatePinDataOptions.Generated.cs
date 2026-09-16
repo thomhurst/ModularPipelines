@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography-data", "translate-pin-data")]
-public record AwsPaymentCryptographyDataTranslatePinDataOptions : AwsOptions
+public record AwsPaymentCryptographyDataTranslatePinDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Translates encrypted PIN block from and to ISO 9564 formats 0,1,3,4. For more information, see Translate PIN data in the Amazon Web Services Payment Cryptography User Guide . PIN block translation involves changing a PIN block from one encryption key to another and optionally change its format. PIN block translation occurs entirely within the HSM boundary and PIN data never enters or leaves Amazon Web Services Payment Cryptography in clear text. The en- cryption key transformation can be from PE...
+    /// </summary>
+    /// <param name="IncomingKeyIdentifier">The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK. For dynamic keys, it is the keyARN of KEK of the TR-31 wrapped PEK. For ECDH, it is the keyARN of the asymmetric ECC key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="OutgoingKeyIdentifier">The keyARN of the encryption key for encrypting outgoing PIN block data. This key type can be PEK or BDK. For ECDH, it is the keyARN of the asymmetric ECC key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="IncomingTranslationAttributes">The format of the incoming PIN block data for translation within Amazon Web Services Payment Cryptography. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IsoFormat0, IsoFormat1, IsoFormat3, Iso- Format4, As2805Format0. IsoFormat0 -&gt; (structure) Parameters that are required for ISO9564 PIN format 0 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ IsoFormat1 -&gt; (structure) Parameters that are required for ISO9564 PIN format 1 transla- tion. IsoFormat3 -&gt; (structure) Parameters that are required for ISO9564 PIN format 3 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ IsoFormat4 -&gt; (structure) Parameters that are required for ISO9564 PIN format 4 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ As2805Format0 -&gt; (structure) Parameters that are required for AS2805 PIN format 0 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ Shorthand Syntax: IsoFormat0={PrimaryAccountNumber=string},IsoFormat1={},IsoFormat3={PrimaryAccountNumber=string},IsoFormat4={PrimaryAccountNumber=string},As2805Format0={PrimaryAccountNumber=string} JSON Syntax: { "IsoFormat0": { "PrimaryAccountNumber": "string" }, "IsoFormat1": { }, "IsoFormat3": { "PrimaryAccountNumber": "string" }, "IsoFormat4": { "PrimaryAccountNumber": "string" }, "As2805Format0": { "PrimaryAccountNumber": "string" } }</param>
+    /// <param name="OutgoingTranslationAttributes">The format of the outgoing PIN block data after translation by Ama- zon Web Services Payment Cryptography. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IsoFormat0, IsoFormat1, IsoFormat3, Iso- Format4, As2805Format0. IsoFormat0 -&gt; (structure) Parameters that are required for ISO9564 PIN format 0 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ IsoFormat1 -&gt; (structure) Parameters that are required for ISO9564 PIN format 1 transla- tion. IsoFormat3 -&gt; (structure) Parameters that are required for ISO9564 PIN format 3 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ IsoFormat4 -&gt; (structure) Parameters that are required for ISO9564 PIN format 4 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ As2805Format0 -&gt; (structure) Parameters that are required for AS2805 PIN format 0 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ Shorthand Syntax: IsoFormat0={PrimaryAccountNumber=string},IsoFormat1={},IsoFormat3={PrimaryAccountNumber=string},IsoFormat4={PrimaryAccountNumber=string},As2805Format0={PrimaryAccountNumber=string} JSON Syntax: { "IsoFormat0": { "PrimaryAccountNumber": "string" }, "IsoFormat1": { }, "IsoFormat3": { "PrimaryAccountNumber": "string" }, "IsoFormat4": { "PrimaryAccountNumber": "string" }, "As2805Format0": { "PrimaryAccountNumber": "string" } }</param>
+    /// <param name="EncryptedPinBlock">The encrypted PIN block data that Amazon Web Services Payment Cryp- tography translates. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+</param>
+    public AwsPaymentCryptographyDataTranslatePinDataOptions(
+        string IncomingKeyIdentifier,
+        string OutgoingKeyIdentifier,
+        string IncomingTranslationAttributes,
+        string OutgoingTranslationAttributes,
+        string EncryptedPinBlock
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IncomingKeyIdentifier);
+        this.IncomingKeyIdentifier = IncomingKeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(OutgoingKeyIdentifier);
+        this.OutgoingKeyIdentifier = OutgoingKeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(IncomingTranslationAttributes);
+        this.IncomingTranslationAttributes = IncomingTranslationAttributes;
+        global::System.ArgumentNullException.ThrowIfNull(OutgoingTranslationAttributes);
+        this.OutgoingTranslationAttributes = OutgoingTranslationAttributes;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptedPinBlock);
+        this.EncryptedPinBlock = EncryptedPinBlock;
+    }
+
+    private AwsPaymentCryptographyDataTranslatePinDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyDataTranslatePinDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyDataTranslatePinDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK. For dynamic keys, it is the keyARN of KEK of the TR-31 wrapped PEK. For ECDH, it is the keyARN of the asymmetric ECC key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--incoming-key-identifier")]
-    public string? IncomingKeyIdentifier { get; set; }
+    public string? IncomingKeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// The keyARN of the encryption key for encrypting outgoing PIN block data. This key type can be PEK or BDK. For ECDH, it is the keyARN of the asymmetric ECC key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--outgoing-key-identifier")]
-    public string? OutgoingKeyIdentifier { get; set; }
+    public string? OutgoingKeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// The format of the incoming PIN block data for translation within Amazon Web Services Payment Cryptography. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IsoFormat0, IsoFormat1, IsoFormat3, Iso- Format4, As2805Format0. IsoFormat0 -&gt; (structure) Parameters that are required for ISO9564 PIN format 0 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ IsoFormat1 -&gt; (structure) Parameters that are required for ISO9564 PIN format 1 transla- tion. IsoFormat3 -&gt; (structure) Parameters that are required for ISO9564 PIN format 3 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ IsoFormat4 -&gt; (structure) Parameters that are required for ISO9564 PIN format 4 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ As2805Format0 -&gt; (structure) Parameters that are required for AS2805 PIN format 0 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ Shorthand Syntax: IsoFormat0={PrimaryAccountNumber=string},IsoFormat1={},IsoFormat3={PrimaryAccountNumber=string},IsoFormat4={PrimaryAccountNumber=string},As2805Format0={PrimaryAccountNumber=string} JSON Syntax: { "IsoFormat0": { "PrimaryAccountNumber": "string" }, "IsoFormat1": { }, "IsoFormat3": { "PrimaryAccountNumber": "string" }, "IsoFormat4": { "PrimaryAccountNumber": "string" }, "As2805Format0": { "PrimaryAccountNumber": "string" } }
+    /// </summary>
     [CliOption("--incoming-translation-attributes")]
-    public string? IncomingTranslationAttributes { get; set; }
+    public string? IncomingTranslationAttributes { get; private init; }
 
+    /// <summary>
+    /// The format of the outgoing PIN block data after translation by Ama- zon Web Services Payment Cryptography. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IsoFormat0, IsoFormat1, IsoFormat3, Iso- Format4, As2805Format0. IsoFormat0 -&gt; (structure) Parameters that are required for ISO9564 PIN format 0 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ IsoFormat1 -&gt; (structure) Parameters that are required for ISO9564 PIN format 1 transla- tion. IsoFormat3 -&gt; (structure) Parameters that are required for ISO9564 PIN format 3 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ IsoFormat4 -&gt; (structure) Parameters that are required for ISO9564 PIN format 4 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ As2805Format0 -&gt; (structure) Parameters that are required for AS2805 PIN format 0 transla- tion. PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ Shorthand Syntax: IsoFormat0={PrimaryAccountNumber=string},IsoFormat1={},IsoFormat3={PrimaryAccountNumber=string},IsoFormat4={PrimaryAccountNumber=string},As2805Format0={PrimaryAccountNumber=string} JSON Syntax: { "IsoFormat0": { "PrimaryAccountNumber": "string" }, "IsoFormat1": { }, "IsoFormat3": { "PrimaryAccountNumber": "string" }, "IsoFormat4": { "PrimaryAccountNumber": "string" }, "As2805Format0": { "PrimaryAccountNumber": "string" } }
+    /// </summary>
     [CliOption("--outgoing-translation-attributes")]
-    public string? OutgoingTranslationAttributes { get; set; }
+    public string? OutgoingTranslationAttributes { get; private init; }
 
+    /// <summary>
+    /// The encrypted PIN block data that Amazon Web Services Payment Cryp- tography translates. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+
+    /// </summary>
     [CliOption("--encrypted-pin-block")]
-    public string? EncryptedPinBlock { get; set; }
+    public string? EncryptedPinBlock { get; private init; }
 
     /// <summary>
     /// The attributes and values to use for incoming DUKPT encryption key for PIN block translation. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) DukptKeyDerivationType -&gt; (string) The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 DukptKeyVariant -&gt; (string) The type of use of DUKPT, which can be for incoming data decryp- tion, outgoing data encryption, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE Shorthand Syntax: KeySerialNumber=string,DukptKeyDerivationType=string,DukptKeyVariant=string JSON Syntax: { "KeySerialNumber": "string", "DukptKeyDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE" }
@@ -71,5 +136,22 @@ public record AwsPaymentCryptographyDataTranslatePinDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

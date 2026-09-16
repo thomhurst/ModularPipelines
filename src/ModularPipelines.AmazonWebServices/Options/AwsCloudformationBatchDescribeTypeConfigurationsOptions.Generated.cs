@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "batch-describe-type-configurations")]
-public record AwsCloudformationBatchDescribeTypeConfigurationsOptions : AwsOptions
+public record AwsCloudformationBatchDescribeTypeConfigurationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns configuration data for the specified CloudFormation extensions, from the CloudFormation registry in your current account and Region. For more information, see Edit configuration data for extensions in your account in the CloudFormation User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TypeConfigurationIdentifiers">The list of identifiers for the desired extension configurations. Constraints: o min: 1 (structure) Identifying information for the configuration of a CloudForma- tion extension. TypeArn -&gt; (string) The ARN for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the ActivateType API operation in this account and Re- gion. For private extensions, this will be the ARN assigned when you call the RegisterType API operation in this account and Region. Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+ TypeConfigurationAlias -&gt; (string) The alias specified for this configuration, if one was speci- fied when the configuration was set. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9]{1,256}$ TypeConfigurationArn -&gt; (string) The ARN for the configuration, in this account and Region. Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type-configuration/.+ Type -&gt; (string) The type of extension. Possible values: o RESOURCE o MODULE o HOOK TypeName -&gt; (string) The name of the extension type to which this configuration applies. Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1} Shorthand Syntax: TypeArn=string,TypeConfigurationAlias=string,TypeConfigurationArn=string,Type=string,TypeName=string ... JSON Syntax: [ { "TypeArn": "string", "TypeConfigurationAlias": "string", "TypeConfigurationArn": "string", "Type": "RESOURCE"|"MODULE"|"HOOK", "TypeName": "string" } ... ]</param>
+    public AwsCloudformationBatchDescribeTypeConfigurationsOptions(
+        IEnumerable<string> TypeConfigurationIdentifiers
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TypeConfigurationIdentifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TypeConfigurationIdentifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TypeConfigurationIdentifiers));
+            }
+
+            TypeConfigurationIdentifiers = materialized;
+        }
+        this.TypeConfigurationIdentifiers = TypeConfigurationIdentifiers;
+    }
+
+    private AwsCloudformationBatchDescribeTypeConfigurationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationBatchDescribeTypeConfigurationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationBatchDescribeTypeConfigurationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of identifiers for the desired extension configurations. Constraints: o min: 1 (structure) Identifying information for the configuration of a CloudForma- tion extension. TypeArn -&gt; (string) The ARN for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the ActivateType API operation in this account and Re- gion. For private extensions, this will be the ARN assigned when you call the RegisterType API operation in this account and Region. Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+ TypeConfigurationAlias -&gt; (string) The alias specified for this configuration, if one was speci- fied when the configuration was set. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9]{1,256}$ TypeConfigurationArn -&gt; (string) The ARN for the configuration, in this account and Region. Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type-configuration/.+ Type -&gt; (string) The type of extension. Possible values: o RESOURCE o MODULE o HOOK TypeName -&gt; (string) The name of the extension type to which this configuration applies. Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1} Shorthand Syntax: TypeArn=string,TypeConfigurationAlias=string,TypeConfigurationArn=string,Type=string,TypeName=string ... JSON Syntax: [ { "TypeArn": "string", "TypeConfigurationAlias": "string", "TypeConfigurationArn": "string", "Type": "RESOURCE"|"MODULE"|"HOOK", "TypeName": "string" } ... ]
+    /// </summary>
     [CliOption("--type-configuration-identifiers", GroupValues = true)]
-    public IEnumerable<string>? TypeConfigurationIdentifiers { get; set; }
+    public IEnumerable<string>? TypeConfigurationIdentifiers { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

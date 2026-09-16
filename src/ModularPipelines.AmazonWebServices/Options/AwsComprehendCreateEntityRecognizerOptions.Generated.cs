@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "create-entity-recognizer")]
-public record AwsComprehendCreateEntityRecognizerOptions : AwsOptions
+public record AwsComprehendCreateEntityRecognizerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an entity recognizer using submitted files. After your Cre- ateEntityRecognizer request is submitted, you can check job status us- ing the DescribeEntityRecognizer API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecognizerName">The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the ac- count/Region. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="InputDataConfig">Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same Region as the entity recognizer being created. DataFormat -&gt; (string) The format of your training data: o COMPREHEND_CSV : A CSV file that supplements your training documents. The CSV file contains information about the custom entities that your trained model will detect. The required format of the file depends on whether you are providing anno- tations or an entity list. If you use this value, you must provide your CSV file by using either the Annotations or En- tityList parameters. You must provide your training documents by using the Documents parameter. o AUGMENTED_MANIFEST : A labeled dataset that is produced by Amazon SageMaker Ground Truth. This file is in JSON lines for- mat. Each line is a complete JSON object that contains a training document and its labels. Each label annotates a named entity in the training document. If you use this value, you must provide the AugmentedManifests parameter in your request. If you don't specify a value, Amazon Comprehend uses COMPRE- HEND_CSV as the default. Possible values: o COMPREHEND_CSV o AUGMENTED_MANIFEST EntityTypes -&gt; (list) [required] The entity types in the labeled training data that Amazon Com- prehend uses to train the custom entity recognizer. Any entity types that you don't specify are ignored. A maximum of 25 entity types can be used at one time to train an entity recognizer. Entity types must not contain the following invalid characters: n (line break), \n (escaped line break), r (carriage return), \r (escaped carriage return), t (tab), \t (escaped tab), space, and , (comma). (structure) An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Type -&gt; (string) [required] An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recog- nizer. Entity types must not contain the following invalid char- acters: n (line break), \n (escaped line break, r (car- riage return), \r (escaped carriage return), t (tab), \t (escaped tab), and , (comma). Constraints: o max: 64 o pattern: ^(?![^\n\r\t,]*\\n|\\r|\\t)[^\n\r\t,]+$ Documents -&gt; (structure) The S3 location of the folder that contains the training docu- ments for your custom entity recognizer. This parameter is required if you set DataFormat to COMPRE- HEND_CSV . S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? TestS3Uri -&gt; (string) Specifies the Amazon S3 location where the test documents for an entity recognizer are located. The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? InputFormat -&gt; (string) Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is considered a separate docu- ment. Use this option when you are processing large docu- ments, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a sepa- rate document. Use this option when you are processing many short documents, such as text messages. Possible values: o ONE_DOC_PER_FILE o ONE_DOC_PER_LINE Annotations -&gt; (structure) The S3 location of the CSV file that annotates your training documents. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? TestS3Uri -&gt; (string) Specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? EntityList -&gt; (structure) The S3 location of the CSV file that has the entity list for your custom entity recognizer. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the entity list is lo- cated. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? AugmentedManifests -&gt; (list) A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. This parameter is required if you set DataFormat to AUG- MENTED_MANIFEST . (structure) An augmented manifest file that provides training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. S3Uri -&gt; (string) [required] The Amazon S3 location of the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Split -&gt; (string) The purpose of the data you've provided in the augmented manifest. You can either train or test this data. If you don't specify, the default is train. TRAIN - all of the documents in the manifest will be used for training. If no test documents are provided, Amazon Comprehend will automatically reserve a portion of the training documents for testing. TEST - all of the documents in the manifest will be used for testing. Possible values: o TRAIN o TEST AttributeNames -&gt; (list) [required] The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job. (string) Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])* AnnotationDataS3Uri -&gt; (string) The S3 prefix to the annotation files that are referred in the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? SourceDocumentsS3Uri -&gt; (string) The S3 prefix to the source files (PDFs) that are re- ferred to in the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? DocumentType -&gt; (string) The type of augmented manifest. PlainTextDocument or SemiStructuredDocument. If you don't specify, the default is PlainTextDocument. o PLAIN_TEXT_DOCUMENT A document type that represents any unicode text that is encoded in UTF-8. o SEMI_STRUCTURED_DOCUMENT A document type with posi- tional and structural context, like a PDF. For training with Amazon Comprehend, only PDFs are supported. For inference, Amazon Comprehend support PDFs, DOCX and TXT. Possible values: o PLAIN_TEXT_DOCUMENT o SEMI_STRUCTURED_DOCUMENT JSON Syntax: { "DataFormat": "COMPREHEND_CSV"|"AUGMENTED_MANIFEST", "EntityTypes": [ { "Type": "string" } ... ], "Documents": { "S3Uri": "string", "TestS3Uri": "string", "InputFormat": "ONE_DOC_PER_FILE"|"ONE_DOC_PER_LINE" }, "Annotations": { "S3Uri": "string", "TestS3Uri": "string" }, "EntityList": { "S3Uri": "string" }, "AugmentedManifests": [ { "S3Uri": "string", "Split": "TRAIN"|"TEST", "AttributeNames": ["string", ...], "AnnotationDataS3Uri": "string", "SourceDocumentsS3Uri": "string", "DocumentType": "PLAIN_TEXT_DOCUMENT"|"SEMI_STRUCTURED_DOCUMENT" } ... ] }</param>
+    /// <param name="LanguageCode">You can specify any of the following languages: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). If you plan to use this entity recognizer with PDF, Word, or image input files, you must specify English as the language. All training documents must be in the same language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    public AwsComprehendCreateEntityRecognizerOptions(
+        string RecognizerName,
+        string DataAccessRoleArn,
+        string InputDataConfig,
+        AwsComprehendCreateEntityRecognizerLanguageCode LanguageCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecognizerName);
+        this.RecognizerName = RecognizerName;
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+    }
+
+    private AwsComprehendCreateEntityRecognizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendCreateEntityRecognizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendCreateEntityRecognizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the ac- count/Region. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
+    /// </summary>
     [CliOption("--recognizer-name")]
-    public string? RecognizerName { get; set; }
+    public string? RecognizerName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
+    [CliOption("--data-access-role-arn")]
+    public string? DataAccessRoleArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same Region as the entity recognizer being created. DataFormat -&gt; (string) The format of your training data: o COMPREHEND_CSV : A CSV file that supplements your training documents. The CSV file contains information about the custom entities that your trained model will detect. The required format of the file depends on whether you are providing anno- tations or an entity list. If you use this value, you must provide your CSV file by using either the Annotations or En- tityList parameters. You must provide your training documents by using the Documents parameter. o AUGMENTED_MANIFEST : A labeled dataset that is produced by Amazon SageMaker Ground Truth. This file is in JSON lines for- mat. Each line is a complete JSON object that contains a training document and its labels. Each label annotates a named entity in the training document. If you use this value, you must provide the AugmentedManifests parameter in your request. If you don't specify a value, Amazon Comprehend uses COMPRE- HEND_CSV as the default. Possible values: o COMPREHEND_CSV o AUGMENTED_MANIFEST EntityTypes -&gt; (list) [required] The entity types in the labeled training data that Amazon Com- prehend uses to train the custom entity recognizer. Any entity types that you don't specify are ignored. A maximum of 25 entity types can be used at one time to train an entity recognizer. Entity types must not contain the following invalid characters: n (line break), \n (escaped line break), r (carriage return), \r (escaped carriage return), t (tab), \t (escaped tab), space, and , (comma). (structure) An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Type -&gt; (string) [required] An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recog- nizer. Entity types must not contain the following invalid char- acters: n (line break), \n (escaped line break, r (car- riage return), \r (escaped carriage return), t (tab), \t (escaped tab), and , (comma). Constraints: o max: 64 o pattern: ^(?![^\n\r\t,]*\\n|\\r|\\t)[^\n\r\t,]+$ Documents -&gt; (structure) The S3 location of the folder that contains the training docu- ments for your custom entity recognizer. This parameter is required if you set DataFormat to COMPRE- HEND_CSV . S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? TestS3Uri -&gt; (string) Specifies the Amazon S3 location where the test documents for an entity recognizer are located. The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? InputFormat -&gt; (string) Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is considered a separate docu- ment. Use this option when you are processing large docu- ments, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a sepa- rate document. Use this option when you are processing many short documents, such as text messages. Possible values: o ONE_DOC_PER_FILE o ONE_DOC_PER_LINE Annotations -&gt; (structure) The S3 location of the CSV file that annotates your training documents. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? TestS3Uri -&gt; (string) Specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? EntityList -&gt; (structure) The S3 location of the CSV file that has the entity list for your custom entity recognizer. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the entity list is lo- cated. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? AugmentedManifests -&gt; (list) A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. This parameter is required if you set DataFormat to AUG- MENTED_MANIFEST . (structure) An augmented manifest file that provides training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. S3Uri -&gt; (string) [required] The Amazon S3 location of the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Split -&gt; (string) The purpose of the data you've provided in the augmented manifest. You can either train or test this data. If you don't specify, the default is train. TRAIN - all of the documents in the manifest will be used for training. If no test documents are provided, Amazon Comprehend will automatically reserve a portion of the training documents for testing. TEST - all of the documents in the manifest will be used for testing. Possible values: o TRAIN o TEST AttributeNames -&gt; (list) [required] The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job. (string) Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])* AnnotationDataS3Uri -&gt; (string) The S3 prefix to the annotation files that are referred in the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? SourceDocumentsS3Uri -&gt; (string) The S3 prefix to the source files (PDFs) that are re- ferred to in the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? DocumentType -&gt; (string) The type of augmented manifest. PlainTextDocument or SemiStructuredDocument. If you don't specify, the default is PlainTextDocument. o PLAIN_TEXT_DOCUMENT A document type that represents any unicode text that is encoded in UTF-8. o SEMI_STRUCTURED_DOCUMENT A document type with posi- tional and structural context, like a PDF. For training with Amazon Comprehend, only PDFs are supported. For inference, Amazon Comprehend support PDFs, DOCX and TXT. Possible values: o PLAIN_TEXT_DOCUMENT o SEMI_STRUCTURED_DOCUMENT JSON Syntax: { "DataFormat": "COMPREHEND_CSV"|"AUGMENTED_MANIFEST", "EntityTypes": [ { "Type": "string" } ... ], "Documents": { "S3Uri": "string", "TestS3Uri": "string", "InputFormat": "ONE_DOC_PER_FILE"|"ONE_DOC_PER_LINE" }, "Annotations": { "S3Uri": "string", "TestS3Uri": "string" }, "EntityList": { "S3Uri": "string" }, "AugmentedManifests": [ { "S3Uri": "string", "Split": "TRAIN"|"TEST", "AttributeNames": ["string", ...], "AnnotationDataS3Uri": "string", "SourceDocumentsS3Uri": "string", "DocumentType": "PLAIN_TEXT_DOCUMENT"|"SEMI_STRUCTURED_DOCUMENT" } ... ] }
+    /// </summary>
+    [CliOption("--input-data-config")]
+    public string? InputDataConfig { get; private init; }
+
+    /// <summary>
+    /// You can specify any of the following languages: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). If you plan to use this entity recognizer with PDF, Word, or image input files, you must specify English as the language. All training documents must be in the same language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// </summary>
+    [CliOption("--language-code")]
+    public AwsComprehendCreateEntityRecognizerLanguageCode? LanguageCode { get; private init; }
 
     /// <summary>
     /// The version name given to the newly created recognizer. Version names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same recognizer name in the ac- count/Region. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
@@ -31,17 +99,11 @@ public record AwsComprehendCreateEntityRecognizerOptions : AwsOptions
     [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
-    [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
-
     /// <summary>
     /// Tags to associate with the entity recognizer. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Compre- hend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. (structure) A key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with the key-value pair Department:Sales might be added to a resource to indicate its use by a particular department. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the key portion of the pair, with multiple pos- sible values such as sales, legal, and administration. Constraints: o min: 1 o max: 128 Value -&gt; (string) The second part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the initial (key) portion of the pair, with a value of sales to indicate the sales department. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
-
-    [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
 
     /// <summary>
     /// A unique identifier for the request. If you don't set the client re- quest token, Amazon Comprehend generates one. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
@@ -49,9 +111,6 @@ public record AwsComprehendCreateEntityRecognizerOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
 
     /// <summary>
     /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume at- tached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats: o KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" o Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" Constraints: o max: 2048 o pattern: ^\p{ASCII}+$
@@ -82,5 +141,22 @@ public record AwsComprehendCreateEntityRecognizerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

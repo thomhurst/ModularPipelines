@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "update-stage")]
-public record AwsApigatewayv2UpdateStageOptions : AwsOptions
+public record AwsApigatewayv2UpdateStageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a Stage. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API identifier.</param>
+    /// <param name="StageName">The stage name. Stage names can contain only alphanumeric charac- ters, hyphens, and underscores, or be $default. Maximum length is 128 characters.</param>
+    public AwsApigatewayv2UpdateStageOptions(
+        string ApiId,
+        string StageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(StageName);
+        this.StageName = StageName;
+    }
+
+    private AwsApigatewayv2UpdateStageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2UpdateStageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2UpdateStageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The API identifier.
+    /// </summary>
+    [CliOption("--api-id")]
+    public string? ApiId { get; private init; }
+
+    /// <summary>
+    /// The stage name. Stage names can contain only alphanumeric charac- ters, hyphens, and underscores, or be $default. Maximum length is 128 characters.
+    /// </summary>
+    [CliOption("--stage-name")]
+    public string? StageName { get; private init; }
+
     /// <summary>
     /// Settings for logging access in this stage. DestinationArn -&gt; (string) The ARN of the CloudWatch Logs log group to receive access logs. Format -&gt; (string) A single line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId. Shorthand Syntax: DestinationArn=string,Format=string JSON Syntax: { "DestinationArn": "string", "Format": "string" }
     /// </summary>
     [CliOption("--access-log-settings")]
     public string? AccessLogSettings { get; set; }
 
-    [CliOption("--api-id")]
-    public string? ApiId { get; set; }
-
-    [CliFlag("--auto-deploy")]
+    /// <summary>
+    /// Specifies whether updates to an API automatically trigger a new de- ployment. The default value is false.
+    /// </summary>
+    [CliFlag("--auto-deploy", NegatedName = "--no-auto-deploy")]
     public bool? AutoDeploy { get; set; }
 
     /// <summary>
@@ -64,9 +114,6 @@ public record AwsApigatewayv2UpdateStageOptions : AwsOptions
     [CliOption("--route-settings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RouteSettings { get; set; }
 
-    [CliOption("--stage-name")]
-    public string? StageName { get; set; }
-
     /// <summary>
     /// A map that defines the stage variables for a Stage. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+. key -&gt; (string) value -&gt; (string) A string with a length between [0-2048]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -78,5 +125,22 @@ public record AwsApigatewayv2UpdateStageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "update-recovery-plan-step")]
-public record AwsDrsUpdateRecoveryPlanStepOptions : AwsOptions
+public record AwsDrsUpdateRecoveryPlanStepOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a Recovery Plan step's name or configuration. Step type is im- mutable. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecoveryPlanStepArn">The ARN of the Recovery Plan step to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    public AwsDrsUpdateRecoveryPlanStepOptions(
+        string RecoveryPlanStepArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPlanStepArn);
+        this.RecoveryPlanStepArn = RecoveryPlanStepArn;
+    }
+
+    private AwsDrsUpdateRecoveryPlanStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsUpdateRecoveryPlanStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsUpdateRecoveryPlanStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Recovery Plan step to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// </summary>
     [CliOption("--recovery-plan-step-arn")]
-    public string? RecoveryPlanStepArn { get; set; }
+    public string? RecoveryPlanStepArn { get; private init; }
 
     /// <summary>
     /// The name of a Recovery Plan Step. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*
@@ -41,5 +78,22 @@ public record AwsDrsUpdateRecoveryPlanStepOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

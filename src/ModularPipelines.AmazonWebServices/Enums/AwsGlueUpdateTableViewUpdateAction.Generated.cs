@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --viewupdateaction.
+/// Allowed values for --view-update-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlueUpdateTableViewUpdateAction
 {
     [EnumValue("ADD")]
-    Add = 1,
-
-    [EnumValue("REPLACE")]
-    Replace = 2,
+    Add,
 
     [EnumValue("ADD_OR_REPLACE")]
-    AddOrReplace = 3,
+    AddOrReplace,
 
     [EnumValue("DROP")]
-    Drop = 4
+    Drop,
+
+    [EnumValue("REPLACE")]
+    Replace
 }

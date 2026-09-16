@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "disassociate-file-system-aliases")]
-public record AwsFsxDisassociateFileSystemAliasesOptions : AwsOptions
+public record AwsFsxDisassociateFileSystemAliasesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not associ- ated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see Working with DNS Aliases . The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API opera- tion t...
+    /// </summary>
+    /// <param name="FileSystemId">Specifies the file system from which to disassociate the DNS aliases. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
+    /// <param name="Aliases">An array of one or more DNS alias names to disassociate, or remove, from the file system. Constraints: o max: 50 (string) Constraints: o min: 4 o max: 253 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...</param>
+    public AwsFsxDisassociateFileSystemAliasesOptions(
+        string FileSystemId,
+        IEnumerable<string> Aliases
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Aliases);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Aliases));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Aliases));
+            }
+
+            Aliases = materialized;
+        }
+        this.Aliases = Aliases;
+    }
+
+    private AwsFsxDisassociateFileSystemAliasesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxDisassociateFileSystemAliasesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxDisassociateFileSystemAliasesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the file system from which to disassociate the DNS aliases. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// </summary>
+    [CliOption("--file-system-id")]
+    public string? FileSystemId { get; private init; }
+
+    /// <summary>
+    /// An array of one or more DNS alias names to disassociate, or remove, from the file system. Constraints: o max: 50 (string) Constraints: o min: 4 o max: 253 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--aliases", GroupValues = true)]
+    public IEnumerable<string>? Aliases { get; private init; }
+
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
@@ -29,16 +90,27 @@ public record AwsFsxDisassociateFileSystemAliasesOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
-
-    [CliOption("--aliases", GroupValues = true)]
-    public IEnumerable<string>? Aliases { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

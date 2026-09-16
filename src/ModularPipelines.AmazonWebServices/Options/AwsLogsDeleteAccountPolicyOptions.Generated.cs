@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "delete-account-policy")]
-public record AwsLogsDeleteAccountPolicyOptions : AwsOptions
+public record AwsLogsDeleteAccountPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups or data sources in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. This opera- tion supports deletion of data source-based field index policies, in- cluding facet configurations, in addition to log group-based policies. To use this operation, you must be signed on with the correct permis- sions de...
+    /// </summary>
+    /// <param name="PolicyName">The name of the policy to delete.</param>
+    /// <param name="PolicyType">The type of policy to delete. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY</param>
+    public AwsLogsDeleteAccountPolicyOptions(
+        string PolicyName,
+        AwsLogsDeleteAccountPolicyPolicyType PolicyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
+        this.PolicyType = PolicyType;
+    }
+
+    private AwsLogsDeleteAccountPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsDeleteAccountPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsDeleteAccountPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the policy to delete.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string? PolicyName { get; private init; }
+
+    /// <summary>
+    /// The type of policy to delete. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY
+    /// </summary>
     [CliOption("--policy-type")]
-    public string? PolicyType { get; set; }
+    public AwsLogsDeleteAccountPolicyPolicyType? PolicyType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "confirm-sign-up")]
-public record AwsCognitoIdpConfirmSignUpOptions : AwsOptions
+public record AwsCognitoIdpConfirmSignUpOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Confirms the account of a new user. This public API operation submits a code that Amazon Cognito sent to your user when they signed up in your user pool. After your user enters their code, they confirm ownership of the email address or phone number that they provided, and their user account becomes active. Depending on your user pool configuration, your users will receive their confirmation code in an email or SMS message. Local users who signed up in your user pool are the only type of user who...
+    /// </summary>
+    /// <param name="ClientId">The ID of the app client associated with the user pool. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="ConfirmationCode">The confirmation code that your user pool sent in response to the SignUp request. Constraints: o min: 1 o max: 2048 o pattern: [\S]+</param>
+    public AwsCognitoIdpConfirmSignUpOptions(
+        string ClientId,
+        string Username,
+        string ConfirmationCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+        global::System.ArgumentNullException.ThrowIfNull(ConfirmationCode);
+        this.ConfirmationCode = ConfirmationCode;
+    }
+
+    private AwsCognitoIdpConfirmSignUpOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpConfirmSignUpOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpConfirmSignUpOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the app client associated with the user pool. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
+
+    /// <summary>
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// </summary>
+    [CliOption("--username")]
+    public string? Username { get; private init; }
+
+    /// <summary>
+    /// The confirmation code that your user pool sent in response to the SignUp request. Constraints: o min: 1 o max: 2048 o pattern: [\S]+
+    /// </summary>
+    [CliOption("--confirmation-code")]
+    public string? ConfirmationCode { get; private init; }
 
     /// <summary>
     /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash , see Computing secret hash values . Constraints: o min: 1 o max: 128 o pattern: [\w+=/]+
@@ -33,13 +90,10 @@ public record AwsCognitoIdpConfirmSignUpOptions : AwsOptions
     [CliOption("--secret-hash")]
     public string? SecretHash { get; set; }
 
-    [CliOption("--username")]
-    public string? Username { get; set; }
-
-    [CliOption("--confirmation-code")]
-    public string? ConfirmationCode { get; set; }
-
-    [CliFlag("--force-alias-creation")]
+    /// <summary>
+    /// When true , forces user confirmation despite any existing aliases. Defaults to false . A value of true migrates the alias from an ex- isting user to the new user if an existing user already has the phone number or email address as an alias. Say, for example, that an existing user has an email attribute of bob@example.com and email is an alias in your user pool. If the new user also has an email of bob@example.com and your ConfirmSignUp re- sponse sets ForceAliasCreation to true , the new user can sign in with a username of bob@example.com and the existing user can no longer do so. If false and an attribute belongs to an existing alias, this request returns an AliasExistsException error. For more information about sign-in aliases, see Customizing sign-in attributes .
+    /// </summary>
+    [CliFlag("--force-alias-creation", NegatedName = "--no-force-alias-creation")]
     public bool? ForceAliasCreation { get; set; }
 
     /// <summary>
@@ -71,5 +125,22 @@ public record AwsCognitoIdpConfirmSignUpOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -22,8 +22,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sagemaker-geospatial", "get-tile")]
 public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
 {
+    /// <summary>
+    /// Gets a web mercator tile for the given Earth Observation job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the tile operation. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$</param>
+    /// <param name="ImageAssets">The particular assets or bands to tile. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Target">Determines what part of the Earth Observation job to tile. 'INPUT' or 'OUTPUT' are the valid options. Possible values: o INPUT o OUTPUT</param>
+    /// <param name="X">The x coordinate of the tile input.</param>
+    /// <param name="Y">The y coordinate of the tile input.</param>
+    /// <param name="Z">The z coordinate of the tile input. outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsSagemakerGeospatialGetTileOptions(
+        string Arn,
+        IEnumerable<string> ImageAssets,
+        AwsSagemakerGeospatialGetTileTarget Target,
+        int X,
+        int Y,
+        int Z,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ImageAssets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ImageAssets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ImageAssets));
+            }
+
+            ImageAssets = materialized;
+        }
+        this.ImageAssets = ImageAssets;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+        this.X = X;
+        this.Y = Y;
+        this.Z = Z;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string Arn, out IEnumerable<string> ImageAssets, out AwsSagemakerGeospatialGetTileTarget Target, out int X, out int Y, out int Z, out string Outfile)
+    {
+        Arn = this.Arn;
+        ImageAssets = this.ImageAssets;
+        Target = this.Target;
+        X = this.X;
+        Y = this.Y;
+        Z = this.Z;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the tile operation. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observa- tion-job/[a-z0-9]{12,}$
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string Arn { get; private init; }
+
+    /// <summary>
+    /// The particular assets or bands to tile. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--image-assets", GroupValues = true)]
+    public IEnumerable<string> ImageAssets { get; private init; }
+
+    /// <summary>
+    /// Determines what part of the Earth Observation job to tile. 'INPUT' or 'OUTPUT' are the valid options. Possible values: o INPUT o OUTPUT
+    /// </summary>
+    [CliOption("--target")]
+    public AwsSagemakerGeospatialGetTileTarget Target { get; private init; }
+
+    /// <summary>
+    /// The x coordinate of the tile input.
+    /// </summary>
+    [CliOption("--x")]
+    public int X { get; private init; }
+
+    /// <summary>
+    /// The y coordinate of the tile input.
+    /// </summary>
+    [CliOption("--y")]
+    public int Y { get; private init; }
+
+    /// <summary>
+    /// The z coordinate of the tile input. outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliOption("--z")]
+    public int Z { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the IAM role that you specify. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
@@ -31,10 +119,10 @@ public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CliOption("--image-assets", GroupValues = true)]
-    public IEnumerable<string>? ImageAssets { get; set; }
-
-    [CliFlag("--image-mask")]
+    /// <summary>
+    /// Determines whether or not to return a valid data mask.
+    /// </summary>
+    [CliFlag("--image-mask", NegatedName = "--no-image-mask")]
     public bool? ImageMask { get; set; }
 
     /// <summary>
@@ -55,22 +143,16 @@ public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
     [CliOption("--property-filters")]
     public string? PropertyFilters { get; set; }
 
-    [CliOption("--target")]
-    public string? Target { get; set; }
-
     /// <summary>
     /// Time range filter applied to imagery to find the images to tile.
     /// </summary>
     [CliOption("--time-range-filter")]
     public string? TimeRangeFilter { get; set; }
 
-    [CliOption("--x")]
-    public int? X { get; set; }
-
-    [CliOption("--y")]
-    public int? Y { get; set; }
-
-    [CliOption("--z")]
-    public int? Z { get; set; }
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

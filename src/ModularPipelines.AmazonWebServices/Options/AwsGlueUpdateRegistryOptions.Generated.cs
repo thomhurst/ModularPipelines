@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "update-registry")]
-public record AwsGlueUpdateRegistryOptions : AwsOptions
+public record AwsGlueUpdateRegistryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--registry-id")]
-    public string? RegistryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not mod- ify any of the schemas within the registry. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistryId">This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or Reg- istryName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }</param>
+    /// <param name="Description">A description of the registry. If description is not provided, this field will not be updated. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsGlueUpdateRegistryOptions(
+        string RegistryId,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryId);
+        this.RegistryId = RegistryId;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsGlueUpdateRegistryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueUpdateRegistryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueUpdateRegistryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or Reg- istryName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }
+    /// </summary>
+    [CliOption("--registry-id")]
+    public string? RegistryId { get; private init; }
+
+    /// <summary>
+    /// A description of the registry. If description is not provided, this field will not be updated. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

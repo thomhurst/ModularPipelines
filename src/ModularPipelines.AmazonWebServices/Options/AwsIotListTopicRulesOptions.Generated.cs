@@ -28,7 +28,10 @@ public record AwsIotListTopicRulesOptions : AwsOptions
     [CliOption("--topic")]
     public string? Topic { get; set; }
 
-    [CliFlag("--rule-disabled")]
+    /// <summary>
+    /// Specifies whether the rule is disabled.
+    /// </summary>
+    [CliFlag("--rule-disabled", NegatedName = "--no-rule-disabled")]
     public bool? RuleDisabled { get; set; }
 
     [CliOption("--cli-input-json")]

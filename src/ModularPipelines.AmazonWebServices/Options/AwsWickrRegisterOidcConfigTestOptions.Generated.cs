@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "register-oidc-config-test")]
-public record AwsWickrRegisterOidcConfigTestOptions : AwsOptions
+public record AwsWickrRegisterOidcConfigTestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Tests an OpenID Connect (OIDC) configuration for a Wickr network by validating the connection to the identity provider and retrieving its supported capabilities. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network for which the OIDC configuration will be tested. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="Issuer">The issuer URL of the OIDC provider to test. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="Scopes">The OAuth scopes to test with the OIDC provider. Constraints: o pattern: [\S\s]*</param>
+    public AwsWickrRegisterOidcConfigTestOptions(
+        string NetworkId,
+        string Issuer,
+        string Scopes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(Issuer);
+        this.Issuer = Issuer;
+        global::System.ArgumentNullException.ThrowIfNull(Scopes);
+        this.Scopes = Scopes;
+    }
+
+    private AwsWickrRegisterOidcConfigTestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrRegisterOidcConfigTestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrRegisterOidcConfigTestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network for which the OIDC configuration will be tested. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
     [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The issuer URL of the OIDC provider to test. Constraints: o pattern: [\S\s]*
+    /// </summary>
+    [CliOption("--issuer")]
+    public string? Issuer { get; private init; }
+
+    /// <summary>
+    /// The OAuth scopes to test with the OIDC provider. Constraints: o pattern: [\S\s]*
+    /// </summary>
+    [CliOption("--scopes")]
+    public string? Scopes { get; private init; }
 
     /// <summary>
     /// Additional authentication parameters to include in the test (op- tional). Constraints: o pattern: [\S\s]*
     /// </summary>
     [CliOption("--extra-auth-params")]
     public string? ExtraAuthParams { get; set; }
-
-    [CliOption("--issuer")]
-    public string? Issuer { get; set; }
-
-    [CliOption("--scopes")]
-    public string? Scopes { get; set; }
 
     /// <summary>
     /// The CA certificate for secure communication with the OIDC provider (optional). Constraints: o pattern: [\S\s]*
@@ -47,5 +98,22 @@ public record AwsWickrRegisterOidcConfigTestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

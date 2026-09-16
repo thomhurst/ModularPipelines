@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amp", "list-rule-groups-namespaces")]
-public record AwsAmpListRuleGroupsNamespacesOptions : AwsOptions
+public record AwsAmpListRuleGroupsNamespacesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of rule groups namespaces in a workspace. See also: AWS API Documentation list-rule-groups-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ruleGroupsNamespaces
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace containing the rule groups namespaces. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    public AwsAmpListRuleGroupsNamespacesOptions(
+        string WorkspaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsAmpListRuleGroupsNamespacesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmpListRuleGroupsNamespacesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmpListRuleGroupsNamespacesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace containing the rule groups namespaces. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
     /// <summary>
     /// Use this parameter to filter the rule groups namespaces that are re- turned. Only the namespaces with names that begin with the value that you specify are returned. Constraints: o min: 1 o max: 128 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
@@ -55,5 +92,22 @@ public record AwsAmpListRuleGroupsNamespacesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

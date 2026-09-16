@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "tag-resource")]
-public record AwsComprehendTagResourceOptions : AwsOptions
+public record AwsComprehendTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the given Amazon Comprehend re- source to which you want to associate the tags. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:compre- hend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*((/dataset/[a-zA-Z0-9](-*[a-zA-Z0-9])*)|(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*))?</param>
+    /// <param name="Tags">Tags being associated with a specific Amazon Comprehend resource. There can be a maximum of 50 tags (both existing and pending) asso- ciated with a specific resource. (structure) A key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with the key-value pair Department:Sales might be added to a resource to indicate its use by a particular department. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the key portion of the pair, with multiple pos- sible values such as sales, legal, and administration. Constraints: o min: 1 o max: 128 Value -&gt; (string) The second part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the initial (key) portion of the pair, with a value of sales to indicate the sales department. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsComprehendTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsComprehendTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the given Amazon Comprehend re- source to which you want to associate the tags. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:compre- hend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*((/dataset/[a-zA-Z0-9](-*[a-zA-Z0-9])*)|(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*))?
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// Tags being associated with a specific Amazon Comprehend resource. There can be a maximum of 50 tags (both existing and pending) asso- ciated with a specific resource. (structure) A key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with the key-value pair Department:Sales might be added to a resource to indicate its use by a particular department. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the key portion of the pair, with multiple pos- sible values such as sales, legal, and administration. Constraints: o min: 1 o max: 128 Value -&gt; (string) The second part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the initial (key) portion of the pair, with a value of sales to indicate the sales department. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

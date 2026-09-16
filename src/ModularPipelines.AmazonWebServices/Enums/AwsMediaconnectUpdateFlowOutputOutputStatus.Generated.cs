@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outputstatus.
+/// Allowed values for --output-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediaconnectUpdateFlowOutputOutputStatus
 {
-    [EnumValue("ENABLED")]
-    Enabled = 1,
-
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("ENABLED")]
+    Enabled
 }

@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCeGetAnomaliesFeedback
 {
-    [EnumValue("YES")]
-    Yes = 1,
-
     [EnumValue("NO")]
-    No = 2,
+    No,
 
     [EnumValue("PLANNED_ACTIVITY")]
-    PlannedActivity = 3
+    PlannedActivity,
+
+    [EnumValue("YES")]
+    Yes
 }

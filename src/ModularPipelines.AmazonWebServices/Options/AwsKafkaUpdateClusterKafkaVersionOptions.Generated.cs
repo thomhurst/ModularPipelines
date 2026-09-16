@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "update-cluster-kafka-version")]
-public record AwsKafkaUpdateClusterKafkaVersionOptions : AwsOptions
+public record AwsKafkaUpdateClusterKafkaVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the Apache Kafka version for the cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster to be updated.</param>
+    /// <param name="CurrentVersion">Current cluster version.</param>
+    /// <param name="TargetKafkaVersion">Target Kafka version.</param>
+    public AwsKafkaUpdateClusterKafkaVersionOptions(
+        string ClusterArn,
+        string CurrentVersion,
+        string TargetKafkaVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(TargetKafkaVersion);
+        this.TargetKafkaVersion = TargetKafkaVersion;
+    }
+
+    private AwsKafkaUpdateClusterKafkaVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaUpdateClusterKafkaVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaUpdateClusterKafkaVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the cluster to be updated.
+    /// </summary>
     [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    public string? ClusterArn { get; private init; }
+
+    /// <summary>
+    /// Current cluster version.
+    /// </summary>
+    [CliOption("--current-version")]
+    public string? CurrentVersion { get; private init; }
+
+    /// <summary>
+    /// Target Kafka version.
+    /// </summary>
+    [CliOption("--target-kafka-version")]
+    public string? TargetKafkaVersion { get; private init; }
 
     /// <summary>
     /// The custom configuration that should be applied on the new version of cluster. Arn -&gt; (string) [required] ARN of the configuration to use. Revision -&gt; (long) [required] The revision of the configuration to use. Shorthand Syntax: Arn=string,Revision=long JSON Syntax: { "Arn": "string", "Revision": long }
@@ -30,16 +87,27 @@ public record AwsKafkaUpdateClusterKafkaVersionOptions : AwsOptions
     [CliOption("--configuration-info")]
     public string? ConfigurationInfo { get; set; }
 
-    [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
-
-    [CliOption("--target-kafka-version")]
-    public string? TargetKafkaVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

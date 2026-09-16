@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "remove-policy-grant")]
-public record AwsDatazoneRemovePolicyGrantOptions : AwsOptions
+public record AwsDatazoneRemovePolicyGrantOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes a policy grant. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to remove a policy grant. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the entity from which you want to remove a policy grant. Possible values: o DOMAIN_UNIT o ENVIRONMENT_BLUEPRINT_CONFIGURATION o ENVIRONMENT_PROFILE o ASSET_TYPE</param>
+    /// <param name="EntityIdentifier">The ID of the entity from which you want to remove a policy grant.</param>
+    /// <param name="PolicyType">The type of the policy that you want to remove. Possible values: o CREATE_DOMAIN_UNIT o OVERRIDE_DOMAIN_UNIT_OWNERS o ADD_TO_PROJECT_MEMBER_POOL o OVERRIDE_PROJECT_OWNERS o CREATE_GLOSSARY o CREATE_FORM_TYPE o CREATE_ASSET_TYPE o CREATE_PROJECT o CREATE_ENVIRONMENT_PROFILE o DELEGATE_CREATE_ENVIRONMENT_PROFILE o CREATE_ENVIRONMENT o CREATE_ENVIRONMENT_FROM_BLUEPRINT o CREATE_PROJECT_FROM_PROJECT_PROFILE o USE_ASSET_TYPE</param>
+    /// <param name="Principal">The principal from which you want to remove a policy grant. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group, project, domainUnit. user -&gt; (tagged union structure) The user of the policy grant principal. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userIdentifier, allUsersGrantFil- ter. userIdentifier -&gt; (string) The user ID of the user policy grant principal. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).* allUsersGrantFilter -&gt; (structure) The all users grant filter of the user policy grant princi- pal. group -&gt; (tagged union structure) The group of the policy grant principal. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: groupIdentifier. groupIdentifier -&gt; (string) The ID Of the group of the group principal. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).* project -&gt; (structure) The project of the policy grant principal. projectDesignation -&gt; (string) [required] The project designation of the project policy grant princi- pal. Possible values: o OWNER o CONTRIBUTOR o PROJECT_CATALOG_STEWARD projectIdentifier -&gt; (string) The project ID of the project policy grant principal. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} projectGrantFilter -&gt; (tagged union structure) The project grant filter of the project policy grant princi- pal. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: domainUnitFilter. domainUnitFilter -&gt; (structure) The domain unit filter of the project grant filter. domainUnit -&gt; (string) [required] The domain unit ID to use in the filter. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+ includeChildDomainUnits -&gt; (boolean) Specifies whether to include child domain units. domainUnit -&gt; (structure) The domain unit of the policy grant principal. domainUnitDesignation -&gt; (string) [required] Specifes the designation of the domain unit users. Possible values: o OWNER domainUnitIdentifier -&gt; (string) The ID of the domain unit. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+ domainUnitGrantFilter -&gt; (tagged union structure) The grant filter for the domain unit. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: allDomainUnitsGrantFilter. allDomainUnitsGrantFilter -&gt; (structure) Specifies a grant filter containing all domain units. JSON Syntax: { "user": { "userIdentifier": "string", "allUsersGrantFilter": { } }, "group": { "groupIdentifier": "string" }, "project": { "projectDesignation": "OWNER"|"CONTRIBUTOR"|"PROJECT_CATALOG_STEWARD", "projectIdentifier": "string", "projectGrantFilter": { "domainUnitFilter": { "domainUnit": "string", "includeChildDomainUnits": true|false } } }, "domainUnit": { "domainUnitDesignation": "OWNER", "domainUnitIdentifier": "string", "domainUnitGrantFilter": { "allDomainUnitsGrantFilter": { } } } }</param>
+    public AwsDatazoneRemovePolicyGrantOptions(
+        string DomainIdentifier,
+        AwsDatazoneRemovePolicyGrantEntityType EntityType,
+        string EntityIdentifier,
+        AwsDatazoneRemovePolicyGrantPolicyType PolicyType,
+        string Principal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
+        this.EntityIdentifier = EntityIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
+        this.PolicyType = PolicyType;
+        global::System.ArgumentNullException.ThrowIfNull(Principal);
+        this.Principal = Principal;
+    }
+
+    private AwsDatazoneRemovePolicyGrantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneRemovePolicyGrantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneRemovePolicyGrantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the domain where you want to remove a policy grant. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of the entity from which you want to remove a policy grant. Possible values: o DOMAIN_UNIT o ENVIRONMENT_BLUEPRINT_CONFIGURATION o ENVIRONMENT_PROFILE o ASSET_TYPE
+    /// </summary>
     [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
+    public AwsDatazoneRemovePolicyGrantEntityType? EntityType { get; private init; }
 
+    /// <summary>
+    /// The ID of the entity from which you want to remove a policy grant.
+    /// </summary>
     [CliOption("--entity-identifier")]
-    public string? EntityIdentifier { get; set; }
+    public string? EntityIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of the policy that you want to remove. Possible values: o CREATE_DOMAIN_UNIT o OVERRIDE_DOMAIN_UNIT_OWNERS o ADD_TO_PROJECT_MEMBER_POOL o OVERRIDE_PROJECT_OWNERS o CREATE_GLOSSARY o CREATE_FORM_TYPE o CREATE_ASSET_TYPE o CREATE_PROJECT o CREATE_ENVIRONMENT_PROFILE o DELEGATE_CREATE_ENVIRONMENT_PROFILE o CREATE_ENVIRONMENT o CREATE_ENVIRONMENT_FROM_BLUEPRINT o CREATE_PROJECT_FROM_PROJECT_PROFILE o USE_ASSET_TYPE
+    /// </summary>
     [CliOption("--policy-type")]
-    public string? PolicyType { get; set; }
+    public AwsDatazoneRemovePolicyGrantPolicyType? PolicyType { get; private init; }
 
+    /// <summary>
+    /// The principal from which you want to remove a policy grant. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group, project, domainUnit. user -&gt; (tagged union structure) The user of the policy grant principal. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userIdentifier, allUsersGrantFil- ter. userIdentifier -&gt; (string) The user ID of the user policy grant principal. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).* allUsersGrantFilter -&gt; (structure) The all users grant filter of the user policy grant princi- pal. group -&gt; (tagged union structure) The group of the policy grant principal. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: groupIdentifier. groupIdentifier -&gt; (string) The ID Of the group of the group principal. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).* project -&gt; (structure) The project of the policy grant principal. projectDesignation -&gt; (string) [required] The project designation of the project policy grant princi- pal. Possible values: o OWNER o CONTRIBUTOR o PROJECT_CATALOG_STEWARD projectIdentifier -&gt; (string) The project ID of the project policy grant principal. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} projectGrantFilter -&gt; (tagged union structure) The project grant filter of the project policy grant princi- pal. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: domainUnitFilter. domainUnitFilter -&gt; (structure) The domain unit filter of the project grant filter. domainUnit -&gt; (string) [required] The domain unit ID to use in the filter. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+ includeChildDomainUnits -&gt; (boolean) Specifies whether to include child domain units. domainUnit -&gt; (structure) The domain unit of the policy grant principal. domainUnitDesignation -&gt; (string) [required] Specifes the designation of the domain unit users. Possible values: o OWNER domainUnitIdentifier -&gt; (string) The ID of the domain unit. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+ domainUnitGrantFilter -&gt; (tagged union structure) The grant filter for the domain unit. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: allDomainUnitsGrantFilter. allDomainUnitsGrantFilter -&gt; (structure) Specifies a grant filter containing all domain units. JSON Syntax: { "user": { "userIdentifier": "string", "allUsersGrantFilter": { } }, "group": { "groupIdentifier": "string" }, "project": { "projectDesignation": "OWNER"|"CONTRIBUTOR"|"PROJECT_CATALOG_STEWARD", "projectIdentifier": "string", "projectGrantFilter": { "domainUnitFilter": { "domainUnit": "string", "includeChildDomainUnits": true|false } } }, "domainUnit": { "domainUnitDesignation": "OWNER", "domainUnitIdentifier": "string", "domainUnitGrantFilter": { "allDomainUnitsGrantFilter": { } } } }
+    /// </summary>
     [CliOption("--principal")]
-    public string? Principal { get; set; }
+    public string? Principal { get; private init; }
 
     /// <summary>
     /// The ID of the policy grant that is to be removed from a specified entity. Constraints: o pattern: [A-Za-z0-9+/]{10}
@@ -55,5 +121,22 @@ public record AwsDatazoneRemovePolicyGrantOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

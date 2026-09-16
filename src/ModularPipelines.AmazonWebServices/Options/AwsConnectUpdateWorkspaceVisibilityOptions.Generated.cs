@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-workspace-visibility")]
-public record AwsConnectUpdateWorkspaceVisibilityOptions : AwsOptions
+public record AwsConnectUpdateWorkspaceVisibilityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the visibility setting of a workspace, controlling whether it is available to all users, assigned users only, or none. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="WorkspaceId">The identifier of the workspace. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Visibility">The visibility setting for the workspace. Valid values are: ALL (available to all users), ASSIGNED (available only to assigned users and routing profiles), and NONE (not visible to any users). Possible values: o ALL o ASSIGNED o NONE</param>
+    public AwsConnectUpdateWorkspaceVisibilityOptions(
+        string InstanceId,
+        string WorkspaceId,
+        AwsConnectUpdateWorkspaceVisibilityVisibility Visibility
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        global::System.ArgumentNullException.ThrowIfNull(Visibility);
+        this.Visibility = Visibility;
+    }
+
+    private AwsConnectUpdateWorkspaceVisibilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateWorkspaceVisibilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateWorkspaceVisibilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the workspace. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
+    /// <summary>
+    /// The visibility setting for the workspace. Valid values are: ALL (available to all users), ASSIGNED (available only to assigned users and routing profiles), and NONE (not visible to any users). Possible values: o ALL o ASSIGNED o NONE
+    /// </summary>
     [CliOption("--visibility")]
-    public string? Visibility { get; set; }
+    public AwsConnectUpdateWorkspaceVisibilityVisibility? Visibility { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

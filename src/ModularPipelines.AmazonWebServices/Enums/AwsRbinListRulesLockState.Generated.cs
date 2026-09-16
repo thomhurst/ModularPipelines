@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --lockstate.
+/// Allowed values for --lock-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRbinListRulesLockState
 {
     [EnumValue("locked")]
-    Locked = 1,
+    Locked,
 
     [EnumValue("pending_unlock")]
-    PendingUnlock = 2,
+    PendingUnlock,
 
     [EnumValue("unlocked")]
-    Unlocked = 3
+    Unlocked
 }

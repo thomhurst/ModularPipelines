@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-metrics", "batch-get-metrics")]
-public record AwsSagemakerMetricsBatchGetMetricsOptions : AwsOptions
+public record AwsSagemakerMetricsBatchGetMetricsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used to retrieve training metrics from SageMaker. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MetricQueries">Queries made to retrieve training metrics from SageMaker. Constraints: o min: 1 o max: 100 (structure) Specifies a query to retrieve training metrics from SageMaker. MetricName -&gt; (string) [required] The name of the metric to retrieve. Constraints: o min: 1 o max: 255 o pattern: .+ ResourceArn -&gt; (string) [required] The ARN of the SageMaker resource to retrieve metrics for. Constraints: o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-].*/.* MetricStat -&gt; (string) [required] The metrics stat type of metrics to retrieve. Possible values: o Min o Max o Avg o Count o StdDev o Last Period -&gt; (string) [required] The time period of metrics to retrieve. Possible values: o OneMinute o FiveMinute o OneHour o IterationNumber XAxisType -&gt; (string) [required] The x-axis type of metrics to retrieve. Possible values: o IterationNumber o Timestamp Start -&gt; (long) The start time of metrics to retrieve. End -&gt; (long) The end time of metrics to retrieve. Shorthand Syntax: MetricName=string,ResourceArn=string,MetricStat=string,Period=string,XAxisType=string,Start=long,End=long ... JSON Syntax: [ { "MetricName": "string", "ResourceArn": "string", "MetricStat": "Min"|"Max"|"Avg"|"Count"|"StdDev"|"Last", "Period": "OneMinute"|"FiveMinute"|"OneHour"|"IterationNumber", "XAxisType": "IterationNumber"|"Timestamp", "Start": long, "End": long } ... ]</param>
+    public AwsSagemakerMetricsBatchGetMetricsOptions(
+        IEnumerable<string> MetricQueries
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MetricQueries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MetricQueries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MetricQueries));
+            }
+
+            MetricQueries = materialized;
+        }
+        this.MetricQueries = MetricQueries;
+    }
+
+    private AwsSagemakerMetricsBatchGetMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerMetricsBatchGetMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerMetricsBatchGetMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Queries made to retrieve training metrics from SageMaker. Constraints: o min: 1 o max: 100 (structure) Specifies a query to retrieve training metrics from SageMaker. MetricName -&gt; (string) [required] The name of the metric to retrieve. Constraints: o min: 1 o max: 255 o pattern: .+ ResourceArn -&gt; (string) [required] The ARN of the SageMaker resource to retrieve metrics for. Constraints: o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-].*/.* MetricStat -&gt; (string) [required] The metrics stat type of metrics to retrieve. Possible values: o Min o Max o Avg o Count o StdDev o Last Period -&gt; (string) [required] The time period of metrics to retrieve. Possible values: o OneMinute o FiveMinute o OneHour o IterationNumber XAxisType -&gt; (string) [required] The x-axis type of metrics to retrieve. Possible values: o IterationNumber o Timestamp Start -&gt; (long) The start time of metrics to retrieve. End -&gt; (long) The end time of metrics to retrieve. Shorthand Syntax: MetricName=string,ResourceArn=string,MetricStat=string,Period=string,XAxisType=string,Start=long,End=long ... JSON Syntax: [ { "MetricName": "string", "ResourceArn": "string", "MetricStat": "Min"|"Max"|"Avg"|"Count"|"StdDev"|"Last", "Period": "OneMinute"|"FiveMinute"|"OneHour"|"IterationNumber", "XAxisType": "IterationNumber"|"Timestamp", "Start": long, "End": long } ... ]
+    /// </summary>
     [CliOption("--metric-queries", GroupValues = true)]
-    public IEnumerable<string>? MetricQueries { get; set; }
+    public IEnumerable<string>? MetricQueries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

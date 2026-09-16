@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "update-time-to-live")]
-public record AwsDynamodbUpdateTimeToLiveOptions : AwsOptions
+public record AwsDynamodbUpdateTimeToLiveOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification . It can take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationExcep- tion . TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the att...
+    /// </summary>
+    /// <param name="TableName">The name of the table to be configured. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="TimeToLiveSpecification">Represents the settings used to enable or disable Time to Live for the specified table. Enabled -&gt; (boolean) [required] Indicates whether TTL is to be enabled (true) or disabled (false) on the table. AttributeName -&gt; (string) [required] The name of the TTL attribute used to store the expiration time for items in the table. Constraints: o min: 1 o max: 255 Shorthand Syntax: Enabled=boolean,AttributeName=string JSON Syntax: { "Enabled": true|false, "AttributeName": "string" }</param>
+    public AwsDynamodbUpdateTimeToLiveOptions(
+        string TableName,
+        string TimeToLiveSpecification
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(TimeToLiveSpecification);
+        this.TimeToLiveSpecification = TimeToLiveSpecification;
+    }
+
+    private AwsDynamodbUpdateTimeToLiveOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbUpdateTimeToLiveOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbUpdateTimeToLiveOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the table to be configured. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// Represents the settings used to enable or disable Time to Live for the specified table. Enabled -&gt; (boolean) [required] Indicates whether TTL is to be enabled (true) or disabled (false) on the table. AttributeName -&gt; (string) [required] The name of the TTL attribute used to store the expiration time for items in the table. Constraints: o min: 1 o max: 255 Shorthand Syntax: Enabled=boolean,AttributeName=string JSON Syntax: { "Enabled": true|false, "AttributeName": "string" }
+    /// </summary>
     [CliOption("--time-to-live-specification")]
-    public string? TimeToLiveSpecification { get; set; }
+    public string? TimeToLiveSpecification { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

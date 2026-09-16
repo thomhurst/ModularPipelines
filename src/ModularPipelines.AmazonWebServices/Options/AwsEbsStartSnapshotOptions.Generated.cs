@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,45 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ebs", "start-snapshot")]
-public record AwsEbsStartSnapshotOptions : AwsOptions
+public record AwsEbsStartSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes. After creating the snapshot, use PutSnapshotBlock to write blocks of data to the snapshot. NOTE: You should always retry requests that receive server (5xx ) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see Error retries in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VolumeSize">The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB). Constraints: o min: 1</param>
+    public AwsEbsStartSnapshotOptions(
+        int VolumeSize
+    )
+    {
+        this.VolumeSize = VolumeSize;
+    }
+
+    private AwsEbsStartSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEbsStartSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEbsStartSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB). Constraints: o min: 1
+    /// </summary>
     [CliOption("--volume-size")]
-    public int? VolumeSize { get; set; }
+    public int? VolumeSize { get; private init; }
 
     /// <summary>
     /// The ID of the parent snapshot. If there is no parent snapshot, or if you are creating the first snapshot for an on-premises volume, omit this parameter. You can't specify ParentSnapshotId and Encrypted in the same re- quest. If you specify both parameters, the request fails with Vali- dationException . The encryption status of the snapshot depends on the values that you specify for Encrypted , KmsKeyArn , and ParentSnapshotId , and whether your Amazon Web Services account is enabled for encryption by default . For more information, see Using encryption in the Ama- zon Elastic Compute Cloud User Guide . WARNING: If you specify an encrypted parent snapshot, you must have per- mission to use the KMS key that was used to encrypt the parent snapshot. For more information, see Permissions to use Key Man- agement Service keys in the Amazon Elastic Compute Cloud User Guide . Constraints: o min: 1 o max: 64 o pattern: ^snap-[0-9a-f]+$
@@ -50,7 +86,10 @@ public record AwsEbsStartSnapshotOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Indicates whether to encrypt the snapshot. You can't specify Encrypted and ParentSnapshotId in the same re- quest. If you specify both parameters, the request fails with Vali- dationException . The encryption status of the snapshot depends on the values that you specify for Encrypted , KmsKeyArn , and ParentSnapshotId , and whether your Amazon Web Services account is enabled for encryption by default . For more information, see Using encryption in the Ama- zon Elastic Compute Cloud User Guide . WARNING: To create an encrypted snapshot, you must have permission to use the KMS key. For more information, see Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide .
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
@@ -70,5 +109,22 @@ public record AwsEbsStartSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

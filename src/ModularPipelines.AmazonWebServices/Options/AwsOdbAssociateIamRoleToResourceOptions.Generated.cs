@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "associate-iam-role-to-resource")]
-public record AwsOdbAssociateIamRoleToResourceOptions : AwsOptions
+public record AwsOdbAssociateIamRoleToResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates an Amazon Web Services Identity and Access Management (IAM) service role with a specified resource to enable Amazon Web Services service integration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to associate with the re- source. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+</param>
+    /// <param name="AwsIntegration">The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role association. Possible values: o KmsTde</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the target resource to associate with the Amazon Web Services Identity and Access Management (IAM) service role. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\d{12}:(?:cloud-vm-clus- ter|cloud-autonomous-vm-cluster|exadb-vm-cluster)/[a-z0-9-_]+</param>
+    public AwsOdbAssociateIamRoleToResourceOptions(
+        string IamRoleArn,
+        string AwsIntegration,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(AwsIntegration);
+        this.AwsIntegration = AwsIntegration;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsOdbAssociateIamRoleToResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbAssociateIamRoleToResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbAssociateIamRoleToResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to associate with the re- source. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role association. Possible values: o KmsTde
+    /// </summary>
     [CliOption("--aws-integration")]
-    public string? AwsIntegration { get; set; }
+    public string? AwsIntegration { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the target resource to associate with the Amazon Web Services Identity and Access Management (IAM) service role. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\d{12}:(?:cloud-vm-clus- ter|cloud-autonomous-vm-cluster|exadb-vm-cluster)/[a-z0-9-_]+
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

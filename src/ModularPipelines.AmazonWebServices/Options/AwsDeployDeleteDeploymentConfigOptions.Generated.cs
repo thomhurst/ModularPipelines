@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "delete-deployment-config")]
-public record AwsDeployDeleteDeploymentConfigOptions : AwsOptions
+public record AwsDeployDeleteDeploymentConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a deployment configuration. NOTE: A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeploymentConfigName">The name of a deployment configuration associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    public AwsDeployDeleteDeploymentConfigOptions(
+        string DeploymentConfigName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentConfigName);
+        this.DeploymentConfigName = DeploymentConfigName;
+    }
+
+    private AwsDeployDeleteDeploymentConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeployDeleteDeploymentConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeployDeleteDeploymentConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a deployment configuration associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// </summary>
     [CliOption("--deployment-config-name")]
-    public string? DeploymentConfigName { get; set; }
+    public string? DeploymentConfigName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

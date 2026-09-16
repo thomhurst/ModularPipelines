@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --spreadlevel.
+/// Allowed values for --spread-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreatePlacementGroupSpreadLevel
 {
     [EnumValue("host")]
-    Host = 1,
+    Host,
 
     [EnumValue("rack")]
-    Rack = 2
+    Rack
 }

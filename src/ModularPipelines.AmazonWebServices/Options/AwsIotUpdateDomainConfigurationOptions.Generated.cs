@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-domain-configuration")]
-public record AwsIotUpdateDomainConfigurationOptions : AwsOptions
+public record AwsIotUpdateDomainConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates values stored in the domain configuration. Domain configura- tions for default endpoints can't be updated. Requires permission to access the UpdateDomainConfiguration action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainConfigurationName">The name of the domain configuration to be updated. Constraints: o min: 1 o max: 128 o pattern: [\w.:-]+</param>
+    public AwsIotUpdateDomainConfigurationOptions(
+        string DomainConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainConfigurationName);
+        this.DomainConfigurationName = DomainConfigurationName;
+    }
+
+    private AwsIotUpdateDomainConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateDomainConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateDomainConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain configuration to be updated. Constraints: o min: 1 o max: 128 o pattern: [\w.:-]+
+    /// </summary>
     [CliOption("--domain-configuration-name")]
-    public string? DomainConfigurationName { get; set; }
+    public string? DomainConfigurationName { get; private init; }
 
     /// <summary>
     /// An object that specifies the authorization service for a domain. defaultAuthorizerName -&gt; (string) The name of the authorization service for a domain configura- tion. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+ allowAuthorizerOverride -&gt; (boolean) A Boolean that specifies whether the domain configuration's au- thorization service can be overridden. Shorthand Syntax: defaultAuthorizerName=string,allowAuthorizerOverride=boolean JSON Syntax: { "defaultAuthorizerName": "string", "allowAuthorizerOverride": true|false }
@@ -37,7 +74,10 @@ public record AwsIotUpdateDomainConfigurationOptions : AwsOptions
     [CliOption("--domain-configuration-status")]
     public AwsIotUpdateDomainConfigurationDomainConfigurationStatus? DomainConfigurationStatus { get; set; }
 
-    [CliFlag("--remove-authorizer-config")]
+    /// <summary>
+    /// Removes the authorization configuration from a domain.
+    /// </summary>
+    [CliFlag("--remove-authorizer-config", NegatedName = "--no-remove-authorizer-config")]
     public bool? RemoveAuthorizerConfig { get; set; }
 
     /// <summary>
@@ -75,5 +115,22 @@ public record AwsIotUpdateDomainConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

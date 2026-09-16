@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --connectiontype.
+/// Allowed values for --connection-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPartnercentralAccountListConnectionInvitationsConnectionType
 {
     [EnumValue("OPPORTUNITY_COLLABORATION")]
-    OpportunityCollaboration = 1,
+    OpportunityCollaboration,
 
     [EnumValue("SUBSIDIARY")]
-    Subsidiary = 2
+    Subsidiary
 }

@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2DescribeNetworkInterfaceAttributeAttribute
 {
-    [EnumValue("description")]
-    Description = 1,
-
-    [EnumValue("groupSet")]
-    GroupSet = 2,
-
-    [EnumValue("sourceDestCheck")]
-    SourceDestCheck = 3,
+    [EnumValue("associatePublicIpAddress")]
+    AssociatePublicIpAddress,
 
     [EnumValue("attachment")]
-    Attachment = 4,
+    Attachment,
 
-    [EnumValue("associatePublicIpAddress")]
-    AssociatePublicIpAddress = 5
+    [EnumValue("description")]
+    Description,
+
+    [EnumValue("groupSet")]
+    GroupSet,
+
+    [EnumValue("sourceDestCheck")]
+    SourceDestCheck
 }

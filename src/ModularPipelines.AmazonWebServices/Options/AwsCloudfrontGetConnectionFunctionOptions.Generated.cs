@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,13 +21,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudfront", "get-connection-function")]
 public record AwsCloudfrontGetConnectionFunctionOptions : AwsOptions
 {
+    /// <summary>
+    /// Gets a connection function. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The connection function's identifier.</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsCloudfrontGetConnectionFunctionOptions(
+        string Identifier,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string Identifier, out string Outfile)
+    {
+        Identifier = this.Identifier;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The connection function's identifier.
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string Identifier { get; private init; }
 
     /// <summary>
     /// The connection function's stage. Possible values: o DEVELOPMENT o LIVE outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--stage")]
-    public AwsCloudfrontGetConnectionFunctionStage? Stage { get; set; }
+    public string? Stage { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

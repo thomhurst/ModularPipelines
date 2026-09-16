@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-theme")]
-public record AwsQuicksightUpdateThemeOptions : AwsOptions
+public record AwsQuicksightUpdateThemeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a theme. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the theme that you're updating. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="ThemeId">The ID for the theme. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="BaseThemeId">The theme ID, defined by Amazon Quick Sight, that a custom theme in- herits from. All themes initially inherit from a default Quick Sight theme. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    public AwsQuicksightUpdateThemeOptions(
+        string AwsAccountId,
+        string ThemeId,
+        string BaseThemeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(ThemeId);
+        this.ThemeId = ThemeId;
+        global::System.ArgumentNullException.ThrowIfNull(BaseThemeId);
+        this.BaseThemeId = BaseThemeId;
+    }
+
+    private AwsQuicksightUpdateThemeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateThemeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateThemeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the theme that you're updating. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The ID for the theme. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--theme-id")]
-    public string? ThemeId { get; set; }
+    public string? ThemeId { get; private init; }
+
+    /// <summary>
+    /// The theme ID, defined by Amazon Quick Sight, that a custom theme in- herits from. All themes initially inherit from a default Quick Sight theme. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
+    [CliOption("--base-theme-id")]
+    public string? BaseThemeId { get; private init; }
 
     /// <summary>
     /// The name for the theme. Constraints: o min: 1 o max: 2048
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--base-theme-id")]
-    public string? BaseThemeId { get; set; }
 
     /// <summary>
     /// A description of the theme version that you're updating Every time that you call UpdateTheme , you create a new version of the theme. Each version of the theme maintains a description of the version in VersionDescription . Constraints: o min: 1 o max: 512
@@ -53,5 +104,22 @@ public record AwsQuicksightUpdateThemeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

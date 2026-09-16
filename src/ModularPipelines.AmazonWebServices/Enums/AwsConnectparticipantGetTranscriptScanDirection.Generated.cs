@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scandirection.
+/// Allowed values for --scan-direction.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectparticipantGetTranscriptScanDirection
 {
-    [EnumValue("FORWARD")]
-    Forward = 1,
-
     [EnumValue("BACKWARD")]
-    Backward = 2
+    Backward,
+
+    [EnumValue("FORWARD")]
+    Forward
 }

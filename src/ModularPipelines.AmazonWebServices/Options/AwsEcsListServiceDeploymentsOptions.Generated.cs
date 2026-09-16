@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "list-service-deployments")]
-public record AwsEcsListServiceDeploymentsOptions : AwsOptions
+public record AwsEcsListServiceDeploymentsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation lists all the service deployments that meet the speci- fied filter criteria. A service deployment happens when you release a software update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks. This API returns the values that you use for the request parameters in DescribeServiceRevisions . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Service">The ARN or name of the service</param>
+    public AwsEcsListServiceDeploymentsOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    private AwsEcsListServiceDeploymentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsListServiceDeploymentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsListServiceDeploymentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the service
+    /// </summary>
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public string? Service { get; private init; }
 
     /// <summary>
     /// The cluster that hosts the service. This can either be the cluster name or ARN. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. If you don't specify a cluster, de- fault is used.
@@ -61,5 +98,22 @@ public record AwsEcsListServiceDeploymentsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

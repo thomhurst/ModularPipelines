@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "modify-db-shard-group")]
-public record AwsRdsModifyDbShardGroupOptions : AwsOptions
+public record AwsRdsModifyDbShardGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the settings of an Aurora Limitless Database DB shard group. You can change one or more settings by specifying these parameters and the new values in the request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbShardGroupIdentifier">The name of the DB shard group to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    public AwsRdsModifyDbShardGroupOptions(
+        string DbShardGroupIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbShardGroupIdentifier);
+        this.DbShardGroupIdentifier = DbShardGroupIdentifier;
+    }
+
+    private AwsRdsModifyDbShardGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsModifyDbShardGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsModifyDbShardGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB shard group to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--db-shard-group-identifier")]
-    public string? DbShardGroupIdentifier { get; set; }
+    public string? DbShardGroupIdentifier { get; private init; }
 
     /// <summary>
     /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
@@ -47,5 +84,22 @@ public record AwsRdsModifyDbShardGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

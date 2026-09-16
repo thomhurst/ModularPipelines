@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "update-exascale-db-storage-vault")]
-public record AwsOdbUpdateExascaleDbStorageVaultOptions : AwsOptions
+public record AwsOdbUpdateExascaleDbStorageVaultOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified Exascale storage vault. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExascaleDbStorageVaultId">The unique identifier of the Exascale storage vault to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    public AwsOdbUpdateExascaleDbStorageVaultOptions(
+        string ExascaleDbStorageVaultId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExascaleDbStorageVaultId);
+        this.ExascaleDbStorageVaultId = ExascaleDbStorageVaultId;
+    }
+
+    private AwsOdbUpdateExascaleDbStorageVaultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbUpdateExascaleDbStorageVaultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbUpdateExascaleDbStorageVaultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Exascale storage vault to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--exascale-db-storage-vault-id")]
-    public string? ExascaleDbStorageVaultId { get; set; }
+    public string? ExascaleDbStorageVaultId { get; private init; }
 
     /// <summary>
     /// The additional flash cache percentage for the Exascale storage vault. Constraints: o min: 0
@@ -54,7 +91,10 @@ public record AwsOdbUpdateExascaleDbStorageVaultOptions : AwsOptions
     [CliOption("--high-capacity-database-storage-total-size-in-gbs")]
     public int? HighCapacityDatabaseStorageTotalSizeInGbs { get; set; }
 
-    [CliFlag("--is-autoscale-enabled")]
+    /// <summary>
+    /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+    /// </summary>
+    [CliFlag("--is-autoscale-enabled", NegatedName = "--no-is-autoscale-enabled")]
     public bool? IsAutoscaleEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -62,5 +102,22 @@ public record AwsOdbUpdateExascaleDbStorageVaultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

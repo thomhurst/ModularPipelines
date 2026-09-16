@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "list-contact-references")]
-public record AwsConnectListContactReferencesOptions : AwsOptions
+public record AwsConnectListContactReferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes , returns a list of references associ- ated with the contact. References are links to documents that are re- lated to a contact, such as emails, attachments, or URLs. See also: AWS API Documentation list-contact-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagin...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactId">The identifier of the initial contact. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ReferenceTypes">The type of reference. Constraints: o max: 6 (string) Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Syntax: "string" "string" ...</param>
+    public AwsConnectListContactReferencesOptions(
+        string InstanceId,
+        string ContactId,
+        IEnumerable<string> ReferenceTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ReferenceTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ReferenceTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ReferenceTypes));
+            }
+
+            ReferenceTypes = materialized;
+        }
+        this.ReferenceTypes = ReferenceTypes;
+    }
+
+    private AwsConnectListContactReferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectListContactReferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectListContactReferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the initial contact. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
 
+    /// <summary>
+    /// The type of reference. Constraints: o max: 6 (string) Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--reference-types", GroupValues = true)]
-    public IEnumerable<string>? ReferenceTypes { get; set; }
+    public IEnumerable<string>? ReferenceTypes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +111,22 @@ public record AwsConnectListContactReferencesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

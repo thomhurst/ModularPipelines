@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "stop-calculation-execution")]
-public record AwsAthenaStopCalculationExecutionOptions : AwsOptions
+public record AwsAthenaStopCalculationExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED , FAILED , or COMPLETED ) succeeds but has no effect. NOTE: Cancelling a calculation is done on a best effort basis. If a calcu- lation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that can- not be cancelled, consider terminating the session in which the cal- culation is run...
+    /// </summary>
+    /// <param name="CalculationExecutionId">The calculation execution UUID. Constraints: o min: 1 o max: 36</param>
+    public AwsAthenaStopCalculationExecutionOptions(
+        string CalculationExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CalculationExecutionId);
+        this.CalculationExecutionId = CalculationExecutionId;
+    }
+
+    private AwsAthenaStopCalculationExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaStopCalculationExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaStopCalculationExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The calculation execution UUID. Constraints: o min: 1 o max: 36
+    /// </summary>
     [CliOption("--calculation-execution-id")]
-    public string? CalculationExecutionId { get; set; }
+    public string? CalculationExecutionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

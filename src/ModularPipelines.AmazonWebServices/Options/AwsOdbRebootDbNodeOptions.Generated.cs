@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "reboot-db-node")]
-public record AwsOdbRebootDbNodeOptions : AwsOptions
+public record AwsOdbRebootDbNodeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Reboots the specified DB node in a VM cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbNodeId">The unique identifier of the DB node to reboot. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+</param>
+    public AwsOdbRebootDbNodeOptions(
+        string DbNodeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbNodeId);
+        this.DbNodeId = DbNodeId;
+    }
+
+    private AwsOdbRebootDbNodeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbRebootDbNodeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbRebootDbNodeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the DB node to reboot. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// </summary>
+    [CliOption("--db-node-id")]
+    public string? DbNodeId { get; private init; }
+
     /// <summary>
     /// The unique identifier of the VM cluster that contains the DB node to reboot. You must specify either this parameter or exadbVmClusterId . Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
     /// </summary>
@@ -33,13 +73,27 @@ public record AwsOdbRebootDbNodeOptions : AwsOptions
     [CliOption("--exadb-vm-cluster-id")]
     public string? ExadbVmClusterId { get; set; }
 
-    [CliOption("--db-node-id")]
-    public string? DbNodeId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-data", "list-subscriptions")]
-public record AwsIotDataListSubscriptionsOptions : AwsOptions
+public record AwsIotDataListSubscriptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of all subscriptions for MQTT clients with active ses- sions, including offline clients with persistent sessions. Requires permission to access the ListSubscriptions action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the ser- vice. The default endpoints (intended for testing purposes only) can be f...
+    /// </summary>
+    /// <param name="ClientId">The unique identifier of the MQTT client to list subscriptions for. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*</param>
+    public AwsIotDataListSubscriptionsOptions(
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    private AwsIotDataListSubscriptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotDataListSubscriptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotDataListSubscriptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the MQTT client to list subscriptions for. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsIotDataListSubscriptionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

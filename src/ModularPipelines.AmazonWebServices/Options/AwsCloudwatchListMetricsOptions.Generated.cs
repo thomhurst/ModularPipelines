@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -45,9 +44,12 @@ public record AwsCloudwatchListMetricsOptions : AwsOptions
     /// To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H . This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results in- clude metrics with last published data as much as 50 minutes more than the specified time interval. Possible values: o PT3H
     /// </summary>
     [CliOption("--recently-active")]
-    public AwsCloudwatchListMetricsRecentlyActive? RecentlyActive { get; set; }
+    public string? RecentlyActive { get; set; }
 
-    [CliFlag("--include-linked-accounts")]
+    /// <summary>
+    /// If you are using this operation in a monitoring account, specify true to include metrics from source accounts in the returned data. The default is false .
+    /// </summary>
+    [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>

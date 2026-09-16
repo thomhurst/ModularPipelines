@@ -52,7 +52,10 @@ public record AwsRdsDescribeReservedDbInstancesOfferingsOptions : AwsOptions
     [CliOption("--offering-type")]
     public string? OfferingType { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies whether to show only those reservations that support Multi-AZ.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>

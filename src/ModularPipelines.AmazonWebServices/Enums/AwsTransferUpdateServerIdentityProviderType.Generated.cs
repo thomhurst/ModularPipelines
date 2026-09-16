@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --identityprovidertype.
+/// Allowed values for --identity-provider-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTransferUpdateServerIdentityProviderType
 {
-    [EnumValue("SERVICE_MANAGED")]
-    ServiceManaged = 1,
-
     [EnumValue("API_GATEWAY")]
-    ApiGateway = 2,
+    ApiGateway,
 
     [EnumValue("AWS_DIRECTORY_SERVICE")]
-    AwsDirectoryService = 3,
+    AwsDirectoryService,
 
     [EnumValue("AWS_LAMBDA")]
-    AwsLambda = 4
+    AwsLambda,
+
+    [EnumValue("SERVICE_MANAGED")]
+    ServiceManaged
 }

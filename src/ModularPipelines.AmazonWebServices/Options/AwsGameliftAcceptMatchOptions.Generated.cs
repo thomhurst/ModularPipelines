@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "accept-match")]
-public record AwsGameliftAcceptMatchOptions : AwsOptions
+public record AwsGameliftAcceptMatchOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Registers a player's acceptance or rejection of a proposed FlexMatch match. A matchmaking configuration may require player acceptance; if so, then matches built with that configuration cannot be completed un- less all players accept the proposed match within a specified time limit. When FlexMatch builds a match, all the matchmaking tickets involved in the proposed match are placed into status REQUIRES_ACCEPTANCE . This is ...
+    /// </summary>
+    /// <param name="TicketId">A unique identifier for a matchmaking ticket. The ticket must be in status REQUIRES_ACCEPTANCE ; otherwise this request will fail. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$</param>
+    /// <param name="PlayerIds">A unique identifier for a player delivering the response. This para- meter can include one or multiple player IDs. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    /// <param name="AcceptanceType">Player response to the proposed match. Possible values: o ACCEPT o REJECT</param>
+    public AwsGameliftAcceptMatchOptions(
+        string TicketId,
+        IEnumerable<string> PlayerIds,
+        AwsGameliftAcceptMatchAcceptanceType AcceptanceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TicketId);
+        this.TicketId = TicketId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PlayerIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PlayerIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PlayerIds));
+            }
+
+            PlayerIds = materialized;
+        }
+        this.PlayerIds = PlayerIds;
+        global::System.ArgumentNullException.ThrowIfNull(AcceptanceType);
+        this.AcceptanceType = AcceptanceType;
+    }
+
+    private AwsGameliftAcceptMatchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftAcceptMatchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftAcceptMatchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for a matchmaking ticket. The ticket must be in status REQUIRES_ACCEPTANCE ; otherwise this request will fail. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$
+    /// </summary>
     [CliOption("--ticket-id")]
-    public string? TicketId { get; set; }
+    public string? TicketId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for a player delivering the response. This para- meter can include one or multiple player IDs. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--player-ids", GroupValues = true)]
-    public IEnumerable<string>? PlayerIds { get; set; }
+    public IEnumerable<string>? PlayerIds { get; private init; }
 
+    /// <summary>
+    /// Player response to the proposed match. Possible values: o ACCEPT o REJECT
+    /// </summary>
     [CliOption("--acceptance-type")]
-    public string? AcceptanceType { get; set; }
+    public AwsGameliftAcceptMatchAcceptanceType? AcceptanceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

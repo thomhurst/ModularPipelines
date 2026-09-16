@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elementalinference", "associate-feed")]
-public record AwsElementalinferenceAssociateFeedOptions : AwsOptions
+public record AwsElementalinferenceAssociateFeedOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a resource with the feed. The resource provides the input that Elemental Inference needs in order to perform an Elemental Infer- ence feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed. With an association, a specific source media is claiming ownership of the feed. AssociateFeed is a PATCH operation, which means that you can include only parameters that you want to change. Parameters that y...
+    /// </summary>
+    /// <param name="Id">The ID of the feed. Constraints: o pattern: [a-z0-9]{19}</param>
+    /// <param name="Outputs">An array of one or more outputs that you want to add to this feed now, to supplement any outputs that you specified when you created or updated the feed. (structure) Contains configuration information about one output in a feed. It is used in the AssociateFeed and the CreateFeed actions. name -&gt; (string) [required] A name for the output. Constraints: o pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])? outputConfig -&gt; (tagged union structure) [required] A typed property for an output in a feed. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, Crop- pingConfig output will contain the metadata for the crop fea- ture. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: cropping, clipping, subti- tling, contextualMetadata. cropping -&gt; (structure) The output config type that applies to the cropping fea- ture. templateGroups -&gt; (list) An array of template groups for the crop output. Each template group provides the graphics-compositing tem- plates that Elemental Inference applies to the cropped video. You can specify from 1 to 4 template groups. Constraints: o min: 1 o max: 4 (structure) A named set of graphics-compositing templates used by the crop feature, specified in the template- Groups array of a CroppingConfig. name -&gt; (string) [required] A name for the template group. Constraints: o pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])? templateUris -&gt; (list) [required] An array of Amazon S3 URIs that point to the graphics-compositing templates for this group. You can specify 1 or 2 URIs. Each URI must be in the form s3://bucket-name/key . Elemental Inference reads these templates using the IAM role that you specify in accessRoleArn. Constraints: o min: 1 o max: 2 (string) Constraints: o min: 10 o max: 255 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+ clipping -&gt; (structure) The output config type that applies to the clipping fea- ture. callbackMetadata -&gt; (string) A string that you want Elemental Inference to always include in the event clipping metadata for this out- put. The string might identify the sports event in the source media, for example. Constraints: o min: 0 o max: 1024 o pattern: [\w \-\.',@:;]* dataSourceConfiguration -&gt; (structure) The data source to map onto this clipping output. This parameter is optional. When you include this parame- ter, Elemental Inference reads the event data for the fixture that you specify, and includes that data in the event clipping metadata for this output. If you omit this parameter, Elemental Inference doesn't map a data source onto this output. fixtureId -&gt; (string) [required] The ID of the fixture whose event data you want Elemental Inference to map onto this clipping out- put. The fixture should be the sports event in the source media that the feed is processing. To obtain this ID, use the SearchFixtures opera- tion to find the fixture, then use the fixtureId from the matching FixtureSummary. Constraints: o min: 1 o max: 128 subtitling -&gt; (structure) The output config type that applies to the smart subti- tling feature. language -&gt; (string) [required] The language of the audio in the source media. Elemen- tal Inference uses this setting to optimize transcrip- tion accuracy. Specify the language using an ISO 639-2/T three-letter code, optionally with a region subtag. Supported values: eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por. Possible values: o eng o eng-au o eng-gb o eng-us o fra o ita o deu o spa o por aspectRatio -&gt; (structure) The aspect ratio of the output video, specified as width and height integer values. Elemental Inference uses the aspect ratio to determine subtitle layout and line lengths. width -&gt; (integer) [required] The width component of the aspect ratio (for exam- ple, 16 in a 16:9 ratio). height -&gt; (integer) [required] The height component of the aspect ratio (for ex- ample, 9 in a 16:9 ratio). dictionary -&gt; (string) The ID of a custom dictionary to improve transcription accuracy for domain-specific terminology. Use the Cre- ateDictionary operation to create a dictionary. Constraints: o min: 1 o max: 19 o pattern: [a-zA-Z0-9]+ profanityFilter -&gt; (string) Controls how profanity is handled in the generated subtitles. Valid values: DISABLED (no filtering, de- fault), CENSOR (replace profanity with asterisks), DROP (remove profanity from the transcript). Possible values: o DISABLED o CENSOR o DROP contextualMetadata -&gt; (structure) The output config type that applies to the contextual metadata feature. summaryGeneration -&gt; (string) Specifies whether Elemental Inference generates a de- scriptive summary of the media content for this out- put. Valid values: o ENABLED (default) Elemental Inference generates a descriptive summary along with IAB taxonomy and GARM suitability classifications. o DISABLED No descriptive summary is generated. Possible values: o ENABLED o DISABLED status -&gt; (string) [required] The status to assign to the output. Possible values: o ENABLED o DISABLED description -&gt; (string) A description for the output. Constraints: o min: 0 o max: 1024 o pattern: [\w \-\.',@:;]* JSON Syntax: [ { "name": "string", "outputConfig": { "cropping": { "templateGroups": [ { "name": "string", "templateUris": ["string", ...] } ... ] }, "clipping": { "callbackMetadata": "string", "dataSourceConfiguration": { "fixtureId": "string" } }, "subtitling": { "language": "eng"|"eng-au"|"eng-gb"|"eng-us"|"fra"|"ita"|"deu"|"spa"|"por", "aspectRatio": { "width": integer, "height": integer }, "dictionary": "string", "profanityFilter": "DISABLED"|"CENSOR"|"DROP" }, "contextualMetadata": { "summaryGeneration": "ENABLED"|"DISABLED" } }, "status": "ENABLED"|"DISABLED", "description": "string" } ... ]</param>
+    public AwsElementalinferenceAssociateFeedOptions(
+        string Id,
+        IEnumerable<string> Outputs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Outputs);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Outputs));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Outputs));
+            }
+
+            Outputs = materialized;
+        }
+        this.Outputs = Outputs;
+    }
+
+    private AwsElementalinferenceAssociateFeedOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElementalinferenceAssociateFeedOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElementalinferenceAssociateFeedOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the feed. Constraints: o pattern: [a-z0-9]{19}
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// An array of one or more outputs that you want to add to this feed now, to supplement any outputs that you specified when you created or updated the feed. (structure) Contains configuration information about one output in a feed. It is used in the AssociateFeed and the CreateFeed actions. name -&gt; (string) [required] A name for the output. Constraints: o pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])? outputConfig -&gt; (tagged union structure) [required] A typed property for an output in a feed. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, Crop- pingConfig output will contain the metadata for the crop fea- ture. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: cropping, clipping, subti- tling, contextualMetadata. cropping -&gt; (structure) The output config type that applies to the cropping fea- ture. templateGroups -&gt; (list) An array of template groups for the crop output. Each template group provides the graphics-compositing tem- plates that Elemental Inference applies to the cropped video. You can specify from 1 to 4 template groups. Constraints: o min: 1 o max: 4 (structure) A named set of graphics-compositing templates used by the crop feature, specified in the template- Groups array of a CroppingConfig. name -&gt; (string) [required] A name for the template group. Constraints: o pattern: [a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])? templateUris -&gt; (list) [required] An array of Amazon S3 URIs that point to the graphics-compositing templates for this group. You can specify 1 or 2 URIs. Each URI must be in the form s3://bucket-name/key . Elemental Inference reads these templates using the IAM role that you specify in accessRoleArn. Constraints: o min: 1 o max: 2 (string) Constraints: o min: 10 o max: 255 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+ clipping -&gt; (structure) The output config type that applies to the clipping fea- ture. callbackMetadata -&gt; (string) A string that you want Elemental Inference to always include in the event clipping metadata for this out- put. The string might identify the sports event in the source media, for example. Constraints: o min: 0 o max: 1024 o pattern: [\w \-\.',@:;]* dataSourceConfiguration -&gt; (structure) The data source to map onto this clipping output. This parameter is optional. When you include this parame- ter, Elemental Inference reads the event data for the fixture that you specify, and includes that data in the event clipping metadata for this output. If you omit this parameter, Elemental Inference doesn't map a data source onto this output. fixtureId -&gt; (string) [required] The ID of the fixture whose event data you want Elemental Inference to map onto this clipping out- put. The fixture should be the sports event in the source media that the feed is processing. To obtain this ID, use the SearchFixtures opera- tion to find the fixture, then use the fixtureId from the matching FixtureSummary. Constraints: o min: 1 o max: 128 subtitling -&gt; (structure) The output config type that applies to the smart subti- tling feature. language -&gt; (string) [required] The language of the audio in the source media. Elemen- tal Inference uses this setting to optimize transcrip- tion accuracy. Specify the language using an ISO 639-2/T three-letter code, optionally with a region subtag. Supported values: eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por. Possible values: o eng o eng-au o eng-gb o eng-us o fra o ita o deu o spa o por aspectRatio -&gt; (structure) The aspect ratio of the output video, specified as width and height integer values. Elemental Inference uses the aspect ratio to determine subtitle layout and line lengths. width -&gt; (integer) [required] The width component of the aspect ratio (for exam- ple, 16 in a 16:9 ratio). height -&gt; (integer) [required] The height component of the aspect ratio (for ex- ample, 9 in a 16:9 ratio). dictionary -&gt; (string) The ID of a custom dictionary to improve transcription accuracy for domain-specific terminology. Use the Cre- ateDictionary operation to create a dictionary. Constraints: o min: 1 o max: 19 o pattern: [a-zA-Z0-9]+ profanityFilter -&gt; (string) Controls how profanity is handled in the generated subtitles. Valid values: DISABLED (no filtering, de- fault), CENSOR (replace profanity with asterisks), DROP (remove profanity from the transcript). Possible values: o DISABLED o CENSOR o DROP contextualMetadata -&gt; (structure) The output config type that applies to the contextual metadata feature. summaryGeneration -&gt; (string) Specifies whether Elemental Inference generates a de- scriptive summary of the media content for this out- put. Valid values: o ENABLED (default) Elemental Inference generates a descriptive summary along with IAB taxonomy and GARM suitability classifications. o DISABLED No descriptive summary is generated. Possible values: o ENABLED o DISABLED status -&gt; (string) [required] The status to assign to the output. Possible values: o ENABLED o DISABLED description -&gt; (string) A description for the output. Constraints: o min: 0 o max: 1024 o pattern: [\w \-\.',@:;]* JSON Syntax: [ { "name": "string", "outputConfig": { "cropping": { "templateGroups": [ { "name": "string", "templateUris": ["string", ...] } ... ] }, "clipping": { "callbackMetadata": "string", "dataSourceConfiguration": { "fixtureId": "string" } }, "subtitling": { "language": "eng"|"eng-au"|"eng-gb"|"eng-us"|"fra"|"ita"|"deu"|"spa"|"por", "aspectRatio": { "width": integer, "height": integer }, "dictionary": "string", "profanityFilter": "DISABLED"|"CENSOR"|"DROP" }, "contextualMetadata": { "summaryGeneration": "ENABLED"|"DISABLED" } }, "status": "ENABLED"|"DISABLED", "description": "string" } ... ]
+    /// </summary>
+    [CliOption("--outputs", GroupValues = true)]
+    public IEnumerable<string>? Outputs { get; private init; }
 
     /// <summary>
     /// An identifier for the resource. This name must not resemble an ARN. The resource is the source media that the feed will process. The name you assign should help you to later identify the source media that belongs to the feed. In this way, you will know which source media to push to the feed (using PutMedia). Constraints: o min: 1 o max: 2048 o pattern: [\w \-\.',@:;/]*
@@ -30,10 +88,10 @@ public record AwsElementalinferenceAssociateFeedOptions : AwsOptions
     [CliOption("--associated-resource-name")]
     public string? AssociatedResourceName { get; set; }
 
-    [CliOption("--outputs", GroupValues = true)]
-    public IEnumerable<string>? Outputs { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Set to true if you want to do a dry run of the associate action. Elemental Inference will validate that the real request would suc- ceed without actually making any changes. A dry run catches errors such as missing IAM permissions, quota limits exceeded, conflicting outputs, and so on. If the dry run fails, the action returns a 4xx error code. After you've fixed the errors, resubmit the request.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +99,22 @@ public record AwsElementalinferenceAssociateFeedOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

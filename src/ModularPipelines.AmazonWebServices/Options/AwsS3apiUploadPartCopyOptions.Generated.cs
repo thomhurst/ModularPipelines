@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +20,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "upload-part-copy")]
-public record AwsS3apiUploadPartCopyOptions : AwsOptions
+public record AwsS3apiUploadPartCopyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Uploads a part by copying data from an existing object as data source. To specify the data source, you add the request header x-amz-copy-source in your request. To specify a byte range, you add the request header x-amz-copy-source-range in your request. For information about maximum and minimum part sizes and other multi- part upload specifications, see Multipart upload limits in the Amazon S3 User Guide . NOTE: Instead of copying data from an existing object as part data, you might use the Uplo...
+    /// </summary>
+    /// <param name="Bucket">The bucket name. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . NOTE: Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the er- ror code InvalidRequest . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="CopySource">Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point : o For objects not accessed through an access point, specify the name of the source bucket and key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket , use awsexamplebucket/re- ports/january.pdf . The value must be URL-encoded. o For objects accessed through access points, specify the Amazon Re- source Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:access- point/&lt;access-point-name&gt;/object/&lt;key&gt; . For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-ac- cess-point/object/reports/january.pdf . The value must be URL en- coded. NOTE: o Amazon S3 supports copy operations using Access points only when the source and destination buckets are in the same Amazon Web Services Region. o Access points are not supported by directory buckets. Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/ob- ject/&lt;key&gt; . For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-out- posts:us-west-2:123456789012:outpost/my-outpost/object/reports/janu- ary.pdf . The value must be URL-encoded. If your bucket has versioning enabled, you could have multiple ver- sions of the same object. By default, x-amz-copy-source identifies the current version of the source object to copy. To copy a specific version of the source object to copy, append ?versionId=&lt;version-id&gt; to the x-amz-copy-source request header (for example, x-amz-copy-source: /awsexamplebucket/reports/january.pdf?ver- sionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893 ). If the current version is a delete marker and you don't specify a versionId in the x-amz-copy-source request header, Amazon S3 returns a 404 Not Found error, because the object does not exist. If you specify versionId in the x-amz-copy-source and the versionId is a delete marker, Amazon S3 returns an HTTP 400 Bad Request error, be- cause you are not allowed to specify a delete marker as a version for the x-amz-copy-source . NOTE: Directory buckets - S3 Versioning isn't enabled and supported for directory buckets. Constraints: o pattern: \/?.+\/.+</param>
+    /// <param name="Key">Object key for which the multipart upload was initiated. Constraints: o min: 1</param>
+    /// <param name="PartNumber">Part number of part being copied. This is a positive integer between 1 and 10,000.</param>
+    /// <param name="UploadId">Upload ID identifying the multipart upload whose part is being copied.</param>
+    public AwsS3apiUploadPartCopyOptions(
+        string Bucket,
+        string CopySource,
+        string Key,
+        int PartNumber,
+        string UploadId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(CopySource);
+        this.CopySource = CopySource;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        this.PartNumber = PartNumber;
+        global::System.ArgumentNullException.ThrowIfNull(UploadId);
+        this.UploadId = UploadId;
+    }
+
+    private AwsS3apiUploadPartCopyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiUploadPartCopyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiUploadPartCopyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . NOTE: Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the er- ror code InvalidRequest . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point : o For objects not accessed through an access point, specify the name of the source bucket and key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket , use awsexamplebucket/re- ports/january.pdf . The value must be URL-encoded. o For objects accessed through access points, specify the Amazon Re- source Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:access- point/&lt;access-point-name&gt;/object/&lt;key&gt; . For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-ac- cess-point/object/reports/january.pdf . The value must be URL en- coded. NOTE: o Amazon S3 supports copy operations using Access points only when the source and destination buckets are in the same Amazon Web Services Region. o Access points are not supported by directory buckets. Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/ob- ject/&lt;key&gt; . For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-out- posts:us-west-2:123456789012:outpost/my-outpost/object/reports/janu- ary.pdf . The value must be URL-encoded. If your bucket has versioning enabled, you could have multiple ver- sions of the same object. By default, x-amz-copy-source identifies the current version of the source object to copy. To copy a specific version of the source object to copy, append ?versionId=&lt;version-id&gt; to the x-amz-copy-source request header (for example, x-amz-copy-source: /awsexamplebucket/reports/january.pdf?ver- sionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893 ). If the current version is a delete marker and you don't specify a versionId in the x-amz-copy-source request header, Amazon S3 returns a 404 Not Found error, because the object does not exist. If you specify versionId in the x-amz-copy-source and the versionId is a delete marker, Amazon S3 returns an HTTP 400 Bad Request error, be- cause you are not allowed to specify a delete marker as a version for the x-amz-copy-source . NOTE: Directory buckets - S3 Versioning isn't enabled and supported for directory buckets. Constraints: o pattern: \/?.+\/.+
+    /// </summary>
     [CliOption("--copy-source")]
-    public string? CopySource { get; set; }
+    public string? CopySource { get; private init; }
+
+    /// <summary>
+    /// Object key for which the multipart upload was initiated. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--key")]
+    public string? Key { get; private init; }
+
+    /// <summary>
+    /// Part number of part being copied. This is a positive integer between 1 and 10,000.
+    /// </summary>
+    [CliOption("--part-number")]
+    public int? PartNumber { get; private init; }
+
+    /// <summary>
+    /// Upload ID identifying the multipart upload whose part is being copied.
+    /// </summary>
+    [CliOption("--upload-id")]
+    public string? UploadId { get; private init; }
 
     /// <summary>
     /// Copies the object if its entity tag (ETag) matches the specified tag. If both of the x-amz-copy-source-if-match and x-amz-copy-source-if-unmodified-since headers are present in the re- quest as follows: x-amz-copy-source-if-match condition evaluates to true , and; x-amz-copy-source-if-unmodified-since condition evaluates to false ; Amazon S3 returns 200 OK and copies the data.
@@ -57,15 +129,6 @@ public record AwsS3apiUploadPartCopyOptions : AwsOptions
     /// </summary>
     [CliOption("--copy-source-range")]
     public string? CopySourceRange { get; set; }
-
-    [CliOption("--key")]
-    public string? Key { get; set; }
-
-    [CliOption("--part-number")]
-    public int? PartNumber { get; set; }
-
-    [CliOption("--upload-id")]
-    public string? UploadId { get; set; }
 
     /// <summary>
     /// Specifies the algorithm to use when encrypting the object (for exam- ple, AES256). NOTE: This functionality is not supported when the destination bucket is a directory bucket.
@@ -107,7 +170,7 @@ public record AwsS3apiUploadPartCopyOptions : AwsOptions
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiUploadPartCopyRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// The account ID of the expected destination bucket owner. If the ac- count ID that you provide does not match the actual owner of the destination bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -126,5 +189,22 @@ public record AwsS3apiUploadPartCopyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

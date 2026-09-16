@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-maintenance-window-target")]
-public record AwsSsmUpdateMaintenanceWindowTargetOptions : AwsOptions
+public record AwsSsmUpdateMaintenanceWindowTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--window-id")]
-    public string? WindowId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the target of an existing maintenance window. You can change the following: o Name o Description o Owner o IDs for an ID target o Tags for a Tag target o From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target . NOTE: If a parameter is null, then the corresponding field isn't modified. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WindowId">The maintenance window ID with which to modify the target. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$</param>
+    /// <param name="WindowTargetId">The target ID to modify. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    public AwsSsmUpdateMaintenanceWindowTargetOptions(
+        string WindowId,
+        string WindowTargetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WindowId);
+        this.WindowId = WindowId;
+        global::System.ArgumentNullException.ThrowIfNull(WindowTargetId);
+        this.WindowTargetId = WindowTargetId;
+    }
+
+    private AwsSsmUpdateMaintenanceWindowTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateMaintenanceWindowTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateMaintenanceWindowTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The maintenance window ID with which to modify the target. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$
+    /// </summary>
+    [CliOption("--window-id")]
+    public string? WindowId { get; private init; }
+
+    /// <summary>
+    /// The target ID to modify. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--window-target-id")]
-    public string? WindowTargetId { get; set; }
+    public string? WindowTargetId { get; private init; }
 
     /// <summary>
     /// The targets to add or replace. Constraints: o min: 0 o max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about run- ning tasks that don't specify targets, see Registering main- tenance window tasks without targets in the Amazon Web Ser- vices Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: o Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: o Key=tag:tag-key,Values=tag-value o Key=ResourceGroup,Values=resource-group-name o Key=ParameterValues,Values=value-1,value-2,value-3 o To target all instances in the Amazon Web Services Region: o Key=AWS::EC2::Instance,Values=* o Key=InstanceIds,Values=* For Run Command and Maintenance Windows: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o Key=resource-groups:Name,Values=resource-group-name o Additionally, Maintenance Windows support targeting resource types: o Key=resource-groups:ResourceTypeFilters,Values=re- source-type-1,resource-type-2 For State Manager: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o To target all instances in the Amazon Web Services Region: o Key=InstanceIds,Values=* For more information about how to send commands that target man- aged nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target man- aged nodes that meet the criteria. Constraints: o min: 1 o max: 163 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:Re- sourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: o min: 0 o max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
@@ -51,7 +95,10 @@ public record AwsSsmUpdateMaintenanceWindowTargetOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--replace")]
+    /// <summary>
+    /// If True , then all fields that are required by the RegisterTar- getWithMaintenanceWindow operation are also required for this API request. Optional fields that aren't specified are set to null.
+    /// </summary>
+    [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -59,5 +106,22 @@ public record AwsSsmUpdateMaintenanceWindowTargetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53domains", "get-domain-suggestions")]
-public record AwsRoute53domainsGetDomainSuggestionsOptions : AwsOptions
+public record AwsRoute53domainsGetDomainSuggestionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The GetDomainSuggestions operation returns a list of suggested domain names. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">A domain name that you want to use as the basis for a list of possi- ble domain names. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: o Letters a through z. Domain names are not case sensitive. o Numbers 0 through 9. o Hyphen (-). You can't specify a hyphen at the beginning or end of a label. o Period (.) to separate the labels in the name, such as the . in example.com . Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53 . Constraints: o max: 255</param>
+    /// <param name="SuggestionCount">The number of suggested domain names that you want Route 53 to re- turn. Specify a value between 1 and 50. Note that fewer than the re- quested number might be returned.</param>
+    /// <param name="OnlyAvailable">If OnlyAvailable is true , Route 53 returns only domain names that are available. If OnlyAvailable is false , Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDo- mainAvailability for each suggestion.</param>
+    public AwsRoute53domainsGetDomainSuggestionsOptions(
+        string DomainName,
+        int SuggestionCount,
+        bool OnlyAvailable
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        this.SuggestionCount = SuggestionCount;
+        this.OnlyAvailable = OnlyAvailable;
+    }
+
+    private AwsRoute53domainsGetDomainSuggestionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53domainsGetDomainSuggestionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53domainsGetDomainSuggestionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A domain name that you want to use as the basis for a list of possi- ble domain names. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: o Letters a through z. Domain names are not case sensitive. o Numbers 0 through 9. o Hyphen (-). You can't specify a hyphen at the beginning or end of a label. o Period (.) to separate the labels in the name, such as the . in example.com . Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53 . Constraints: o max: 255
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// The number of suggested domain names that you want Route 53 to re- turn. Specify a value between 1 and 50. Note that fewer than the re- quested number might be returned.
+    /// </summary>
     [CliOption("--suggestion-count")]
-    public int? SuggestionCount { get; set; }
+    public int? SuggestionCount { get; private init; }
 
-    [CliFlag("--only-available")]
-    public bool? OnlyAvailable { get; set; }
+    /// <summary>
+    /// If OnlyAvailable is true , Route 53 returns only domain names that are available. If OnlyAvailable is false , Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDo- mainAvailability for each suggestion.
+    /// </summary>
+    [CliFlag("--only-available", NegatedName = "--no-only-available")]
+    public bool? OnlyAvailable { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

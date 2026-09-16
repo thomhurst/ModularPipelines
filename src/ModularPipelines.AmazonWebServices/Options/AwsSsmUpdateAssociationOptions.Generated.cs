@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-association")]
-public record AwsSsmUpdateAssociationOptions : AwsOptions
+public record AwsSsmUpdateAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an association. You can update the association name and ver- sion, the document version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you call UpdateAssociation , the system removes all optional parameters from the request and over- writes the association with null values for those parameters. This is by design. You must specify all optional parameters in the call, even if you are not changing the parameters. This includes the Name parame- ter. Before ...
+    /// </summary>
+    /// <param name="AssociationId">The ID of the association you want to update. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    public AwsSsmUpdateAssociationOptions(
+        string AssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssociationId);
+        this.AssociationId = AssociationId;
+    }
+
+    private AwsSsmUpdateAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the association you want to update. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--association-id")]
-    public string? AssociationId { get; set; }
+    public string? AssociationId { get; private init; }
 
     /// <summary>
     /// The parameters you want to update for the association. If you create a parameter using Parameter Store, a tool in Amazon Web Services Systems Manager, you can reference the parameter using {{ssm:parame- ter-name}} . key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
@@ -104,7 +141,10 @@ public record AwsSsmUpdateAssociationOptions : AwsOptions
     [CliOption("--sync-compliance")]
     public AwsSsmUpdateAssociationSyncCompliance? SyncCompliance { get; set; }
 
-    [CliFlag("--apply-only-at-cron-interval")]
+    /// <summary>
+    /// By default, when you update an association, the system runs it imme- diately after it is updated and then according to the schedule you specified. Specify true for ApplyOnlyAtCronInterval if you want the association to run only according to the schedule you specified. If you chose this option when you created an association and later you edit that association or you make changes to the Automation run- book or SSM document on which that association is based, State Man- ager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously set ApplyOnlyAtCronInterval to true . If this option wasn't selected, State Manager immediately runs the association. For more information, see Understanding when associations are ap- plied to resources and About target updates with Automation runbooks in the Amazon Web Services Systems Manager User Guide . This parameter isn't supported for rate expressions. You can reset this parameter. To do so, specify the no-ap- ply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval speci- fied.
+    /// </summary>
+    [CliFlag("--apply-only-at-cron-interval", NegatedName = "--no-apply-only-at-cron-interval")]
     public bool? ApplyOnlyAtCronInterval { get; set; }
 
     /// <summary>
@@ -154,5 +194,22 @@ public record AwsSsmUpdateAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

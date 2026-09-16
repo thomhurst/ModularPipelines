@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workdocs", "create-notification-subscription")]
-public record AwsWorkdocsCreateNotificationSubscriptionOptions : AwsOptions
+public record AwsWorkdocsCreateNotificationSubscriptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The ID of the organization. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    /// <param name="Protocol">The protocol to use. The supported value is https, which delivers JSON-encoded messages using HTTPS POST. Possible values: o HTTPS o SQS</param>
+    /// <param name="SubscriptionType">The notification type. Possible values: o ALL</param>
+    /// <param name="NotificationEndpoint">The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https . Constraints: o min: 1 o max: 256</param>
+    public AwsWorkdocsCreateNotificationSubscriptionOptions(
+        string OrganizationId,
+        AwsWorkdocsCreateNotificationSubscriptionProtocol Protocol,
+        string SubscriptionType,
+        string NotificationEndpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionType);
+        this.SubscriptionType = SubscriptionType;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationEndpoint);
+        this.NotificationEndpoint = NotificationEndpoint;
+    }
+
+    private AwsWorkdocsCreateNotificationSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkdocsCreateNotificationSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkdocsCreateNotificationSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the organization. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
 
+    /// <summary>
+    /// The protocol to use. The supported value is https, which delivers JSON-encoded messages using HTTPS POST. Possible values: o HTTPS o SQS
+    /// </summary>
     [CliOption("--protocol")]
-    public string? Protocol { get; set; }
+    public AwsWorkdocsCreateNotificationSubscriptionProtocol? Protocol { get; private init; }
 
+    /// <summary>
+    /// The notification type. Possible values: o ALL
+    /// </summary>
     [CliOption("--subscription-type")]
-    public string? SubscriptionType { get; set; }
+    public string? SubscriptionType { get; private init; }
 
+    /// <summary>
+    /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https . Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--notification-endpoint")]
-    public string? NotificationEndpoint { get; set; }
+    public string? NotificationEndpoint { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

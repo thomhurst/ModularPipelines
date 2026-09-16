@@ -27,7 +27,10 @@ public record AwsCloudtrailDescribeTrailsOptions : AwsOptions
     [CliOption("--trail-name-list", GroupValues = true)]
     public IEnumerable<string>? TrailNameList { get; set; }
 
-    [CliFlag("--include-shadow-trails")]
+    /// <summary>
+    /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a Region of a trail that was created in a different Region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and Region replication trails will not be returned. The default is true.
+    /// </summary>
+    [CliFlag("--include-shadow-trails", NegatedName = "--no-include-shadow-trails")]
     public bool? IncludeShadowTrails { get; set; }
 
     [CliOption("--cli-input-json")]

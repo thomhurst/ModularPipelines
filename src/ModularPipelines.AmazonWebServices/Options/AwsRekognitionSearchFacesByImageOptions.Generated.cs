@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "search-faces-by-image")]
-public record AwsRekognitionSearchFacesByImageOptions : AwsOptions
+public record AwsRekognitionSearchFacesByImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces. The op- eration compares the features of the input face with faces in the spec- ified collection. NOTE: To search for all faces in an input image, you might first call the IndexFaces operation, and then use the face IDs returned in subse- quent calls to the SearchFaces operation. You can also call the DetectFaces operation and use the bounding boxes in the response...
+    /// </summary>
+    /// <param name="CollectionId">ID of the collection to search. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    public AwsRekognitionSearchFacesByImageOptions(
+        string CollectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionId);
+        this.CollectionId = CollectionId;
+    }
+
+    private AwsRekognitionSearchFacesByImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionSearchFacesByImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionSearchFacesByImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the collection to search. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
     [CliOption("--collection-id")]
-    public string? CollectionId { get; set; }
+    public string? CollectionId { get; private init; }
 
     /// <summary>
     /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide. To specify a local file use --image-bytes instead. Bytes -&gt; (blob) Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB. Constraints: o min: 1 o max: 5242880 S3Object -&gt; (structure) Identifies an S3 object as the image source. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
@@ -60,5 +97,22 @@ public record AwsRekognitionSearchFacesByImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

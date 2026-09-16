@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBedrockListPromptRoutersType
 {
     [EnumValue("custom")]
-    Custom = 1,
+    Custom,
 
     [EnumValue("default")]
-    Default = 2
+    Default
 }

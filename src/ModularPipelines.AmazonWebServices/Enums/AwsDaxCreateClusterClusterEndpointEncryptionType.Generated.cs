@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --clusterendpointencryptiontype.
+/// Allowed values for --cluster-endpoint-encryption-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDaxCreateClusterClusterEndpointEncryptionType
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("TLS")]
-    Tls = 2
+    Tls
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "create-invalidation-for-distribution-tenant")]
-public record AwsCloudfrontCreateInvalidationForDistributionTenantOptions : AwsOptions
+public record AwsCloudfrontCreateInvalidationForDistributionTenantOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an invalidation for a distribution tenant. For more informa- tion, see Invalidating files in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the distribution tenant.</param>
+    /// <param name="InvalidationBatch">An invalidation batch. Paths -&gt; (structure) [required] A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide . Quantity -&gt; (integer) [required] The number of invalidation paths specified for the objects that you want to invalidate. Items -&gt; (list) A complex type that contains a list of the paths that you want to invalidate. (string) CallerReference -&gt; (string) [required] A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from acciden- tally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as ap- plicable. One way to ensure that the value of CallerReference is unique is to use a timestamp , for example, 20120301090000 . If you make a second invalidation request with the same value for CallerReference , and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. In- stead, CloudFront returns information about the invalidation re- quest that you previously created with the same CallerReference . If CallerReference is a value you already sent in a previous in- validation batch request but the content of any Path is differ- ent from the original request, CloudFront returns an Invalida- tionBatchAlreadyExists error. Shorthand Syntax: Paths={Quantity=integer,Items=[string,string]},CallerReference=string JSON Syntax: { "Paths": { "Quantity": integer, "Items": ["string", ...] }, "CallerReference": "string" }</param>
+    public AwsCloudfrontCreateInvalidationForDistributionTenantOptions(
+        string Id,
+        string InvalidationBatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(InvalidationBatch);
+        this.InvalidationBatch = InvalidationBatch;
+    }
+
+    private AwsCloudfrontCreateInvalidationForDistributionTenantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontCreateInvalidationForDistributionTenantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontCreateInvalidationForDistributionTenantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the distribution tenant.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// An invalidation batch. Paths -&gt; (structure) [required] A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide . Quantity -&gt; (integer) [required] The number of invalidation paths specified for the objects that you want to invalidate. Items -&gt; (list) A complex type that contains a list of the paths that you want to invalidate. (string) CallerReference -&gt; (string) [required] A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from acciden- tally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as ap- plicable. One way to ensure that the value of CallerReference is unique is to use a timestamp , for example, 20120301090000 . If you make a second invalidation request with the same value for CallerReference , and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. In- stead, CloudFront returns information about the invalidation re- quest that you previously created with the same CallerReference . If CallerReference is a value you already sent in a previous in- validation batch request but the content of any Path is differ- ent from the original request, CloudFront returns an Invalida- tionBatchAlreadyExists error. Shorthand Syntax: Paths={Quantity=integer,Items=[string,string]},CallerReference=string JSON Syntax: { "Paths": { "Quantity": integer, "Items": ["string", ...] }, "CallerReference": "string" }
+    /// </summary>
     [CliOption("--invalidation-batch")]
-    public string? InvalidationBatch { get; set; }
+    public string? InvalidationBatch { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

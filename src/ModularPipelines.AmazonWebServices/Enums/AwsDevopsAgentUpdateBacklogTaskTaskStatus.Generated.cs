@@ -11,41 +11,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --taskstatus.
+/// Allowed values for --task-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDevopsAgentUpdateBacklogTaskTaskStatus
 {
-    [EnumValue("PENDING_TRIAGE")]
-    PendingTriage = 1,
-
-    [EnumValue("LINKED")]
-    Linked = 2,
-
-    [EnumValue("PENDING_START")]
-    PendingStart = 3,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 4,
-
-    [EnumValue("PENDING_CUSTOMER_APPROVAL")]
-    PendingCustomerApproval = 5,
+    [EnumValue("CANCELED")]
+    Canceled,
 
     [EnumValue("COMPLETED")]
-    Completed = 6,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 7,
+    Failed,
 
-    [EnumValue("TIMED_OUT")]
-    TimedOut = 8,
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
 
-    [EnumValue("CANCELED")]
-    Canceled = 9,
+    [EnumValue("LINKED")]
+    Linked,
+
+    [EnumValue("PENDING_CUSTOMER_APPROVAL")]
+    PendingCustomerApproval,
+
+    [EnumValue("PENDING_START")]
+    PendingStart,
+
+    [EnumValue("PENDING_TRIAGE")]
+    PendingTriage,
 
     [EnumValue("SKIPPED")]
-    Skipped = 10,
+    Skipped,
+
+    [EnumValue("TIMED_OUT")]
+    TimedOut,
 
     [EnumValue("WAITING")]
-    Waiting = 11
+    Waiting
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,109 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "disassociate-governed-terms")]
-public record AwsDatazoneDisassociateGovernedTermsOptions : AwsOptions
+public record AwsDatazoneDisassociateGovernedTermsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates restricted terms from an asset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to disassociate restricted terms from an asset. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityIdentifier">The ID of an asset from which you want to disassociate restricted terms. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the asset from which you want to disassociate restricted terms. Possible values: o ASSET</param>
+    /// <param name="GovernedGlossaryTerms">The restricted glossary terms that you want to disassociate from an asset. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...</param>
+    public AwsDatazoneDisassociateGovernedTermsOptions(
+        string DomainIdentifier,
+        string EntityIdentifier,
+        string EntityType,
+        IEnumerable<string> GovernedGlossaryTerms
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
+        this.EntityIdentifier = EntityIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(GovernedGlossaryTerms);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(GovernedGlossaryTerms));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(GovernedGlossaryTerms));
+            }
+
+            GovernedGlossaryTerms = materialized;
+        }
+        this.GovernedGlossaryTerms = GovernedGlossaryTerms;
+    }
+
+    private AwsDatazoneDisassociateGovernedTermsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneDisassociateGovernedTermsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneDisassociateGovernedTermsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the domain where you want to disassociate restricted terms from an asset. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID of an asset from which you want to disassociate restricted terms. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--entity-identifier")]
-    public string? EntityIdentifier { get; set; }
+    public string? EntityIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of the asset from which you want to disassociate restricted terms. Possible values: o ASSET
+    /// </summary>
     [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
+    public string? EntityType { get; private init; }
 
+    /// <summary>
+    /// The restricted glossary terms that you want to disassociate from an asset. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--governed-glossary-terms", GroupValues = true)]
-    public IEnumerable<string>? GovernedGlossaryTerms { get; set; }
+    public IEnumerable<string>? GovernedGlossaryTerms { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

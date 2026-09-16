@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authstrategy.
+/// Allowed values for --auth-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlueUpdateJobFromSourceControlAuthStrategy
 {
-    [EnumValue("PERSONAL_ACCESS_TOKEN")]
-    PersonalAccessToken = 1,
-
     [EnumValue("AWS_SECRETS_MANAGER")]
-    AwsSecretsManager = 2
+    AwsSecretsManager,
+
+    [EnumValue("PERSONAL_ACCESS_TOKEN")]
+    PersonalAccessToken
 }

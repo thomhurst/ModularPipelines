@@ -11,41 +11,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --aiprompttype.
+/// Allowed values for --ai-prompt-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQconnectListModelsAiPromptType
 {
     [EnumValue("ANSWER_GENERATION")]
-    AnswerGeneration = 1,
-
-    [EnumValue("INTENT_LABELING_GENERATION")]
-    IntentLabelingGeneration = 2,
-
-    [EnumValue("QUERY_REFORMULATION")]
-    QueryReformulation = 3,
-
-    [EnumValue("SELF_SERVICE_PRE_PROCESSING")]
-    SelfServicePreProcessing = 4,
-
-    [EnumValue("EMAIL_RESPONSE")]
-    EmailResponse = 5,
-
-    [EnumValue("EMAIL_OVERVIEW")]
-    EmailOverview = 6,
-
-    [EnumValue("EMAIL_GENERATIVE_ANSWER")]
-    EmailGenerativeAnswer = 7,
-
-    [EnumValue("EMAIL_QUERY_REFORMULATION")]
-    EmailQueryReformulation = 8,
-
-    [EnumValue("ORCHESTRATION")]
-    Orchestration = 9,
-
-    [EnumValue("NOTE_TAKING")]
-    NoteTaking = 10,
+    AnswerGeneration,
 
     [EnumValue("CASE_SUMMARIZATION")]
-    CaseSummarization = 11
+    CaseSummarization,
+
+    [EnumValue("EMAIL_GENERATIVE_ANSWER")]
+    EmailGenerativeAnswer,
+
+    [EnumValue("EMAIL_OVERVIEW")]
+    EmailOverview,
+
+    [EnumValue("EMAIL_QUERY_REFORMULATION")]
+    EmailQueryReformulation,
+
+    [EnumValue("EMAIL_RESPONSE")]
+    EmailResponse,
+
+    [EnumValue("INTENT_LABELING_GENERATION")]
+    IntentLabelingGeneration,
+
+    [EnumValue("NOTE_TAKING")]
+    NoteTaking,
+
+    [EnumValue("ORCHESTRATION")]
+    Orchestration,
+
+    [EnumValue("QUERY_REFORMULATION")]
+    QueryReformulation,
+
+    [EnumValue("SELF_SERVICE_ANSWER_GENERATION")]
+    SelfServiceAnswerGeneration,
+
+    [EnumValue("SELF_SERVICE_PRE_PROCESSING")]
+    SelfServicePreProcessing
 }

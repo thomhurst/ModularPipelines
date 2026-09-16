@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "get-application-access-scope")]
-public record AwsSsoAdminGetApplicationAccessScopeOptions : AwsOptions
+public record AwsSsoAdminGetApplicationAccessScopeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-arn")]
-    public string? ApplicationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the authorized targets for an IAM Identity Center access scope for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationArn">Specifies the ARN of the application with the access scope that you want to retrieve. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="Scope">Specifies the name of the access scope for which you want the autho- rized targets. Constraints: o pattern: ([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}</param>
+    public AwsSsoAdminGetApplicationAccessScopeOptions(
+        string ApplicationArn,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
+        this.ApplicationArn = ApplicationArn;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    private AwsSsoAdminGetApplicationAccessScopeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminGetApplicationAccessScopeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminGetApplicationAccessScopeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the application with the access scope that you want to retrieve. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// </summary>
+    [CliOption("--application-arn")]
+    public string? ApplicationArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the name of the access scope for which you want the autho- rized targets. Constraints: o pattern: ([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public string? Scope { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

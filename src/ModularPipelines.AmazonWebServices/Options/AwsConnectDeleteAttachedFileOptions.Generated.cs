@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "delete-attached-file")]
-public record AwsConnectDeleteAttachedFileOptions : AwsOptions
+public record AwsConnectDeleteAttachedFileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an attached file along with the underlying S3 Object. WARNING: The attached file is permanently deleted if S3 bucket versioning is not enabled. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Connect instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="FileId">The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256</param>
+    /// <param name="AssociatedResourceArn">The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.</param>
+    public AwsConnectDeleteAttachedFileOptions(
+        string InstanceId,
+        string FileId,
+        string AssociatedResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(FileId);
+        this.FileId = FileId;
+        global::System.ArgumentNullException.ThrowIfNull(AssociatedResourceArn);
+        this.AssociatedResourceArn = AssociatedResourceArn;
+    }
+
+    private AwsConnectDeleteAttachedFileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDeleteAttachedFileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDeleteAttachedFileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Connect instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--file-id")]
-    public string? FileId { get; set; }
+    public string? FileId { get; private init; }
 
+    /// <summary>
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.
+    /// </summary>
     [CliOption("--associated-resource-arn")]
-    public string? AssociatedResourceArn { get; set; }
+    public string? AssociatedResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

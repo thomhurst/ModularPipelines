@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "delete-review-template")]
-public record AwsWellarchitectedDeleteReviewTemplateOptions : AwsOptions
+public record AwsWellarchitectedDeleteReviewTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete a review template. Only the owner of a review template can delete it. After the review template is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateArn">The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}</param>
+    public AwsWellarchitectedDeleteReviewTemplateOptions(
+        string TemplateArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateArn);
+        this.TemplateArn = TemplateArn;
+    }
+
+    private AwsWellarchitectedDeleteReviewTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedDeleteReviewTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedDeleteReviewTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}
+    /// </summary>
     [CliOption("--template-arn")]
-    public string? TemplateArn { get; set; }
+    public string? TemplateArn { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
@@ -37,5 +74,22 @@ public record AwsWellarchitectedDeleteReviewTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "copy-package-versions")]
-public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions
+public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies package versions from one repository to another repository in the same domain. NOTE: You must specify versions or versionRevisions . You cannot specify both. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Domain">The name of the domain that contains the source and destination repositories. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="SourceRepository">The name of the repository that contains the package versions to be copied. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="DestinationRepository">The name of the repository into which package versions are copied. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">The format of the package versions to be copied. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
+    /// <param name="Package">The name of the package that contains the versions to be copied. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
+    public AwsCodeartifactCopyPackageVersionsOptions(
+        string Domain,
+        string SourceRepository,
+        string DestinationRepository,
+        AwsCodeartifactCopyPackageVersionsFormat Format,
+        string Package
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(SourceRepository);
+        this.SourceRepository = SourceRepository;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationRepository);
+        this.DestinationRepository = DestinationRepository;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+    }
+
+    private AwsCodeartifactCopyPackageVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeartifactCopyPackageVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeartifactCopyPackageVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that contains the source and destination repositories. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The name of the repository that contains the package versions to be copied. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// </summary>
+    [CliOption("--source-repository")]
+    public string? SourceRepository { get; private init; }
+
+    /// <summary>
+    /// The name of the repository into which package versions are copied. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// </summary>
+    [CliOption("--destination-repository")]
+    public string? DestinationRepository { get; private init; }
+
+    /// <summary>
+    /// The format of the package versions to be copied. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// </summary>
+    [CliOption("--format")]
+    public AwsCodeartifactCopyPackageVersionsFormat? Format { get; private init; }
+
+    /// <summary>
+    /// The name of the package that contains the versions to be copied. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// </summary>
+    [CliOption("--package")]
+    public string? Package { get; private init; }
 
     /// <summary>
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
@@ -31,23 +109,11 @@ public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CliOption("--source-repository")]
-    public string? SourceRepository { get; set; }
-
-    [CliOption("--destination-repository")]
-    public string? DestinationRepository { get; set; }
-
-    [CliOption("--format")]
-    public string? Format { get; set; }
-
     /// <summary>
     /// The namespace of the package versions to be copied. The package com- ponent that specifies its namespace depends on its type. For exam- ple: NOTE: The namespace is required when copying package versions of the following formats: o Maven o Swift o generic o The namespace of a Maven package version is its groupId . o The namespace of an npm or Swift package version is its scope . o The namespace of a generic package is its namespace . o Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
-
-    [CliOption("--package")]
-    public string? Package { get; set; }
 
     /// <summary>
     /// The versions of the package to be copied. NOTE: You must specify versions or versionRevisions . You cannot spec- ify both. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ Syntax: "string" "string" ...
@@ -61,10 +127,16 @@ public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions
     [CliOption("--version-revisions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VersionRevisions { get; set; }
 
-    [CliFlag("--allow-overwrite")]
+    /// <summary>
+    /// Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with an AL- READY_EXISTS error code.
+    /// </summary>
+    [CliFlag("--allow-overwrite", NegatedName = "--no-allow-overwrite")]
     public bool? AllowOverwrite { get; set; }
 
-    [CliFlag("--include-from-upstream")]
+    /// <summary>
+    /// Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The de- fault setting is false. For more information, see Working with up- stream repositories .
+    /// </summary>
+    [CliFlag("--include-from-upstream", NegatedName = "--no-include-from-upstream")]
     public bool? IncludeFromUpstream { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -72,5 +144,22 @@ public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

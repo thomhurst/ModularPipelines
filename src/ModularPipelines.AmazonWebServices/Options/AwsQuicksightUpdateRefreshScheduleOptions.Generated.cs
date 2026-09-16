@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-refresh-schedule")]
-public record AwsQuicksightUpdateRefreshScheduleOptions : AwsOptions
+public record AwsQuicksightUpdateRefreshScheduleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a refresh schedule for a dataset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetId">The ID of the dataset.</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Schedule">The refresh schedule. ScheduleId -&gt; (string) [required] An identifier for the refresh schedule. ScheduleFrequency -&gt; (structure) [required] The frequency for the refresh schedule. Interval -&gt; (string) [required] The interval between scheduled refreshes. Valid values are as follows: o MINUTE15 : The dataset refreshes every 15 minutes. This value is only supported for incremental refreshes. This in- terval can only be used for one schedule per dataset. o MINUTE30 :The dataset refreshes every 30 minutes. This value is only supported for incremental refreshes. This in- terval can only be used for one schedule per dataset. o HOURLY : The dataset refreshes every hour. This interval can only be used for one schedule per dataset. o DAILY : The dataset refreshes every day. o WEEKLY : The dataset refreshes every week. o MONTHLY : The dataset refreshes every month. Possible values: o MINUTE15 o MINUTE30 o HOURLY o DAILY o WEEKLY o MONTHLY RefreshOnDay -&gt; (structure) The day of the week that you want to schedule the refresh on. This value is required for weekly and monthly refresh inter- vals. DayOfWeek -&gt; (string) The day of the week that you want to schedule a refresh on. Possible values: o SUNDAY o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY DayOfMonth -&gt; (string) The day of the month that you want to schedule refresh on. Constraints: o min: 1 o max: 17 o pattern: ^(?:LAST_DAY_OF_MONTH|1[0-9]|2[0-8]|[12]|[3-9])$ Timezone -&gt; (string) The timezone that you want the refresh schedule to use. The timezone ID must match a corresponding ID found on java.util.time.getAvailableIDs() . TimeOfTheDay -&gt; (string) The time of day that you want the datset to refresh. This value is expressed in HH:MM format. This field is not re- quired for schedules that refresh hourly. StartAfterDateTime -&gt; (timestamp) Time after which the refresh schedule can be started, expressed in YYYY-MM-DDTHH:MM:SS format. RefreshType -&gt; (string) [required] The type of refresh that a datset undergoes. Valid values are as follows: o FULL_REFRESH : A complete refresh of a dataset. o INCREMENTAL_REFRESH : A partial refresh of some rows of a dataset, based on the time window specified. For more information on full and incremental refreshes, see Refreshing SPICE data in the Amazon Quick Suite User Guide . Possible values: o INCREMENTAL_REFRESH o FULL_REFRESH Arn -&gt; (string) The Amazon Resource Name (ARN) for the refresh schedule. Shorthand Syntax: ScheduleId=string,ScheduleFrequency={Interval=string,RefreshOnDay={DayOfWeek=string,DayOfMonth=string},Timezone=string,TimeOfTheDay=string},StartAfterDateTime=timestamp,RefreshType=string,Arn=string JSON Syntax: { "ScheduleId": "string", "ScheduleFrequency": { "Interval": "MINUTE15"|"MINUTE30"|"HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY", "RefreshOnDay": { "DayOfWeek": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "DayOfMonth": "string" }, "Timezone": "string", "TimeOfTheDay": "string" }, "StartAfterDateTime": timestamp, "RefreshType": "INCREMENTAL_REFRESH"|"FULL_REFRESH", "Arn": "string" }</param>
+    public AwsQuicksightUpdateRefreshScheduleOptions(
+        string DataSetId,
+        string AwsAccountId,
+        string Schedule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+    }
+
+    private AwsQuicksightUpdateRefreshScheduleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateRefreshScheduleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateRefreshScheduleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the dataset.
+    /// </summary>
     [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The refresh schedule. ScheduleId -&gt; (string) [required] An identifier for the refresh schedule. ScheduleFrequency -&gt; (structure) [required] The frequency for the refresh schedule. Interval -&gt; (string) [required] The interval between scheduled refreshes. Valid values are as follows: o MINUTE15 : The dataset refreshes every 15 minutes. This value is only supported for incremental refreshes. This in- terval can only be used for one schedule per dataset. o MINUTE30 :The dataset refreshes every 30 minutes. This value is only supported for incremental refreshes. This in- terval can only be used for one schedule per dataset. o HOURLY : The dataset refreshes every hour. This interval can only be used for one schedule per dataset. o DAILY : The dataset refreshes every day. o WEEKLY : The dataset refreshes every week. o MONTHLY : The dataset refreshes every month. Possible values: o MINUTE15 o MINUTE30 o HOURLY o DAILY o WEEKLY o MONTHLY RefreshOnDay -&gt; (structure) The day of the week that you want to schedule the refresh on. This value is required for weekly and monthly refresh inter- vals. DayOfWeek -&gt; (string) The day of the week that you want to schedule a refresh on. Possible values: o SUNDAY o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY DayOfMonth -&gt; (string) The day of the month that you want to schedule refresh on. Constraints: o min: 1 o max: 17 o pattern: ^(?:LAST_DAY_OF_MONTH|1[0-9]|2[0-8]|[12]|[3-9])$ Timezone -&gt; (string) The timezone that you want the refresh schedule to use. The timezone ID must match a corresponding ID found on java.util.time.getAvailableIDs() . TimeOfTheDay -&gt; (string) The time of day that you want the datset to refresh. This value is expressed in HH:MM format. This field is not re- quired for schedules that refresh hourly. StartAfterDateTime -&gt; (timestamp) Time after which the refresh schedule can be started, expressed in YYYY-MM-DDTHH:MM:SS format. RefreshType -&gt; (string) [required] The type of refresh that a datset undergoes. Valid values are as follows: o FULL_REFRESH : A complete refresh of a dataset. o INCREMENTAL_REFRESH : A partial refresh of some rows of a dataset, based on the time window specified. For more information on full and incremental refreshes, see Refreshing SPICE data in the Amazon Quick Suite User Guide . Possible values: o INCREMENTAL_REFRESH o FULL_REFRESH Arn -&gt; (string) The Amazon Resource Name (ARN) for the refresh schedule. Shorthand Syntax: ScheduleId=string,ScheduleFrequency={Interval=string,RefreshOnDay={DayOfWeek=string,DayOfMonth=string},Timezone=string,TimeOfTheDay=string},StartAfterDateTime=timestamp,RefreshType=string,Arn=string JSON Syntax: { "ScheduleId": "string", "ScheduleFrequency": { "Interval": "MINUTE15"|"MINUTE30"|"HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY", "RefreshOnDay": { "DayOfWeek": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "DayOfMonth": "string" }, "Timezone": "string", "TimeOfTheDay": "string" }, "StartAfterDateTime": timestamp, "RefreshType": "INCREMENTAL_REFRESH"|"FULL_REFRESH", "Arn": "string" }
+    /// </summary>
     [CliOption("--schedule")]
-    public string? Schedule { get; set; }
+    public string? Schedule { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

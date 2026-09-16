@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fis", "list-experiment-resolved-targets")]
-public record AwsFisListExperimentResolvedTargetsOptions : AwsOptions
+public record AwsFisListExperimentResolvedTargetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the resolved targets information of the specified experiment. See also: AWS API Documentation list-experiment-resolved-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resolvedTargets
+    /// </summary>
+    /// <param name="ExperimentId">The ID of the experiment. Constraints: o max: 64 o pattern: [\S]+</param>
+    public AwsFisListExperimentResolvedTargetsOptions(
+        string ExperimentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExperimentId);
+        this.ExperimentId = ExperimentId;
+    }
+
+    private AwsFisListExperimentResolvedTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFisListExperimentResolvedTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFisListExperimentResolvedTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the experiment. Constraints: o max: 64 o pattern: [\S]+
+    /// </summary>
     [CliOption("--experiment-id")]
-    public string? ExperimentId { get; set; }
+    public string? ExperimentId { get; private init; }
 
     /// <summary>
     /// The name of the target. Constraints: o max: 64 o pattern: [\S]+
@@ -55,5 +92,22 @@ public record AwsFisListExperimentResolvedTargetsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

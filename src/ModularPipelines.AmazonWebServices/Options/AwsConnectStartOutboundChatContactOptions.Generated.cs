@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,28 +22,103 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-outbound-chat-contact")]
-public record AwsConnectStartOutboundChatContactOptions : AwsOptions
+public record AwsConnectStartOutboundChatContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Re- sponse of this API provides the ContactId of the outbound SMS or What- sApp contact created. SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELE- PHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing...
+    /// </summary>
+    /// <param name="SourceEndpoint">Information about the endpoint. Type -&gt; (string) Type of the endpoint. Possible values: o TELEPHONE_NUMBER o VOIP o CONTACT_FLOW o CONNECT_PHONENUMBER_ARN o EMAIL_ADDRESS Address -&gt; (string) Address of the endpoint. Constraints: o min: 0 o max: 256 Shorthand Syntax: Type=string,Address=string JSON Syntax: { "Type": "TELEPHONE_NUMBER"|"VOIP"|"CONTACT_FLOW"|"CONNECT_PHONENUMBER_ARN"|"EMAIL_ADDRESS", "Address": "string" }</param>
+    /// <param name="DestinationEndpoint">Information about the endpoint. Type -&gt; (string) Type of the endpoint. Possible values: o TELEPHONE_NUMBER o VOIP o CONTACT_FLOW o CONNECT_PHONENUMBER_ARN o EMAIL_ADDRESS Address -&gt; (string) Address of the endpoint. Constraints: o min: 0 o max: 256 Shorthand Syntax: Type=string,Address=string JSON Syntax: { "Type": "TELEPHONE_NUMBER"|"VOIP"|"CONTACT_FLOW"|"CONNECT_PHONENUMBER_ARN"|"EMAIL_ADDRESS", "Address": "string" }</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="SegmentAttributes">A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. o Attribute keys can include only alphanumeric, - , and _ . o This field can be used to show channel subtype, such as con- nect:SMS and connect:WhatsApp . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 JSON Syntax: {"string": { "ValueString": "string", "ValueMap": {"string": { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ...}, "ValueInteger": integer, "ValueList": [ { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ... ], "ValueArn": "string" } ...}</param>
+    /// <param name="ContactFlowId">The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer console user interface, on the navigation menu go to Routing, Contact Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: o arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx Constraints: o max: 500</param>
+    public AwsConnectStartOutboundChatContactOptions(
+        string SourceEndpoint,
+        string DestinationEndpoint,
+        string InstanceId,
+        IReadOnlyList<KeyValue> SegmentAttributes,
+        string ContactFlowId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceEndpoint);
+        this.SourceEndpoint = SourceEndpoint;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationEndpoint);
+        this.DestinationEndpoint = DestinationEndpoint;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SegmentAttributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(SegmentAttributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SegmentAttributes));
+            }
+
+            SegmentAttributes = materialized;
+        }
+        this.SegmentAttributes = SegmentAttributes;
+        global::System.ArgumentNullException.ThrowIfNull(ContactFlowId);
+        this.ContactFlowId = ContactFlowId;
+    }
+
+    private AwsConnectStartOutboundChatContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartOutboundChatContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartOutboundChatContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Information about the endpoint. Type -&gt; (string) Type of the endpoint. Possible values: o TELEPHONE_NUMBER o VOIP o CONTACT_FLOW o CONNECT_PHONENUMBER_ARN o EMAIL_ADDRESS Address -&gt; (string) Address of the endpoint. Constraints: o min: 0 o max: 256 Shorthand Syntax: Type=string,Address=string JSON Syntax: { "Type": "TELEPHONE_NUMBER"|"VOIP"|"CONTACT_FLOW"|"CONNECT_PHONENUMBER_ARN"|"EMAIL_ADDRESS", "Address": "string" }
+    /// </summary>
     [CliOption("--source-endpoint")]
-    public string? SourceEndpoint { get; set; }
+    public string? SourceEndpoint { get; private init; }
 
+    /// <summary>
+    /// Information about the endpoint. Type -&gt; (string) Type of the endpoint. Possible values: o TELEPHONE_NUMBER o VOIP o CONTACT_FLOW o CONNECT_PHONENUMBER_ARN o EMAIL_ADDRESS Address -&gt; (string) Address of the endpoint. Constraints: o min: 0 o max: 256 Shorthand Syntax: Type=string,Address=string JSON Syntax: { "Type": "TELEPHONE_NUMBER"|"VOIP"|"CONTACT_FLOW"|"CONNECT_PHONENUMBER_ARN"|"EMAIL_ADDRESS", "Address": "string" }
+    /// </summary>
     [CliOption("--destination-endpoint")]
-    public string? DestinationEndpoint { get; set; }
+    public string? DestinationEndpoint { get; private init; }
 
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. o Attribute keys can include only alphanumeric, - , and _ . o This field can be used to show channel subtype, such as con- nect:SMS and connect:WhatsApp . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 JSON Syntax: {"string": { "ValueString": "string", "ValueMap": {"string": { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ...}, "ValueInteger": integer, "ValueList": [ { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ... ], "ValueArn": "string" } ...}
+    /// </summary>
     [CliOption("--segment-attributes", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? SegmentAttributes { get; set; }
+    public IReadOnlyList<KeyValue>? SegmentAttributes { get; private init; }
+
+    /// <summary>
+    /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer console user interface, on the navigation menu go to Routing, Contact Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: o arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx Constraints: o max: 500
+    /// </summary>
+    [CliOption("--contact-flow-id")]
+    public string? ContactFlowId { get; private init; }
 
     /// <summary>
     /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
-
-    [CliOption("--contact-flow-id")]
-    public string? ContactFlowId { get; set; }
 
     /// <summary>
     /// The total duration of the newly started chat session. If not speci- fied, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days). Constraints: o min: 60 o max: 10080
@@ -92,5 +168,22 @@ public record AwsConnectStartOutboundChatContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

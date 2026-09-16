@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --restoremode.
+/// Allowed values for --restore-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTimestreamInfluxdbRestoreFromDbBackupRestoreMode
 {
     [EnumValue("NEW_RESOURCE")]
-    NewResource = 1,
+    NewResource,
 
     [EnumValue("REPLACE_EXISTING")]
-    ReplaceExisting = 2
+    ReplaceExisting
 }

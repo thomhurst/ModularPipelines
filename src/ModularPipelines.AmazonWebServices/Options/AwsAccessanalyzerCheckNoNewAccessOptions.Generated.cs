@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "check-no-new-access")]
-public record AwsAccessanalyzerCheckNoNewAccessOptions : AwsOptions
+public record AwsAccessanalyzerCheckNoNewAccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Checks whether new access is allowed for an updated policy when com- pared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference poli- cies in this repository are meant to be passed to the existingPolicy- Document request parameter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NewPolicyDocument">The JSON policy document to use as the content for the updated pol- icy.</param>
+    /// <param name="ExistingPolicyDocument">The JSON policy document to use as the content for the existing pol- icy.</param>
+    /// <param name="PolicyType">The type of policy to compare. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic in- put such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY</param>
+    public AwsAccessanalyzerCheckNoNewAccessOptions(
+        string NewPolicyDocument,
+        string ExistingPolicyDocument,
+        AwsAccessanalyzerCheckNoNewAccessPolicyType PolicyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewPolicyDocument);
+        this.NewPolicyDocument = NewPolicyDocument;
+        global::System.ArgumentNullException.ThrowIfNull(ExistingPolicyDocument);
+        this.ExistingPolicyDocument = ExistingPolicyDocument;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
+        this.PolicyType = PolicyType;
+    }
+
+    private AwsAccessanalyzerCheckNoNewAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerCheckNoNewAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerCheckNoNewAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The JSON policy document to use as the content for the updated pol- icy.
+    /// </summary>
     [CliOption("--new-policy-document")]
-    public string? NewPolicyDocument { get; set; }
+    public string? NewPolicyDocument { get; private init; }
 
+    /// <summary>
+    /// The JSON policy document to use as the content for the existing pol- icy.
+    /// </summary>
     [CliOption("--existing-policy-document")]
-    public string? ExistingPolicyDocument { get; set; }
+    public string? ExistingPolicyDocument { get; private init; }
 
+    /// <summary>
+    /// The type of policy to compare. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic in- put such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY
+    /// </summary>
     [CliOption("--policy-type")]
-    public string? PolicyType { get; set; }
+    public AwsAccessanalyzerCheckNoNewAccessPolicyType? PolicyType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

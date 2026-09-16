@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "delete-bucket-metadata-table-configuration")]
-public record AwsS3apiDeleteBucketMetadataTableConfigurationOptions : AwsOptions
+public record AwsS3apiDeleteBucketMetadataTableConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: We recommend that you delete your S3 Metadata configurations by us- ing the V2 DeleteBucketMetadataTableConfiguration API operation. We no longer recommend using the V1 DeleteBucketMetadataTableConfigura- tion API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by us- ing CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Deletes a V...
+    /// </summary>
+    /// <param name="Bucket">The general purpose bucket that you want to remove the metadata ta- ble configuration from.</param>
+    public AwsS3apiDeleteBucketMetadataTableConfigurationOptions(
+        string Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+    }
+
+    private AwsS3apiDeleteBucketMetadataTableConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiDeleteBucketMetadataTableConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiDeleteBucketMetadataTableConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The general purpose bucket that you want to remove the metadata ta- ble configuration from.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
     /// <summary>
     /// The expected bucket owner of the general purpose bucket that you want to remove the metadata table configuration from.
@@ -35,5 +72,22 @@ public record AwsS3apiDeleteBucketMetadataTableConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsClouddirectoryListDirectoriesState
 {
-    [EnumValue("ENABLED")]
-    Enabled = 1,
+    [EnumValue("DELETED")]
+    Deleted,
 
     [EnumValue("DISABLED")]
-    Disabled = 2,
+    Disabled,
 
-    [EnumValue("DELETED")]
-    Deleted = 3
+    [EnumValue("ENABLED")]
+    Enabled
 }

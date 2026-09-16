@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glacier", "create-vault")]
-public record AwsGlacierCreateVaultOptions : AwsOptions
+public record AwsGlacierCreateVaultOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This operation creates a new vault with the specified name. The name of the vault must be unique within a region for an AWS account. You can create up to 1,000 vaults per account. If you need to create more vaults, contact Amazon Glacier. You must use the following guidelines when naming a vault. o Names can be between 1 and 255 characters long. o Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), and '.' (period). This operation is idempotent. An AWS account has full permissi...
+    /// </summary>
+    /// <param name="AccountId">The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the re- quest. You can either specify an AWS account ID or optionally a sin- gle '- ' (hyphen), in which case Amazon S3 Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="VaultName">The name of the vault.</param>
+    public AwsGlacierCreateVaultOptions(
+        string AccountId,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    private AwsGlacierCreateVaultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlacierCreateVaultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlacierCreateVaultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the re- quest. You can either specify an AWS account ID or optionally a sin- gle '- ' (hyphen), in which case Amazon S3 Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The name of the vault.
+    /// </summary>
     [CliOption("--vault-name")]
-    public string? VaultName { get; set; }
+    public string? VaultName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

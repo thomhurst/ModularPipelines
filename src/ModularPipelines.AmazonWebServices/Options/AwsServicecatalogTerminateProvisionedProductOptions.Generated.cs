@@ -41,7 +41,10 @@ public record AwsServicecatalogTerminateProvisionedProductOptions : AwsOptions
     [CliOption("--terminate-token")]
     public string? TerminateToken { get; set; }
 
-    [CliFlag("--ignore-errors")]
+    /// <summary>
+    /// If set to true, Service Catalog stops managing the specified provi- sioned product even if it cannot delete the underlying resources.
+    /// </summary>
+    [CliFlag("--ignore-errors", NegatedName = "--no-ignore-errors")]
     public bool? IgnoreErrors { get; set; }
 
     /// <summary>
@@ -50,7 +53,10 @@ public record AwsServicecatalogTerminateProvisionedProductOptions : AwsOptions
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CliFlag("--retain-physical-resources")]
+    /// <summary>
+    /// When this boolean parameter is set to true, the TerminateProvi- sionedProduct API deletes the Service Catalog provisioned product. However, it does not remove the CloudFormation stack, stack set, or the underlying resources of the deleted provisioned product. The de- fault value is false.
+    /// </summary>
+    [CliFlag("--retain-physical-resources", NegatedName = "--no-retain-physical-resources")]
     public bool? RetainPhysicalResources { get; set; }
 
     [CliOption("--cli-input-json")]

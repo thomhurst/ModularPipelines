@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "list-dataset-examples")]
-public record AwsBedrockAgentcoreControlListDataSetExamplesOptions : AwsOptions
+public record AwsBedrockAgentcoreControlListDataSetExamplesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns paginated examples from the dataset. The server embeds the re- solved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations. See also: AWS API Documentation list-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the ty...
+    /// </summary>
+    /// <param name="DataSetId">The unique identifier of the dataset. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}</param>
+    public AwsBedrockAgentcoreControlListDataSetExamplesOptions(
+        string DataSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+    }
+
+    private AwsBedrockAgentcoreControlListDataSetExamplesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlListDataSetExamplesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlListDataSetExamplesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the dataset. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}
+    /// </summary>
     [CliOption("--dataset-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
 
     /// <summary>
     /// Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent. Only used on the first request; for subsequent pages, the version is extracted from the pagination token. Constraints: o pattern: (DRAFT|[0-9]+)
@@ -55,5 +92,22 @@ public record AwsBedrockAgentcoreControlListDataSetExamplesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

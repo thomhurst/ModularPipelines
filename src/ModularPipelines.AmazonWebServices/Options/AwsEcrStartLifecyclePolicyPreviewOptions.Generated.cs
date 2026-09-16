@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "start-lifecycle-policy-preview")]
-public record AwsEcrStartLifecyclePolicyPreviewOptions : AwsOptions
+public record AwsEcrStartLifecyclePolicyPreviewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a preview of a lifecycle policy for the specified repository. This allows you to see the results before associating the lifecycle policy with the repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository to be evaluated. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    public AwsEcrStartLifecyclePolicyPreviewOptions(
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    private AwsEcrStartLifecyclePolicyPreviewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrStartLifecyclePolicyPreviewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrStartLifecyclePolicyPreviewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository to be evaluated. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the de- fault registry is assumed. Constraints: o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
-
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
 
     /// <summary>
     /// The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used. Constraints: o min: 100 o max: 30720
@@ -41,5 +78,22 @@ public record AwsEcrStartLifecyclePolicyPreviewOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

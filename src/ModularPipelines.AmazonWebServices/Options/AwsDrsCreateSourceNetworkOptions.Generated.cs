@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "create-source-network")]
-public record AwsDrsCreateSourceNetworkOptions : AwsOptions
+public record AwsDrsCreateSourceNetworkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a new Source Network resource for a provided VPC ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpcId">Which VPC ID to protect. Constraints: o min: 12 o max: 21 o pattern: vpc-[0-9a-fA-F]{8,}</param>
+    /// <param name="OriginAccountId">Account containing the VPC to protect. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*</param>
+    /// <param name="OriginRegion">Region containing the VPC to protect. Constraints: o min: 0 o max: 255 o pattern: (us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]</param>
+    public AwsDrsCreateSourceNetworkOptions(
+        string VpcId,
+        string OriginAccountId,
+        string OriginRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        global::System.ArgumentNullException.ThrowIfNull(OriginAccountId);
+        this.OriginAccountId = OriginAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(OriginRegion);
+        this.OriginRegion = OriginRegion;
+    }
+
+    private AwsDrsCreateSourceNetworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsCreateSourceNetworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsCreateSourceNetworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Which VPC ID to protect. Constraints: o min: 12 o max: 21 o pattern: vpc-[0-9a-fA-F]{8,}
+    /// </summary>
     [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
+    public string? VpcId { get; private init; }
 
+    /// <summary>
+    /// Account containing the VPC to protect. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// </summary>
     [CliOption("--origin-account-id")]
-    public string? OriginAccountId { get; set; }
+    public string? OriginAccountId { get; private init; }
 
+    /// <summary>
+    /// Region containing the VPC to protect. Constraints: o min: 0 o max: 255 o pattern: (us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]
+    /// </summary>
     [CliOption("--origin-region")]
-    public string? OriginRegion { get; set; }
+    public string? OriginRegion { get; private init; }
 
     /// <summary>
     /// A set of tags to be associated with the Source Network resource. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +93,22 @@ public record AwsDrsCreateSourceNetworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

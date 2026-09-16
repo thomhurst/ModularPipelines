@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,13 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediapackagev2", "create-channel")]
-public record AwsMediapackagev2CreateChannelOptions : AwsOptions
+public record AwsMediapackagev2CreateChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--channel-group-name")]
-    public string? ChannelGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create a channel to start receiving content streams. The channel repre- sents the input to MediaPackage for incoming live content from an en- coder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to down- stream devices (such as video players or CDNs) that request the con- tent. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant ...
+    /// </summary>
+    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. You can't change the name after you create the channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsMediapackagev2CreateChannelOptions(
+        string ChannelGroupName,
+        string ChannelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelGroupName);
+        this.ChannelGroupName = ChannelGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+    }
+
+    private AwsMediapackagev2CreateChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediapackagev2CreateChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediapackagev2CreateChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--channel-group-name")]
+    public string? ChannelGroupName { get; private init; }
+
+    /// <summary>
+    /// The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. You can't change the name after you create the channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    public string? ChannelName { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request. Constraints: o min: 1 o max: 256 o pattern: [\S]+
@@ -38,7 +82,7 @@ public record AwsMediapackagev2CreateChannelOptions : AwsOptions
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The input type will be an immutable field which will be used to de- fine whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are: o HLS - The HLS streaming specification (which defines M3U8 mani- fests and TS segments). o CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests). Possible values: o HLS o CMAF
+    /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are: o HLS - The HLS streaming specification (which defines M3U8 mani- fests and TS segments). o CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests). o MULTIVIEW Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream. Possible values: o HLS o CMAF o MULTIVIEW
     /// </summary>
     [CliOption("--input-type")]
     public AwsMediapackagev2CreateChannelInputType? InputType { get; set; }
@@ -62,6 +106,12 @@ public record AwsMediapackagev2CreateChannelOptions : AwsOptions
     public string? OutputHeaderConfiguration { get; set; }
 
     /// <summary>
+    /// The multiview configuration for the channel. This setting is re- quired when InputType is MULTIVIEW , and can't be set for any other input type. AvailableSources -&gt; (list) [required] The channels that players can use as tiles in this multiview channel's output. Each source channel must be in the same chan- nel group as the multiview channel, and must have an InputType of CMAF . Only the channels that you list here are available as tiles. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ AvailableLayouts -&gt; (list) [required] The tile layouts that players can request from this multiview channel's origin endpoints. Only the layouts that you list here are available. Each layout must appear at most once. Constraints: o min: 1 o max: 6 (string) A tile layout for a multiview channel. Each layout determines how many source tiles are composited into the output and how those tiles are arranged. The allowed values are: o LAYOUT_SINGLE One tile at full resolution. Use this to serve a single source as a standard stream. o LAYOUT_2EH Two tiles of equal size, arranged horizontally. o LAYOUT_2PL Two tiles, with one larger primary tile. o LAYOUT_3EB Three tiles of equal size, with two on top and one below. o LAYOUT_3EL Three tiles of equal size, arranged in two columns. o LAYOUT_3PL Three tiles, with one larger primary tile on the left and two stacked on the right. o LAYOUT_4E Four tiles of equal size, arranged in a two-by-two grid. o LAYOUT_4PL Four tiles, with one larger primary tile on the left and three stacked on the right. Possible values: o LAYOUT_2EH o LAYOUT_2PL o LAYOUT_3EL o LAYOUT_3PL o LAYOUT_4E o LAYOUT_4PL Shorthand Syntax: AvailableSources=string,string,AvailableLayouts=string,string JSON Syntax: { "AvailableSources": ["string", ...], "AvailableLayouts": ["LAYOUT_2EH"|"LAYOUT_2PL"|"LAYOUT_3EL"|"LAYOUT_3PL"|"LAYOUT_4E"|"LAYOUT_4PL", ...] }
+    /// </summary>
+    [CliOption("--multiview-configuration")]
+    public string? MultiviewConfiguration { get; set; }
+
+    /// <summary>
     /// The output locking mode for the channel. This setting is only valid when InputType is CMAF . This value is immutable after channel cre- ation. If you don't specify a value, the default is EPOCH_LOCKED . The allowed values are: o EPOCH_LOCKED - The channel uses epoch-locked behavior with deter- ministic sequence numbering and fixed segment boundaries aligned to epoch time. This mode supports cross-region synchronization and failover. o NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing se- quence numbers starting from 0. This mode does not support cross-region synchronization or failover. Possible values: o EPOCH_LOCKED o NON_EPOCH_LOCKED
     /// </summary>
     [CliOption("--output-locking-mode")]
@@ -78,5 +128,22 @@ public record AwsMediapackagev2CreateChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

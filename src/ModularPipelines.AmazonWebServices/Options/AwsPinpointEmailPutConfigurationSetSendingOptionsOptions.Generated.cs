@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-email", "put-configuration-set-sending-options")]
-public record AwsPinpointEmailPutConfigurationSetSendingOptionsOptions : AwsOptions
+public record AwsPinpointEmailPutConfigurationSetSendingOptionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--sending-enabled")]
+    /// <summary>
+    /// Enable or disable email sending for messages that use a particular con- figuration set in a specific AWS Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set that you want to enable or disable email sending for.</param>
+    public AwsPinpointEmailPutConfigurationSetSendingOptionsOptions(
+        string ConfigurationSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+    }
+
+    private AwsPinpointEmailPutConfigurationSetSendingOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointEmailPutConfigurationSetSendingOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointEmailPutConfigurationSetSendingOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set that you want to enable or disable email sending for.
+    /// </summary>
+    [CliOption("--configuration-set-name")]
+    public string? ConfigurationSetName { get; private init; }
+
+    /// <summary>
+    /// If true , email sending is enabled for the configuration set. If false , email sending is disabled for the configuration set.
+    /// </summary>
+    [CliFlag("--sending-enabled", NegatedName = "--no-sending-enabled")]
     public bool? SendingEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsPinpointEmailPutConfigurationSetSendingOptionsOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

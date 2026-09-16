@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --licensetype.
+/// Allowed values for --license-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeUpdateUserLicenseType
 {
     [EnumValue("Basic")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("Plus")]
-    Plus = 2,
+    Plus,
 
     [EnumValue("Pro")]
-    Pro = 3,
+    Pro,
 
     [EnumValue("ProTrial")]
-    ProTrial = 4
+    ProTrial
 }

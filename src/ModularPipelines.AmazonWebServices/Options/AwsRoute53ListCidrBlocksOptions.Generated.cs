@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "list-cidr-blocks")]
-public record AwsRoute53ListCidrBlocksOptions : AwsOptions
+public record AwsRoute53ListCidrBlocksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a paginated list of location objects and their CIDR blocks. See also: AWS API Documentation list-cidr-blocks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CidrBlocks
+    /// </summary>
+    /// <param name="CollectionId">The UUID of the CIDR collection. Constraints: o pattern: [0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}</param>
+    public AwsRoute53ListCidrBlocksOptions(
+        string CollectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionId);
+        this.CollectionId = CollectionId;
+    }
+
+    private AwsRoute53ListCidrBlocksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53ListCidrBlocksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53ListCidrBlocksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The UUID of the CIDR collection. Constraints: o pattern: [0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}
+    /// </summary>
     [CliOption("--collection-id")]
-    public string? CollectionId { get; set; }
+    public string? CollectionId { get; private init; }
 
     /// <summary>
     /// The name of the CIDR collection location. Constraints: o min: 1 o max: 16 o pattern: [0-9A-Za-z_\-]+
@@ -55,5 +92,22 @@ public record AwsRoute53ListCidrBlocksOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

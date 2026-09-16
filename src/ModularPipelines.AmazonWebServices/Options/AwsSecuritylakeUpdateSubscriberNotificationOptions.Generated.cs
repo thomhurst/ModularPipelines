@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securitylake", "update-subscriber-notification")]
-public record AwsSecuritylakeUpdateSubscriberNotificationOptions : AwsOptions
+public record AwsSecuritylakeUpdateSubscriberNotificationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing notification method for the subscription (SQS or HTTPs endpoint) or switches the notification subscription endpoint for a subscriber. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Configuration">The configuration for subscriber notification. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: httpsNotificationConfiguration, sqsNoti- ficationConfiguration. httpsNotificationConfiguration -&gt; (structure) The configurations used for HTTPS subscriber notification. authorizationApiKeyName -&gt; (string) The key name for the notification subscription. authorizationApiKeyValue -&gt; (string) The key value for the notification subscription. endpoint -&gt; (string) [required] The subscription endpoint in Security Lake. If you prefer no- tification with an HTTPs endpoint, populate this field. Constraints: o pattern: ^https?://.+$ httpMethod -&gt; (string) The HTTPS method used for the notification subscription. Possible values: o POST o PUT targetRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the EventBridge API desti- nations IAM role that you created. For more information about ARNs and how to use them in policies, see Managing data ac- cess and Amazon Web Services Managed Policies in the Amazon Security Lake User Guide . Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ sqsNotificationConfiguration -&gt; (structure) The configurations for SQS subscriber notification. Shorthand Syntax: httpsNotificationConfiguration={authorizationApiKeyName=string,authorizationApiKeyValue=string,endpoint=string,httpMethod=string,targetRoleArn=string},sqsNotificationConfiguration={} JSON Syntax: { "httpsNotificationConfiguration": { "authorizationApiKeyName": "string", "authorizationApiKeyValue": "string", "endpoint": "string", "httpMethod": "POST"|"PUT", "targetRoleArn": "string" }, "sqsNotificationConfiguration": { } }</param>
+    /// <param name="SubscriberId">The subscription ID for which the subscription notification is spec- ified. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    public AwsSecuritylakeUpdateSubscriberNotificationOptions(
+        string Configuration,
+        string SubscriberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+        global::System.ArgumentNullException.ThrowIfNull(SubscriberId);
+        this.SubscriberId = SubscriberId;
+    }
+
+    private AwsSecuritylakeUpdateSubscriberNotificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecuritylakeUpdateSubscriberNotificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecuritylakeUpdateSubscriberNotificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The configuration for subscriber notification. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: httpsNotificationConfiguration, sqsNoti- ficationConfiguration. httpsNotificationConfiguration -&gt; (structure) The configurations used for HTTPS subscriber notification. authorizationApiKeyName -&gt; (string) The key name for the notification subscription. authorizationApiKeyValue -&gt; (string) The key value for the notification subscription. endpoint -&gt; (string) [required] The subscription endpoint in Security Lake. If you prefer no- tification with an HTTPs endpoint, populate this field. Constraints: o pattern: ^https?://.+$ httpMethod -&gt; (string) The HTTPS method used for the notification subscription. Possible values: o POST o PUT targetRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the EventBridge API desti- nations IAM role that you created. For more information about ARNs and how to use them in policies, see Managing data ac- cess and Amazon Web Services Managed Policies in the Amazon Security Lake User Guide . Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ sqsNotificationConfiguration -&gt; (structure) The configurations for SQS subscriber notification. Shorthand Syntax: httpsNotificationConfiguration={authorizationApiKeyName=string,authorizationApiKeyValue=string,endpoint=string,httpMethod=string,targetRoleArn=string},sqsNotificationConfiguration={} JSON Syntax: { "httpsNotificationConfiguration": { "authorizationApiKeyName": "string", "authorizationApiKeyValue": "string", "endpoint": "string", "httpMethod": "POST"|"PUT", "targetRoleArn": "string" }, "sqsNotificationConfiguration": { } }
+    /// </summary>
+    [CliOption("--configuration")]
+    public string? Configuration { get; private init; }
+
+    /// <summary>
+    /// The subscription ID for which the subscription notification is spec- ified. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--subscriber-id")]
-    public string? SubscriberId { get; set; }
+    public string? SubscriberId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

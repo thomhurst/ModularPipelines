@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "batch-get-dev-endpoints")]
-public record AwsGlueBatchGetDevEndpointsOptions : AwsOptions
+public record AwsGlueBatchGetDevEndpointsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DevEndpointNames">The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation. Constraints: o min: 1 o max: 25 (string) Syntax: "string" "string" ...</param>
+    public AwsGlueBatchGetDevEndpointsOptions(
+        IEnumerable<string> DevEndpointNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DevEndpointNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DevEndpointNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DevEndpointNames));
+            }
+
+            DevEndpointNames = materialized;
+        }
+        this.DevEndpointNames = DevEndpointNames;
+    }
+
+    private AwsGlueBatchGetDevEndpointsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueBatchGetDevEndpointsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueBatchGetDevEndpointsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation. Constraints: o min: 1 o max: 25 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--dev-endpoint-names", GroupValues = true)]
-    public IEnumerable<string>? DevEndpointNames { get; set; }
+    public IEnumerable<string>? DevEndpointNames { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

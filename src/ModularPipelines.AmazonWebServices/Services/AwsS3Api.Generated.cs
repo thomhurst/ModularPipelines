@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,26 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AbortMultipartUploadAsync(
-        AwsS3apiAbortMultipartUploadOptions? options = null,
+        AwsS3apiAbortMultipartUploadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiAbortMultipartUploadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Completes a multipart upload by assembling previously uploaded parts. You first initiate the multipart upload and then upload all parts using the UploadPart operation or the UploadPartCopy operation. After suc- cessfully uploading all relevant parts of an upload, you call this Com- pleteMultipartUpload operation to complete the upload. Upon receiving this request, Amazon S3 concatenates all the parts in ascending order by part number to create a new object. In the CompleteMultipartUpload request...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CompleteMultipartUploadAsync(
+        AwsS3apiCompleteMultipartUploadOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +80,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyObjectAsync(
-        AwsS3apiCopyObjectOptions? options = null,
+        AwsS3apiCopyObjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiCopyObjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +95,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBucketMetadataConfigurationAsync(
-        AwsS3apiCreateBucketMetadataConfigurationOptions? options = null,
+        AwsS3apiCreateBucketMetadataConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiCreateBucketMetadataConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +110,26 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBucketMetadataTableConfigurationAsync(
-        AwsS3apiCreateBucketMetadataTableConfigurationOptions? options = null,
+        AwsS3apiCreateBucketMetadataTableConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiCreateBucketMetadataTableConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// NOTE: This action creates an Amazon S3 bucket. To create an Amazon S3 on Outposts bucket, see ` CreateBucket https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html`__ . Creates a new S3 bucket. To create a bucket, you must set up Amazon S3 and have a valid Amazon Web Services Access Key ID to authenticate re- quests. Anonymous requests are never allowed to create buckets. By cre- ating the bucket, you become the bucket owner. There are two types of buckets: general purpose...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateBucketAsync(
+        AwsS3apiCreateBucketOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +140,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMultipartUploadAsync(
-        AwsS3apiCreateMultipartUploadOptions? options = null,
+        AwsS3apiCreateMultipartUploadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiCreateMultipartUploadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +155,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSessionAsync(
-        AwsS3apiCreateSessionOptions? options = null,
+        AwsS3apiCreateSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiCreateSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +170,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketAnalyticsConfigurationAsync(
-        AwsS3apiDeleteBucketAnalyticsConfigurationOptions? options = null,
+        AwsS3apiDeleteBucketAnalyticsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketAnalyticsConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +185,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketCorsAsync(
-        AwsS3apiDeleteBucketCorsOptions? options = null,
+        AwsS3apiDeleteBucketCorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketCorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +200,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketEncryptionAsync(
-        AwsS3apiDeleteBucketEncryptionOptions? options = null,
+        AwsS3apiDeleteBucketEncryptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketEncryptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +215,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketIntelligentTieringConfigurationAsync(
-        AwsS3apiDeleteBucketIntelligentTieringConfigurationOptions? options = null,
+        AwsS3apiDeleteBucketIntelligentTieringConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketIntelligentTieringConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +230,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketInventoryConfigurationAsync(
-        AwsS3apiDeleteBucketInventoryConfigurationOptions? options = null,
+        AwsS3apiDeleteBucketInventoryConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketInventoryConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +245,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketLifecycleAsync(
-        AwsS3apiDeleteBucketLifecycleOptions? options = null,
+        AwsS3apiDeleteBucketLifecycleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketLifecycleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +260,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketMetadataConfigurationAsync(
-        AwsS3apiDeleteBucketMetadataConfigurationOptions? options = null,
+        AwsS3apiDeleteBucketMetadataConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketMetadataConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -245,11 +275,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketMetadataTableConfigurationAsync(
-        AwsS3apiDeleteBucketMetadataTableConfigurationOptions? options = null,
+        AwsS3apiDeleteBucketMetadataTableConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketMetadataTableConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -260,11 +290,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketMetricsConfigurationAsync(
-        AwsS3apiDeleteBucketMetricsConfigurationOptions? options = null,
+        AwsS3apiDeleteBucketMetricsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketMetricsConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -275,11 +305,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketAsync(
-        AwsS3apiDeleteBucketOptions? options = null,
+        AwsS3apiDeleteBucketOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -290,11 +320,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketOwnershipControlsAsync(
-        AwsS3apiDeleteBucketOwnershipControlsOptions? options = null,
+        AwsS3apiDeleteBucketOwnershipControlsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketOwnershipControlsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,11 +335,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketPolicyAsync(
-        AwsS3apiDeleteBucketPolicyOptions? options = null,
+        AwsS3apiDeleteBucketPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +350,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketReplicationAsync(
-        AwsS3apiDeleteBucketReplicationOptions? options = null,
+        AwsS3apiDeleteBucketReplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketReplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +365,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketTaggingAsync(
-        AwsS3apiDeleteBucketTaggingOptions? options = null,
+        AwsS3apiDeleteBucketTaggingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketTaggingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,11 +380,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBucketWebsiteAsync(
-        AwsS3apiDeleteBucketWebsiteOptions? options = null,
+        AwsS3apiDeleteBucketWebsiteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteBucketWebsiteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -365,11 +395,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteObjectAnnotationAsync(
-        AwsS3apiDeleteObjectAnnotationOptions? options = null,
+        AwsS3apiDeleteObjectAnnotationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteObjectAnnotationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -380,11 +410,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteObjectAsync(
-        AwsS3apiDeleteObjectOptions? options = null,
+        AwsS3apiDeleteObjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteObjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +425,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteObjectsAsync(
-        AwsS3apiDeleteObjectsOptions? options = null,
+        AwsS3apiDeleteObjectsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteObjectsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -410,11 +440,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteObjectTaggingAsync(
-        AwsS3apiDeleteObjectTaggingOptions? options = null,
+        AwsS3apiDeleteObjectTaggingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeleteObjectTaggingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -425,11 +455,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePublicAccessBlockAsync(
-        AwsS3apiDeletePublicAccessBlockOptions? options = null,
+        AwsS3apiDeletePublicAccessBlockOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiDeletePublicAccessBlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -440,11 +470,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketAbacAsync(
-        AwsS3apiGetBucketAbacOptions? options = null,
+        AwsS3apiGetBucketAbacOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketAbacOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -455,11 +485,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketAccelerateConfigurationAsync(
-        AwsS3apiGetBucketAccelerateConfigurationOptions? options = null,
+        AwsS3apiGetBucketAccelerateConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketAccelerateConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -470,11 +500,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketAclAsync(
-        AwsS3apiGetBucketAclOptions? options = null,
+        AwsS3apiGetBucketAclOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketAclOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -485,11 +515,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketAnalyticsConfigurationAsync(
-        AwsS3apiGetBucketAnalyticsConfigurationOptions? options = null,
+        AwsS3apiGetBucketAnalyticsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketAnalyticsConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -500,11 +530,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketCorsAsync(
-        AwsS3apiGetBucketCorsOptions? options = null,
+        AwsS3apiGetBucketCorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketCorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -515,11 +545,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketEncryptionAsync(
-        AwsS3apiGetBucketEncryptionOptions? options = null,
+        AwsS3apiGetBucketEncryptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketEncryptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -530,11 +560,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketIntelligentTieringConfigurationAsync(
-        AwsS3apiGetBucketIntelligentTieringConfigurationOptions? options = null,
+        AwsS3apiGetBucketIntelligentTieringConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketIntelligentTieringConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -545,11 +575,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketInventoryConfigurationAsync(
-        AwsS3apiGetBucketInventoryConfigurationOptions? options = null,
+        AwsS3apiGetBucketInventoryConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketInventoryConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -560,11 +590,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketLifecycleConfigurationAsync(
-        AwsS3apiGetBucketLifecycleConfigurationOptions? options = null,
+        AwsS3apiGetBucketLifecycleConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketLifecycleConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -575,11 +605,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketLocationAsync(
-        AwsS3apiGetBucketLocationOptions? options = null,
+        AwsS3apiGetBucketLocationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketLocationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -590,11 +620,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketLoggingAsync(
-        AwsS3apiGetBucketLoggingOptions? options = null,
+        AwsS3apiGetBucketLoggingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketLoggingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -605,11 +635,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketMetadataConfigurationAsync(
-        AwsS3apiGetBucketMetadataConfigurationOptions? options = null,
+        AwsS3apiGetBucketMetadataConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketMetadataConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -620,11 +650,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketMetadataTableConfigurationAsync(
-        AwsS3apiGetBucketMetadataTableConfigurationOptions? options = null,
+        AwsS3apiGetBucketMetadataTableConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketMetadataTableConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -635,11 +665,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketMetricsConfigurationAsync(
-        AwsS3apiGetBucketMetricsConfigurationOptions? options = null,
+        AwsS3apiGetBucketMetricsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketMetricsConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -650,11 +680,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketNotificationConfigurationAsync(
-        AwsS3apiGetBucketNotificationConfigurationOptions? options = null,
+        AwsS3apiGetBucketNotificationConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketNotificationConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -665,11 +695,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketOwnershipControlsAsync(
-        AwsS3apiGetBucketOwnershipControlsOptions? options = null,
+        AwsS3apiGetBucketOwnershipControlsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketOwnershipControlsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -680,11 +710,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketPolicyAsync(
-        AwsS3apiGetBucketPolicyOptions? options = null,
+        AwsS3apiGetBucketPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -695,11 +725,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketPolicyStatusAsync(
-        AwsS3apiGetBucketPolicyStatusOptions? options = null,
+        AwsS3apiGetBucketPolicyStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketPolicyStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -710,11 +740,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketReplicationAsync(
-        AwsS3apiGetBucketReplicationOptions? options = null,
+        AwsS3apiGetBucketReplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketReplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -725,11 +755,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketRequestPaymentAsync(
-        AwsS3apiGetBucketRequestPaymentOptions? options = null,
+        AwsS3apiGetBucketRequestPaymentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketRequestPaymentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -740,11 +770,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketTaggingAsync(
-        AwsS3apiGetBucketTaggingOptions? options = null,
+        AwsS3apiGetBucketTaggingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketTaggingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -755,11 +785,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketVersioningAsync(
-        AwsS3apiGetBucketVersioningOptions? options = null,
+        AwsS3apiGetBucketVersioningOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketVersioningOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -770,11 +800,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBucketWebsiteAsync(
-        AwsS3apiGetBucketWebsiteOptions? options = null,
+        AwsS3apiGetBucketWebsiteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetBucketWebsiteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -785,11 +815,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectAclAsync(
-        AwsS3apiGetObjectAclOptions? options = null,
+        AwsS3apiGetObjectAclOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectAclOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -800,11 +830,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectAnnotationAsync(
-        AwsS3apiGetObjectAnnotationOptions? options = null,
+        AwsS3apiGetObjectAnnotationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectAnnotationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -815,11 +845,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectAttributesAsync(
-        AwsS3apiGetObjectAttributesOptions? options = null,
+        AwsS3apiGetObjectAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -830,11 +860,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectLegalHoldAsync(
-        AwsS3apiGetObjectLegalHoldOptions? options = null,
+        AwsS3apiGetObjectLegalHoldOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectLegalHoldOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -845,11 +875,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectLockConfigurationAsync(
-        AwsS3apiGetObjectLockConfigurationOptions? options = null,
+        AwsS3apiGetObjectLockConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectLockConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -860,11 +890,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectAsync(
-        AwsS3apiGetObjectOptions? options = null,
+        AwsS3apiGetObjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -875,11 +905,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectRetentionAsync(
-        AwsS3apiGetObjectRetentionOptions? options = null,
+        AwsS3apiGetObjectRetentionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectRetentionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -890,11 +920,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectTaggingAsync(
-        AwsS3apiGetObjectTaggingOptions? options = null,
+        AwsS3apiGetObjectTaggingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectTaggingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -905,11 +935,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetObjectTorrentAsync(
-        AwsS3apiGetObjectTorrentOptions? options = null,
+        AwsS3apiGetObjectTorrentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetObjectTorrentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -920,11 +950,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPublicAccessBlockAsync(
-        AwsS3apiGetPublicAccessBlockOptions? options = null,
+        AwsS3apiGetPublicAccessBlockOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiGetPublicAccessBlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -935,11 +965,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> HeadBucketAsync(
-        AwsS3apiHeadBucketOptions? options = null,
+        AwsS3apiHeadBucketOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiHeadBucketOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -950,11 +980,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> HeadObjectAsync(
-        AwsS3apiHeadObjectOptions? options = null,
+        AwsS3apiHeadObjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiHeadObjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -965,11 +995,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBucketAnalyticsConfigurationsAsync(
-        AwsS3apiListBucketAnalyticsConfigurationsOptions? options = null,
+        AwsS3apiListBucketAnalyticsConfigurationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListBucketAnalyticsConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -980,11 +1010,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBucketIntelligentTieringConfigurationsAsync(
-        AwsS3apiListBucketIntelligentTieringConfigurationsOptions? options = null,
+        AwsS3apiListBucketIntelligentTieringConfigurationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListBucketIntelligentTieringConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -995,11 +1025,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBucketInventoryConfigurationsAsync(
-        AwsS3apiListBucketInventoryConfigurationsOptions? options = null,
+        AwsS3apiListBucketInventoryConfigurationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListBucketInventoryConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1010,11 +1040,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBucketMetricsConfigurationsAsync(
-        AwsS3apiListBucketMetricsConfigurationsOptions? options = null,
+        AwsS3apiListBucketMetricsConfigurationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListBucketMetricsConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1029,7 +1059,7 @@ public class AwsS3Api : IAwsS3Api
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListBucketsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListBucketsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1044,7 +1074,7 @@ public class AwsS3Api : IAwsS3Api
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListDirectoryBucketsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListDirectoryBucketsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1055,11 +1085,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMultipartUploadsAsync(
-        AwsS3apiListMultipartUploadsOptions? options = null,
+        AwsS3apiListMultipartUploadsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListMultipartUploadsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1070,11 +1100,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListObjectAnnotationsAsync(
-        AwsS3apiListObjectAnnotationsOptions? options = null,
+        AwsS3apiListObjectAnnotationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListObjectAnnotationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1085,11 +1115,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListObjectsAsync(
-        AwsS3apiListObjectsOptions? options = null,
+        AwsS3apiListObjectsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListObjectsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1100,11 +1130,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListObjectsV2Async(
-        AwsS3apiListObjectsV2Options? options = null,
+        AwsS3apiListObjectsV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListObjectsV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1115,11 +1145,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListObjectVersionsAsync(
-        AwsS3apiListObjectVersionsOptions? options = null,
+        AwsS3apiListObjectVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListObjectVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1130,11 +1160,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPartsAsync(
-        AwsS3apiListPartsOptions? options = null,
+        AwsS3apiListPartsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiListPartsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1145,11 +1175,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketAbacAsync(
-        AwsS3apiPutBucketAbacOptions? options = null,
+        AwsS3apiPutBucketAbacOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketAbacOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1160,11 +1190,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketAccelerateConfigurationAsync(
-        AwsS3apiPutBucketAccelerateConfigurationOptions? options = null,
+        AwsS3apiPutBucketAccelerateConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketAccelerateConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1175,11 +1205,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketAclAsync(
-        AwsS3apiPutBucketAclOptions? options = null,
+        AwsS3apiPutBucketAclOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketAclOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1190,11 +1220,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketAnalyticsConfigurationAsync(
-        AwsS3apiPutBucketAnalyticsConfigurationOptions? options = null,
+        AwsS3apiPutBucketAnalyticsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketAnalyticsConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1205,11 +1235,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketCorsAsync(
-        AwsS3apiPutBucketCorsOptions? options = null,
+        AwsS3apiPutBucketCorsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketCorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1220,11 +1250,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketEncryptionAsync(
-        AwsS3apiPutBucketEncryptionOptions? options = null,
+        AwsS3apiPutBucketEncryptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketEncryptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1235,11 +1265,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketIntelligentTieringConfigurationAsync(
-        AwsS3apiPutBucketIntelligentTieringConfigurationOptions? options = null,
+        AwsS3apiPutBucketIntelligentTieringConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketIntelligentTieringConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1250,11 +1280,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketInventoryConfigurationAsync(
-        AwsS3apiPutBucketInventoryConfigurationOptions? options = null,
+        AwsS3apiPutBucketInventoryConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketInventoryConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1265,11 +1295,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketLifecycleConfigurationAsync(
-        AwsS3apiPutBucketLifecycleConfigurationOptions? options = null,
+        AwsS3apiPutBucketLifecycleConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketLifecycleConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1280,11 +1310,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketLoggingAsync(
-        AwsS3apiPutBucketLoggingOptions? options = null,
+        AwsS3apiPutBucketLoggingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketLoggingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1295,11 +1325,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketMetricsConfigurationAsync(
-        AwsS3apiPutBucketMetricsConfigurationOptions? options = null,
+        AwsS3apiPutBucketMetricsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketMetricsConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1310,11 +1340,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketNotificationConfigurationAsync(
-        AwsS3apiPutBucketNotificationConfigurationOptions? options = null,
+        AwsS3apiPutBucketNotificationConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketNotificationConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1325,11 +1355,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketOwnershipControlsAsync(
-        AwsS3apiPutBucketOwnershipControlsOptions? options = null,
+        AwsS3apiPutBucketOwnershipControlsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketOwnershipControlsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1340,11 +1370,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketPolicyAsync(
-        AwsS3apiPutBucketPolicyOptions? options = null,
+        AwsS3apiPutBucketPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1355,11 +1385,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketReplicationAsync(
-        AwsS3apiPutBucketReplicationOptions? options = null,
+        AwsS3apiPutBucketReplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketReplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1370,11 +1400,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketRequestPaymentAsync(
-        AwsS3apiPutBucketRequestPaymentOptions? options = null,
+        AwsS3apiPutBucketRequestPaymentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketRequestPaymentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1385,11 +1415,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketTaggingAsync(
-        AwsS3apiPutBucketTaggingOptions? options = null,
+        AwsS3apiPutBucketTaggingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketTaggingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1400,11 +1430,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketVersioningAsync(
-        AwsS3apiPutBucketVersioningOptions? options = null,
+        AwsS3apiPutBucketVersioningOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketVersioningOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1415,11 +1445,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutBucketWebsiteAsync(
-        AwsS3apiPutBucketWebsiteOptions? options = null,
+        AwsS3apiPutBucketWebsiteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutBucketWebsiteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1430,11 +1460,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutObjectAclAsync(
-        AwsS3apiPutObjectAclOptions? options = null,
+        AwsS3apiPutObjectAclOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutObjectAclOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1445,11 +1475,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutObjectAnnotationAsync(
-        AwsS3apiPutObjectAnnotationOptions? options = null,
+        AwsS3apiPutObjectAnnotationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutObjectAnnotationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1460,11 +1490,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutObjectLegalHoldAsync(
-        AwsS3apiPutObjectLegalHoldOptions? options = null,
+        AwsS3apiPutObjectLegalHoldOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutObjectLegalHoldOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1475,11 +1505,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutObjectLockConfigurationAsync(
-        AwsS3apiPutObjectLockConfigurationOptions? options = null,
+        AwsS3apiPutObjectLockConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutObjectLockConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1490,11 +1520,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutObjectAsync(
-        AwsS3apiPutObjectOptions? options = null,
+        AwsS3apiPutObjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutObjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1505,11 +1535,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutObjectRetentionAsync(
-        AwsS3apiPutObjectRetentionOptions? options = null,
+        AwsS3apiPutObjectRetentionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutObjectRetentionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1520,11 +1550,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutObjectTaggingAsync(
-        AwsS3apiPutObjectTaggingOptions? options = null,
+        AwsS3apiPutObjectTaggingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutObjectTaggingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1535,11 +1565,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutPublicAccessBlockAsync(
-        AwsS3apiPutPublicAccessBlockOptions? options = null,
+        AwsS3apiPutPublicAccessBlockOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiPutPublicAccessBlockOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1550,11 +1580,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RenameObjectAsync(
-        AwsS3apiRenameObjectOptions? options = null,
+        AwsS3apiRenameObjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiRenameObjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1565,11 +1595,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreObjectAsync(
-        AwsS3apiRestoreObjectOptions? options = null,
+        AwsS3apiRestoreObjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiRestoreObjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1580,11 +1610,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SelectObjectContentAsync(
-        AwsS3apiSelectObjectContentOptions? options = null,
+        AwsS3apiSelectObjectContentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiSelectObjectContentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1595,11 +1625,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBucketMetadataAnnotationTableConfigurationAsync(
-        AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions? options = null,
+        AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1610,11 +1640,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBucketMetadataInventoryTableConfigurationAsync(
-        AwsS3apiUpdateBucketMetadataInventoryTableConfigurationOptions? options = null,
+        AwsS3apiUpdateBucketMetadataInventoryTableConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiUpdateBucketMetadataInventoryTableConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1625,11 +1655,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBucketMetadataJournalTableConfigurationAsync(
-        AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions? options = null,
+        AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1640,11 +1670,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateObjectEncryptionAsync(
-        AwsS3apiUpdateObjectEncryptionOptions? options = null,
+        AwsS3apiUpdateObjectEncryptionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiUpdateObjectEncryptionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1655,11 +1685,11 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UploadPartCopyAsync(
-        AwsS3apiUploadPartCopyOptions? options = null,
+        AwsS3apiUploadPartCopyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiUploadPartCopyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1670,11 +1700,26 @@ public class AwsS3Api : IAwsS3Api
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UploadPartAsync(
-        AwsS3apiUploadPartOptions? options = null,
+        AwsS3apiUploadPartOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsS3apiUploadPartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Passes transformed objects to a GetObject operation when using Object Lambda access points. For information about Object Lambda access points, see Transforming objects with Object Lambda access points in the Amazon S3 User Guide . This operation supports metadata that can be returned by GetObject , in addition to RequestRoute , RequestToken , StatusCode , ErrorCode , and ErrorMessage . The GetObject response metadata is supported so th...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WriteGetObjectResponseAsync(
+        AwsS3apiWriteGetObjectResponseOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNeptunedataStartLoaderJobMode
 {
-    [EnumValue("RESUME")]
-    Resume = 1,
+    [EnumValue("AUTO")]
+    Auto,
 
     [EnumValue("NEW")]
-    New = 2,
+    New,
 
-    [EnumValue("AUTO")]
-    Auto = 3
+    [EnumValue("RESUME")]
+    Resume
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "enable-fast-launch")]
-public record AwsEc2EnableFastLaunchOptions : AwsOptions
+public record AwsEc2EnableFastLaunchOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// When you enable Windows fast launch for a Windows AMI, images are pre-provisioned, using snapshots to launch instances up to 65% faster. To create the optimized Windows image, Amazon EC2 launches an instance and runs through Sysprep steps, rebooting as required. Then it creates a set of reserved snapshots that are used for subsequent launches. The reserved snapshots are automatically replenished as they are used, de- pending on your settings for launch frequency. NOTE: You can only change these ...
+    /// </summary>
+    /// <param name="ImageId">Specify the ID of the image for which to enable Windows fast launch.</param>
+    public AwsEc2EnableFastLaunchOptions(
+        string ImageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+    }
+
+    private AwsEc2EnableFastLaunchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2EnableFastLaunchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2EnableFastLaunchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify the ID of the image for which to enable Windows fast launch.
+    /// </summary>
     [CliOption("--image-id")]
-    public string? ImageId { get; set; }
+    public string? ImageId { get; private init; }
 
     /// <summary>
     /// The type of resource to use for pre-provisioning the AMI for Windows fast launch. Supported values include: snapshot , which is the de- fault value.
@@ -48,7 +85,10 @@ public record AwsEc2EnableFastLaunchOptions : AwsOptions
     [CliOption("--max-parallel-launches")]
     public int? MaxParallelLaunches { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -56,5 +96,22 @@ public record AwsEc2EnableFastLaunchOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --browsertype.
+/// Allowed values for --browser-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSyntheticsDescribeCanariesLastRunBrowserType
 {
     [EnumValue("CHROME")]
-    Chrome = 1,
+    Chrome,
 
     [EnumValue("FIREFOX")]
-    Firefox = 2
+    Firefox
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --performanceconfiglatency.
+/// Allowed values for --performance-config-latency.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockRuntimeInvokeModelPerformanceConfigLatency
 {
-    [EnumValue("standard")]
-    Standard = 1,
-
     [EnumValue("optimized")]
-    Optimized = 2
+    Optimized,
+
+    [EnumValue("standard")]
+    Standard
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsAppConfigListExperimentDefinitionsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("IDLE")]
-    Idle = 2,
+    Active,
 
     [EnumValue("ARCHIVED")]
-    Archived = 3
+    Archived,
+
+    [EnumValue("IDLE")]
+    Idle
 }

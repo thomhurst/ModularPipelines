@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsImagebuilderListComponentsOwner
 {
-    [EnumValue("Self")]
-    Self = 1,
-
-    [EnumValue("Shared")]
-    Shared = 2,
-
     [EnumValue("Amazon")]
-    Amazon = 3,
-
-    [EnumValue("ThirdParty")]
-    ThirdParty = 4,
+    Amazon,
 
     [EnumValue("AWSMarketplace")]
-    AwsMarketplace = 5
+    AwsMarketplace,
+
+    [EnumValue("Self")]
+    Self,
+
+    [EnumValue("Shared")]
+    Shared,
+
+    [EnumValue("ThirdParty")]
+    ThirdParty
 }

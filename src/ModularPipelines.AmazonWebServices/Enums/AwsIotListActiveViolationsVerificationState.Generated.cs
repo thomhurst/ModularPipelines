@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --verificationstate.
+/// Allowed values for --verification-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListActiveViolationsVerificationState
 {
-    [EnumValue("FALSE_POSITIVE")]
-    FalsePositive = 1,
-
     [EnumValue("BENIGN_POSITIVE")]
-    BenignPositive = 2,
+    BenignPositive,
+
+    [EnumValue("FALSE_POSITIVE")]
+    FalsePositive,
 
     [EnumValue("TRUE_POSITIVE")]
-    TruePositive = 3,
+    TruePositive,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 4
+    Unknown
 }

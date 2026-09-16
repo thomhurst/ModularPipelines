@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "remove-tags-from-resource")]
-public record AwsSsmRemoveTagsFromResourceOptions : AwsOptions
+public record AwsSsmRemoveTagsFromResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes tag keys from the specified resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceType">The type of resource from which you want to remove a tag. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-*ID_number* `` . For example, ``mi-1a2b3c4d5e6f . Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector</param>
+    /// <param name="ResourceId">The ID of the resource from which you want to remove tags. For exam- ple: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde Automation : example-c160-4567-8519-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Ama- zon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appman- ager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager . For the Document and Parameter values, use the name of the resource. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.</param>
+    /// <param name="TagKeys">Tag keys that you want to remove from the specified resource. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    public AwsSsmRemoveTagsFromResourceOptions(
+        AwsSsmRemoveTagsFromResourceResourceType ResourceType,
+        string ResourceId,
+        IEnumerable<string> TagKeys
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TagKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TagKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TagKeys));
+            }
+
+            TagKeys = materialized;
+        }
+        this.TagKeys = TagKeys;
+    }
+
+    private AwsSsmRemoveTagsFromResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmRemoveTagsFromResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmRemoveTagsFromResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of resource from which you want to remove a tag. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-*ID_number* `` . For example, ``mi-1a2b3c4d5e6f . Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsSsmRemoveTagsFromResourceResourceType? ResourceType { get; private init; }
 
+    /// <summary>
+    /// The ID of the resource from which you want to remove tags. For exam- ple: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde Automation : example-c160-4567-8519-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Ama- zon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appman- ager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager . For the Document and Parameter values, use the name of the resource. NOTE: The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// Tag keys that you want to remove from the specified resource. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
-    public IEnumerable<string>? TagKeys { get; set; }
+    public IEnumerable<string>? TagKeys { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

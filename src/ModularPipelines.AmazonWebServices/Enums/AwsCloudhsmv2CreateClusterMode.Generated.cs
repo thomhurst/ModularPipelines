@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCloudhsmv2CreateClusterMode
 {
     [EnumValue("FIPS")]
-    Fips = 1,
+    Fips,
 
     [EnumValue("NON_FIPS")]
-    NonFips = 2
+    NonFips
 }

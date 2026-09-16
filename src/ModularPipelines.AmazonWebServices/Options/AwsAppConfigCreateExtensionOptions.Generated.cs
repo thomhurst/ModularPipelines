@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "create-extension")]
-public record AwsAppConfigCreateExtensionOptions : AwsOptions
+public record AwsAppConfigCreateExtensionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig work- flow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services au- thored extensions provided by AppConfig. For an AppConfig extension that uses Lambda, you must create a Lambda function to perform any com- putation and processing defined in the extension. If you plan to create custom versions of the Amazon...
+    /// </summary>
+    /// <param name="Name">A name for the extension. Each extension name in your account must be unique. Extension versions use the same name. Constraints: o pattern: ^[^\/#:\n]{1,64}$</param>
+    /// <param name="Actions">The actions defined in the extension. Constraints: o min: 1 o max: 5 key -&gt; (string) Possible values: o PRE_CREATE_HOSTED_CONFIGURATION_VERSION o PRE_START_DEPLOYMENT o AT_DEPLOYMENT_TICK o ON_DEPLOYMENT_START o ON_DEPLOYMENT_STEP o ON_DEPLOYMENT_BAKING o ON_DEPLOYMENT_COMPLETE o ON_DEPLOYMENT_ROLLED_BACK value -&gt; (list) Constraints: o min: 1 o max: 1 (structure) An action defines the tasks that the extension performs dur- ing the AppConfig workflow. Each action includes an action point, as shown in the following list: o PRE_CREATE_HOSTED_CONFIGURATION_VERSION o PRE_START_DEPLOYMENT o AT_DEPLOYMENT_TICK o ON_DEPLOYMENT_START o ON_DEPLOYMENT_STEP o ON_DEPLOYMENT_BAKING o ON_DEPLOYMENT_COMPLETE o ON_DEPLOYMENT_ROLLED_BACK Each action also includes a name, a URI to an Lambda func- tion, and an Amazon Resource Name (ARN) for an Identity and Access Management assume role. You specify the name, URI, and ARN for each action point defined in the extension. Name -&gt; (string) The action name. Constraints: o min: 1 o max: 64 Description -&gt; (string) Information about the action. Constraints: o min: 0 o max: 1024 Uri -&gt; (string) The extension URI associated to the action point in the extension definition. The URI can be an Amazon Resource Name (ARN) for one of the following: an Lambda function, an Amazon Simple Queue Service queue, an Amazon Simple Notification Service topic, or the Amazon EventBridge de- fault event bus. Constraints: o min: 1 o max: 2048 RoleArn -&gt; (string) An Amazon Resource Name (ARN) for an Identity and Access Management assume role. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:[a-z]+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+ Shorthand Syntax: KeyName1=[{Name=string,Description=string,Uri=string,RoleArn=string},{Name=string,Description=string,Uri=string,RoleArn=string}],KeyName2=[{Name=string,Description=string,Uri=string,RoleArn=string},{Name=string,Description=string,Uri=string,RoleArn=string}] Where valid key names are: PRE_CREATE_HOSTED_CONFIGURATION_VERSION PRE_START_DEPLOYMENT AT_DEPLOYMENT_TICK ON_DEPLOYMENT_START ON_DEPLOYMENT_STEP ON_DEPLOYMENT_BAKING ON_DEPLOYMENT_COMPLETE ON_DEPLOYMENT_ROLLED_BACK JSON Syntax: {"PRE_CREATE_HOSTED_CONFIGURATION_VERSION"|"PRE_START_DEPLOYMENT"|"AT_DEPLOYMENT_TICK"|"ON_DEPLOYMENT_START"|"ON_DEPLOYMENT_STEP"|"ON_DEPLOYMENT_BAKING"|"ON_DEPLOYMENT_COMPLETE"|"ON_DEPLOYMENT_ROLLED_BACK": [ { "Name": "string", "Description": "string", "Uri": "string", "RoleArn": "string" } ... ] ...}</param>
+    public AwsAppConfigCreateExtensionOptions(
+        string Name,
+        IReadOnlyList<KeyValue> Actions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+    }
+
+    private AwsAppConfigCreateExtensionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigCreateExtensionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigCreateExtensionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the extension. Each extension name in your account must be unique. Extension versions use the same name. Constraints: o pattern: ^[^\/#:\n]{1,64}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The actions defined in the extension. Constraints: o min: 1 o max: 5 key -&gt; (string) Possible values: o PRE_CREATE_HOSTED_CONFIGURATION_VERSION o PRE_START_DEPLOYMENT o AT_DEPLOYMENT_TICK o ON_DEPLOYMENT_START o ON_DEPLOYMENT_STEP o ON_DEPLOYMENT_BAKING o ON_DEPLOYMENT_COMPLETE o ON_DEPLOYMENT_ROLLED_BACK value -&gt; (list) Constraints: o min: 1 o max: 1 (structure) An action defines the tasks that the extension performs dur- ing the AppConfig workflow. Each action includes an action point, as shown in the following list: o PRE_CREATE_HOSTED_CONFIGURATION_VERSION o PRE_START_DEPLOYMENT o AT_DEPLOYMENT_TICK o ON_DEPLOYMENT_START o ON_DEPLOYMENT_STEP o ON_DEPLOYMENT_BAKING o ON_DEPLOYMENT_COMPLETE o ON_DEPLOYMENT_ROLLED_BACK Each action also includes a name, a URI to an Lambda func- tion, and an Amazon Resource Name (ARN) for an Identity and Access Management assume role. You specify the name, URI, and ARN for each action point defined in the extension. Name -&gt; (string) The action name. Constraints: o min: 1 o max: 64 Description -&gt; (string) Information about the action. Constraints: o min: 0 o max: 1024 Uri -&gt; (string) The extension URI associated to the action point in the extension definition. The URI can be an Amazon Resource Name (ARN) for one of the following: an Lambda function, an Amazon Simple Queue Service queue, an Amazon Simple Notification Service topic, or the Amazon EventBridge de- fault event bus. Constraints: o min: 1 o max: 2048 RoleArn -&gt; (string) An Amazon Resource Name (ARN) for an Identity and Access Management assume role. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:[a-z]+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+ Shorthand Syntax: KeyName1=[{Name=string,Description=string,Uri=string,RoleArn=string},{Name=string,Description=string,Uri=string,RoleArn=string}],KeyName2=[{Name=string,Description=string,Uri=string,RoleArn=string},{Name=string,Description=string,Uri=string,RoleArn=string}] Where valid key names are: PRE_CREATE_HOSTED_CONFIGURATION_VERSION PRE_START_DEPLOYMENT AT_DEPLOYMENT_TICK ON_DEPLOYMENT_START ON_DEPLOYMENT_STEP ON_DEPLOYMENT_BAKING ON_DEPLOYMENT_COMPLETE ON_DEPLOYMENT_ROLLED_BACK JSON Syntax: {"PRE_CREATE_HOSTED_CONFIGURATION_VERSION"|"PRE_START_DEPLOYMENT"|"AT_DEPLOYMENT_TICK"|"ON_DEPLOYMENT_START"|"ON_DEPLOYMENT_STEP"|"ON_DEPLOYMENT_BAKING"|"ON_DEPLOYMENT_COMPLETE"|"ON_DEPLOYMENT_ROLLED_BACK": [ { "Name": "string", "Description": "string", "Uri": "string", "RoleArn": "string" } ... ] ...}
+    /// </summary>
+    [CliOption("--actions", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Actions { get; private init; }
 
     /// <summary>
     /// Information about the extension. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--actions", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Actions { get; set; }
 
     /// <summary>
     /// The parameters accepted by the extension. You specify parameter val- ues when you associate the extension to an AppConfig resource by us- ing the CreateExtensionAssociation API action. For Lambda extension actions, these parameters are included in the Lambda request object. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o pattern: ^[^\/#:\n]{1,64}$ value -&gt; (structure) A value such as an Amazon Resource Name (ARN) or an Amazon Sim- ple Notification Service topic entered in an extension when in- voked. Parameter values are specified in an extension associa- tion. For more information about extensions, see Extending work- flows in the AppConfig User Guide . Description -&gt; (string) Information about the parameter. Constraints: o min: 0 o max: 1024 Required -&gt; (boolean) A parameter value must be specified in the extension associa- tion. Dynamic -&gt; (boolean) Indicates whether this parameter's value can be supplied at the extension's action point instead of during extension as- sociation. Dynamic parameters can't be marked Required . Shorthand Syntax: KeyName1={Description=string,Required=boolean,Dynamic=boolean},KeyName2={Description=string,Required=boolean,Dynamic=boolean} JSON Syntax: {"string": { "Description": "string", "Required": true|false, "Dynamic": true|false } ...}
@@ -57,5 +112,22 @@ public record AwsAppConfigCreateExtensionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

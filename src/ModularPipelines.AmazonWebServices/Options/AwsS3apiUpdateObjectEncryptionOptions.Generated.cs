@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "update-object-encryption")]
-public record AwsS3apiUpdateObjectEncryptionOptions : AwsOptions
+public record AwsS3apiUpdateObjectEncryptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets or Amazon S3 on Outposts buckets. Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption op- eration to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Man- agement Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the UpdateObjectEncryption operation t...
+    /// </summary>
+    /// <param name="Bucket">The name of the general purpose bucket that contains the specified object key name. When you use this operation with an access point attached to a gen- eral purpose bucket, you must either provide the alias of the access point in place of the bucket name or you must specify the access point Amazon Resource Name (ARN). When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form `` AccessPointName -AccountId .s3-ac- cesspoint.*Region* .amazonaws.com`` . When using this operation with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more informa- tion about access point ARNs, see Referencing access points in the Amazon S3 User Guide .</param>
+    /// <param name="Key">The key name of the object that you want to update the server-side encryption type for. Constraints: o min: 1</param>
+    /// <param name="ObjectEncryption">The updated server-side encryption type for this object. The Upda- teObjectEncryption operation supports the SSE-S3 and SSE-KMS encryp- tion types. Valid Values: SSES3 | SSEKMS NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SSEKMS. SSEKMS -&gt; (structure) Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys (SSE-KMS). KMSKeyArn -&gt; (string) [required] Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption type. Required if ObjectEncryption specifies SSEKMS . NOTE: You must specify the full Amazon Web Services KMS key ARN. The KMS key ID and KMS key alias aren't supported. Pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+ ) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+ BucketKeyEnabled -&gt; (boolean) Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Man- agement Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false . Setting this value to true causes Amazon S3 to use an S3 Bucket Key for object encryp- tion with SSE-KMS. For more information, see Using Amazon S3 Bucket Keys in the Amazon S3 User Guide . Valid Values: true | false Shorthand Syntax: SSEKMS={KMSKeyArn=string,BucketKeyEnabled=boolean} JSON Syntax: { "SSEKMS": { "KMSKeyArn": "string", "BucketKeyEnabled": true|false } }</param>
+    public AwsS3apiUpdateObjectEncryptionOptions(
+        string Bucket,
+        string Key,
+        string ObjectEncryption
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectEncryption);
+        this.ObjectEncryption = ObjectEncryption;
+    }
+
+    private AwsS3apiUpdateObjectEncryptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiUpdateObjectEncryptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiUpdateObjectEncryptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the general purpose bucket that contains the specified object key name. When you use this operation with an access point attached to a gen- eral purpose bucket, you must either provide the alias of the access point in place of the bucket name or you must specify the access point Amazon Resource Name (ARN). When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form `` AccessPointName -AccountId .s3-ac- cesspoint.*Region* .amazonaws.com`` . When using this operation with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more informa- tion about access point ARNs, see Referencing access points in the Amazon S3 User Guide .
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The key name of the object that you want to update the server-side encryption type for. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string? Key { get; private init; }
+
+    /// <summary>
+    /// The updated server-side encryption type for this object. The Upda- teObjectEncryption operation supports the SSE-S3 and SSE-KMS encryp- tion types. Valid Values: SSES3 | SSEKMS NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SSEKMS. SSEKMS -&gt; (structure) Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys (SSE-KMS). KMSKeyArn -&gt; (string) [required] Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption type. Required if ObjectEncryption specifies SSEKMS . NOTE: You must specify the full Amazon Web Services KMS key ARN. The KMS key ID and KMS key alias aren't supported. Pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+ ) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+ BucketKeyEnabled -&gt; (boolean) Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Man- agement Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false . Setting this value to true causes Amazon S3 to use an S3 Bucket Key for object encryp- tion with SSE-KMS. For more information, see Using Amazon S3 Bucket Keys in the Amazon S3 User Guide . Valid Values: true | false Shorthand Syntax: SSEKMS={KMSKeyArn=string,BucketKeyEnabled=boolean} JSON Syntax: { "SSEKMS": { "KMSKeyArn": "string", "BucketKeyEnabled": true|false } }
+    /// </summary>
+    [CliOption("--object-encryption")]
+    public string? ObjectEncryption { get; private init; }
 
     /// <summary>
     /// The version ID of the object that you want to update the server-side encryption type for.
@@ -34,14 +88,11 @@ public record AwsS3apiUpdateObjectEncryptionOptions : AwsOptions
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CliOption("--object-encryption")]
-    public string? ObjectEncryption { get; set; }
-
     /// <summary>
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiUpdateObjectEncryptionRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide doesn't match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
@@ -66,5 +117,22 @@ public record AwsS3apiUpdateObjectEncryptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

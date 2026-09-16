@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "create-agent-profile")]
-public record AwsWellarchitectedCreateAgentProfileOptions : AwsOptions
+public record AwsWellarchitectedCreateAgentProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an optimization profile that defines the scope and configura- tion for generating recommendations. A profile specifies the execution role, target pillars, and aggregation settings for analyzing your Ama- zon Web Services resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The system name of the profile. Constraints: o min: 3 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Pillars">The Well-Architected Tool Framework pillars to associate with this profile. Constraints: o min: 1 o max: 5 (string) Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...</param>
+    /// <param name="ExecutionRoleArn">The ARN of the IAM execution role used for recommendation actions. Constraints: o min: 0 o max: 2048 o pattern: arn:([a-z\-]+):iam::\d{12}:role/(ser- vice-role/)?[a-zA-Z0-9+=,.@\-_]+</param>
+    /// <param name="AggregationConfiguration">The aggregation configuration that defines which Amazon Web Services accounts and Regions to analyze. Constraints: o min: 0 o max: 100 (structure) Configuration settings that define the scope of Amazon Web Ser- vices resources to analyze for optimization recommendations. accountId -&gt; (string) [required] The Amazon Web Services account ID to analyze. Constraints: o pattern: \d{12} regions -&gt; (list) [required] A list of Amazon Web Services Regions to include in the analysis. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 64 o pattern: [a-z]{2}-[a-z]+-\d{1} accessRoleArn -&gt; (string) [required] The ARN of an IAM role to assume for resource analysis in this account. Constraints: o min: 0 o max: 2048 o pattern: arn:([a-z\-]+):iam::\d{12}:role/(ser- vice-role/)?[a-zA-Z0-9+=,.@\-_]+ Shorthand Syntax: accountId=string,regions=string,string,accessRoleArn=string ... JSON Syntax: [ { "accountId": "string", "regions": ["string", ...], "accessRoleArn": "string" } ... ]</param>
+    public AwsWellarchitectedCreateAgentProfileOptions(
+        string Name,
+        IEnumerable<string> Pillars,
+        string ExecutionRoleArn,
+        IEnumerable<string> AggregationConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Pillars);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Pillars));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Pillars));
+            }
+
+            Pillars = materialized;
+        }
+        this.Pillars = Pillars;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AggregationConfiguration);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AggregationConfiguration));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AggregationConfiguration));
+            }
+
+            AggregationConfiguration = materialized;
+        }
+        this.AggregationConfiguration = AggregationConfiguration;
+    }
+
+    private AwsWellarchitectedCreateAgentProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedCreateAgentProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedCreateAgentProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system name of the profile. Constraints: o min: 3 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Well-Architected Tool Framework pillars to associate with this profile. Constraints: o min: 1 o max: 5 (string) Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--pillars", GroupValues = true)]
+    public IEnumerable<string>? Pillars { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM execution role used for recommendation actions. Constraints: o min: 0 o max: 2048 o pattern: arn:([a-z\-]+):iam::\d{12}:role/(ser- vice-role/)?[a-zA-Z0-9+=,.@\-_]+
+    /// </summary>
+    [CliOption("--execution-role-arn")]
+    public string? ExecutionRoleArn { get; private init; }
+
+    /// <summary>
+    /// The aggregation configuration that defines which Amazon Web Services accounts and Regions to analyze. Constraints: o min: 0 o max: 100 (structure) Configuration settings that define the scope of Amazon Web Ser- vices resources to analyze for optimization recommendations. accountId -&gt; (string) [required] The Amazon Web Services account ID to analyze. Constraints: o pattern: \d{12} regions -&gt; (list) [required] A list of Amazon Web Services Regions to include in the analysis. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 64 o pattern: [a-z]{2}-[a-z]+-\d{1} accessRoleArn -&gt; (string) [required] The ARN of an IAM role to assume for resource analysis in this account. Constraints: o min: 0 o max: 2048 o pattern: arn:([a-z\-]+):iam::\d{12}:role/(ser- vice-role/)?[a-zA-Z0-9+=,.@\-_]+ Shorthand Syntax: accountId=string,regions=string,string,accessRoleArn=string ... JSON Syntax: [ { "accountId": "string", "regions": ["string", ...], "accessRoleArn": "string" } ... ]
+    /// </summary>
+    [CliOption("--aggregation-configuration", GroupValues = true)]
+    public IEnumerable<string>? AggregationConfiguration { get; private init; }
 
     /// <summary>
     /// The display name of the profile shown to users. Constraints: o min: 3 o max: 128 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
@@ -43,17 +132,11 @@ public record AwsWellarchitectedCreateAgentProfileOptions : AwsOptions
     [CliOption("--business-overview")]
     public string? BusinessOverview { get; set; }
 
-    [CliOption("--pillars", GroupValues = true)]
-    public IEnumerable<string>? Pillars { get; set; }
-
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Indicates whether deletion protection is enabled for the profile.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
-
-    [CliOption("--aggregation-configuration", GroupValues = true)]
-    public IEnumerable<string>? AggregationConfiguration { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
@@ -73,5 +156,22 @@ public record AwsWellarchitectedCreateAgentProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

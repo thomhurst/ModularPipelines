@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --modelstatus.
+/// Allowed values for --model-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockListCustomModelsModelStatus
 {
     [EnumValue("Active")]
-    Active = 1,
+    Active,
 
     [EnumValue("Creating")]
-    Creating = 2,
+    Creating,
 
     [EnumValue("Failed")]
-    Failed = 3
+    Failed
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --knowledgebasestate.
+/// Allowed values for --knowledge-base-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentAssociateAgentKnowledgeBaseKnowledgeBaseState
 {
-    [EnumValue("ENABLED")]
-    Enabled = 1,
-
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("ENABLED")]
+    Enabled
 }

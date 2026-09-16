@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "describe-file-system-aliases")]
-public record AwsFsxDescribeFileSystemAliasesOptions : AwsOptions
+public record AwsFsxDescribeFileSystemAliasesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File Server file system. A history of all DNS aliases that have been associated with and disassociated from the file system is available in the list of AdministrativeAction provided in the De- scribeFileSystems operation response. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileSystemId">The ID of the file system to return the associated DNS aliases for (String). Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
+    public AwsFsxDescribeFileSystemAliasesOptions(
+        string FileSystemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+    }
+
+    private AwsFsxDescribeFileSystemAliasesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxDescribeFileSystemAliasesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxDescribeFileSystemAliasesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the file system to return the associated DNS aliases for (String). Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// </summary>
+    [CliOption("--file-system-id")]
+    public string? FileSystemId { get; private init; }
+
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
 
     /// <summary>
     /// Maximum number of DNS aliases to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page. Constraints: o min: 1 o max: 2147483647
@@ -50,5 +87,22 @@ public record AwsFsxDescribeFileSystemAliasesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

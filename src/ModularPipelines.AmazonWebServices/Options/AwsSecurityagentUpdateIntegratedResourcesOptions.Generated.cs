@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "update-integrated-resources")]
-public record AwsSecurityagentUpdateIntegratedResourcesOptions : AwsOptions
+public record AwsSecurityagentUpdateIntegratedResourcesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the integrated resources for an agent space, including their capabilities. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier of the agent space.</param>
+    /// <param name="IntegrationId">The unique identifier of the integration.</param>
+    /// <param name="Items">The list of integrated resource items to update. (structure) Represents an input item for updating integrated resources, in- cluding the resource and its capabilities. resource -&gt; (tagged union structure) [required] The integrated resource to update. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: githubRepository, git- labRepository, bitbucketRepository, confluenceDocument. githubRepository -&gt; (structure) The GitHub repository resource information. name -&gt; (string) [required] The name of the GitHub repository. owner -&gt; (string) [required] The owner of the GitHub repository. gitlabRepository -&gt; (structure) A GitLab repository integrated as a resource. name -&gt; (string) [required] Name of the resource e.g. repository name, etc. namespace -&gt; (string) [required] The namespace (group or user path) that owns the project. bitbucketRepository -&gt; (structure) A Bitbucket repository integrated as a resource. name -&gt; (string) [required] Name of the resource e.g. repository name, etc. workspace -&gt; (string) [required] The workspace slug that owns the repository. confluenceDocument -&gt; (structure) A Confluence document (page) integrated as a resource. name -&gt; (string) [required] Name of the resource e.g. repository name, etc. spaceKey -&gt; (string) [required] The Confluence space key containing the document. pageId -&gt; (string) [required] The Confluence page identifier. title -&gt; (string) The display title of the Confluence page. spaceTitle -&gt; (string) The display title of the Confluence space. capabilities -&gt; (tagged union structure) The capabilities to enable for the integrated resource. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: github, gitlab, bitbucket, confluence. github -&gt; (structure) The GitHub-specific resource capabilities. leaveComments -&gt; (boolean) Indicates whether the integration can leave comments on pull requests. remediateCode -&gt; (boolean) Indicates whether the integration can create code re- mediation pull requests. gitlab -&gt; (structure) Capabilities for an integrated GitLab repository. leaveComments -&gt; (boolean) Whether to post code review comments on merge request discussions. remediateCode -&gt; (boolean) Whether to create merge requests with automated fixes. bitbucket -&gt; (structure) Capabilities for an integrated Bitbucket repository. leaveComments -&gt; (boolean) Whether to post code review comments on pull requests. remediateCode -&gt; (boolean) Whether to create pull requests with automated fixes. confluence -&gt; (structure) Capabilities for an integrated Confluence space. fetchDocument -&gt; (boolean) Whether to fetch documents from this space. createDocument -&gt; (boolean) Whether to create documents in this space. updateDocument -&gt; (boolean) Whether to update documents in this space. Shorthand Syntax: resource={githubRepository={name=string,owner=string},gitlabRepository={name=string,namespace=string},bitbucketRepository={name=string,workspace=string},confluenceDocument={name=string,spaceKey=string,pageId=string,title=string,spaceTitle=string}},capabilities={github={leaveComments=boolean,remediateCode=boolean},gitlab={leaveComments=boolean,remediateCode=boolean},bitbucket={leaveComments=boolean,remediateCode=boolean},confluence={fetchDocument=boolean,createDocument=boolean,updateDocument=boolean}} ... JSON Syntax: [ { "resource": { "githubRepository": { "name": "string", "owner": "string" }, "gitlabRepository": { "name": "string", "namespace": "string" }, "bitbucketRepository": { "name": "string", "workspace": "string" }, "confluenceDocument": { "name": "string", "spaceKey": "string", "pageId": "string", "title": "string", "spaceTitle": "string" } }, "capabilities": { "github": { "leaveComments": true|false, "remediateCode": true|false }, "gitlab": { "leaveComments": true|false, "remediateCode": true|false }, "bitbucket": { "leaveComments": true|false, "remediateCode": true|false }, "confluence": { "fetchDocument": true|false, "createDocument": true|false, "updateDocument": true|false } } } ... ]</param>
+    public AwsSecurityagentUpdateIntegratedResourcesOptions(
+        string AgentSpaceId,
+        string IntegrationId,
+        IEnumerable<string> Items
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationId);
+        this.IntegrationId = IntegrationId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Items);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Items));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Items));
+            }
+
+            Items = materialized;
+        }
+        this.Items = Items;
+    }
+
+    private AwsSecurityagentUpdateIntegratedResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentUpdateIntegratedResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentUpdateIntegratedResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agent space.
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the integration.
+    /// </summary>
     [CliOption("--integration-id")]
-    public string? IntegrationId { get; set; }
+    public string? IntegrationId { get; private init; }
 
+    /// <summary>
+    /// The list of integrated resource items to update. (structure) Represents an input item for updating integrated resources, in- cluding the resource and its capabilities. resource -&gt; (tagged union structure) [required] The integrated resource to update. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: githubRepository, git- labRepository, bitbucketRepository, confluenceDocument. githubRepository -&gt; (structure) The GitHub repository resource information. name -&gt; (string) [required] The name of the GitHub repository. owner -&gt; (string) [required] The owner of the GitHub repository. gitlabRepository -&gt; (structure) A GitLab repository integrated as a resource. name -&gt; (string) [required] Name of the resource e.g. repository name, etc. namespace -&gt; (string) [required] The namespace (group or user path) that owns the project. bitbucketRepository -&gt; (structure) A Bitbucket repository integrated as a resource. name -&gt; (string) [required] Name of the resource e.g. repository name, etc. workspace -&gt; (string) [required] The workspace slug that owns the repository. confluenceDocument -&gt; (structure) A Confluence document (page) integrated as a resource. name -&gt; (string) [required] Name of the resource e.g. repository name, etc. spaceKey -&gt; (string) [required] The Confluence space key containing the document. pageId -&gt; (string) [required] The Confluence page identifier. title -&gt; (string) The display title of the Confluence page. spaceTitle -&gt; (string) The display title of the Confluence space. capabilities -&gt; (tagged union structure) The capabilities to enable for the integrated resource. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: github, gitlab, bitbucket, confluence. github -&gt; (structure) The GitHub-specific resource capabilities. leaveComments -&gt; (boolean) Indicates whether the integration can leave comments on pull requests. remediateCode -&gt; (boolean) Indicates whether the integration can create code re- mediation pull requests. gitlab -&gt; (structure) Capabilities for an integrated GitLab repository. leaveComments -&gt; (boolean) Whether to post code review comments on merge request discussions. remediateCode -&gt; (boolean) Whether to create merge requests with automated fixes. bitbucket -&gt; (structure) Capabilities for an integrated Bitbucket repository. leaveComments -&gt; (boolean) Whether to post code review comments on pull requests. remediateCode -&gt; (boolean) Whether to create pull requests with automated fixes. confluence -&gt; (structure) Capabilities for an integrated Confluence space. fetchDocument -&gt; (boolean) Whether to fetch documents from this space. createDocument -&gt; (boolean) Whether to create documents in this space. updateDocument -&gt; (boolean) Whether to update documents in this space. Shorthand Syntax: resource={githubRepository={name=string,owner=string},gitlabRepository={name=string,namespace=string},bitbucketRepository={name=string,workspace=string},confluenceDocument={name=string,spaceKey=string,pageId=string,title=string,spaceTitle=string}},capabilities={github={leaveComments=boolean,remediateCode=boolean},gitlab={leaveComments=boolean,remediateCode=boolean},bitbucket={leaveComments=boolean,remediateCode=boolean},confluence={fetchDocument=boolean,createDocument=boolean,updateDocument=boolean}} ... JSON Syntax: [ { "resource": { "githubRepository": { "name": "string", "owner": "string" }, "gitlabRepository": { "name": "string", "namespace": "string" }, "bitbucketRepository": { "name": "string", "workspace": "string" }, "confluenceDocument": { "name": "string", "spaceKey": "string", "pageId": "string", "title": "string", "spaceTitle": "string" } }, "capabilities": { "github": { "leaveComments": true|false, "remediateCode": true|false }, "gitlab": { "leaveComments": true|false, "remediateCode": true|false }, "bitbucket": { "leaveComments": true|false, "remediateCode": true|false }, "confluence": { "fetchDocument": true|false, "createDocument": true|false, "updateDocument": true|false } } } ... ]
+    /// </summary>
     [CliOption("--items", GroupValues = true)]
-    public IEnumerable<string>? Items { get; set; }
+    public IEnumerable<string>? Items { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

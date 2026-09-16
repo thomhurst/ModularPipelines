@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "promote-resource-share-created-from-policy")]
-public record AwsRamPromoteResourceShareCreatedFromPolicyOptions : AwsOptions
+public record AwsRamPromoteResourceShareCreatedFromPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// When you attach a resource-based policy to a resource, RAM automati- cally creates a resource share of featureSet =``CREATED_FROM_POLICY`` with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permis- sion is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation promotes the resource share to a STANDARD resource share that is fully manageable in RAM. Whe...
+    /// </summary>
+    /// <param name="ResourceShareArn">Specifies the Amazon Resource Name (ARN) of the resource share to promote.</param>
+    public AwsRamPromoteResourceShareCreatedFromPolicyOptions(
+        string ResourceShareArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceShareArn);
+        this.ResourceShareArn = ResourceShareArn;
+    }
+
+    private AwsRamPromoteResourceShareCreatedFromPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamPromoteResourceShareCreatedFromPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamPromoteResourceShareCreatedFromPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the resource share to promote.
+    /// </summary>
     [CliOption("--resource-share-arn")]
-    public string? ResourceShareArn { get; set; }
+    public string? ResourceShareArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

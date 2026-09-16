@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateClusterAsync(
-        AwsRoute53RecoveryControlConfigCreateClusterOptions? options = null,
+        AwsRoute53RecoveryControlConfigCreateClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigCreateClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateControlPanelAsync(
-        AwsRoute53RecoveryControlConfigCreateControlPanelOptions? options = null,
+        AwsRoute53RecoveryControlConfigCreateControlPanelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigCreateControlPanelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRoutingControlAsync(
-        AwsRoute53RecoveryControlConfigCreateRoutingControlOptions? options = null,
+        AwsRoute53RecoveryControlConfigCreateRoutingControlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigCreateRoutingControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigCreateSafetyRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigCreateSafetyRuleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteClusterAsync(
-        AwsRoute53RecoveryControlConfigDeleteClusterOptions? options = null,
+        AwsRoute53RecoveryControlConfigDeleteClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigDeleteClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +125,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteControlPanelAsync(
-        AwsRoute53RecoveryControlConfigDeleteControlPanelOptions? options = null,
+        AwsRoute53RecoveryControlConfigDeleteControlPanelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigDeleteControlPanelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +140,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRoutingControlAsync(
-        AwsRoute53RecoveryControlConfigDeleteRoutingControlOptions? options = null,
+        AwsRoute53RecoveryControlConfigDeleteRoutingControlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigDeleteRoutingControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +155,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteSafetyRuleAsync(
-        AwsRoute53RecoveryControlConfigDeleteSafetyRuleOptions? options = null,
+        AwsRoute53RecoveryControlConfigDeleteSafetyRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigDeleteSafetyRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +170,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeClusterAsync(
-        AwsRoute53RecoveryControlConfigDescribeClusterOptions? options = null,
+        AwsRoute53RecoveryControlConfigDescribeClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigDescribeClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +185,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeControlPanelAsync(
-        AwsRoute53RecoveryControlConfigDescribeControlPanelOptions? options = null,
+        AwsRoute53RecoveryControlConfigDescribeControlPanelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigDescribeControlPanelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +200,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeRoutingControlAsync(
-        AwsRoute53RecoveryControlConfigDescribeRoutingControlOptions? options = null,
+        AwsRoute53RecoveryControlConfigDescribeRoutingControlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigDescribeRoutingControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +215,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeSafetyRuleAsync(
-        AwsRoute53RecoveryControlConfigDescribeSafetyRuleOptions? options = null,
+        AwsRoute53RecoveryControlConfigDescribeSafetyRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigDescribeSafetyRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +230,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourcePolicyAsync(
-        AwsRoute53RecoveryControlConfigGetResourcePolicyOptions? options = null,
+        AwsRoute53RecoveryControlConfigGetResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigGetResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -245,11 +245,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAssociatedRoute53HealthChecksAsync(
-        AwsRoute53RecoveryControlConfigListAssociatedRoute53HealthChecksOptions? options = null,
+        AwsRoute53RecoveryControlConfigListAssociatedRoute53HealthChecksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigListAssociatedRoute53HealthChecksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -264,7 +264,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigListClustersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigListClustersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -279,7 +279,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigListControlPanelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigListControlPanelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -290,11 +290,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRoutingControlsAsync(
-        AwsRoute53RecoveryControlConfigListRoutingControlsOptions? options = null,
+        AwsRoute53RecoveryControlConfigListRoutingControlsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigListRoutingControlsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,11 +305,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSafetyRulesAsync(
-        AwsRoute53RecoveryControlConfigListSafetyRulesOptions? options = null,
+        AwsRoute53RecoveryControlConfigListSafetyRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigListSafetyRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +320,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsRoute53RecoveryControlConfigListTagsForResourceOptions? options = null,
+        AwsRoute53RecoveryControlConfigListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +335,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsRoute53RecoveryControlConfigTagResourceOptions? options = null,
+        AwsRoute53RecoveryControlConfigTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,11 +350,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsRoute53RecoveryControlConfigUntagResourceOptions? options = null,
+        AwsRoute53RecoveryControlConfigUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -365,11 +365,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateClusterAsync(
-        AwsRoute53RecoveryControlConfigUpdateClusterOptions? options = null,
+        AwsRoute53RecoveryControlConfigUpdateClusterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigUpdateClusterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -380,11 +380,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateControlPanelAsync(
-        AwsRoute53RecoveryControlConfigUpdateControlPanelOptions? options = null,
+        AwsRoute53RecoveryControlConfigUpdateControlPanelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigUpdateControlPanelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +395,11 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRoutingControlAsync(
-        AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions? options = null,
+        AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigUpdateRoutingControlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -414,7 +414,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigUpdateSafetyRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53RecoveryControlConfigUpdateSafetyRuleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "update-certificate-options")]
-public record AwsAcmUpdateCertificateOptionsOptions : AwsOptions
+public record AwsAcmUpdateCertificateOptionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--certificate-arn")]
-    public string? CertificateArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates certificate options. You can use this operation to change the domain validation method or specify whether to export your certificate. For more information, see Migrate from email to DNS validation and Certificate Manager Exportable Managed Certificates . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificateArn">ARN of the requested certificate to update. This must be of the form: `` arn:aws:acm:us-east-1:account :certifi- cate/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Options">Use to update the options for your certificate. Currently, you can change the domain validation method or specify whether to export your certificate. For more information about migrating from email to DNS validation, see Migrate from email to DNS validation . CertificateTransparencyLoggingPreference -&gt; (string) This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. Possible values: o ENABLED o DISABLED Export -&gt; (string) You can opt in to allow the export of your certificates by spec- ifying ENABLED . You cannot update the value of Export after the the certificate is created. Possible values: o ENABLED o DISABLED ValidationMethod -&gt; (string) The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS . Possible values: o EMAIL o DNS o HTTP Shorthand Syntax: CertificateTransparencyLoggingPreference=string,Export=string,ValidationMethod=string JSON Syntax: { "CertificateTransparencyLoggingPreference": "ENABLED"|"DISABLED", "Export": "ENABLED"|"DISABLED", "ValidationMethod": "EMAIL"|"DNS"|"HTTP" }</param>
+    public AwsAcmUpdateCertificateOptionsOptions(
+        string CertificateArn,
+        string Options
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateArn);
+        this.CertificateArn = CertificateArn;
+        global::System.ArgumentNullException.ThrowIfNull(Options);
+        this.Options = Options;
+    }
+
+    private AwsAcmUpdateCertificateOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmUpdateCertificateOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmUpdateCertificateOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN of the requested certificate to update. This must be of the form: `` arn:aws:acm:us-east-1:account :certifi- cate/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
+    [CliOption("--certificate-arn")]
+    public string? CertificateArn { get; private init; }
+
+    /// <summary>
+    /// Use to update the options for your certificate. Currently, you can change the domain validation method or specify whether to export your certificate. For more information about migrating from email to DNS validation, see Migrate from email to DNS validation . CertificateTransparencyLoggingPreference -&gt; (string) This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. Possible values: o ENABLED o DISABLED Export -&gt; (string) You can opt in to allow the export of your certificates by spec- ifying ENABLED . You cannot update the value of Export after the the certificate is created. Possible values: o ENABLED o DISABLED ValidationMethod -&gt; (string) The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS . Possible values: o EMAIL o DNS o HTTP Shorthand Syntax: CertificateTransparencyLoggingPreference=string,Export=string,ValidationMethod=string JSON Syntax: { "CertificateTransparencyLoggingPreference": "ENABLED"|"DISABLED", "Export": "ENABLED"|"DISABLED", "ValidationMethod": "EMAIL"|"DNS"|"HTTP" }
+    /// </summary>
     [CliOption("--options")]
-    public string? Options { get; set; }
+    public string? Options { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

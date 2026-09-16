@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "create-voice-profile-domain")]
-public record AwsChimeSdkVoiceCreateVoiceProfileDomainOptions : AwsOptions
+public record AwsChimeSdkVoiceCreateVoiceProfileDomainOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profile domains, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Developer Guide . See al...
+    /// </summary>
+    /// <param name="Name">The name of the voice profile domain. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="ServerSideEncryptionConfiguration">The server-side encryption configuration for the request. KmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt the enrollment data in a voice profile domain. Asymmetric customer managed keys are not supported. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: KmsKeyArn=string JSON Syntax: { "KmsKeyArn": "string" }</param>
+    public AwsChimeSdkVoiceCreateVoiceProfileDomainOptions(
+        string Name,
+        string ServerSideEncryptionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ServerSideEncryptionConfiguration);
+        this.ServerSideEncryptionConfiguration = ServerSideEncryptionConfiguration;
+    }
+
+    private AwsChimeSdkVoiceCreateVoiceProfileDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceCreateVoiceProfileDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceCreateVoiceProfileDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the voice profile domain. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The server-side encryption configuration for the request. KmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt the enrollment data in a voice profile domain. Asymmetric customer managed keys are not supported. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: KmsKeyArn=string JSON Syntax: { "KmsKeyArn": "string" }
+    /// </summary>
+    [CliOption("--server-side-encryption-configuration")]
+    public string? ServerSideEncryptionConfiguration { get; private init; }
 
     /// <summary>
     /// A description of the voice profile domain. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--server-side-encryption-configuration")]
-    public string? ServerSideEncryptionConfiguration { get; set; }
 
     /// <summary>
     /// The unique identifier for the client request. Use a different token for different domain creation requests. Constraints: o pattern: ^[-_a-zA-Z0-9]*${2,64}$
@@ -52,5 +96,22 @@ public record AwsChimeSdkVoiceCreateVoiceProfileDomainOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

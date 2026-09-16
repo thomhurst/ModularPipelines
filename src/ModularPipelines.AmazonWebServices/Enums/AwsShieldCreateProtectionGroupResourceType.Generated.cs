@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsShieldCreateProtectionGroupResourceType
 {
-    [EnumValue("CLOUDFRONT_DISTRIBUTION")]
-    CloudfrontDistribution = 1,
-
-    [EnumValue("ROUTE_53_HOSTED_ZONE")]
-    Route_53HostedZone = 2,
-
-    [EnumValue("ELASTIC_IP_ALLOCATION")]
-    ElasticIpAllocation = 3,
+    [EnumValue("APPLICATION_LOAD_BALANCER")]
+    ApplicationLoadBalancer,
 
     [EnumValue("CLASSIC_LOAD_BALANCER")]
-    ClassicLoadBalancer = 4,
+    ClassicLoadBalancer,
 
-    [EnumValue("APPLICATION_LOAD_BALANCER")]
-    ApplicationLoadBalancer = 5,
+    [EnumValue("CLOUDFRONT_DISTRIBUTION")]
+    CloudfrontDistribution,
+
+    [EnumValue("ELASTIC_IP_ALLOCATION")]
+    ElasticIpAllocation,
 
     [EnumValue("GLOBAL_ACCELERATOR")]
-    GlobalAccelerator = 6
+    GlobalAccelerator,
+
+    [EnumValue("ROUTE_53_HOSTED_ZONE")]
+    Route53HostedZone
 }

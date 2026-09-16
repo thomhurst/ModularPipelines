@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "list-thing-registration-task-reports")]
-public record AwsIotListThingRegistrationTaskReportsOptions : AwsOptions
+public record AwsIotListThingRegistrationTaskReportsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--task-id")]
-    public string? TaskId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Information about the thing registration tasks. See also: AWS API Documentation list-thing-registration-task-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourceLinks
+    /// </summary>
+    /// <param name="TaskId">The id of the task. Constraints: o max: 40</param>
+    /// <param name="ReportType">The type of task report. Possible values: o ERRORS o RESULTS</param>
+    public AwsIotListThingRegistrationTaskReportsOptions(
+        string TaskId,
+        AwsIotListThingRegistrationTaskReportsReportType ReportType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+        global::System.ArgumentNullException.ThrowIfNull(ReportType);
+        this.ReportType = ReportType;
+    }
+
+    private AwsIotListThingRegistrationTaskReportsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotListThingRegistrationTaskReportsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotListThingRegistrationTaskReportsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The id of the task. Constraints: o max: 40
+    /// </summary>
+    [CliOption("--task-id")]
+    public string? TaskId { get; private init; }
+
+    /// <summary>
+    /// The type of task report. Possible values: o ERRORS o RESULTS
+    /// </summary>
     [CliOption("--report-type")]
-    public string? ReportType { get; set; }
+    public AwsIotListThingRegistrationTaskReportsReportType? ReportType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +97,22 @@ public record AwsIotListThingRegistrationTaskReportsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

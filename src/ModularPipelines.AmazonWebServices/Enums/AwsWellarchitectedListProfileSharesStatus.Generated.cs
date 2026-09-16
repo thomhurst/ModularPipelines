@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListProfileSharesStatus
 {
     [EnumValue("ACCEPTED")]
-    Accepted = 1,
-
-    [EnumValue("REJECTED")]
-    Rejected = 2,
-
-    [EnumValue("PENDING")]
-    Pending = 3,
-
-    [EnumValue("REVOKED")]
-    Revoked = 4,
-
-    [EnumValue("EXPIRED")]
-    Expired = 5,
-
-    [EnumValue("ASSOCIATING")]
-    Associating = 6,
+    Accepted,
 
     [EnumValue("ASSOCIATED")]
-    Associated = 7,
+    Associated,
+
+    [EnumValue("ASSOCIATING")]
+    Associating,
+
+    [EnumValue("EXPIRED")]
+    Expired,
 
     [EnumValue("FAILED")]
-    Failed = 8
+    Failed,
+
+    [EnumValue("PENDING")]
+    Pending,
+
+    [EnumValue("REJECTED")]
+    Rejected,
+
+    [EnumValue("REVOKED")]
+    Revoked
 }

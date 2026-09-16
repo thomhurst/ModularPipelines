@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-delivery-source")]
-public record AwsLogsPutDeliverySourceOptions : AwsOptions
+public record AwsLogsPutDeliverySourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a logical delivery source . A delivery source repre- sents an Amazon Web Services resource that sends logs to an logs deliv- ery destination. The destination can be CloudWatch Logs, Amazon S3, Firehose or X-Ray for sending traces. To configure logs delivery between a delivery destination and an Amazon Web Services service that is supported as a delivery source, you must do the following: o Use PutDeliverySource to create a delivery source, which is a logical object that repres...
+    /// </summary>
+    /// <param name="Name">A name for this delivery source. This name must be unique for all delivery sources in your account. Constraints: o min: 1 o max: 60 o pattern: [\w-]*</param>
+    /// <param name="ResourceArn">The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:work- mail:us-east-1:123456789012:organization/m-1234EXAM- PLEabcd1234abcd1234abcd1234 For the SECURITY_FINDING_LOGS logType, use a wildcard ARN for the hub resource. For Amazon Web Services Security Hub CSPM, use arn:aws:securityhub:us-east-1:111122223333:hub/* and for Amazon Web Services Security Hub, use arn:aws:security- hub:us-east-1:111122223333:hubv2/*</param>
+    /// <param name="LogType">Defines the type of log that the source is sending. o For Application Load Balancer, the valid values are ALB_AC- CESS_LOGS , ALB_CONNECTION_LOGS , and ALB_HEALTH_CHECK_LOGS . o For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS . o For Amazon Bedrock Knowledge Bases, the valid values are APPLICA- TION_LOGS and TRACES . o For Amazon Bedrock AgentCore Runtime, the valid values are APPLI- CATION_LOGS , USAGE_LOGS and TRACES . o For Amazon Bedrock AgentCore Tools, the valid values are APPLICA- TION_LOGS , USAGE_LOGS and TRACES . o For Amazon Bedrock AgentCore Identity, the valid values are APPLI- CATION_LOGS and TRACES . o For Amazon Bedrock AgentCore Memory, the valid values are APPLICA- TION_LOGS and TRACES . o For Amazon Bedrock AgentCore Gateway, the valid values are APPLI- CATION_LOGS and TRACES . o For Amazon Bedrock AgentCore Payments, the valid values are APPLI- CATION_LOGS and TRACES . o For CloudFront, the valid value is ACCESS_LOGS . o For DevOps Agent, the valid value is APPLICATION_LOGS . o For Amazon CodeWhisperer, the valid value is EVENT_LOGS . o For Elemental MediaPackage, the valid values are EGRESS_AC- CESS_LOGS and INGRESS_ACCESS_LOGS . o For Elemental MediaTailor, the valid values are AD_DECI- SION_SERVER_LOGS , MANIFEST_SERVICE_LOGS , and TRANSCODE_LOGS . o For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS , AUTO_MODE_COMPUTE_LOGS , AUTO_MODE_IPAM_LOGS , and AUTO_MODE_LOAD_BALANCING_LOGS . o For Amazon EKS Capability Logs, the valid values are EKS_CAPABIL- ITY_ACK_LOGS , EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS , EKS_CAPA- BILITY_ARGOCD_APPLICATIONSET_LOGS , EKS_CAPABILITY_ARGOCD_COMMIT- SERVER_LOGS , EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS , EKS_CAPABIL- ITY_ARGOCD_SERVER_LOGS , and EKS_CAPABILITY_KRO_LOGS . o For Entity Resolution, the valid value is WORKFLOW_LOGS . o For IAM Identity Center, the valid value is ERROR_LOGS . o For Network Firewall Proxy, the valid values are ALERT_LOGS , AL- LOW_LOGS , and DENY_LOGS . o For Network Load Balancer, the valid value is NLB_ACCESS_LOGS . o For PCS, the valid values are PCS_SCHEDULER_LOGS , PCS_JOB- COMP_LOGS , and PCS_SCHEDULER_AUDIT_LOGS . o For Quick, the valid values are AGENT_HOURS_LOGS , CHAT_LOGS , FEEDBACK_LOGS , and INDEX_USAGE_LOGS . o For Amazon Web Services RTB Fabric, the valid values is APPLICA- TION_LOGS . o For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS . o For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS . o For Amazon Web Services Security Hub CSPM, the valid value is SE- CURITY_FINDING_LOGS . o For Amazon Web Services Security Hub, the valid value is SECU- RITY_FINDING_LOGS . o For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS . o For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS , AUTHENTICATION_LOGS , WORKMAIL_AVAILABILITY_PROVIDER_LOGS , WORK- MAIL_MAILBOX_ACCESS_LOGS , and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS . o For Amazon VPC Route Server, the valid value is EVENT_LOGS . Constraints: o min: 1 o max: 255 o pattern: [\w]*</param>
+    public AwsLogsPutDeliverySourceOptions(
+        string Name,
+        string ResourceArn,
+        string LogType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(LogType);
+        this.LogType = LogType;
+    }
+
+    private AwsLogsPutDeliverySourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutDeliverySourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutDeliverySourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for this delivery source. This name must be unique for all delivery sources in your account. Constraints: o min: 1 o max: 60 o pattern: [\w-]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:work- mail:us-east-1:123456789012:organization/m-1234EXAM- PLEabcd1234abcd1234abcd1234 For the SECURITY_FINDING_LOGS logType, use a wildcard ARN for the hub resource. For Amazon Web Services Security Hub CSPM, use arn:aws:securityhub:us-east-1:111122223333:hub/* and for Amazon Web Services Security Hub, use arn:aws:security- hub:us-east-1:111122223333:hubv2/*
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
+    /// <summary>
+    /// Defines the type of log that the source is sending. o For Application Load Balancer, the valid values are ALB_AC- CESS_LOGS , ALB_CONNECTION_LOGS , and ALB_HEALTH_CHECK_LOGS . o For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS . o For Amazon Bedrock Knowledge Bases, the valid values are APPLICA- TION_LOGS and TRACES . o For Amazon Bedrock AgentCore Runtime, the valid values are APPLI- CATION_LOGS , USAGE_LOGS and TRACES . o For Amazon Bedrock AgentCore Tools, the valid values are APPLICA- TION_LOGS , USAGE_LOGS and TRACES . o For Amazon Bedrock AgentCore Identity, the valid values are APPLI- CATION_LOGS and TRACES . o For Amazon Bedrock AgentCore Memory, the valid values are APPLICA- TION_LOGS and TRACES . o For Amazon Bedrock AgentCore Gateway, the valid values are APPLI- CATION_LOGS and TRACES . o For Amazon Bedrock AgentCore Payments, the valid values are APPLI- CATION_LOGS and TRACES . o For CloudFront, the valid value is ACCESS_LOGS . o For DevOps Agent, the valid value is APPLICATION_LOGS . o For Amazon CodeWhisperer, the valid value is EVENT_LOGS . o For Elemental MediaPackage, the valid values are EGRESS_AC- CESS_LOGS and INGRESS_ACCESS_LOGS . o For Elemental MediaTailor, the valid values are AD_DECI- SION_SERVER_LOGS , MANIFEST_SERVICE_LOGS , and TRANSCODE_LOGS . o For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS , AUTO_MODE_COMPUTE_LOGS , AUTO_MODE_IPAM_LOGS , and AUTO_MODE_LOAD_BALANCING_LOGS . o For Amazon EKS Capability Logs, the valid values are EKS_CAPABIL- ITY_ACK_LOGS , EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS , EKS_CAPA- BILITY_ARGOCD_APPLICATIONSET_LOGS , EKS_CAPABILITY_ARGOCD_COMMIT- SERVER_LOGS , EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS , EKS_CAPABIL- ITY_ARGOCD_SERVER_LOGS , and EKS_CAPABILITY_KRO_LOGS . o For Entity Resolution, the valid value is WORKFLOW_LOGS . o For IAM Identity Center, the valid value is ERROR_LOGS . o For Network Firewall Proxy, the valid values are ALERT_LOGS , AL- LOW_LOGS , and DENY_LOGS . o For Network Load Balancer, the valid value is NLB_ACCESS_LOGS . o For PCS, the valid values are PCS_SCHEDULER_LOGS , PCS_JOB- COMP_LOGS , and PCS_SCHEDULER_AUDIT_LOGS . o For Quick, the valid values are AGENT_HOURS_LOGS , CHAT_LOGS , FEEDBACK_LOGS , and INDEX_USAGE_LOGS . o For Amazon Web Services RTB Fabric, the valid values is APPLICA- TION_LOGS . o For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS . o For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS . o For Amazon Web Services Security Hub CSPM, the valid value is SE- CURITY_FINDING_LOGS . o For Amazon Web Services Security Hub, the valid value is SECU- RITY_FINDING_LOGS . o For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS . o For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS , AUTHENTICATION_LOGS , WORKMAIL_AVAILABILITY_PROVIDER_LOGS , WORK- MAIL_MAILBOX_ACCESS_LOGS , and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS . o For Amazon VPC Route Server, the valid value is EVENT_LOGS . Constraints: o min: 1 o max: 255 o pattern: [\w]*
+    /// </summary>
     [CliOption("--log-type")]
-    public string? LogType { get; set; }
+    public string? LogType { get; private init; }
 
     /// <summary>
     /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +99,22 @@ public record AwsLogsPutDeliverySourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "delete-organization")]
-public record AwsWorkmailDeleteOrganizationOptions : AwsOptions
+public record AwsWorkmailDeleteOrganizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an WorkMail organization and all underlying AWS resources man- aged by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the WorkMail Administrator Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="DeleteDirectory">If true, deletes the AWS Directory Service directory associated with the organization.</param>
+    public AwsWorkmailDeleteOrganizationOptions(
+        string OrganizationId,
+        bool DeleteDirectory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        this.DeleteDirectory = DeleteDirectory;
+    }
+
+    private AwsWorkmailDeleteOrganizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailDeleteOrganizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailDeleteOrganizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// If true, deletes the AWS Directory Service directory associated with the organization.
+    /// </summary>
+    [CliFlag("--delete-directory", NegatedName = "--no-delete-directory")]
+    public bool? DeleteDirectory { get; private init; }
+
     /// <summary>
     /// The idempotency token associated with the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
     /// </summary>
@@ -29,16 +78,16 @@ public record AwsWorkmailDeleteOrganizationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
-
-    [CliFlag("--delete-directory")]
-    public bool? DeleteDirectory { get; set; }
-
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Deletes a WorkMail organization even if the organization has enabled users.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
-    [CliFlag("--delete-identity-center-application")]
+    /// <summary>
+    /// plication (boolean) Deletes IAM Identity Center application for WorkMail. This action does not affect authentication settings for any organization.
+    /// </summary>
+    [CliFlag("--delete-identity-center-application", NegatedName = "--no-delete-identity-center-application")]
     public bool? DeleteIdentityCenterApplication { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -46,5 +95,22 @@ public record AwsWorkmailDeleteOrganizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

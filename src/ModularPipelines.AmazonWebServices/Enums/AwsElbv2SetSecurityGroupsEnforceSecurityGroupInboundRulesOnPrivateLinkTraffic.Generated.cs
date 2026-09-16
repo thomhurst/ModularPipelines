@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enforcesecuritygroupinboundrulesonprivatelinktraffic.
+/// Allowed values for --enforce-security-group-inbound-rules-on-private-link-traffic.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElbv2SetSecurityGroupsEnforceSecurityGroupInboundRulesOnPrivateLinkTraffic
 {
-    [EnumValue("on")]
-    On = 1,
-
     [EnumValue("off")]
-    Off = 2
+    Off,
+
+    [EnumValue("on")]
+    On
 }

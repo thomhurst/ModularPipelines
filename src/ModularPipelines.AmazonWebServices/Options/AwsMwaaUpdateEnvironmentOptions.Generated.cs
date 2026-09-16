@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mwaa", "update-environment")]
-public record AwsMwaaUpdateEnvironmentOptions : AwsOptions
+public record AwsMwaaUpdateEnvironmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environ- ment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of your Amazon MWAA environment. For example, MyMWAAEnvi- ronment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*</param>
+    public AwsMwaaUpdateEnvironmentOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsMwaaUpdateEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMwaaUpdateEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMwaaUpdateEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your Amazon MWAA environment. For example, MyMWAAEnvi- ronment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the execution role in IAM that al- lows MWAA to access Amazon Web Services resources in your environ- ment. For example, arn:aws:iam::123456789:role/my-execution-role . For more information, refer to Amazon MWAA Execution role . Constraints: o min: 1 o max: 1224 o pattern: arn:aws(-[a-z]+)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
@@ -45,7 +82,7 @@ public record AwsMwaaUpdateEnvironmentOptions : AwsOptions
     public string? AirflowVersion { get; set; }
 
     /// <summary>
-    /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags . For more information, refer to Adding or updating DAGs . Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags . For more information, refer to Adding or updating DAGs . Constraints: o min: 0 o max: 1024 o pattern: .*
     /// </summary>
     [CliOption("--dag-s3-path")]
     public string? DagS3Path { get; set; }
@@ -54,7 +91,7 @@ public record AwsMwaaUpdateEnvironmentOptions : AwsOptions
     /// The environment class type. Valid values: mw1.micro , mw1.small , mw1.medium , mw1.large , mw1.xlarge , and mw1.2xlarge . For more in- formation, refer to Amazon MWAA environment class . Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--environment-class")]
-    public string? EnvironmentClass { get; set; }
+    public AwsMwaaUpdateEnvironmentEnvironmentClass? EnvironmentClass { get; set; }
 
     /// <summary>
     /// The Apache Airflow log types to send to CloudWatch Logs. DagProcessingLogs -&gt; (structure) Publishes Airflow DAG processing logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG SchedulerLogs -&gt; (structure) Publishes Airflow scheduler logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG WebserverLogs -&gt; (structure) Publishes Airflow web server logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG WorkerLogs -&gt; (structure) Publishes Airflow worker logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG TaskLogs -&gt; (structure) Publishes Airflow task logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG Shorthand Syntax: DagProcessingLogs={Enabled=boolean,LogLevel=string},SchedulerLogs={Enabled=boolean,LogLevel=string},WebserverLogs={Enabled=boolean,LogLevel=string},WorkerLogs={Enabled=boolean,LogLevel=string},TaskLogs={Enabled=boolean,LogLevel=string} JSON Syntax: { "DagProcessingLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "SchedulerLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "WebserverLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "WorkerLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "TaskLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" } }
@@ -99,25 +136,25 @@ public record AwsMwaaUpdateEnvironmentOptions : AwsOptions
     public string? NetworkConfiguration { get; set; }
 
     /// <summary>
-    /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip . If specified, then the plugins.zip ver- sion is required. For more information, refer to Installing custom plugins . Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip . If specified, then the plugins.zip ver- sion is required. For more information, refer to Installing custom plugins . Constraints: o min: 0 o max: 1024 o pattern: .*
     /// </summary>
     [CliOption("--plugins-s3-path")]
     public string? PluginsS3Path { get; set; }
 
     /// <summary>
-    /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, refer to How S3 Versioning works . Constraints: o min: 1 o max: 1024
+    /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, refer to How S3 Versioning works . Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--plugins-s3-object-version")]
     public string? PluginsS3ObjectVersion { get; set; }
 
     /// <summary>
-    /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt . If specified, then a file version is required. For more information, refer to Installing Python dependencies . Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt . If specified, then a file version is required. For more information, refer to Installing Python dependencies . Constraints: o min: 0 o max: 1024 o pattern: .*
     /// </summary>
     [CliOption("--requirements-s3-path")]
     public string? RequirementsS3Path { get; set; }
 
     /// <summary>
-    /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is up- dated. For more information, refer to How S3 Versioning works . Constraints: o min: 1 o max: 1024
+    /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is up- dated. For more information, refer to How S3 Versioning works . Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--requirements-s3-object-version")]
     public string? RequirementsS3ObjectVersion { get; set; }
@@ -135,13 +172,13 @@ public record AwsMwaaUpdateEnvironmentOptions : AwsOptions
     public string? SourceBucketArn { get; set; }
 
     /// <summary>
-    /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh . Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to in- stall dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script . Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh . Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to in- stall dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script . Constraints: o min: 0 o max: 1024 o pattern: .*
     /// </summary>
     [CliOption("--startup-script-s3-path")]
     public string? StartupScriptS3Path { get; set; }
 
     /// <summary>
-    /// The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script. Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example: 3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo For more information, refer to Using a startup script . Constraints: o min: 1 o max: 1024
+    /// The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script. Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example: 3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo For more information, refer to Using a startup script . Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--startup-script-s3-object-version")]
     public string? StartupScriptS3ObjectVersion { get; set; }
@@ -163,5 +200,22 @@ public record AwsMwaaUpdateEnvironmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

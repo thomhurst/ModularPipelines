@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amp", "delete-anomaly-detector")]
-public record AwsAmpDeleteAnomalyDetectorOptions : AwsOptions
+public record AwsAmpDeleteAnomalyDetectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes an anomaly detector from a workspace. This operation is idempo- tent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The identifier of the workspace containing the anomaly detector to delete. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="AnomalyDetectorId">The identifier of the anomaly detector to delete. Constraints: o min: 1 o max: 64 o pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*</param>
+    public AwsAmpDeleteAnomalyDetectorOptions(
+        string WorkspaceId,
+        string AnomalyDetectorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        global::System.ArgumentNullException.ThrowIfNull(AnomalyDetectorId);
+        this.AnomalyDetectorId = AnomalyDetectorId;
+    }
+
+    private AwsAmpDeleteAnomalyDetectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmpDeleteAnomalyDetectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmpDeleteAnomalyDetectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the workspace containing the anomaly detector to delete. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the anomaly detector to delete. Constraints: o min: 1 o max: 64 o pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// </summary>
     [CliOption("--anomaly-detector-id")]
-    public string? AnomalyDetectorId { get; set; }
+    public string? AnomalyDetectorId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
@@ -40,5 +84,22 @@ public record AwsAmpDeleteAnomalyDetectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "attach-customer-managed-policy-reference-to-permission-set")]
-public record AwsSsoAdminAttachCustomerManagedPolicyReferenceToPermissionSetOptions : AwsOptions
+public record AwsSsoAdminAttachCustomerManagedPolicyReferenceToPermissionSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attaches the specified customer managed policy to the specified Per- missionSet . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PermissionSetArn">The ARN of the PermissionSet . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
+    /// <param name="CustomerManagedPolicyReference">Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each ac- count where you want to deploy your permission set. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each ac- count where you want to deploy your permission set. The default is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: o min: 1 o max: 512 o pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ Shorthand Syntax: Name=string,Path=string JSON Syntax: { "Name": "string", "Path": "string" }</param>
+    public AwsSsoAdminAttachCustomerManagedPolicyReferenceToPermissionSetOptions(
+        string InstanceArn,
+        string PermissionSetArn,
+        string CustomerManagedPolicyReference
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionSetArn);
+        this.PermissionSetArn = PermissionSetArn;
+        global::System.ArgumentNullException.ThrowIfNull(CustomerManagedPolicyReference);
+        this.CustomerManagedPolicyReference = CustomerManagedPolicyReference;
+    }
+
+    private AwsSsoAdminAttachCustomerManagedPolicyReferenceToPermissionSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminAttachCustomerManagedPolicyReferenceToPermissionSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminAttachCustomerManagedPolicyReferenceToPermissionSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the PermissionSet . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
+    /// </summary>
     [CliOption("--permission-set-arn")]
-    public string? PermissionSetArn { get; set; }
+    public string? PermissionSetArn { get; private init; }
 
+    /// <summary>
+    /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each ac- count where you want to deploy your permission set. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each ac- count where you want to deploy your permission set. The default is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: o min: 1 o max: 512 o pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ Shorthand Syntax: Name=string,Path=string JSON Syntax: { "Name": "string", "Path": "string" }
+    /// </summary>
     [CliOption("--customer-managed-policy-reference")]
-    public string? CustomerManagedPolicyReference { get; set; }
+    public string? CustomerManagedPolicyReference { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

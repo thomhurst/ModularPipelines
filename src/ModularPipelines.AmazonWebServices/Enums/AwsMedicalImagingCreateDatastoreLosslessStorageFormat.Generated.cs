@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --losslessstorageformat.
+/// Allowed values for --lossless-storage-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMedicalImagingCreateDatastoreLosslessStorageFormat
 {
     [EnumValue("HTJ2K")]
-    Htj2K = 1,
+    Htj2K,
 
     [EnumValue("JPEG_2000_LOSSLESS")]
-    Jpeg_2000Lossless = 2
+    Jpeg2000Lossless
 }

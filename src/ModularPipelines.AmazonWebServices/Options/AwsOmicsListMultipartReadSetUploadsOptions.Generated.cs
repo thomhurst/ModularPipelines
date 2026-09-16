@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "list-multipart-read-set-uploads")]
-public record AwsOmicsListMultipartReadSetUploadsOptions : AwsOptions
+public record AwsOmicsListMultipartReadSetUploadsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the CreateMultipartReadSetUploads API operation. This op- eration returns a response with no body when the upload is complete. See also: AWS API Documentation list-multipart-read-set-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing th...
+    /// </summary>
+    /// <param name="SequenceStoreId">The Sequence Store ID used for the multipart uploads. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    public AwsOmicsListMultipartReadSetUploadsOptions(
+        string SequenceStoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SequenceStoreId);
+        this.SequenceStoreId = SequenceStoreId;
+    }
+
+    private AwsOmicsListMultipartReadSetUploadsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsListMultipartReadSetUploadsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsListMultipartReadSetUploadsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Sequence Store ID used for the multipart uploads. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--sequence-store-id")]
-    public string? SequenceStoreId { get; set; }
+    public string? SequenceStoreId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsOmicsListMultipartReadSetUploadsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

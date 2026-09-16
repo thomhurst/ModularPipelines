@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --softwaresetupdateschedule.
+/// Allowed values for --software-set-update-schedule.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesThinClientCreateEnvironmentSoftwareSetUpdateSchedule
 {
-    [EnumValue("USE_MAINTENANCE_WINDOW")]
-    UseMaintenanceWindow = 1,
-
     [EnumValue("APPLY_IMMEDIATELY")]
-    ApplyImmediately = 2
+    ApplyImmediately,
+
+    [EnumValue("USE_MAINTENANCE_WINDOW")]
+    UseMaintenanceWindow
 }

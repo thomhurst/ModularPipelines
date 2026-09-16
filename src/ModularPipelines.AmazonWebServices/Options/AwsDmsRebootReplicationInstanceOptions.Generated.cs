@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "reboot-replication-instance")]
-public record AwsDmsRebootReplicationInstanceOptions : AwsOptions
+public record AwsDmsRebootReplicationInstanceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--replication-instance-arn")]
-    public string? ReplicationInstanceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-failover")]
+    /// <summary>
+    /// Reboots a replication instance. Rebooting results in a momentary out- age, until the replication instance becomes available again. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of the replication instance.</param>
+    public AwsDmsRebootReplicationInstanceOptions(
+        string ReplicationInstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationInstanceArn);
+        this.ReplicationInstanceArn = ReplicationInstanceArn;
+    }
+
+    private AwsDmsRebootReplicationInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsRebootReplicationInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsRebootReplicationInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the replication instance.
+    /// </summary>
+    [CliOption("--replication-instance-arn")]
+    public string? ReplicationInstanceArn { get; private init; }
+
+    /// <summary>
+    /// If this parameter is true , the reboot is conducted through a Multi-AZ failover. If the instance isn't configured for Multi-AZ, then you can't specify true . ( --force-planned-failover and --force-failover can't both be set to true .)
+    /// </summary>
+    [CliFlag("--force-failover", NegatedName = "--no-force-failover")]
     public bool? ForceFailover { get; set; }
 
-    [CliFlag("--force-planned-failover")]
+    /// <summary>
+    /// If this parameter is true , the reboot is conducted through a planned Multi-AZ failover where resources are released and cleaned up prior to conducting the failover. If the instance isn''t config- ured for Multi-AZ, then you can't specify true . ( --force-planned-failover and --force-failover can't both be set to true .)
+    /// </summary>
+    [CliFlag("--force-planned-failover", NegatedName = "--no-force-planned-failover")]
     public bool? ForcePlannedFailover { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +78,22 @@ public record AwsDmsRebootReplicationInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

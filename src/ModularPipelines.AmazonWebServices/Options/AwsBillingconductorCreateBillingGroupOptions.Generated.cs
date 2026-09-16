@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,23 +22,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billingconductor", "create-billing-group")]
-public record AwsBillingconductorCreateBillingGroupOptions : AwsOptions
+public record AwsBillingconductorCreateBillingGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The billing group name. The names must be unique. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+</param>
+    /// <param name="AccountGrouping">The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing fam- ily. LinkedAccountIds -&gt; (list) The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} AutoAssociate -&gt; (boolean) Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consoli- dated billing family. ResponsibilityTransferArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the transfer re- lationship owned by the Bill Transfer account (caller account). When specified, the PrimaryAccountId is no longer required. Constraints: o pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organiza- tions::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(in- bound|outbound)/rt-[0-9a-z]{8,32} Shorthand Syntax: LinkedAccountIds=string,string,AutoAssociate=boolean,ResponsibilityTransferArn=string JSON Syntax: { "LinkedAccountIds": ["string", ...], "AutoAssociate": true|false, "ResponsibilityTransferArn": "string" }</param>
+    /// <param name="ComputationPreference">The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group. PricingPlanArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group. Constraints: o pattern: arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pric- ingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: PricingPlanArn=string JSON Syntax: { "PricingPlanArn": "string" }</param>
+    public AwsBillingconductorCreateBillingGroupOptions(
+        string Name,
+        string AccountGrouping,
+        string ComputationPreference
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(AccountGrouping);
+        this.AccountGrouping = AccountGrouping;
+        global::System.ArgumentNullException.ThrowIfNull(ComputationPreference);
+        this.ComputationPreference = ComputationPreference;
+    }
+
+    private AwsBillingconductorCreateBillingGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingconductorCreateBillingGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingconductorCreateBillingGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The billing group name. The names must be unique. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing fam- ily. LinkedAccountIds -&gt; (list) The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} AutoAssociate -&gt; (boolean) Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consoli- dated billing family. ResponsibilityTransferArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the transfer re- lationship owned by the Bill Transfer account (caller account). When specified, the PrimaryAccountId is no longer required. Constraints: o pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organiza- tions::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(in- bound|outbound)/rt-[0-9a-z]{8,32} Shorthand Syntax: LinkedAccountIds=string,string,AutoAssociate=boolean,ResponsibilityTransferArn=string JSON Syntax: { "LinkedAccountIds": ["string", ...], "AutoAssociate": true|false, "ResponsibilityTransferArn": "string" }
+    /// </summary>
+    [CliOption("--account-grouping")]
+    public string? AccountGrouping { get; private init; }
+
+    /// <summary>
+    /// The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group. PricingPlanArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group. Constraints: o pattern: arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pric- ingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: PricingPlanArn=string JSON Syntax: { "PricingPlanArn": "string" }
+    /// </summary>
+    [CliOption("--computation-preference")]
+    public string? ComputationPreference { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you specify to ensure idem- potency of the request. Idempotency ensures that an API request com- pletes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries com- plete successfully without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--account-grouping")]
-    public string? AccountGrouping { get; set; }
-
-    [CliOption("--computation-preference")]
-    public string? ComputationPreference { get; set; }
 
     /// <summary>
     /// The account ID that serves as the main account in a billing group. Constraints: o pattern: [0-9]{12}
@@ -62,5 +113,22 @@ public record AwsBillingconductorCreateBillingGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

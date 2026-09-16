@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "release-file-system-nfs-v3-locks")]
-public record AwsFsxReleaseFileSystemNfsV3LocksOptions : AwsOptions
+public record AwsFsxReleaseFileSystemNfsV3LocksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Releases the file system lock from an Amazon FSx for OpenZFS file sys- tem. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileSystemId">The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
+    public AwsFsxReleaseFileSystemNfsV3LocksOptions(
+        string FileSystemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+    }
+
+    private AwsFsxReleaseFileSystemNfsV3LocksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxReleaseFileSystemNfsV3LocksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxReleaseFileSystemNfsV3LocksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// </summary>
     [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
+    public string? FileSystemId { get; private init; }
 
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
@@ -37,5 +74,22 @@ public record AwsFsxReleaseFileSystemNfsV3LocksOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

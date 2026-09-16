@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --objectlocklegalholdstatus.
+/// Allowed values for --object-lock-legal-hold-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiCreateMultipartUploadObjectLockLegalHoldStatus
 {
-    [EnumValue("ON")]
-    On = 1,
-
     [EnumValue("OFF")]
-    Off = 2
+    Off,
+
+    [EnumValue("ON")]
+    On
 }

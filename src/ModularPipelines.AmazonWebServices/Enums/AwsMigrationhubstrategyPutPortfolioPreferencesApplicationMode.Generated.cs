@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --applicationmode.
+/// Allowed values for --application-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMigrationhubstrategyPutPortfolioPreferencesApplicationMode
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("KNOWN")]
-    Known = 2,
+    Known,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 3
+    Unknown
 }

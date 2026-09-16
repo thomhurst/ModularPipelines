@@ -11,17 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --executionclass.
+/// Allowed values for --execution-class.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlueStartJobRunExecutionClass
 {
     [EnumValue("FLEX")]
-    Flex = 1,
+    Flex,
 
     [EnumValue("STANDARD")]
-    Standard = 2,
-
-    [EnumValue("Constraints")]
-    Constraints = 3
+    Standard
 }

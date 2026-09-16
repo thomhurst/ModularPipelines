@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "put-agent-recommendation-feedback")]
-public record AwsWellarchitectedPutAgentRecommendationFeedbackOptions : AwsOptions
+public record AwsWellarchitectedPutAgentRecommendationFeedbackOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--recommendation-arn")]
-    public string? RecommendationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Submits user feedback on a recommendation to help improve future opti- mization suggestions and track implementation outcomes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecommendationArn">The Amazon Resource Name (ARN) of the recommendation to provide feedback for. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-recommenda- tion/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Type">The type of feedback being provided. Possible values: o USEFUL o NOT_USEFUL</param>
+    public AwsWellarchitectedPutAgentRecommendationFeedbackOptions(
+        string RecommendationArn,
+        AwsWellarchitectedPutAgentRecommendationFeedbackType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecommendationArn);
+        this.RecommendationArn = RecommendationArn;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsWellarchitectedPutAgentRecommendationFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedPutAgentRecommendationFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedPutAgentRecommendationFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the recommendation to provide feedback for. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-recommenda- tion/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--recommendation-arn")]
+    public string? RecommendationArn { get; private init; }
+
+    /// <summary>
+    /// The type of feedback being provided. Possible values: o USEFUL o NOT_USEFUL
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsWellarchitectedPutAgentRecommendationFeedbackType? Type { get; private init; }
 
     /// <summary>
     /// Optional category classifying the nature of the feedback. Possible values: o OTHER o RECOMMENDATION_NOT_RELEVANT o RESOURCE_NOT_IMPORTANT o RESOURCE_TYPE_NOT_IMPORTANT o RECOMMENDATION_INCORRECT
@@ -45,5 +89,22 @@ public record AwsWellarchitectedPutAgentRecommendationFeedbackOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

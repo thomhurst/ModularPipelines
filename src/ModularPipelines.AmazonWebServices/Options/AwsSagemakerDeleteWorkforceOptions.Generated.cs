@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "delete-workforce")]
-public record AwsSagemakerDeleteWorkforceOptions : AwsOptions
+public record AwsSagemakerDeleteWorkforceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the ex- isting workforce and then use CreateWorkforce to create a new work- force. WARNING: If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you w...
+    /// </summary>
+    /// <param name="WorkforceName">The name of the workforce. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}</param>
+    public AwsSagemakerDeleteWorkforceOptions(
+        string WorkforceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkforceName);
+        this.WorkforceName = WorkforceName;
+    }
+
+    private AwsSagemakerDeleteWorkforceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDeleteWorkforceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDeleteWorkforceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workforce. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}
+    /// </summary>
     [CliOption("--workforce-name")]
-    public string? WorkforceName { get; set; }
+    public string? WorkforceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

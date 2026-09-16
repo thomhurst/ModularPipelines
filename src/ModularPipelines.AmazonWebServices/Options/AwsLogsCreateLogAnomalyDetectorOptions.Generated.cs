@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "create-log-anomaly-detector")]
-public record AwsLogsCreateLogAnomalyDetectorOptions : AwsOptions
+public record AwsLogsCreateLogAnomalyDetectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an anomaly detector that regularly scans one or more log groups and look for patterns and anomalies in the logs. An anomaly detector can help surface issues by automatically discover- ing anomalies in your log event traffic. An anomaly detector uses ma- chine learning algorithms to scan log events and find patterns . A pat- tern is a shared text structure that recurs among your log fields. Pat- terns provide a useful tool for analyzing large sets of logs because a large number of log eve...
+    /// </summary>
+    /// <param name="LogGroupArnList">An array containing the ARN of the log group that this anomaly de- tector will watch. You can specify only one log group ARN. (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...</param>
+    public AwsLogsCreateLogAnomalyDetectorOptions(
+        IEnumerable<string> LogGroupArnList
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LogGroupArnList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LogGroupArnList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LogGroupArnList));
+            }
+
+            LogGroupArnList = materialized;
+        }
+        this.LogGroupArnList = LogGroupArnList;
+    }
+
+    private AwsLogsCreateLogAnomalyDetectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsCreateLogAnomalyDetectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsCreateLogAnomalyDetectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array containing the ARN of the log group that this anomaly de- tector will watch. You can specify only one log group ARN. (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--log-group-arn-list", GroupValues = true)]
-    public IEnumerable<string>? LogGroupArnList { get; set; }
+    public IEnumerable<string>? LogGroupArnList { get; private init; }
 
     /// <summary>
     /// A name for this anomaly detector. Constraints: o min: 1
@@ -67,5 +115,22 @@ public record AwsLogsCreateLogAnomalyDetectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

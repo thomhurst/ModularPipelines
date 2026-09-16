@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "delete-application-reference-data-source")]
-public record AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions : AwsOptions
+public record AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately re- moves the in-application table that you created using the AddApplica- tionReferenceDataSource operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">The current application version. You can use the DescribeApplica- tion operation to get the current application version. If the ver- sion specified is not the current version, the ConcurrentModifica- tionException is returned. Constraints: o min: 1 o max: 999999999</param>
+    /// <param name="ReferenceId">The ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceData- Source , Kinesis Data Analytics assigns an ID. You can use the De- scribeApplication operation to get the reference ID. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions(
+        string ApplicationName,
+        int CurrentApplicationVersionId,
+        string ReferenceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        this.CurrentApplicationVersionId = CurrentApplicationVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(ReferenceId);
+        this.ReferenceId = ReferenceId;
+    }
+
+    private AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
 
+    /// <summary>
+    /// The current application version. You can use the DescribeApplica- tion operation to get the current application version. If the ver- sion specified is not the current version, the ConcurrentModifica- tionException is returned. Constraints: o min: 1 o max: 999999999
+    /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; set; }
+    public int? CurrentApplicationVersionId { get; private init; }
 
+    /// <summary>
+    /// The ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceData- Source , Kinesis Data Analytics assigns an ID. You can use the De- scribeApplication operation to get the reference ID. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--reference-id")]
-    public string? ReferenceId { get; set; }
+    public string? ReferenceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

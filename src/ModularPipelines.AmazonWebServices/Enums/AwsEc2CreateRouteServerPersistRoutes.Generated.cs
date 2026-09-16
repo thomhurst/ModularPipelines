@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --persistroutes.
+/// Allowed values for --persist-routes.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateRouteServerPersistRoutes
 {
-    [EnumValue("enable")]
-    Enable = 1,
-
     [EnumValue("disable")]
-    Disable = 2,
+    Disable,
+
+    [EnumValue("enable")]
+    Enable,
 
     [EnumValue("reset")]
-    Reset = 3
+    Reset
 }

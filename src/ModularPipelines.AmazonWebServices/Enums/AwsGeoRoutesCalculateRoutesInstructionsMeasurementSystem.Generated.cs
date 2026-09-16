@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --instructionsmeasurementsystem.
+/// Allowed values for --instructions-measurement-system.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoRoutesCalculateRoutesInstructionsMeasurementSystem
 {
-    [EnumValue("Metric")]
-    Metric = 1,
-
     [EnumValue("Imperial")]
-    Imperial = 2
+    Imperial,
+
+    [EnumValue("Metric")]
+    Metric
 }

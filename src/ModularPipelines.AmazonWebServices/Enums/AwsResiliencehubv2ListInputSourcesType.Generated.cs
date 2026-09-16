@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2ListInputSourcesType
 {
     [EnumValue("CFN_STACK")]
-    CfnStack = 1,
-
-    [EnumValue("TAGS")]
-    Tags = 2,
-
-    [EnumValue("EKS")]
-    Eks = 3,
-
-    [EnumValue("TERRAFORM")]
-    Terraform = 4,
+    CfnStack,
 
     [EnumValue("DESIGN_FILE")]
-    DesignFile = 5,
+    DesignFile,
+
+    [EnumValue("EKS")]
+    Eks,
 
     [EnumValue("MONITORING")]
-    Monitoring = 6
+    Monitoring,
+
+    [EnumValue("TAGS")]
+    Tags,
+
+    [EnumValue("TERRAFORM")]
+    Terraform
 }

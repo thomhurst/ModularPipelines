@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "bundle-instance")]
-public record AwsEc2BundleInstanceOptions : AwsOptions
+public record AwsEc2BundleInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:) is bundled. Data on other instance store volumes is not preserved. NOTE: BundleInstance is no longer supported. To create an AMI, use CreateImage instead. For more information about creating an Amazon EBS-backed AMI, see Create an Amazon EBS-backed AMI in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance to bundle. Default: None</param>
+    public AwsEc2BundleInstanceOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsEc2BundleInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2BundleInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2BundleInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance to bundle. Default: None
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your be- half. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error. S3 -&gt; (structure) An Amazon S3 storage location. AWSAccessKeyId -&gt; (string) The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Amazon Web Services accounts in the Account ManagementReference Guide . Bucket -&gt; (string) The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error. Prefix -&gt; (string) The beginning of the file name of the AMI. UploadPolicy -&gt; (blob) An Amazon S3 upload policy that gives Amazon EC2 permission to upload items into Amazon S3 on your behalf. UploadPolicySignature -&gt; (string) The signature of the JSON document. Shorthand Syntax: S3={AWSAccessKeyId=string,Bucket=string,Prefix=string,UploadPolicy=blob,UploadPolicySignature=string} JSON Syntax: { "S3": { "AWSAccessKeyId": "string", "Bucket": "string", "Prefix": "string", "UploadPolicy": blob, "UploadPolicySignature": "string" } }
@@ -30,7 +67,10 @@ public record AwsEc2BundleInstanceOptions : AwsOptions
     [CliOption("--storage")]
     public string? Storage { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--bucket")]
@@ -53,5 +93,22 @@ public record AwsEc2BundleInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "create-trail")]
-public record AwsCloudtrailCreateTrailOptions : AwsOptions
+public record AwsCloudtrailCreateTrailOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Specifies the name of the trail. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4)</param>
+    /// <param name="S3BucketName">Specifies the name of the Amazon S3 bucket designated for publishing log files. For information about bucket naming rules, see Bucket naming rules in the Amazon Simple Storage Service User Guide .</param>
+    public AwsCloudtrailCreateTrailOptions(
+        string Name,
+        string S3BucketName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
+        this.S3BucketName = S3BucketName;
+    }
+
+    private AwsCloudtrailCreateTrailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailCreateTrailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailCreateTrailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the trail. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4)
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Specifies the name of the Amazon S3 bucket designated for publishing log files. For information about bucket naming rules, see Bucket naming rules in the Amazon Simple Storage Service User Guide .
+    /// </summary>
     [CliOption("--s3-bucket-name")]
-    public string? S3BucketName { get; set; }
+    public string? S3BucketName { get; private init; }
 
     /// <summary>
     /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more informa- tion, see Finding Your CloudTrail Log Files . The maximum length is 200 characters.
@@ -39,13 +83,22 @@ public record AwsCloudtrailCreateTrailOptions : AwsOptions
     [CliOption("--sns-topic-name")]
     public string? SnsTopicName { get; set; }
 
-    [CliFlag("--include-global-service-events")]
+    /// <summary>
+    /// Specifies whether the trail is publishing events from global ser- vices such as IAM to the log files. Setting this value to true only delivers global service events to the trail if the trail is multi-Region or if the trail's home Region is the partition leader Region (for example, us-east-1).
+    /// </summary>
+    [CliFlag("--include-global-service-events", NegatedName = "--no-include-global-service-events")]
     public bool? IncludeGlobalServiceEvents { get; set; }
 
-    [CliFlag("--is-multi-region-trail")]
+    /// <summary>
+    /// Specifies whether the trail is created in the current Region or in all Regions. The default is false, which creates a trail only in the Region where you are signed in. As a best practice, consider creat- ing trails that log events in all Regions.
+    /// </summary>
+    [CliFlag("--is-multi-region-trail", NegatedName = "--no-is-multi-region-trail")]
     public bool? IsMultiRegionTrail { get; set; }
 
-    [CliFlag("--enable-log-file-validation")]
+    /// <summary>
+    /// Specifies whether log file integrity validation is enabled. The de- fault is false. NOTE: When you disable log file integrity validation, the chain of di- gest files is broken after one hour. CloudTrail does not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For exam- ple, if you enable log file integrity validation at noon on Jan- uary 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
+    /// </summary>
+    [CliFlag("--enable-log-file-validation", NegatedName = "--no-enable-log-file-validation")]
     public bool? EnableLogFileValidation { get; set; }
 
     /// <summary>
@@ -66,7 +119,10 @@ public record AwsCloudtrailCreateTrailOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--is-organization-trail")]
+    /// <summary>
+    /// Specifies whether the trail is created for all accounts in an orga- nization in Organizations, or only for the current Amazon Web Ser- vices account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organi- zation in Organizations.
+    /// </summary>
+    [CliFlag("--is-organization-trail", NegatedName = "--no-is-organization-trail")]
     public bool? IsOrganizationTrail { get; set; }
 
     /// <summary>
@@ -75,10 +131,33 @@ public record AwsCloudtrailCreateTrailOptions : AwsOptions
     [CliOption("--tags-list", GroupValues = true)]
     public IEnumerable<string>? TagsList { get; set; }
 
+    /// <summary>
+    /// Specifies whether recursive logging is enabled for the trail. If you set RecursiveLogging to false , CloudTrail suppresses events gener- ated by CloudTrail when it delivers log files to your trail's desti- nations, including Amazon S3 and CloudWatch Logs. The default value is true .
+    /// </summary>
+    [CliFlag("--recursive-logging", NegatedName = "--no-recursive-logging")]
+    public bool? RecursiveLogging { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

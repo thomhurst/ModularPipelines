@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography", "get-alias")]
-public record AwsPaymentCryptographyGetAliasOptions : AwsOptions
+public record AwsPaymentCryptographyGetAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlias o DeleteAlias o ListAliases o UpdateAlias See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AliasName">The alias of the Amazon Web Services Payment Cryptography key. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+</param>
+    public AwsPaymentCryptographyGetAliasOptions(
+        string AliasName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AliasName);
+        this.AliasName = AliasName;
+    }
+
+    private AwsPaymentCryptographyGetAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyGetAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyGetAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The alias of the Amazon Web Services Payment Cryptography key. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--alias-name")]
-    public string? AliasName { get; set; }
+    public string? AliasName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

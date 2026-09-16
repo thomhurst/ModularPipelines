@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --traffictype.
+/// Allowed values for --traffic-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateFlowLogsTrafficType
 {
     [EnumValue("ACCEPT")]
-    Accept = 1,
-
-    [EnumValue("REJECT")]
-    Reject = 2,
+    Accept,
 
     [EnumValue("ALL")]
-    All = 3
+    All,
+
+    [EnumValue("REJECT")]
+    Reject
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-sap", "stop-application")]
-public record AwsSsmSapStopApplicationOptions : AwsOptions
+public record AwsSsmSapStopApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Request is an operation to stop an application. Parameter ApplicationId is required. Parameters StopConnectedEntity and IncludeEc2InstanceShutdown are optional. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+</param>
+    public AwsSsmSapStopApplicationOptions(
+        string ApplicationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+    }
+
+    private AwsSsmSapStopApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmSapStopApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmSapStopApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
     /// <summary>
     /// Specify the ConnectedEntityType . Accepted type is DBMS . If this parameter is included, the connected DBMS (Database Manage- ment System) will be stopped. Possible values: o DBMS
     /// </summary>
     [CliOption("--stop-connected-entity")]
-    public AwsSsmSapStopApplicationStopConnectedEntity? StopConnectedEntity { get; set; }
+    public string? StopConnectedEntity { get; set; }
 
-    [CliFlag("--include-ec2-instance-shutdown")]
+    /// <summary>
+    /// Boolean. If included and if set to True , the StopApplication opera- tion will shut down the associated Amazon EC2 instance in addition to the application.
+    /// </summary>
+    [CliFlag("--include-ec2-instance-shutdown", NegatedName = "--no-include-ec2-instance-shutdown")]
     public bool? IncludeEc2InstanceShutdown { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -39,5 +78,22 @@ public record AwsSsmSapStopApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

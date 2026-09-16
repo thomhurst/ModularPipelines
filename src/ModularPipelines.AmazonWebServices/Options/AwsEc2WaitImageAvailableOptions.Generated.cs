@@ -40,13 +40,22 @@ public record AwsEc2WaitImageAvailableOptions : AwsOptions
     [CliOption("--owners", GroupValues = true)]
     public IEnumerable<string>? Owners { get; set; }
 
-    [CliFlag("--include-deprecated")]
+    /// <summary>
+    /// Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response. NOTE: If you are the AMI owner, all deprecated AMIs appear in the re- sponse regardless of what you specify for this parameter.
+    /// </summary>
+    [CliFlag("--include-deprecated", NegatedName = "--no-include-deprecated")]
     public bool? IncludeDeprecated { get; set; }
 
-    [CliFlag("--include-disabled")]
+    /// <summary>
+    /// Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
+    /// </summary>
+    [CliFlag("--include-disabled", NegatedName = "--no-include-disabled")]
     public bool? IncludeDisabled { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "get-revenue-statistics-time-series")]
-public record AwsWafv2GetRevenueStatisticsTimeSeriesOptions : AwsOptions
+public record AwsWafv2GetRevenueStatisticsTimeSeriesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for CLOUDFRONT scope. The maximum sup- ported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL . To retrieve test data, include a CurrencyMode filter with the value TEST . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StatisticType">The type of time series data to retrieve: DATE_HISTOGRAM for revenue over time, or PAYMENT_TRAFFIC for payment traffic patterns. Possible values: o DATE_HISTOGRAM o PAYMENT_TRAFFIC</param>
+    /// <param name="TimeWindow">The time range for the query. Specify start and end timestamps. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }</param>
+    /// <param name="Scope">Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT ) or for a regional application (REGIONAL ). Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="Interval">The time interval for aggregating data points: MINUTELY , FIVE_MINUTELY , HOURLY , or DAILY . Possible values: o MINUTELY o FIVE_MINUTELY o HOURLY o DAILY</param>
+    /// <param name="Currency">The currency for the amounts in the response. Possible values: o USDC</param>
+    public AwsWafv2GetRevenueStatisticsTimeSeriesOptions(
+        AwsWafv2GetRevenueStatisticsTimeSeriesStatisticType StatisticType,
+        string TimeWindow,
+        AwsWafv2GetRevenueStatisticsTimeSeriesScope Scope,
+        AwsWafv2GetRevenueStatisticsTimeSeriesInterval Interval,
+        string Currency
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StatisticType);
+        this.StatisticType = StatisticType;
+        global::System.ArgumentNullException.ThrowIfNull(TimeWindow);
+        this.TimeWindow = TimeWindow;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(Interval);
+        this.Interval = Interval;
+        global::System.ArgumentNullException.ThrowIfNull(Currency);
+        this.Currency = Currency;
+    }
+
+    private AwsWafv2GetRevenueStatisticsTimeSeriesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2GetRevenueStatisticsTimeSeriesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2GetRevenueStatisticsTimeSeriesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of time series data to retrieve: DATE_HISTOGRAM for revenue over time, or PAYMENT_TRAFFIC for payment traffic patterns. Possible values: o DATE_HISTOGRAM o PAYMENT_TRAFFIC
+    /// </summary>
     [CliOption("--statistic-type")]
-    public string? StatisticType { get; set; }
+    public AwsWafv2GetRevenueStatisticsTimeSeriesStatisticType? StatisticType { get; private init; }
 
+    /// <summary>
+    /// The time range for the query. Specify start and end timestamps. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }
+    /// </summary>
     [CliOption("--time-window")]
-    public string? TimeWindow { get; set; }
+    public string? TimeWindow { get; private init; }
 
+    /// <summary>
+    /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT ) or for a regional application (REGIONAL ). Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsWafv2GetRevenueStatisticsTimeSeriesScope? Scope { get; private init; }
 
+    /// <summary>
+    /// The time interval for aggregating data points: MINUTELY , FIVE_MINUTELY , HOURLY , or DAILY . Possible values: o MINUTELY o FIVE_MINUTELY o HOURLY o DAILY
+    /// </summary>
     [CliOption("--interval")]
-    public string? Interval { get; set; }
+    public AwsWafv2GetRevenueStatisticsTimeSeriesInterval? Interval { get; private init; }
 
+    /// <summary>
+    /// The currency for the amounts in the response. Possible values: o USDC
+    /// </summary>
     [CliOption("--currency")]
-    public string? Currency { get; set; }
+    public string? Currency { get; private init; }
 
     /// <summary>
     /// The dimension to group results by. Possible values: o NAME o CATEGORY o INTENT o ORGANIZATION o WEBACL
@@ -66,5 +131,22 @@ public record AwsWafv2GetRevenueStatisticsTimeSeriesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

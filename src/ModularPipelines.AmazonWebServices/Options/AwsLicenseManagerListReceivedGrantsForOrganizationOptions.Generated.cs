@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "list-received-grants-for-organization")]
-public record AwsLicenseManagerListReceivedGrantsForOrganizationOptions : AwsOptions
+public record AwsLicenseManagerListReceivedGrantsForOrganizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the grants received for all accounts in the organization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LicenseArn">The Amazon Resource Name (ARN) of the received license. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    public AwsLicenseManagerListReceivedGrantsForOrganizationOptions(
+        string LicenseArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LicenseArn);
+        this.LicenseArn = LicenseArn;
+    }
+
+    private AwsLicenseManagerListReceivedGrantsForOrganizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerListReceivedGrantsForOrganizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerListReceivedGrantsForOrganizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the received license. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// </summary>
     [CliOption("--license-arn")]
-    public string? LicenseArn { get; set; }
+    public string? LicenseArn { get; private init; }
 
     /// <summary>
     /// Filters to scope the results. The following filters are supported: o ParentArn o GranteePrincipalArn (structure) A filter name and value pair that is used to return more spe- cific results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, at- tributes, or IDs. Name -&gt; (string) Name of the filter. Filter names are case-sensitive. Values -&gt; (list) The value of the filter, which is case-sensitive. You can only specify one value for the filter. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -49,5 +86,22 @@ public record AwsLicenseManagerListReceivedGrantsForOrganizationOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

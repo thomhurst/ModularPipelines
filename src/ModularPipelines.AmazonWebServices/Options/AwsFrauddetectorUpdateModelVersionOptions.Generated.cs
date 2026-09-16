@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "update-model-version")]
-public record AwsFrauddetectorUpdateModelVersionOptions : AwsOptions
+public record AwsFrauddetectorUpdateModelVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor ver- sion of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelId">The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
+    /// <param name="ModelType">The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS</param>
+    /// <param name="MajorVersionNumber">The major version number. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$</param>
+    public AwsFrauddetectorUpdateModelVersionOptions(
+        string ModelId,
+        AwsFrauddetectorUpdateModelVersionModelType ModelType,
+        string MajorVersionNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelId);
+        this.ModelId = ModelId;
+        global::System.ArgumentNullException.ThrowIfNull(ModelType);
+        this.ModelType = ModelType;
+        global::System.ArgumentNullException.ThrowIfNull(MajorVersionNumber);
+        this.MajorVersionNumber = MajorVersionNumber;
+    }
+
+    private AwsFrauddetectorUpdateModelVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorUpdateModelVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorUpdateModelVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// </summary>
     [CliOption("--model-id")]
-    public string? ModelId { get; set; }
+    public string? ModelId { get; private init; }
 
+    /// <summary>
+    /// The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// </summary>
     [CliOption("--model-type")]
-    public string? ModelType { get; set; }
+    public AwsFrauddetectorUpdateModelVersionModelType? ModelType { get; private init; }
 
+    /// <summary>
+    /// The major version number. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// </summary>
     [CliOption("--major-version-number")]
-    public string? MajorVersionNumber { get; set; }
+    public string? MajorVersionNumber { get; private init; }
 
     /// <summary>
     /// The details of the external events data used for training the model version. Required if trainingDataSource is EXTERNAL_EVENTS . dataLocation -&gt; (string) [required] The Amazon S3 bucket location for the data. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$ dataAccessRoleArn -&gt; (string) [required] The ARN of the role that provides Amazon Fraud Detector access to the data location. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$ Shorthand Syntax: dataLocation=string,dataAccessRoleArn=string JSON Syntax: { "dataLocation": "string", "dataAccessRoleArn": "string" }
@@ -53,5 +105,22 @@ public record AwsFrauddetectorUpdateModelVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

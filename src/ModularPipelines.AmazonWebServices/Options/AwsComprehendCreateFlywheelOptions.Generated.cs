@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "create-flywheel")]
-public record AwsComprehendCreateFlywheelOptions : AwsOptions
+public record AwsComprehendCreateFlywheelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A flywheel is an Amazon Web Services resource that orchestrates the on- going training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model. When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model. To use a flywheel with an existing trained model, you specify the ac- ...
+    /// </summary>
+    /// <param name="FlywheelName">Name for the flywheel. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend the permissions required to access the flywheel data in the data lake. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="DataLakeS3Uri">Enter the S3 location for the data lake. You can specify a new S3 bucket or a new folder of an existing S3 bucket. The flywheel cre- ates the data lake at this location. Constraints: o max: 512 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?</param>
+    public AwsComprehendCreateFlywheelOptions(
+        string FlywheelName,
+        string DataAccessRoleArn,
+        string DataLakeS3Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlywheelName);
+        this.FlywheelName = FlywheelName;
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataLakeS3Uri);
+        this.DataLakeS3Uri = DataLakeS3Uri;
+    }
+
+    private AwsComprehendCreateFlywheelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendCreateFlywheelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendCreateFlywheelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name for the flywheel. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
+    /// </summary>
     [CliOption("--flywheel-name")]
-    public string? FlywheelName { get; set; }
+    public string? FlywheelName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend the permissions required to access the flywheel data in the data lake. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
+    [CliOption("--data-access-role-arn")]
+    public string? DataAccessRoleArn { get; private init; }
+
+    /// <summary>
+    /// Enter the S3 location for the data lake. You can specify a new S3 bucket or a new folder of an existing S3 bucket. The flywheel cre- ates the data lake at this location. Constraints: o max: 512 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?
+    /// </summary>
+    [CliOption("--data-lake-s3-uri")]
+    public string? DataLakeS3Uri { get; private init; }
 
     /// <summary>
     /// To associate an existing model with the flywheel, specify the Amazon Resource Number (ARN) of the model version. Do not set TaskConfig or ModelType if you specify an ActiveModelArn . Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier|entity-recog- nizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
     /// </summary>
     [CliOption("--active-model-arn")]
     public string? ActiveModelArn { get; set; }
-
-    [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
 
     /// <summary>
     /// Configuration about the model associated with the flywheel. You need to set TaskConfig if you are creating a flywheel for a new model. LanguageCode -&gt; (string) [required] Language code for the language that the model supports. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW DocumentClassificationConfig -&gt; (structure) Configuration required for a document classification model. Mode -&gt; (string) [required] Classification mode indicates whether the documents are MULTI_CLASS or MULTI_LABEL . Possible values: o MULTI_CLASS o MULTI_LABEL Labels -&gt; (list) One or more labels to associate with the custom classifier. Constraints: o max: 1000 (string) Constraints: o max: 5000 o pattern: ^\P{C}*$ EntityRecognitionConfig -&gt; (structure) Configuration required for an entity recognition model. EntityTypes -&gt; (list) [required] Up to 25 entity types that the model is trained to recognize. (structure) An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recog- nizer. Type -&gt; (string) [required] An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recog- nizer. Entity types must not contain the following invalid characters: n (line break), \n (escaped line break, r (carriage return), \r (escaped carriage return), t (tab), \t (escaped tab), and , (comma). Constraints: o max: 64 o pattern: ^(?![^\n\r\t,]*\\n|\\r|\\t)[^\n\r\t,]+$ JSON Syntax: { "LanguageCode": "en"|"es"|"fr"|"de"|"it"|"pt"|"ar"|"hi"|"ja"|"ko"|"zh"|"zh-TW", "DocumentClassificationConfig": { "Mode": "MULTI_CLASS"|"MULTI_LABEL", "Labels": ["string", ...] }, "EntityRecognitionConfig": { "EntityTypes": [ { "Type": "string" } ... ] } }
@@ -46,9 +100,6 @@ public record AwsComprehendCreateFlywheelOptions : AwsOptions
     /// </summary>
     [CliOption("--model-type")]
     public AwsComprehendCreateFlywheelModelType? ModelType { get; set; }
-
-    [CliOption("--data-lake-s3-uri")]
-    public string? DataLakeS3Uri { get; set; }
 
     /// <summary>
     /// Data security configurations. ModelKmsKeyId -&gt; (string) ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats: o KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" o Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" Constraints: o max: 2048 o pattern: ^\p{ASCII}+$ VolumeKmsKeyId -&gt; (string) ID for the KMS key that Amazon Comprehend uses to encrypt the volume. Constraints: o max: 2048 o pattern: ^\p{ASCII}+$ DataLakeKmsKeyId -&gt; (string) ID for the KMS key that Amazon Comprehend uses to encrypt the data in the data lake. Constraints: o max: 2048 o pattern: ^\p{ASCII}+$ VpcConfig -&gt; (structure) Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for the job. For more information, see Amazon VPC . SecurityGroupIds -&gt; (list) [required] The ID number for a security group on an instance of your private VPC. Security groups on your VPC function serve as a virtual firewall to control inbound and outbound traffic and provides security for the resources that youll be accessing on the VPC. This ID number is preceded by "sg-", for in- stance: "sg-03b388029b0a285ea". For more information, see Security Groups for your VPC . Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 32 o pattern: [-0-9a-zA-Z]+ Subnets -&gt; (list) [required] The ID for each subnet being used in your private VPC. This subnet is a subset of the a range of IPv4 addresses used by the VPC and is specific to a given availability zone in the VPCs Region. This ID number is preceded by "subnet-", for in- stance: "subnet-04ccf456919e69055". For more information, see VPCs and Subnets . Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 32 o pattern: [-0-9a-zA-Z]+ Shorthand Syntax: ModelKmsKeyId=string,VolumeKmsKeyId=string,DataLakeKmsKeyId=string,VpcConfig={SecurityGroupIds=[string,string],Subnets=[string,string]} JSON Syntax: { "ModelKmsKeyId": "string", "VolumeKmsKeyId": "string", "DataLakeKmsKeyId": "string", "VpcConfig": { "SecurityGroupIds": ["string", ...], "Subnets": ["string", ...] } }
@@ -74,5 +125,22 @@ public record AwsComprehendCreateFlywheelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

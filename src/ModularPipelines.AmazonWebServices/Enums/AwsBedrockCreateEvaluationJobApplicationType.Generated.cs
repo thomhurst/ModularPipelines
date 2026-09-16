@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --applicationtype.
+/// Allowed values for --application-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockCreateEvaluationJobApplicationType
 {
     [EnumValue("ModelEvaluation")]
-    ModelEvaluation = 1,
+    ModelEvaluation,
 
     [EnumValue("RagEvaluation")]
-    RagEvaluation = 2
+    RagEvaluation
 }

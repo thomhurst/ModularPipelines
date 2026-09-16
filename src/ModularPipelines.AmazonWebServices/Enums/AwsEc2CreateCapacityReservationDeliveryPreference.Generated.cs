@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deliverypreference.
+/// Allowed values for --delivery-preference.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateCapacityReservationDeliveryPreference
 {
     [EnumValue("fixed")]
-    Fixed = 1,
+    Fixed,
 
     [EnumValue("incremental")]
-    Incremental = 2
+    Incremental
 }

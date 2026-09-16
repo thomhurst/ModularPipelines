@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migration-hub-refactor-spaces", "create-application")]
-public record AwsMigrationHubRefactorSpacesCreateApplicationOptions : AwsOptions
+public record AwsMigrationHubRefactorSpacesCreateApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces applica- tion. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a CreateEnvironment:NetworkFabricType of NONE you need to configure VPC to VPC connectivity betwe...
+    /// </summary>
+    /// <param name="EnvironmentIdentifier">The unique identifier of the environment. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="Name">The name to use for the application. Constraints: o min: 3 o max: 63 o pattern: ^(?!app-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$</param>
+    /// <param name="ProxyType">The proxy type of the proxy created within the application. Possible values: o API_GATEWAY</param>
+    /// <param name="VpcId">The ID of the virtual private cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: ^vpc-[-a-f0-9]{8}([-a-f0-9]{9})?$</param>
+    public AwsMigrationHubRefactorSpacesCreateApplicationOptions(
+        string EnvironmentIdentifier,
+        string Name,
+        string ProxyType,
+        string VpcId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
+        this.EnvironmentIdentifier = EnvironmentIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProxyType);
+        this.ProxyType = ProxyType;
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+    }
+
+    private AwsMigrationHubRefactorSpacesCreateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationHubRefactorSpacesCreateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationHubRefactorSpacesCreateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the environment. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// </summary>
+    [CliOption("--environment-identifier")]
+    public string? EnvironmentIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name to use for the application. Constraints: o min: 3 o max: 63 o pattern: ^(?!app-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The proxy type of the proxy created within the application. Possible values: o API_GATEWAY
+    /// </summary>
+    [CliOption("--proxy-type")]
+    public string? ProxyType { get; private init; }
+
+    /// <summary>
+    /// The ID of the virtual private cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: ^vpc-[-a-f0-9]{8}([-a-f0-9]{9})?$
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
+
     /// <summary>
     /// A wrapper object holding the API Gateway endpoint type and stage name for the proxy. EndpointType -&gt; (string) The type of endpoint to use for the API Gateway proxy. If no value is specified in the request, the value is set to REGIONAL by default. If the value is set to PRIVATE in the request, this creates a private API endpoint that is isolated from the public internet. The private endpoint can only be accessed by using Amazon Vir- tual Private Cloud (Amazon VPC) interface endpoints for the Ama- zon API Gateway that has been granted access. For more informa- tion about creating a private connection with Refactor Spaces and interface endpoint (Amazon Web Services PrivateLink) avail- ability, see Access Refactor Spaces using an interface endpoint (Amazon Web Services PrivateLink) . Possible values: o REGIONAL o PRIVATE StageName -&gt; (string) The name of the API Gateway stage. The name defaults to prod . Constraints: o min: 1 o max: 128 o pattern: ^[-a-zA-Z0-9_]*$ Shorthand Syntax: EndpointType=string,StageName=string JSON Syntax: { "EndpointType": "REGIONAL"|"PRIVATE", "StageName": "string" }
     /// </summary>
@@ -36,28 +106,33 @@ public record AwsMigrationHubRefactorSpacesCreateApplicationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--environment-identifier")]
-    public string? EnvironmentIdentifier { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--proxy-type")]
-    public string? ProxyType { get; set; }
-
     /// <summary>
     /// The tags to assign to the application. A tag is a label that you as- sign to an Amazon Web Services resource. Each tag consists of a key-value pair. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

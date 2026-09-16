@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --poidensity.
+/// Allowed values for --poi-density.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoMapsGetStyleDescriptorPoiDensity
 {
-    [EnumValue("Off")]
-    Off = 1,
-
-    [EnumValue("VerySparse")]
-    VerySparse = 2,
-
-    [EnumValue("Sparse")]
-    Sparse = 3,
-
     [EnumValue("Default")]
-    Default = 4,
+    Default,
 
     [EnumValue("Dense")]
-    Dense = 5,
+    Dense,
+
+    [EnumValue("Off")]
+    Off,
+
+    [EnumValue("Sparse")]
+    Sparse,
 
     [EnumValue("VeryDense")]
-    VeryDense = 6
+    VeryDense,
+
+    [EnumValue("VerySparse")]
+    VerySparse
 }

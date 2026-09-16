@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "update-component-type")]
-public record AwsIottwinmakerUpdateComponentTypeOptions : AwsOptions
+public record AwsIottwinmakerUpdateComponentTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates information in a component type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="ComponentTypeId">The ID of the component type. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+</param>
+    public AwsIottwinmakerUpdateComponentTypeOptions(
+        string WorkspaceId,
+        string ComponentTypeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        global::System.ArgumentNullException.ThrowIfNull(ComponentTypeId);
+        this.ComponentTypeId = ComponentTypeId;
+    }
+
+    private AwsIottwinmakerUpdateComponentTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerUpdateComponentTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerUpdateComponentTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
-    [CliFlag("--is-singleton")]
-    public bool? IsSingleton { get; set; }
-
+    /// <summary>
+    /// The ID of the component type. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+
+    /// </summary>
     [CliOption("--component-type-id")]
-    public string? ComponentTypeId { get; set; }
+    public string? ComponentTypeId { get; private init; }
+
+    /// <summary>
+    /// A Boolean value that specifies whether an entity can have more than one component of this type.
+    /// </summary>
+    [CliFlag("--is-singleton", NegatedName = "--no-is-singleton")]
+    public bool? IsSingleton { get; set; }
 
     /// <summary>
     /// The description of the component type. Constraints: o min: 0 o max: 2048 o pattern: .*
@@ -78,5 +125,22 @@ public record AwsIottwinmakerUpdateComponentTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

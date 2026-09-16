@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -23,14 +22,17 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lightsail", "get-blueprints")]
 public record AwsLightsailGetBlueprintsOptions : AwsOptions
 {
-    [CliFlag("--include-inactive")]
+    /// <summary>
+    /// A Boolean value that indicates whether to include inactive (unavail- able) blueprints in the response of your request.
+    /// </summary>
+    [CliFlag("--include-inactive", NegatedName = "--no-include-inactive")]
     public bool? IncludeInactive { get; set; }
 
     /// <summary>
     /// Returns a list of blueprints that are specific to Lightsail for Re- search. WARNING: You must use this parameter to view Lightsail for Research blue- prints. Possible values: o LfR
     /// </summary>
     [CliOption("--app-category")]
-    public AwsLightsailGetBlueprintsAppCategory? AppCategory { get; set; }
+    public string? AppCategory { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

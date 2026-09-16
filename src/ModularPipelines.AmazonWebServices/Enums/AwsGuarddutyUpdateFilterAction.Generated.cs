@@ -16,12 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGuarddutyUpdateFilterAction
 {
-    [EnumValue("NOOP")]
-    Noop = 1,
-
     [EnumValue("ARCHIVE")]
-    Archive = 2,
+    Archive,
 
-    [EnumValue("Constraints")]
-    Constraints = 3
+    [EnumValue("NOOP")]
+    Noop
 }

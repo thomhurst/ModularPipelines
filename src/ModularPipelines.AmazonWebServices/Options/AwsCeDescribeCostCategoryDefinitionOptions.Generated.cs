@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ce", "describe-cost-category-definition")]
-public record AwsCeDescribeCostCategoryDefinitionOptions : AwsOptions
+public record AwsCeDescribeCostCategoryDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a cost category that's defined in the account. You have the option to use EffectiveOn to return a cost category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CostCategoryArn">The unique identifier for your cost category. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    public AwsCeDescribeCostCategoryDefinitionOptions(
+        string CostCategoryArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CostCategoryArn);
+        this.CostCategoryArn = CostCategoryArn;
+    }
+
+    private AwsCeDescribeCostCategoryDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCeDescribeCostCategoryDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCeDescribeCostCategoryDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for your cost category. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// </summary>
     [CliOption("--cost-category-arn")]
-    public string? CostCategoryArn { get; set; }
+    public string? CostCategoryArn { get; private init; }
 
     /// <summary>
     /// The date when the cost category was effective. Constraints: o min: 20 o max: 25 o pattern: ^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(([+-]\d\d:\d\d)|Z)$
@@ -35,5 +72,22 @@ public record AwsCeDescribeCostCategoryDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

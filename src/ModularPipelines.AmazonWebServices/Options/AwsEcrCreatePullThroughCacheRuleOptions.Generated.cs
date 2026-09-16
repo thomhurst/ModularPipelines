@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "create-pull-through-cache-rule")]
-public record AwsEcrCreatePullThroughCacheRuleOptions : AwsOptions
+public record AwsEcrCreatePullThroughCacheRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--ecr-repository-prefix")]
-    public string? EcrRepositoryPrefix { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a pull through cache rule. A pull through cache rule provides a way to cache images from an upstream registry source in your Amazon ECR private registry. For more information, see Using pull through cache rules in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EcrRepositoryPrefix">The repository name prefix to use when caching images from the source registry. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    /// <param name="UpstreamRegistryUrl">The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry. o Amazon ECR (ecr ) &lt;accountId&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com o Amazon ECR Public (ecr-public ) public.ecr.aws o Docker Hub (docker-hub ) registry-1.docker.io o GitHub Container Registry (github-container-registry ) ghcr.io o GitLab Container Registry (gitlab-container-registry ) reg- istry.gitlab.com o Kubernetes (k8s ) registry.k8s.io o Microsoft Azure Container Registry (azure-container-registry ) &lt;custom&gt;.azurecr.io o Quay (quay ) quay.io</param>
+    public AwsEcrCreatePullThroughCacheRuleOptions(
+        string EcrRepositoryPrefix,
+        string UpstreamRegistryUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EcrRepositoryPrefix);
+        this.EcrRepositoryPrefix = EcrRepositoryPrefix;
+        global::System.ArgumentNullException.ThrowIfNull(UpstreamRegistryUrl);
+        this.UpstreamRegistryUrl = UpstreamRegistryUrl;
+    }
+
+    private AwsEcrCreatePullThroughCacheRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrCreatePullThroughCacheRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrCreatePullThroughCacheRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The repository name prefix to use when caching images from the source registry. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// </summary>
+    [CliOption("--ecr-repository-prefix")]
+    public string? EcrRepositoryPrefix { get; private init; }
+
+    /// <summary>
+    /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry. o Amazon ECR (ecr ) &lt;accountId&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com o Amazon ECR Public (ecr-public ) public.ecr.aws o Docker Hub (docker-hub ) registry-1.docker.io o GitHub Container Registry (github-container-registry ) ghcr.io o GitLab Container Registry (gitlab-container-registry ) reg- istry.gitlab.com o Kubernetes (k8s ) registry.k8s.io o Microsoft Azure Container Registry (azure-container-registry ) &lt;custom&gt;.azurecr.io o Quay (quay ) quay.io
+    /// </summary>
     [CliOption("--upstream-registry-url")]
-    public string? UpstreamRegistryUrl { get; set; }
+    public string? UpstreamRegistryUrl { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a reg- istry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
@@ -65,5 +109,22 @@ public record AwsEcrCreatePullThroughCacheRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

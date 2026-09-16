@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --bystate.
+/// Allowed values for --by-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBackupListCopyJobsByState
 {
-    [EnumValue("CREATED")]
-    Created = 1,
-
-    [EnumValue("RUNNING")]
-    Running = 2,
-
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
+
+    [EnumValue("CREATED")]
+    Created,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
     [EnumValue("PARTIAL")]
-    Partial = 5
+    Partial,
+
+    [EnumValue("RUNNING")]
+    Running
 }

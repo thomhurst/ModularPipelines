@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "list-stack-instances-for-provisioned-product")]
-public record AwsServicecatalogListStackInstancesForProvisionedProductOptions : AwsOptions
+public record AwsServicecatalogListStackInstancesForProvisionedProductOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can fil- ter for stack instances that are associated with a specific Amazon Web Services account name or Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProvisionedProductId">The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogListStackInstancesForProvisionedProductOptions(
+        string ProvisionedProductId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProvisionedProductId);
+        this.ProvisionedProductId = ProvisionedProductId;
+    }
+
+    private AwsServicecatalogListStackInstancesForProvisionedProductOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogListStackInstancesForProvisionedProductOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogListStackInstancesForProvisionedProductOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--provisioned-product-id")]
+    public string? ProvisionedProductId { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--provisioned-product-id")]
-    public string? ProvisionedProductId { get; set; }
 
     /// <summary>
     /// The page token for the next set of results. To retrieve the first set of results, use null. Constraints: o max: 2024 o pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
@@ -49,5 +86,22 @@ public record AwsServicecatalogListStackInstancesForProvisionedProductOptions : 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

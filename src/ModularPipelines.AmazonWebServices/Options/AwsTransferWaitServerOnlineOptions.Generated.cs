@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "wait", "server-online")]
-public record AwsTransferWaitServerOnlineOptions : AwsOptions
+public record AwsTransferWaitServerOnlineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Wait until JMESPath query Server.State returns ONLINE when polling with describe-server. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerId">A system-assigned unique identifier for a server. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    public AwsTransferWaitServerOnlineOptions(
+        string ServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+    }
+
+    private AwsTransferWaitServerOnlineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferWaitServerOnlineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferWaitServerOnlineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A system-assigned unique identifier for a server. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// </summary>
     [CliOption("--server-id")]
-    public string? ServerId { get; set; }
+    public string? ServerId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

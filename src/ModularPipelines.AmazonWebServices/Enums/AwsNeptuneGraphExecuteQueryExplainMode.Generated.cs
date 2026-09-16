@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --explainmode.
+/// Allowed values for --explain-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNeptuneGraphExecuteQueryExplainMode
 {
-    [EnumValue("STATIC")]
-    Static = 1,
-
     [EnumValue("DETAILS")]
-    Details = 2
+    Details,
+
+    [EnumValue("STATIC")]
+    Static
 }

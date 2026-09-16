@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --playergatewaymode.
+/// Allowed values for --player-gateway-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftCreateFleetPlayerGatewayMode
 {
     [EnumValue("DISABLED")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("ENABLED")]
-    Enabled = 2,
+    Enabled,
 
     [EnumValue("REQUIRED")]
-    Required = 3
+    Required
 }

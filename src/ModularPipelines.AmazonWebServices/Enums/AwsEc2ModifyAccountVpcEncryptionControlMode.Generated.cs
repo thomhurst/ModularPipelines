@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyAccountVpcEncryptionControlMode
 {
-    [EnumValue("unmanaged")]
-    Unmanaged = 1,
+    [EnumValue("attempt-enforce")]
+    AttemptEnforce,
 
     [EnumValue("attempt-monitor")]
-    AttemptMonitor = 2,
+    AttemptMonitor,
 
-    [EnumValue("attempt-enforce")]
-    AttemptEnforce = 3
+    [EnumValue("unmanaged")]
+    Unmanaged
 }

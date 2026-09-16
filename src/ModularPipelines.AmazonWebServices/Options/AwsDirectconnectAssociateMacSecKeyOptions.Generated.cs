@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "associate-mac-sec-key")]
-public record AwsDirectconnectAssociateMacSecKeyOptions : AwsOptions
+public record AwsDirectconnectAssociateMacSecKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connec- tivity Association Key (CAK) pair with a Direct Connect connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak ) pair in the request. For information about MAC Security (MACsec) key considerations, see MACsec pre-shared CKN/CAK key considerations in the Direct Connect User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectionId">The ID of the dedicated connection (dxcon-xxxx), interconnect (dx- con-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or De- scribeLags to retrieve connection ID.</param>
+    public AwsDirectconnectAssociateMacSecKeyOptions(
+        string ConnectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionId);
+        this.ConnectionId = ConnectionId;
+    }
+
+    private AwsDirectconnectAssociateMacSecKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectAssociateMacSecKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectAssociateMacSecKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dx- con-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections , DescribeInterconnects , or De- scribeLags to retrieve connection ID.
+    /// </summary>
     [CliOption("--connection-id")]
-    public string? ConnectionId { get; set; }
+    public string? ConnectionId { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the connection. You can use DescribeConnections or DescribeLags to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
@@ -49,5 +86,22 @@ public record AwsDirectconnectAssociateMacSecKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

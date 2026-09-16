@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "delete-resource-policy")]
-public record AwsXrayDeleteResourcePolicyOptions : AwsOptions
+public record AwsXrayDeleteResourcePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a resource policy from the target Amazon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyName">The name of the resource policy to delete. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    public AwsXrayDeleteResourcePolicyOptions(
+        string PolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+    }
+
+    private AwsXrayDeleteResourcePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayDeleteResourcePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayDeleteResourcePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource policy to delete. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    public string? PolicyName { get; private init; }
 
     /// <summary>
     /// Specifies a specific policy revision to delete. Provide a PolicyRe- visionId to ensure an atomic delete operation. If the provided revi- sion id does not match the latest policy revision id, an InvalidPol- icyRevisionIdException exception is returned.
@@ -35,5 +72,22 @@ public record AwsXrayDeleteResourcePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

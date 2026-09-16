@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,28 +22,164 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "create-replication-configuration-template")]
-public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
+public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new ReplicationConfigurationTemplate. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StagingAreaSubnetId">Request to configure the Staging Area subnet ID during Replication Settings template creation. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}</param>
+    /// <param name="AssociateDefaultSecurityGroup">rity-group (boolean) [required] Request to associate the default Application Migration Service Secu- rity group with the Replication Settings template.</param>
+    /// <param name="ReplicationServersSecurityGroupsIds">Request to configure the Replication Server Security group ID during Replication Settings template creation. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...</param>
+    /// <param name="ReplicationServerInstanceType">Request to configure the Replication Server instance type during Replication Settings template creation. Constraints: o min: 0 o max: 255</param>
+    /// <param name="UseDedicatedReplicationServer">tion-server (boolean) [required] Request to use Dedicated Replication Servers during Replication Set- tings template creation.</param>
+    /// <param name="DefaultLargeStagingDiskType">Request to configure the default large staging disk EBS volume type during Replication Settings template creation. Possible values: o GP2 o ST1 o GP3</param>
+    /// <param name="EbsEncryption">Request to configure EBS encryption during Replication Settings tem- plate creation. Possible values: o DEFAULT o CUSTOM</param>
+    /// <param name="BandwidthThrottling">Request to configure bandwidth throttling during Replication Set- tings template creation. Constraints: o min: 0 o max: 10000</param>
+    /// <param name="DataPlaneRouting">Request to configure data plane routing during Replication Settings template creation. Possible values: o PRIVATE_IP o PUBLIC_IP</param>
+    /// <param name="CreatePublicIp">Request to create Public IP during Replication Settings template creation.</param>
+    /// <param name="StagingAreaTags">Request to configure Staging Area tags during Replication Settings template creation. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsMgnCreateReplicationConfigurationTemplateOptions(
+        string StagingAreaSubnetId,
+        bool AssociateDefaultSecurityGroup,
+        IEnumerable<string> ReplicationServersSecurityGroupsIds,
+        string ReplicationServerInstanceType,
+        bool UseDedicatedReplicationServer,
+        AwsMgnCreateReplicationConfigurationTemplateDefaultLargeStagingDiskType DefaultLargeStagingDiskType,
+        AwsMgnCreateReplicationConfigurationTemplateEbsEncryption EbsEncryption,
+        int BandwidthThrottling,
+        AwsMgnCreateReplicationConfigurationTemplateDataPlaneRouting DataPlaneRouting,
+        bool CreatePublicIp,
+        IReadOnlyList<KeyValue> StagingAreaTags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StagingAreaSubnetId);
+        this.StagingAreaSubnetId = StagingAreaSubnetId;
+        this.AssociateDefaultSecurityGroup = AssociateDefaultSecurityGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ReplicationServersSecurityGroupsIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ReplicationServersSecurityGroupsIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ReplicationServersSecurityGroupsIds));
+            }
+
+            ReplicationServersSecurityGroupsIds = materialized;
+        }
+        this.ReplicationServersSecurityGroupsIds = ReplicationServersSecurityGroupsIds;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationServerInstanceType);
+        this.ReplicationServerInstanceType = ReplicationServerInstanceType;
+        this.UseDedicatedReplicationServer = UseDedicatedReplicationServer;
+        global::System.ArgumentNullException.ThrowIfNull(DefaultLargeStagingDiskType);
+        this.DefaultLargeStagingDiskType = DefaultLargeStagingDiskType;
+        global::System.ArgumentNullException.ThrowIfNull(EbsEncryption);
+        this.EbsEncryption = EbsEncryption;
+        this.BandwidthThrottling = BandwidthThrottling;
+        global::System.ArgumentNullException.ThrowIfNull(DataPlaneRouting);
+        this.DataPlaneRouting = DataPlaneRouting;
+        this.CreatePublicIp = CreatePublicIp;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StagingAreaTags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(StagingAreaTags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StagingAreaTags));
+            }
+
+            StagingAreaTags = materialized;
+        }
+        this.StagingAreaTags = StagingAreaTags;
+    }
+
+    private AwsMgnCreateReplicationConfigurationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnCreateReplicationConfigurationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnCreateReplicationConfigurationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Request to configure the Staging Area subnet ID during Replication Settings template creation. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}
+    /// </summary>
     [CliOption("--staging-area-subnet-id")]
-    public string? StagingAreaSubnetId { get; set; }
+    public string? StagingAreaSubnetId { get; private init; }
 
-    [CliFlag("--associate-default-security-group")]
-    public bool? AssociateDefaultSecurityGroup { get; set; }
+    /// <summary>
+    /// rity-group (boolean) [required] Request to associate the default Application Migration Service Secu- rity group with the Replication Settings template.
+    /// </summary>
+    [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
+    public bool? AssociateDefaultSecurityGroup { get; private init; }
 
+    /// <summary>
+    /// Request to configure the Replication Server Security group ID during Replication Settings template creation. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
-    public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
+    public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; private init; }
 
+    /// <summary>
+    /// Request to configure the Replication Server instance type during Replication Settings template creation. Constraints: o min: 0 o max: 255
+    /// </summary>
     [CliOption("--replication-server-instance-type")]
-    public string? ReplicationServerInstanceType { get; set; }
+    public string? ReplicationServerInstanceType { get; private init; }
 
-    [CliFlag("--use-dedicated-replication-server")]
-    public bool? UseDedicatedReplicationServer { get; set; }
+    /// <summary>
+    /// tion-server (boolean) [required] Request to use Dedicated Replication Servers during Replication Set- tings template creation.
+    /// </summary>
+    [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
+    public bool? UseDedicatedReplicationServer { get; private init; }
 
+    /// <summary>
+    /// Request to configure the default large staging disk EBS volume type during Replication Settings template creation. Possible values: o GP2 o ST1 o GP3
+    /// </summary>
     [CliOption("--default-large-staging-disk-type")]
-    public string? DefaultLargeStagingDiskType { get; set; }
+    public AwsMgnCreateReplicationConfigurationTemplateDefaultLargeStagingDiskType? DefaultLargeStagingDiskType { get; private init; }
 
+    /// <summary>
+    /// Request to configure EBS encryption during Replication Settings tem- plate creation. Possible values: o DEFAULT o CUSTOM
+    /// </summary>
     [CliOption("--ebs-encryption")]
-    public string? EbsEncryption { get; set; }
+    public AwsMgnCreateReplicationConfigurationTemplateEbsEncryption? EbsEncryption { get; private init; }
+
+    /// <summary>
+    /// Request to configure bandwidth throttling during Replication Set- tings template creation. Constraints: o min: 0 o max: 10000
+    /// </summary>
+    [CliOption("--bandwidth-throttling")]
+    public int? BandwidthThrottling { get; private init; }
+
+    /// <summary>
+    /// Request to configure data plane routing during Replication Settings template creation. Possible values: o PRIVATE_IP o PUBLIC_IP
+    /// </summary>
+    [CliOption("--data-plane-routing")]
+    public AwsMgnCreateReplicationConfigurationTemplateDataPlaneRouting? DataPlaneRouting { get; private init; }
+
+    /// <summary>
+    /// Request to create Public IP during Replication Settings template creation.
+    /// </summary>
+    [CliFlag("--create-public-ip", NegatedName = "--no-create-public-ip")]
+    public bool? CreatePublicIp { get; private init; }
+
+    /// <summary>
+    /// Request to configure Staging Area tags during Replication Settings template creation. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
+    [CliOption("--staging-area-tags", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? StagingAreaTags { get; private init; }
 
     /// <summary>
     /// Request to configure an EBS encryption key during Replication Set- tings template creation. Constraints: o min: 20 o max: 2048
@@ -50,19 +187,10 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--ebs-encryption-key-arn")]
     public string? EbsEncryptionKeyArn { get; set; }
 
-    [CliOption("--bandwidth-throttling")]
-    public int? BandwidthThrottling { get; set; }
-
-    [CliOption("--data-plane-routing")]
-    public string? DataPlaneRouting { get; set; }
-
-    [CliFlag("--create-public-ip")]
-    public bool? CreatePublicIp { get; set; }
-
-    [CliOption("--staging-area-tags", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
-
-    [CliFlag("--use-fips-endpoint")]
+    /// <summary>
+    /// Request to use Fips Endpoint during Replication Settings template creation.
+    /// </summary>
+    [CliFlag("--use-fips-endpoint", NegatedName = "--no-use-fips-endpoint")]
     public bool? UseFipsEndpoint { get; set; }
 
     /// <summary>
@@ -77,7 +205,10 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--internet-protocol")]
     public AwsMgnCreateReplicationConfigurationTemplateInternetProtocol? InternetProtocol { get; set; }
 
-    [CliFlag("--store-snapshot-on-local-zone")]
+    /// <summary>
+    /// Request to store snapshot on local zone during Replication Settings template creation.
+    /// </summary>
+    [CliFlag("--store-snapshot-on-local-zone", NegatedName = "--no-store-snapshot-on-local-zone")]
     public bool? StoreSnapshotOnLocalZone { get; set; }
 
     /// <summary>
@@ -91,5 +222,22 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

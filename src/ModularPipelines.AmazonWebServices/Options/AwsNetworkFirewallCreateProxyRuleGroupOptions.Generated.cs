@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "create-proxy-rule-group")]
-public record AwsNetworkFirewallCreateProxyRuleGroupOptions : AwsOptions
+public record AwsNetworkFirewallCreateProxyRuleGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Network Firewall ProxyRuleGroup Collections of related proxy filtering rules. Rule groups help you man- age and reuse sets of rules across multiple proxy configurations. To manage a proxy rule group's tags, use the standard Amazon Web Ser- vices resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxy rule groups, use ListProxyRule- Groups and DescribeProxyRuleGroup . To retrieve information about individual proxy rules, ...
+    /// </summary>
+    /// <param name="ProxyRuleGroupName">The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
+    public AwsNetworkFirewallCreateProxyRuleGroupOptions(
+        string ProxyRuleGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProxyRuleGroupName);
+        this.ProxyRuleGroupName = ProxyRuleGroupName;
+    }
+
+    private AwsNetworkFirewallCreateProxyRuleGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallCreateProxyRuleGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallCreateProxyRuleGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
     [CliOption("--proxy-rule-group-name")]
-    public string? ProxyRuleGroupName { get; set; }
+    public string? ProxyRuleGroupName { get; private init; }
 
     /// <summary>
     /// A description of the proxy rule group. Constraints: o max: 512 o pattern: ^.*$
@@ -47,5 +84,22 @@ public record AwsNetworkFirewallCreateProxyRuleGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

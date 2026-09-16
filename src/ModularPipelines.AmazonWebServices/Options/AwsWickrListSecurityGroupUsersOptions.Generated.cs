@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "list-security-group-users")]
-public record AwsWickrListSecurityGroupUsersOptions : AwsOptions
+public record AwsWickrListSecurityGroupUsersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a paginated list of users who belong to a specific security group in a Wickr network. See also: AWS API Documentation list-security-group-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expression...
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network containing the security group. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="GroupId">The unique identifier of the security group whose users will be listed. Constraints: o pattern: [\S\s]*</param>
+    public AwsWickrListSecurityGroupUsersOptions(
+        string NetworkId,
+        string GroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(GroupId);
+        this.GroupId = GroupId;
+    }
+
+    private AwsWickrListSecurityGroupUsersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrListSecurityGroupUsersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrListSecurityGroupUsersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network containing the security group. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the security group whose users will be listed. Constraints: o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--group-id")]
-    public string? GroupId { get; set; }
+    public string? GroupId { get; private init; }
 
     /// <summary>
     /// The field to sort users by. Multiple fields can be specified by sep- arating them with '+'. Accepted values include 'username', 'first- Name', and 'lastName'. Constraints: o pattern: [\S\s]*
@@ -65,5 +109,22 @@ public record AwsWickrListSecurityGroupUsersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

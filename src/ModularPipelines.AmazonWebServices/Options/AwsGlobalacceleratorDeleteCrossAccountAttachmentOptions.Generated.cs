@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "delete-cross-account-attachment")]
-public record AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions : AwsOptions
+public record AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accel- erator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AttachmentArn">The Amazon Resource Name (ARN) for the cross-account attachment to delete. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions(
+        string AttachmentArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttachmentArn);
+        this.AttachmentArn = AttachmentArn;
+    }
+
+    private AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the cross-account attachment to delete. Constraints: o max: 255
+    /// </summary>
     [CliOption("--attachment-arn")]
-    public string? AttachmentArn { get; set; }
+    public string? AttachmentArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

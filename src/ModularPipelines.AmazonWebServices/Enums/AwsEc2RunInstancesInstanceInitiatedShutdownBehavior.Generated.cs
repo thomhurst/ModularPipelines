@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --instanceinitiatedshutdownbehavior.
+/// Allowed values for --instance-initiated-shutdown-behavior.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2RunInstancesInstanceInitiatedShutdownBehavior
 {
     [EnumValue("stop")]
-    Stop = 1,
+    Stop,
 
     [EnumValue("terminate")]
-    Terminate = 2
+    Terminate
 }

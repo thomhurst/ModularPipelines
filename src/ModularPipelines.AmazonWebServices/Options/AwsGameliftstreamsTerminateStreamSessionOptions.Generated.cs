@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gameliftstreams", "terminate-stream-session")]
-public record AwsGameliftstreamsTerminateStreamSessionOptions : AwsOptions
+public record AwsGameliftstreamsTerminateStreamSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Permanently terminates an active stream session. When called, the stream session status changes to TERMINATING . You can terminate a stream session in any status except ACTIVATING . If the stream session is in ACTIVATING status, an exception is thrown. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Exam- ple ID: sg-1AB2C3De4 . The stream group that runs this stream session. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="StreamSessionIdentifier">Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamses- sion/sg-1AB2C3De4/ABC123def4567 . Example ID: ABC123def4567 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    public AwsGameliftstreamsTerminateStreamSessionOptions(
+        string Identifier,
+        string StreamSessionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(StreamSessionIdentifier);
+        this.StreamSessionIdentifier = StreamSessionIdentifier;
+    }
+
+    private AwsGameliftstreamsTerminateStreamSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftstreamsTerminateStreamSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftstreamsTerminateStreamSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Exam- ple ID: sg-1AB2C3De4 . The stream group that runs this stream session. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamses- sion/sg-1AB2C3De4/ABC123def4567 . Example ID: ABC123def4567 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
     [CliOption("--stream-session-identifier")]
-    public string? StreamSessionIdentifier { get; set; }
+    public string? StreamSessionIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

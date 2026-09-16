@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,105 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr-public", "complete-layer-upload")]
-public record AwsEcrPublicCompleteLayerUploadOptions : AwsOptions
+public record AwsEcrPublicCompleteLayerUploadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Informs Amazon ECR that the image layer upload is complete for a speci- fied public registry, repository name, and upload ID. You can option- ally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you shoul...
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository in a public registry to associate with the image layer. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
+    /// <param name="UploadId">The upload ID from a previous InitiateLayerUpload operation to as- sociate with the image layer. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="LayerDigests">The sha256 digest of the image layer. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+ Syntax: "string" "string" ...</param>
+    public AwsEcrPublicCompleteLayerUploadOptions(
+        string RepositoryName,
+        string UploadId,
+        IEnumerable<string> LayerDigests
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(UploadId);
+        this.UploadId = UploadId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LayerDigests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LayerDigests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LayerDigests));
+            }
+
+            LayerDigests = materialized;
+        }
+        this.LayerDigests = LayerDigests;
+    }
+
+    private AwsEcrPublicCompleteLayerUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrPublicCompleteLayerUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrPublicCompleteLayerUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository in a public registry to associate with the image layer. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// The upload ID from a previous InitiateLayerUpload operation to as- sociate with the image layer. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// </summary>
+    [CliOption("--upload-id")]
+    public string? UploadId { get; private init; }
+
+    /// <summary>
+    /// The sha256 digest of the image layer. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--layer-digests", GroupValues = true)]
+    public IEnumerable<string>? LayerDigests { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID, or registry alias, associated with the registry where layers are uploaded. If you do not specify a registry, the default public registry is assumed. Constraints: o min: 2 o max: 50
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
-
-    [CliOption("--upload-id")]
-    public string? UploadId { get; set; }
-
-    [CliOption("--layer-digests", GroupValues = true)]
-    public IEnumerable<string>? LayerDigests { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

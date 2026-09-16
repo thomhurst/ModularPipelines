@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticbeanstalk", "update-application-resource-lifecycle")]
-public record AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions : AwsOptions
+public record AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies lifecycle settings for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ResourceLifecycleConfig">The lifecycle configuration. ServiceRole -&gt; (string) The ARN of an IAM service role that Elastic Beanstalk has per- mission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationRe- sourceLifecycle ). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subse- quent UpdateApplicationResourceLifecycle calls. You can, how- ever, specify it in subsequent calls to change the Service Role to another value. VersionLifecycleConfig -&gt; (structure) Defines lifecycle settings for application versions. MaxCountRule -&gt; (structure) Specify a max count rule to restrict the number of applica- tion versions that are retained for an application. Enabled -&gt; (boolean) [required] Specify true to apply the rule, or false to disable it. MaxCount -&gt; (integer) Specify the maximum number of application versions to re- tain. DeleteSourceFromS3 -&gt; (boolean) Set to true to delete a version's source bundle from Ama- zon S3 when Elastic Beanstalk deletes the application version. MaxAgeRule -&gt; (structure) Specify a max age rule to restrict the length of time that application versions are retained for an application. Enabled -&gt; (boolean) [required] Specify true to apply the rule, or false to disable it. MaxAgeInDays -&gt; (integer) Specify the number of days to retain an application ver- sions. DeleteSourceFromS3 -&gt; (boolean) Set to true to delete a version's source bundle from Ama- zon S3 when Elastic Beanstalk deletes the application version. Shorthand Syntax: ServiceRole=string,VersionLifecycleConfig={MaxCountRule={Enabled=boolean,MaxCount=integer,DeleteSourceFromS3=boolean},MaxAgeRule={Enabled=boolean,MaxAgeInDays=integer,DeleteSourceFromS3=boolean}} JSON Syntax: { "ServiceRole": "string", "VersionLifecycleConfig": { "MaxCountRule": { "Enabled": true|false, "MaxCount": integer, "DeleteSourceFromS3": true|false }, "MaxAgeRule": { "Enabled": true|false, "MaxAgeInDays": integer, "DeleteSourceFromS3": true|false } } }</param>
+    public AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions(
+        string ApplicationName,
+        string ResourceLifecycleConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceLifecycleConfig);
+        this.ResourceLifecycleConfig = ResourceLifecycleConfig;
+    }
+
+    private AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// The lifecycle configuration. ServiceRole -&gt; (string) The ARN of an IAM service role that Elastic Beanstalk has per- mission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationRe- sourceLifecycle ). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subse- quent UpdateApplicationResourceLifecycle calls. You can, how- ever, specify it in subsequent calls to change the Service Role to another value. VersionLifecycleConfig -&gt; (structure) Defines lifecycle settings for application versions. MaxCountRule -&gt; (structure) Specify a max count rule to restrict the number of applica- tion versions that are retained for an application. Enabled -&gt; (boolean) [required] Specify true to apply the rule, or false to disable it. MaxCount -&gt; (integer) Specify the maximum number of application versions to re- tain. DeleteSourceFromS3 -&gt; (boolean) Set to true to delete a version's source bundle from Ama- zon S3 when Elastic Beanstalk deletes the application version. MaxAgeRule -&gt; (structure) Specify a max age rule to restrict the length of time that application versions are retained for an application. Enabled -&gt; (boolean) [required] Specify true to apply the rule, or false to disable it. MaxAgeInDays -&gt; (integer) Specify the number of days to retain an application ver- sions. DeleteSourceFromS3 -&gt; (boolean) Set to true to delete a version's source bundle from Ama- zon S3 when Elastic Beanstalk deletes the application version. Shorthand Syntax: ServiceRole=string,VersionLifecycleConfig={MaxCountRule={Enabled=boolean,MaxCount=integer,DeleteSourceFromS3=boolean},MaxAgeRule={Enabled=boolean,MaxAgeInDays=integer,DeleteSourceFromS3=boolean}} JSON Syntax: { "ServiceRole": "string", "VersionLifecycleConfig": { "MaxCountRule": { "Enabled": true|false, "MaxCount": integer, "DeleteSourceFromS3": true|false }, "MaxAgeRule": { "Enabled": true|false, "MaxAgeInDays": integer, "DeleteSourceFromS3": true|false } } }
+    /// </summary>
     [CliOption("--resource-lifecycle-config")]
-    public string? ResourceLifecycleConfig { get; set; }
+    public string? ResourceLifecycleConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

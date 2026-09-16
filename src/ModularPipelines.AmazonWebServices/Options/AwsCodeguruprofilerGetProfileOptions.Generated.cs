@@ -22,6 +22,34 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodeguruprofilerGetProfileOptions : AwsOptions
 {
     /// <summary>
+    /// Gets the aggregated profile of a profiling group for a specified time range. Amazon CodeGuru Profiler collects posted agent profiles for a profiling group into aggregated profiles. &lt;note&gt; &lt;p&gt; Because aggregated profiles expire over time &lt;code&gt;Get- Profile&lt;/code&gt; is not idempotent. &lt;/p&gt; &lt;/note&gt; &lt;p&gt; Specify the time range for the requested aggregated profile using 1 or 2 of the fol- lowing parameters: &lt;code&gt;startTime&lt;/code&gt;, &lt;code&gt;endTime&lt;/code&gt;, &lt;code&gt;period&lt;/code&gt;. The maximum time range allowed...
+    /// </summary>
+    /// <param name="ProfilingGroupName">The name of the profiling group to get. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsCodeguruprofilerGetProfileOptions(
+        string ProfilingGroupName,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string ProfilingGroupName, out string Outfile)
+    {
+        ProfilingGroupName = this.ProfilingGroupName;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The name of the profiling group to get. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
+    [CliOption("--profiling-group-name")]
+    public string ProfilingGroupName { get; private init; }
+
+    /// <summary>
     /// The format of the returned profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default . &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; standard JSON for- mat &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; the Amazon Ion data format. For more information, see &lt;a href="http://amzn.github.io/ion-docs/"&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
     /// </summary>
     [CliOption("--accept")]
@@ -45,13 +73,16 @@ public record AwsCodeguruprofilerGetProfileOptions : AwsOptions
     [CliOption("--period")]
     public string? Period { get; set; }
 
-    [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
-
     /// <summary>
     /// The start time of the profile to get. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC. &lt;p&gt; If you specify &lt;code&gt;startTime&lt;/code&gt;, then you must also specify &lt;code&gt;period&lt;/code&gt; or &lt;code&gt;endTime&lt;/code&gt;, but not both. &lt;/p&gt; outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

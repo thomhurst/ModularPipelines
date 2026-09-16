@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lightsail", "get-key-pairs")]
 public record AwsLightsailGetKeyPairsOptions : AwsOptions
 {
-    [CliFlag("--include-default-key-pair")]
+    /// <summary>
+    /// A Boolean value that indicates whether to include the default key pair in the response of your request.
+    /// </summary>
+    [CliFlag("--include-default-key-pair", NegatedName = "--no-include-default-key-pair")]
     public bool? IncludeDefaultKeyPair { get; set; }
 
     [CliOption("--cli-input-json")]

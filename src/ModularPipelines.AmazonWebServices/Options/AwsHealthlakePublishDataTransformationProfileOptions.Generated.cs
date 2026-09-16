@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthlake", "publish-data-transformation-profile")]
-public record AwsHealthlakePublishDataTransformationProfileOptions : AwsOptions
+public record AwsHealthlakePublishDataTransformationProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Promotes the current DRAFT version of a data transformation profile to a new immutable published version. Also supports rollback by publishing from a previously published version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileId">The unique identifier of the profile to publish. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
+    /// <param name="SourceFormat">The source data format of the profile. Possible values: o CCDA o CSV</param>
+    public AwsHealthlakePublishDataTransformationProfileOptions(
+        string ProfileId,
+        AwsHealthlakePublishDataTransformationProfileSourceFormat SourceFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceFormat);
+        this.SourceFormat = SourceFormat;
+    }
+
+    private AwsHealthlakePublishDataTransformationProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthlakePublishDataTransformationProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthlakePublishDataTransformationProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the profile to publish. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// </summary>
+    [CliOption("--profile-id")]
+    public string? ProfileId { get; private init; }
+
+    /// <summary>
+    /// The source data format of the profile. Possible values: o CCDA o CSV
+    /// </summary>
     [CliOption("--source-format")]
-    public string? SourceFormat { get; set; }
+    public AwsHealthlakePublishDataTransformationProfileSourceFormat? SourceFormat { get; private init; }
 
     /// <summary>
     /// The version number of a previously published version to republish as the new latest version. Use this parameter for rollback scenarios. If you omit this parameter, the service publishes the current DRAFT version. Constraints: o min: 0 o max: 99
@@ -44,5 +89,22 @@ public record AwsHealthlakePublishDataTransformationProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-data-automation-runtime", "invoke-data-automation-async")]
-public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions : AwsOptions
+public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Async API: Invoke data automation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputConfiguration">Input configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? assetProcessingConfiguration -&gt; (structure) Asset processing configuration video -&gt; (structure) Video asset processing configuration segmentConfiguration -&gt; (tagged union structure) Delimits the segment of the input that will be processed NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: timestampSegment. timestampSegment -&gt; (structure) Timestamp segment startTimeMillis -&gt; (long) [required] Start timestamp in milliseconds Constraints: o min: 0 endTimeMillis -&gt; (long) [required] End timestamp in milliseconds Constraints: o min: 300000 JSON Syntax: { "s3Uri": "string", "assetProcessingConfiguration": { "video": { "segmentConfiguration": { "timestampSegment": { "startTimeMillis": long, "endTimeMillis": long } } } } }</param>
+    /// <param name="OutputConfiguration">Output configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }</param>
+    /// <param name="DataAutomationProfileArn">Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+</param>
+    public AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions(
+        string InputConfiguration,
+        string OutputConfiguration,
+        string DataAutomationProfileArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputConfiguration);
+        this.InputConfiguration = InputConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfiguration);
+        this.OutputConfiguration = OutputConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(DataAutomationProfileArn);
+        this.DataAutomationProfileArn = DataAutomationProfileArn;
+    }
+
+    private AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Input configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? assetProcessingConfiguration -&gt; (structure) Asset processing configuration video -&gt; (structure) Video asset processing configuration segmentConfiguration -&gt; (tagged union structure) Delimits the segment of the input that will be processed NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: timestampSegment. timestampSegment -&gt; (structure) Timestamp segment startTimeMillis -&gt; (long) [required] Start timestamp in milliseconds Constraints: o min: 0 endTimeMillis -&gt; (long) [required] End timestamp in milliseconds Constraints: o min: 300000 JSON Syntax: { "s3Uri": "string", "assetProcessingConfiguration": { "video": { "segmentConfiguration": { "timestampSegment": { "startTimeMillis": long, "endTimeMillis": long } } } } }
+    /// </summary>
+    [CliOption("--input-configuration")]
+    public string? InputConfiguration { get; private init; }
+
+    /// <summary>
+    /// Output configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
+    /// </summary>
+    [CliOption("--output-configuration")]
+    public string? OutputConfiguration { get; private init; }
+
+    /// <summary>
+    /// Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+
+    /// </summary>
+    [CliOption("--data-automation-profile-arn")]
+    public string? DataAutomationProfileArn { get; private init; }
+
     /// <summary>
     /// Idempotency token. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){1,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--input-configuration")]
-    public string? InputConfiguration { get; set; }
-
-    [CliOption("--output-configuration")]
-    public string? OutputConfiguration { get; set; }
 
     /// <summary>
     /// Data automation configuration. dataAutomationProjectArn -&gt; (string) [required] Data automation project arn. Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-project/[a-zA-Z0-9-_]+ stage -&gt; (string) Data automation stage. Possible values: o LIVE o DEVELOPMENT Shorthand Syntax: dataAutomationProjectArn=string,stage=string JSON Syntax: { "dataAutomationProjectArn": "string", "stage": "LIVE"|"DEVELOPMENT" }
@@ -59,9 +113,6 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions : 
     [CliOption("--blueprints", GroupValues = true)]
     public IEnumerable<string>? Blueprints { get; set; }
 
-    [CliOption("--data-automation-profile-arn")]
-    public string? DataAutomationProfileArn { get; set; }
-
     /// <summary>
     /// List of tags. Constraints: o min: 0 o max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
@@ -73,5 +124,22 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions : 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

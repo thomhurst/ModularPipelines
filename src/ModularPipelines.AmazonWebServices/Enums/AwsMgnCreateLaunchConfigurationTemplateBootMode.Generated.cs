@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --bootmode.
+/// Allowed values for --boot-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMgnCreateLaunchConfigurationTemplateBootMode
 {
     [EnumValue("LEGACY_BIOS")]
-    LegacyBios = 1,
+    LegacyBios,
 
     [EnumValue("UEFI")]
-    Uefi = 2,
+    Uefi,
 
     [EnumValue("USE_SOURCE")]
-    UseSource = 3
+    UseSource
 }

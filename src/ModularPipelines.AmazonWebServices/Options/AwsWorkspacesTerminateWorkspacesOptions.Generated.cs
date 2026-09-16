@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "terminate-workspaces")]
-public record AwsWorkspacesTerminateWorkspacesOptions : AwsOptions
+public record AwsWorkspacesTerminateWorkspacesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Terminates the specified WorkSpaces. WARNING: Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the Work- Space. You can terminate a WorkSpace that is in any state except SUSPENDED . This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMI- NATED state is returned only brief...
+    /// </summary>
+    /// <param name="TerminateWorkspaceRequests">The WorkSpaces to terminate. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to terminate a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --terminate-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
+    public AwsWorkspacesTerminateWorkspacesOptions(
+        IEnumerable<string> TerminateWorkspaceRequests
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TerminateWorkspaceRequests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TerminateWorkspaceRequests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TerminateWorkspaceRequests));
+            }
+
+            TerminateWorkspaceRequests = materialized;
+        }
+        this.TerminateWorkspaceRequests = TerminateWorkspaceRequests;
+    }
+
+    private AwsWorkspacesTerminateWorkspacesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesTerminateWorkspacesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesTerminateWorkspacesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to terminate a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --terminate-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]
+    /// </summary>
     [CliOption("--terminate-workspace-requests", GroupValues = true)]
-    public IEnumerable<string>? TerminateWorkspaceRequests { get; set; }
+    public IEnumerable<string>? TerminateWorkspaceRequests { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53globalresolver", "create-firewall-rule")]
-public record AwsRoute53globalresolverCreateFirewallRuleOptions : AwsOptions
+public record AwsRoute53globalresolverCreateFirewallRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a DNS firewall rule. Firewall rules define actions (ALLOW, BLOCK, or ALERT) to take on DNS queries that match specified domain lists, managed domain lists, or advanced threat protections. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon We...
+    /// </summary>
+    /// <param name="Action">The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list: o ALLOW - Permit the request to go through. o ALERT - Permit the request and send metrics and logs to Cloud- Watch. o BLOCK - Disallow the request. This option requires additional de- tails in the rule's BlockResponse . Possible values: o ALLOW o ALERT o BLOCK</param>
+    /// <param name="Name">A descriptive name for the firewall rule. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
+    /// <param name="DnsViewId">The ID of the DNS view to associate with this firewall rule. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    public AwsRoute53globalresolverCreateFirewallRuleOptions(
+        AwsRoute53globalresolverCreateFirewallRuleAction Action,
+        string Name,
+        string DnsViewId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DnsViewId);
+        this.DnsViewId = DnsViewId;
+    }
+
+    private AwsRoute53globalresolverCreateFirewallRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53globalresolverCreateFirewallRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53globalresolverCreateFirewallRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list: o ALLOW - Permit the request to go through. o ALERT - Permit the request and send metrics and logs to Cloud- Watch. o BLOCK - Disallow the request. This option requires additional de- tails in the rule's BlockResponse . Possible values: o ALLOW o ALERT o BLOCK
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public AwsRoute53globalresolverCreateFirewallRuleAction? Action { get; private init; }
+
+    /// <summary>
+    /// A descriptive name for the firewall rule. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ID of the DNS view to associate with this firewall rule. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--dns-view-id")]
+    public string? DnsViewId { get; private init; }
 
     /// <summary>
     /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain . Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Possible values: o CNAME
     /// </summary>
     [CliOption("--block-override-dns-type")]
-    public AwsRoute53globalresolverCreateFirewallRuleBlockOverrideDnsType? BlockOverrideDnsType { get; set; }
+    public string? BlockOverrideDnsType { get; set; }
 
     /// <summary>
     /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . This setting is required if the BlockResponse setting is OVERRIDE . Constraints: o min: 1 o max: 256 o pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+
@@ -81,17 +138,11 @@ public record AwsRoute53globalresolverCreateFirewallRuleOptions : AwsOptions
     [CliOption("--firewall-domain-list-id")]
     public string? FirewallDomainListId { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// The priority of this rule. Rules are evaluated in priority order, with lower numbers having higher priority. When a DNS query matches multiple rules, the rule with the highest priority (lowest number) is applied. Constraints: o min: 1 o max: 10000
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; set; }
-
-    [CliOption("--dns-view-id")]
-    public string? DnsViewId { get; set; }
 
     /// <summary>
     /// The DNS query type to match for this rule. Examples include A (IPv4 address), AAAA (IPv6 address), MX (mail exchange), or TXT (text record). Constraints: o min: 0 o max: 16
@@ -104,5 +155,22 @@ public record AwsRoute53globalresolverCreateFirewallRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

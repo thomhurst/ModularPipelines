@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migration-hub-refactor-spaces", "put-resource-policy")]
-public record AwsMigrationHubRefactorSpacesPutResourcePolicyOptions : AwsOptions
+public record AwsMigrationHubRefactorSpacesPutResourcePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy")]
-    public string? Policy { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permis- sion/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Re- source Access Manager. The policy must not contain new lines or blank lines. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Policy">A JSON-formatted string for an Amazon Web Services resource-based policy. Constraints: o min: 1 o max: 300000 o pattern: ^.*\S.*$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to which the policy is being attached. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:refac- tor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$</param>
+    public AwsMigrationHubRefactorSpacesPutResourcePolicyOptions(
+        string Policy,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsMigrationHubRefactorSpacesPutResourcePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationHubRefactorSpacesPutResourcePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationHubRefactorSpacesPutResourcePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A JSON-formatted string for an Amazon Web Services resource-based policy. Constraints: o min: 1 o max: 300000 o pattern: ^.*\S.*$
+    /// </summary>
+    [CliOption("--policy")]
+    public string? Policy { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource to which the policy is being attached. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:refac- tor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

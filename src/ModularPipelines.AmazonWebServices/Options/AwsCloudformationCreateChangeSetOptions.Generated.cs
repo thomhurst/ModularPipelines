@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "create-change-set")]
-public record AwsCloudformationCreateChangeSetOptions : AwsOptions
+public record AwsCloudformationCreateChangeSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a list of changes that will be applied to a stack so that you can review the changes before executing them. You can create a change set for a stack that doesn't exist or an existing stack. If you create a change set for a stack that doesn't exist, the change set shows all of the resources that CloudFormation will create. If you create a change set for an existing stack, CloudFormation compares the stack's information with the information that you submit in the change set and lists the di...
+    /// </summary>
+    /// <param name="StackName">The name or the unique ID of the stack for which you are creating a change set. CloudFormation generates the change set by comparing this stack's information with the information that you submit, such as a modified template or different parameter input values. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
+    /// <param name="ChangeSetName">The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters, and hyphens. It must start with an alphabetical charac- ter and can't exceed 128 characters. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    public AwsCloudformationCreateChangeSetOptions(
+        string StackName,
+        string ChangeSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeSetName);
+        this.ChangeSetName = ChangeSetName;
+    }
+
+    private AwsCloudformationCreateChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationCreateChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationCreateChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or the unique ID of the stack for which you are creating a change set. CloudFormation generates the change set by comparing this stack's information with the information that you submit, such as a modified template or different parameter input values. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// </summary>
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string? StackName { get; private init; }
+
+    /// <summary>
+    /// The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters, and hyphens. It must start with an alphabetical charac- ter and can't exceed 128 characters. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// </summary>
+    [CliOption("--change-set-name")]
+    public string? ChangeSetName { get; private init; }
 
     /// <summary>
     /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only one of the following parameters: TemplateBody , TemplateURL , or set the UsePreviousTemplate to true . Constraints: o min: 1
@@ -38,7 +85,10 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
     [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CliFlag("--use-previous-template")]
+    /// <summary>
+    /// Whether to reuse the template that's associated with the stack to create the change set. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are ap- plied correctly. For more information, see AWS::LanguageExtensions transform . Conditional: You must specify only one of the following parameters: TemplateBody , TemplateURL , or set the UsePreviousTemplate to true .
+    /// </summary>
+    [CliFlag("--use-previous-template", NegatedName = "--no-use-previous-template")]
     public bool? UsePreviousTemplate { get; set; }
 
     /// <summary>
@@ -83,9 +133,6 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--change-set-name")]
-    public string? ChangeSetName { get; set; }
-
     /// <summary>
     /// A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that CloudFormation successfully received them. Constraints: o min: 1 o max: 128
     /// </summary>
@@ -111,7 +158,10 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
     [CliOption("--resources-to-import", GroupValues = true)]
     public IEnumerable<string>? ResourcesToImport { get; set; }
 
-    [CliFlag("--include-nested-stacks")]
+    /// <summary>
+    /// Creates a change set for the all nested stacks specified in the tem- plate. The default behavior of this action is set to False . To in- clude nested sets in a change set, specify True .
+    /// </summary>
+    [CliFlag("--include-nested-stacks", NegatedName = "--no-include-nested-stacks")]
     public bool? IncludeNestedStacks { get; set; }
 
     /// <summary>
@@ -120,14 +170,17 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
     [CliOption("--on-stack-failure")]
     public AwsCloudformationCreateChangeSetOnStackFailure? OnStackFailure { get; set; }
 
-    [CliFlag("--import-existing-resources")]
+    /// <summary>
+    /// Indicates if the change set auto-imports resources that already ex- ist. For more information, see Import Amazon Web Services resources into a CloudFormation stack automatically in the CloudFormation User Guide . NOTE: This parameter can only import resources that have custom names in templates. For more information, see name type in the Cloud- Formation User Guide . To import resources that do not accept custom names, such as EC2 instances, use the ResourcesToImport parameter instead.
+    /// </summary>
+    [CliFlag("--import-existing-resources", NegatedName = "--no-import-existing-resources")]
     public bool? ImportExistingResources { get; set; }
 
     /// <summary>
     /// Determines how CloudFormation handles configuration drift during de- ployment. o REVERT_DRIFT Creates a drift-aware change set that brings actual resource states in line with template definitions. Provides a three-way comparison between actual state, previous deployment state, and desired state. For more information, see Using drift-aware change sets in the CloudFormation User Guide . Possible values: o REVERT_DRIFT
     /// </summary>
     [CliOption("--deployment-mode")]
-    public AwsCloudformationCreateChangeSetDeploymentMode? DeploymentMode { get; set; }
+    public string? DeploymentMode { get; set; }
 
     /// <summary>
     /// The deployment configuration for this stack operation, including the deployment mode. Mode -&gt; (string) Specifies the deployment mode for the stack operation. Possible values are: o STANDARD - Use the standard deployment behavior, ensuring re- sources are ready to serve traffic before completing the oper- ation. This is the default. You do not need to specify this value explicitly. o EXPRESS - Complete the stack operation when resource configu- ration is applied, without waiting for resources to become ready to serve traffic. Resources continue becoming ready in the background. Possible values: o STANDARD o EXPRESS DisableRollback -&gt; (boolean) Specifies whether to disable rollback of the stack if the stack operation fails. Default: false Shorthand Syntax: Mode=string,DisableRollback=boolean JSON Syntax: { "Mode": "STANDARD"|"EXPRESS", "DisableRollback": true|false }
@@ -135,7 +188,10 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
     [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CliFlag("--disable-validation")]
+    /// <summary>
+    /// Set to true to disable pre-deployment validations in changeset or stack operations. Default: false
+    /// </summary>
+    [CliFlag("--disable-validation", NegatedName = "--no-disable-validation")]
     public bool? DisableValidation { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -143,5 +199,22 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

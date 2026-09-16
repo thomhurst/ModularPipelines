@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize", "update-solution")]
-public record AwsPersonalizeUpdateSolutionOptions : AwsOptions
+public record AwsPersonalizeUpdateSolutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--solution-arn")]
-    public string? SolutionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--perform-auto-training")]
+    /// <summary>
+    /// Updates an Amazon Personalize solution to use a different automatic training configuration. When you update a solution, you can change whether the solution uses automatic training, and you can change the training frequency. For more information about updating a solution, see Updating a solution . A solution update can be in one of the following states: CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED To get the status of a solution update, call the DescribeSolution API operation a...
+    /// </summary>
+    /// <param name="SolutionArn">The Amazon Resource Name (ARN) of the solution to update. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    public AwsPersonalizeUpdateSolutionOptions(
+        string SolutionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SolutionArn);
+        this.SolutionArn = SolutionArn;
+    }
+
+    private AwsPersonalizeUpdateSolutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeUpdateSolutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeUpdateSolutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the solution to update. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
+    [CliOption("--solution-arn")]
+    public string? SolutionArn { get; private init; }
+
+    /// <summary>
+    /// Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information about auto- matic training, see Configuring automatic training . After training starts, you can get the solution version's Amazon Re- source Name (ARN) with the ListSolutionVersions API operation. To get its status, use the DescribeSolutionVersion .
+    /// </summary>
+    [CliFlag("--perform-auto-training", NegatedName = "--no-perform-auto-training")]
     public bool? PerformAutoTraining { get; set; }
 
-    [CliFlag("--perform-incremental-update")]
+    /// <summary>
+    /// Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more fre- quently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for so- lutions that use the semantic-similarity recipe.
+    /// </summary>
+    [CliFlag("--perform-incremental-update", NegatedName = "--no-perform-incremental-update")]
     public bool? PerformIncrementalUpdate { get; set; }
 
     /// <summary>
@@ -41,5 +84,22 @@ public record AwsPersonalizeUpdateSolutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

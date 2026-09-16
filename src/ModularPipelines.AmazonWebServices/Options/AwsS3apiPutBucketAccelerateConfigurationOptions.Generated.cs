@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-accelerate-configuration")]
-public record AwsS3apiPutBucketAccelerateConfigurationOptions : AwsOptions
+public record AwsS3apiPutBucketAccelerateConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to Amazon S3. To use this operation, you must have permission to perform the s3:PutAccelerateConfiguration action. The bucket owner has this permis- sion by default. The bucket owner can grant this permission to others. For more information about permissions, see Permission...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket for which the accelerate configuration is set.</param>
+    /// <param name="AccelerateConfiguration">Container for setting the transfer acceleration state. Status -&gt; (string) Specifies the transfer acceleration status of the bucket. Possible values: o Enabled o Suspended Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Suspended" }</param>
+    public AwsS3apiPutBucketAccelerateConfigurationOptions(
+        string Bucket,
+        string AccelerateConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(AccelerateConfiguration);
+        this.AccelerateConfiguration = AccelerateConfiguration;
+    }
+
+    private AwsS3apiPutBucketAccelerateConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketAccelerateConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketAccelerateConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket for which the accelerate configuration is set.
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Container for setting the transfer acceleration state. Status -&gt; (string) Specifies the transfer acceleration status of the bucket. Possible values: o Enabled o Suspended Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Suspended" }
+    /// </summary>
     [CliOption("--accelerate-configuration")]
-    public string? AccelerateConfiguration { get; set; }
+    public string? AccelerateConfiguration { get; private init; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
@@ -45,5 +89,22 @@ public record AwsS3apiPutBucketAccelerateConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

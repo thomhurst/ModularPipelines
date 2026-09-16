@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediastore", "put-metric-policy")]
-public record AwsMediastorePutMetricPolicyOptions : AwsOptions
+public record AwsMediastorePutMetricPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--container-name")]
-    public string? ContainerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The metric policy that you want to add to the container. A metric pol- icy allows AWS Elemental MediaStore to send metrics to Amazon Cloud- Watch. It takes up to 20 minutes for the new policy to take effect. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContainerName">The name of the container that you want to add the metric policy to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+</param>
+    /// <param name="MetricPolicy">The metric policy that you want to associate with the container. In the policy, you must indicate whether you want MediaStore to send container-level metrics. You can also include up to five rules to define groups of objects that you want MediaStore to send ob- ject-level metrics for. If you include rules in the policy, con- struct each rule with both of the following: o An object group that defines which objects to include in the group. The definition can be a path or a file name, but it can't have more than 900 characters. Valid characters are: a-z, A-Z, 0-9, _ (underscore), = (equal), : (colon), . (period), - (hyphen), ~ (tilde), / (forward slash), and * (asterisk). Wildcards (*) are acceptable. o An object group name that allows you to refer to the object group. The name can't have more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _ (underscore). ContainerLevelMetrics -&gt; (string) [required] A setting to enable or disable metrics at the container level. Possible values: o ENABLED o DISABLED MetricPolicyRules -&gt; (list) A parameter that holds an array of rules that enable metrics at the object level. This parameter is optional, but if you choose to include it, you must also include at least one rule. By de- fault, you can include up to five rules. You can also request a quota increase to allow up to 300 rules per policy. Constraints: o min: 1 o max: 300 (structure) A setting that enables metrics at the object level. Each rule contains an object group and an object group name. If the policy includes the MetricPolicyRules parameter, you must in- clude at least one rule. Each metric policy can include up to five rules by default. You can also request a quota increase to allow up to 300 rules per policy. ObjectGroup -&gt; (string) [required] A path or file name that defines which objects to include in the group. Wildcards (*) are acceptable. Constraints: o min: 1 o max: 900 o pattern: /?(?:[A-Za-z0-9_=:\.\-\~\*]+/){0,10}(?:[A-Za-z0-9_=:\.\-\~\*]+)?/? ObjectGroupName -&gt; (string) [required] A name that allows you to refer to the object group. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9_]+ Shorthand Syntax: ContainerLevelMetrics=string,MetricPolicyRules=[{ObjectGroup=string,ObjectGroupName=string},{ObjectGroup=string,ObjectGroupName=string}] JSON Syntax: { "ContainerLevelMetrics": "ENABLED"|"DISABLED", "MetricPolicyRules": [ { "ObjectGroup": "string", "ObjectGroupName": "string" } ... ] }</param>
+    public AwsMediastorePutMetricPolicyOptions(
+        string ContainerName,
+        string MetricPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(MetricPolicy);
+        this.MetricPolicy = MetricPolicy;
+    }
+
+    private AwsMediastorePutMetricPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediastorePutMetricPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediastorePutMetricPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the container that you want to add the metric policy to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+
+    /// </summary>
+    [CliOption("--container-name")]
+    public string? ContainerName { get; private init; }
+
+    /// <summary>
+    /// The metric policy that you want to associate with the container. In the policy, you must indicate whether you want MediaStore to send container-level metrics. You can also include up to five rules to define groups of objects that you want MediaStore to send ob- ject-level metrics for. If you include rules in the policy, con- struct each rule with both of the following: o An object group that defines which objects to include in the group. The definition can be a path or a file name, but it can't have more than 900 characters. Valid characters are: a-z, A-Z, 0-9, _ (underscore), = (equal), : (colon), . (period), - (hyphen), ~ (tilde), / (forward slash), and * (asterisk). Wildcards (*) are acceptable. o An object group name that allows you to refer to the object group. The name can't have more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _ (underscore). ContainerLevelMetrics -&gt; (string) [required] A setting to enable or disable metrics at the container level. Possible values: o ENABLED o DISABLED MetricPolicyRules -&gt; (list) A parameter that holds an array of rules that enable metrics at the object level. This parameter is optional, but if you choose to include it, you must also include at least one rule. By de- fault, you can include up to five rules. You can also request a quota increase to allow up to 300 rules per policy. Constraints: o min: 1 o max: 300 (structure) A setting that enables metrics at the object level. Each rule contains an object group and an object group name. If the policy includes the MetricPolicyRules parameter, you must in- clude at least one rule. Each metric policy can include up to five rules by default. You can also request a quota increase to allow up to 300 rules per policy. ObjectGroup -&gt; (string) [required] A path or file name that defines which objects to include in the group. Wildcards (*) are acceptable. Constraints: o min: 1 o max: 900 o pattern: /?(?:[A-Za-z0-9_=:\.\-\~\*]+/){0,10}(?:[A-Za-z0-9_=:\.\-\~\*]+)?/? ObjectGroupName -&gt; (string) [required] A name that allows you to refer to the object group. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9_]+ Shorthand Syntax: ContainerLevelMetrics=string,MetricPolicyRules=[{ObjectGroup=string,ObjectGroupName=string},{ObjectGroup=string,ObjectGroupName=string}] JSON Syntax: { "ContainerLevelMetrics": "ENABLED"|"DISABLED", "MetricPolicyRules": [ { "ObjectGroup": "string", "ObjectGroupName": "string" } ... ] }
+    /// </summary>
     [CliOption("--metric-policy")]
-    public string? MetricPolicy { get; set; }
+    public string? MetricPolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

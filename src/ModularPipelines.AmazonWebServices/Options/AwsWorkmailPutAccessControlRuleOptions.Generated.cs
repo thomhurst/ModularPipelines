@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "put-access-control-rule")]
-public record AwsWorkmailPutAccessControlRuleOptions : AwsOptions
+public record AwsWorkmailPutAccessControlRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 ad- dresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The rule name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Effect">The rule effect. Possible values: o ALLOW o DENY</param>
+    /// <param name="Description">The rule description. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\u00FF]+</param>
+    /// <param name="OrganizationId">The identifier of the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    public AwsWorkmailPutAccessControlRuleOptions(
+        string Name,
+        AwsWorkmailPutAccessControlRuleEffect Effect,
+        string Description,
+        string OrganizationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Effect);
+        this.Effect = Effect;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+    }
+
+    private AwsWorkmailPutAccessControlRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailPutAccessControlRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailPutAccessControlRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The rule name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The rule effect. Possible values: o ALLOW o DENY
+    /// </summary>
     [CliOption("--effect")]
-    public string? Effect { get; set; }
+    public AwsWorkmailPutAccessControlRuleEffect? Effect { get; private init; }
 
+    /// <summary>
+    /// The rule description. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\u00FF]+
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
+
+    /// <summary>
+    /// The identifier of the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; private init; }
 
     /// <summary>
     /// IPv4 CIDR ranges to include in the rule. Constraints: o min: 0 o max: 1024 (string) Constraints: o min: 1 o max: 18 o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[12][0-9]|3[0-2])$ Syntax: "string" "string" ...
@@ -66,9 +128,6 @@ public record AwsWorkmailPutAccessControlRuleOptions : AwsOptions
     [CliOption("--not-user-ids", GroupValues = true)]
     public IEnumerable<string>? NotUserIds { get; set; }
 
-    [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
-
     /// <summary>
     /// Impersonation role IDs to include in the rule. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
     /// </summary>
@@ -86,5 +145,22 @@ public record AwsWorkmailPutAccessControlRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediastore", "put-lifecycle-policy")]
-public record AwsMediastorePutLifecyclePolicyOptions : AwsOptions
+public record AwsMediastorePutLifecyclePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--container-name")]
-    public string? ContainerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Writes an object lifecycle policy to a container. If the container al- ready has an object lifecycle policy, the service replaces the existing policy with the new policy. It takes up to 20 minutes for the change to take effect. For information about how to construct an object lifecycle policy, see Components of an Object Lifecycle Policy . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContainerName">The name of the container that you want to assign the object lifecy- cle policy to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+</param>
+    /// <param name="LifecyclePolicy">The object lifecycle policy to apply to the container. Constraints: o min: 0 o max: 8192 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    public AwsMediastorePutLifecyclePolicyOptions(
+        string ContainerName,
+        string LifecyclePolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(LifecyclePolicy);
+        this.LifecyclePolicy = LifecyclePolicy;
+    }
+
+    private AwsMediastorePutLifecyclePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediastorePutLifecyclePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediastorePutLifecyclePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the container that you want to assign the object lifecy- cle policy to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+
+    /// </summary>
+    [CliOption("--container-name")]
+    public string? ContainerName { get; private init; }
+
+    /// <summary>
+    /// The object lifecycle policy to apply to the container. Constraints: o min: 0 o max: 8192 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// </summary>
     [CliOption("--lifecycle-policy")]
-    public string? LifecyclePolicy { get; set; }
+    public string? LifecyclePolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

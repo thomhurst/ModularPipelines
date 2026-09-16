@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cost-optimization-hub", "list-efficiency-metrics")]
-public record AwsCostOptimizationHubListEfficiencyMetricsOptions : AwsOptions
+public record AwsCostOptimizationHubListEfficiencyMetricsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spend- ing, and measures how effectively you're optimizing your Cloud re- sources. The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Re- sults are returned as time-series data, enabling you to analyze trends in your...
+    /// </summary>
+    /// <param name="Granularity">The time granularity for the cost efficiency metrics. Specify Daily for metrics aggregated by day, or Monthly for metrics aggregated by month. Possible values: o Daily o Monthly</param>
+    /// <param name="TimePeriod">The time period for which to retrieve the cost efficiency metrics. The start date is inclusive and the end date is exclusive. Dates can be specified in either YYYY-MM-DD format or YYYY-MM format depending on the desired granularity. start -&gt; (string) [required] The beginning of the time period (inclusive). Specify the date in ISO 8601 format, such as 2024-01-01. end -&gt; (string) [required] The end of the time period (exclusive). Specify the date in ISO 8601 format, such as 2024-12-31. Shorthand Syntax: start=string,end=string JSON Syntax: { "start": "string", "end": "string" }</param>
+    public AwsCostOptimizationHubListEfficiencyMetricsOptions(
+        AwsCostOptimizationHubListEfficiencyMetricsGranularity Granularity,
+        string TimePeriod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Granularity);
+        this.Granularity = Granularity;
+        global::System.ArgumentNullException.ThrowIfNull(TimePeriod);
+        this.TimePeriod = TimePeriod;
+    }
+
+    private AwsCostOptimizationHubListEfficiencyMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCostOptimizationHubListEfficiencyMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCostOptimizationHubListEfficiencyMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The time granularity for the cost efficiency metrics. Specify Daily for metrics aggregated by day, or Monthly for metrics aggregated by month. Possible values: o Daily o Monthly
+    /// </summary>
+    [CliOption("--granularity")]
+    public AwsCostOptimizationHubListEfficiencyMetricsGranularity? Granularity { get; private init; }
+
+    /// <summary>
+    /// The time period for which to retrieve the cost efficiency metrics. The start date is inclusive and the end date is exclusive. Dates can be specified in either YYYY-MM-DD format or YYYY-MM format depending on the desired granularity. start -&gt; (string) [required] The beginning of the time period (inclusive). Specify the date in ISO 8601 format, such as 2024-01-01. end -&gt; (string) [required] The end of the time period (exclusive). Specify the date in ISO 8601 format, such as 2024-12-31. Shorthand Syntax: start=string,end=string JSON Syntax: { "start": "string", "end": "string" }
+    /// </summary>
+    [CliOption("--time-period")]
+    public string? TimePeriod { get; private init; }
+
     /// <summary>
     /// The dimension by which to group the cost efficiency metrics. Valid values include account ID, Amazon Web Services Region. When no grouping is specified, metrics are aggregated across all resources in the specified time period.
     /// </summary>
     [CliOption("--group-by")]
     public string? GroupBy { get; set; }
-
-    [CliOption("--granularity")]
-    public string? Granularity { get; set; }
-
-    [CliOption("--time-period")]
-    public string? TimePeriod { get; set; }
 
     /// <summary>
     /// The ordering specification for the results. Defines which dimension to sort by and whether to sort in ascending or descending order. dimension -&gt; (string) Sorts by dimension values. order -&gt; (string) The order that's used to sort the data. Possible values: o Asc o Desc Shorthand Syntax: dimension=string,order=string JSON Syntax: { "dimension": "string", "order": "Asc"|"Desc" }
@@ -64,5 +109,22 @@ public record AwsCostOptimizationHubListEfficiencyMetricsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -50,11 +50,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateAssetsAsync(
-        AwsIotsitewiseAssociateAssetsOptions? options = null,
+        AwsIotsitewiseAssociateAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseAssociateAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateTimeSeriesToAssetPropertyAsync(
-        AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions? options = null,
+        AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchAssociateDataSegmentsToDataSetAsync(
-        AwsIotsitewiseBatchAssociateDataSegmentsToDataSetOptions? options = null,
+        AwsIotsitewiseBatchAssociateDataSegmentsToDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseBatchAssociateDataSegmentsToDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +95,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchAssociateProjectAssetsAsync(
-        AwsIotsitewiseBatchAssociateProjectAssetsOptions? options = null,
+        AwsIotsitewiseBatchAssociateProjectAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseBatchAssociateProjectAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDeleteDataSetDataSegmentsAsync(
-        AwsIotsitewiseBatchDeleteDataSetDataSegmentsOptions? options = null,
+        AwsIotsitewiseBatchDeleteDataSetDataSegmentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseBatchDeleteDataSetDataSegmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +125,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDisassociateDataSegmentsFromDataSetAsync(
-        AwsIotsitewiseBatchDisassociateDataSegmentsFromDataSetOptions? options = null,
+        AwsIotsitewiseBatchDisassociateDataSegmentsFromDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseBatchDisassociateDataSegmentsFromDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -140,11 +140,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDisassociateProjectAssetsAsync(
-        AwsIotsitewiseBatchDisassociateProjectAssetsOptions? options = null,
+        AwsIotsitewiseBatchDisassociateProjectAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseBatchDisassociateProjectAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -155,11 +155,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetAssetPropertyAggregatesAsync(
-        AwsIotsitewiseBatchGetAssetPropertyAggregatesOptions? options = null,
+        AwsIotsitewiseBatchGetAssetPropertyAggregatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseBatchGetAssetPropertyAggregatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -170,11 +170,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetAssetPropertyValueHistoryAsync(
-        AwsIotsitewiseBatchGetAssetPropertyValueHistoryOptions? options = null,
+        AwsIotsitewiseBatchGetAssetPropertyValueHistoryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseBatchGetAssetPropertyValueHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,11 +185,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetAssetPropertyValueAsync(
-        AwsIotsitewiseBatchGetAssetPropertyValueOptions? options = null,
+        AwsIotsitewiseBatchGetAssetPropertyValueOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseBatchGetAssetPropertyValueOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -200,11 +200,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchPutAssetPropertyValueAsync(
-        AwsIotsitewiseBatchPutAssetPropertyValueOptions? options = null,
+        AwsIotsitewiseBatchPutAssetPropertyValueOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseBatchPutAssetPropertyValueOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,11 +215,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelEnrichmentJobAsync(
-        AwsIotsitewiseCancelEnrichmentJobOptions? options = null,
+        AwsIotsitewiseCancelEnrichmentJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCancelEnrichmentJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -230,11 +230,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelPipelineExecutionAsync(
-        AwsIotsitewiseCancelPipelineExecutionOptions? options = null,
+        AwsIotsitewiseCancelPipelineExecutionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCancelPipelineExecutionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -245,11 +245,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelQueryAsync(
-        AwsIotsitewiseCancelQueryOptions? options = null,
+        AwsIotsitewiseCancelQueryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCancelQueryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -260,11 +260,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAccessPolicyAsync(
-        AwsIotsitewiseCreateAccessPolicyOptions? options = null,
+        AwsIotsitewiseCreateAccessPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateAccessPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -275,11 +275,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateApplicationAsync(
-        AwsIotsitewiseCreateApplicationOptions? options = null,
+        AwsIotsitewiseCreateApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -290,11 +290,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAssetModelCompositeModelAsync(
-        AwsIotsitewiseCreateAssetModelCompositeModelOptions? options = null,
+        AwsIotsitewiseCreateAssetModelCompositeModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateAssetModelCompositeModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,11 +305,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAssetModelAsync(
-        AwsIotsitewiseCreateAssetModelOptions? options = null,
+        AwsIotsitewiseCreateAssetModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateAssetModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -320,11 +320,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAssetAsync(
-        AwsIotsitewiseCreateAssetOptions? options = null,
+        AwsIotsitewiseCreateAssetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateAssetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,11 +335,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBulkImportJobAsync(
-        AwsIotsitewiseCreateBulkImportJobOptions? options = null,
+        AwsIotsitewiseCreateBulkImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateBulkImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,11 +350,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateComputationModelAsync(
-        AwsIotsitewiseCreateComputationModelOptions? options = null,
+        AwsIotsitewiseCreateComputationModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateComputationModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -365,11 +365,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDashboardAsync(
-        AwsIotsitewiseCreateDashboardOptions? options = null,
+        AwsIotsitewiseCreateDashboardOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateDashboardOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -380,11 +380,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDataSetExportJobAsync(
-        AwsIotsitewiseCreateDataSetExportJobOptions? options = null,
+        AwsIotsitewiseCreateDataSetExportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateDataSetExportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -395,11 +395,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDataSetAsync(
-        AwsIotsitewiseCreateDataSetOptions? options = null,
+        AwsIotsitewiseCreateDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -410,11 +410,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEnrichmentJobAsync(
-        AwsIotsitewiseCreateEnrichmentJobOptions? options = null,
+        AwsIotsitewiseCreateEnrichmentJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateEnrichmentJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -425,11 +425,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateGatewayAsync(
-        AwsIotsitewiseCreateGatewayOptions? options = null,
+        AwsIotsitewiseCreateGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -440,11 +440,26 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePipelineAsync(
-        AwsIotsitewiseCreatePipelineOptions? options = null,
+        AwsIotsitewiseCreatePipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreatePipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates a portal, which can contain projects and dashboards. IoT Site- Wise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permis...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreatePortalAsync(
+        AwsIotsitewiseCreatePortalOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -455,11 +470,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateProjectAsync(
-        AwsIotsitewiseCreateProjectOptions? options = null,
+        AwsIotsitewiseCreateProjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateProjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -470,11 +485,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateTaskAsync(
-        AwsIotsitewiseCreateTaskOptions? options = null,
+        AwsIotsitewiseCreateTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -485,11 +500,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWorkspaceAsync(
-        AwsIotsitewiseCreateWorkspaceOptions? options = null,
+        AwsIotsitewiseCreateWorkspaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseCreateWorkspaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -500,11 +515,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAccessPolicyAsync(
-        AwsIotsitewiseDeleteAccessPolicyOptions? options = null,
+        AwsIotsitewiseDeleteAccessPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteAccessPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -515,11 +530,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteApplicationAsync(
-        AwsIotsitewiseDeleteApplicationOptions? options = null,
+        AwsIotsitewiseDeleteApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -530,11 +545,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAssetModelCompositeModelAsync(
-        AwsIotsitewiseDeleteAssetModelCompositeModelOptions? options = null,
+        AwsIotsitewiseDeleteAssetModelCompositeModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteAssetModelCompositeModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -545,11 +560,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAssetModelInterfaceRelationshipAsync(
-        AwsIotsitewiseDeleteAssetModelInterfaceRelationshipOptions? options = null,
+        AwsIotsitewiseDeleteAssetModelInterfaceRelationshipOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteAssetModelInterfaceRelationshipOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -560,11 +575,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAssetModelAsync(
-        AwsIotsitewiseDeleteAssetModelOptions? options = null,
+        AwsIotsitewiseDeleteAssetModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteAssetModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -575,11 +590,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAssetAsync(
-        AwsIotsitewiseDeleteAssetOptions? options = null,
+        AwsIotsitewiseDeleteAssetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteAssetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -590,11 +605,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteComputationModelAsync(
-        AwsIotsitewiseDeleteComputationModelOptions? options = null,
+        AwsIotsitewiseDeleteComputationModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteComputationModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -605,11 +620,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDashboardAsync(
-        AwsIotsitewiseDeleteDashboardOptions? options = null,
+        AwsIotsitewiseDeleteDashboardOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteDashboardOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -620,11 +635,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDataSetAsync(
-        AwsIotsitewiseDeleteDataSetOptions? options = null,
+        AwsIotsitewiseDeleteDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -635,11 +650,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteGatewayAsync(
-        AwsIotsitewiseDeleteGatewayOptions? options = null,
+        AwsIotsitewiseDeleteGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -650,11 +665,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePipelineAsync(
-        AwsIotsitewiseDeletePipelineOptions? options = null,
+        AwsIotsitewiseDeletePipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeletePipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -665,11 +680,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePortalAsync(
-        AwsIotsitewiseDeletePortalOptions? options = null,
+        AwsIotsitewiseDeletePortalOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeletePortalOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -680,11 +695,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteProjectAsync(
-        AwsIotsitewiseDeleteProjectOptions? options = null,
+        AwsIotsitewiseDeleteProjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteProjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -695,11 +710,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTaskAsync(
-        AwsIotsitewiseDeleteTaskOptions? options = null,
+        AwsIotsitewiseDeleteTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -714,7 +729,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteTimeSeriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteTimeSeriesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -725,11 +740,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWorkspaceAsync(
-        AwsIotsitewiseDeleteWorkspaceOptions? options = null,
+        AwsIotsitewiseDeleteWorkspaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDeleteWorkspaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -740,11 +755,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAccessPolicyAsync(
-        AwsIotsitewiseDescribeAccessPolicyOptions? options = null,
+        AwsIotsitewiseDescribeAccessPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeAccessPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -755,11 +770,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeActionAsync(
-        AwsIotsitewiseDescribeActionOptions? options = null,
+        AwsIotsitewiseDescribeActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeActionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -770,11 +785,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeApplicationAsync(
-        AwsIotsitewiseDescribeApplicationOptions? options = null,
+        AwsIotsitewiseDescribeApplicationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeApplicationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -785,11 +800,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAssetCompositeModelAsync(
-        AwsIotsitewiseDescribeAssetCompositeModelOptions? options = null,
+        AwsIotsitewiseDescribeAssetCompositeModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeAssetCompositeModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -800,11 +815,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAssetModelCompositeModelAsync(
-        AwsIotsitewiseDescribeAssetModelCompositeModelOptions? options = null,
+        AwsIotsitewiseDescribeAssetModelCompositeModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeAssetModelCompositeModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -815,11 +830,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAssetModelInterfaceRelationshipAsync(
-        AwsIotsitewiseDescribeAssetModelInterfaceRelationshipOptions? options = null,
+        AwsIotsitewiseDescribeAssetModelInterfaceRelationshipOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeAssetModelInterfaceRelationshipOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -830,11 +845,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAssetModelAsync(
-        AwsIotsitewiseDescribeAssetModelOptions? options = null,
+        AwsIotsitewiseDescribeAssetModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeAssetModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -845,11 +860,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAssetAsync(
-        AwsIotsitewiseDescribeAssetOptions? options = null,
+        AwsIotsitewiseDescribeAssetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeAssetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -860,11 +875,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAssetPropertyAsync(
-        AwsIotsitewiseDescribeAssetPropertyOptions? options = null,
+        AwsIotsitewiseDescribeAssetPropertyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeAssetPropertyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -875,11 +890,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeBulkImportJobAsync(
-        AwsIotsitewiseDescribeBulkImportJobOptions? options = null,
+        AwsIotsitewiseDescribeBulkImportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeBulkImportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -890,11 +905,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeComputationModelExecutionSummaryAsync(
-        AwsIotsitewiseDescribeComputationModelExecutionSummaryOptions? options = null,
+        AwsIotsitewiseDescribeComputationModelExecutionSummaryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeComputationModelExecutionSummaryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -905,11 +920,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeComputationModelAsync(
-        AwsIotsitewiseDescribeComputationModelOptions? options = null,
+        AwsIotsitewiseDescribeComputationModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeComputationModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -920,11 +935,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeDashboardAsync(
-        AwsIotsitewiseDescribeDashboardOptions? options = null,
+        AwsIotsitewiseDescribeDashboardOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeDashboardOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -935,11 +950,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeDataSetExportJobAsync(
-        AwsIotsitewiseDescribeDataSetExportJobOptions? options = null,
+        AwsIotsitewiseDescribeDataSetExportJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeDataSetExportJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -950,11 +965,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeDataSetAsync(
-        AwsIotsitewiseDescribeDataSetOptions? options = null,
+        AwsIotsitewiseDescribeDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -969,7 +984,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeDefaultEncryptionConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeDefaultEncryptionConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -980,11 +995,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeEnrichmentJobAsync(
-        AwsIotsitewiseDescribeEnrichmentJobOptions? options = null,
+        AwsIotsitewiseDescribeEnrichmentJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeEnrichmentJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -995,11 +1010,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeExecutionAsync(
-        AwsIotsitewiseDescribeExecutionOptions? options = null,
+        AwsIotsitewiseDescribeExecutionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeExecutionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1010,11 +1025,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeGatewayCapabilityConfigurationAsync(
-        AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions? options = null,
+        AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1025,11 +1040,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeGatewayAsync(
-        AwsIotsitewiseDescribeGatewayOptions? options = null,
+        AwsIotsitewiseDescribeGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1044,7 +1059,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeLoggingOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeLoggingOptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1055,11 +1070,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribePipelineExecutionAsync(
-        AwsIotsitewiseDescribePipelineExecutionOptions? options = null,
+        AwsIotsitewiseDescribePipelineExecutionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribePipelineExecutionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1070,11 +1085,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribePipelineAsync(
-        AwsIotsitewiseDescribePipelineOptions? options = null,
+        AwsIotsitewiseDescribePipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribePipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1085,11 +1100,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribePortalAsync(
-        AwsIotsitewiseDescribePortalOptions? options = null,
+        AwsIotsitewiseDescribePortalOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribePortalOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1100,11 +1115,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeProjectAsync(
-        AwsIotsitewiseDescribeProjectOptions? options = null,
+        AwsIotsitewiseDescribeProjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeProjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1115,11 +1130,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeQueryAsync(
-        AwsIotsitewiseDescribeQueryOptions? options = null,
+        AwsIotsitewiseDescribeQueryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeQueryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1130,11 +1145,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeSearchAsync(
-        AwsIotsitewiseDescribeSearchOptions? options = null,
+        AwsIotsitewiseDescribeSearchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeSearchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1149,7 +1164,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeStorageConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeStorageConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1160,11 +1175,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTaskAsync(
-        AwsIotsitewiseDescribeTaskOptions? options = null,
+        AwsIotsitewiseDescribeTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1179,7 +1194,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeTimeSeriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeTimeSeriesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1190,11 +1205,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeWorkspaceAsync(
-        AwsIotsitewiseDescribeWorkspaceOptions? options = null,
+        AwsIotsitewiseDescribeWorkspaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDescribeWorkspaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1205,11 +1220,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateAssetsAsync(
-        AwsIotsitewiseDisassociateAssetsOptions? options = null,
+        AwsIotsitewiseDisassociateAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDisassociateAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1220,11 +1235,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateTimeSeriesFromAssetPropertyAsync(
-        AwsIotsitewiseDisassociateTimeSeriesFromAssetPropertyOptions? options = null,
+        AwsIotsitewiseDisassociateTimeSeriesFromAssetPropertyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseDisassociateTimeSeriesFromAssetPropertyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1235,11 +1250,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteActionAsync(
-        AwsIotsitewiseExecuteActionOptions? options = null,
+        AwsIotsitewiseExecuteActionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseExecuteActionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1250,11 +1265,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteQueryAsync(
-        AwsIotsitewiseExecuteQueryOptions? options = null,
+        AwsIotsitewiseExecuteQueryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseExecuteQueryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1265,11 +1280,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAssetPropertyAggregatesAsync(
-        AwsIotsitewiseGetAssetPropertyAggregatesOptions? options = null,
+        AwsIotsitewiseGetAssetPropertyAggregatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseGetAssetPropertyAggregatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1284,7 +1299,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseGetAssetPropertyValueHistoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseGetAssetPropertyValueHistoryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1299,7 +1314,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseGetAssetPropertyValueOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseGetAssetPropertyValueOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1310,11 +1325,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCaptureDataAsync(
-        AwsIotsitewiseGetCaptureDataOptions? options = null,
+        AwsIotsitewiseGetCaptureDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseGetCaptureDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1325,11 +1340,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInterpolatedAssetPropertyValuesAsync(
-        AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions? options = null,
+        AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1340,11 +1355,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetQueryResultsAsync(
-        AwsIotsitewiseGetQueryResultsOptions? options = null,
+        AwsIotsitewiseGetQueryResultsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseGetQueryResultsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1355,11 +1370,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSearchResultsAsync(
-        AwsIotsitewiseGetSearchResultsOptions? options = null,
+        AwsIotsitewiseGetSearchResultsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseGetSearchResultsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1374,7 +1389,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAccessPoliciesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAccessPoliciesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1385,11 +1400,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListActionsAsync(
-        AwsIotsitewiseListActionsOptions? options = null,
+        AwsIotsitewiseListActionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListActionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1404,7 +1419,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListApplicationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1415,11 +1430,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAssetModelCompositeModelsAsync(
-        AwsIotsitewiseListAssetModelCompositeModelsOptions? options = null,
+        AwsIotsitewiseListAssetModelCompositeModelsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAssetModelCompositeModelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1430,11 +1445,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAssetModelPropertiesAsync(
-        AwsIotsitewiseListAssetModelPropertiesOptions? options = null,
+        AwsIotsitewiseListAssetModelPropertiesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAssetModelPropertiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1449,7 +1464,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAssetModelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAssetModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1460,11 +1475,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAssetPropertiesAsync(
-        AwsIotsitewiseListAssetPropertiesOptions? options = null,
+        AwsIotsitewiseListAssetPropertiesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAssetPropertiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1475,11 +1490,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAssetRelationshipsAsync(
-        AwsIotsitewiseListAssetRelationshipsOptions? options = null,
+        AwsIotsitewiseListAssetRelationshipsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAssetRelationshipsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1494,7 +1509,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAssetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1505,11 +1520,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAssociatedAssetsAsync(
-        AwsIotsitewiseListAssociatedAssetsOptions? options = null,
+        AwsIotsitewiseListAssociatedAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListAssociatedAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1524,7 +1539,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListBulkImportJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListBulkImportJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1535,11 +1550,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCompositionRelationshipsAsync(
-        AwsIotsitewiseListCompositionRelationshipsOptions? options = null,
+        AwsIotsitewiseListCompositionRelationshipsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListCompositionRelationshipsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1550,11 +1565,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListComputationModelDataBindingUsagesAsync(
-        AwsIotsitewiseListComputationModelDataBindingUsagesOptions? options = null,
+        AwsIotsitewiseListComputationModelDataBindingUsagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListComputationModelDataBindingUsagesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1565,11 +1580,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListComputationModelResolveToResourcesAsync(
-        AwsIotsitewiseListComputationModelResolveToResourcesOptions? options = null,
+        AwsIotsitewiseListComputationModelResolveToResourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListComputationModelResolveToResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1584,7 +1599,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListComputationModelsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListComputationModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1595,11 +1610,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDashboardsAsync(
-        AwsIotsitewiseListDashboardsOptions? options = null,
+        AwsIotsitewiseListDashboardsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListDashboardsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1610,11 +1625,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataSetDataSegmentRelationshipsAsync(
-        AwsIotsitewiseListDataSetDataSegmentRelationshipsOptions? options = null,
+        AwsIotsitewiseListDataSetDataSegmentRelationshipsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListDataSetDataSegmentRelationshipsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1625,11 +1640,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataSetDataSegmentsAsync(
-        AwsIotsitewiseListDataSetDataSegmentsOptions? options = null,
+        AwsIotsitewiseListDataSetDataSegmentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListDataSetDataSegmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1640,11 +1655,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataSetExportJobsAsync(
-        AwsIotsitewiseListDataSetExportJobsOptions? options = null,
+        AwsIotsitewiseListDataSetExportJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListDataSetExportJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1655,11 +1670,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDatasetsAsync(
-        AwsIotsitewiseListDatasetsOptions? options = null,
+        AwsIotsitewiseListDatasetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListDatasetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1670,11 +1685,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEnrichmentJobsAsync(
-        AwsIotsitewiseListEnrichmentJobsOptions? options = null,
+        AwsIotsitewiseListEnrichmentJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListEnrichmentJobsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1685,11 +1700,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListExecutionsAsync(
-        AwsIotsitewiseListExecutionsOptions? options = null,
+        AwsIotsitewiseListExecutionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListExecutionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1704,7 +1719,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListGatewaysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1715,11 +1730,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInterfaceRelationshipsAsync(
-        AwsIotsitewiseListInterfaceRelationshipsOptions? options = null,
+        AwsIotsitewiseListInterfaceRelationshipsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListInterfaceRelationshipsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1730,11 +1745,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPipelineExecutionsAsync(
-        AwsIotsitewiseListPipelineExecutionsOptions? options = null,
+        AwsIotsitewiseListPipelineExecutionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListPipelineExecutionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1745,11 +1760,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPipelinesAsync(
-        AwsIotsitewiseListPipelinesOptions? options = null,
+        AwsIotsitewiseListPipelinesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListPipelinesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1764,7 +1779,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListPortalsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListPortalsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1775,11 +1790,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListProjectAssetsAsync(
-        AwsIotsitewiseListProjectAssetsOptions? options = null,
+        AwsIotsitewiseListProjectAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListProjectAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1790,11 +1805,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListProjectsAsync(
-        AwsIotsitewiseListProjectsOptions? options = null,
+        AwsIotsitewiseListProjectsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListProjectsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1805,11 +1820,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListQueriesAsync(
-        AwsIotsitewiseListQueriesOptions? options = null,
+        AwsIotsitewiseListQueriesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListQueriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1820,11 +1835,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSearchesAsync(
-        AwsIotsitewiseListSearchesOptions? options = null,
+        AwsIotsitewiseListSearchesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListSearchesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1835,11 +1850,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsIotsitewiseListTagsForResourceOptions? options = null,
+        AwsIotsitewiseListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1850,11 +1865,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTasksAsync(
-        AwsIotsitewiseListTasksOptions? options = null,
+        AwsIotsitewiseListTasksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListTasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1869,7 +1884,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListTimeSeriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListTimeSeriesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1884,7 +1899,7 @@ public class AwsIotsitewise : IAwsIotsitewise
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListWorkspacesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseListWorkspacesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1895,11 +1910,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutAssetModelInterfaceRelationshipAsync(
-        AwsIotsitewisePutAssetModelInterfaceRelationshipOptions? options = null,
+        AwsIotsitewisePutAssetModelInterfaceRelationshipOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewisePutAssetModelInterfaceRelationshipOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1910,11 +1925,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutDefaultEncryptionConfigurationAsync(
-        AwsIotsitewisePutDefaultEncryptionConfigurationOptions? options = null,
+        AwsIotsitewisePutDefaultEncryptionConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewisePutDefaultEncryptionConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1925,11 +1940,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutLoggingOptionsAsync(
-        AwsIotsitewisePutLoggingOptionsOptions? options = null,
+        AwsIotsitewisePutLoggingOptionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewisePutLoggingOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1940,11 +1955,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutStorageConfigurationAsync(
-        AwsIotsitewisePutStorageConfigurationOptions? options = null,
+        AwsIotsitewisePutStorageConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewisePutStorageConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1955,11 +1970,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartPipelineExecutionAsync(
-        AwsIotsitewiseStartPipelineExecutionOptions? options = null,
+        AwsIotsitewiseStartPipelineExecutionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseStartPipelineExecutionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1970,11 +1985,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartQueryAsync(
-        AwsIotsitewiseStartQueryOptions? options = null,
+        AwsIotsitewiseStartQueryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseStartQueryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1985,11 +2000,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartSearchAsync(
-        AwsIotsitewiseStartSearchOptions? options = null,
+        AwsIotsitewiseStartSearchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseStartSearchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2000,11 +2015,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsIotsitewiseTagResourceOptions? options = null,
+        AwsIotsitewiseTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2015,11 +2030,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsIotsitewiseUntagResourceOptions? options = null,
+        AwsIotsitewiseUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2030,11 +2045,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAccessPolicyAsync(
-        AwsIotsitewiseUpdateAccessPolicyOptions? options = null,
+        AwsIotsitewiseUpdateAccessPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateAccessPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2045,11 +2060,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAssetModelCompositeModelAsync(
-        AwsIotsitewiseUpdateAssetModelCompositeModelOptions? options = null,
+        AwsIotsitewiseUpdateAssetModelCompositeModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateAssetModelCompositeModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2060,11 +2075,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAssetModelAsync(
-        AwsIotsitewiseUpdateAssetModelOptions? options = null,
+        AwsIotsitewiseUpdateAssetModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateAssetModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2075,11 +2090,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAssetAsync(
-        AwsIotsitewiseUpdateAssetOptions? options = null,
+        AwsIotsitewiseUpdateAssetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateAssetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2090,11 +2105,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAssetPropertyAsync(
-        AwsIotsitewiseUpdateAssetPropertyOptions? options = null,
+        AwsIotsitewiseUpdateAssetPropertyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateAssetPropertyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2105,11 +2120,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateComputationModelAsync(
-        AwsIotsitewiseUpdateComputationModelOptions? options = null,
+        AwsIotsitewiseUpdateComputationModelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateComputationModelOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2120,11 +2135,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDashboardAsync(
-        AwsIotsitewiseUpdateDashboardOptions? options = null,
+        AwsIotsitewiseUpdateDashboardOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateDashboardOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2135,11 +2150,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDataSetAsync(
-        AwsIotsitewiseUpdateDataSetOptions? options = null,
+        AwsIotsitewiseUpdateDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2150,11 +2165,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGatewayCapabilityConfigurationAsync(
-        AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions? options = null,
+        AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2165,11 +2180,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGatewayAsync(
-        AwsIotsitewiseUpdateGatewayOptions? options = null,
+        AwsIotsitewiseUpdateGatewayOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateGatewayOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2180,11 +2195,26 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePipelineAsync(
-        AwsIotsitewiseUpdatePipelineOptions? options = null,
+        AwsIotsitewiseUpdatePipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdatePipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdatePortalAsync(
+        AwsIotsitewiseUpdatePortalOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2195,11 +2225,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateProjectAsync(
-        AwsIotsitewiseUpdateProjectOptions? options = null,
+        AwsIotsitewiseUpdateProjectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateProjectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2210,11 +2240,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateTaskAsync(
-        AwsIotsitewiseUpdateTaskOptions? options = null,
+        AwsIotsitewiseUpdateTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2225,11 +2255,11 @@ public class AwsIotsitewise : IAwsIotsitewise
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWorkspaceAsync(
-        AwsIotsitewiseUpdateWorkspaceOptions? options = null,
+        AwsIotsitewiseUpdateWorkspaceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotsitewiseUpdateWorkspaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

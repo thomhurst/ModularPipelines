@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "create-domain-name-access-association")]
-public record AwsApigatewayCreateDomainNameAccessAssociationOptions : AwsOptions
+public record AwsApigatewayCreateDomainNameAccessAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a domain name access association resource between an access as- sociation source and a private custom domain name. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainNameArn">The ARN of the domain name.</param>
+    /// <param name="AccessAssociationSourceType">The type of the domain name access association source. Possible values: o VPCE</param>
+    /// <param name="AccessAssociationSource">The identifier of the domain name access association source. For a VPCE, the value is the VPC endpoint ID.</param>
+    public AwsApigatewayCreateDomainNameAccessAssociationOptions(
+        string DomainNameArn,
+        string AccessAssociationSourceType,
+        string AccessAssociationSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainNameArn);
+        this.DomainNameArn = DomainNameArn;
+        global::System.ArgumentNullException.ThrowIfNull(AccessAssociationSourceType);
+        this.AccessAssociationSourceType = AccessAssociationSourceType;
+        global::System.ArgumentNullException.ThrowIfNull(AccessAssociationSource);
+        this.AccessAssociationSource = AccessAssociationSource;
+    }
+
+    private AwsApigatewayCreateDomainNameAccessAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayCreateDomainNameAccessAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayCreateDomainNameAccessAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the domain name.
+    /// </summary>
     [CliOption("--domain-name-arn")]
-    public string? DomainNameArn { get; set; }
+    public string? DomainNameArn { get; private init; }
 
+    /// <summary>
+    /// The type of the domain name access association source. Possible values: o VPCE
+    /// </summary>
     [CliOption("--access-association-source-type")]
-    public string? AccessAssociationSourceType { get; set; }
+    public string? AccessAssociationSourceType { get; private init; }
 
+    /// <summary>
+    /// The identifier of the domain name access association source. For a VPCE, the value is the VPC endpoint ID.
+    /// </summary>
     [CliOption("--access-association-source")]
-    public string? AccessAssociationSource { get; set; }
+    public string? AccessAssociationSource { get; private init; }
 
     /// <summary>
     /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws: . The tag value can be up to 256 characters. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +93,22 @@ public record AwsApigatewayCreateDomainNameAccessAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

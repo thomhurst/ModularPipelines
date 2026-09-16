@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda-microvms", "create-microvm-auth-token")]
-public record AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions : AwsOptions
+public record AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an authentication token for accessing a running MicroVM. The token grants access to the specified ports on the MicroVM endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MicrovmIdentifier">The ID of the MicroVM to create an authentication token for. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ExpirationInMinutes">The duration in minutes before the authentication token expires. Maximum: 60 minutes. Constraints: o min: 1</param>
+    /// <param name="AllowedPorts">The list of port specifications that the authentication token grants access to on the MicroVM. Constraints: o min: 1 (tagged union structure) Specifies which ports are accessible on a MicroVM. Only one of the port specification options can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: port, range, allPorts. port -&gt; (integer) A single port number. Constraints: o min: 1 o max: 65535 range -&gt; (structure) A range of ports. startPort -&gt; (integer) [required] The starting port number of the range. Constraints: o min: 1 o max: 65535 endPort -&gt; (integer) [required] The ending port number of the range. Constraints: o min: 1 o max: 65535 allPorts -&gt; (structure) Indicates that all ports are accessible. Shorthand Syntax: port=integer,range={startPort=integer,endPort=integer},allPorts={} ... JSON Syntax: [ { "port": integer, "range": { "startPort": integer, "endPort": integer }, "allPorts": { } } ... ]</param>
+    public AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions(
+        string MicrovmIdentifier,
+        int ExpirationInMinutes,
+        IEnumerable<string> AllowedPorts
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MicrovmIdentifier);
+        this.MicrovmIdentifier = MicrovmIdentifier;
+        this.ExpirationInMinutes = ExpirationInMinutes;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedPorts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedPorts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedPorts));
+            }
+
+            AllowedPorts = materialized;
+        }
+        this.AllowedPorts = AllowedPorts;
+    }
+
+    private AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the MicroVM to create an authentication token for. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--microvm-identifier")]
-    public string? MicrovmIdentifier { get; set; }
+    public string? MicrovmIdentifier { get; private init; }
 
+    /// <summary>
+    /// The duration in minutes before the authentication token expires. Maximum: 60 minutes. Constraints: o min: 1
+    /// </summary>
     [CliOption("--expiration-in-minutes")]
-    public int? ExpirationInMinutes { get; set; }
+    public int? ExpirationInMinutes { get; private init; }
 
+    /// <summary>
+    /// The list of port specifications that the authentication token grants access to on the MicroVM. Constraints: o min: 1 (tagged union structure) Specifies which ports are accessible on a MicroVM. Only one of the port specification options can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: port, range, allPorts. port -&gt; (integer) A single port number. Constraints: o min: 1 o max: 65535 range -&gt; (structure) A range of ports. startPort -&gt; (integer) [required] The starting port number of the range. Constraints: o min: 1 o max: 65535 endPort -&gt; (integer) [required] The ending port number of the range. Constraints: o min: 1 o max: 65535 allPorts -&gt; (structure) Indicates that all ports are accessible. Shorthand Syntax: port=integer,range={startPort=integer,endPort=integer},allPorts={} ... JSON Syntax: [ { "port": integer, "range": { "startPort": integer, "endPort": integer }, "allPorts": { } } ... ]
+    /// </summary>
     [CliOption("--allowed-ports", GroupValues = true)]
-    public IEnumerable<string>? AllowedPorts { get; set; }
+    public IEnumerable<string>? AllowedPorts { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

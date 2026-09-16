@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("eks", "update-kubeconfig")]
 public record AwsEksUpdateKubeConfigOptions : AwsOptions
 {
+    /// <summary>
+    /// Configures kubectl so that you can connect to an Amazon EKS cluster. Note: To use the resulting configuration, you must have kubectl in- stalled and in your PATH environment variable. This command constructs a configuration with prepopulated server and certificate authority data values for a specified cluster. You can specify an IAM role ARN with the --role-arn option to use for authenti- cation when you issue kubectl commands. Otherwise, the IAM entity in your default AWS CLI or SDK credential ...
+    /// </summary>
+    /// <param name="Name"></param>
+    public AwsEksUpdateKubeConfigOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string Name { get; private init; }
 
     [CliOption("--kubeconfig")]
     public string? KubeConfig { get; set; }

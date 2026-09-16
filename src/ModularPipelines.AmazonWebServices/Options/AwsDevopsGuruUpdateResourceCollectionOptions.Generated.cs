@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-guru", "update-resource-collection")]
-public record AwsDevopsGuruUpdateResourceCollectionOptions : AwsOptions
+public record AwsDevopsGuruUpdateResourceCollectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--action")]
-    public string? Action { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the collection of resources that DevOps Guru analyzes. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be con- figured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can spec- ify up to 500 Amazon Web Services CloudFormation stacks. This method also cr...
+    /// </summary>
+    /// <param name="Action">Specifies if the resource collection in the request is added or deleted to the resource collection. Possible values: o ADD o REMOVE</param>
+    /// <param name="ResourceCollection">Contains information used to update a collection of Amazon Web Ser- vices resources. CloudFormation -&gt; (structure) A collection of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks. StackNames -&gt; (list) An array of the names of the Amazon Web Services CloudForma- tion stacks to update. You can specify up to 500 Amazon Web Services CloudFormation stacks. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z*]+[a-zA-Z0-9-]*$ Tags -&gt; (list) The updated Amazon Web Services tags used to filter the re- sources in the resource collection. Tags help you identify and organize your Amazon Web Services re- sources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about us- ing tags, see the Tagging best practices whitepaper. Each Amazon Web Services tag has two parts. o A tag key (for example, CostCenter , Environment , Project , or Secret ). Tag keys are case-sensitive. o An optional field known as a tag value (for example, 111122223333 , Production , or a team name). Omitting the tag value is the same as using an empty string. Like tag keys , tag values are case-sensitive. Together these are known as key -value pairs. WARNING: The string used for a key in a tag that you use to define your resource coverage must begin with the prefix De- vops-guru- . The tag key might be DevOps-Guru-deployment-ap- plication or devops-guru-rds-application . When you create a key , the case of characters in the key can be whatever you choose. After you create a key , it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named DevOps-Guru-RDS , and these act as two dif- ferent keys . Possible key /value pairs in your application might be Devops-Guru-production-application/RDS or De- vops-Guru-production-application/containers . (structure) A new collection of Amazon Web Services resources that are defined by an Amazon Web Services tag or tag key /value pair. AppBoundaryKey -&gt; (string) [required] An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that DevOps Guru ana- lyzes. All Amazon Web Services resources in your account and Region tagged with this key make up your DevOps Guru application and analysis boundary. WARNING: The string used for a key in a tag that you use to de- fine your resource coverage must begin with the prefix Devops-guru- . The tag key might be DevOps-Guru-de- ployment-application or devops-guru-rds-application . When you create a key , the case of characters in the key can be whatever you choose. After you create a key , it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named De- vOps-Guru-RDS , and these act as two different keys . Possible key /value pairs in your application might be Devops-Guru-production-application/RDS or De- vops-Guru-production-application/containers . Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ TagValues -&gt; (list) [required] The values in an Amazon Web Services tag collection. The tag's value is an optional field used to associate a string with the tag key (for example, 111122223333 , Pro- duction , or a team name). The key and value are the tag's key pair. Omitting the tag value is the same as us- ing an empty string. Like tag keys , tag values are case-sensitive. You can specify a maximum of 256 charac- ters for a tag value. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*|\*)$ JSON Syntax: { "CloudFormation": { "StackNames": ["string", ...] }, "Tags": [ { "AppBoundaryKey": "string", "TagValues": ["string", ...] } ... ] }</param>
+    public AwsDevopsGuruUpdateResourceCollectionOptions(
+        AwsDevopsGuruUpdateResourceCollectionAction Action,
+        string ResourceCollection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceCollection);
+        this.ResourceCollection = ResourceCollection;
+    }
+
+    private AwsDevopsGuruUpdateResourceCollectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsGuruUpdateResourceCollectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsGuruUpdateResourceCollectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies if the resource collection in the request is added or deleted to the resource collection. Possible values: o ADD o REMOVE
+    /// </summary>
+    [CliOption("--action")]
+    public AwsDevopsGuruUpdateResourceCollectionAction? Action { get; private init; }
+
+    /// <summary>
+    /// Contains information used to update a collection of Amazon Web Ser- vices resources. CloudFormation -&gt; (structure) A collection of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks. StackNames -&gt; (list) An array of the names of the Amazon Web Services CloudForma- tion stacks to update. You can specify up to 500 Amazon Web Services CloudFormation stacks. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z*]+[a-zA-Z0-9-]*$ Tags -&gt; (list) The updated Amazon Web Services tags used to filter the re- sources in the resource collection. Tags help you identify and organize your Amazon Web Services re- sources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about us- ing tags, see the Tagging best practices whitepaper. Each Amazon Web Services tag has two parts. o A tag key (for example, CostCenter , Environment , Project , or Secret ). Tag keys are case-sensitive. o An optional field known as a tag value (for example, 111122223333 , Production , or a team name). Omitting the tag value is the same as using an empty string. Like tag keys , tag values are case-sensitive. Together these are known as key -value pairs. WARNING: The string used for a key in a tag that you use to define your resource coverage must begin with the prefix De- vops-guru- . The tag key might be DevOps-Guru-deployment-ap- plication or devops-guru-rds-application . When you create a key , the case of characters in the key can be whatever you choose. After you create a key , it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named DevOps-Guru-RDS , and these act as two dif- ferent keys . Possible key /value pairs in your application might be Devops-Guru-production-application/RDS or De- vops-Guru-production-application/containers . (structure) A new collection of Amazon Web Services resources that are defined by an Amazon Web Services tag or tag key /value pair. AppBoundaryKey -&gt; (string) [required] An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that DevOps Guru ana- lyzes. All Amazon Web Services resources in your account and Region tagged with this key make up your DevOps Guru application and analysis boundary. WARNING: The string used for a key in a tag that you use to de- fine your resource coverage must begin with the prefix Devops-guru- . The tag key might be DevOps-Guru-de- ployment-application or devops-guru-rds-application . When you create a key , the case of characters in the key can be whatever you choose. After you create a key , it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named De- vOps-Guru-RDS , and these act as two different keys . Possible key /value pairs in your application might be Devops-Guru-production-application/RDS or De- vops-Guru-production-application/containers . Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ TagValues -&gt; (list) [required] The values in an Amazon Web Services tag collection. The tag's value is an optional field used to associate a string with the tag key (for example, 111122223333 , Pro- duction , or a team name). The key and value are the tag's key pair. Omitting the tag value is the same as us- ing an empty string. Like tag keys , tag values are case-sensitive. You can specify a maximum of 256 charac- ters for a tag value. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*|\*)$ JSON Syntax: { "CloudFormation": { "StackNames": ["string", ...] }, "Tags": [ { "AppBoundaryKey": "string", "TagValues": ["string", ...] } ... ] }
+    /// </summary>
     [CliOption("--resource-collection")]
-    public string? ResourceCollection { get; set; }
+    public string? ResourceCollection { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

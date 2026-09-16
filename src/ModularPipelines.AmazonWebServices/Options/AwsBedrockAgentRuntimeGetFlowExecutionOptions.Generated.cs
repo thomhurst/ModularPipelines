@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "get-flow-execution")]
-public record AwsBedrockAgentRuntimeGetFlowExecutionOptions : AwsOptions
+public record AwsBedrockAgentRuntimeGetFlowExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves details about a specific flow execution, including its sta- tus, start and end times, and any errors that occurred during execu- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExecutionIdentifier">The unique identifier of the flow execution to retrieve. Constraints: o min: 0 o max: 2048 o pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/ex- ecution/[a-zA-Z0-9-]{1,36})$</param>
+    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias used for the execution. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$</param>
+    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
+    public AwsBedrockAgentRuntimeGetFlowExecutionOptions(
+        string ExecutionIdentifier,
+        string FlowAliasIdentifier,
+        string FlowIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionIdentifier);
+        this.ExecutionIdentifier = ExecutionIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(FlowAliasIdentifier);
+        this.FlowAliasIdentifier = FlowAliasIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(FlowIdentifier);
+        this.FlowIdentifier = FlowIdentifier;
+    }
+
+    private AwsBedrockAgentRuntimeGetFlowExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeGetFlowExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeGetFlowExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the flow execution to retrieve. Constraints: o min: 0 o max: 2048 o pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/ex- ecution/[a-zA-Z0-9-]{1,36})$
+    /// </summary>
     [CliOption("--execution-identifier")]
-    public string? ExecutionIdentifier { get; set; }
+    public string? ExecutionIdentifier { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the flow alias used for the execution. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$
+    /// </summary>
     [CliOption("--flow-alias-identifier")]
-    public string? FlowAliasIdentifier { get; set; }
+    public string? FlowAliasIdentifier { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the flow. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
+    /// </summary>
     [CliOption("--flow-identifier")]
-    public string? FlowIdentifier { get; set; }
+    public string? FlowIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

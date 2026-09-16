@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -33,6 +33,21 @@ public class AwsBillingconductor : IAwsBillingconductor
     #region Commands
 
     /// <summary>
+    /// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consol- idated billing family during the current month, and not already associ- ated with another billing group. The maximum number of accounts that can be associated in one call is 30. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AssociateAccountsAsync(
+        AwsBillingconductorAssociateAccountsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Connects an array of PricingRuleArns to a defined PricingPlan . The maximum number PricingRuleArn that can be associated in one call is 30. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -40,11 +55,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociatePricingRulesAsync(
-        AwsBillingconductorAssociatePricingRulesOptions? options = null,
+        AwsBillingconductorAssociatePricingRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorAssociatePricingRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +70,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchAssociateResourcesToCustomLineItemAsync(
-        AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions? options = null,
+        AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +85,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDisassociateResourcesFromCustomLineItemAsync(
-        AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOptions? options = null,
+        AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +100,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBillingGroupAsync(
-        AwsBillingconductorCreateBillingGroupOptions? options = null,
+        AwsBillingconductorCreateBillingGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorCreateBillingGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +115,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCustomLineItemAsync(
-        AwsBillingconductorCreateCustomLineItemOptions? options = null,
+        AwsBillingconductorCreateCustomLineItemOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorCreateCustomLineItemOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +130,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePricingPlanAsync(
-        AwsBillingconductorCreatePricingPlanOptions? options = null,
+        AwsBillingconductorCreatePricingPlanOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorCreatePricingPlanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +145,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePricingRuleAsync(
-        AwsBillingconductorCreatePricingRuleOptions? options = null,
+        AwsBillingconductorCreatePricingRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorCreatePricingRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +160,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBillingGroupAsync(
-        AwsBillingconductorDeleteBillingGroupOptions? options = null,
+        AwsBillingconductorDeleteBillingGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorDeleteBillingGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +175,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCustomLineItemAsync(
-        AwsBillingconductorDeleteCustomLineItemOptions? options = null,
+        AwsBillingconductorDeleteCustomLineItemOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorDeleteCustomLineItemOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +190,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePricingPlanAsync(
-        AwsBillingconductorDeletePricingPlanOptions? options = null,
+        AwsBillingconductorDeletePricingPlanOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorDeletePricingPlanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +205,26 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePricingRuleAsync(
-        AwsBillingconductorDeletePricingRuleOptions? options = null,
+        AwsBillingconductorDeletePricingRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorDeletePricingRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Removes the specified list of account IDs from the given billing group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DisassociateAccountsAsync(
+        AwsBillingconductorDisassociateAccountsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +235,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociatePricingRulesAsync(
-        AwsBillingconductorDisassociatePricingRulesOptions? options = null,
+        AwsBillingconductorDisassociatePricingRulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorDisassociatePricingRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +250,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBillingGroupCostReportAsync(
-        AwsBillingconductorGetBillingGroupCostReportOptions? options = null,
+        AwsBillingconductorGetBillingGroupCostReportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorGetBillingGroupCostReportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -239,7 +269,7 @@ public class AwsBillingconductor : IAwsBillingconductor
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListAccountAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListAccountAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -254,7 +284,7 @@ public class AwsBillingconductor : IAwsBillingconductor
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListBillingGroupCostReportsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListBillingGroupCostReportsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -269,7 +299,7 @@ public class AwsBillingconductor : IAwsBillingconductor
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListBillingGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListBillingGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -284,7 +314,7 @@ public class AwsBillingconductor : IAwsBillingconductor
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListCustomLineItemsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListCustomLineItemsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +325,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCustomLineItemVersionsAsync(
-        AwsBillingconductorListCustomLineItemVersionsOptions? options = null,
+        AwsBillingconductorListCustomLineItemVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListCustomLineItemVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +340,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPricingPlansAssociatedWithPricingRuleAsync(
-        AwsBillingconductorListPricingPlansAssociatedWithPricingRuleOptions? options = null,
+        AwsBillingconductorListPricingPlansAssociatedWithPricingRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListPricingPlansAssociatedWithPricingRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -329,7 +359,7 @@ public class AwsBillingconductor : IAwsBillingconductor
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListPricingPlansOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListPricingPlansOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +370,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPricingRulesAssociatedToPricingPlanAsync(
-        AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions? options = null,
+        AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -359,7 +389,7 @@ public class AwsBillingconductor : IAwsBillingconductor
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListPricingRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListPricingRulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +400,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListResourcesAssociatedToCustomLineItemAsync(
-        AwsBillingconductorListResourcesAssociatedToCustomLineItemOptions? options = null,
+        AwsBillingconductorListResourcesAssociatedToCustomLineItemOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListResourcesAssociatedToCustomLineItemOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +415,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsBillingconductorListTagsForResourceOptions? options = null,
+        AwsBillingconductorListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +430,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsBillingconductorTagResourceOptions? options = null,
+        AwsBillingconductorTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +445,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsBillingconductorUntagResourceOptions? options = null,
+        AwsBillingconductorUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +460,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBillingGroupAsync(
-        AwsBillingconductorUpdateBillingGroupOptions? options = null,
+        AwsBillingconductorUpdateBillingGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorUpdateBillingGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +475,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCustomLineItemAsync(
-        AwsBillingconductorUpdateCustomLineItemOptions? options = null,
+        AwsBillingconductorUpdateCustomLineItemOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorUpdateCustomLineItemOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +490,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePricingPlanAsync(
-        AwsBillingconductorUpdatePricingPlanOptions? options = null,
+        AwsBillingconductorUpdatePricingPlanOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorUpdatePricingPlanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +505,11 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePricingRuleAsync(
-        AwsBillingconductorUpdatePricingRuleOptions? options = null,
+        AwsBillingconductorUpdatePricingRuleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBillingconductorUpdatePricingRuleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

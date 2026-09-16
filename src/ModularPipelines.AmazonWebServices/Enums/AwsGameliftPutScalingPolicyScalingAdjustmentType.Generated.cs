@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scalingadjustmenttype.
+/// Allowed values for --scaling-adjustment-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftPutScalingPolicyScalingAdjustmentType
 {
     [EnumValue("ChangeInCapacity")]
-    ChangeInCapacity = 1,
+    ChangeInCapacity,
 
     [EnumValue("ExactCapacity")]
-    ExactCapacity = 2,
+    ExactCapacity,
 
     [EnumValue("PercentChangeInCapacity")]
-    PercentChangeInCapacity = 3
+    PercentChangeInCapacity
 }

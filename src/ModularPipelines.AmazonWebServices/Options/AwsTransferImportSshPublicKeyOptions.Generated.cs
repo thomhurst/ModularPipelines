@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "import-ssh-public-key")]
-public record AwsTransferImportSshPublicKeyOptions : AwsOptions
+public record AwsTransferImportSshPublicKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a Secure Shell (SSH) public key to a Transfer Family user identi- fied by a UserName value assigned to the specific file transfer proto- col-enabled server, identified by ServerId . The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerId">A system-assigned unique identifier for a server. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="SshPublicKeyBody">The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: o min: 0 o max: 2048 o pattern: \s*(ssh|ecdsa)-[a-z0-9-]+[ \t]+(([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{1,3})?(={0,3})?)(\s*|[ \t]+[\S \t]*\s*)</param>
+    /// <param name="UserName">The name of the Transfer Family user that is assigned to one or more servers. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}</param>
+    public AwsTransferImportSshPublicKeyOptions(
+        string ServerId,
+        string SshPublicKeyBody,
+        string UserName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+        global::System.ArgumentNullException.ThrowIfNull(SshPublicKeyBody);
+        this.SshPublicKeyBody = SshPublicKeyBody;
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+    }
+
+    private AwsTransferImportSshPublicKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferImportSshPublicKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferImportSshPublicKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A system-assigned unique identifier for a server. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// </summary>
     [CliOption("--server-id")]
-    public string? ServerId { get; set; }
+    public string? ServerId { get; private init; }
 
+    /// <summary>
+    /// The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: o min: 0 o max: 2048 o pattern: \s*(ssh|ecdsa)-[a-z0-9-]+[ \t]+(([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{1,3})?(={0,3})?)(\s*|[ \t]+[\S \t]*\s*)
+    /// </summary>
     [CliOption("--ssh-public-key-body")]
-    public string? SshPublicKeyBody { get; set; }
+    public string? SshPublicKeyBody { get; private init; }
 
+    /// <summary>
+    /// The name of the Transfer Family user that is assigned to one or more servers. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}
+    /// </summary>
     [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    public string? UserName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

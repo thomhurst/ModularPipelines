@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "update-file-cache")]
-public record AwsFsxUpdateFileCacheOptions : AwsOptions
+public record AwsFsxUpdateFileCacheOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of an existing Amazon File Cache resource. You can update multiple properties in a single request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileCacheId">The ID of the cache that you are updating. Constraints: o min: 11 o max: 21 o pattern: ^(fc-[0-9a-f]{8,})$</param>
+    public AwsFsxUpdateFileCacheOptions(
+        string FileCacheId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileCacheId);
+        this.FileCacheId = FileCacheId;
+    }
+
+    private AwsFsxUpdateFileCacheOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxUpdateFileCacheOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxUpdateFileCacheOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the cache that you are updating. Constraints: o min: 11 o max: 21 o pattern: ^(fc-[0-9a-f]{8,})$
+    /// </summary>
     [CliOption("--file-cache-id")]
-    public string? FileCacheId { get; set; }
+    public string? FileCacheId { get; private init; }
 
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
@@ -43,5 +80,22 @@ public record AwsFsxUpdateFileCacheOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

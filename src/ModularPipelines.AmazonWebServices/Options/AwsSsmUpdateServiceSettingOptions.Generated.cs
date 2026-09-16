@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-service-setting")]
-public record AwsSsmUpdateServiceSettingOptions : AwsOptions
+public record AwsSsmUpdateServiceSettingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--setting-id")]
-    public string? SettingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// ServiceSetting is an account-level setting for an Amazon Web Ser- vices service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intention- ally opt in for a paid feature. ...
+    /// </summary>
+    /// <param name="SettingId">The Amazon Resource Name (ARN) of the service setting to update. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/para- meter-store/high-throughput-enabled . The setting ID can be one of the following. o /ssm/appmanager/appmanager-enabled o /ssm/automation/customer-script-log-destination o /ssm/automation/customer-script-log-group-name o /ssm/automation/enable-adaptive-concurrency o /ssm/documents/console/public-sharing-permission o /ssm/managed-instance/activation-tier o /ssm/managed-instance/default-ec2-instance-management-role o /ssm/opsinsights/opscenter o /ssm/parameter-store/default-parameter-tier o /ssm/parameter-store/high-throughput-enabled NOTE: Permissions to update the /ssm/managed-instance/default-ec2-in- stance-management-role setting should only be provided to admin- istrators. Implement least privilege access when allowing indi- viduals to configure or modify the Default Host Management Con- figuration. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="SettingValue">The new value to specify for the service setting. The following list specifies the available values for each setting. o For /ssm/appmanager/appmanager-enabled , enter True or False . o For /ssm/automation/customer-script-log-destination , enter Cloud- Watch . o For /ssm/automation/customer-script-log-group-name , enter the name of an Amazon CloudWatch Logs log group. o For /ssm/documents/console/public-sharing-permission , enter En- able or Disable . o For /ssm/managed-instance/activation-tier , enter standard or ad- vanced . o For /ssm/managed-instance/default-ec2-instance-management-role , enter the name of an IAM role. o For /ssm/opsinsights/opscenter , enter Enabled or Disabled . o For /ssm/parameter-store/default-parameter-tier , enter Standard , Advanced , or Intelligent-Tiering o For /ssm/parameter-store/high-throughput-enabled , enter true or false . Constraints: o min: 1 o max: 4096</param>
+    public AwsSsmUpdateServiceSettingOptions(
+        string SettingId,
+        string SettingValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SettingId);
+        this.SettingId = SettingId;
+        global::System.ArgumentNullException.ThrowIfNull(SettingValue);
+        this.SettingValue = SettingValue;
+    }
+
+    private AwsSsmUpdateServiceSettingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateServiceSettingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateServiceSettingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the service setting to update. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/para- meter-store/high-throughput-enabled . The setting ID can be one of the following. o /ssm/appmanager/appmanager-enabled o /ssm/automation/customer-script-log-destination o /ssm/automation/customer-script-log-group-name o /ssm/automation/enable-adaptive-concurrency o /ssm/documents/console/public-sharing-permission o /ssm/managed-instance/activation-tier o /ssm/managed-instance/default-ec2-instance-management-role o /ssm/opsinsights/opscenter o /ssm/parameter-store/default-parameter-tier o /ssm/parameter-store/high-throughput-enabled NOTE: Permissions to update the /ssm/managed-instance/default-ec2-in- stance-management-role setting should only be provided to admin- istrators. Implement least privilege access when allowing indi- viduals to configure or modify the Default Host Management Con- figuration. Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [CliOption("--setting-id")]
+    public string? SettingId { get; private init; }
+
+    /// <summary>
+    /// The new value to specify for the service setting. The following list specifies the available values for each setting. o For /ssm/appmanager/appmanager-enabled , enter True or False . o For /ssm/automation/customer-script-log-destination , enter Cloud- Watch . o For /ssm/automation/customer-script-log-group-name , enter the name of an Amazon CloudWatch Logs log group. o For /ssm/documents/console/public-sharing-permission , enter En- able or Disable . o For /ssm/managed-instance/activation-tier , enter standard or ad- vanced . o For /ssm/managed-instance/default-ec2-instance-management-role , enter the name of an IAM role. o For /ssm/opsinsights/opscenter , enter Enabled or Disabled . o For /ssm/parameter-store/default-parameter-tier , enter Standard , Advanced , or Intelligent-Tiering o For /ssm/parameter-store/high-throughput-enabled , enter true or false . Constraints: o min: 1 o max: 4096
+    /// </summary>
     [CliOption("--setting-value")]
-    public string? SettingValue { get; set; }
+    public string? SettingValue { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

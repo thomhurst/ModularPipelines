@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +23,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "import-component")]
-public record AwsImagebuilderImportComponentOptions : AwsOptions
+public record AwsImagebuilderImportComponentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Imports a component and transforms its data into a component document. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the component. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="SemanticVersion">The semantic version of the component. This version follows the se- mantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most re- cent versions or nodes when selecting the base image or com- ponents for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
+    /// <param name="Type">The type of the component denotes whether the component is used to build the image, or only to test it. Possible values: o BUILD o TEST</param>
+    /// <param name="Format">The format of the resource that you want to import as a component. Possible values: o SHELL</param>
+    /// <param name="Platform">The platform of the component. Possible values: o Windows o Linux o macOS</param>
+    public AwsImagebuilderImportComponentOptions(
+        string Name,
+        string SemanticVersion,
+        AwsImagebuilderImportComponentType Type,
+        string Format,
+        AwsImagebuilderImportComponentPlatform Platform
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SemanticVersion);
+        this.SemanticVersion = SemanticVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Platform);
+        this.Platform = Platform;
+    }
+
+    private AwsImagebuilderImportComponentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderImportComponentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderImportComponentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the component. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The semantic version of the component. This version follows the se- mantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most re- cent versions or nodes when selecting the base image or com- ponents for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+    /// </summary>
     [CliOption("--semantic-version")]
-    public string? SemanticVersion { get; set; }
+    public string? SemanticVersion { get; private init; }
+
+    /// <summary>
+    /// The type of the component denotes whether the component is used to build the image, or only to test it. Possible values: o BUILD o TEST
+    /// </summary>
+    [CliOption("--type")]
+    public AwsImagebuilderImportComponentType? Type { get; private init; }
+
+    /// <summary>
+    /// The format of the resource that you want to import as a component. Possible values: o SHELL
+    /// </summary>
+    [CliOption("--format")]
+    public string? Format { get; private init; }
+
+    /// <summary>
+    /// The platform of the component. Possible values: o Windows o Linux o macOS
+    /// </summary>
+    [CliOption("--platform")]
+    public AwsImagebuilderImportComponentPlatform? Platform { get; private init; }
 
     /// <summary>
     /// The description of the component. Describes the contents of the com- ponent. Constraints: o min: 1 o max: 1024
@@ -41,15 +116,6 @@ public record AwsImagebuilderImportComponentOptions : AwsOptions
     [CliOption("--change-description")]
     public string? ChangeDescription { get; set; }
 
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
-    [CliOption("--format")]
-    public string? Format { get; set; }
-
-    [CliOption("--platform")]
-    public string? Platform { get; set; }
-
     /// <summary>
     /// The data of the component. Used to specify the data inline. Either data or uri can be used to specify the data within the component. Constraints: o min: 1 o max: 1024
     /// </summary>
@@ -57,7 +123,7 @@ public record AwsImagebuilderImportComponentOptions : AwsOptions
     public string? Data { get; set; }
 
     /// <summary>
-    /// The uri of the component. Must be an Amazon S3 URL and the requester must have permission to access the Amazon S3 bucket. If you use Ama- zon S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the compo- nent.
+    /// The uri of the component. Must be an Amazon S3 URL and you must have permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
     /// </summary>
     [CliOption("--uri")]
     public string? Uri { get; set; }
@@ -75,7 +141,7 @@ public record AwsImagebuilderImportComponentOptions : AwsOptions
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -86,5 +152,22 @@ public record AwsImagebuilderImportComponentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("observabilityadmin", "test-telemetry-pipeline")]
-public record AwsObservabilityadminTestTelemetryPipelineOptions : AwsOptions
+public record AwsObservabilityadminTestTelemetryPipelineOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--records", GroupValues = true)]
-    public IEnumerable<string>? Records { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Records">The sample records to process through the pipeline configuration for testing purposes. (structure) Represents a test record structure used for pipeline testing op- erations to validate data processing. Data -&gt; (string) The data content of the test record used for pipeline valida- tion. Type -&gt; (string) The type of the test record, indicating the format or cate- gory of the data. Possible values: o STRING o JSON Shorthand Syntax: Data=string,Type=string ... JSON Syntax: [ { "Data": "string", "Type": "STRING"|"JSON" } ... ]</param>
+    /// <param name="Configuration">The pipeline configuration to test with the provided sample records. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }</param>
+    public AwsObservabilityadminTestTelemetryPipelineOptions(
+        IEnumerable<string> Records,
+        string Configuration
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Records);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Records));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Records));
+            }
+
+            Records = materialized;
+        }
+        this.Records = Records;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsObservabilityadminTestTelemetryPipelineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsObservabilityadminTestTelemetryPipelineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsObservabilityadminTestTelemetryPipelineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The sample records to process through the pipeline configuration for testing purposes. (structure) Represents a test record structure used for pipeline testing op- erations to validate data processing. Data -&gt; (string) The data content of the test record used for pipeline valida- tion. Type -&gt; (string) The type of the test record, indicating the format or cate- gory of the data. Possible values: o STRING o JSON Shorthand Syntax: Data=string,Type=string ... JSON Syntax: [ { "Data": "string", "Type": "STRING"|"JSON" } ... ]
+    /// </summary>
+    [CliOption("--records", GroupValues = true)]
+    public IEnumerable<string>? Records { get; private init; }
+
+    /// <summary>
+    /// The pipeline configuration to test with the provided sample records. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }
+    /// </summary>
     [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    public string? Configuration { get; private init; }
 
     /// <summary>
     /// The type of telemetry signal to test. If not specified, defaults to log processing. Possible values: o LOG o METRIC
@@ -39,5 +94,22 @@ public record AwsObservabilityadminTestTelemetryPipelineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

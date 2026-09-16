@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "create-db-cluster")]
-public record AwsNeptuneCreateDbClusterOptions : AwsOptions
+public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance. Note that when you create a new cluster using CreateDBCluster directly, deletion protection is disabled by default (when you create a new pro- duction cluster in the console, deletion protection is enabled by de- fault). You can only delete a DB cluster if its DeletionProtection field is set to false . See a...
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
+    /// <param name="Engine">The name of the database engine to be used for this DB cluster. Valid Values: neptune</param>
+    public AwsNeptuneCreateDbClusterOptions(
+        string DbClusterIdentifier,
+        string Engine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+    }
+
+    private AwsNeptuneCreateDbClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneCreateDbClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneCreateDbClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
+    /// </summary>
+    [CliOption("--db-cluster-identifier")]
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the database engine to be used for this DB cluster. Valid Values: neptune
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
     /// <summary>
     /// A list of EC2 Availability Zones that instances in the DB cluster can be created in. (string) Syntax: "string" "string" ...
     /// </summary>
@@ -40,7 +90,10 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     [CliOption("--character-set-name")]
     public string? CharacterSetName { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// If set to ``true`` , tags are copied to any snapshot of the DB clus- ter that is created.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -48,9 +101,6 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
-
-    [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
 
     /// <summary>
     /// The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, the default is used. Constraints: o If supplied, must match the name of an existing DBClusterParame- terGroup.
@@ -69,9 +119,6 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
-
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
 
     /// <summary>
     /// The version number of the database engine to use for the new DB cluster. Example: 1.2.1.0
@@ -128,7 +175,10 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifies whether the DB cluster is encrypted.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
@@ -143,7 +193,10 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) If set to true , enables Amazon Identity and Access Management (IAM) authentication for the entire DB cluster (this cannot be set at an instance level). Default: false .
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
@@ -152,7 +205,10 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// A value that indicates whether the DB cluster has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is enabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -190,5 +246,22 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

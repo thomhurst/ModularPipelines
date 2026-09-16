@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "update-game-session")]
-public record AwsGameliftUpdateGameSessionOptions : AwsOptions
+public record AwsGameliftUpdateGameSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates the mutable properties of a game session. To update a game session, specify the game session ID and the values you want to change. If successful, the updated GameSession object is returned. All APIs by task See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to update. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::game- session/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;loca- tion&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
+    public AwsGameliftUpdateGameSessionOptions(
+        string GameSessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameSessionId);
+        this.GameSessionId = GameSessionId;
+    }
+
+    private AwsGameliftUpdateGameSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftUpdateGameSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftUpdateGameSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identifier for the game session that is unique across all regions to update. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::game- session/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;loca- tion&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// </summary>
     [CliOption("--game-session-id")]
-    public string? GameSessionId { get; set; }
+    public string? GameSessionId { get; private init; }
 
     /// <summary>
     /// The maximum number of players that can be connected simultaneously to the game session. Constraints: o min: 0
@@ -60,5 +97,22 @@ public record AwsGameliftUpdateGameSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

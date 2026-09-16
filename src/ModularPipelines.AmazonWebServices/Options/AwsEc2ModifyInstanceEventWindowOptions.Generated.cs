@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,9 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-instance-event-window")]
-public record AwsEc2ModifyInstanceEventWindowOptions : AwsOptions
+public record AwsEc2ModifyInstanceEventWindowOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the Asso- ciateInstanceEventWindow and DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see Define event windows for scheduled events in the Amazon EC2 Use...
+    /// </summary>
+    /// <param name="InstanceEventWindowId">The ID of the event window.</param>
+    public AwsEc2ModifyInstanceEventWindowOptions(
+        string InstanceEventWindowId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceEventWindowId);
+        this.InstanceEventWindowId = InstanceEventWindowId;
+    }
+
+    private AwsEc2ModifyInstanceEventWindowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyInstanceEventWindowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyInstanceEventWindowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the event window.
+    /// </summary>
+    [CliOption("--instance-event-window-id")]
+    public string? InstanceEventWindowId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -29,9 +72,6 @@ public record AwsEc2ModifyInstanceEventWindowOptions : AwsOptions
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--instance-event-window-id")]
-    public string? InstanceEventWindowId { get; set; }
 
     /// <summary>
     /// The time ranges of the event window. (structure) The start day and time and the end day and time of the time range, in UTC. StartWeekDay -&gt; (string) The day on which the time range begins. Possible values: o sunday o monday o tuesday o wednesday o thursday o friday o saturday StartHour -&gt; (integer) The hour when the time range begins. Constraints: o min: 0 o max: 23 EndWeekDay -&gt; (string) The day on which the time range ends. Possible values: o sunday o monday o tuesday o wednesday o thursday o friday o saturday EndHour -&gt; (integer) The hour when the time range ends. Constraints: o min: 0 o max: 23 Shorthand Syntax: StartWeekDay=string,StartHour=integer,EndWeekDay=string,EndHour=integer ... JSON Syntax: [ { "StartWeekDay": "sunday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday", "StartHour": integer, "EndWeekDay": "sunday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday", "EndHour": integer } ... ]
@@ -50,5 +90,22 @@ public record AwsEc2ModifyInstanceEventWindowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

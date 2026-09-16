@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,20 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-capacity-reservation")]
-public record AwsEc2CreateCapacityReservationOptions : AwsOptions
+public record AwsEc2CreateCapacityReservationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Capacity Reservation with the specified attributes. Ca- pacity Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. You can create a Capacity Reservation at any time, and you can choose when it starts. You can create a Capacity Reservation for immediate use or you can request a Capacity Reservation for a future date. For more information, see Reserve compute capacity with On-Demand Ca- pacity Reservations in the...
+    /// </summary>
+    /// <param name="InstanceType">The instance type for which to reserve capacity. NOTE: You can request future-dated Capacity Reservations for instance types in the C, M, R, I, T, and G instance families only. For more information, see Instance types in the Amazon EC2 User Guide .</param>
+    /// <param name="InstancePlatform">The type of operating system for which to reserve capacity. Possible values: o Linux/UNIX o Red Hat Enterprise Linux o SUSE Linux o Windows o Windows with SQL Server o Windows with SQL Server Enterprise o Windows with SQL Server Standard o Windows with SQL Server Web o Linux with SQL Server Standard o Linux with SQL Server Web o Linux with SQL Server Enterprise o RHEL with SQL Server Standard o RHEL with SQL Server Enterprise o RHEL with SQL Server Web o RHEL with HA o RHEL with HA and SQL Server Standard o RHEL with HA and SQL Server Enterprise o Ubuntu Pro</param>
+    /// <param name="InstanceCount">The number of instances for which to reserve capacity. NOTE: You can request future-dated Capacity Reservations for an in- stance count with a minimum of 32 vCPUs. For example, if you re- quest a future-dated Capacity Reservation for m5.xlarge in- stances, you must request at least 8 instances (8 * m5.xlarge = 32 vCPUs ). Valid range: 1 - 1000</param>
+    public AwsEc2CreateCapacityReservationOptions(
+        string InstanceType,
+        string InstancePlatform,
+        int InstanceCount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceType);
+        this.InstanceType = InstanceType;
+        global::System.ArgumentNullException.ThrowIfNull(InstancePlatform);
+        this.InstancePlatform = InstancePlatform;
+        this.InstanceCount = InstanceCount;
+    }
+
+    private AwsEc2CreateCapacityReservationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateCapacityReservationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateCapacityReservationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The instance type for which to reserve capacity. NOTE: You can request future-dated Capacity Reservations for instance types in the C, M, R, I, T, and G instance families only. For more information, see Instance types in the Amazon EC2 User Guide .
+    /// </summary>
+    [CliOption("--instance-type")]
+    public string? InstanceType { get; private init; }
+
+    /// <summary>
+    /// The type of operating system for which to reserve capacity. Possible values: o Linux/UNIX o Red Hat Enterprise Linux o SUSE Linux o Windows o Windows with SQL Server o Windows with SQL Server Enterprise o Windows with SQL Server Standard o Windows with SQL Server Web o Linux with SQL Server Standard o Linux with SQL Server Web o Linux with SQL Server Enterprise o RHEL with SQL Server Standard o RHEL with SQL Server Enterprise o RHEL with SQL Server Web o RHEL with HA o RHEL with HA and SQL Server Standard o RHEL with HA and SQL Server Enterprise o Ubuntu Pro
+    /// </summary>
+    [CliOption("--instance-platform")]
+    public string? InstancePlatform { get; private init; }
+
+    /// <summary>
+    /// The number of instances for which to reserve capacity. NOTE: You can request future-dated Capacity Reservations for an in- stance count with a minimum of 32 vCPUs. For example, if you re- quest a future-dated Capacity Reservation for m5.xlarge in- stances, you must request at least 8 instances (8 * m5.xlarge = 32 vCPUs ). Valid range: 1 - 1000
+    /// </summary>
+    [CliOption("--instance-count")]
+    public int? InstanceCount { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempo- tency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--instance-type")]
-    public string? InstanceType { get; set; }
-
-    [CliOption("--instance-platform")]
-    public string? InstancePlatform { get; set; }
 
     /// <summary>
     /// The Availability Zone in which to create the Capacity Reservation.
@@ -54,13 +107,16 @@ public record AwsEc2CreateCapacityReservationOptions : AwsOptions
     [CliOption("--tenancy")]
     public AwsEc2CreateCapacityReservationTenancy? Tenancy { get; set; }
 
-    [CliOption("--instance-count")]
-    public int? InstanceCount { get; set; }
-
-    [CliFlag("--ebs-optimized")]
+    /// <summary>
+    /// Indicates whether the Capacity Reservation supports EBS-optimized instances. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O per- formance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS- optimized in- stance.
+    /// </summary>
+    [CliFlag("--ebs-optimized", NegatedName = "--no-ebs-optimized")]
     public bool? EbsOptimized { get; set; }
 
-    [CliFlag("--ephemeral-storage")]
+    /// <summary>
+    /// Deprecated.
+    /// </summary>
+    [CliFlag("--ephemeral-storage", NegatedName = "--no-ephemeral-storage")]
     public bool? EphemeralStorage { get; set; }
 
     /// <summary>
@@ -87,7 +143,10 @@ public record AwsEc2CreateCapacityReservationOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -125,5 +184,22 @@ public record AwsEc2CreateCapacityReservationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

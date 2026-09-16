@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "describe-field-indexes")]
-public record AwsLogsDescribeFieldIndexesOptions : AwsOptions
+public record AwsLogsDescribeFieldIndexesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of field indexes discovered in log data. By default, the response includes the DEFAULT , CUSTOM , and INACTIVE index categories. To return indexes from other categories, use the indexCategories para- meter. For more information about field index policies, see PutIndexPolicy . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LogGroupIdentifiers">An array containing the names or ARNs of the log groups that you want to retrieve field indexes for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...</param>
+    public AwsLogsDescribeFieldIndexesOptions(
+        IEnumerable<string> LogGroupIdentifiers
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LogGroupIdentifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LogGroupIdentifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LogGroupIdentifiers));
+            }
+
+            LogGroupIdentifiers = materialized;
+        }
+        this.LogGroupIdentifiers = LogGroupIdentifiers;
+    }
+
+    private AwsLogsDescribeFieldIndexesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsDescribeFieldIndexesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsDescribeFieldIndexesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array containing the names or ARNs of the log groups that you want to retrieve field indexes for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--log-group-identifiers", GroupValues = true)]
-    public IEnumerable<string>? LogGroupIdentifiers { get; set; }
+    public IEnumerable<string>? LogGroupIdentifiers { get; private init; }
 
     /// <summary>
     /// The index categories to return. The following values are supported: o DEFAULT : Fields that CloudWatch Logs indexes by default. Examples include @logStream and @data_format . o CUSTOM : Fields that you added manually to the field index policy. CloudWatch Logs always indexes these fields. These fields count toward the quota of 20 fields for each log group. o AUTO : Fields that CloudWatch Logs indexes automatically based on your query patterns and usage. These fields do not count toward the field index quota. CloudWatch Logs might update these fields based on changes in your query patterns. To keep a field indexed permanently, add it to an account-level or log-group level field index policy. o INACTIVE : Fields that CloudWatch Logs indexed before but does not index now. This happens if you remove a field from the field index policy or if CloudWatch Logs automatically selects a different field based on your queries. If you omit this parameter, the response includes the DEFAULT , CUS- TOM , and INACTIVE categories. For more information about automatically indexed fields and using the AUTO category, see Automatically indexed fields . Constraints: o max: 4 (string) Possible values: o DEFAULT o CUSTOM o AUTO o INACTIVE Syntax: "string" "string" ...
@@ -43,5 +91,22 @@ public record AwsLogsDescribeFieldIndexesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

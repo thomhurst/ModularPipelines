@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "cancel-schema-extension")]
-public record AwsDsCancelSchemaExtensionOptions : AwsOptions
+public record AwsDsCancelSchemaExtensionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain con- trollers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing , Creat- ingSnapshot , and UpdatingSchema . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory whose schema extension will be can- celed. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SchemaExtensionId">The identifier of the schema extension that will be canceled. Constraints: o pattern: ^e-[0-9a-f]{10}$</param>
+    public AwsDsCancelSchemaExtensionOptions(
+        string DirectoryId,
+        string SchemaExtensionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaExtensionId);
+        this.SchemaExtensionId = SchemaExtensionId;
+    }
+
+    private AwsDsCancelSchemaExtensionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsCancelSchemaExtensionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsCancelSchemaExtensionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory whose schema extension will be can- celed. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the schema extension that will be canceled. Constraints: o pattern: ^e-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--schema-extension-id")]
-    public string? SchemaExtensionId { get; set; }
+    public string? SchemaExtensionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

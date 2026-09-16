@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("internetmonitor", "list-health-events")]
-public record AwsInternetmonitorListHealthEventsOptions : AwsOptions
+public record AwsInternetmonitorListHealthEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end times, and the status. NOTE: Health events that have start times during the time frame that is requested are not included in the list of health events. See also: AWS API Documentation list-health-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by provid...
+    /// </summary>
+    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsInternetmonitorListHealthEventsOptions(
+        string MonitorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+    }
+
+    private AwsInternetmonitorListHealthEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInternetmonitorListHealthEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInternetmonitorListHealthEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    public string? MonitorName { get; private init; }
 
     /// <summary>
     /// The time when a health event started.
@@ -74,5 +111,22 @@ public record AwsInternetmonitorListHealthEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

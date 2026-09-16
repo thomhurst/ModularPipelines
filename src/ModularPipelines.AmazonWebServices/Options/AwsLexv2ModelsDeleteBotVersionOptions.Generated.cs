@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "delete-bot-version")]
-public record AwsLexv2ModelsDeleteBotVersionOptions : AwsOptions
+public record AwsLexv2ModelsDeleteBotVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a specific version of a bot. To delete all versions of a bot, use the DeleteBot operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The identifier of the bot that contains the version. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot to delete. Constraints: o min: 1 o max: 5 o pattern: ^[0-9]+$</param>
+    public AwsLexv2ModelsDeleteBotVersionOptions(
+        string BotId,
+        string BotVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotVersion);
+        this.BotVersion = BotVersion;
+    }
+
+    private AwsLexv2ModelsDeleteBotVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsDeleteBotVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsDeleteBotVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the bot that contains the version. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The version of the bot to delete. Constraints: o min: 1 o max: 5 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--bot-version")]
-    public string? BotVersion { get; set; }
+    public string? BotVersion { get; private init; }
 
-    [CliFlag("--skip-resource-in-use-check")]
+    /// <summary>
+    /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the version is be- ing used by another resource. Set this parameter to true to skip this check and remove the version even if it is being used by an- other resource.
+    /// </summary>
+    [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,22 @@ public record AwsLexv2ModelsDeleteBotVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

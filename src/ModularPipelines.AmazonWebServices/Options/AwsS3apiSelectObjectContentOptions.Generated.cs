@@ -21,11 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("s3api", "select-object-content")]
 public record AwsS3apiSelectObjectContentOptions : AwsOptions
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. This action filters the contents of an Amazon S3 object based on a sim- ple structured query language (SQL) statement. In the request, along with the SQL expression, you must also specify a data serialization format (JSON, CSV, or Apache Parquet) of the object. Amazon S3 uses this format to parse object data into records, and returns only records that match the specified SQL expression. You must also specify the data serialization form...
+    /// </summary>
+    /// <param name="Bucket">The S3 bucket.</param>
+    /// <param name="Key">The object key. Constraints: o min: 1</param>
+    /// <param name="Expression">The expression that is used to query the object.</param>
+    /// <param name="ExpressionType">The type of the provided expression (for example, SQL). Possible values: o SQL</param>
+    /// <param name="InputSerialization">Describes the format of the data in the object that is being queried. CSV -&gt; (structure) Describes the serialization of a CSV-encoded object. FileHeaderInfo -&gt; (string) Describes the first line of input. Valid values are: o NONE : First line is not a header. o IGNORE : First line is a header, but you can't use the header values to indicate the column in an expression. You can use column position (such as _1, _2, ) to indicate the column (SELECT s._1 FROM OBJECT s ). o Use : First line is a header, and you can use the header value to identify a column in an expression (SELECT "name" FROM OBJECT ). Possible values: o USE o IGNORE o NONE Comments -&gt; (string) A single character used to indicate that a row should be ig- nored when the character is present at the start of that row. You can specify any character to indicate a comment line. The default character is # . Default: # QuoteEscapeCharacter -&gt; (string) A single character used for escaping the quotation mark char- acter inside an already escaped value. For example, the value """ a , b """ is parsed as " a , b " . RecordDelimiter -&gt; (string) A single character used to separate individual records in the input. Instead of the default value, you can specify an arbi- trary delimiter. FieldDelimiter -&gt; (string) A single character used to separate individual fields in a record. You can specify an arbitrary delimiter. QuoteCharacter -&gt; (string) A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b , Amazon S3 wraps this field value in quotation marks, as fol- lows: " a , b " . Type: String Default: " Ancestors: CSV AllowQuotedRecordDelimiter -&gt; (boolean) Specifies that CSV field values may contain quoted record de- limiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance. CompressionType -&gt; (string) Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE. Possible values: o NONE o GZIP o BZIP2 JSON -&gt; (structure) Specifies JSON as object's input serialization format. Type -&gt; (string) The type of JSON. Valid values: Document, Lines. Possible values: o DOCUMENT o LINES Parquet -&gt; (structure) Specifies Parquet as object's input serialization format. Shorthand Syntax: CSV={FileHeaderInfo=string,Comments=string,QuoteEscapeCharacter=string,RecordDelimiter=string,FieldDelimiter=string,QuoteCharacter=string,AllowQuotedRecordDelimiter=boolean},CompressionType=string,JSON={Type=string},Parquet={} JSON Syntax: { "CSV": { "FileHeaderInfo": "USE"|"IGNORE"|"NONE", "Comments": "string", "QuoteEscapeCharacter": "string", "RecordDelimiter": "string", "FieldDelimiter": "string", "QuoteCharacter": "string", "AllowQuotedRecordDelimiter": true|false }, "CompressionType": "NONE"|"GZIP"|"BZIP2", "JSON": { "Type": "DOCUMENT"|"LINES" }, "Parquet": { } }</param>
+    /// <param name="OutputSerialization">Describes the format of the data that you want Amazon S3 to return in response. CSV -&gt; (structure) Describes the serialization of CSV-encoded Select results. QuoteFields -&gt; (string) Indicates whether to use quotation marks around output fields. o ALWAYS : Always use quotation marks for output fields. o ASNEEDED : Use quotation marks for output fields when needed. Possible values: o ALWAYS o ASNEEDED QuoteEscapeCharacter -&gt; (string) The single character used for escaping the quote character inside an already escaped value. RecordDelimiter -&gt; (string) A single character used to separate individual records in the output. Instead of the default value, you can specify an ar- bitrary delimiter. FieldDelimiter -&gt; (string) The value used to separate individual fields in a record. You can specify an arbitrary delimiter. QuoteCharacter -&gt; (string) A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b , Amazon S3 wraps this field value in quotation marks, as fol- lows: " a , b " . JSON -&gt; (structure) Specifies JSON as request's output serialization format. RecordDelimiter -&gt; (string) The value used to separate individual records in the output. If no value is specified, Amazon S3 uses a newline character ('n'). Shorthand Syntax: CSV={QuoteFields=string,QuoteEscapeCharacter=string,RecordDelimiter=string,FieldDelimiter=string,QuoteCharacter=string},JSON={RecordDelimiter=string} JSON Syntax: { "CSV": { "QuoteFields": "ALWAYS"|"ASNEEDED", "QuoteEscapeCharacter": "string", "RecordDelimiter": "string", "FieldDelimiter": "string", "QuoteCharacter": "string" }, "JSON": { "RecordDelimiter": "string" } }</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsS3apiSelectObjectContentOptions(
+        string Bucket,
+        string Key,
+        string Expression,
+        string ExpressionType,
+        string InputSerialization,
+        string OutputSerialization,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(Expression);
+        this.Expression = Expression;
+        global::System.ArgumentNullException.ThrowIfNull(ExpressionType);
+        this.ExpressionType = ExpressionType;
+        global::System.ArgumentNullException.ThrowIfNull(InputSerialization);
+        this.InputSerialization = InputSerialization;
+        global::System.ArgumentNullException.ThrowIfNull(OutputSerialization);
+        this.OutputSerialization = OutputSerialization;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string Bucket, out string Key, out string Expression, out string ExpressionType, out string InputSerialization, out string OutputSerialization, out string Outfile)
+    {
+        Bucket = this.Bucket;
+        Key = this.Key;
+        Expression = this.Expression;
+        ExpressionType = this.ExpressionType;
+        InputSerialization = this.InputSerialization;
+        OutputSerialization = this.OutputSerialization;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The S3 bucket.
+    /// </summary>
+    [CliOption("--bucket")]
+    public string Bucket { get; private init; }
+
+    /// <summary>
+    /// The object key. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string Key { get; private init; }
+
+    /// <summary>
+    /// The expression that is used to query the object.
+    /// </summary>
+    [CliOption("--expression")]
+    public string Expression { get; private init; }
+
+    /// <summary>
+    /// The type of the provided expression (for example, SQL). Possible values: o SQL
+    /// </summary>
+    [CliOption("--expression-type")]
+    public string ExpressionType { get; private init; }
+
+    /// <summary>
+    /// Describes the format of the data in the object that is being queried. CSV -&gt; (structure) Describes the serialization of a CSV-encoded object. FileHeaderInfo -&gt; (string) Describes the first line of input. Valid values are: o NONE : First line is not a header. o IGNORE : First line is a header, but you can't use the header values to indicate the column in an expression. You can use column position (such as _1, _2, ) to indicate the column (SELECT s._1 FROM OBJECT s ). o Use : First line is a header, and you can use the header value to identify a column in an expression (SELECT "name" FROM OBJECT ). Possible values: o USE o IGNORE o NONE Comments -&gt; (string) A single character used to indicate that a row should be ig- nored when the character is present at the start of that row. You can specify any character to indicate a comment line. The default character is # . Default: # QuoteEscapeCharacter -&gt; (string) A single character used for escaping the quotation mark char- acter inside an already escaped value. For example, the value """ a , b """ is parsed as " a , b " . RecordDelimiter -&gt; (string) A single character used to separate individual records in the input. Instead of the default value, you can specify an arbi- trary delimiter. FieldDelimiter -&gt; (string) A single character used to separate individual fields in a record. You can specify an arbitrary delimiter. QuoteCharacter -&gt; (string) A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b , Amazon S3 wraps this field value in quotation marks, as fol- lows: " a , b " . Type: String Default: " Ancestors: CSV AllowQuotedRecordDelimiter -&gt; (boolean) Specifies that CSV field values may contain quoted record de- limiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance. CompressionType -&gt; (string) Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE. Possible values: o NONE o GZIP o BZIP2 JSON -&gt; (structure) Specifies JSON as object's input serialization format. Type -&gt; (string) The type of JSON. Valid values: Document, Lines. Possible values: o DOCUMENT o LINES Parquet -&gt; (structure) Specifies Parquet as object's input serialization format. Shorthand Syntax: CSV={FileHeaderInfo=string,Comments=string,QuoteEscapeCharacter=string,RecordDelimiter=string,FieldDelimiter=string,QuoteCharacter=string,AllowQuotedRecordDelimiter=boolean},CompressionType=string,JSON={Type=string},Parquet={} JSON Syntax: { "CSV": { "FileHeaderInfo": "USE"|"IGNORE"|"NONE", "Comments": "string", "QuoteEscapeCharacter": "string", "RecordDelimiter": "string", "FieldDelimiter": "string", "QuoteCharacter": "string", "AllowQuotedRecordDelimiter": true|false }, "CompressionType": "NONE"|"GZIP"|"BZIP2", "JSON": { "Type": "DOCUMENT"|"LINES" }, "Parquet": { } }
+    /// </summary>
+    [CliOption("--input-serialization")]
+    public string InputSerialization { get; private init; }
+
+    /// <summary>
+    /// Describes the format of the data that you want Amazon S3 to return in response. CSV -&gt; (structure) Describes the serialization of CSV-encoded Select results. QuoteFields -&gt; (string) Indicates whether to use quotation marks around output fields. o ALWAYS : Always use quotation marks for output fields. o ASNEEDED : Use quotation marks for output fields when needed. Possible values: o ALWAYS o ASNEEDED QuoteEscapeCharacter -&gt; (string) The single character used for escaping the quote character inside an already escaped value. RecordDelimiter -&gt; (string) A single character used to separate individual records in the output. Instead of the default value, you can specify an ar- bitrary delimiter. FieldDelimiter -&gt; (string) The value used to separate individual fields in a record. You can specify an arbitrary delimiter. QuoteCharacter -&gt; (string) A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b , Amazon S3 wraps this field value in quotation marks, as fol- lows: " a , b " . JSON -&gt; (structure) Specifies JSON as request's output serialization format. RecordDelimiter -&gt; (string) The value used to separate individual records in the output. If no value is specified, Amazon S3 uses a newline character ('n'). Shorthand Syntax: CSV={QuoteFields=string,QuoteEscapeCharacter=string,RecordDelimiter=string,FieldDelimiter=string,QuoteCharacter=string},JSON={RecordDelimiter=string} JSON Syntax: { "CSV": { "QuoteFields": "ALWAYS"|"ASNEEDED", "QuoteEscapeCharacter": "string", "RecordDelimiter": "string", "FieldDelimiter": "string", "QuoteCharacter": "string" }, "JSON": { "RecordDelimiter": "string" } }
+    /// </summary>
+    [CliOption("--output-serialization")]
+    public string OutputSerialization { get; private init; }
 
     /// <summary>
     /// The server-side encryption (SSE) algorithm used to encrypt the ob- ject. This parameter is needed only when the object was created us- ing a checksum algorithm. For more information, see Protecting data using SSE-C keys in the Amazon S3 User Guide .
@@ -45,23 +122,11 @@ public record AwsS3apiSelectObjectContentOptions : AwsOptions
     [CliOption("--sse-customer-key-md5")]
     public string? SseCustomerKeyMd5 { get; set; }
 
-    [CliOption("--expression")]
-    public string? Expression { get; set; }
-
-    [CliOption("--expression-type")]
-    public string? ExpressionType { get; set; }
-
     /// <summary>
     /// Specifies if periodic request progress information should be en- abled. Enabled -&gt; (boolean) Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE. Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }
     /// </summary>
     [CliOption("--request-progress")]
     public string? RequestProgress { get; set; }
-
-    [CliOption("--input-serialization")]
-    public string? InputSerialization { get; set; }
-
-    [CliOption("--output-serialization")]
-    public string? OutputSerialization { get; set; }
 
     /// <summary>
     /// Specifies the byte range of the object to get the records from. A record is processed when its first byte is contained by the range. This parameter is optional, but when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify the start and end of the range. ScanRange may be used in the following ways: o &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;end&gt;100&lt;/end&gt;&lt;/scanrange&gt; - process only the records starting between the bytes 50 and 100 (inclusive, counting from zero) o &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt; - process only the records starting after the byte 50 o &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; - process only the records within the last 50 bytes of the file. Start -&gt; (long) Specifies the start of the byte range. This parameter is op- tional. Valid values: non-negative integers. The default value is 0. If only start is supplied, it means scan from that point to the end of the file. For example, &lt;scan- range&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt; means scan from byte 50 un- til the end of the file. End -&gt; (long) Specifies the end of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is one less than the size of the object being queried. If only the End parameter is supplied, it is interpreted to mean scan the last N bytes of the file. For example, &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scan- range&gt; means scan the last 50 bytes. Shorthand Syntax: Start=long,End=long JSON Syntax: { "Start": long, "End": long }
@@ -74,5 +139,11 @@ public record AwsS3apiSelectObjectContentOptions : AwsOptions
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

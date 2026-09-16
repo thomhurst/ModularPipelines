@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pca-connector-scep", "create-challenge")]
-public record AwsPcaConnectorScepCreateChallengeOptions : AwsOptions
+public record AwsPcaConnectorScepCreateChallengeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For general-purpose connectors. Creates a challenge password for the specified connector. The SCEP protocol uses a challenge password to au- thenticate a request before issuing a certificate from a certificate authority (CA). Your SCEP clients include the challenge password as part of their certificate request to Connector for SCEP. To retrieve the connector Amazon Resource Names (ARNs) for the connectors in your account, call ListConnectors . To create additional challenge passwords for the con...
+    /// </summary>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector that you want to create a challenge for. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:pca-connec- tor-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}</param>
+    public AwsPcaConnectorScepCreateChallengeOptions(
+        string ConnectorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorArn);
+        this.ConnectorArn = ConnectorArn;
+    }
+
+    private AwsPcaConnectorScepCreateChallengeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPcaConnectorScepCreateChallengeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPcaConnectorScepCreateChallengeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the connector that you want to create a challenge for. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:pca-connec- tor-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--connector-arn")]
-    public string? ConnectorArn { get; set; }
+    public string? ConnectorArn { get; private init; }
 
     /// <summary>
     /// Custom string that can be used to distinguish between calls to the CreateChallenge action. Client tokens for CreateChallenge time out after five minutes. Therefore, if you call CreateChallenge multiple times with the same client token within five minutes, Connector for SCEP recognizes that you are requesting only one challenge and will only respond with one. If you change the client token for each call, Connector for SCEP recognizes that you are requesting multiple chal- lenge passwords. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
@@ -44,5 +81,22 @@ public record AwsPcaConnectorScepCreateChallengeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

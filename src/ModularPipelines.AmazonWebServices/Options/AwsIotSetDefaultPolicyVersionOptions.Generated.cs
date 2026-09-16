@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "set-default-policy-version")]
-public record AwsIotSetDefaultPolicyVersionOptions : AwsOptions
+public record AwsIotSetDefaultPolicyVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the specified version of the specified policy as the policy's de- fault (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is at- tached to, use the ListPrincipalPolicies action. Requires permission to access the SetDefaultPolicyVersion action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyName">The policy name. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyVersionId">The policy version ID. Constraints: o pattern: [0-9]+</param>
+    public AwsIotSetDefaultPolicyVersionOptions(
+        string PolicyName,
+        string PolicyVersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyVersionId);
+        this.PolicyVersionId = PolicyVersionId;
+    }
+
+    private AwsIotSetDefaultPolicyVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotSetDefaultPolicyVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotSetDefaultPolicyVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The policy name. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string? PolicyName { get; private init; }
+
+    /// <summary>
+    /// The policy version ID. Constraints: o pattern: [0-9]+
+    /// </summary>
     [CliOption("--policy-version-id")]
-    public string? PolicyVersionId { get; set; }
+    public string? PolicyVersionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

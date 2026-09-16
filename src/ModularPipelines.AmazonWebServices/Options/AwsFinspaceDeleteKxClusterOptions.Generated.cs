@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "delete-kx-cluster")]
-public record AwsFinspaceDeleteKxClusterOptions : AwsOptions
+public record AwsFinspaceDeleteKxClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a kdb cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
+    /// <param name="ClusterName">The name of the cluster that you want to delete. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    public AwsFinspaceDeleteKxClusterOptions(
+        string EnvironmentId,
+        string ClusterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+    }
+
+    private AwsFinspaceDeleteKxClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceDeleteKxClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceDeleteKxClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// The name of the cluster that you want to delete. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
     /// <summary>
     /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
@@ -40,5 +84,22 @@ public record AwsFinspaceDeleteKxClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

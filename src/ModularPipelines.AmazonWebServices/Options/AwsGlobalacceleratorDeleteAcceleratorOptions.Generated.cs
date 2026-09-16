@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "delete-accelerator")]
-public record AwsGlobalacceleratorDeleteAcceleratorOptions : AwsOptions
+public record AwsGlobalacceleratorDeleteAcceleratorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set En- abled to false. WARNING: When you create an accelerator, by default, Global Accelerator pro- vides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and as- sign IP addresses from those ranges. The IP addresses are ass...
+    /// </summary>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of an accelerator. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorDeleteAcceleratorOptions(
+        string AcceleratorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcceleratorArn);
+        this.AcceleratorArn = AcceleratorArn;
+    }
+
+    private AwsGlobalacceleratorDeleteAcceleratorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorDeleteAcceleratorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorDeleteAcceleratorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an accelerator. Constraints: o max: 255
+    /// </summary>
     [CliOption("--accelerator-arn")]
-    public string? AcceleratorArn { get; set; }
+    public string? AcceleratorArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

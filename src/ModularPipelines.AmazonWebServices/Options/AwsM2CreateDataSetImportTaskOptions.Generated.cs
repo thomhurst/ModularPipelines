@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("m2", "create-data-set-import-task")]
-public record AwsM2CreateDataSetImportTaskOptions : AwsOptions
+public record AwsM2CreateDataSetImportTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a data set import task for a specific application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the application for which you want to im- port data sets. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ImportConfig">The data set import task configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dataSets, s3Location. dataSets -&gt; (list) The data sets. Constraints: o min: 1 o max: 100 (structure) Identifies a specific data set to import from an external lo- cation. dataSet -&gt; (structure) [required] The data set. datasetName -&gt; (string) [required] The logical identifier for a specific data set (in mainframe format). datasetOrg -&gt; (tagged union structure) [required] The type of dataset. The only supported value is VSAM. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: gdg, po, ps, vsam. gdg -&gt; (structure) The generation data group of the data set. limit -&gt; (integer) The maximum number of generation data sets, up to 255, in a GDG. rollDisposition -&gt; (string) The disposition of the data set in the catalog. po -&gt; (structure) The details of a PO type data set. encoding -&gt; (string) The character set encoding of the data set. format -&gt; (string) [required] The format of the data set records. memberFileExtensions -&gt; (list) [required] An array containing one or more filename exten- sions, allowing you to specify which files to be included as PDS member. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^\S{1,20}$ ps -&gt; (structure) The details of a PS type data set. encoding -&gt; (string) The character set encoding of the data set. format -&gt; (string) [required] The format of the data set records. vsam -&gt; (structure) The details of a VSAM data set. alternateKeys -&gt; (list) The alternate key definitions, if any. A legacy dataset might not have any alternate key de- fined, but if those alternate keys definitions exist, provide them as some applications will make use of them. (structure) Defines an alternate key. This value is op- tional. A legacy data set might not have any alternate key defined but if those al- ternate keys definitions exist, provide them, as some applications will make use of them. allowDuplicates -&gt; (boolean) Indicates whether the alternate key val- ues are supposed to be unique for the given data set. length -&gt; (integer) [required] A strictly positive integer value repre- senting the length of the alternate key. name -&gt; (string) The name of the alternate key. offset -&gt; (integer) [required] A positive integer value representing the offset to mark the start of the al- ternate key part in the record byte ar- ray. compressed -&gt; (boolean) Indicates whether indexes for this dataset are stored as compressed values. If you have a large data set (typically &gt; 100 Mb), consider setting this flag to True. encoding -&gt; (string) The character set used by the data set. Can be ASCII, EBCDIC, or unknown. format -&gt; (string) [required] The record format of the data set. primaryKey -&gt; (structure) The primary key of the data set. length -&gt; (integer) [required] A strictly positive integer value repre- senting the length of the primary key. name -&gt; (string) A name for the Primary Key. offset -&gt; (integer) [required] A positive integer value representing the offset to mark the start of the primary key in the record byte array. recordLength -&gt; (structure) [required] The length of a record. max -&gt; (integer) [required] The maximum record length. In case of fixed, both minimum and maximum are the same. min -&gt; (integer) [required] The minimum record length of a record. relativePath -&gt; (string) The relative location of the data set in the database or file system. storageType -&gt; (string) The storage type of the data set: database or file system. For Micro Focus, database corresponds to data- store and file system corresponds to EFS/FSX. For Blu Age, there is no support of file system and database corresponds to Blusam. externalLocation -&gt; (tagged union structure) [required] The location of the data set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: s3Location. s3Location -&gt; (string) The URI of the Amazon S3 bucket. Constraints: o pattern: ^\S{1,2000}$ s3Location -&gt; (string) The Amazon S3 location of the data sets. Constraints: o pattern: ^\S{1,2000}$ JSON Syntax: { "dataSets": [ { "dataSet": { "datasetName": "string", "datasetOrg": { "gdg": { "limit": integer, "rollDisposition": "string" }, "po": { "encoding": "string", "format": "string", "memberFileExtensions": ["string", ...] }, "ps": { "encoding": "string", "format": "string" }, "vsam": { "alternateKeys": [ { "allowDuplicates": true|false, "length": integer, "name": "string", "offset": integer } ... ], "compressed": true|false, "encoding": "string", "format": "string", "primaryKey": { "length": integer, "name": "string", "offset": integer } } }, "recordLength": { "max": integer, "min": integer }, "relativePath": "string", "storageType": "string" }, "externalLocation": { "s3Location": "string" } } ... ], "s3Location": "string" }</param>
+    public AwsM2CreateDataSetImportTaskOptions(
+        string ApplicationId,
+        string ImportConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(ImportConfig);
+        this.ImportConfig = ImportConfig;
+    }
+
+    private AwsM2CreateDataSetImportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsM2CreateDataSetImportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsM2CreateDataSetImportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the application for which you want to im- port data sets. Constraints: o pattern: ^\S{1,80}$
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The data set import task configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dataSets, s3Location. dataSets -&gt; (list) The data sets. Constraints: o min: 1 o max: 100 (structure) Identifies a specific data set to import from an external lo- cation. dataSet -&gt; (structure) [required] The data set. datasetName -&gt; (string) [required] The logical identifier for a specific data set (in mainframe format). datasetOrg -&gt; (tagged union structure) [required] The type of dataset. The only supported value is VSAM. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: gdg, po, ps, vsam. gdg -&gt; (structure) The generation data group of the data set. limit -&gt; (integer) The maximum number of generation data sets, up to 255, in a GDG. rollDisposition -&gt; (string) The disposition of the data set in the catalog. po -&gt; (structure) The details of a PO type data set. encoding -&gt; (string) The character set encoding of the data set. format -&gt; (string) [required] The format of the data set records. memberFileExtensions -&gt; (list) [required] An array containing one or more filename exten- sions, allowing you to specify which files to be included as PDS member. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^\S{1,20}$ ps -&gt; (structure) The details of a PS type data set. encoding -&gt; (string) The character set encoding of the data set. format -&gt; (string) [required] The format of the data set records. vsam -&gt; (structure) The details of a VSAM data set. alternateKeys -&gt; (list) The alternate key definitions, if any. A legacy dataset might not have any alternate key de- fined, but if those alternate keys definitions exist, provide them as some applications will make use of them. (structure) Defines an alternate key. This value is op- tional. A legacy data set might not have any alternate key defined but if those al- ternate keys definitions exist, provide them, as some applications will make use of them. allowDuplicates -&gt; (boolean) Indicates whether the alternate key val- ues are supposed to be unique for the given data set. length -&gt; (integer) [required] A strictly positive integer value repre- senting the length of the alternate key. name -&gt; (string) The name of the alternate key. offset -&gt; (integer) [required] A positive integer value representing the offset to mark the start of the al- ternate key part in the record byte ar- ray. compressed -&gt; (boolean) Indicates whether indexes for this dataset are stored as compressed values. If you have a large data set (typically &gt; 100 Mb), consider setting this flag to True. encoding -&gt; (string) The character set used by the data set. Can be ASCII, EBCDIC, or unknown. format -&gt; (string) [required] The record format of the data set. primaryKey -&gt; (structure) The primary key of the data set. length -&gt; (integer) [required] A strictly positive integer value repre- senting the length of the primary key. name -&gt; (string) A name for the Primary Key. offset -&gt; (integer) [required] A positive integer value representing the offset to mark the start of the primary key in the record byte array. recordLength -&gt; (structure) [required] The length of a record. max -&gt; (integer) [required] The maximum record length. In case of fixed, both minimum and maximum are the same. min -&gt; (integer) [required] The minimum record length of a record. relativePath -&gt; (string) The relative location of the data set in the database or file system. storageType -&gt; (string) The storage type of the data set: database or file system. For Micro Focus, database corresponds to data- store and file system corresponds to EFS/FSX. For Blu Age, there is no support of file system and database corresponds to Blusam. externalLocation -&gt; (tagged union structure) [required] The location of the data set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: s3Location. s3Location -&gt; (string) The URI of the Amazon S3 bucket. Constraints: o pattern: ^\S{1,2000}$ s3Location -&gt; (string) The Amazon S3 location of the data sets. Constraints: o pattern: ^\S{1,2000}$ JSON Syntax: { "dataSets": [ { "dataSet": { "datasetName": "string", "datasetOrg": { "gdg": { "limit": integer, "rollDisposition": "string" }, "po": { "encoding": "string", "format": "string", "memberFileExtensions": ["string", ...] }, "ps": { "encoding": "string", "format": "string" }, "vsam": { "alternateKeys": [ { "allowDuplicates": true|false, "length": integer, "name": "string", "offset": integer } ... ], "compressed": true|false, "encoding": "string", "format": "string", "primaryKey": { "length": integer, "name": "string", "offset": integer } } }, "recordLength": { "max": integer, "min": integer }, "relativePath": "string", "storageType": "string" }, "externalLocation": { "s3Location": "string" } } ... ], "s3Location": "string" }
+    /// </summary>
+    [CliOption("--import-config")]
+    public string? ImportConfig { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier you provide to ensure the idempo- tency of the request to create a data set import. The service gener- ates the clientToken when the API call is triggered. The token ex- pires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The ser- vice also handles deleting the clientToken after it expires. Constraints: o min: 0 o max: 128 o pattern: ^[!-~]+$
@@ -32,13 +79,27 @@ public record AwsM2CreateDataSetImportTaskOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--import-config")]
-    public string? ImportConfig { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secretsmanager", "remove-regions-from-replication")]
-public record AwsSecretsmanagerRemoveRegionsFromReplicationOptions : AwsOptions
+public record AwsSecretsmanagerRemoveRegionsFromReplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For a secret that is replicated to other Regions, deletes the secret replicas from the Regions you specify. Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:RemoveRegionsFromReplication . For more information, see IAM policy actions for Secrets Manager and Authenticatio...
+    /// </summary>
+    /// <param name="SecretId">The ARN or name of the secret. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="RemoveReplicaRegions">The Regions of the replicas to remove. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: ^([a-z]+-)+\d+$ Syntax: "string" "string" ...</param>
+    public AwsSecretsmanagerRemoveRegionsFromReplicationOptions(
+        string SecretId,
+        IEnumerable<string> RemoveReplicaRegions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretId);
+        this.SecretId = SecretId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RemoveReplicaRegions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RemoveReplicaRegions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RemoveReplicaRegions));
+            }
+
+            RemoveReplicaRegions = materialized;
+        }
+        this.RemoveReplicaRegions = RemoveReplicaRegions;
+    }
+
+    private AwsSecretsmanagerRemoveRegionsFromReplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecretsmanagerRemoveRegionsFromReplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecretsmanagerRemoveRegionsFromReplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the secret. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
-    public string? SecretId { get; set; }
+    public string? SecretId { get; private init; }
 
+    /// <summary>
+    /// The Regions of the replicas to remove. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: ^([a-z]+-)+\d+$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--remove-replica-regions", GroupValues = true)]
-    public IEnumerable<string>? RemoveReplicaRegions { get; set; }
+    public IEnumerable<string>? RemoveReplicaRegions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

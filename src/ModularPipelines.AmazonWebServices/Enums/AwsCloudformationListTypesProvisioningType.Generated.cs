@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --provisioningtype.
+/// Allowed values for --provisioning-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationListTypesProvisioningType
 {
-    [EnumValue("NON_PROVISIONABLE")]
-    NonProvisionable = 1,
+    [EnumValue("FULLY_MUTABLE")]
+    FullyMutable,
 
     [EnumValue("IMMUTABLE")]
-    Immutable = 2,
+    Immutable,
 
-    [EnumValue("FULLY_MUTABLE")]
-    FullyMutable = 3
+    [EnumValue("NON_PROVISIONABLE")]
+    NonProvisionable
 }

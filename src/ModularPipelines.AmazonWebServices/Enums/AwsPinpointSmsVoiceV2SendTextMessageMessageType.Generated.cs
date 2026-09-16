@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --messagetype.
+/// Allowed values for --message-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPinpointSmsVoiceV2SendTextMessageMessageType
 {
-    [EnumValue("TRANSACTIONAL")]
-    Transactional = 1,
-
     [EnumValue("PROMOTIONAL")]
-    Promotional = 2
+    Promotional,
+
+    [EnumValue("TRANSACTIONAL")]
+    Transactional
 }

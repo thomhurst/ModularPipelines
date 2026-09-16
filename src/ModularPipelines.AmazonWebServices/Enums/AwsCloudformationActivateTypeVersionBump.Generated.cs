@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --versionbump.
+/// Allowed values for --version-bump.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationActivateTypeVersionBump
 {
     [EnumValue("MAJOR")]
-    Major = 1,
+    Major,
 
     [EnumValue("MINOR")]
-    Minor = 2
+    Minor
 }

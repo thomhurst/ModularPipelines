@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,34 +22,154 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafkaconnect", "create-connector")]
-public record AwsKafkaconnectCreateConnectorOptions : AwsOptions
+public record AwsKafkaconnectCreateConnectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--capacity")]
-    public string? Capacity { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a connector using the specified properties. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Capacity">Information about the capacity allocated to the connector. Exactly one of the two properties must be specified. autoScaling -&gt; (structure) Information about the auto scaling parameters for the connector. maxWorkerCount -&gt; (integer) [required] The maximum number of workers allocated to the connector. mcuCount -&gt; (integer) [required] The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: o min: 1 o max: 8 minWorkerCount -&gt; (integer) [required] The minimum number of workers allocated to the connector. scaleInPolicy -&gt; (structure) The scale-in policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] Specifies the CPU utilization percentage threshold at which you want connector scale in to be triggered. Constraints: o min: 1 o max: 100 scaleOutPolicy -&gt; (structure) The scale-out policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] The CPU utilization percentage threshold at which you want connector scale out to be triggered. Constraints: o min: 1 o max: 100 maxAutoscalingTaskCount -&gt; (integer) The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorker- Count. provisionedCapacity -&gt; (structure) Details about a fixed capacity allocated to a connector. mcuCount -&gt; (integer) [required] The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: o min: 1 o max: 8 workerCount -&gt; (integer) [required] The number of workers that are allocated to the connector. Shorthand Syntax: autoScaling={maxWorkerCount=integer,mcuCount=integer,minWorkerCount=integer,scaleInPolicy={cpuUtilizationPercentage=integer},scaleOutPolicy={cpuUtilizationPercentage=integer},maxAutoscalingTaskCount=integer},provisionedCapacity={mcuCount=integer,workerCount=integer} JSON Syntax: { "autoScaling": { "maxWorkerCount": integer, "mcuCount": integer, "minWorkerCount": integer, "scaleInPolicy": { "cpuUtilizationPercentage": integer }, "scaleOutPolicy": { "cpuUtilizationPercentage": integer }, "maxAutoscalingTaskCount": integer }, "provisionedCapacity": { "mcuCount": integer, "workerCount": integer } }</param>
+    /// <param name="ConnectorConfiguration">A map of keys to values that represent the configuration for the connector. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ConnectorName">The name of the connector. Constraints: o min: 1 o max: 128</param>
+    /// <param name="KafkaCluster">Specifies which Apache Kafka cluster to connect to. apacheKafkaCluster -&gt; (structure) [required] The Apache Kafka cluster to which the connector is connected. bootstrapServers -&gt; (string) [required] The bootstrap servers of the cluster. vpc -&gt; (structure) [required] Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster. securityGroups -&gt; (list) The security groups for the connector. (string) subnets -&gt; (list) [required] The subnets for the connector. (string) JSON Syntax: { "apacheKafkaCluster": { "bootstrapServers": "string", "vpc": { "securityGroups": ["string", ...], "subnets": ["string", ...] } } }</param>
+    /// <param name="KafkaClusterClientAuthentication">Details of the client authentication used by the Apache Kafka clus- ter. authenticationType -&gt; (string) [required] The type of client authentication used to connect to the Apache Kafka cluster. Value NONE means that no client authentication is used. Possible values: o NONE o IAM Shorthand Syntax: authenticationType=string JSON Syntax: { "authenticationType": "NONE"|"IAM" }</param>
+    /// <param name="KafkaClusterEncryptionInTransit">Details of encryption in transit to the Apache Kafka cluster. encryptionType -&gt; (string) [required] The type of encryption in transit to the Apache Kafka cluster. Possible values: o PLAINTEXT o TLS Shorthand Syntax: encryptionType=string JSON Syntax: { "encryptionType": "PLAINTEXT"|"TLS" }</param>
+    /// <param name="KafkaConnectVersion">The version of Kafka Connect. It has to be compatible with both the Apache Kafka cluster's version and the plugins.</param>
+    /// <param name="Plugins">WARNING: Amazon MSK Connect does not currently support specifying multi- ple plugins as a list. To use more than one plugin for your con- nector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together. Specifies which plugin to use for the connector. You must specify a single-element list containing one customPlugin object. (structure) A plugin is an Amazon Web Services resource that contains the code that defines your connector logic. customPlugin -&gt; (structure) [required] Details about a custom plugin. customPluginArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the custom plugin. revision -&gt; (long) [required] The revision of the custom plugin. Constraints: o min: 1 o max: 9223372036854775807 Shorthand Syntax: customPlugin={customPluginArn=string,revision=long} ... JSON Syntax: [ { "customPlugin": { "customPluginArn": "string", "revision": long } } ... ]</param>
+    /// <param name="ServiceExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role used by the connector to access the Amazon Web Services resources that it needs. The types of resources depends on the logic of the connector. For example, a connector that has Amazon S3 as a destination must have permissions that allow it to write to the S3 destination bucket.</param>
+    public AwsKafkaconnectCreateConnectorOptions(
+        string Capacity,
+        IReadOnlyList<KeyValue> ConnectorConfiguration,
+        string ConnectorName,
+        string KafkaCluster,
+        string KafkaClusterClientAuthentication,
+        string KafkaClusterEncryptionInTransit,
+        string KafkaConnectVersion,
+        IEnumerable<string> Plugins,
+        string ServiceExecutionRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Capacity);
+        this.Capacity = Capacity;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConnectorConfiguration);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(ConnectorConfiguration));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConnectorConfiguration));
+            }
+
+            ConnectorConfiguration = materialized;
+        }
+        this.ConnectorConfiguration = ConnectorConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorName);
+        this.ConnectorName = ConnectorName;
+        global::System.ArgumentNullException.ThrowIfNull(KafkaCluster);
+        this.KafkaCluster = KafkaCluster;
+        global::System.ArgumentNullException.ThrowIfNull(KafkaClusterClientAuthentication);
+        this.KafkaClusterClientAuthentication = KafkaClusterClientAuthentication;
+        global::System.ArgumentNullException.ThrowIfNull(KafkaClusterEncryptionInTransit);
+        this.KafkaClusterEncryptionInTransit = KafkaClusterEncryptionInTransit;
+        global::System.ArgumentNullException.ThrowIfNull(KafkaConnectVersion);
+        this.KafkaConnectVersion = KafkaConnectVersion;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Plugins);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Plugins));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Plugins));
+            }
+
+            Plugins = materialized;
+        }
+        this.Plugins = Plugins;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceExecutionRoleArn);
+        this.ServiceExecutionRoleArn = ServiceExecutionRoleArn;
+    }
+
+    private AwsKafkaconnectCreateConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaconnectCreateConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaconnectCreateConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Information about the capacity allocated to the connector. Exactly one of the two properties must be specified. autoScaling -&gt; (structure) Information about the auto scaling parameters for the connector. maxWorkerCount -&gt; (integer) [required] The maximum number of workers allocated to the connector. mcuCount -&gt; (integer) [required] The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: o min: 1 o max: 8 minWorkerCount -&gt; (integer) [required] The minimum number of workers allocated to the connector. scaleInPolicy -&gt; (structure) The scale-in policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] Specifies the CPU utilization percentage threshold at which you want connector scale in to be triggered. Constraints: o min: 1 o max: 100 scaleOutPolicy -&gt; (structure) The scale-out policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] The CPU utilization percentage threshold at which you want connector scale out to be triggered. Constraints: o min: 1 o max: 100 maxAutoscalingTaskCount -&gt; (integer) The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorker- Count. provisionedCapacity -&gt; (structure) Details about a fixed capacity allocated to a connector. mcuCount -&gt; (integer) [required] The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: o min: 1 o max: 8 workerCount -&gt; (integer) [required] The number of workers that are allocated to the connector. Shorthand Syntax: autoScaling={maxWorkerCount=integer,mcuCount=integer,minWorkerCount=integer,scaleInPolicy={cpuUtilizationPercentage=integer},scaleOutPolicy={cpuUtilizationPercentage=integer},maxAutoscalingTaskCount=integer},provisionedCapacity={mcuCount=integer,workerCount=integer} JSON Syntax: { "autoScaling": { "maxWorkerCount": integer, "mcuCount": integer, "minWorkerCount": integer, "scaleInPolicy": { "cpuUtilizationPercentage": integer }, "scaleOutPolicy": { "cpuUtilizationPercentage": integer }, "maxAutoscalingTaskCount": integer }, "provisionedCapacity": { "mcuCount": integer, "workerCount": integer } }
+    /// </summary>
+    [CliOption("--capacity")]
+    public string? Capacity { get; private init; }
+
+    /// <summary>
+    /// A map of keys to values that represent the configuration for the connector. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--connector-configuration", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? ConnectorConfiguration { get; set; }
+    public IReadOnlyList<KeyValue>? ConnectorConfiguration { get; private init; }
+
+    /// <summary>
+    /// The name of the connector. Constraints: o min: 1 o max: 128
+    /// </summary>
+    [CliOption("--connector-name")]
+    public string? ConnectorName { get; private init; }
+
+    /// <summary>
+    /// Specifies which Apache Kafka cluster to connect to. apacheKafkaCluster -&gt; (structure) [required] The Apache Kafka cluster to which the connector is connected. bootstrapServers -&gt; (string) [required] The bootstrap servers of the cluster. vpc -&gt; (structure) [required] Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster. securityGroups -&gt; (list) The security groups for the connector. (string) subnets -&gt; (list) [required] The subnets for the connector. (string) JSON Syntax: { "apacheKafkaCluster": { "bootstrapServers": "string", "vpc": { "securityGroups": ["string", ...], "subnets": ["string", ...] } } }
+    /// </summary>
+    [CliOption("--kafka-cluster")]
+    public string? KafkaCluster { get; private init; }
+
+    /// <summary>
+    /// Details of the client authentication used by the Apache Kafka clus- ter. authenticationType -&gt; (string) [required] The type of client authentication used to connect to the Apache Kafka cluster. Value NONE means that no client authentication is used. Possible values: o NONE o IAM Shorthand Syntax: authenticationType=string JSON Syntax: { "authenticationType": "NONE"|"IAM" }
+    /// </summary>
+    [CliOption("--kafka-cluster-client-authentication")]
+    public string? KafkaClusterClientAuthentication { get; private init; }
+
+    /// <summary>
+    /// Details of encryption in transit to the Apache Kafka cluster. encryptionType -&gt; (string) [required] The type of encryption in transit to the Apache Kafka cluster. Possible values: o PLAINTEXT o TLS Shorthand Syntax: encryptionType=string JSON Syntax: { "encryptionType": "PLAINTEXT"|"TLS" }
+    /// </summary>
+    [CliOption("--kafka-cluster-encryption-in-transit")]
+    public string? KafkaClusterEncryptionInTransit { get; private init; }
+
+    /// <summary>
+    /// The version of Kafka Connect. It has to be compatible with both the Apache Kafka cluster's version and the plugins.
+    /// </summary>
+    [CliOption("--kafka-connect-version")]
+    public string? KafkaConnectVersion { get; private init; }
+
+    /// <summary>
+    /// WARNING: Amazon MSK Connect does not currently support specifying multi- ple plugins as a list. To use more than one plugin for your con- nector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together. Specifies which plugin to use for the connector. You must specify a single-element list containing one customPlugin object. (structure) A plugin is an Amazon Web Services resource that contains the code that defines your connector logic. customPlugin -&gt; (structure) [required] Details about a custom plugin. customPluginArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the custom plugin. revision -&gt; (long) [required] The revision of the custom plugin. Constraints: o min: 1 o max: 9223372036854775807 Shorthand Syntax: customPlugin={customPluginArn=string,revision=long} ... JSON Syntax: [ { "customPlugin": { "customPluginArn": "string", "revision": long } } ... ]
+    /// </summary>
+    [CliOption("--plugins", GroupValues = true)]
+    public IEnumerable<string>? Plugins { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role used by the connector to access the Amazon Web Services resources that it needs. The types of resources depends on the logic of the connector. For example, a connector that has Amazon S3 as a destination must have permissions that allow it to write to the S3 destination bucket.
+    /// </summary>
+    [CliOption("--service-execution-role-arn")]
+    public string? ServiceExecutionRoleArn { get; private init; }
 
     /// <summary>
     /// A summary description of the connector. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--connector-description")]
     public string? ConnectorDescription { get; set; }
-
-    [CliOption("--connector-name")]
-    public string? ConnectorName { get; set; }
-
-    [CliOption("--kafka-cluster")]
-    public string? KafkaCluster { get; set; }
-
-    [CliOption("--kafka-cluster-client-authentication")]
-    public string? KafkaClusterClientAuthentication { get; set; }
-
-    [CliOption("--kafka-cluster-encryption-in-transit")]
-    public string? KafkaClusterEncryptionInTransit { get; set; }
-
-    [CliOption("--kafka-connect-version")]
-    public string? KafkaConnectVersion { get; set; }
 
     /// <summary>
     /// Details about log delivery. workerLogDelivery -&gt; (structure) [required] The workers can send worker logs to different destination types. This configuration specifies the details of these destinations. cloudWatchLogs -&gt; (structure) Details about delivering logs to Amazon CloudWatch Logs. enabled -&gt; (boolean) [required] Whether log delivery to Amazon CloudWatch Logs is en- abled. logGroup -&gt; (string) The name of the CloudWatch log group that is the destina- tion for log delivery. firehose -&gt; (structure) Details about delivering logs to Amazon Kinesis Data Fire- hose. deliveryStream -&gt; (string) The name of the Kinesis Data Firehose delivery stream that is the destination for log delivery. enabled -&gt; (boolean) [required] Specifies whether connector logs get delivered to Amazon Kinesis Data Firehose. s3 -&gt; (structure) Details about delivering logs to Amazon S3. bucket -&gt; (string) The name of the S3 bucket that is the destination for log delivery. enabled -&gt; (boolean) [required] Specifies whether connector logs get sent to the speci- fied Amazon S3 destination. prefix -&gt; (string) The S3 prefix that is the destination for log delivery. Shorthand Syntax: workerLogDelivery={cloudWatchLogs={enabled=boolean,logGroup=string},firehose={deliveryStream=string,enabled=boolean},s3={bucket=string,enabled=boolean,prefix=string}} JSON Syntax: { "workerLogDelivery": { "cloudWatchLogs": { "enabled": true|false, "logGroup": "string" }, "firehose": { "deliveryStream": "string", "enabled": true|false }, "s3": { "bucket": "string", "enabled": true|false, "prefix": "string" } } }
@@ -61,12 +182,6 @@ public record AwsKafkaconnectCreateConnectorOptions : AwsOptions
     /// </summary>
     [CliOption("--network-type")]
     public AwsKafkaconnectCreateConnectorNetworkType? NetworkType { get; set; }
-
-    [CliOption("--plugins", GroupValues = true)]
-    public IEnumerable<string>? Plugins { get; set; }
-
-    [CliOption("--service-execution-role-arn")]
-    public string? ServiceExecutionRoleArn { get; set; }
 
     /// <summary>
     /// Specifies which worker configuration to use with the connector. revision -&gt; (long) [required] The revision of the worker configuration. Constraints: o min: 1 o max: 9223372036854775807 workerConfigurationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the worker configuration. Shorthand Syntax: revision=long,workerConfigurationArn=string JSON Syntax: { "revision": long, "workerConfigurationArn": "string" }
@@ -85,5 +200,22 @@ public record AwsKafkaconnectCreateConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

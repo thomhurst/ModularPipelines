@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "search-data-tables")]
-public record AwsConnectSearchDataTablesOptions : AwsOptions
+public record AwsConnectSearchDataTablesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches for data tables based on the table's ID, name, and descrip- tion. In the future, this operation can support searching on attribute names and possibly primary values. Follows other search operations closely and supports both search criteria and filters. See also: AWS API Documentation search-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When us...
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance to search within. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectSearchDataTablesOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectSearchDataTablesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectSearchDataTablesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectSearchDataTablesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the Amazon Connect instance to search within. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// Optional filters to apply to the search results, such as tag-based filtering for attribute-based access control. AttributeFilter -&gt; (structure) An object that can be used to specify Tag conditions inside the SearchFilter . This accepts an OR or AND (List of List) input where: o The top level list specifies conditions that need to be ap- plied with OR operator. o The inner list specifies conditions that need to be applied with AND operator. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (structure) A list of conditions which would be applied together with an AND condition. TagConditions -&gt; (list) A leaf node condition which can be used to specify a tag condition. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. AndCondition -&gt; (structure) A list of conditions which would be applied together with an AND condition. TagConditions -&gt; (list) A leaf node condition which can be used to specify a tag condition. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. TagCondition -&gt; (structure) A leaf node condition which can be used to specify a tag con- dition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. JSON Syntax: { "AttributeFilter": { "OrConditions": [ { "TagConditions": [ { "TagKey": "string", "TagValue": "string" } ... ] } ... ], "AndCondition": { "TagConditions": [ { "TagKey": "string", "TagValue": "string" } ... ] }, "TagCondition": { "TagKey": "string", "TagValue": "string" } } }
@@ -61,5 +98,22 @@ public record AwsConnectSearchDataTablesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --patchset.
+/// Allowed values for --patch-set.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmDescribePatchPropertiesPatchSet
 {
-    [EnumValue("OS")]
-    Os = 1,
-
     [EnumValue("APPLICATION")]
-    Application = 2
+    Application,
+
+    [EnumValue("OS")]
+    Os
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "delete-what-if-forecast")]
-public record AwsForecastDeleteWhatIfForecastOptions : AwsOptions
+public record AwsForecastDeleteWhatIfForecastOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a what-if forecast created using the CreateWhatIfForecast op- eration. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhat- IfForecast operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analy- sis. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WhatIfForecastArn">The Amazon Resource Name (ARN) of the what-if forecast that you want to delete. Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    public AwsForecastDeleteWhatIfForecastOptions(
+        string WhatIfForecastArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WhatIfForecastArn);
+        this.WhatIfForecastArn = WhatIfForecastArn;
+    }
+
+    private AwsForecastDeleteWhatIfForecastOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastDeleteWhatIfForecastOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastDeleteWhatIfForecastOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the what-if forecast that you want to delete. Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// </summary>
     [CliOption("--what-if-forecast-arn")]
-    public string? WhatIfForecastArn { get; set; }
+    public string? WhatIfForecastArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

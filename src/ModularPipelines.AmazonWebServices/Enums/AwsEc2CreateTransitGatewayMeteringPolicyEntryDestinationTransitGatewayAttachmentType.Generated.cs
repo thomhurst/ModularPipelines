@@ -11,35 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --destinationtransitgatewayattachmenttype.
+/// Allowed values for --destination-transit-gateway-attachment-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateTransitGatewayMeteringPolicyEntryDestinationTransitGatewayAttachmentType
 {
-    [EnumValue("vpc")]
-    Vpc = 1,
-
-    [EnumValue("vpn")]
-    Vpn = 2,
-
-    [EnumValue("vpn-concentrator")]
-    VpnConcentrator = 3,
-
-    [EnumValue("direct-connect-gateway")]
-    DirectConnectGateway = 4,
+    [EnumValue("client-vpn")]
+    ClientVpn,
 
     [EnumValue("connect")]
-    Connect = 5,
+    Connect,
 
-    [EnumValue("peering")]
-    Peering = 6,
-
-    [EnumValue("tgw-peering")]
-    TgwPeering = 7,
+    [EnumValue("direct-connect-gateway")]
+    DirectConnectGateway,
 
     [EnumValue("network-function")]
-    NetworkFunction = 8,
+    NetworkFunction,
 
-    [EnumValue("client-vpn")]
-    ClientVpn = 9
+    [EnumValue("peering")]
+    Peering,
+
+    [EnumValue("tgw-peering")]
+    TgwPeering,
+
+    [EnumValue("vpc")]
+    Vpc,
+
+    [EnumValue("vpn")]
+    Vpn,
+
+    [EnumValue("vpn-concentrator")]
+    VpnConcentrator
 }

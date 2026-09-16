@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "associate-access-grants-identity-center")]
-public record AwsS3controlAssociateAccessGrantsIdentityCenterOptions : AwsOptions
+public record AwsS3controlAssociateAccessGrantsIdentityCenterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create ac- cess grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this op...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="IdentityCenterArn">The Amazon Resource Name (ARN) of the Amazon Web Services IAM Iden- tity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs. Constraints: o min: 10 o max: 1224 o pattern: arn:[^:]+:sso::(\d{12}){0,1}:instance/.*$</param>
+    public AwsS3controlAssociateAccessGrantsIdentityCenterOptions(
+        string AccountId,
+        string IdentityCenterArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityCenterArn);
+        this.IdentityCenterArn = IdentityCenterArn;
+    }
+
+    private AwsS3controlAssociateAccessGrantsIdentityCenterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlAssociateAccessGrantsIdentityCenterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlAssociateAccessGrantsIdentityCenterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Iden- tity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs. Constraints: o min: 10 o max: 1224 o pattern: arn:[^:]+:sso::(\d{12}){0,1}:instance/.*$
+    /// </summary>
     [CliOption("--identity-center-arn")]
-    public string? IdentityCenterArn { get; set; }
+    public string? IdentityCenterArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }
