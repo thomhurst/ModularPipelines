@@ -870,7 +870,7 @@ public static class UsageSynopsisParser
         })];
     }
 
-    private static IReadOnlyList<UsageRequiredAlternativeGroup> ResolveInlineAlternativeGroups(
+    private static List<UsageRequiredAlternativeGroup> ResolveInlineAlternativeGroups(
         UsageSynopsisParseResult candidate,
         IReadOnlyList<CliOptionDefinition> options) =>
         ParseInlineRequiredAlternativeGroups(
@@ -1367,6 +1367,42 @@ public static class UsageSynopsisParser
             offset = start + token.Length;
         }
         return result.Append(synopsis, offset, synopsis.Length - offset).ToString();
+    }
+
+    internal static IEnumerable<IReadOnlySet<string>> GetOptionalResourceOptionGroups(string? synopsis)
+    {
+        return synopsis is null ? [] : Tokenize(synopsis).SelectMany(token => Visit(token, false));
+
+        static IEnumerable<IReadOnlySet<string>> Visit(string token, bool optional)
+        {
+            if (!IsWrapped(token))
+            {
+                yield break;
+            }
+
+            optional |= token.StartsWith('[');
+            var tokens = TokenizeOptionGroup(TrimWrapper(token));
+            var colon = tokens.IndexOf(":");
+            if (colon >= 0 && !tokens.Take(colon).Contains("|") && ContainsOnlyInlineOptions(tokens))
+            {
+                if (optional)
+                {
+                    yield return EnumerateInlineOptionSwitches(tokens).ToHashSet(StringComparer.Ordinal);
+                }
+
+                // Selectors after ':' belong to the optional side of this resource bundle.
+                // Their own nested requirements still apply when they are selected.
+                foreach (var selector in tokens.Skip(colon + 1).Where(item => item is not (":" or "|")))
+                {
+                    yield return EnumerateInlineOptionSwitches([selector]).ToHashSet(StringComparer.Ordinal);
+                }
+            }
+
+            foreach (var nested in tokens.SelectMany(item => Visit(item, optional && tokens.Count == 1)))
+            {
+                yield return nested;
+            }
+        }
     }
 
     private static bool IsDocumentedOptionGroup(string token, IReadOnlyList<CliArgumentGroup> groups)

@@ -17,8 +17,8 @@ public partial class NestedArgumentGroupParsingTests
             .Contains("--download-type").And.Contains("--upload-type");
         var downloadType = command.Options.Single(option => option.SwitchName == "--download-type");
         var uploadType = command.Options.Single(option => option.SwitchName == "--upload-type");
-        await Assert.That(downloadType.CSharpType).IsEqualTo("GcloudDownloadType?");
-        await Assert.That(uploadType.CSharpType).IsEqualTo("GcloudUploadType?");
+        await Assert.That(downloadType.CSharpType).IsEqualTo("GcloudStorageDiagnoseDownloadType?");
+        await Assert.That(uploadType.CSharpType).IsEqualTo("GcloudStorageDiagnoseUploadType?");
         var logsPath = command.Options.Single(option => option.SwitchName == "--logs-path");
         await Assert.That(logsPath.CSharpType).IsEqualTo("string?");
         await Assert.That(logsPath.Description)

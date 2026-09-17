@@ -912,6 +912,20 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("PrivateKey", "Private key content, not the path to the file.", true)]
+    [Arguments("PrivateKey", "Private key content, not a path to a file.", true)]
+    [Arguments("PrivateKey", "Path to the private key file.", false)]
+    [Arguments("PrivateKeyFile", "The file holding private key content.", false)]
+    [Arguments("AuthToken", "ID of the authToken or fully qualified identifier for the authToken.", false)]
+    [Arguments("TokenAuthUser", "The tokenAuthUser id of the authToken resource.", false)]
+    [Arguments("Token", "The authentication token value used to access the resource.", true)]
+    public async Task IsSecretOption_Distinguishes_Material_From_Resource_Identifiers_And_Paths(
+        string propertyName, string description, bool secret)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsEqualTo(secret);
+    }
+
+    [Test]
     public async Task IsSecretOption_Returns_False_For_Flags_Even_With_Secret_Name()
     {
         var result = GeneratorUtils.IsSecretOption("ShowPassword", isFlag: true);
