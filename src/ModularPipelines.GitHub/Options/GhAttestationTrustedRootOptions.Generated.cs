@@ -44,10 +44,4 @@ public record GhAttestationTrustedRootOptions : GhOptions
     [CliFlag("--verify-only")]
     public bool? VerifyOnly { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

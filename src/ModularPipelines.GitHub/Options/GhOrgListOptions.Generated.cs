@@ -26,10 +26,4 @@ public record GhOrgListOptions : GhOptions
     [CliOption("--limit", ShortForm = "-L", Format = OptionFormat.EqualsSeparated)]
     public int? Limit { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

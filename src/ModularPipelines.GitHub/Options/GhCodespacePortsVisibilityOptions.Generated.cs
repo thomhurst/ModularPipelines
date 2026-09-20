@@ -18,21 +18,41 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codespace", "ports", "visibility")]
-public record GhCodespacePortsVisibilityOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> PortPublic
-) : GhOptions
+public record GhCodespacePortsVisibilityOptions : GhOptions
 {
+    /// <summary>
+    /// Change the visibility of the forwarded port
+    /// </summary>
+    /// <param name="PortPublic">The &lt;port&gt;:{public operand.</param>
+    public GhCodespacePortsVisibilityOptions(
+        IEnumerable<string> PortPublic
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PortPublic);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PortPublic));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PortPublic));
+            }
+
+            PortPublic = materialized;
+        }
+        this.PortPublic = PortPublic;
+    }
+
+    public void Deconstruct(out IEnumerable<string> PortPublic)
+    {
+        PortPublic = this.PortPublic;
+    }
+
     /// <summary>
     /// Name of the codespace
     /// </summary>
     [CliOption("--codespace", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public string? Codespace { get; set; }
-
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Filter codespace selection by repository name (user/repo)
@@ -45,5 +65,11 @@ public record GhCodespacePortsVisibilityOptions(
     /// </summary>
     [CliOption("--repo-owner", Format = OptionFormat.EqualsSeparated)]
     public string? RepoOwner { get; set; }
+
+    /// <summary>
+    /// The &lt;port&gt;:{public operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> PortPublic { get; private init; }
 
 }

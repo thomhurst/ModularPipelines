@@ -18,20 +18,35 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("issue", "unlock")]
-public record GhIssueUnlockOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrUrl
-) : GhOptions
+public record GhIssueUnlockOptions : GhOptions
 {
     /// <summary>
-    /// Show help for command
+    /// Unlock issue conversation
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    /// <param name="NumberOrUrl">The &lt;number&gt; operand.</param>
+    public GhIssueUnlockOptions(
+        string NumberOrUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrUrl);
+        this.NumberOrUrl = NumberOrUrl;
+    }
+
+    public void Deconstruct(out string NumberOrUrl)
+    {
+        NumberOrUrl = this.NumberOrUrl;
+    }
 
     /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrUrl { get; private init; }
 
 }

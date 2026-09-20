@@ -32,10 +32,4 @@ public record GhExtensionBrowseOptions : GhOptions
     [CliFlag("--single-column", ShortForm = "-s")]
     public bool? SingleColumn { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

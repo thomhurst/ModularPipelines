@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pr", "reopen")]
-public record GhPrReopenOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrUrlOrBranch
-) : GhOptions
+public record GhPrReopenOptions : GhOptions
 {
+    /// <summary>
+    /// Reopen a pull request
+    /// </summary>
+    /// <param name="NumberOrUrlOrBranch">The &lt;number&gt; operand.</param>
+    public GhPrReopenOptions(
+        string NumberOrUrlOrBranch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrUrlOrBranch);
+        this.NumberOrUrlOrBranch = NumberOrUrlOrBranch;
+    }
+
+    public void Deconstruct(out string NumberOrUrlOrBranch)
+    {
+        NumberOrUrlOrBranch = this.NumberOrUrlOrBranch;
+    }
+
     /// <summary>
     /// Add a reopening comment
     /// </summary>
@@ -29,15 +44,15 @@ public record GhPrReopenOptions(
     public string? Comment { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrUrlOrBranch { get; private init; }
 
 }

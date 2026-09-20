@@ -26,10 +26,4 @@ public record GhConfigListOptions : GhOptions
     [CliOption("--host", ShortForm = "-h", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

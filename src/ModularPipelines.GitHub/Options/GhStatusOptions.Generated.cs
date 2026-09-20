@@ -32,10 +32,4 @@ public record GhStatusOptions : GhOptions
     [CliOption("--org", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Org { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

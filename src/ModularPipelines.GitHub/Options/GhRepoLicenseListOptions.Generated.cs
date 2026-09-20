@@ -20,10 +20,4 @@ namespace ModularPipelines.GitHub.Options;
 [CliSubCommand("repo", "license", "list")]
 public record GhRepoLicenseListOptions : GhOptions
 {
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

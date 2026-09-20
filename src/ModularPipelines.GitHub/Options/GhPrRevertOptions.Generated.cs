@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pr", "revert")]
-public record GhPrRevertOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrUrlOrBranch
-) : GhOptions
+public record GhPrRevertOptions : GhOptions
 {
+    /// <summary>
+    /// Revert a pull request
+    /// </summary>
+    /// <param name="NumberOrUrlOrBranch">The &lt;number&gt; operand.</param>
+    public GhPrRevertOptions(
+        string NumberOrUrlOrBranch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrUrlOrBranch);
+        this.NumberOrUrlOrBranch = NumberOrUrlOrBranch;
+    }
+
+    public void Deconstruct(out string NumberOrUrlOrBranch)
+    {
+        NumberOrUrlOrBranch = this.NumberOrUrlOrBranch;
+    }
+
     /// <summary>
     /// Body for the revert pull request
     /// </summary>
@@ -47,15 +62,15 @@ public record GhPrRevertOptions(
     public string? Title { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrUrlOrBranch { get; private init; }
 
 }

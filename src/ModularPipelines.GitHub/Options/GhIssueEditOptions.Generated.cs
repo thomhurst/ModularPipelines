@@ -18,10 +18,36 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("issue", "edit")]
-public record GhIssueEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> NumbersOrUrls
-) : GhOptions
+public record GhIssueEditOptions : GhOptions
 {
+    /// <summary>
+    /// Edit one or more issues within the same repository.
+    /// </summary>
+    /// <param name="NumbersOrUrls">The &lt;numbers&gt; operand.</param>
+    public GhIssueEditOptions(
+        IEnumerable<string> NumbersOrUrls
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NumbersOrUrls);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NumbersOrUrls));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NumbersOrUrls));
+            }
+
+            NumbersOrUrls = materialized;
+        }
+        this.NumbersOrUrls = NumbersOrUrls;
+    }
+
+    public void Deconstruct(out IEnumerable<string> NumbersOrUrls)
+    {
+        NumbersOrUrls = this.NumbersOrUrls;
+    }
+
     /// <summary>
     /// Add assigned users by their login. Use "@me" to assign yourself, or "@copilot" to assign Copilot.
     /// </summary>
@@ -155,15 +181,15 @@ public record GhIssueEditOptions(
     public string? Type { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;numbers&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> NumbersOrUrls { get; private init; }
 
 }

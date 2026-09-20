@@ -28,12 +28,6 @@ public record GhExtensionCreateOptions : GhOptions
     public GhExtensionCreatePrecompiled? Precompiled { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The &lt;name&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]

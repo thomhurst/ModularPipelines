@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "read-file")]
-public record GhRepoReadFileOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path
-) : GhOptions
+public record GhRepoReadFileOptions : GhOptions
 {
+    /// <summary>
+    /// Read the contents of a file in a GitHub repository without cloning it.
+    /// </summary>
+    /// <param name="Path">The &lt;path&gt; operand.</param>
+    public GhRepoReadFileOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
     /// <summary>
     /// Allow printing terminal escape sequences
     /// </summary>
@@ -71,9 +86,9 @@ public record GhRepoReadFileOptions(
     public string? Template { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;path&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path { get; private init; }
 
 }

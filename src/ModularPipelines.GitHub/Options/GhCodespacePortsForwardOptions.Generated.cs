@@ -18,10 +18,36 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codespace", "ports", "forward")]
-public record GhCodespacePortsForwardOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> RemotePortLocalPort
-) : GhOptions
+public record GhCodespacePortsForwardOptions : GhOptions
 {
+    /// <summary>
+    /// Forward ports from a codespace to your local machine.
+    /// </summary>
+    /// <param name="RemotePortLocalPort">The &lt;remote-port&gt;:&lt;local-port&gt; operand.</param>
+    public GhCodespacePortsForwardOptions(
+        IEnumerable<string> RemotePortLocalPort
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RemotePortLocalPort);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RemotePortLocalPort));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RemotePortLocalPort));
+            }
+
+            RemotePortLocalPort = materialized;
+        }
+        this.RemotePortLocalPort = RemotePortLocalPort;
+    }
+
+    public void Deconstruct(out IEnumerable<string> RemotePortLocalPort)
+    {
+        RemotePortLocalPort = this.RemotePortLocalPort;
+    }
+
     /// <summary>
     /// Listen on all network interfaces
     /// </summary>
@@ -35,12 +61,6 @@ public record GhCodespacePortsForwardOptions(
     public string? Codespace { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Filter codespace selection by repository name (user/repo)
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
@@ -51,5 +71,11 @@ public record GhCodespacePortsForwardOptions(
     /// </summary>
     [CliOption("--repo-owner", Format = OptionFormat.EqualsSeparated)]
     public string? RepoOwner { get; set; }
+
+    /// <summary>
+    /// The &lt;remote-port&gt;:&lt;local-port&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> RemotePortLocalPort { get; private init; }
 
 }

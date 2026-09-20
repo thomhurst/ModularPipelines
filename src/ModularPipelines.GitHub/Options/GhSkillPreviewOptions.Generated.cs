@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("skill", "preview")]
-public record GhSkillPreviewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Repository
-) : GhOptions
+public record GhSkillPreviewOptions : GhOptions
 {
+    /// <summary>
+    /// Render a skill's `SKILL.md` content in the terminal. This fetches the
+    /// </summary>
+    /// <param name="Repository">The &lt;repository&gt; operand.</param>
+    public GhSkillPreviewOptions(
+        string Repository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string Repository)
+    {
+        Repository = this.Repository;
+    }
+
     /// <summary>
     /// Include skills in hidden directories (e.g. .claude/skills/, .agents/skills/)
     /// </summary>
@@ -29,10 +44,10 @@ public record GhSkillPreviewOptions(
     public bool? AllowHiddenDirs { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;repository&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Repository { get; private init; }
 
     /// <summary>
     /// The &lt;skill&gt; operand.

@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("discussion", "comment")]
-public record GhDiscussionCommentOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrDiscussionUrlOrCommentIdOrCommentUrl
-) : GhOptions
+public record GhDiscussionCommentOptions : GhOptions
 {
+    /// <summary>
+    /// Manage comments or replies on a GitHub discussion.
+    /// </summary>
+    /// <param name="NumberOrDiscussionUrlOrCommentIdOrCommentUrl">The &lt;number&gt; operand.</param>
+    public GhDiscussionCommentOptions(
+        string NumberOrDiscussionUrlOrCommentIdOrCommentUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrDiscussionUrlOrCommentIdOrCommentUrl);
+        this.NumberOrDiscussionUrlOrCommentIdOrCommentUrl = NumberOrDiscussionUrlOrCommentIdOrCommentUrl;
+    }
+
+    public void Deconstruct(out string NumberOrDiscussionUrlOrCommentIdOrCommentUrl)
+    {
+        NumberOrDiscussionUrlOrCommentIdOrCommentUrl = this.NumberOrDiscussionUrlOrCommentIdOrCommentUrl;
+    }
+
     /// <summary>
     /// Comment body text
     /// </summary>
@@ -59,9 +74,9 @@ public record GhDiscussionCommentOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;number&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrDiscussionUrlOrCommentIdOrCommentUrl { get; private init; }
 
 }

@@ -18,21 +18,46 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("issue", "transfer")]
-public record GhIssueTransferOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrUrl,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DestinationRepo
-) : GhOptions
+public record GhIssueTransferOptions : GhOptions
 {
     /// <summary>
-    /// Show help for command
+    /// Transfer issue to another repository
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    /// <param name="NumberOrUrl">The &lt;number&gt; operand.</param>
+    /// <param name="DestinationRepo">The &lt;destination-repo&gt; operand.</param>
+    public GhIssueTransferOptions(
+        string NumberOrUrl,
+        string DestinationRepo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrUrl);
+        this.NumberOrUrl = NumberOrUrl;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationRepo);
+        this.DestinationRepo = DestinationRepo;
+    }
+
+    public void Deconstruct(out string NumberOrUrl, out string DestinationRepo)
+    {
+        NumberOrUrl = this.NumberOrUrl;
+        DestinationRepo = this.DestinationRepo;
+    }
 
     /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrUrl { get; private init; }
+
+    /// <summary>
+    /// The &lt;destination-repo&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DestinationRepo { get; private init; }
 
 }

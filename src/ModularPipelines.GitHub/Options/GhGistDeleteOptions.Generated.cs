@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist", "delete")]
-public record GhGistDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IdOrUrl
-) : GhOptions
+public record GhGistDeleteOptions : GhOptions
 {
+    /// <summary>
+    /// Delete a GitHub gist.
+    /// </summary>
+    /// <param name="IdOrUrl">The &lt;id&gt; operand.</param>
+    public GhGistDeleteOptions(
+        string IdOrUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdOrUrl);
+        this.IdOrUrl = IdOrUrl;
+    }
+
+    public void Deconstruct(out string IdOrUrl)
+    {
+        IdOrUrl = this.IdOrUrl;
+    }
+
     /// <summary>
     /// Confirm deletion without prompting
     /// </summary>
@@ -29,9 +44,9 @@ public record GhGistDeleteOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;id&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string IdOrUrl { get; private init; }
 
 }

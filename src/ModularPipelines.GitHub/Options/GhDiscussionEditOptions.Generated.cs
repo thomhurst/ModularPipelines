@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("discussion", "edit")]
-public record GhDiscussionEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrDiscussionUrl
-) : GhOptions
+public record GhDiscussionEditOptions : GhOptions
 {
+    /// <summary>
+    /// Edit a GitHub Discussion.
+    /// </summary>
+    /// <param name="NumberOrDiscussionUrl">The &lt;number&gt; operand.</param>
+    public GhDiscussionEditOptions(
+        string NumberOrDiscussionUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrDiscussionUrl);
+        this.NumberOrDiscussionUrl = NumberOrDiscussionUrl;
+    }
+
+    public void Deconstruct(out string NumberOrDiscussionUrl)
+    {
+        NumberOrDiscussionUrl = this.NumberOrDiscussionUrl;
+    }
+
     /// <summary>
     /// Add labels by name
     /// </summary>
@@ -65,9 +80,9 @@ public record GhDiscussionEditOptions(
     public string? Title { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;number&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrDiscussionUrl { get; private init; }
 
 }

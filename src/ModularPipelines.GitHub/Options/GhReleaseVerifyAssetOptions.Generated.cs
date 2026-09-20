@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("release", "verify-asset")]
-public record GhReleaseVerifyAssetOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FilePath
-) : GhOptions
+public record GhReleaseVerifyAssetOptions : GhOptions
 {
+    /// <summary>
+    /// Verify that a given asset file originated from a specific GitHub Release using cryptographically signed attestations.
+    /// </summary>
+    /// <param name="FilePath">The &lt;file-path&gt; operand.</param>
+    public GhReleaseVerifyAssetOptions(
+        string FilePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+    }
+
+    public void Deconstruct(out string FilePath)
+    {
+        FilePath = this.FilePath;
+    }
+
     /// <summary>
     /// Output format: {json}
     /// </summary>
@@ -41,12 +56,6 @@ public record GhReleaseVerifyAssetOptions(
     public string? Template { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
@@ -57,5 +66,11 @@ public record GhReleaseVerifyAssetOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Tag { get; set; }
+
+    /// <summary>
+    /// The &lt;file-path&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FilePath { get; private init; }
 
 }

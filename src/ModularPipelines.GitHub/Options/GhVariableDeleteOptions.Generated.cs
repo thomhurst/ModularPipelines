@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("variable", "delete")]
-public record GhVariableDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string VariableName
-) : GhOptions
+public record GhVariableDeleteOptions : GhOptions
 {
+    /// <summary>
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// </summary>
+    /// <param name="VariableName">The &lt;variable-name&gt; operand.</param>
+    public GhVariableDeleteOptions(
+        string VariableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VariableName);
+        this.VariableName = VariableName;
+    }
+
+    public void Deconstruct(out string VariableName)
+    {
+        VariableName = this.VariableName;
+    }
+
     /// <summary>
     /// Delete a variable for an environment
     /// </summary>
@@ -35,15 +50,15 @@ public record GhVariableDeleteOptions(
     public string? Org { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;variable-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string VariableName { get; private init; }
 
 }

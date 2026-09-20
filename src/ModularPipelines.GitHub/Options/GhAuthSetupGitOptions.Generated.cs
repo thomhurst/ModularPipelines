@@ -32,10 +32,4 @@ public record GhAuthSetupGitOptions : GhOptions
     [CliOption("--hostname", ShortForm = "-h", Format = OptionFormat.EqualsSeparated)]
     public string? Hostname { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

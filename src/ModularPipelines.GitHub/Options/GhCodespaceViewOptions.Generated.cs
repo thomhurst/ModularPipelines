@@ -56,10 +56,4 @@ public record GhCodespaceViewOptions : GhOptions
     [CliOption("--template", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

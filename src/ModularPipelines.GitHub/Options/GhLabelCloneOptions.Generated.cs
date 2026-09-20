@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("label", "clone")]
-public record GhLabelCloneOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceRepository
-) : GhOptions
+public record GhLabelCloneOptions : GhOptions
 {
+    /// <summary>
+    /// Clones labels from a source repository to a destination repository on GitHub.
+    /// </summary>
+    /// <param name="SourceRepository">The &lt;source-repository&gt; operand.</param>
+    public GhLabelCloneOptions(
+        string SourceRepository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceRepository);
+        this.SourceRepository = SourceRepository;
+    }
+
+    public void Deconstruct(out string SourceRepository)
+    {
+        SourceRepository = this.SourceRepository;
+    }
+
     /// <summary>
     /// Overwrite labels in the destination repository
     /// </summary>
@@ -29,15 +44,15 @@ public record GhLabelCloneOptions(
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;source-repository&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SourceRepository { get; private init; }
 
 }

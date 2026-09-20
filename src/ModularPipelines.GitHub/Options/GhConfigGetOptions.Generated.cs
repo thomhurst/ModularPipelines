@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "get")]
-public record GhConfigGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
-) : GhOptions
+public record GhConfigGetOptions : GhOptions
 {
+    /// <summary>
+    /// Print the value of a given configuration key
+    /// </summary>
+    /// <param name="Key">The &lt;key&gt; operand.</param>
+    public GhConfigGetOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
     /// <summary>
     /// Get per-host setting
     /// </summary>
@@ -29,9 +44,9 @@ public record GhConfigGetOptions(
     public string? Host { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;key&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
 
 }

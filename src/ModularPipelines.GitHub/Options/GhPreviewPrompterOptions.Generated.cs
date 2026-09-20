@@ -21,12 +21,6 @@ namespace ModularPipelines.GitHub.Options;
 public record GhPreviewPrompterOptions : GhOptions
 {
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The prompt type operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]

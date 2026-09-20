@@ -18,11 +18,41 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codespace", "cp")]
-public record GhCodespaceCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.LateOperand, Required = true)] IEnumerable<string> Sources,
-    [property: CliArgument(1, Phase = CommandLinePhase.LateOperand, Required = true)] string Dest
-) : GhOptions
+public record GhCodespaceCpOptions : GhOptions
 {
+    /// <summary>
+    /// The `cp` command copies files between the local and remote file systems.
+    /// </summary>
+    /// <param name="Sources">The &lt;sources&gt; operand.</param>
+    /// <param name="Dest">The &lt;dest&gt; operand.</param>
+    public GhCodespaceCpOptions(
+        IEnumerable<string> Sources,
+        string Dest
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+        global::System.ArgumentNullException.ThrowIfNull(Dest);
+        this.Dest = Dest;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Sources, out string Dest)
+    {
+        Sources = this.Sources;
+        Dest = this.Dest;
+    }
+
     /// <summary>
     /// Name of the codespace
     /// </summary>
@@ -60,15 +90,21 @@ public record GhCodespaceCpOptions(
     public string? RepoOwner { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The &lt;scp flags&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
     public IEnumerable<string>? ScpFlags { get; set; }
+
+    /// <summary>
+    /// The &lt;sources&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.LateOperand, Required = true)]
+    public IEnumerable<string> Sources { get; private init; }
+
+    /// <summary>
+    /// The &lt;dest&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.LateOperand, Required = true)]
+    public string Dest { get; private init; }
 
 }

@@ -18,20 +18,35 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "deploy-key", "delete")]
-public record GhRepoDeployKeyDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyId
-) : GhOptions
+public record GhRepoDeployKeyDeleteOptions : GhOptions
 {
     /// <summary>
-    /// Show help for command
+    /// Delete a deploy key from a GitHub repository
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    /// <param name="KeyId">The &lt;key-id&gt; operand.</param>
+    public GhRepoDeployKeyDeleteOptions(
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    public void Deconstruct(out string KeyId)
+    {
+        KeyId = this.KeyId;
+    }
 
     /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;key-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyId { get; private init; }
 
 }

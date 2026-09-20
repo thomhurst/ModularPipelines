@@ -50,10 +50,4 @@ public record GhCodespaceStopOptions : GhOptions
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

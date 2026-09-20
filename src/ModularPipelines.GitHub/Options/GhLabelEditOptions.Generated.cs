@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("label", "edit")]
-public record GhLabelEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NameArgument
-) : GhOptions
+public record GhLabelEditOptions : GhOptions
 {
+    /// <summary>
+    /// Update a label on GitHub.
+    /// </summary>
+    /// <param name="NameArgument">The &lt;name&gt; operand.</param>
+    public GhLabelEditOptions(
+        string NameArgument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NameArgument);
+        this.NameArgument = NameArgument;
+    }
+
+    public void Deconstruct(out string NameArgument)
+    {
+        NameArgument = this.NameArgument;
+    }
+
     /// <summary>
     /// Color of the label
     /// </summary>
@@ -41,15 +56,15 @@ public record GhLabelEditOptions(
     public string? Name { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NameArgument { get; private init; }
 
 }

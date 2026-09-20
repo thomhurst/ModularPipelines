@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("release", "delete")]
-public record GhReleaseDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Tag
-) : GhOptions
+public record GhReleaseDeleteOptions : GhOptions
 {
+    /// <summary>
+    /// Delete a release
+    /// </summary>
+    /// <param name="Tag">The &lt;tag&gt; operand.</param>
+    public GhReleaseDeleteOptions(
+        string Tag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Tag);
+        this.Tag = Tag;
+    }
+
+    public void Deconstruct(out string Tag)
+    {
+        Tag = this.Tag;
+    }
+
     /// <summary>
     /// Delete the specified tag in addition to its release
     /// </summary>
@@ -35,15 +50,15 @@ public record GhReleaseDeleteOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;tag&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Tag { get; private init; }
 
 }

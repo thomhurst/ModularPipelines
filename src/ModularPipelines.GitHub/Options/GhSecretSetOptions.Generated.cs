@@ -19,10 +19,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "set")]
-public record GhSecretSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecretName
-) : GhOptions
+public record GhSecretSetOptions : GhOptions
 {
+    /// <summary>
+    /// - repository (default): available to GitHub Actions runs, Agents sessions, or Dependabot in a repository
+    /// </summary>
+    /// <param name="SecretName">The &lt;secret-name&gt; operand.</param>
+    public GhSecretSetOptions(
+        string SecretName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretName);
+        this.SecretName = SecretName;
+    }
+
+    public void Deconstruct(out string SecretName)
+    {
+        SecretName = this.SecretName;
+    }
+
     /// <summary>
     /// Set the application for a secret: {actions|agents|codespaces|dependabot}
     /// </summary>
@@ -85,15 +100,15 @@ public record GhSecretSetOptions(
     public string? Visibility { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;secret-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecretName { get; private init; }
 
 }

@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("api")]
-public record GhApiOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Endpoint
-) : GhOptions
+public record GhApiOptions : GhOptions
 {
+    /// <summary>
+    /// Makes an authenticated HTTP request to the GitHub API and prints the response.
+    /// </summary>
+    /// <param name="Endpoint">The &lt;endpoint&gt; operand.</param>
+    public GhApiOptions(
+        string Endpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Endpoint);
+        this.Endpoint = Endpoint;
+    }
+
+    public void Deconstruct(out string Endpoint)
+    {
+        Endpoint = this.Endpoint;
+    }
+
     /// <summary>
     /// Allow printing terminal escape sequences
     /// </summary>
@@ -119,9 +134,9 @@ public record GhApiOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;endpoint&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Endpoint { get; private init; }
 
 }

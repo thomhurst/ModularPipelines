@@ -50,10 +50,4 @@ public record GhGistListOptions : GhOptions
     [CliFlag("--secret")]
     public bool? Secret { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

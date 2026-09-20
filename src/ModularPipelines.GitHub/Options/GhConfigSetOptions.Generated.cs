@@ -18,11 +18,30 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
-public record GhConfigSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Value
-) : GhOptions
+public record GhConfigSetOptions : GhOptions
 {
+    /// <summary>
+    /// Update configuration with a value for the given key
+    /// </summary>
+    /// <param name="Key">The &lt;key&gt; operand.</param>
+    /// <param name="Value">The &lt;value&gt; operand.</param>
+    public GhConfigSetOptions(
+        string Key,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string Key, out string Value)
+    {
+        Key = this.Key;
+        Value = this.Value;
+    }
+
     /// <summary>
     /// Set per-host setting
     /// </summary>
@@ -30,9 +49,15 @@ public record GhConfigSetOptions(
     public string? Host { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;key&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
+
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Value { get; private init; }
 
 }

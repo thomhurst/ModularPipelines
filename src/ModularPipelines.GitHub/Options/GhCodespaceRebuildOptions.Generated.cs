@@ -44,10 +44,4 @@ public record GhCodespaceRebuildOptions : GhOptions
     [CliOption("--repo-owner", Format = OptionFormat.EqualsSeparated)]
     public string? RepoOwner { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }
