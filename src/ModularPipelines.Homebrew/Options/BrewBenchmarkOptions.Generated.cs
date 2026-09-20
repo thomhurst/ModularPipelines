@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("benchmark")]
-public record BrewBenchmarkOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Formula
-) : BrewOptions
+public record BrewBenchmarkOptions : BrewOptions
 {
+    /// <summary>
+    /// Benchmark this brew with hyperfine, installing hyperfine first if it is missing. Each of the metadata-cold, archive-cold, archive-warm and fully-warm brew install workloads is measured separately, as are the metadata-cold, archive-cold and archive-warm brew fetch workloads for each of 1, 10, 50 and 100 formulae that are available: pass 100 formulae for full coverage and fewer for a shorter run.
+    /// </summary>
+    /// <param name="Formula">The formula operand.</param>
+    public BrewBenchmarkOptions(
+        IEnumerable<string> Formula
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Formula);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Formula));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Formula));
+            }
+
+            Formula = materialized;
+        }
+        this.Formula = Formula;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Formula)
+    {
+        Formula = this.Formula;
+    }
+
     /// <summary>
     /// Run hyperfine with the arguments given after -- instead of Homebrew's own workloads, e.g. brew benchmark --exec -- 'brew --version'.
     /// </summary>
@@ -53,9 +79,9 @@ public record BrewBenchmarkOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Formula { get; private init; }
 
 }

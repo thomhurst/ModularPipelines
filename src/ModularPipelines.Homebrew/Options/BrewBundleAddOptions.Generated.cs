@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bundle", "add")]
-public record BrewBundleAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : BrewOptions
+public record BrewBundleAddOptions : BrewOptions
 {
+    /// <summary>
+    /// Add entries to your Brewfile. Adds formulae by default. Use --cask, --tap, --vscode, --go, --cargo, --uv, --flatpak, --krew and --npm to add the corresponding entry instead.
+    /// </summary>
+    /// <param name="Name">The name operand.</param>
+    public BrewBundleAddOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -39,12 +54,6 @@ public record BrewBundleAddOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Read from or write to the Brewfile from this location. Use --file=- to pipe to stdin/stdout.
@@ -129,5 +138,11 @@ public record BrewBundleAddOptions(
     /// </summary>
     [CliFlag("--no-describe")]
     public bool? NoDescribe { get; set; }
+
+    /// <summary>
+    /// The name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

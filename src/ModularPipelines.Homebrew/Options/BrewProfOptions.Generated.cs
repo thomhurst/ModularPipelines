@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("prof")]
-public record BrewProfOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Command
-) : BrewOptions
+public record BrewProfOptions : BrewOptions
 {
+    /// <summary>
+    /// Run Homebrew with a Ruby profiler. For example, brew prof readall.
+    /// </summary>
+    /// <param name="Command">The command operand.</param>
+    public BrewProfOptions(
+        IEnumerable<string> Command
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Command);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Command));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Command));
+            }
+
+            Command = materialized;
+        }
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Command)
+    {
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Use stackprof instead of ruby-prof (the default).
     /// </summary>
@@ -59,9 +85,9 @@ public record BrewProfOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The command operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Command { get; private init; }
 
 }

@@ -50,10 +50,4 @@ public record BrewUpdateOptions : BrewOptions
     [CliFlag("--debug", ShortForm = "-d")]
     public bool? Debug { get; set; }
 
-    /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

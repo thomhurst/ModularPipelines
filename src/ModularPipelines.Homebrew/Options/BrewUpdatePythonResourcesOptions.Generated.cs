@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("update-python-resources")]
-public record BrewUpdatePythonResourcesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Formula
-) : BrewOptions
+public record BrewUpdatePythonResourcesOptions : BrewOptions
 {
+    /// <summary>
+    /// Update versions for PyPI resource blocks in formula.
+    /// </summary>
+    /// <param name="Formula">The formula operand.</param>
+    public BrewUpdatePythonResourcesOptions(
+        IEnumerable<string> Formula
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Formula);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Formula));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Formula));
+            }
+
+            Formula = materialized;
+        }
+        this.Formula = Formula;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Formula)
+    {
+        Formula = this.Formula;
+    }
+
     /// <summary>
     /// Print the updated resource blocks instead of changing formula.
     /// </summary>
@@ -95,9 +121,9 @@ public record BrewUpdatePythonResourcesOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Formula { get; private init; }
 
 }

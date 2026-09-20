@@ -12,16 +12,13 @@ using ModularPipelines.Homebrew.Options;
 
 namespace ModularPipelines.Homebrew.Options;
 
+/// <summary>
+/// Manage background services with macOS' launchctl(1) daemon manager or Linux's systemctl(1) service manager.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services")]
-public record BrewServicesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Restart,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string And,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Persist,
-    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Across,
-    [property: CliArgument(4, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Upgrades
-) : BrewOptions
+public record BrewServicesOptions : BrewOptions
 {
     /// <summary>
     /// Display any debugging information.
@@ -40,12 +37,6 @@ public record BrewServicesOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// When run as root on macOS, run the service(s) as this user.

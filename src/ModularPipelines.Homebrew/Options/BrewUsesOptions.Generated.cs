@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uses")]
-public record BrewUsesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
-) : BrewOptions
+public record BrewUsesOptions : BrewOptions
 {
+    /// <summary>
+    /// Show formulae and casks that specify formula as a dependency; that is, show dependents of formula. When given multiple formula arguments, show the intersection of formulae that use formula. By default, uses shows all formulae and casks that specify formula as a required or recommended dependency for their stable builds.
+    /// </summary>
+    /// <param name="FormulaOperand">The formula operand.</param>
+    public BrewUsesOptions(
+        IEnumerable<string> FormulaOperand
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FormulaOperand);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FormulaOperand));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FormulaOperand));
+            }
+
+            FormulaOperand = materialized;
+        }
+        this.FormulaOperand = FormulaOperand;
+    }
+
+    public void Deconstruct(out IEnumerable<string> FormulaOperand)
+    {
+        FormulaOperand = this.FormulaOperand;
+    }
+
     /// <summary>
     /// Resolve more than one level of dependencies.
     /// </summary>
@@ -101,9 +127,9 @@ public record BrewUsesOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> FormulaOperand { get; private init; }
 
 }

@@ -18,11 +18,30 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("extract")]
-public record BrewExtractOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Formula,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Tap
-) : BrewOptions
+public record BrewExtractOptions : BrewOptions
 {
+    /// <summary>
+    /// Look through repository history to find the most recent version of formula and create a copy in tap. Specifically, the command will create the new formula file at tap/Formula/formula@version.rb. If the tap is not installed yet, attempt to install/clone the tap before continuing. To extract a formula from a tap that is not homebrew/core use its fully-qualified form of user/repo/formula.
+    /// </summary>
+    /// <param name="Formula">The formula operand.</param>
+    /// <param name="Tap">The tap operand.</param>
+    public BrewExtractOptions(
+        string Formula,
+        string Tap
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Formula);
+        this.Formula = Formula;
+        global::System.ArgumentNullException.ThrowIfNull(Tap);
+        this.Tap = Tap;
+    }
+
+    public void Deconstruct(out string Formula, out string Tap)
+    {
+        Formula = this.Formula;
+        Tap = this.Tap;
+    }
+
     /// <summary>
     /// Search for the specified version of formula starting at revision instead of HEAD.
     /// </summary>
@@ -60,9 +79,15 @@ public record BrewExtractOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Formula { get; private init; }
+
+    /// <summary>
+    /// The tap operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Tap { get; private init; }
 
 }

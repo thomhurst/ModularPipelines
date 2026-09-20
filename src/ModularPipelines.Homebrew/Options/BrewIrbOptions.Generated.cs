@@ -44,10 +44,4 @@ public record BrewIrbOptions : BrewOptions
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
 
-    /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

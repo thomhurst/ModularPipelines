@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("version-install")]
-public record BrewVersionInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FormulaVersion
-) : BrewOptions
+public record BrewVersionInstallOptions : BrewOptions
 {
+    /// <summary>
+    /// Extract a specific version of formula into a personal tap and install it. The default tap is user/versions. user uses the GitHub username if available and the local username otherwise.
+    /// </summary>
+    /// <param name="FormulaVersion">The formula[@version] operand.</param>
+    public BrewVersionInstallOptions(
+        string FormulaVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FormulaVersion);
+        this.FormulaVersion = FormulaVersion;
+    }
+
+    public void Deconstruct(out string FormulaVersion)
+    {
+        FormulaVersion = this.FormulaVersion;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -41,10 +56,10 @@ public record BrewVersionInstallOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The formula[@version] operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FormulaVersion { get; private init; }
 
     /// <summary>
     /// The version operand.

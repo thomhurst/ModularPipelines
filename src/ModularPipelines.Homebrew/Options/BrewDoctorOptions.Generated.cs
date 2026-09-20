@@ -51,12 +51,6 @@ public record BrewDoctorOptions : BrewOptions
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The diagnostic_check operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]

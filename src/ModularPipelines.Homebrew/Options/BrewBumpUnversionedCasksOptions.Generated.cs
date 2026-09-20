@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bump-unversioned-casks")]
-public record BrewBumpUnversionedCasksOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Cask
-) : BrewOptions
+public record BrewBumpUnversionedCasksOptions : BrewOptions
 {
+    /// <summary>
+    /// Check all casks with unversioned URLs in a given tap for updates.
+    /// </summary>
+    /// <param name="Cask">The cask operand.</param>
+    public BrewBumpUnversionedCasksOptions(
+        IEnumerable<string> Cask
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Cask);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Cask));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Cask));
+            }
+
+            Cask = materialized;
+        }
+        this.Cask = Cask;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Cask)
+    {
+        Cask = this.Cask;
+    }
+
     /// <summary>
     /// Do everything except caching state and opening pull requests.
     /// </summary>
@@ -59,9 +85,9 @@ public record BrewBumpUnversionedCasksOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The cask operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Cask { get; private init; }
 
 }
