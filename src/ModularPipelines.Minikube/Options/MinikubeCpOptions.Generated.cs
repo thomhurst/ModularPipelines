@@ -18,9 +18,40 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cp")]
-public record MinikubeCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceNodeNameSourceFilePath,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TargetNodeNameTargetFileAbsolutePath
-) : MinikubeOptions
+public record MinikubeCpOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Copy the specified file into minikube, it will be saved at path &lt;target file absolute path&gt; in your minikube.
+    /// </summary>
+    /// <param name="SourceNodeNameSourceFilePath">The &lt;source node name&gt;:&lt;source file path&gt; operand.</param>
+    /// <param name="TargetNodeNameTargetFileAbsolutePath">The &lt;target node name&gt;:&lt;target file absolute path&gt; operand.</param>
+    public MinikubeCpOptions(
+        string SourceNodeNameSourceFilePath,
+        string TargetNodeNameTargetFileAbsolutePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceNodeNameSourceFilePath);
+        this.SourceNodeNameSourceFilePath = SourceNodeNameSourceFilePath;
+        global::System.ArgumentNullException.ThrowIfNull(TargetNodeNameTargetFileAbsolutePath);
+        this.TargetNodeNameTargetFileAbsolutePath = TargetNodeNameTargetFileAbsolutePath;
+    }
+
+    public void Deconstruct(out string SourceNodeNameSourceFilePath, out string TargetNodeNameTargetFileAbsolutePath)
+    {
+        SourceNodeNameSourceFilePath = this.SourceNodeNameSourceFilePath;
+        TargetNodeNameTargetFileAbsolutePath = this.TargetNodeNameTargetFileAbsolutePath;
+    }
+
+    /// <summary>
+    /// The &lt;source node name&gt;:&lt;source file path&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SourceNodeNameSourceFilePath { get; private init; }
+
+    /// <summary>
+    /// The &lt;target node name&gt;:&lt;target file absolute path&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TargetNodeNameTargetFileAbsolutePath { get; private init; }
+
 }

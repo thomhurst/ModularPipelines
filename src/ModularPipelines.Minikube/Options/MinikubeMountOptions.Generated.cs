@@ -18,10 +18,25 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mount")]
-public record MinikubeMountOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string SourceDirectoryTargetDirectory
-) : MinikubeOptions
+public record MinikubeMountOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Mounts the specified directory into minikube.
+    /// </summary>
+    /// <param name="SourceDirectoryTargetDirectory">The &lt;source directory&gt;:&lt;target directory&gt; operand.</param>
+    public MinikubeMountOptions(
+        string SourceDirectoryTargetDirectory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDirectoryTargetDirectory);
+        this.SourceDirectoryTargetDirectory = SourceDirectoryTargetDirectory;
+    }
+
+    public void Deconstruct(out string SourceDirectoryTargetDirectory)
+    {
+        SourceDirectoryTargetDirectory = this.SourceDirectoryTargetDirectory;
+    }
+
     /// <summary>
     /// Specify the 9p version that the mount should use
     /// </summary>
@@ -75,5 +90,11 @@ public record MinikubeMountOptions(
     /// </summary>
     [CliOption("--uid", Format = OptionFormat.EqualsSeparated)]
     public string? Uid { get; set; }
+
+    /// <summary>
+    /// The &lt;source directory&gt;:&lt;target directory&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string SourceDirectoryTargetDirectory { get; private init; }
 
 }

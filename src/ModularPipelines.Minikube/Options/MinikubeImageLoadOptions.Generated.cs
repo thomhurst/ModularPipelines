@@ -18,10 +18,25 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "load")]
-public record MinikubeImageLoadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : MinikubeOptions
+public record MinikubeImageLoadOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Load an image into minikube
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    public MinikubeImageLoadOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Cache image from docker daemon
     /// </summary>
@@ -45,5 +60,11 @@ public record MinikubeImageLoadOptions(
     /// </summary>
     [CliFlag("--remote")]
     public bool? Remote { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
 }

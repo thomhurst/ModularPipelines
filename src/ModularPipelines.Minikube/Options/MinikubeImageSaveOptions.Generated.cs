@@ -18,10 +18,25 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "save")]
-public record MinikubeImageSaveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : MinikubeOptions
+public record MinikubeImageSaveOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Save a image from minikube
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    public MinikubeImageSaveOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Cache image to docker daemon
     /// </summary>
@@ -33,6 +48,12 @@ public record MinikubeImageSaveOptions(
     /// </summary>
     [CliFlag("--remote")]
     public bool? Remote { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
     /// <summary>
     /// The ARCHIVE operand.

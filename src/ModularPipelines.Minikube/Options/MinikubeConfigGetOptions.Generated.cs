@@ -18,8 +18,29 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "get")]
-public record MinikubeConfigGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyName
-) : MinikubeOptions
+public record MinikubeConfigGetOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Returns the value of PROPERTY_NAME from the minikube config file.  Can be overwritten at runtime by flags or environmental variables.
+    /// </summary>
+    /// <param name="PropertyName">The PROPERTY_NAME operand.</param>
+    public MinikubeConfigGetOptions(
+        string PropertyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PropertyName);
+        this.PropertyName = PropertyName;
+    }
+
+    public void Deconstruct(out string PropertyName)
+    {
+        PropertyName = this.PropertyName;
+    }
+
+    /// <summary>
+    /// The PROPERTY_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PropertyName { get; private init; }
+
 }

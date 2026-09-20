@@ -18,8 +18,29 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "unset")]
-public record MinikubeConfigUnsetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyName
-) : MinikubeOptions
+public record MinikubeConfigUnsetOptions : MinikubeOptions
 {
+    /// <summary>
+    /// unsets PROPERTY_NAME from the minikube config file.  Can be overwritten by flags or environmental variables
+    /// </summary>
+    /// <param name="PropertyName">The PROPERTY_NAME operand.</param>
+    public MinikubeConfigUnsetOptions(
+        string PropertyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PropertyName);
+        this.PropertyName = PropertyName;
+    }
+
+    public void Deconstruct(out string PropertyName)
+    {
+        PropertyName = this.PropertyName;
+    }
+
+    /// <summary>
+    /// The PROPERTY_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PropertyName { get; private init; }
+
 }

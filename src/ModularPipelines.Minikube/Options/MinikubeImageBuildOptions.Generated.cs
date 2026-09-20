@@ -18,10 +18,25 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "build")]
-public record MinikubeImageBuildOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path
-) : MinikubeOptions
+public record MinikubeImageBuildOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Build a container image, using the container runtime.
+    /// </summary>
+    /// <param name="Path">The PATH operand.</param>
+    public MinikubeImageBuildOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
     /// <summary>
     /// Build image on all nodes.
     /// </summary>
@@ -63,5 +78,11 @@ public record MinikubeImageBuildOptions(
     /// </summary>
     [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Tag { get; set; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path { get; private init; }
 
 }

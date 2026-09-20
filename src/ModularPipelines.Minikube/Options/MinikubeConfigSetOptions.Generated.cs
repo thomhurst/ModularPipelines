@@ -18,9 +18,40 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
-public record MinikubeConfigSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyValue
-) : MinikubeOptions
+public record MinikubeConfigSetOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Sets the PROPERTY_NAME config value to PROPERTY_VALUE
+    /// </summary>
+    /// <param name="PropertyName">The PROPERTY_NAME operand.</param>
+    /// <param name="PropertyValue">The PROPERTY_VALUE operand.</param>
+    public MinikubeConfigSetOptions(
+        string PropertyName,
+        string PropertyValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PropertyName);
+        this.PropertyName = PropertyName;
+        global::System.ArgumentNullException.ThrowIfNull(PropertyValue);
+        this.PropertyValue = PropertyValue;
+    }
+
+    public void Deconstruct(out string PropertyName, out string PropertyValue)
+    {
+        PropertyName = this.PropertyName;
+        PropertyValue = this.PropertyValue;
+    }
+
+    /// <summary>
+    /// The PROPERTY_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PropertyName { get; private init; }
+
+    /// <summary>
+    /// The PROPERTY_VALUE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PropertyValue { get; private init; }
+
 }

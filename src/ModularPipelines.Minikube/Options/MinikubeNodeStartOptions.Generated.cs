@@ -18,14 +18,35 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("node", "start")]
-public record MinikubeNodeStartOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NodeName
-) : MinikubeOptions
+public record MinikubeNodeStartOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Starts an existing stopped node in a cluster.
+    /// </summary>
+    /// <param name="NodeName">The NODE_NAME operand.</param>
+    public MinikubeNodeStartOptions(
+        string NodeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeName);
+        this.NodeName = NodeName;
+    }
+
+    public void Deconstruct(out string NodeName)
+    {
+        NodeName = this.NodeName;
+    }
+
     /// <summary>
     /// If set, delete the current cluster if start fails and try again. Defaults to false.
     /// </summary>
     [CliFlag("--delete-on-failure")]
     public bool? DeleteOnFailure { get; set; }
+
+    /// <summary>
+    /// The NODE_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodeName { get; private init; }
 
 }
