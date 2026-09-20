@@ -20,16 +20,29 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "resource-overrides", "run-action")]
-public record ArgoCdAdminSettingsResourceOverridesRunActionOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceYamlPath,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action
-) : ArgoCdOptions
+public record ArgoCdAdminSettingsResourceOverridesRunActionOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for run-action
+    /// Executes resource action using the lua script configured in the 'resource.customizations' field of 'argocd-cm' ConfigMap and outputs updated fields
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="ResourceYamlPath">The RESOURCE_YAML_PATH operand.</param>
+    /// <param name="Action">The ACTION operand.</param>
+    public ArgoCdAdminSettingsResourceOverridesRunActionOptions(
+        string ResourceYamlPath,
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceYamlPath);
+        this.ResourceYamlPath = ResourceYamlPath;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    public void Deconstruct(out string ResourceYamlPath, out string Action)
+    {
+        ResourceYamlPath = this.ResourceYamlPath;
+        Action = this.Action;
+    }
 
     /// <summary>
     /// Action parameters (e.g. --param key1=value1)
@@ -327,5 +340,17 @@ public record ArgoCdAdminSettingsResourceOverridesRunActionOptions(
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    /// <summary>
+    /// The RESOURCE_YAML_PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceYamlPath { get; private init; }
+
+    /// <summary>
+    /// The ACTION operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Action { get; private init; }
 
 }

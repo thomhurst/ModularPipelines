@@ -20,16 +20,29 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "windows", "disable-manual-sync")]
-public record ArgoCdProjWindowsDisableManualSyncOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : ArgoCdOptions
+public record ArgoCdProjWindowsDisableManualSyncOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for disable-manual-sync
+    /// Disable manual sync for a sync window. Requires ID which can be found by running "argocd proj windows list PROJECT"
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="Id">The ID operand.</param>
+    public ArgoCdProjWindowsDisableManualSyncOptions(
+        string Project,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Project, out string Id)
+    {
+        Project = this.Project;
+        Id = this.Id;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -187,5 +200,17 @@ public record ArgoCdProjWindowsDisableManualSyncOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The ID operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

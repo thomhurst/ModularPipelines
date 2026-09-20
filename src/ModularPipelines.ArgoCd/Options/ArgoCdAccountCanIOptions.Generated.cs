@@ -20,17 +20,34 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "can-i")]
-public record ArgoCdAccountCanIOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subresource
-) : ArgoCdOptions
+public record ArgoCdAccountCanIOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for can-i
+    /// Can I
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Action">The ACTION operand.</param>
+    /// <param name="Resource">The RESOURCE operand.</param>
+    /// <param name="Subresource">The SUBRESOURCE operand.</param>
+    public ArgoCdAccountCanIOptions(
+        string Action,
+        string Resource,
+        string Subresource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+        global::System.ArgumentNullException.ThrowIfNull(Subresource);
+        this.Subresource = Subresource;
+    }
+
+    public void Deconstruct(out string Action, out string Resource, out string Subresource)
+    {
+        Action = this.Action;
+        Resource = this.Resource;
+        Subresource = this.Subresource;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -188,5 +205,23 @@ public record ArgoCdAccountCanIOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The ACTION operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Action { get; private init; }
+
+    /// <summary>
+    /// The RESOURCE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
+
+    /// <summary>
+    /// The SUBRESOURCE operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subresource { get; private init; }
 
 }

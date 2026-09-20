@@ -20,21 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appset", "get")]
-public record ArgoCdApplicationSetGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationSetName
-) : ArgoCdOptions
+public record ArgoCdApplicationSetGetOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Get ApplicationSet details
+    /// </summary>
+    /// <param name="ApplicationSetName">The APPSETNAME operand.</param>
+    public ArgoCdApplicationSetGetOptions(
+        string ApplicationSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationSetName);
+        this.ApplicationSetName = ApplicationSetName;
+    }
+
+    public void Deconstruct(out string ApplicationSetName)
+    {
+        ApplicationSetName = this.ApplicationSetName;
+    }
+
     /// <summary>
     /// Only get ApplicationSet from a namespace (ignored when qualified name is provided)
     /// </summary>
     [CliOption("--appset-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
     public string? AppsetNamespace { get; set; }
-
-    /// <summary>
-    /// help for get
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Output format. One of: json|yaml|wide (default "wide")
@@ -204,5 +213,11 @@ public record ArgoCdApplicationSetGetOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The APPSETNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationSetName { get; private init; }
 
 }

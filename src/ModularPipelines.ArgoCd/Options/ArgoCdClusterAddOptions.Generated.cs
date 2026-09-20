@@ -21,10 +21,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "add")]
-public record ArgoCdClusterAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Context
-) : ArgoCdOptions
+public record ArgoCdClusterAddOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// argocd cluster add CONTEXT
+    /// </summary>
+    /// <param name="Context">The CONTEXT operand.</param>
+    public ArgoCdClusterAddOptions(
+        string Context
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Context);
+        this.Context = Context;
+    }
+
+    public void Deconstruct(out string Context)
+    {
+        Context = this.Context;
+    }
+
     /// <summary>
     /// Set metadata annotations (e.g. --annotation key=value)
     /// </summary>
@@ -96,12 +111,6 @@ public record ArgoCdClusterAddOptions(
     /// </summary>
     [CliOption("--exec-command-install-hint", Format = OptionFormat.EqualsSeparated)]
     public string? ExecCommandInstallHint { get; set; }
-
-    /// <summary>
-    /// help for add
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Indicates Argo CD resides inside this cluster and should connect using the internal k8s hostname (kubernetes.default.svc)
@@ -331,5 +340,11 @@ public record ArgoCdClusterAddOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Context { get; private init; }
 
 }

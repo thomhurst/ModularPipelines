@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "get-resource")]
-public record ArgoCdAppGetResourceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppGetResourceOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Get details about the live Kubernetes manifests of a resource in an application. The filter-fields flag can be used to only display fields you want to see.
+    /// </summary>
+    /// <param name="ApplicationName">The APPNAME operand.</param>
+    public ArgoCdAppGetResourceOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    public void Deconstruct(out string ApplicationName)
+    {
+        ApplicationName = this.ApplicationName;
+    }
+
     /// <summary>
     /// Namespace of the application
     /// </summary>
@@ -41,12 +56,6 @@ public record ArgoCdAppGetResourceOptions(
     /// </summary>
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public string? Group { get; set; }
-
-    /// <summary>
-    /// help for get-resource
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Kind of resource [REQUIRED]
@@ -234,5 +243,11 @@ public record ArgoCdAppGetResourceOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The APPNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationName { get; private init; }
 
 }

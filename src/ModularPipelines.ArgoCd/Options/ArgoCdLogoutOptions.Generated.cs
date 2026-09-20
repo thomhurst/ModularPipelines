@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logout")]
-public record ArgoCdLogoutOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Context
-) : ArgoCdOptions
+public record ArgoCdLogoutOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for logout
+    /// Log out from Argo CD
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Context">The CONTEXT operand.</param>
+    public ArgoCdLogoutOptions(
+        string Context
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Context);
+        this.Context = Context;
+    }
+
+    public void Deconstruct(out string Context)
+    {
+        Context = this.Context;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -186,5 +195,11 @@ public record ArgoCdLogoutOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Context { get; private init; }
 
 }

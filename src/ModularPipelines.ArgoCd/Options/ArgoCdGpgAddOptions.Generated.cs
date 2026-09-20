@@ -29,12 +29,6 @@ public record ArgoCdGpgAddOptions : ArgoCdOptions
     public string? From { get; set; }
 
     /// <summary>
-    /// help for add
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The name of the Argo-CD server context to use
     /// </summary>
     [CliOption("--argocd-context", Format = OptionFormat.EqualsSeparated)]

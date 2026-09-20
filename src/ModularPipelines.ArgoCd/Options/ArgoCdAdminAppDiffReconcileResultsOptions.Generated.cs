@@ -20,16 +20,29 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "app", "diff-reconcile-results")]
-public record ArgoCdAdminAppDiffReconcileResultsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path1,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path2
-) : ArgoCdOptions
+public record ArgoCdAdminAppDiffReconcileResultsOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for diff-reconcile-results
+    /// Compare results of two reconciliations and print diff.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Path1">The PATH1 operand.</param>
+    /// <param name="Path2">The PATH2 operand.</param>
+    public ArgoCdAdminAppDiffReconcileResultsOptions(
+        string Path1,
+        string Path2
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path1);
+        this.Path1 = Path1;
+        global::System.ArgumentNullException.ThrowIfNull(Path2);
+        this.Path2 = Path2;
+    }
+
+    public void Deconstruct(out string Path1, out string Path2)
+    {
+        Path1 = this.Path1;
+        Path2 = this.Path2;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -187,5 +200,17 @@ public record ArgoCdAdminAppDiffReconcileResultsOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PATH1 operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path1 { get; private init; }
+
+    /// <summary>
+    /// The PATH2 operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path2 { get; private init; }
 
 }

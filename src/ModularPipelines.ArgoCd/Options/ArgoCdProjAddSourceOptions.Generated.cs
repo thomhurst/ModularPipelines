@@ -20,16 +20,29 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "add-source")]
-public record ArgoCdProjAddSourceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : ArgoCdOptions
+public record ArgoCdProjAddSourceOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for add-source
+    /// Add project source repository
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="Url">The URL operand.</param>
+    public ArgoCdProjAddSourceOptions(
+        string Project,
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string Project, out string Url)
+    {
+        Project = this.Project;
+        Url = this.Url;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -187,5 +200,17 @@ public record ArgoCdProjAddSourceOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The URL operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
 
 }

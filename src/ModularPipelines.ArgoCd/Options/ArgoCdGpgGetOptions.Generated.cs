@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gpg", "get")]
-public record ArgoCdGpgGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyId
-) : ArgoCdOptions
+public record ArgoCdGpgGetOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for get
+    /// Get the GPG public key with ID &lt;KEYID&gt; from the server
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="KeyId">The KEYID operand.</param>
+    public ArgoCdGpgGetOptions(
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    public void Deconstruct(out string KeyId)
+    {
+        KeyId = this.KeyId;
+    }
 
     /// <summary>
     /// Output format. One of: json|yaml|wide (default "wide")
@@ -192,5 +201,11 @@ public record ArgoCdGpgGetOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The KEYID operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyId { get; private init; }
 
 }

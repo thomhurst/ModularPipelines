@@ -20,16 +20,29 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "notifications", "template", "notify")]
-public record ArgoCdAdminNotificationsTemplateNotifyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceName
-) : ArgoCdOptions
+public record ArgoCdAdminNotificationsTemplateNotifyOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for notify
+    /// Generates notification using the specified template and send it to specified recipients
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Name">The NAME operand.</param>
+    /// <param name="ResourceName">The RESOURCE_NAME operand.</param>
+    public ArgoCdAdminNotificationsTemplateNotifyOptions(
+        string Name,
+        string ResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceName)
+    {
+        Name = this.Name;
+        ResourceName = this.ResourceName;
+    }
 
     /// <summary>
     /// List of recipients (default [console:stdout])
@@ -334,5 +347,17 @@ public record ArgoCdAdminNotificationsTemplateNotifyOptions(
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The RESOURCE_NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceName { get; private init; }
 
 }

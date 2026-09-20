@@ -29,12 +29,6 @@ public record ArgoCdAdminSettingsValidateOptions : ArgoCdOptions
     public IEnumerable<ArgoCdAdminSettingsValidateGroup>? Group { get; set; }
 
     /// <summary>
-    /// help for validate
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Path to local argocd-cm.yaml file
     /// </summary>
     [CliOption("--argocd-cm-path", Format = OptionFormat.EqualsSeparated)]

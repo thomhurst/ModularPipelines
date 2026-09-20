@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "cluster", "namespaces", "enable-namespaced-mode")]
-public record ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pattern
-) : ArgoCdOptions
+public record ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Enable namespaced mode for clusters which name matches to the specified pattern.
+    /// </summary>
+    /// <param name="Pattern">The PATTERN operand.</param>
+    public ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions(
+        string Pattern
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pattern);
+        this.Pattern = Pattern;
+    }
+
+    public void Deconstruct(out string Pattern)
+    {
+        Pattern = this.Pattern;
+    }
+
     /// <summary>
     /// Username to impersonate for the operation
     /// </summary>
@@ -89,12 +104,6 @@ public record ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions(
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
     public bool? DryRun { get; set; }
-
-    /// <summary>
-    /// help for enable-namespaced-mode
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure
@@ -320,5 +329,11 @@ public record ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PATTERN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Pattern { get; private init; }
 
 }

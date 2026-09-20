@@ -29,12 +29,6 @@ public record ArgoCdReloginOptions : ArgoCdOptions
     public string? Callback { get; set; }
 
     /// <summary>
-    /// help for relogin
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The password of an account to authenticate
     /// </summary>
     [SecretValue]

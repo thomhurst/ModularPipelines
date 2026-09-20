@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "import")]
-public record ArgoCdAdminImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source
-) : ArgoCdOptions
+public record ArgoCdAdminImportOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Import Argo CD data from stdin (specify `-') or a file
+    /// </summary>
+    /// <param name="Source">The SOURCE operand.</param>
+    public ArgoCdAdminImportOptions(
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Source)
+    {
+        Source = this.Source;
+    }
+
     /// <summary>
     /// Comma separated list of namespace globs to which import of applications is allowed. If not provided, value from 'application.namespaces' in argocd-cmd-params-cm will be used. If it's not defined, only applications without an explicit namespace will be imported to the Argo CD namespace
     /// </summary>
@@ -95,12 +110,6 @@ public record ArgoCdAdminImportOptions(
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
-
-    /// <summary>
-    /// help for import
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Do not update the tracking annotation if the resource is already tracked
@@ -356,5 +365,11 @@ public record ArgoCdAdminImportOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The SOURCE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Source { get; private init; }
 
 }

@@ -20,16 +20,40 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "source-integrity", "git", "policies", "delete")]
-public record ArgoCdProjSourceIntegrityGitPoliciesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> PolicyId
-) : ArgoCdOptions
+public record ArgoCdProjSourceIntegrityGitPoliciesDeleteOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for delete
+    /// Delete a git source integrity policy
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="PolicyId">The POLICY_ID operand.</param>
+    public ArgoCdProjSourceIntegrityGitPoliciesDeleteOptions(
+        string Project,
+        IEnumerable<string> PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PolicyId));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PolicyId));
+            }
+
+            PolicyId = materialized;
+        }
+        this.PolicyId = PolicyId;
+    }
+
+    public void Deconstruct(out string Project, out IEnumerable<string> PolicyId)
+    {
+        Project = this.Project;
+        PolicyId = this.PolicyId;
+    }
 
     /// <summary>
     /// Skip explicit confirmation
@@ -193,5 +217,17 @@ public record ArgoCdProjSourceIntegrityGitPoliciesDeleteOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The POLICY_ID operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> PolicyId { get; private init; }
 
 }

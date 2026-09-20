@@ -20,22 +20,35 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "role", "create-token")]
-public record ArgoCdProjRoleCreateTokenOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleName
-) : ArgoCdOptions
+public record ArgoCdProjRoleCreateTokenOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Create a project token
+    /// </summary>
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="RoleName">The ROLE-NAME operand.</param>
+    public ArgoCdProjRoleCreateTokenOptions(
+        string Project,
+        string RoleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(RoleName);
+        this.RoleName = RoleName;
+    }
+
+    public void Deconstruct(out string Project, out string RoleName)
+    {
+        Project = this.Project;
+        RoleName = this.RoleName;
+    }
+
     /// <summary>
     /// Duration before the token will expire, e.g. "12h", "7d". (Default: No expiration)
     /// </summary>
     [CliOption("--expires-in", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public string? ExpiresIn { get; set; }
-
-    /// <summary>
-    /// help for create-token
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Token unique identifier. (Default: Random UUID)
@@ -205,5 +218,17 @@ public record ArgoCdProjRoleCreateTokenOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The ROLE-NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleName { get; private init; }
 
 }

@@ -20,12 +20,35 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "proj", "update-role-policy")]
-public record ArgoCdAdminProjUpdateRolePolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectGlob,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Modification,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action
-) : ArgoCdOptions
+public record ArgoCdAdminProjUpdateRolePolicyOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Implement bulk project role update. Useful to back-fill existing project policies or remove obsolete actions.
+    /// </summary>
+    /// <param name="ProjectGlob">The PROJECT_GLOB operand.</param>
+    /// <param name="Modification">The MODIFICATION operand.</param>
+    /// <param name="Action">The ACTION operand.</param>
+    public ArgoCdAdminProjUpdateRolePolicyOptions(
+        string ProjectGlob,
+        string Modification,
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectGlob);
+        this.ProjectGlob = ProjectGlob;
+        global::System.ArgumentNullException.ThrowIfNull(Modification);
+        this.Modification = Modification;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    public void Deconstruct(out string ProjectGlob, out string Modification, out string Action)
+    {
+        ProjectGlob = this.ProjectGlob;
+        Modification = this.Modification;
+        Action = this.Action;
+    }
+
     /// <summary>
     /// Username to impersonate for the operation
     /// </summary>
@@ -85,12 +108,6 @@ public record ArgoCdAdminProjUpdateRolePolicyOptions(
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
     public bool? DryRun { get; set; }
-
-    /// <summary>
-    /// help for update-role-policy
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure
@@ -334,5 +351,23 @@ public record ArgoCdAdminProjUpdateRolePolicyOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT_GLOB operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectGlob { get; private init; }
+
+    /// <summary>
+    /// The MODIFICATION operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Modification { get; private init; }
+
+    /// <summary>
+    /// The ACTION operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Action { get; private init; }
 
 }

@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cert", "rm")]
-public record ArgoCdCertRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryServer
-) : ArgoCdOptions
+public record ArgoCdCertRmOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Remove certificate of TYPE for REPOSERVER
+    /// </summary>
+    /// <param name="RepositoryServer">The REPOSERVER operand.</param>
+    public ArgoCdCertRmOptions(
+        string RepositoryServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryServer);
+        this.RepositoryServer = RepositoryServer;
+    }
+
+    public void Deconstruct(out string RepositoryServer)
+    {
+        RepositoryServer = this.RepositoryServer;
+    }
+
     /// <summary>
     /// Only remove certs of given sub-type (only for ssh)
     /// </summary>
@@ -35,12 +50,6 @@ public record ArgoCdCertRmOptions(
     /// </summary>
     [CliOption("--cert-type", Format = OptionFormat.EqualsSeparated)]
     public ArgoCdCertRmCertType? CertType { get; set; }
-
-    /// <summary>
-    /// help for rm
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -198,5 +207,11 @@ public record ArgoCdCertRmOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The REPOSERVER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryServer { get; private init; }
 
 }

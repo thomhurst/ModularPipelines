@@ -20,21 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "rollback")]
-public record ArgoCdAppRollbackOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppRollbackOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Rollback application to a previous deployed version by History ID, omitted will Rollback to the previous version
+    /// </summary>
+    /// <param name="ApplicationName">The APPNAME operand.</param>
+    public ArgoCdAppRollbackOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    public void Deconstruct(out string ApplicationName)
+    {
+        ApplicationName = this.ApplicationName;
+    }
+
     /// <summary>
     /// Rollback application in namespace
     /// </summary>
     [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
     public string? AppNamespace { get; set; }
-
-    /// <summary>
-    /// help for rollback
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Output format. One of: json|yaml|wide|tree|tree=detailed (default "wide")
@@ -210,6 +219,12 @@ public record ArgoCdAppRollbackOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The APPNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationName { get; private init; }
 
     /// <summary>
     /// The ID operand.

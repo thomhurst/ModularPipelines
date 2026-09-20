@@ -20,17 +20,34 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "add-destination")]
-public record ArgoCdProjAddDestinationOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServerOrName,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Namespace
-) : ArgoCdOptions
+public record ArgoCdProjAddDestinationOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for add-destination
+    /// Add project destination
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">Project name.</param>
+    /// <param name="ServerOrName">Destination server address or configured name.</param>
+    /// <param name="Namespace">Destination namespace.</param>
+    public ArgoCdProjAddDestinationOptions(
+        string Project,
+        string ServerOrName,
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(ServerOrName);
+        this.ServerOrName = ServerOrName;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Project, out string ServerOrName, out string Namespace)
+    {
+        Project = this.Project;
+        ServerOrName = this.ServerOrName;
+        Namespace = this.Namespace;
+    }
 
     /// <summary>
     /// Use name as destination instead server
@@ -194,5 +211,23 @@ public record ArgoCdProjAddDestinationOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// Project name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// Destination server address or configured name.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServerOrName { get; private init; }
+
+    /// <summary>
+    /// Destination namespace.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Namespace { get; private init; }
 
 }

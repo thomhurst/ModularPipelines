@@ -20,17 +20,34 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "role", "add-group")]
-public record ArgoCdProjRoleAddGroupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleName,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string GroupClaim
-) : ArgoCdOptions
+public record ArgoCdProjRoleAddGroupOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for add-group
+    /// Add a group claim to a project role
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="RoleName">The ROLE-NAME operand.</param>
+    /// <param name="GroupClaim">The GROUP-CLAIM operand.</param>
+    public ArgoCdProjRoleAddGroupOptions(
+        string Project,
+        string RoleName,
+        string GroupClaim
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(RoleName);
+        this.RoleName = RoleName;
+        global::System.ArgumentNullException.ThrowIfNull(GroupClaim);
+        this.GroupClaim = GroupClaim;
+    }
+
+    public void Deconstruct(out string Project, out string RoleName, out string GroupClaim)
+    {
+        Project = this.Project;
+        RoleName = this.RoleName;
+        GroupClaim = this.GroupClaim;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -188,5 +205,23 @@ public record ArgoCdProjRoleAddGroupOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The ROLE-NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleName { get; private init; }
+
+    /// <summary>
+    /// The GROUP-CLAIM operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GroupClaim { get; private init; }
 
 }

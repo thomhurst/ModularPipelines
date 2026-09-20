@@ -20,17 +20,34 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "role", "delete-token")]
-public record ArgoCdProjRoleDeleteTokenOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleName,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IssuedAt
-) : ArgoCdOptions
+public record ArgoCdProjRoleDeleteTokenOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for delete-token
+    /// Delete a project token
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="RoleName">The ROLE-NAME operand.</param>
+    /// <param name="IssuedAt">The ISSUED-AT operand.</param>
+    public ArgoCdProjRoleDeleteTokenOptions(
+        string Project,
+        string RoleName,
+        string IssuedAt
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(RoleName);
+        this.RoleName = RoleName;
+        global::System.ArgumentNullException.ThrowIfNull(IssuedAt);
+        this.IssuedAt = IssuedAt;
+    }
+
+    public void Deconstruct(out string Project, out string RoleName, out string IssuedAt)
+    {
+        Project = this.Project;
+        RoleName = this.RoleName;
+        IssuedAt = this.IssuedAt;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -188,5 +205,23 @@ public record ArgoCdProjRoleDeleteTokenOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The ROLE-NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleName { get; private init; }
+
+    /// <summary>
+    /// The ISSUED-AT operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string IssuedAt { get; private init; }
 
 }

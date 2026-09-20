@@ -36,12 +36,6 @@ public record ArgoCdAccountUpdatePasswordOptions : ArgoCdOptions
     public string? CurrentPassword { get; set; }
 
     /// <summary>
-    /// help for update-password
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// New password you want to update to
     /// </summary>
     [SecretValue]

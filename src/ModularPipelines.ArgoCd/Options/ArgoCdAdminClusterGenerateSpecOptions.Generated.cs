@@ -21,10 +21,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "cluster", "generate-spec")]
-public record ArgoCdAdminClusterGenerateSpecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Context
-) : ArgoCdOptions
+public record ArgoCdAdminClusterGenerateSpecOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Generate declarative config for a cluster
+    /// </summary>
+    /// <param name="Context">The CONTEXT operand.</param>
+    public ArgoCdAdminClusterGenerateSpecOptions(
+        string Context
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Context);
+        this.Context = Context;
+    }
+
+    public void Deconstruct(out string Context)
+    {
+        Context = this.Context;
+    }
+
     /// <summary>
     /// Set metadata annotations (e.g. --annotation key=value)
     /// </summary>
@@ -109,12 +124,6 @@ public record ArgoCdAdminClusterGenerateSpecOptions(
     /// </summary>
     [CliFlag("--generate-bearer-token")]
     public bool? GenerateBearerToken { get; set; }
-
-    /// <summary>
-    /// help for generate-spec
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Indicates Argo CD resides inside this cluster and should connect using the internal k8s hostname (kubernetes.default.svc)
@@ -332,5 +341,11 @@ public record ArgoCdAdminClusterGenerateSpecOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Context { get; private init; }
 
 }

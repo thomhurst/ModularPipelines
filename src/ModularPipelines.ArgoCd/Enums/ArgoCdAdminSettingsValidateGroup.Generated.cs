@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.ArgoCd.Enums;
 
 /// <summary>
-/// Allowed values for the --group option.
+/// Allowed values for --group.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdAdminSettingsValidateGroup

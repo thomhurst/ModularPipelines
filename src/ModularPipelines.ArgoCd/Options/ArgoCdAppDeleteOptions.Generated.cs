@@ -35,12 +35,6 @@ public record ArgoCdAppDeleteOptions : ArgoCdOptions
     public bool? Cascade { get; set; }
 
     /// <summary>
-    /// help for delete
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Specify propagation policy for deletion of application's resources. One of: foreground|background (default "foreground")
     /// </summary>
     [CliOption("--propagation-policy", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]

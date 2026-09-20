@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "app", "get-reconcile-results")]
-public record ArgoCdAdminAppGetReconcileResultsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path
-) : ArgoCdOptions
+public record ArgoCdAdminAppGetReconcileResultsOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Reconcile all applications and stores reconciliation summary in the specified file.
+    /// </summary>
+    /// <param name="Path">The PATH operand.</param>
+    public ArgoCdAdminAppGetReconcileResultsOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
     /// <summary>
     /// Username to impersonate for the operation
     /// </summary>
@@ -77,12 +92,6 @@ public record ArgoCdAdminAppGetReconcileResultsOptions(
     /// </summary>
     [CliFlag("--disable-compression")]
     public bool? DisableCompression { get; set; }
-
-    /// <summary>
-    /// help for get-reconcile-results
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Set ignore normalizer JQ execution timeout (default 1s)
@@ -338,5 +347,11 @@ public record ArgoCdAdminAppGetReconcileResultsOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path { get; private init; }
 
 }

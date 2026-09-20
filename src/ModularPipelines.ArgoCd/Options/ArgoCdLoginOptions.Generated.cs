@@ -20,21 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("login")]
-public record ArgoCdLoginOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServerArgument
-) : ArgoCdOptions
+public record ArgoCdLoginOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Log in to Argo CD
+    /// </summary>
+    /// <param name="ServerArgument">The SERVER operand.</param>
+    public ArgoCdLoginOptions(
+        string ServerArgument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerArgument);
+        this.ServerArgument = ServerArgument;
+    }
+
+    public void Deconstruct(out string ServerArgument)
+    {
+        ServerArgument = this.ServerArgument;
+    }
+
     /// <summary>
     /// Scheme, Host and Port for the callback URL
     /// </summary>
     [CliOption("--callback", Format = OptionFormat.EqualsSeparated)]
     public string? Callback { get; set; }
-
-    /// <summary>
-    /// help for login
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Name to use for the context
@@ -235,5 +244,11 @@ public record ArgoCdLoginOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The SERVER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServerArgument { get; private init; }
 
 }

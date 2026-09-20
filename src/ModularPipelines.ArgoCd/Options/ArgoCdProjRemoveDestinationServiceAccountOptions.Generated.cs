@@ -20,18 +20,39 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "remove-destination-service-account")]
-public record ArgoCdProjRemoveDestinationServiceAccountOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DestinationServer,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Namespace,
-    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServiceAccount
-) : ArgoCdOptions
+public record ArgoCdProjRemoveDestinationServiceAccountOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for remove-destination-service-account
+    /// Remove default destination service account from the project
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="DestinationServer">The SERVER operand.</param>
+    /// <param name="Namespace">The NAMESPACE operand.</param>
+    /// <param name="ServiceAccount">The SERVICE_ACCOUNT operand.</param>
+    public ArgoCdProjRemoveDestinationServiceAccountOptions(
+        string Project,
+        string DestinationServer,
+        string Namespace,
+        string ServiceAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationServer);
+        this.DestinationServer = DestinationServer;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccount);
+        this.ServiceAccount = ServiceAccount;
+    }
+
+    public void Deconstruct(out string Project, out string DestinationServer, out string Namespace, out string ServiceAccount)
+    {
+        Project = this.Project;
+        DestinationServer = this.DestinationServer;
+        Namespace = this.Namespace;
+        ServiceAccount = this.ServiceAccount;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -189,5 +210,29 @@ public record ArgoCdProjRemoveDestinationServiceAccountOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The SERVER operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DestinationServer { get; private init; }
+
+    /// <summary>
+    /// The NAMESPACE operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Namespace { get; private init; }
+
+    /// <summary>
+    /// The SERVICE_ACCOUNT operand.
+    /// </summary>
+    [CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceAccount { get; private init; }
 
 }

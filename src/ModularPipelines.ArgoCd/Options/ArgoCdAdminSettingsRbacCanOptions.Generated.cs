@@ -20,12 +20,35 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "rbac", "can")]
-public record ArgoCdAdminSettingsRbacCanOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleSubject,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
-) : ArgoCdOptions
+public record ArgoCdAdminSettingsRbacCanOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Check whether a given role or subject has appropriate RBAC permissions to do
+    /// </summary>
+    /// <param name="RoleSubject">Role or subject to check.</param>
+    /// <param name="Action">Action to check.</param>
+    /// <param name="Resource">Resource to check.</param>
+    public ArgoCdAdminSettingsRbacCanOptions(
+        string RoleSubject,
+        string Action,
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleSubject);
+        this.RoleSubject = RoleSubject;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string RoleSubject, out string Action, out string Resource)
+    {
+        RoleSubject = this.RoleSubject;
+        Action = this.Action;
+        Resource = this.Resource;
+    }
+
     /// <summary>
     /// Username to impersonate for the operation
     /// </summary>
@@ -85,12 +108,6 @@ public record ArgoCdAdminSettingsRbacCanOptions(
     /// </summary>
     [CliFlag("--disable-compression")]
     public bool? DisableCompression { get; set; }
-
-    /// <summary>
-    /// help for can
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure
@@ -352,6 +369,24 @@ public record ArgoCdAdminSettingsRbacCanOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// Role or subject to check.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleSubject { get; private init; }
+
+    /// <summary>
+    /// Action to check.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Action { get; private init; }
+
+    /// <summary>
+    /// Resource to check.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
 
     /// <summary>
     /// Optional sub-resource to check.

@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "rm")]
-public record ArgoCdClusterRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServerOrName
-) : ArgoCdOptions
+public record ArgoCdClusterRmOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for rm
+    /// Remove cluster credentials
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="ServerOrName">Cluster server address or configured name.</param>
+    public ArgoCdClusterRmOptions(
+        string ServerOrName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerOrName);
+        this.ServerOrName = ServerOrName;
+    }
+
+    public void Deconstruct(out string ServerOrName)
+    {
+        ServerOrName = this.ServerOrName;
+    }
 
     /// <summary>
     /// Turn off prompting to confirm remove of cluster resources
@@ -192,5 +201,11 @@ public record ArgoCdClusterRmOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// Cluster server address or configured name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServerOrName { get; private init; }
 
 }

@@ -20,11 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "source-integrity", "git", "policies", "update")]
-public record ArgoCdProjSourceIntegrityGitPoliciesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyId
-) : ArgoCdOptions
+public record ArgoCdProjSourceIntegrityGitPoliciesUpdateOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Update a git source integrity policy
+    /// </summary>
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="PolicyId">The POLICY_ID operand.</param>
+    public ArgoCdProjSourceIntegrityGitPoliciesUpdateOptions(
+        string Project,
+        string PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+    }
+
+    public void Deconstruct(out string Project, out string PolicyId)
+    {
+        Project = this.Project;
+        PolicyId = this.PolicyId;
+    }
+
     /// <summary>
     /// Add GPG key ID
     /// </summary>
@@ -60,12 +79,6 @@ public record ArgoCdProjSourceIntegrityGitPoliciesUpdateOptions(
     /// </summary>
     [CliOption("--gpg-mode", Format = OptionFormat.EqualsSeparated)]
     public ArgoCdProjSourceIntegrityGitPoliciesUpdateGpgMode? GpgMode { get; set; }
-
-    /// <summary>
-    /// help for update
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Set repository URL pattern (replaces existing)
@@ -235,5 +248,17 @@ public record ArgoCdProjSourceIntegrityGitPoliciesUpdateOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The POLICY_ID operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyId { get; private init; }
 
 }

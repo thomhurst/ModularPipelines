@@ -23,12 +23,6 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdAdminNotificationsTemplateOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for template
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The name of the Argo-CD server context to use
     /// </summary>
     [CliOption("--argocd-context", Format = OptionFormat.EqualsSeparated)]

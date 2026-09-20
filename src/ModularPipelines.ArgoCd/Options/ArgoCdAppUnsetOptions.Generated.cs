@@ -20,21 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "unset")]
-public record ArgoCdAppUnsetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppUnsetOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Unset application parameters
+    /// </summary>
+    /// <param name="ApplicationName">Application name.</param>
+    public ArgoCdAppUnsetOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    public void Deconstruct(out string ApplicationName)
+    {
+        ApplicationName = this.ApplicationName;
+    }
+
     /// <summary>
     /// Unset application parameters in namespace
     /// </summary>
     [CliOption("--app-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
     public string? AppNamespace { get; set; }
-
-    /// <summary>
-    /// help for unset
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Unset the kustomize ignore-missing-components option (revert to false)
@@ -288,5 +297,11 @@ public record ArgoCdAppUnsetOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// Application name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationName { get; private init; }
 
 }

@@ -59,12 +59,6 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// help for sync
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Set ignore normalizer JQ execution timeout (default 1s)
     /// </summary>
     [CliOption("--ignore-normalizer-jq-execution-timeout", Format = OptionFormat.EqualsSeparated)]
