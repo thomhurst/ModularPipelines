@@ -21,12 +21,6 @@ namespace ModularPipelines.Yq.Options;
 public record YqEvalAllOptions : YqOptions
 {
     /// <summary>
-    /// help for eval-all
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// force print with colors
     /// </summary>
     [CliFlag("--colors", ShortForm = "-C")]
