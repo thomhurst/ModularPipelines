@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Eksctl.Enums;
 
 /// <summary>
-/// Allowed values for the --disabletypes option.
+/// Allowed values for --disable-types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum EksctlUtilsUpdateClusterLoggingDisableTypes
