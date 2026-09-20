@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("domains", "registrations", "operations", "wait")]
 public record GcloudDomainsRegistrationsOperationsWaitOptions : GcloudOptions
 {
+    /// <summary>
+    /// wait for asynchronous     operation to complete
+    /// </summary>
+    /// <param name="Operation">Operation resource - The operation to wait for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ location is always global. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the registration attribute: ▸ provide the argument operation on the command line.</param>
+    public GcloudDomainsRegistrationsOperationsWaitOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Operation resource - The operation to wait for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ location is always global. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the registration attribute: ▸ provide the argument operation on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

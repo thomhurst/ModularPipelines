@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "org-address-groups", "describe")]
 public record GcloudNetworkSecurityOrgAddressGroupsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an address     group
+    /// </summary>
+    /// <param name="AddressGroup">Address group resource - Name of the address group to be described. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the address group or fully qualified identifier for the address group. To set the address_group attribute: ▸ provide the argument address_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityOrgAddressGroupsDescribeOptions(
+        string AddressGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AddressGroup);
+        this.AddressGroup = AddressGroup;
+    }
+
+    public void Deconstruct(out string AddressGroup)
+    {
+        AddressGroup = this.AddressGroup;
+    }
+
+    /// <summary>
+    /// Address group resource - Name of the address group to be described. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location Id. To set the location attribute: ▸ provide the argument address_group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Address group resource - Name of the address group to be described. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Organization number. To set the organization attribute: ▸ provide the argument address_group on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Address group resource - Name of the address group to be described. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the address group or fully qualified identifier for the address group. To set the address_group attribute: ▸ provide the argument address_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AddressGroup { get; private init; }
+
 }

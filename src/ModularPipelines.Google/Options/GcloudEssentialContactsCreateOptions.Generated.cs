@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,90 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("essential-contacts", "create")]
-public record GcloudEssentialContactsCreateOptions : GcloudOptions
+public record GcloudEssentialContactsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an essential contact
+    /// </summary>
+    /// <param name="Email">email address of contact.</param>
+    /// <param name="Language">preferred language of contact. Must be a valid ISO 639-1 language code.</param>
+    /// <param name="NotificationCategories">list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.</param>
+    public GcloudEssentialContactsCreateOptions(
+        string Email,
+        string Language,
+        IEnumerable<GcloudEssentialContactsCreateNotificationCategories> NotificationCategories
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+        global::System.ArgumentNullException.ThrowIfNull(Language);
+        this.Language = Language;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NotificationCategories);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudEssentialContactsCreateNotificationCategories>(NotificationCategories));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NotificationCategories));
+            }
+
+            NotificationCategories = materialized;
+        }
+        this.NotificationCategories = NotificationCategories;
+    }
+
+    public void Deconstruct(out string Email, out string Language, out IEnumerable<GcloudEssentialContactsCreateNotificationCategories> NotificationCategories)
+    {
+        Email = this.Email;
+        Language = this.Language;
+        NotificationCategories = this.NotificationCategories;
+    }
+
+    /// <summary>
+    /// email address of contact.
+    /// </summary>
+    [CliOption("--email", Format = OptionFormat.EqualsSeparated)]
+    public string Email { get; private init; }
+
+    /// <summary>
+    /// preferred language of contact. Must be a valid ISO 639-1 language code.
+    /// </summary>
+    [CliOption("--language", Format = OptionFormat.EqualsSeparated)]
+    public string Language { get; private init; }
+
+    /// <summary>
+    /// list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.
+    /// </summary>
+    [CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudEssentialContactsCreateNotificationCategories> NotificationCategories { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: organization number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: project number or id where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

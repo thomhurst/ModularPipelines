@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,192 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "datascans", "create", "data-discovery")]
-public record GcloudDataplexDatascansCreateDataDiscoveryOptions : GcloudOptions
+public record GcloudDataplexDatascansCreateDataDiscoveryOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Dataplex data     discovery scan job
+    /// </summary>
+    /// <param name="DataSourceResource">Fully-qualified service resource name of the cloud resource bucket that contains the data for the data discovery scan, of the form: //storage.googleapis.com/projects/{project_id_or_number}/buckets/{bucket_id}.</param>
+    /// <param name="Datascan">Datascan resource - Arguments and flags that define the Dataplex datascan you want to create a data discovery scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the dataScans attribute: ▸ provide the argument datascan on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexDatascansCreateDataDiscoveryOptions(
+        string DataSourceResource,
+        string Datascan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceResource);
+        this.DataSourceResource = DataSourceResource;
+        global::System.ArgumentNullException.ThrowIfNull(Datascan);
+        this.Datascan = Datascan;
+    }
+
+    public void Deconstruct(out string DataSourceResource, out string Datascan)
+    {
+        DataSourceResource = this.DataSourceResource;
+        Datascan = this.Datascan;
+    }
+
+    /// <summary>
+    /// Fully-qualified service resource name of the cloud resource bucket that contains the data for the data discovery scan, of the form: //storage.googleapis.com/projects/{project_id_or_number}/buckets/{bucket_id}.
+    /// </summary>
+    [CliOption("--data-source-resource", Format = OptionFormat.EqualsSeparated)]
+    public string DataSourceResource { get; private init; }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex datascan you want to create a data discovery scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument datascan on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Description of the data discovery scan.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of the data discovery scan.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At most one of --async | --validate-only can be specified. At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// At most one of --async | --validate-only can be specified. At most one of these can be specified: Validate the create action, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Data spec for the data discovery scan. BigQuery publishing config arguments for the data discovery scan. BigQuery connection to use for auto discovering cloud resource bucket to BigLake tables in format projects/{project_id}/locations/{location_id}/connections/{connection_id}. Connection is required for BIGLAKE BigQuery publishing table type.
+    /// </summary>
+    [CliOption("--bigquery-publishing-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryPublishingConnection { get; set; }
+
+    /// <summary>
+    /// Data spec for the data discovery scan. BigQuery publishing config arguments for the data discovery scan. The location of the BigQuery dataset to publish BigLake external or non-BigLake external tables to. If not specified, the dataset location will be set to the location of the data source resource. Refer to https://cloud.google.com/bigquery/docs/locations#supportedLocations for supported locations.
+    /// </summary>
+    [CliOption("--bigquery-publishing-dataset-location", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryPublishingDataSetLocation { get; set; }
+
+    /// <summary>
+    /// Data spec for the data discovery scan. BigQuery publishing config arguments for the data discovery scan. The project of the BigQuery dataset to publish BigLake external or non-BigLake external tables to. If not specified, the cloud resource bucket project will be used to create the dataset. The format is "projects/{project_id_or_number}.
+    /// </summary>
+    [CliOption("--bigquery-publishing-dataset-project", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryPublishingDataSetProject { get; set; }
+
+    /// <summary>
+    /// Data spec for the data discovery scan. BigQuery publishing config arguments for the data discovery scan. BigQuery table type to discover the cloud resource bucket. Can be either EXTERNAL or BIGLAKE. If not specified, the table type will be set to EXTERNAL. BIGQUERY_PUBLISHING_TABLE_TYPE must be one of: BIGLAKE Cloud Storage bucket is discovered to BigQuery BigLake tables. EXTERNAL Default value. Cloud Storage bucket is discovered to BigQuery External tables.
+    /// </summary>
+    [CliOption("--bigquery-publishing-table-type", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryPublishingTableType { get; set; }
+
+    /// <summary>
+    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to exclude during discovery. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket. Exclude patterns will be applied before include patterns. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--storage-exclude-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? StorageExcludePatterns { get; set; }
+
+    /// <summary>
+    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to include during discovery when only a subset of the data should be considered. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--storage-include-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? StorageIncludePatterns { get; set; }
+
+    /// <summary>
+    /// CSV options arguments for the data discovery scan. Delimiter used to separate values in the CSV file. If not specified, the delimiter will be set to comma (",").
+    /// </summary>
+    [CliOption("--csv-delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvDelimiter { get; set; }
+
+    /// <summary>
+    /// CSV options arguments for the data discovery scan. Whether to disable the inference of data types for CSV data. If true, all columns are registered as strings.
+    /// </summary>
+    [CliOption("--csv-disable-type-inference", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvDisableTypeInference { get; set; }
+
+    /// <summary>
+    /// CSV options arguments for the data discovery scan. Character encoding of the CSV file. If not specified, the encoding will be set to UTF-8.
+    /// </summary>
+    [CliOption("--csv-encoding", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvEncoding { get; set; }
+
+    /// <summary>
+    /// CSV options arguments for the data discovery scan. The number of rows to interpret as header rows that should be skipped when reading data rows. The default value is 1.
+    /// </summary>
+    [CliOption("--csv-header-row-count", Format = OptionFormat.EqualsSeparated)]
+    public int? CsvHeaderRowCount { get; set; }
+
+    /// <summary>
+    /// CSV options arguments for the data discovery scan. The character used to quote column values. Accepts " (double quotation mark) or ' (single quotation mark). If unspecified, defaults to " (double quotation mark).
+    /// </summary>
+    [CliOption("--csv-quote-character", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvQuoteCharacter { get; set; }
+
+    /// <summary>
+    /// JSON options arguments for the data discovery scan. Whether to disable the inference of data types for JSON data. If true, all columns are registered as strings.
+    /// </summary>
+    [CliOption("--json-disable-type-inference", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonDisableTypeInference { get; set; }
+
+    /// <summary>
+    /// JSON options arguments for the data discovery scan. Character encoding of the JSON file. If not specified, the encoding will be set to UTF-8.
+    /// </summary>
+    [CliOption("--json-encoding", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonEncoding { get; set; }
+
+    /// <summary>
+    /// JSON options arguments for the data discovery scan. Data discovery scan execution settings. Data discovery scan scheduling and trigger settings. At most one of these can be specified: If set, the scan runs one-time shortly after data discovery scan creation.
+    /// </summary>
+    [CliOption("--on-demand", Format = OptionFormat.EqualsSeparated)]
+    public string? OnDemand { get; set; }
+
+    /// <summary>
+    /// JSON options arguments for the data discovery scan. Data discovery scan execution settings. Data discovery scan scheduling and trigger settings. At most one of these can be specified: Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * * *. This field is required for RECURRING scans.
+    /// </summary>
+    [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? Schedule { get; set; }
+
+    /// <summary>
+    /// JSON options arguments for the data discovery scan. Data discovery scan execution settings. Data discovery scan scheduling and trigger settings. At most one of these can be specified: Or at least one of these can be specified: Data discovery scan one-time trigger settings. If set, the data discovery scan runs once, and auto deleted once the ttl_after_scan_completion expires.
+    /// </summary>
+    [CliFlag("--one-time")]
+    public bool? OneTime { get; set; }
+
+    /// <summary>
+    /// JSON options arguments for the data discovery scan. Data discovery scan execution settings. Data discovery scan scheduling and trigger settings. At most one of these can be specified: Or at least one of these can be specified: Data discovery scan one-time trigger settings. The time to live for one-time scans. Default value is 24 hours, minimum value is 0 seconds, and maximum value is 365 days. The time is calculated from the data scan job completion time. If value is set as 0 seconds, the scan will be immediately deleted upon job completion, regardless of whether the job succeeded or failed. The value should be a number followed by a unit suffix "s". Example: "100s" for 100 seconds.The argument is only valid when --one-time is set.
+    /// </summary>
+    [CliOption("--ttl-after-scan-completion", Format = OptionFormat.EqualsSeparated)]
+    public string? TtlAfterScanCompletion { get; set; }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex datascan you want to create a data discovery scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the dataScans attribute: ▸ provide the argument datascan on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Datascan { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Async == true ? 1 : 0) + (ValidateOnly == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or ValidateOnly may be specified.", [nameof(Async), nameof(ValidateOnly)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OnDemand) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Schedule) ? 1 : 0) + ((OneTime == true || !string.IsNullOrWhiteSpace(TtlAfterScanCompletion)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of OnDemand, Schedule, or (OneTime or TtlAfterScanCompletion) may be specified.", [nameof(OnDemand), nameof(Schedule), nameof(OneTime), nameof(TtlAfterScanCompletion)]);
+        }
+        yield break;
+    }
+
 }

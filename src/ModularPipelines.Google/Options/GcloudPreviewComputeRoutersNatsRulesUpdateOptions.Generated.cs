@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,163 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "nats", "rules", "update")]
-public record GcloudPreviewComputeRoutersNatsRulesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RuleNumber
-) : GcloudOptions
+public record GcloudPreviewComputeRoutersNatsRulesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Rule in a     Compute Engine NAT
+    /// </summary>
+    /// <param name="Nat">Name of the NAT that contains the Rule</param>
+    /// <param name="Router">Router to use for NAT.</param>
+    /// <param name="RuleNumber">Number that uniquely identifies the Rule to update</param>
+    public GcloudPreviewComputeRoutersNatsRulesUpdateOptions(
+        string Nat,
+        string Router,
+        string RuleNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Nat);
+        this.Nat = Nat;
+        global::System.ArgumentNullException.ThrowIfNull(Router);
+        this.Router = Router;
+        global::System.ArgumentNullException.ThrowIfNull(RuleNumber);
+        this.RuleNumber = RuleNumber;
+    }
+
+    public void Deconstruct(out string Nat, out string Router, out string RuleNumber)
+    {
+        Nat = this.Nat;
+        Router = this.Router;
+        RuleNumber = this.RuleNumber;
+    }
+
+    /// <summary>
+    /// Name of the NAT that contains the Rule
+    /// </summary>
+    [CliOption("--nat", Format = OptionFormat.EqualsSeparated)]
+    public string Nat { get; private init; }
+
+    /// <summary>
+    /// Router to use for NAT.
+    /// </summary>
+    [CliOption("--router", Format = OptionFormat.EqualsSeparated)]
+    public string Router { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// CEL Expression used to identify traffic to which this rule applies. ◆ Supported attributes (Public NAT): destination.ip ◆ Supported attributes (Private NAT): nexthop.hub ◆ Supported methods (Public Nat): inIpRange ◆ Supported operators (Public NAT): ||, == ◆ Supported operators (Private NAT): == Examples of allowed Match expressions (Public NAT): ◆ 'inIpRange(destination.ip, "203.0.113.0/24")'' ◆ 'destination.ip == "203.0.113.7"' ◆ 'destination.ip == "203.0.113.7" || inIpRange(destination.ip, "203.0.113.16/25")' Example of allowed Match expression (Private NAT): ◆ nexthop.hub == "//networkconnectivity.googleapis.com/projects/p1/locations/global/hubs/h1"
+    /// </summary>
+    [CliOption("--match", Format = OptionFormat.EqualsSeparated)]
+    public string? Match { get; set; }
+
+    /// <summary>
+    /// Region of the NAT containing the Rule to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// External IP Addresses to use for connections matching this rule. This flag is supported only for Public NAT and is required when creating a Public NAT gateway. These must be valid reserved external IP addresses in the same region. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--source-nat-active-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SourceNatActiveIps { get; set; }
+
+    /// <summary>
+    /// Subnetworks from which addresses are used for connections matching this rule. This flag is supported only for Private NAT and is required when creating a Private NAT gateway. These must be subnetwork resources in the same region, with purpose set to PRIVATE_NAT. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--source-nat-active-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SourceNatActiveRanges { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear drained IPs from the rule
+    /// </summary>
+    [CliFlag("--clear-source-nat-drain-ips")]
+    public bool? ClearSourceNatDrainIps { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: External IP Addresses to drain connections on. These must be external IPs previously used as active IPs on this rule. No new connections will be established using these IPs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--source-nat-drain-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SourceNatDrainIps
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SourceNatDrainIpsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SourceNatDrainIpsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear drained ranges from the rule
+    /// </summary>
+    [CliFlag("--clear-source-nat-drain-ranges")]
+    public bool? ClearSourceNatDrainRanges { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Subnetwork ranges to drain connections on. These must be subnetworks previously used as active ranges on this rule. No new connections will be established using these ranges. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--source-nat-drain-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SourceNatDrainRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SourceNatDrainRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SourceNatDrainRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Number that uniquely identifies the Rule to update
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RuleNumber { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearSourceNatDrainIps == true ? 1 : 0) + (((object?)SourceNatDrainIps is global::System.Collections.Generic.IEnumerable<char> ? (object?)SourceNatDrainIps is not string || !string.IsNullOrWhiteSpace(SourceNatDrainIps?.ToString()) : ((object?)SourceNatDrainIps is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SourceNatDrainIps, static item => item is not null) : (SourceNatDrainIps is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SourceNatDrainIps), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceNatDrainIps or SourceNatDrainIps may be specified.", [nameof(ClearSourceNatDrainIps), nameof(SourceNatDrainIps)]);
+        }
+        if ((ClearSourceNatDrainRanges == true ? 1 : 0) + (((object?)SourceNatDrainRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)SourceNatDrainRanges is not string || !string.IsNullOrWhiteSpace(SourceNatDrainRanges?.ToString()) : ((object?)SourceNatDrainRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SourceNatDrainRanges, static item => item is not null) : (SourceNatDrainRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SourceNatDrainRanges), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceNatDrainRanges or SourceNatDrainRanges may be specified.", [nameof(ClearSourceNatDrainRanges), nameof(SourceNatDrainRanges)]);
+        }
+        yield break;
+    }
+
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "instance-templates", "get-iam-policy")]
 public record GcloudPreviewComputeInstanceTemplatesGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM     policy for a Compute Engine instance template
+    /// </summary>
+    /// <param name="InstanceTemplate">Instance template resource - The instance template to display the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance_template or fully qualified identifier for the instance_template. To set the instance_template attribute: ▸ provide the argument instance_template on the command line.</param>
+    public GcloudPreviewComputeInstanceTemplatesGetIamPolicyOptions(
+        string InstanceTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceTemplate);
+        this.InstanceTemplate = InstanceTemplate;
+    }
+
+    public void Deconstruct(out string InstanceTemplate)
+    {
+        InstanceTemplate = this.InstanceTemplate;
+    }
+
+    /// <summary>
+    /// Instance template resource - The instance template to display the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance_template or fully qualified identifier for the instance_template. To set the instance_template attribute: ▸ provide the argument instance_template on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceTemplate { get; private init; }
+
 }

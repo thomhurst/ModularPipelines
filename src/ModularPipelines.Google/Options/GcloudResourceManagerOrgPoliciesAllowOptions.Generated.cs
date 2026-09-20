@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,79 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "org-policies", "allow")]
-public record GcloudResourceManagerOrgPoliciesAllowOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgPolicyId
-) : GcloudOptions
+public record GcloudResourceManagerOrgPoliciesAllowOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add values to an Organization     Policy allowed_values list policy
+    /// </summary>
+    /// <param name="OrgPolicyId">The Org Policy constraint name.</param>
+    /// <param name="AllowedValue">The values to add to the allowed_values list policy.</param>
+    public GcloudResourceManagerOrgPoliciesAllowOptions(
+        string OrgPolicyId,
+        IEnumerable<string> AllowedValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrgPolicyId);
+        this.OrgPolicyId = OrgPolicyId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedValue);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedValue));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedValue));
+            }
+
+            AllowedValue = materialized;
+        }
+        this.AllowedValue = AllowedValue;
+    }
+
+    public void Deconstruct(out string OrgPolicyId, out IEnumerable<string> AllowedValue)
+    {
+        OrgPolicyId = this.OrgPolicyId;
+        AllowedValue = this.AllowedValue;
+    }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Folder ID.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Organization ID.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// The Org Policy constraint name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrgPolicyId { get; private init; }
+
+    /// <summary>
+    /// The values to add to the allowed_values list policy.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> AllowedValue { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

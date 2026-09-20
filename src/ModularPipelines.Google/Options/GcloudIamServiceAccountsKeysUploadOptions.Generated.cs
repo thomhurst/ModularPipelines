@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "keys", "upload")]
-public record GcloudIamServiceAccountsKeysUploadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PublicKeyFile
-) : GcloudOptions
+public record GcloudIamServiceAccountsKeysUploadOptions : GcloudOptions
 {
+    /// <summary>
+    /// upload a public key for an IAM     service account
+    /// </summary>
+    /// <param name="IamAccount">IamAccount resource - The service account for which to upload a key. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --iam-account on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the iamAccount or fully qualified identifier for the iamAccount. To set the iam-account attribute: ▸ provide the argument --iam-account on the command line.</param>
+    /// <param name="PublicKeyFile">Path of the file containing the public key. Note that only public key data in the format of RSA_X509_PEM is supported. See https://cloud.google.com/iot/docs/concepts/device-security#public_key_format for more information.</param>
+    public GcloudIamServiceAccountsKeysUploadOptions(
+        string IamAccount,
+        string PublicKeyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamAccount);
+        this.IamAccount = IamAccount;
+        global::System.ArgumentNullException.ThrowIfNull(PublicKeyFile);
+        this.PublicKeyFile = PublicKeyFile;
+    }
+
+    public void Deconstruct(out string IamAccount, out string PublicKeyFile)
+    {
+        IamAccount = this.IamAccount;
+        PublicKeyFile = this.PublicKeyFile;
+    }
+
+    /// <summary>
+    /// IamAccount resource - The service account for which to upload a key. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --iam-account on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the iamAccount or fully qualified identifier for the iamAccount. To set the iam-account attribute: ▸ provide the argument --iam-account on the command line.
+    /// </summary>
+    [CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)]
+    public string IamAccount { get; private init; }
+
+    /// <summary>
+    /// Path of the file containing the public key. Note that only public key data in the format of RSA_X509_PEM is supported. See https://cloud.google.com/iot/docs/concepts/device-security#public_key_format for more information.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PublicKeyFile { get; private init; }
+
 }

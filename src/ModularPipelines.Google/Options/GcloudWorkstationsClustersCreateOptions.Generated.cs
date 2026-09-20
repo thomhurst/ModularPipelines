@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a workstation cluster
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - Arguments and flags that specify the cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkstationsClustersCreateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - Arguments and flags that specify the cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the region of the cluster. To set the region attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property workstations/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -47,9 +70,9 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     public bool? EnablePrivateEndpoint { get; set; }
 
     /// <summary>
-    /// Labels that are applied to the cluster and propagated to the underlying Compute Engine resources.
+    /// Labels that are applied to the cluster and propagated to the underlying Compute Engine resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -65,9 +88,9 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     public string? Subnetwork { get; set; }
 
     /// <summary>
-    /// Resource manager tags to be bound to this cluster. For example: "123/environment=production" "123/costCenter=marketing"
+    /// Resource manager tags to be bound to this cluster. For example: "123/environment=production" "123/costCenter=marketing" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -81,5 +104,11 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--workstation-launch-url", Format = OptionFormat.EqualsSeparated)]
     public string? WorkstationLaunchUrl { get; set; }
+
+    /// <summary>
+    /// Cluster resource - Arguments and flags that specify the cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
 
 }

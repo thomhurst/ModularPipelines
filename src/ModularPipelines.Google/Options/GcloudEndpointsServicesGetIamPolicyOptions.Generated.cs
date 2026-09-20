@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("endpoints", "services", "get-iam-policy")]
-public record GcloudEndpointsServicesGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Service
-) : GcloudOptions
+public record GcloudEndpointsServicesGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes the IAM policy for a     service
+    /// </summary>
+    /// <param name="Service">The name of the service whose IAM policy is to be described.</param>
+    public GcloudEndpointsServicesGetIamPolicyOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// The name of the service whose IAM policy is to be described.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
 }

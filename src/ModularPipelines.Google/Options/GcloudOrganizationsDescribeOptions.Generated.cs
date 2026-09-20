@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "describe")]
-public record GcloudOrganizationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrganizationId
-) : GcloudOptions
+public record GcloudOrganizationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show metadata for an organization
+    /// </summary>
+    /// <param name="OrganizationId">ID or domain for the organization you want to describe.</param>
+    public GcloudOrganizationsDescribeOptions(
+        string OrganizationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+    }
+
+    public void Deconstruct(out string OrganizationId)
+    {
+        OrganizationId = this.OrganizationId;
+    }
+
+    /// <summary>
+    /// ID or domain for the organization you want to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrganizationId { get; private init; }
+
 }

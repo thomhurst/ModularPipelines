@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("info")]
-public record GcloudInfoOptions : GcloudOptions
+public record GcloudInfoOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Minimize any personal identifiable information. Use it when sharing output with others.
@@ -44,5 +45,15 @@ public record GcloudInfoOptions : GcloudOptions
     /// </summary>
     [CliOption("--check-certs", Format = OptionFormat.EqualsSeparated)]
     public string? CheckCerts { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ShowLog == true ? 1 : 0) + ((RunDiagnostics == true || !string.IsNullOrWhiteSpace(CheckCerts)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ShowLog or (RunDiagnostics or CheckCerts) may be specified.", [nameof(ShowLog), nameof(RunDiagnostics), nameof(CheckCerts)]);
+        }
+        yield break;
+    }
 
 }

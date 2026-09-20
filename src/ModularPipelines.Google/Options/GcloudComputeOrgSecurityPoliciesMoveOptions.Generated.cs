@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "org-security-policies", "move")]
-public record GcloudComputeOrgSecurityPoliciesMoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecurityPolicy
-) : GcloudOptions
+public record GcloudComputeOrgSecurityPoliciesMoveOptions : GcloudOptions
 {
+    /// <summary>
+    /// move a Compute Engine     organization security policy
+    /// </summary>
+    /// <param name="SecurityPolicy">Short name or ID of the security policy to move.</param>
+    public GcloudComputeOrgSecurityPoliciesMoveOptions(
+        string SecurityPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicy);
+        this.SecurityPolicy = SecurityPolicy;
+    }
+
+    public void Deconstruct(out string SecurityPolicy)
+    {
+        SecurityPolicy = this.SecurityPolicy;
+    }
+
     /// <summary>
     /// Folder to which the organization security policy is to be moved.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudComputeOrgSecurityPoliciesMoveOptions(
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the security policy to move.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityPolicy { get; private init; }
 
 }

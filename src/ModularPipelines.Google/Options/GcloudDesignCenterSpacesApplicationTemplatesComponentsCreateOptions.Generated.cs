@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,172 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "components", "create")]
-public record GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a component
+    /// </summary>
+    /// <param name="SharedTemplateRevisionUri">The shared template used to generate the component.</param>
+    /// <param name="Component">Component resource - Identifier. The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the component or fully qualified identifier for the component. To set the component attribute: ▸ provide the argument component on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions(
+        string SharedTemplateRevisionUri,
+        string Component
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SharedTemplateRevisionUri);
+        this.SharedTemplateRevisionUri = SharedTemplateRevisionUri;
+        global::System.ArgumentNullException.ThrowIfNull(Component);
+        this.Component = Component;
+    }
+
+    public void Deconstruct(out string SharedTemplateRevisionUri, out string Component)
+    {
+        SharedTemplateRevisionUri = this.SharedTemplateRevisionUri;
+        Component = this.Component;
+    }
+
+    /// <summary>
+    /// The shared template used to generate the component.
+    /// </summary>
+    [CliOption("--shared-template-revision-uri", Format = OptionFormat.EqualsSeparated)]
+    public string SharedTemplateRevisionUri { get; private init; }
+
+    /// <summary>
+    /// Component resource - Identifier. The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The applicationTemplate id of the component resource. To set the application-template attribute: ▸ provide the argument component on the command line with a fully specified name; ▸ provide the argument --application-template on the command line.
+    /// </summary>
+    [CliOption("--application-template", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationTemplate { get; set; }
+
+    /// <summary>
+    /// Component resource - Identifier. The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the component resource. To set the location attribute: ▸ provide the argument component on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Component resource - Identifier. The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the component resource. To set the space attribute: ▸ provide the argument component on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
+    /// The component display name.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Input variable aliases defined on this live component. alias Alias for the variable name to be exposed at the root level of the composite template. variable Name of the input variable inside the component's underlying template or module. Shorthand Example: --input-variable-aliases=alias=string,variable=string --input-variable-aliases=alias=string,variable=string JSON Example: --input-variable-aliases='[{"alias": "string", "variable": "string"}]' File Example: --input-variable-aliases=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--input-variable-aliases", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? InputVariableAliases { get; set; }
+
+    /// <summary>
+    /// The component parameters. key The key of the parameter. value The value of the parameter. Shorthand Example: --parameters=key=string,value={...} --parameters=key=string,value={...} JSON Example: --parameters='[{"key": "string", "value": {...}}]' File Example: --parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--parameters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Parameters { get; set; }
+
+    /// <summary>
+    /// Whether the component is exported as a separate terraform root module in a composite application template. If this is false, then native components will be exported as a submodule of a separate terraform root module.
+    /// </summary>
+    [CliFlag("--use-as-root-module")]
+    public bool? UseAsRootModule { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--application-info-apphub-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationInfoApphubId { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1.
+    /// </summary>
+    [CliOption("--application-info-deployment-region", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationInfoDeploymentRegion { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Display name for the application. The number of characters should be less than 64 characters.
+    /// </summary>
+    [CliOption("--application-info-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationInfoDisplayName { get; set; }
+
+    /// <summary>
+    /// Scope of an application. Scope Type. SCOPE_TYPE must be one of: global Global type. regional Regional type.
+    /// </summary>
+    [CliOption("--scope-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ScopeType { get; set; }
+
+    /// <summary>
+    /// Consumer provided attributes. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-business-owners=channel={uri=string},displayName=string,email=string --attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-business-owners=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes-business-owners", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AttributesBusinessOwners { get; set; }
+
+    /// <summary>
+    /// Consumer provided attributes. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-developer-owners=channel={uri=string},displayName=string,email=string --attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-developer-owners=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes-developer-owners", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AttributesDeveloperOwners { get; set; }
+
+    /// <summary>
+    /// Consumer provided attributes. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-operator-owners=channel={uri=string},displayName=string,email=string --attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-operator-owners=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes-operator-owners", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AttributesOperatorOwners { get; set; }
+
+    /// <summary>
+    /// Criticality of the Application, Service, or Workload Criticality Type. CRITICALITY_TYPE must be one of: high High impact. low Low impact. medium Medium impact. mission-critical Mission critical service, application or workload. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityType { get; set; }
+
+    /// <summary>
+    /// Criticality of the Application, Service, or Workload Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
+    /// </summary>
+    [CliOption("--criticality-level", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityLevel { get; set; }
+
+    /// <summary>
+    /// Criticality of the Application, Service, or Workload Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead.
+    /// </summary>
+    [CliFlag("--criticality-mission-critical")]
+    public bool? CriticalityMissionCritical { get; set; }
+
+    /// <summary>
+    /// Environment of the Application, Service, or Workload Environment Type. ENVIRONMENT_TYPE must be one of: development Development environment. production Production environment. staging Staging environment. test Test environment. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvironmentType { get; set; }
+
+    /// <summary>
+    /// Environment of the Application, Service, or Workload Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
+    /// </summary>
+    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
+    public string? Environment { get; set; }
+
+    /// <summary>
+    /// Component resource - Identifier. The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the component or fully qualified identifier for the component. To set the component attribute: ▸ provide the argument component on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Component { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ApplicationInfoApphubId) || !string.IsNullOrWhiteSpace(ApplicationInfoDeploymentRegion) || !string.IsNullOrWhiteSpace(ApplicationInfoDisplayName)) && (!(!string.IsNullOrWhiteSpace(ApplicationInfoApphubId))))
+        {
+            yield return new ValidationResult("ApplicationInfoApphubId must be specified when other arguments in this group are specified.", [nameof(ApplicationInfoApphubId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CriticalityType) || !string.IsNullOrWhiteSpace(CriticalityLevel) || CriticalityMissionCritical == true) && (!(!string.IsNullOrWhiteSpace(CriticalityType))))
+        {
+            yield return new ValidationResult("CriticalityType must be specified when other arguments in this group are specified.", [nameof(CriticalityType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EnvironmentType) || !string.IsNullOrWhiteSpace(Environment)) && (!(!string.IsNullOrWhiteSpace(EnvironmentType))))
+        {
+            yield return new ValidationResult("EnvironmentType must be specified when other arguments in this group are specified.", [nameof(EnvironmentType)]);
+        }
+        yield break;
+    }
+
 }

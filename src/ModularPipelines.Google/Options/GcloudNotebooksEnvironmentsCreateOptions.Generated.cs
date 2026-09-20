@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,103 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notebooks", "environments", "create")]
-public record GcloudNotebooksEnvironmentsCreateOptions : GcloudOptions
+public record GcloudNotebooksEnvironmentsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// request for creating environments
+    /// </summary>
+    /// <param name="Environment">Environment resource - User-defined unique name of this environment. The environment name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercaseletter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNotebooksEnvironmentsCreateOptions(
+        string Environment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+    }
+
+    public void Deconstruct(out string Environment)
+    {
+        Environment = this.Environment;
+    }
+
+    /// <summary>
+    /// Environment resource - User-defined unique name of this environment. The environment name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercaseletter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location of this environment https://cloud.google.com/compute/docs/regions-zones/#locations. To set the location attribute: ▸ provide the argument environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property notebooks/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--container-repository", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerRepository { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The tag of the container image. If not specified, this defaults to the latest tag.
+    /// </summary>
+    [CliOption("--container-tag", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerTag { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the Google Cloud project that this VM image belongs to.Format: projects/{project_id}.
+    /// </summary>
+    [CliOption("--vm-image-project", Format = OptionFormat.EqualsSeparated)]
+    public string? VmImageProject { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: Use this VM image family to find the image; the newest image in this family will be used.
+    /// </summary>
+    [CliOption("--vm-image-family", Format = OptionFormat.EqualsSeparated)]
+    public string? VmImageFamily { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Exactly one of these must be specified: Use this VM image name to find the image.
+    /// </summary>
+    [CliOption("--vm-image-name", Format = OptionFormat.EqualsSeparated)]
+    public string? VmImageName { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A brief description of this environment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Name to display on the UI.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Path to a Bash script that automatically runs after a notebook instance fully boots up. The path must be a URL or Cloud Storage path(gs://path-to-file/file-name).
+    /// </summary>
+    [CliOption("--post-startup-script", Format = OptionFormat.EqualsSeparated)]
+    public string? PostStartupScript { get; set; }
+
+    /// <summary>
+    /// Environment resource - User-defined unique name of this environment. The environment name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercaseletter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Environment { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ContainerRepository) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerTag) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VmImageProject) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(VmImageFamily) || !string.IsNullOrWhiteSpace(VmImageName)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ContainerRepository, ContainerTag, VmImageProject, or (VmImageFamily or VmImageName) must be specified.", [nameof(ContainerRepository), nameof(ContainerTag), nameof(VmImageProject), nameof(VmImageFamily), nameof(VmImageName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ContainerRepository) || !string.IsNullOrWhiteSpace(ContainerTag) || !string.IsNullOrWhiteSpace(VmImageProject) || !string.IsNullOrWhiteSpace(VmImageFamily) || !string.IsNullOrWhiteSpace(VmImageName)) && ((!string.IsNullOrWhiteSpace(VmImageFamily) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VmImageName) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of VmImageFamily or VmImageName may be specified.", [nameof(VmImageFamily), nameof(VmImageName)]);
+        }
+        yield break;
+    }
+
 }

@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "packages", "resource-bundles", "releases", "describe")]
-public record GcloudContainerFleetPackagesResourceBundlesReleasesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Release
-) : GcloudOptions
+public record GcloudContainerFleetPackagesResourceBundlesReleasesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe Package Rollouts Release
+    /// </summary>
+    /// <param name="ResourceBundle">Resource Bundle name.</param>
+    /// <param name="Release">Release identifier, either a version or tag.</param>
+    public GcloudContainerFleetPackagesResourceBundlesReleasesDescribeOptions(
+        string ResourceBundle,
+        string Release
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceBundle);
+        this.ResourceBundle = ResourceBundle;
+        global::System.ArgumentNullException.ThrowIfNull(Release);
+        this.Release = Release;
+    }
+
+    public void Deconstruct(out string ResourceBundle, out string Release)
+    {
+        ResourceBundle = this.ResourceBundle;
+        Release = this.Release;
+    }
+
+    /// <summary>
+    /// Resource Bundle name.
+    /// </summary>
+    [CliOption("--resource-bundle", Format = OptionFormat.EqualsSeparated)]
+    public string ResourceBundle { get; private init; }
+
+    /// <summary>
+    /// Google Cloud zone or region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Release identifier, either a version or tag.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Release { get; private init; }
+
 }

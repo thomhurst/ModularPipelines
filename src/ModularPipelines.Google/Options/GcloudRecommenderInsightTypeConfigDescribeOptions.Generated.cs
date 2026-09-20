@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "insight-type-config", "describe")]
-public record GcloudRecommenderInsightTypeConfigDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InsightType
-) : GcloudOptions
+public record GcloudRecommenderInsightTypeConfigDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// describe an insight type     configuration
+    /// </summary>
+    /// <param name="Location">Location to use for this invocation.</param>
+    /// <param name="InsightType">Insight type to use for this invocation.</param>
+    public GcloudRecommenderInsightTypeConfigDescribeOptions(
+        string Location,
+        string InsightType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(InsightType);
+        this.InsightType = InsightType;
+    }
+
+    public void Deconstruct(out string Location, out string InsightType)
+    {
+        Location = this.Location;
+        InsightType = this.InsightType;
+    }
+
+    /// <summary>
+    /// Location to use for this invocation.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud billing account ID to use for this invocation.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud organization ID to use for this invocation.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Insight type to use for this invocation.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InsightType { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BillingAccount, Organization, or Project must be specified.", [nameof(BillingAccount), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

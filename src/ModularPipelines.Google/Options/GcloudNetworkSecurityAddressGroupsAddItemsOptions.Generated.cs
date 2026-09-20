@@ -22,15 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityAddressGroupsAddItemsOptions : GcloudOptions
 {
     /// <summary>
+    /// add items to an address     group
+    /// </summary>
+    /// <param name="AddressGroup">Address group resource - Name of the address group to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument address_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the address group or fully qualified identifier for the address group. To set the address_group attribute: ▸ provide the argument address_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityAddressGroupsAddItemsOptions(
+        string AddressGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AddressGroup);
+        this.AddressGroup = AddressGroup;
+    }
+
+    public void Deconstruct(out string AddressGroup)
+    {
+        AddressGroup = this.AddressGroup;
+    }
+
+    /// <summary>
+    /// Address group resource - Name of the address group to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument address_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument address_group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Items to be added to the address group.
+    /// Items to be added to the address group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--items", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--items", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Items { get; set; }
+
+    /// <summary>
+    /// Address group resource - Name of the address group to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument address_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the address group or fully qualified identifier for the address group. To set the address_group attribute: ▸ provide the argument address_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AddressGroup { get; private init; }
 
 }

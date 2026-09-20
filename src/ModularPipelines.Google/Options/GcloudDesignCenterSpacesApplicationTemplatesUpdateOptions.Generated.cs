@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "update")]
-public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an     application template
+    /// </summary>
+    /// <param name="ApplicationTemplate">ApplicationTemplate resource - Identifier. Application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the applicationTemplate or fully qualified identifier for the applicationTemplate. To set the application_template attribute: ▸ provide the argument application_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions(
+        string ApplicationTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationTemplate);
+        this.ApplicationTemplate = ApplicationTemplate;
+    }
+
+    public void Deconstruct(out string ApplicationTemplate)
+    {
+        ApplicationTemplate = this.ApplicationTemplate;
+    }
+
+    /// <summary>
+    /// ApplicationTemplate resource - Identifier. Application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the applicationTemplate resource. To set the location attribute: ▸ provide the argument application_template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ApplicationTemplate resource - Identifier. Application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the applicationTemplate resource. To set the space attribute: ▸ provide the argument application_template on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
     /// <summary>
     /// Application template description.
     /// </summary>
@@ -37,13 +67,93 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     /// Update application_parameters. At most one of these can be specified: Set application_parameters to new value. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --application-parameters=key=string,value={...} --application-parameters=key=string,value={...} JSON Example: --application-parameters='[{"key": "string", "value": {...}}]' File Example: --application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--application-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ApplicationParameters { get; set; }
+    public IEnumerable<string>? ApplicationParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __ApplicationParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ApplicationParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ApplicationParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __ApplicationParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-application-parameters=key=string,value={...} --add-application-parameters=key=string,value={...} JSON Example: --add-application-parameters='[{"key": "string", "value": {...}}]' File Example: --add-application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-application-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddApplicationParameters { get; set; }
+    public IEnumerable<string>? AddApplicationParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddApplicationParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddApplicationParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddApplicationParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddApplicationParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear application_parameters value and set to empty list.
@@ -55,7 +165,47 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     /// Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-application-parameters=key=string,value={...} --remove-application-parameters=key=string,value={...} JSON Example: --remove-application-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-application-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveApplicationParameters { get; set; }
+    public IEnumerable<string>? RemoveApplicationParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveApplicationParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveApplicationParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveApplicationParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveApplicationParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// SaaS runtime context. Set applicationTemplate.saasRuntimeContext back to default value.
@@ -64,16 +214,60 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     public bool? ClearSaasRuntimeContext { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Set saas_runtime_context_names to new value.
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Set saas_runtime_context_names to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SaasRuntimeContextNames { get; set; }
+    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SaasRuntimeContextNames
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SaasRuntimeContextNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SaasRuntimeContextNamesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: Add new value to saas_runtime_context_names list.
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: Add new value to saas_runtime_context_names list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddSaasRuntimeContextNames { get; set; }
+    [CliOption("--add-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddSaasRuntimeContextNames
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddSaasRuntimeContextNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddSaasRuntimeContextNamesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear saas_runtime_context_names value and set to empty list.
@@ -82,22 +276,124 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     public bool? ClearSaasRuntimeContextNames { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from saas_runtime_context_names list.
+    /// SaaS runtime context. Update saas_runtime_context_names. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from saas_runtime_context_names list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveSaasRuntimeContextNames { get; set; }
+    [CliOption("--remove-saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveSaasRuntimeContextNames
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveSaasRuntimeContextNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveSaasRuntimeContextNamesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Set root_input_variables to new value. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --root-input-variables=componentUri=string,variable=string --root-input-variables=componentUri=string,variable=string JSON Example: --root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --root-input-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--root-input-variables", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RootInputVariables { get; set; }
+    public IEnumerable<string>? RootInputVariables
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RootInputVariablesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RootInputVariablesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RootInputVariablesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RootInputVariablesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Or at least one of these can be specified: Add new value to root_input_variables list. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --add-root-input-variables=componentUri=string,variable=string --add-root-input-variables=componentUri=string,variable=string JSON Example: --add-root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --add-root-input-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-root-input-variables", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddRootInputVariables { get; set; }
+    public IEnumerable<string>? AddRootInputVariables
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddRootInputVariablesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddRootInputVariablesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddRootInputVariablesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddRootInputVariablesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear root_input_variables value and set to empty list.
@@ -109,19 +405,139 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from root_input_variables list. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --remove-root-input-variables=componentUri=string,variable=string --remove-root-input-variables=componentUri=string,variable=string JSON Example: --remove-root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --remove-root-input-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-root-input-variables", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveRootInputVariables { get; set; }
+    public IEnumerable<string>? RemoveRootInputVariables
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveRootInputVariablesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveRootInputVariablesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveRootInputVariablesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveRootInputVariablesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Set root_output_variables to new value. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --root-output-variables=componentUri=string,variable=string --root-output-variables=componentUri=string,variable=string JSON Example: --root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --root-output-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--root-output-variables", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RootOutputVariables { get; set; }
+    public IEnumerable<string>? RootOutputVariables
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RootOutputVariablesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RootOutputVariablesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RootOutputVariablesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RootOutputVariablesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Or at least one of these can be specified: Add new value to root_output_variables list. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --add-root-output-variables=componentUri=string,variable=string --add-root-output-variables=componentUri=string,variable=string JSON Example: --add-root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --add-root-output-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-root-output-variables", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddRootOutputVariables { get; set; }
+    public IEnumerable<string>? AddRootOutputVariables
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddRootOutputVariablesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddRootOutputVariablesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddRootOutputVariablesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddRootOutputVariablesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear root_output_variables value and set to empty list.
@@ -133,6 +549,90 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from root_output_variables list. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --remove-root-output-variables=componentUri=string,variable=string --remove-root-output-variables=componentUri=string,variable=string JSON Example: --remove-root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --remove-root-output-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-root-output-variables", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveRootOutputVariables { get; set; }
+    public IEnumerable<string>? RemoveRootOutputVariables
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveRootOutputVariablesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveRootOutputVariablesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveRootOutputVariablesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveRootOutputVariablesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// ApplicationTemplate resource - Identifier. Application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the applicationTemplate or fully qualified identifier for the applicationTemplate. To set the application_template attribute: ▸ provide the argument application_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationTemplate { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)ApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ApplicationParameters, static item => item is not null) : ((object?)ApplicationParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)ApplicationParameters is not string || !string.IsNullOrWhiteSpace(ApplicationParameters?.ToString()) : ((object?)ApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ApplicationParameters, static item => item is not null) : (ApplicationParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ApplicationParameters), static item => item is not null))))) ? 1 : 0) + ((((object?)AddApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddApplicationParameters, static item => item is not null) : ((object?)AddApplicationParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddApplicationParameters is not string || !string.IsNullOrWhiteSpace(AddApplicationParameters?.ToString()) : ((object?)AddApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddApplicationParameters, static item => item is not null) : (AddApplicationParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddApplicationParameters), static item => item is not null))))) || ClearApplicationParameters == true || ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveApplicationParameters, static item => item is not null) : ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveApplicationParameters is not string || !string.IsNullOrWhiteSpace(RemoveApplicationParameters?.ToString()) : ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveApplicationParameters, static item => item is not null) : (RemoveApplicationParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveApplicationParameters), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ApplicationParameters or (AddApplicationParameters, ClearApplicationParameters, or RemoveApplicationParameters) may be specified.", [nameof(ApplicationParameters), nameof(AddApplicationParameters), nameof(ClearApplicationParameters), nameof(RemoveApplicationParameters)]);
+        }
+        if ((((object?)ApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ApplicationParameters, static item => item is not null) : ((object?)ApplicationParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)ApplicationParameters is not string || !string.IsNullOrWhiteSpace(ApplicationParameters?.ToString()) : ((object?)ApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ApplicationParameters, static item => item is not null) : (ApplicationParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ApplicationParameters), static item => item is not null))))) || ((object?)AddApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddApplicationParameters, static item => item is not null) : ((object?)AddApplicationParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddApplicationParameters is not string || !string.IsNullOrWhiteSpace(AddApplicationParameters?.ToString()) : ((object?)AddApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddApplicationParameters, static item => item is not null) : (AddApplicationParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddApplicationParameters), static item => item is not null))))) || ClearApplicationParameters == true || ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveApplicationParameters, static item => item is not null) : ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveApplicationParameters is not string || !string.IsNullOrWhiteSpace(RemoveApplicationParameters?.ToString()) : ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveApplicationParameters, static item => item is not null) : (RemoveApplicationParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveApplicationParameters), static item => item is not null)))))) && (((object?)AddApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddApplicationParameters, static item => item is not null) : ((object?)AddApplicationParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddApplicationParameters is not string || !string.IsNullOrWhiteSpace(AddApplicationParameters?.ToString()) : ((object?)AddApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddApplicationParameters, static item => item is not null) : (AddApplicationParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddApplicationParameters), static item => item is not null))))) || ClearApplicationParameters == true || ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveApplicationParameters, static item => item is not null) : ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveApplicationParameters is not string || !string.IsNullOrWhiteSpace(RemoveApplicationParameters?.ToString()) : ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveApplicationParameters, static item => item is not null) : (RemoveApplicationParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveApplicationParameters), static item => item is not null)))))) && ((ClearApplicationParameters == true ? 1 : 0) + (((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveApplicationParameters, static item => item is not null) : ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveApplicationParameters is not string || !string.IsNullOrWhiteSpace(RemoveApplicationParameters?.ToString()) : ((object?)RemoveApplicationParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveApplicationParameters, static item => item is not null) : (RemoveApplicationParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveApplicationParameters), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearApplicationParameters or RemoveApplicationParameters may be specified.", [nameof(ClearApplicationParameters), nameof(RemoveApplicationParameters)]);
+        }
+        if ((((object?)SaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)SaasRuntimeContextNames is not string || !string.IsNullOrWhiteSpace(SaasRuntimeContextNames?.ToString()) : ((object?)SaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SaasRuntimeContextNames, static item => item is not null) : (SaasRuntimeContextNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SaasRuntimeContextNames), static item => item is not null)))) ? 1 : 0) + ((((object?)AddSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSaasRuntimeContextNames is not string || !string.IsNullOrWhiteSpace(AddSaasRuntimeContextNames?.ToString()) : ((object?)AddSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSaasRuntimeContextNames, static item => item is not null) : (AddSaasRuntimeContextNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSaasRuntimeContextNames), static item => item is not null)))) || ClearSaasRuntimeContextNames == true || ((object?)RemoveSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSaasRuntimeContextNames is not string || !string.IsNullOrWhiteSpace(RemoveSaasRuntimeContextNames?.ToString()) : ((object?)RemoveSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSaasRuntimeContextNames, static item => item is not null) : (RemoveSaasRuntimeContextNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSaasRuntimeContextNames), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SaasRuntimeContextNames or (AddSaasRuntimeContextNames, ClearSaasRuntimeContextNames, or RemoveSaasRuntimeContextNames) may be specified.", [nameof(SaasRuntimeContextNames), nameof(AddSaasRuntimeContextNames), nameof(ClearSaasRuntimeContextNames), nameof(RemoveSaasRuntimeContextNames)]);
+        }
+        if ((((object?)SaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)SaasRuntimeContextNames is not string || !string.IsNullOrWhiteSpace(SaasRuntimeContextNames?.ToString()) : ((object?)SaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SaasRuntimeContextNames, static item => item is not null) : (SaasRuntimeContextNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SaasRuntimeContextNames), static item => item is not null)))) || ((object?)AddSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSaasRuntimeContextNames is not string || !string.IsNullOrWhiteSpace(AddSaasRuntimeContextNames?.ToString()) : ((object?)AddSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSaasRuntimeContextNames, static item => item is not null) : (AddSaasRuntimeContextNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSaasRuntimeContextNames), static item => item is not null)))) || ClearSaasRuntimeContextNames == true || ((object?)RemoveSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSaasRuntimeContextNames is not string || !string.IsNullOrWhiteSpace(RemoveSaasRuntimeContextNames?.ToString()) : ((object?)RemoveSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSaasRuntimeContextNames, static item => item is not null) : (RemoveSaasRuntimeContextNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSaasRuntimeContextNames), static item => item is not null))))) && (((object?)AddSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSaasRuntimeContextNames is not string || !string.IsNullOrWhiteSpace(AddSaasRuntimeContextNames?.ToString()) : ((object?)AddSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSaasRuntimeContextNames, static item => item is not null) : (AddSaasRuntimeContextNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSaasRuntimeContextNames), static item => item is not null)))) || ClearSaasRuntimeContextNames == true || ((object?)RemoveSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSaasRuntimeContextNames is not string || !string.IsNullOrWhiteSpace(RemoveSaasRuntimeContextNames?.ToString()) : ((object?)RemoveSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSaasRuntimeContextNames, static item => item is not null) : (RemoveSaasRuntimeContextNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSaasRuntimeContextNames), static item => item is not null))))) && ((ClearSaasRuntimeContextNames == true ? 1 : 0) + (((object?)RemoveSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSaasRuntimeContextNames is not string || !string.IsNullOrWhiteSpace(RemoveSaasRuntimeContextNames?.ToString()) : ((object?)RemoveSaasRuntimeContextNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSaasRuntimeContextNames, static item => item is not null) : (RemoveSaasRuntimeContextNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSaasRuntimeContextNames), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearSaasRuntimeContextNames or RemoveSaasRuntimeContextNames may be specified.", [nameof(ClearSaasRuntimeContextNames), nameof(RemoveSaasRuntimeContextNames)]);
+        }
+        if ((((object?)RootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RootInputVariables, static item => item is not null) : ((object?)RootInputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RootInputVariables is not string || !string.IsNullOrWhiteSpace(RootInputVariables?.ToString()) : ((object?)RootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RootInputVariables, static item => item is not null) : (RootInputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RootInputVariables), static item => item is not null))))) ? 1 : 0) + ((((object?)AddRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddRootInputVariables, static item => item is not null) : ((object?)AddRootInputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRootInputVariables is not string || !string.IsNullOrWhiteSpace(AddRootInputVariables?.ToString()) : ((object?)AddRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRootInputVariables, static item => item is not null) : (AddRootInputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRootInputVariables), static item => item is not null))))) || ClearRootInputVariables == true || ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRootInputVariables, static item => item is not null) : ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRootInputVariables is not string || !string.IsNullOrWhiteSpace(RemoveRootInputVariables?.ToString()) : ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRootInputVariables, static item => item is not null) : (RemoveRootInputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRootInputVariables), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RootInputVariables or (AddRootInputVariables, ClearRootInputVariables, or RemoveRootInputVariables) may be specified.", [nameof(RootInputVariables), nameof(AddRootInputVariables), nameof(ClearRootInputVariables), nameof(RemoveRootInputVariables)]);
+        }
+        if ((((object?)RootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RootInputVariables, static item => item is not null) : ((object?)RootInputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RootInputVariables is not string || !string.IsNullOrWhiteSpace(RootInputVariables?.ToString()) : ((object?)RootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RootInputVariables, static item => item is not null) : (RootInputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RootInputVariables), static item => item is not null))))) || ((object?)AddRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddRootInputVariables, static item => item is not null) : ((object?)AddRootInputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRootInputVariables is not string || !string.IsNullOrWhiteSpace(AddRootInputVariables?.ToString()) : ((object?)AddRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRootInputVariables, static item => item is not null) : (AddRootInputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRootInputVariables), static item => item is not null))))) || ClearRootInputVariables == true || ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRootInputVariables, static item => item is not null) : ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRootInputVariables is not string || !string.IsNullOrWhiteSpace(RemoveRootInputVariables?.ToString()) : ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRootInputVariables, static item => item is not null) : (RemoveRootInputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRootInputVariables), static item => item is not null)))))) && (((object?)AddRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddRootInputVariables, static item => item is not null) : ((object?)AddRootInputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRootInputVariables is not string || !string.IsNullOrWhiteSpace(AddRootInputVariables?.ToString()) : ((object?)AddRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRootInputVariables, static item => item is not null) : (AddRootInputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRootInputVariables), static item => item is not null))))) || ClearRootInputVariables == true || ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRootInputVariables, static item => item is not null) : ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRootInputVariables is not string || !string.IsNullOrWhiteSpace(RemoveRootInputVariables?.ToString()) : ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRootInputVariables, static item => item is not null) : (RemoveRootInputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRootInputVariables), static item => item is not null)))))) && ((ClearRootInputVariables == true ? 1 : 0) + (((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRootInputVariables, static item => item is not null) : ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRootInputVariables is not string || !string.IsNullOrWhiteSpace(RemoveRootInputVariables?.ToString()) : ((object?)RemoveRootInputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRootInputVariables, static item => item is not null) : (RemoveRootInputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRootInputVariables), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearRootInputVariables or RemoveRootInputVariables may be specified.", [nameof(ClearRootInputVariables), nameof(RemoveRootInputVariables)]);
+        }
+        if ((((object?)RootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RootOutputVariables, static item => item is not null) : ((object?)RootOutputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RootOutputVariables is not string || !string.IsNullOrWhiteSpace(RootOutputVariables?.ToString()) : ((object?)RootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RootOutputVariables, static item => item is not null) : (RootOutputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RootOutputVariables), static item => item is not null))))) ? 1 : 0) + ((((object?)AddRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddRootOutputVariables, static item => item is not null) : ((object?)AddRootOutputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRootOutputVariables is not string || !string.IsNullOrWhiteSpace(AddRootOutputVariables?.ToString()) : ((object?)AddRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRootOutputVariables, static item => item is not null) : (AddRootOutputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRootOutputVariables), static item => item is not null))))) || ClearRootOutputVariables == true || ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRootOutputVariables, static item => item is not null) : ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRootOutputVariables is not string || !string.IsNullOrWhiteSpace(RemoveRootOutputVariables?.ToString()) : ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRootOutputVariables, static item => item is not null) : (RemoveRootOutputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRootOutputVariables), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RootOutputVariables or (AddRootOutputVariables, ClearRootOutputVariables, or RemoveRootOutputVariables) may be specified.", [nameof(RootOutputVariables), nameof(AddRootOutputVariables), nameof(ClearRootOutputVariables), nameof(RemoveRootOutputVariables)]);
+        }
+        if ((((object?)RootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RootOutputVariables, static item => item is not null) : ((object?)RootOutputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RootOutputVariables is not string || !string.IsNullOrWhiteSpace(RootOutputVariables?.ToString()) : ((object?)RootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RootOutputVariables, static item => item is not null) : (RootOutputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RootOutputVariables), static item => item is not null))))) || ((object?)AddRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddRootOutputVariables, static item => item is not null) : ((object?)AddRootOutputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRootOutputVariables is not string || !string.IsNullOrWhiteSpace(AddRootOutputVariables?.ToString()) : ((object?)AddRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRootOutputVariables, static item => item is not null) : (AddRootOutputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRootOutputVariables), static item => item is not null))))) || ClearRootOutputVariables == true || ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRootOutputVariables, static item => item is not null) : ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRootOutputVariables is not string || !string.IsNullOrWhiteSpace(RemoveRootOutputVariables?.ToString()) : ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRootOutputVariables, static item => item is not null) : (RemoveRootOutputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRootOutputVariables), static item => item is not null)))))) && (((object?)AddRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddRootOutputVariables, static item => item is not null) : ((object?)AddRootOutputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRootOutputVariables is not string || !string.IsNullOrWhiteSpace(AddRootOutputVariables?.ToString()) : ((object?)AddRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRootOutputVariables, static item => item is not null) : (AddRootOutputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRootOutputVariables), static item => item is not null))))) || ClearRootOutputVariables == true || ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRootOutputVariables, static item => item is not null) : ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRootOutputVariables is not string || !string.IsNullOrWhiteSpace(RemoveRootOutputVariables?.ToString()) : ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRootOutputVariables, static item => item is not null) : (RemoveRootOutputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRootOutputVariables), static item => item is not null)))))) && ((ClearRootOutputVariables == true ? 1 : 0) + (((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRootOutputVariables, static item => item is not null) : ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRootOutputVariables is not string || !string.IsNullOrWhiteSpace(RemoveRootOutputVariables?.ToString()) : ((object?)RemoveRootOutputVariables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRootOutputVariables, static item => item is not null) : (RemoveRootOutputVariables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRootOutputVariables), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearRootOutputVariables or RemoveRootOutputVariables may be specified.", [nameof(ClearRootOutputVariables), nameof(RemoveRootOutputVariables)]);
+        }
+        yield break;
+    }
 
 }

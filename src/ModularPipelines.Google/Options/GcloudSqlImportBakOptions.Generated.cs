@@ -6,10 +6,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +22,143 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "import", "bak")]
-public record GcloudSqlImportBakOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlImportBakOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// import data into a Cloud SQL instance from a BAK     file
+    /// </summary>
+    /// <param name="Database">A new database into which the import is made.</param>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlImportBakOptions(
+        string Database,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Database, out string Instance)
+    {
+        Database = this.Database;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// A new database into which the import is made.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Type of bak file that will be imported. Applicable to SQL Server only. BAK_TYPE must be one of: FULL, DIFF, TLOG.
+    /// </summary>
+    [CliOption("--bak-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSqlImportBakBakType? BakType { get; set; }
+
+    /// <summary>
+    /// Whether or not to decrypt the imported encrypted BAK file.
+    /// </summary>
+    [CliFlag("--keep-encrypted")]
+    public bool? KeepEncrypted { get; set; }
+
+    /// <summary>
+    /// Whether or not the SQL Server import is executed with NORECOVERY keyword.
+    /// </summary>
+    [CliFlag("--no-recovery")]
+    public bool? NoRecovery { get; set; }
+
+    /// <summary>
+    /// Whether or not the SQL Server import skip download and bring database online.
+    /// </summary>
+    [CliFlag("--recovery-only")]
+    public bool? RecoveryOnly { get; set; }
+
+    /// <summary>
+    /// Equivalent to SQL Server STOPAT keyword. Used in transaction log import only. Transaction log import stop at this timestamp. Format: YYYY-MM-DDTHH:MM:SS.
+    /// </summary>
+    [CliOption("--stop-at", Format = OptionFormat.EqualsSeparated)]
+    public string? StopAt { get; set; }
+
+    /// <summary>
+    /// Equivalent to SQL Server STOPATMARK keyword. Used in transaction log import only. Transaction log import stop at the given mark. To stop at given LSN, use --stop-at-mark=lsn:xxx.
+    /// </summary>
+    [CliOption("--stop-at-mark", Format = OptionFormat.EqualsSeparated)]
+    public string? StopAtMark { get; set; }
+
+    /// <summary>
+    /// Whether SQL Server import should be striped. Use --striped to enable and --no-striped to disable.
+    /// </summary>
+    [CliFlag("--striped")]
+    public bool? Striped { get; set; }
+
+    /// <summary>
+    /// Negates --striped. Whether SQL Server import should be striped. Use --striped to enable and --no-striped to disable.
+    /// </summary>
+    [CliFlag("--no-striped")]
+    public bool? NoStriped { get; set; }
+
+    /// <summary>
+    /// Encryption info to support importing an encrypted .bak file Path to the encryption certificate file in Google Cloud Storage associated with the BAK file. The URI is in the form gs://bucketName/fileName. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--cert-path", Format = OptionFormat.EqualsSeparated)]
+    public string? CertPath { get; set; }
+
+    /// <summary>
+    /// Encryption info to support importing an encrypted .bak file Path to the encryption private key file in Google Cloud Storage associated with the BAK file. The URI is in the form gs://bucketName/fileName. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--pvk-path", Format = OptionFormat.EqualsSeparated)]
+    public string? PvkPath { get; set; }
+
+    /// <summary>
+    /// Encryption info to support importing an encrypted .bak file Exactly one of these must be specified: Prompt for the private key password associated with the BAK file with character echo disabled. The password is all typed characters up to but not including the RETURN or ENTER key.
+    /// </summary>
+    [CliFlag("--prompt-for-pvk-password")]
+    public bool? PromptForPvkPassword { get; set; }
+
+    /// <summary>
+    /// Encryption info to support importing an encrypted .bak file Exactly one of these must be specified: The private key password associated with the BAK file.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--pvk-password", Format = OptionFormat.EqualsSeparated)]
+    public string? PvkPassword { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Path to the BAK file file in Google Cloud Storage from which the import is made. The URI is in the form gs://bucketName/fileName.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Uri { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CertPath) || !string.IsNullOrWhiteSpace(PvkPath) || PromptForPvkPassword == true || !string.IsNullOrWhiteSpace(PvkPassword)) && (!(!string.IsNullOrWhiteSpace(CertPath))))
+        {
+            yield return new ValidationResult("CertPath must be specified when other arguments in this group are specified.", [nameof(CertPath)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CertPath) || !string.IsNullOrWhiteSpace(PvkPath) || PromptForPvkPassword == true || !string.IsNullOrWhiteSpace(PvkPassword)) && (!(!string.IsNullOrWhiteSpace(PvkPath))))
+        {
+            yield return new ValidationResult("PvkPath must be specified when other arguments in this group are specified.", [nameof(PvkPath)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CertPath) || !string.IsNullOrWhiteSpace(PvkPath) || PromptForPvkPassword == true || !string.IsNullOrWhiteSpace(PvkPassword)) && ((PromptForPvkPassword == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(PvkPassword) ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of PromptForPvkPassword or PvkPassword must be specified.", [nameof(PromptForPvkPassword), nameof(PvkPassword)]);
+        }
+        yield break;
+    }
+
 }

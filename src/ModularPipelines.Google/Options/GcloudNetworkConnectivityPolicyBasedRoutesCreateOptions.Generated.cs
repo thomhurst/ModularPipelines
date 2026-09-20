@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,148 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "policy-based-routes", "create")]
-public record GcloudNetworkConnectivityPolicyBasedRoutesCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivityPolicyBasedRoutesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new     policy-based route
+    /// </summary>
+    /// <param name="Network">Fully-qualified URL of the network that this route applies to. E.g. projects/my-project/global/networks/my-network</param>
+    /// <param name="PolicyBasedRoute">Policy based route resource - Name of the policy-based route to be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_based_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy based route or fully qualified identifier for the policy based route. To set the policy_based_route attribute: ▸ provide the argument policy_based_route on the command line.</param>
+    public GcloudNetworkConnectivityPolicyBasedRoutesCreateOptions(
+        string Network,
+        string PolicyBasedRoute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyBasedRoute);
+        this.PolicyBasedRoute = PolicyBasedRoute;
+    }
+
+    public void Deconstruct(out string Network, out string PolicyBasedRoute)
+    {
+        Network = this.Network;
+        PolicyBasedRoute = this.PolicyBasedRoute;
+    }
+
+    /// <summary>
+    /// Fully-qualified URL of the network that this route applies to. E.g. projects/my-project/global/networks/my-network
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Optional description of this resource. Provide this field when you create the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Destination IP range of outgoing packets that this policy-based route applies to.
+    /// </summary>
+    [CliOption("--destination-range", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationRange { get; set; }
+
+    /// <summary>
+    /// IP protocol that this policy-based route applies to. Valid values are TCP, UDP, and ALL. Default is ALL.
+    /// </summary>
+    [CliOption("--ip-protocol", Format = OptionFormat.EqualsSeparated)]
+    public string? IpProtocol { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Priority of this policy-based route. Priority is used to break ties in cases where there are more than one matching policy-based routes found. In cases where multiple policy-based routes are matched, the one with the lowest-numbered priority value wins. The default value is 1000. The priority value must be from 1 to 65535, inclusive. Note the priority of policy-based route is always higher than other types of route (e.g. static routes/advanced routes)
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// Internet protocol versions that this policy-based route applies to. For this version, only IPV4 is supported. PROTOCOL_VERSION must be one of: ipv4, ipv6, protocol-version-unspecified.
+    /// </summary>
+    [CliOption("--protocol-version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkConnectivityPolicyBasedRoutesCreateProtocolVersion? ProtocolVersion { get; set; }
+
+    /// <summary>
+    /// Source IP range of outgoing packets that this policy-based route applies to.
+    /// </summary>
+    [CliOption("--source-range", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceRange { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Cloud region to install this policy-based route on interconnect attachment. Use all to install it on all interconnect attachments. Note if both --tags and --interconnect-attachment-region are not set, then the policy-based route will be installed in all network endpoints, including VMs, VPNs, and Interconnect attachements, in the network.
+    /// </summary>
+    [CliOption("--interconnect-attachment-region", Format = OptionFormat.EqualsSeparated)]
+    public string? InterconnectAttachmentRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of VM instance tags that this route applies to. VM instances that have ANY of tags specified here installs this route. Note if both --tags and --interconnect-attachment-region are not set, then the policy-based route will be installed in all endpoints, including VMs, VPNs, and Interconnect attachements, in the network. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __TagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __TagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: IP of a global access enabled L4 ILB that should be the next hop to handle packets.
+    /// </summary>
+    [CliOption("--next-hop-ilb-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopIlbIp { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Next hop should be other routes that handle packets. This effectively excludes matching packets being applied on other policy-based routes with a lower priority. NEXT_HOP_OTHER_ROUTES must be one of: default-routing, other-routes-unspecified.
+    /// </summary>
+    [CliOption("--next-hop-other-routes", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkConnectivityPolicyBasedRoutesCreateNextHopOtherRoutes? NextHopOtherRoutes { get; set; }
+
+    /// <summary>
+    /// Policy based route resource - Name of the policy-based route to be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_based_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy based route or fully qualified identifier for the policy based route. To set the policy_based_route attribute: ▸ provide the argument policy_based_route on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyBasedRoute { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(InterconnectAttachmentRegion) ? 1 : 0) + (((object?)Tags is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tags is not string || !string.IsNullOrWhiteSpace(Tags?.ToString()) : ((object?)Tags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tags, static item => item is not null) : (Tags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tags), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InterconnectAttachmentRegion or Tags may be specified.", [nameof(InterconnectAttachmentRegion), nameof(Tags)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(NextHopIlbIp) ? 1 : 0) + ((object?)NextHopOtherRoutes is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of NextHopIlbIp or NextHopOtherRoutes may be specified.", [nameof(NextHopIlbIp), nameof(NextHopOtherRoutes)]);
+        }
+        yield break;
+    }
+
 }

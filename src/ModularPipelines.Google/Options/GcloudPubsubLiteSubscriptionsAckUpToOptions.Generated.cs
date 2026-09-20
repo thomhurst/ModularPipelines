@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "lite-subscriptions", "ack-up-to")]
 public record GcloudPubsubLiteSubscriptionsAckUpToOptions : GcloudOptions
 {
+    /// <summary>
+    /// acknowledge messages on a     Pub/Sub Lite subscription
+    /// </summary>
+    /// <param name="Offset">The offset of a message within a topic partition. Must be greater than or equal to 0.</param>
+    /// <param name="Partition">The topic partition. Partitions are zero indexed, so the partition must be in the range [0, topic.num_partitions). If you do not know your topic.num_partitions, run gcloud pubsub lite-topic describe TOPIC --location=ZONE.</param>
+    /// <param name="Subscription">Subscription resource - Subscription on which to acknowledge messages. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPubsubLiteSubscriptionsAckUpToOptions(
+        string Offset,
+        string Partition,
+        string Subscription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Offset);
+        this.Offset = Offset;
+        global::System.ArgumentNullException.ThrowIfNull(Partition);
+        this.Partition = Partition;
+        global::System.ArgumentNullException.ThrowIfNull(Subscription);
+        this.Subscription = Subscription;
+    }
+
+    public void Deconstruct(out string Offset, out string Partition, out string Subscription)
+    {
+        Offset = this.Offset;
+        Partition = this.Partition;
+        Subscription = this.Subscription;
+    }
+
+    /// <summary>
+    /// The offset of a message within a topic partition. Must be greater than or equal to 0.
+    /// </summary>
+    [CliOption("--offset", Format = OptionFormat.EqualsSeparated)]
+    public string Offset { get; private init; }
+
+    /// <summary>
+    /// The topic partition. Partitions are zero indexed, so the partition must be in the range [0, topic.num_partitions). If you do not know your topic.num_partitions, run gcloud pubsub lite-topic describe TOPIC --location=ZONE.
+    /// </summary>
+    [CliOption("--partition", Format = OptionFormat.EqualsSeparated)]
+    public string Partition { get; private init; }
+
+    /// <summary>
+    /// Subscription resource - Subscription on which to acknowledge messages. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Pub/Sub Lite resource. To set the location attribute: ▸ provide the argument subscription on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Subscription resource - Subscription on which to acknowledge messages. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subscription { get; private init; }
+
 }

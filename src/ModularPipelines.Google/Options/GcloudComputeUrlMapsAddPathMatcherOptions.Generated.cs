@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,146 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "url-maps", "add-path-matcher")]
-public record GcloudComputeUrlMapsAddPathMatcherOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlMap
-) : GcloudOptions
+public record GcloudComputeUrlMapsAddPathMatcherOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add a path matcher to a URL map
+    /// </summary>
+    /// <param name="PathMatcherName">The name to assign to the path matcher.</param>
+    /// <param name="UrlMap">Name of the URL map to operate on.</param>
+    public GcloudComputeUrlMapsAddPathMatcherOptions(
+        string PathMatcherName,
+        string UrlMap
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PathMatcherName);
+        this.PathMatcherName = PathMatcherName;
+        global::System.ArgumentNullException.ThrowIfNull(UrlMap);
+        this.UrlMap = UrlMap;
+    }
+
+    public void Deconstruct(out string PathMatcherName, out string UrlMap)
+    {
+        PathMatcherName = this.PathMatcherName;
+        UrlMap = this.UrlMap;
+    }
+
+    /// <summary>
+    /// The name to assign to the path matcher.
+    /// </summary>
+    [CliOption("--path-matcher-name", Format = OptionFormat.EqualsSeparated)]
+    public string PathMatcherName { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A backend bucket that will be used for requests that the path matcher cannot match. Exactly one of --default-service or --default-backend-bucket is required.
+    /// </summary>
+    [CliOption("--default-backend-bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultBackendBucket { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A backend service that will be used for requests that the path matcher cannot match. Exactly one of --default-service or --default-backend-bucket is required.
+    /// </summary>
+    [CliOption("--default-service", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultService { get; set; }
+
+    /// <summary>
+    /// Rules for mapping request paths to backend buckets. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--backend-bucket-path-rules", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? BackendBucketPathRules { get; set; }
+
+    /// <summary>
+    /// Rules for mapping request paths to services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--backend-service-path-rules", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? BackendServicePathRules { get; set; }
+
+    /// <summary>
+    /// If provided and a path matcher is orphaned as a result of this command, the command removes the orphaned path matcher instead of failing.
+    /// </summary>
+    [CliFlag("--delete-orphaned-path-matcher")]
+    public bool? DeleteOrphanedPathMatcher { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the path matcher.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Rules for mapping request paths to services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--path-rules", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PathRules { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: An existing host rule to tie the new path matcher to. Although host rules can contain more than one host, only a single host is needed to uniquely identify the host rule.
+    /// </summary>
+    [CliOption("--existing-host", Format = OptionFormat.EqualsSeparated)]
+    public string? ExistingHost { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If specified, a new host rule with the given hosts is created and the path matcher is tied to the new host rule. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--new-hosts", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NewHosts
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NewHostsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NewHostsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the URL map to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UrlMap { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DefaultBackendBucket) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DefaultService) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DefaultBackendBucket or DefaultService must be specified.", [nameof(DefaultBackendBucket), nameof(DefaultService)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ExistingHost) ? 1 : 0) + (((object?)NewHosts is global::System.Collections.Generic.IEnumerable<char> ? (object?)NewHosts is not string || !string.IsNullOrWhiteSpace(NewHosts?.ToString()) : ((object?)NewHosts is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NewHosts, static item => item is not null) : (NewHosts is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NewHosts), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ExistingHost or NewHosts may be specified.", [nameof(ExistingHost), nameof(NewHosts)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

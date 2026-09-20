@@ -19,14 +19,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "repos", "clone")]
-public record GcloudSourceReposCloneOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryName
-) : GcloudOptions
+public record GcloudSourceReposCloneOptions : GcloudOptions
 {
+    /// <summary>
+    /// clone a cloud source repository
+    /// </summary>
+    /// <param name="RepositoryName">Name of the repository.</param>
+    public GcloudSourceReposCloneOptions(
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    public void Deconstruct(out string RepositoryName)
+    {
+        RepositoryName = this.RepositoryName;
+    }
+
     /// <summary>
     /// If provided, prints the command that would be run to standard out instead of executing it.
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Name of the repository.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryName { get; private init; }
+
+    /// <summary>
+    /// Directory name for the cloned repo. Defaults to the repository name.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? DirectoryName { get; set; }
 
 }

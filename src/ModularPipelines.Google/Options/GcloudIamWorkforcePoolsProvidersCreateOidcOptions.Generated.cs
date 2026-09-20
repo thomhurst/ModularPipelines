@@ -6,10 +6,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +24,240 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "workforce-pools", "providers", "create-oidc")]
 public record GcloudIamWorkforcePoolsProvidersCreateOidcOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new OIDC     workforce pool provider
+    /// </summary>
+    /// <param name="AttributeMapping">Maps claims from the authentication credentials issued by the Identity Provider into Google Cloud IAM attributes, e.g. subject, segment. Each key must be a string specifying the Google Cloud IAM attribute to be produced. The following predefined keys are currently supported: ◆ google.subject: required field that indicates the principal that is being authenticated to IAM, and will be logged in all API accesses for which Cloud Audit Logging is configured. ◆ google.groups: optional field that indicates asserted groups that the user should be considered to belong to. You can create IAM bindings using the groups attribute and access to a resource will be granted if any of the groups asserted here match a group in the respective binding. ◆ google.display_name: optional field that overrides the name of the user. If not set, google.subject will be displayed instead. This attribute cannot be used in IAM policies. The maximum length of this field is 100 characters. ◆ google.profile_photo: optional fields that may be set to a valid URL specifying the user's thumbnail photo. When set, the image will be visible as the user's profile picture. If not set, a generic user icon will be displayed instead. This attribute cannot be used in IAM policies. Custom attributes can also be mapped by specifying attribute.{custom_attribute}, replacing {custom_attribute} with the name of the custom attribute to be mapped. A maximum of 50 custom attribute mappings can be defined. The maximum length of a mapped attribute key is 2048 characters and can only contain the characters [a-z0-9_]. These attributes can then be referenced in IAM policies to define fine-grained access for the workforce pool to Google Cloud resources by specifying: ◆ google.subject: principal://iam.googleapis.com/locations/global/workforcePools/{pool}/subject/{value} ◆ google.groups: principalSet://iam.googleapis.com/locations/global/workforcePools/{pool}/group/{value} ◆ attribute.{custom_attribute}: principalSet://iam.googleapis.com/locations/global/workforcePools/{pool}/attribute.{custom_attribute}/{value} Each value must be a Common Expression Language (https://opensource.google/projects/cel) function that maps an Identity Provider credential to the normalized attribute specified by the corresponding map key. The following keywords may be referenced in the expressions: ◆ assertion: JSON representing the authentication credential issued by the Identity Provider. The maximum length of an attribute mapping expression is 2048 characters. When evaluated, the total size of all mapped attributes must not exceed 8KB. Example: Map the sub claim of the incoming credential to the subject Google Cloud IAM attribute. {"google.subject": "assertion.sub"} Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="ClientId">The OIDC client ID. This must match the audience claim of the JWT issued by the identity provider.</param>
+    /// <param name="IssuerUri">The OIDC issuer URI. Must be a valid URI using the 'https' scheme.</param>
+    /// <param name="WebSsoAssertionClaimsBehavior">This must be specified. The behavior for how OIDC Claims are included in the assertion object used for attribute mapping and attribute condition. Use merge-user-info-over-id-token-claims to merge the UserInfo Endpoint Claims with ID Token Claims, preferring UserInfo Claim Values for the same Claim Name. Currently this option is only available for Authorization Code flow. Use only-id-token-claims to include only ID token claims. WEB_SSO_ASSERTION_CLAIMS_BEHAVIOR must be one of: assertion-claims-behavior-unspecified, merge-user-info-over-id-token-claims, only-id-token-claims. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="WebSsoResponseType">This must be specified. Response Type to request for in the OIDC Authorization Request for web sign-in. Use code to select the authorization code flow (https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth) Use id-token to select the implicit flow (https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth). WEB_SSO_RESPONSE_TYPE must be one of: code, id-token, response-type-unspecified. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Provider">Workforce pool provider resource - The workforce pool provider to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool provider or fully qualified identifier for the workforce pool provider. To set the provider attribute: ▸ provide the argument provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkforcePoolsProvidersCreateOidcOptions(
+        IReadOnlyList<KeyValue> AttributeMapping,
+        string ClientId,
+        string IssuerUri,
+        string WebSsoAssertionClaimsBehavior,
+        GcloudIamWorkforcePoolsProvidersCreateOidcWebSsoResponseType WebSsoResponseType,
+        string Provider
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AttributeMapping);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(AttributeMapping));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AttributeMapping));
+            }
+
+            AttributeMapping = materialized;
+        }
+        this.AttributeMapping = AttributeMapping;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(IssuerUri);
+        this.IssuerUri = IssuerUri;
+        global::System.ArgumentNullException.ThrowIfNull(WebSsoAssertionClaimsBehavior);
+        this.WebSsoAssertionClaimsBehavior = WebSsoAssertionClaimsBehavior;
+        global::System.ArgumentNullException.ThrowIfNull(WebSsoResponseType);
+        this.WebSsoResponseType = WebSsoResponseType;
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+    }
+
+    public void Deconstruct(out IReadOnlyList<KeyValue> AttributeMapping, out string ClientId, out string IssuerUri, out string WebSsoAssertionClaimsBehavior, out GcloudIamWorkforcePoolsProvidersCreateOidcWebSsoResponseType WebSsoResponseType, out string Provider)
+    {
+        AttributeMapping = this.AttributeMapping;
+        ClientId = this.ClientId;
+        IssuerUri = this.IssuerUri;
+        WebSsoAssertionClaimsBehavior = this.WebSsoAssertionClaimsBehavior;
+        WebSsoResponseType = this.WebSsoResponseType;
+        Provider = this.Provider;
+    }
+
+    /// <summary>
+    /// Maps claims from the authentication credentials issued by the Identity Provider into Google Cloud IAM attributes, e.g. subject, segment. Each key must be a string specifying the Google Cloud IAM attribute to be produced. The following predefined keys are currently supported: ◆ google.subject: required field that indicates the principal that is being authenticated to IAM, and will be logged in all API accesses for which Cloud Audit Logging is configured. ◆ google.groups: optional field that indicates asserted groups that the user should be considered to belong to. You can create IAM bindings using the groups attribute and access to a resource will be granted if any of the groups asserted here match a group in the respective binding. ◆ google.display_name: optional field that overrides the name of the user. If not set, google.subject will be displayed instead. This attribute cannot be used in IAM policies. The maximum length of this field is 100 characters. ◆ google.profile_photo: optional fields that may be set to a valid URL specifying the user's thumbnail photo. When set, the image will be visible as the user's profile picture. If not set, a generic user icon will be displayed instead. This attribute cannot be used in IAM policies. Custom attributes can also be mapped by specifying attribute.{custom_attribute}, replacing {custom_attribute} with the name of the custom attribute to be mapped. A maximum of 50 custom attribute mappings can be defined. The maximum length of a mapped attribute key is 2048 characters and can only contain the characters [a-z0-9_]. These attributes can then be referenced in IAM policies to define fine-grained access for the workforce pool to Google Cloud resources by specifying: ◆ google.subject: principal://iam.googleapis.com/locations/global/workforcePools/{pool}/subject/{value} ◆ google.groups: principalSet://iam.googleapis.com/locations/global/workforcePools/{pool}/group/{value} ◆ attribute.{custom_attribute}: principalSet://iam.googleapis.com/locations/global/workforcePools/{pool}/attribute.{custom_attribute}/{value} Each value must be a Common Expression Language (https://opensource.google/projects/cel) function that maps an Identity Provider credential to the normalized attribute specified by the corresponding map key. The following keywords may be referenced in the expressions: ◆ assertion: JSON representing the authentication credential issued by the Identity Provider. The maximum length of an attribute mapping expression is 2048 characters. When evaluated, the total size of all mapped attributes must not exceed 8KB. Example: Map the sub claim of the incoming credential to the subject Google Cloud IAM attribute. {"google.subject": "assertion.sub"} Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--attribute-mapping", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue> AttributeMapping { get; private init; }
+
+    /// <summary>
+    /// The OIDC client ID. This must match the audience claim of the JWT issued by the identity provider.
+    /// </summary>
+    [CliOption("--client-id", Format = OptionFormat.EqualsSeparated)]
+    public string ClientId { get; private init; }
+
+    /// <summary>
+    /// The OIDC issuer URI. Must be a valid URI using the 'https' scheme.
+    /// </summary>
+    [CliOption("--issuer-uri", Format = OptionFormat.EqualsSeparated)]
+    public string IssuerUri { get; private init; }
+
+    /// <summary>
+    /// This must be specified. The behavior for how OIDC Claims are included in the assertion object used for attribute mapping and attribute condition. Use merge-user-info-over-id-token-claims to merge the UserInfo Endpoint Claims with ID Token Claims, preferring UserInfo Claim Values for the same Claim Name. Currently this option is only available for Authorization Code flow. Use only-id-token-claims to include only ID token claims. WEB_SSO_ASSERTION_CLAIMS_BEHAVIOR must be one of: assertion-claims-behavior-unspecified, merge-user-info-over-id-token-claims, only-id-token-claims. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--web-sso-assertion-claims-behavior", Format = OptionFormat.EqualsSeparated)]
+    public string WebSsoAssertionClaimsBehavior { get; private init; }
+
+    /// <summary>
+    /// This must be specified. Response Type to request for in the OIDC Authorization Request for web sign-in. Use code to select the authorization code flow (https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth) Use id-token to select the implicit flow (https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth). WEB_SSO_RESPONSE_TYPE must be one of: code, id-token, response-type-unspecified. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--web-sso-response-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudIamWorkforcePoolsProvidersCreateOidcWebSsoResponseType WebSsoResponseType { get; private init; }
+
+    /// <summary>
+    /// Workforce pool provider resource - The workforce pool provider to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument provider on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workforce pool provider resource - The workforce pool provider to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID to use for the workforce pool, which becomes the final component of the resource name. This value must be a globally unique string of 6 to 63 lowercase letters, digits, or hyphens. It must start with a letter, and cannot have a trailing hyphen. The prefix gcp- is reserved for use by Google, and may not be specified. To set the workforce-pool attribute: ▸ provide the argument provider on the command line with a fully specified name; ▸ provide the argument --workforce-pool on the command line.
+    /// </summary>
+    [CliOption("--workforce-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkforcePool { get; set; }
+
+    /// <summary>
+    /// This must be specified. Additional scopes to request for the OIDC authentication on top of scopes requested by default. By default, the openid, profile and email scopes that are supported by the identity provider are requested. Each additional scope may be at most 256 characters. A maximum of 10 additional scopes may be configured. Updating this field replaces any existing values. Include the full list of additional scopes to avoid losing existing values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--web-sso-additional-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? WebSsoAdditionalScopes { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A Common Expression Language (https://opensource.google/projects/cel) expression, in plain text, to restrict which otherwise valid authentication credentials issued by the provider should be accepted. The expression must output a boolean representing whether to allow the federation. The following keywords may be referenced in the expressions: ◆ assertion: JSON representing the authentication credential issued by the Provider. ◆ google: The Google attributes mapped from the assertion in the attribute_mappings. google.profile_photo and google.display_name are not supported. ◆ attribute: The custom attributes mapped from the assertion in the attribute_mappings. The maximum length of the attribute condition expression is 4096 characters. If unspecified, all valid authentication credential will be accepted. Example: Only allow credentials with a mapped google.groups value of admins. "'admins' in google.groups"
+    /// </summary>
+    [CliOption("--attribute-condition", Format = OptionFormat.EqualsSeparated)]
+    public string? AttributeCondition { get; set; }
+
+    /// <summary>
+    /// The OIDC client secret. Required to enable Authorization Code flow for web sign-in.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--client-secret-value", Format = OptionFormat.EqualsSeparated)]
+    public string? ClientSecretValue { get; set; }
+
+    /// <summary>
+    /// A description for the workforce pool provider. Cannot exceed 256 characters in length.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Enables detailed audit logging for this provider, which populates additional debug information in STS Cloud Audit Logs. Specify --no-detailed-audit-logging to disable it.
+    /// </summary>
+    [CliFlag("--detailed-audit-logging")]
+    public bool? DetailedAuditLogging { get; set; }
+
+    /// <summary>
+    /// Negates --detailed-audit-logging. Enables detailed audit logging for this provider, which populates additional debug information in STS Cloud Audit Logs. Specify --no-detailed-audit-logging to disable it.
+    /// </summary>
+    [CliFlag("--no-detailed-audit-logging")]
+    public bool? NoDetailedAuditLogging { get; set; }
+
+    /// <summary>
+    /// Disables the workforce pool provider. You cannot use a disabled provider to perform new token exchanges or sign-ins. However, existing tokens still grant access. Specify --no-disabled to enable a disabled pool.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// Negates --disabled. Disables the workforce pool provider. You cannot use a disabled provider to perform new token exchanges or sign-ins. However, existing tokens still grant access. Specify --no-disabled to enable a disabled pool.
+    /// </summary>
+    [CliFlag("--no-disabled")]
+    public bool? NoDisabled { get; set; }
+
+    /// <summary>
+    /// A display name for the workforce pool provider. Cannot exceed 32 characters in length.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Optional file containing JSON Web Key (JWK) public keys. The file format must follow JWK specifications (https://www.rfc-editor.org/rfc/rfc7517#section-4). Example file format: { "keys": [ { "kty": "RSA/EC", "alg": "&lt;algorithm&gt;", "use": "sig", "kid": "&lt;key-id&gt;", "n": "", "e": "", "x": "", "y": "", "crv": "" } ] } . Use a full or relative path to a local file containing the value of jwk_json_path.
+    /// </summary>
+    [CliOption("--jwk-json-path", Format = OptionFormat.EqualsSeparated)]
+    public string? JwkJsonPath { get; set; }
+
+    /// <summary>
+    /// Specifies whether the workforce identity pool provider uses SCIM-managed groups instead of the google.groups attribute mapping for authorization checks. The scim_usage and extended_attributes_oauth2_client fields are mutually exclusive. A request that enables both fields on the same workforce identity pool provider will produce an error. Use enabled-for-groups to enable SCIM-managed groups. Use enabled-for-users-groups to enable SCIM-managed user claims and groups. Use scim-usage-unspecified to disable SCIM-managed groups. SCIM_USAGE must be one of: enabled-for-groups, enabled-for-users-groups, scim-usage-unspecified.
+    /// </summary>
+    [CliOption("--scim-usage", Format = OptionFormat.EqualsSeparated)]
+    public GcloudIamWorkforcePoolsProvidersCreateOidcScimUsage? ScimUsage { get; set; }
+
+    /// <summary>
+    /// The OAuth 2.0 client ID for retrieving extended attributes from the identity provider. Required to get extended group memberships for a subset of Google Cloud products. The --extended-attributes-client-id flag is restricted. We suggest you use SCIM (https://docs.cloud.google.com/iam/docs/configure-scim-oidc-saml) instead.
+    /// </summary>
+    [CliOption("--extended-attributes-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtendedAttributesClientId { get; set; }
+
+    /// <summary>
+    /// The OAuth 2.0 client secret for retrieving extended attributes from the identity provider. Required to get extended group memberships for a subset of Google Cloud products. The --extended-attributes-client-secret-value flag is restricted. We suggest you use SCIM (https://docs.cloud.google.com/iam/docs/configure-scim-oidc-saml) instead.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--extended-attributes-client-secret-value", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtendedAttributesClientSecretValue { get; set; }
+
+    /// <summary>
+    /// OIDC identity provider's issuer URI. Must be a valid URI using the https scheme. Required to get the OIDC discovery document. The --extended-attributes-issuer-uri flag is restricted. We suggest you use SCIM (https://docs.cloud.google.com/iam/docs/configure-scim-oidc-saml) instead.
+    /// </summary>
+    [CliOption("--extended-attributes-issuer-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtendedAttributesIssuerUri { get; set; }
+
+    /// <summary>
+    /// Represents the identity provider and type of claims that should be fetched. The --extended-attributes-type flag is restricted. We suggest you use SCIM (https://docs.cloud.google.com/iam/docs/configure-scim-oidc-saml) instead. EXTENDED_ATTRIBUTES_TYPE must be (only one value is supported): azure-ad-groups-id.
+    /// </summary>
+    [CliOption("--extended-attributes-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtendedAttributesType { get; set; }
+
+    /// <summary>
+    /// The filter used to request specific records from the IdP. By default, all of the groups that are associated with a user are fetched. For Microsoft Entra ID, you can add $search query parameters using Keyword Query Language (https://learn.microsoft.com/en-us/sharepoint/dev/general-development/keyword-query-language-kql-syntax-reference). To learn more about $search querying in Microsoft Entra ID, see Use the `$search` query parameter (https://learn.microsoft.com/en-us/graph/search-query-parameter). Additionally, Workforce Identity Federation automatically adds the following `$filter` query parameters (https://learn.microsoft.com/en-us/graph/filter-query-parameter), based on the value of attributes_type. Values passed to filter are converted to $search query parameters. Additional $filter query parameters cannot be added using this field. ◆ AZURE_AD_GROUPS_ID: securityEnabled filter is applied. The --extended-attributes-filter flag is restricted. We suggest you use SCIM (https://docs.cloud.google.com/iam/docs/configure-scim-oidc-saml) instead.
+    /// </summary>
+    [CliOption("--extended-attributes-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtendedAttributesFilter { get; set; }
+
+    /// <summary>
+    /// The OAuth 2.0 client ID for retrieving extra attributes from the identity provider. Required to get the access token using client credentials grant flow.
+    /// </summary>
+    [CliOption("--extra-attributes-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtraAttributesClientId { get; set; }
+
+    /// <summary>
+    /// The OAuth 2.0 client secret for retrieving extra attributes from the identity provider. Required to get the access token using client credentials grant flow.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--extra-attributes-client-secret-value", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtraAttributesClientSecretValue { get; set; }
+
+    /// <summary>
+    /// OIDC identity provider's issuer URI. Must be a valid URI using the https scheme. Required to get the OIDC discovery document.
+    /// </summary>
+    [CliOption("--extra-attributes-issuer-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtraAttributesIssuerUri { get; set; }
+
+    /// <summary>
+    /// Represents the identity provider and type of claims that should be fetched. EXTRA_ATTRIBUTES_TYPE must be one of: attributes-type-unspecified, azure-ad-groups-display-name, azure-ad-groups-id, azure-ad-groups-mail.
+    /// </summary>
+    [CliOption("--extra-attributes-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudIamWorkforcePoolsProvidersCreateOidcExtraAttributesType? ExtraAttributesType { get; set; }
+
+    /// <summary>
+    /// The filter used to request specific records from the IdP. By default, all of the groups that are associated with a user are fetched. For Microsoft Entra ID, you can add $search query parameters using Keyword Query Language (https://learn.microsoft.com/en-us/sharepoint/dev/general-development/keyword-query-language-kql-syntax-reference). To learn more about $search querying in Microsoft Entra ID, see Use the `$search` query parameter (https://learn.microsoft.com/en-us/graph/search-query-parameter). Additionally, Workforce Identity Federation automatically adds the following `$filter` query parameters (https://learn.microsoft.com/en-us/graph/filter-query-parameter), based on the value of attributes_type. Values passed to filter are converted to $search query parameters. Additional $filter query parameters cannot be added using this field. ◆ AZURE_AD_GROUPS_MAIL: mailEnabled and securityEnabled filters are applied. ◆ AZURE_AD_GROUPS_ID: securityEnabled filter is applied. ◆ AZURE_AD_GROUPS_DISPLAY_NAME: securityEnabled filter is applied.
+    /// </summary>
+    [CliOption("--extra-attributes-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtraAttributesFilter { get; set; }
+
+    /// <summary>
+    /// Workforce pool provider resource - The workforce pool provider to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool provider or fully qualified identifier for the workforce pool provider. To set the provider attribute: ▸ provide the argument provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Provider { get; private init; }
+
 }

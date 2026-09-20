@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "reschedule-maintenance")]
-public record GcloudSqlRescheduleMaintenanceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlRescheduleMaintenanceOptions : GcloudOptions
 {
+    /// <summary>
+    /// reschedule a Cloud SQL instance's     maintenance
+    /// </summary>
+    /// <param name="RescheduleType">The type of reschedule operation to perform. RESCHEDULE_TYPE must be one of: IMMEDIATE, NEXT_AVAILABLE_WINDOW, SPECIFIC_TIME.</param>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlRescheduleMaintenanceOptions(
+        GcloudSqlRescheduleMaintenanceRescheduleType RescheduleType,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RescheduleType);
+        this.RescheduleType = RescheduleType;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out GcloudSqlRescheduleMaintenanceRescheduleType RescheduleType, out string Instance)
+    {
+        RescheduleType = this.RescheduleType;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// The type of reschedule operation to perform. RESCHEDULE_TYPE must be one of: IMMEDIATE, NEXT_AVAILABLE_WINDOW, SPECIFIC_TIME.
+    /// </summary>
+    [CliOption("--reschedule-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSqlRescheduleMaintenanceRescheduleType RescheduleType { get; private init; }
+
+    /// <summary>
+    /// When specifying SPECIFIC_TIME, the date and time at which to schedule the maintenance in ISO 8601 format.
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

@@ -28,9 +28,9 @@ public record GcloudTransferAgentPoolsListOptions : GcloudOptions
     public string? Limit { get; set; }
 
     /// <summary>
-    /// The names of the agent pools you want to list. Separate multiple names with commas (e.g., --name=foo,bar). If not specified, all agent pools in your current project will be listed.
+    /// The names of the agent pools you want to list. Separate multiple names with commas (e.g., --name=foo,bar). If not specified, all agent pools in your current project will be listed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>

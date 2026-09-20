@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestations", "list")]
-public record GcloudContainerBinauthzAttestationsListOptions : GcloudOptions
+public record GcloudContainerBinauthzAttestationsListOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Container URL. May be in the gcr.io/repository/image format, or may optionally contain the http or https scheme
@@ -38,5 +39,15 @@ public record GcloudContainerBinauthzAttestationsListOptions : GcloudOptions
     /// </summary>
     [CliOption("--attestor-project", Format = OptionFormat.EqualsSeparated)]
     public string? AttestorProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Attestor) || !string.IsNullOrWhiteSpace(AttestorProject)) && (!(!string.IsNullOrWhiteSpace(Attestor))))
+        {
+            yield return new ValidationResult("Attestor must be specified when other arguments in this group are specified.", [nameof(Attestor)]);
+        }
+        yield break;
+    }
 
 }

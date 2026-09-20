@@ -19,8 +19,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "users", "set-superuser")]
-public record GcloudAlloydbUsersSetSuperuserOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
-) : GcloudOptions
+public record GcloudAlloydbUsersSetSuperuserOptions : GcloudOptions
 {
+    /// <summary>
+    /// update an AlloyDB user's superuser     role within a given cluster and region
+    /// </summary>
+    /// <param name="Cluster">AlloyDB cluster ID</param>
+    /// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+    /// <param name="Superuser">If true, user will have AlloyDB superuser privileges</param>
+    /// <param name="Username">AlloyDB username</param>
+    public GcloudAlloydbUsersSetSuperuserOptions(
+        string Cluster,
+        string Region,
+        string Superuser,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Superuser);
+        this.Superuser = Superuser;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    public void Deconstruct(out string Cluster, out string Region, out string Superuser, out string Username)
+    {
+        Cluster = this.Cluster;
+        Region = this.Region;
+        Superuser = this.Superuser;
+        Username = this.Username;
+    }
+
+    /// <summary>
+    /// AlloyDB cluster ID
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string Cluster { get; private init; }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// If true, user will have AlloyDB superuser privileges
+    /// </summary>
+    [CliOption("--superuser", Format = OptionFormat.EqualsSeparated)]
+    public string Superuser { get; private init; }
+
+    /// <summary>
+    /// AlloyDB username
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Username { get; private init; }
+
 }

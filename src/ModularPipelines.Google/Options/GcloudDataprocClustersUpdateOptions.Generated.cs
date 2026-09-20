@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "clusters", "update")]
-public record GcloudDataprocClustersUpdateOptions : GcloudOptions
+public record GcloudDataprocClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update labels and/or the number of worker     nodes in a cluster
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - The name of the cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataprocClustersUpdateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - The name of the cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Dataproc region for the cluster. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation. To set the region attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -32,7 +56,7 @@ public record GcloudDataprocClustersUpdateOptions : GcloudOptions
     /// The graceful decommission timeout for decommissioning Node Managers in the cluster, used when removing nodes. Graceful decommissioning allows removing nodes from the cluster without interrupting jobs in progress. Timeout specifies how long to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting jobs). Timeout defaults to 0 if not set (for forceful decommission), and the maximum allowed timeout is 1 day. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--graceful-decommission-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? GracefulDecommissionTimeout { get; set; }
+    public string? GracefulDecommissionTimeout { get; set; }
 
     /// <summary>
     /// Minimum fraction of new secondary worker nodes added in a scale up update operation, required to update the cluster. If it is not met, cluster updation will rollback the addition of secondary workers. Must be a decimal value between 0 and 1. Defaults to 0.0001.
@@ -53,9 +77,9 @@ public record GcloudDataprocClustersUpdateOptions : GcloudOptions
     public string? NumWorkers { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -65,7 +89,7 @@ public record GcloudDataprocClustersUpdateOptions : GcloudOptions
     public string? AutoscalingPolicy { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --autoscaling-policy on the command line. Disable autoscaling, if it is enabled. This is an alias for passing the empty string to --autoscaling-policy'.
+    /// At most one of these can be specified: ▸ provide the argument --autoscaling-policy on the command line. Disable autoscaling, if it is enabled. This is an alias for passing the empty string to --autoscaling-policy'.
     /// </summary>
     [CliFlag("--disable-autoscaling")]
     public bool? DisableAutoscaling { get; set; }
@@ -77,10 +101,32 @@ public record GcloudDataprocClustersUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: The time when the cluster will be auto-deleted, such as "2017-08-29T18:52:51.142Z". See $ gcloud topic datetimes for information on time formats.
@@ -119,16 +165,42 @@ public record GcloudDataprocClustersUpdateOptions : GcloudOptions
     public string? IdentityConfigFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: List of user-to-service-account mappings to add to current mappings. If a mapping exists, its value is modified; otherwise, the new mapping is added.
+    /// At most one of these can be specified: Or at least one of these can be specified: List of user-to-service-account mappings to add to current mappings. If a mapping exists, its value is modified; otherwise, the new mapping is added. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-user-mappings", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? AddUserMappings { get; set; }
+    [CliOption("--add-user-mappings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? AddUserMappings
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: List of user-to-service-account mappings to remove from the current mappings. If a mapping does not exist, it is ignored.
+    /// At most one of these can be specified: Or at least one of these can be specified: List of user-to-service-account mappings to remove from the current mappings. If a mapping does not exist, it is ignored. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-user-mappings", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveUserMappings { get; set; }
+    [CliOption("--remove-user-mappings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveUserMappings
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveUserMappingsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveUserMappingsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: The time when the cluster will be auto-stopped, such as "2017-08-29T18:52:51.142Z". See $ gcloud topic datetimes for information on time formats.
@@ -159,5 +231,45 @@ public record GcloudDataprocClustersUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-stop-max-idle")]
     public bool? NoStopMaxIdle { get; set; }
+
+    /// <summary>
+    /// Cluster resource - The name of the cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(AutoscalingPolicy)) ? 1 : 0) + ((DisableAutoscaling == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (AutoscalingPolicy) or (DisableAutoscaling) may be specified.", [nameof(AutoscalingPolicy), nameof(DisableAutoscaling)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DeleteExpirationTime) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DeleteMaxAge) ? 1 : 0) + (NoDeleteMaxAge == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DeleteExpirationTime, DeleteMaxAge, or NoDeleteMaxAge may be specified.", [nameof(DeleteExpirationTime), nameof(DeleteMaxAge), nameof(NoDeleteMaxAge)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DeleteMaxIdle) ? 1 : 0) + (NoDeleteMaxIdle == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DeleteMaxIdle or NoDeleteMaxIdle may be specified.", [nameof(DeleteMaxIdle), nameof(NoDeleteMaxIdle)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(IdentityConfigFile) ? 1 : 0) + ((((object?)AddUserMappings is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddUserMappings is not string || !string.IsNullOrWhiteSpace(AddUserMappings?.ToString()) : ((object?)AddUserMappings is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddUserMappings, static item => item is not null) : (AddUserMappings is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddUserMappings), static item => item is not null)))) || ((object?)RemoveUserMappings is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveUserMappings is not string || !string.IsNullOrWhiteSpace(RemoveUserMappings?.ToString()) : ((object?)RemoveUserMappings is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveUserMappings, static item => item is not null) : (RemoveUserMappings is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveUserMappings), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of IdentityConfigFile or (AddUserMappings or RemoveUserMappings) may be specified.", [nameof(IdentityConfigFile), nameof(AddUserMappings), nameof(RemoveUserMappings)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(StopExpirationTime) ? 1 : 0) + (!string.IsNullOrWhiteSpace(StopMaxAge) ? 1 : 0) + (NoStopMaxAge == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of StopExpirationTime, StopMaxAge, or NoStopMaxAge may be specified.", [nameof(StopExpirationTime), nameof(StopMaxAge), nameof(NoStopMaxAge)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(StopMaxIdle) ? 1 : 0) + (NoStopMaxIdle == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of StopMaxIdle or NoStopMaxIdle may be specified.", [nameof(StopMaxIdle), nameof(NoStopMaxIdle)]);
+        }
+        yield break;
+    }
 
 }

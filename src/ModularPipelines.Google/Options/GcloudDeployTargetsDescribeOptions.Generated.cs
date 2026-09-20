@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +19,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "targets", "describe")]
-public record GcloudDeployTargetsDescribeOptions : GcloudOptions, IValidatableObject
+public record GcloudDeployTargetsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes details specific to the     individual target, delivery pipeline qualified
+    /// </summary>
+    /// <param name="Target">Target resource - The name of the Target. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the target or fully qualified identifier for the target. To set the target attribute: ▸ provide the argument target on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployTargetsDescribeOptions(
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    public void Deconstruct(out string Target)
+    {
+        Target = this.Target;
+    }
+
+    /// <summary>
+    /// Target resource - The name of the Target. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the target. Alternatively, set the property [deploy/region]. To set the region attribute: ▸ provide the argument target on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// The name of the Cloud Deploy delivery pipeline
     /// </summary>
@@ -40,13 +62,10 @@ public record GcloudDeployTargetsDescribeOptions : GcloudOptions, IValidatableOb
     [CliFlag("--skip-pipeline-lookup")]
     public bool? SkipPipelineLookup { get; set; }
 
-    /// <inheritdoc />
-    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-    {
-        if (!(ListAllPipelines == true || SkipPipelineLookup == true))
-        {
-            yield return new ValidationResult("At least one of ListAllPipelines or SkipPipelineLookup must be specified.", [nameof(ListAllPipelines), nameof(SkipPipelineLookup)]);
-        }
-    }
+    /// <summary>
+    /// Target resource - The name of the Target. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the target or fully qualified identifier for the target. To set the target attribute: ▸ provide the argument target on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Target { get; private init; }
 
 }

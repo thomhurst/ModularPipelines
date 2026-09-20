@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,158 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "restore")]
-public record GcloudAlloydbClustersRestoreOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
-) : GcloudOptions
+public record GcloudAlloydbClustersRestoreOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// restore an AlloyDB cluster from a given     backup or a source cluster and a timestamp
+    /// </summary>
+    /// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+    /// <param name="Cluster">AlloyDB cluster ID</param>
+    public GcloudAlloydbClustersRestoreOptions(
+        string Region,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Region, out string Cluster)
+    {
+        Region = this.Region;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// RestoreCluster source types. Exactly one of these must be specified: AlloyDB backup to restore from. This must either be the full backup name (projects/myProject/locations/us-central1/backups/myBackup) or the backup ID (myBackup). In the second case, the project and location are assumed to be the same as the restored cluster that is being created.
+    /// </summary>
+    [CliOption("--backup", Format = OptionFormat.EqualsSeparated)]
+    public string? Backup { get; set; }
+
+    /// <summary>
+    /// RestoreCluster source types. Exactly one of these must be specified: Backup DR backup to restore from. This is a resource path of the form projects/myProject/locations/us-central1/backupVaults/myBackupVault/dataSources/myDataSource/backups/myBackup.
+    /// </summary>
+    [CliOption("--backupdr-backup", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupdrBackup { get; set; }
+
+    /// <summary>
+    /// RestoreCluster source types. Exactly one of these must be specified: Or at least one of these can be specified: Restore a cluster from a source cluster at a given point in time. Point in time to restore to, in RFC 3339 format. For example, 2012-11-15T16:19:00.094Z. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--point-in-time", Format = OptionFormat.EqualsSeparated)]
+    public string? PointInTime { get; set; }
+
+    /// <summary>
+    /// RestoreCluster source types. Exactly one of these must be specified: Or at least one of these can be specified: Restore a cluster from a source cluster at a given point in time. Source for a point in time restore operation. Exactly one of these must be specified: Backup DR data source to restore from. This is a resource path of the form projects/myProject/locations/us-central1/backupVaults/myBackupVault/dataSources/myDataSource.
+    /// </summary>
+    [CliOption("--backupdr-data-source", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupdrDataSource { get; set; }
+
+    /// <summary>
+    /// RestoreCluster source types. Exactly one of these must be specified: Or at least one of these can be specified: Restore a cluster from a source cluster at a given point in time. Source for a point in time restore operation. Exactly one of these must be specified: AlloyDB source cluster to restore from. This must either be the full cluster name (projects/myProject/locations/us-central1/backups/myCluster) or the cluster ID (myCluster). In the second case, the project and location are assumed to be the same as the restored cluster that is being created.
+    /// </summary>
+    [CliOption("--source-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCluster { get; set; }
+
+    /// <summary>
+    /// Name of the allocated IP range for the private IP AlloyDB cluster, for example: "google-managed-services-default". If set, the instance IPs for this cluster will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?.
+    /// </summary>
+    [CliOption("--allocated-ip-range-name", Format = OptionFormat.EqualsSeparated)]
+    public string? AllocatedIpRangeName { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
+    /// </summary>
+    [CliFlag("--enable-dataplex-integration")]
+    public bool? EnableDataplexIntegration { get; set; }
+
+    /// <summary>
+    /// Negates --enable-dataplex-integration. Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
+    /// </summary>
+    [CliFlag("--no-enable-dataplex-integration")]
+    public bool? NoEnableDataplexIntegration { get; set; }
+
+    /// <summary>
+    /// Enable Private Service Connect (PSC) connectivity for the cluster.
+    /// </summary>
+    [CliFlag("--enable-private-service-connect")]
+    public bool? EnablePrivateServiceConnect { get; set; }
+
+    /// <summary>
+    /// Network in the current project that the instance will be part of. To specify using a network with a shared VPC, use the full URL of the network. For an example host project, testproject, and shared network, testsharednetwork, this would be of the form:--network=projects/testproject/global/networks/testsharednetwork
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// AlloyDB cluster ID
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Backup) ? 1 : 0) + (!string.IsNullOrWhiteSpace(BackupdrBackup) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(BackupdrDataSource) || !string.IsNullOrWhiteSpace(SourceCluster)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Backup, BackupdrBackup, or (PointInTime, BackupdrDataSource, or SourceCluster) must be specified.", [nameof(Backup), nameof(BackupdrBackup), nameof(PointInTime), nameof(BackupdrDataSource), nameof(SourceCluster)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Backup) || !string.IsNullOrWhiteSpace(BackupdrBackup) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(BackupdrDataSource) || !string.IsNullOrWhiteSpace(SourceCluster)) && (!string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(BackupdrDataSource) || !string.IsNullOrWhiteSpace(SourceCluster)) && (!string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(BackupdrDataSource) || !string.IsNullOrWhiteSpace(SourceCluster)) && (!(!string.IsNullOrWhiteSpace(PointInTime))))
+        {
+            yield return new ValidationResult("PointInTime must be specified when other arguments in this group are specified.", [nameof(PointInTime)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Backup) || !string.IsNullOrWhiteSpace(BackupdrBackup) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(BackupdrDataSource) || !string.IsNullOrWhiteSpace(SourceCluster)) && (!string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(BackupdrDataSource) || !string.IsNullOrWhiteSpace(SourceCluster)) && (!string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(BackupdrDataSource) || !string.IsNullOrWhiteSpace(SourceCluster)) && ((!string.IsNullOrWhiteSpace(BackupdrDataSource) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceCluster) ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of BackupdrDataSource or SourceCluster must be specified.", [nameof(BackupdrDataSource), nameof(SourceCluster)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

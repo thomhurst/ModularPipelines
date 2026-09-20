@@ -21,4 +21,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "files", "download")]
 public record GcloudArtifactsFilesDownloadOptions : GcloudOptions
 {
+    /// <summary>
+    /// download an Artifact Registry file
+    /// </summary>
+    /// <param name="Destination">The path where you want to download the file.</param>
+    /// <param name="File">File resource - The Artifact Registry file name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument file on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the file or fully qualified identifier for the file. To set the name attribute: ▸ provide the argument file on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudArtifactsFilesDownloadOptions(
+        string Destination,
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string Destination, out string File)
+    {
+        Destination = this.Destination;
+        File = this.File;
+    }
+
+    /// <summary>
+    /// The path where you want to download the file.
+    /// </summary>
+    [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
+    public string Destination { get; private init; }
+
+    /// <summary>
+    /// File resource - The Artifact Registry file name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument file on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the file. To set the location attribute: ▸ provide the argument file on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// File resource - The Artifact Registry file name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument file on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Repository of the file. To set the repository attribute: ▸ provide the argument file on the command line with a fully specified name; ▸ provide the argument --repository on the command line; ▸ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// If specified, the command overwrites an existing file
+    /// </summary>
+    [CliFlag("--allow-overwrite")]
+    public bool? AllowOverwrite { get; set; }
+
+    /// <summary>
+    /// If specified, the name of the downloaded file on the local system is set to the value you use for LOCAL_FILENAME. Otherwise the name of the downloaded file is based on the file name in the registry.
+    /// </summary>
+    [CliOption("--local-filename", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalFilename { get; set; }
+
+    /// <summary>
+    /// Specifies the number of threads to use for downloading the file in parallel.
+    /// </summary>
+    [CliOption("--parallelism", Format = OptionFormat.EqualsSeparated)]
+    public string? Parallelism { get; set; }
+
+    /// <summary>
+    /// File resource - The Artifact Registry file name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument file on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the file or fully qualified identifier for the file. To set the name attribute: ▸ provide the argument file on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string File { get; private init; }
+
 }

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "sole-tenancy", "node-templates", "get-iam-policy")]
 public record GcloudComputeSoleTenancyNodeTemplatesGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM     Policy for a Compute Engine node template
+    /// </summary>
+    /// <param name="NodeTemplate">Node template resource - The node template for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_template or fully qualified identifier for the node_template. To set the node_template attribute: ▸ provide the argument node_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeSoleTenancyNodeTemplatesGetIamPolicyOptions(
+        string NodeTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeTemplate);
+        this.NodeTemplate = NodeTemplate;
+    }
+
+    public void Deconstruct(out string NodeTemplate)
+    {
+        NodeTemplate = this.NodeTemplate;
+    }
+
+    /// <summary>
+    /// Node template resource - The node template for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine region. To set the region attribute: ▸ provide the argument node_template on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Node template resource - The node template for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_template or fully qualified identifier for the node_template. To set the node_template attribute: ▸ provide the argument node_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodeTemplate { get; private init; }
+
 }

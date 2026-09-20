@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityAuthorizationPoliciesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete     authorization policy
+    /// </summary>
+    /// <param name="AuthorizationPolicy">Authorization policy resource - Name of the authorization policy you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authorization policy or fully qualified identifier for the authorization policy. To set the authorization_policy attribute: ▸ provide the argument authorization_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityAuthorizationPoliciesDeleteOptions(
+        string AuthorizationPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizationPolicy);
+        this.AuthorizationPolicy = AuthorizationPolicy;
+    }
+
+    public void Deconstruct(out string AuthorizationPolicy)
+    {
+        AuthorizationPolicy = this.AuthorizationPolicy;
+    }
+
+    /// <summary>
+    /// Authorization policy resource - Name of the authorization policy you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument authorization_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Authorization policy resource - Name of the authorization policy you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authorization policy or fully qualified identifier for the authorization policy. To set the authorization_policy attribute: ▸ provide the argument authorization_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthorizationPolicy { get; private init; }
 
 }

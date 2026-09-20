@@ -6,10 +6,14 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +23,190 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "connection-profiles", "create", "oracle")]
-public record GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions : GcloudOptions
+public record GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     Database Migration Service connection profile for Oracle
+    /// </summary>
+    /// <param name="DatabaseService">database service for the oracle connection profile.</param>
+    /// <param name="Host">IP or hostname of the database. When `--psc-service-attachment` is also specified, this field value should be: 1. For Cloud SQL PSC enabled instance - the dns_name field (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.). 2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance.</param>
+    /// <param name="Port">Network port of the database.</param>
+    /// <param name="Username">Username that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it.</param>
+    /// <param name="ConnectionProfile">Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions(
+        string DatabaseService,
+        string Host,
+        string Port,
+        string Username,
+        string ConnectionProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseService);
+        this.DatabaseService = DatabaseService;
+        global::System.ArgumentNullException.ThrowIfNull(Host);
+        this.Host = Host;
+        global::System.ArgumentNullException.ThrowIfNull(Port);
+        this.Port = Port;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionProfile);
+        this.ConnectionProfile = ConnectionProfile;
+    }
+
+    public void Deconstruct(out string DatabaseService, out string Host, out string Port, out string Username, out string ConnectionProfile)
+    {
+        DatabaseService = this.DatabaseService;
+        Host = this.Host;
+        Port = this.Port;
+        Username = this.Username;
+        ConnectionProfile = this.ConnectionProfile;
+    }
+
+    /// <summary>
+    /// database service for the oracle connection profile.
+    /// </summary>
+    [CliOption("--database-service", Format = OptionFormat.EqualsSeparated)]
+    public string DatabaseService { get; private init; }
+
+    /// <summary>
+    /// IP or hostname of the database. When `--psc-service-attachment` is also specified, this field value should be: 1. For Cloud SQL PSC enabled instance - the dns_name field (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.). 2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance.
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string Host { get; private init; }
+
+    /// <summary>
+    /// Network port of the database.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string Port { get; private init; }
+
+    /// <summary>
+    /// Username that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it.
+    /// </summary>
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    public string Username { get; private init; }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the connection_profile. To set the region attribute: ▸ provide the argument connection_profile on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Password for the user that Database Migration Service uses to connect to the database. Database Migration Service encrypts the value when storing it, and the field is not returned on request.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Prompt for the password used to connect to the database.
+    /// </summary>
+    [CliFlag("--prompt-for-password")]
+    public bool? PromptForPassword { get; set; }
+
+    /// <summary>
+    /// Waits for the operation in progress to complete before returning.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// x509 PEM-encoded certificate of the CA that signed the database server's certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service will use this certificate to verify it's connecting to the correct host. Database Migration Service encrypts the value when storing it.
+    /// </summary>
+    [CliOption("--ca-certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? CaCertificate { get; set; }
+
+    /// <summary>
+    /// A user-friendly name for the connection profile. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The role of the connection profile. ROLE must be one of: SOURCE, DESTINATION.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDatabaseMigrationConnectionProfilesCreateOracleRole? Role { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute:
+    /// </summary>
+    [CliOption("--private-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateConnection { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ▸ provide the argument --private-connection on the command line. use static ip connectivity
+    /// </summary>
+    [CliFlag("--static-ip-connectivity")]
+    public bool? StaticIpConnectivity { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Hostname for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--forward-ssh-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshHostname { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Username for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--forward-ssh-username", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshUsername { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Port for the SSH tunnel, default value is 22.
+    /// </summary>
+    [CliOption("--forward-ssh-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPort { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH password.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--forward-ssh-password", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH private key..
+    /// </summary>
+    [SecretValue]
+    [CliOption("--forward-ssh-private-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPrivateKey { get; set; }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectionProfile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Password) ? 1 : 0) + (PromptForPassword == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Password or PromptForPassword must be specified.", [nameof(Password), nameof(PromptForPassword)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(PrivateConnection)) ? 1 : 0) + ((StaticIpConnectivity == true || !string.IsNullOrWhiteSpace(ForwardSshHostname) || !string.IsNullOrWhiteSpace(ForwardSshUsername) || !string.IsNullOrWhiteSpace(ForwardSshPort) || !string.IsNullOrWhiteSpace(ForwardSshPassword) || !string.IsNullOrWhiteSpace(ForwardSshPrivateKey)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (PrivateConnection) or (StaticIpConnectivity, ForwardSshHostname, ForwardSshUsername, ForwardSshPort, ForwardSshPassword, or ForwardSshPrivateKey) may be specified.", [nameof(PrivateConnection), nameof(StaticIpConnectivity), nameof(ForwardSshHostname), nameof(ForwardSshUsername), nameof(ForwardSshPort), nameof(ForwardSshPassword), nameof(ForwardSshPrivateKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PrivateConnection) || StaticIpConnectivity == true || !string.IsNullOrWhiteSpace(ForwardSshHostname) || !string.IsNullOrWhiteSpace(ForwardSshUsername) || !string.IsNullOrWhiteSpace(ForwardSshPort) || !string.IsNullOrWhiteSpace(ForwardSshPassword) || !string.IsNullOrWhiteSpace(ForwardSshPrivateKey)) && (StaticIpConnectivity == true || !string.IsNullOrWhiteSpace(ForwardSshHostname) || !string.IsNullOrWhiteSpace(ForwardSshUsername) || !string.IsNullOrWhiteSpace(ForwardSshPort) || !string.IsNullOrWhiteSpace(ForwardSshPassword) || !string.IsNullOrWhiteSpace(ForwardSshPrivateKey)) && (!string.IsNullOrWhiteSpace(ForwardSshHostname) || !string.IsNullOrWhiteSpace(ForwardSshUsername) || !string.IsNullOrWhiteSpace(ForwardSshPort) || !string.IsNullOrWhiteSpace(ForwardSshPassword) || !string.IsNullOrWhiteSpace(ForwardSshPrivateKey)) && ((!string.IsNullOrWhiteSpace(ForwardSshPassword) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ForwardSshPrivateKey) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ForwardSshPassword or ForwardSshPrivateKey may be specified.", [nameof(ForwardSshPassword), nameof(ForwardSshPrivateKey)]);
+        }
+        yield break;
+    }
+
 }

@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "resources", "describe")]
-public record GcloudDeploymentManagerResourcesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
-) : GcloudOptions
+public record GcloudDeploymentManagerResourcesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// provide information about a     resource
+    /// </summary>
+    /// <param name="Resource">Resource name.</param>
+    public GcloudDeploymentManagerResourcesDescribeOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
     /// <summary>
     /// Deployment name
     /// </summary>
     [CliOption("--deployment", Format = OptionFormat.EqualsSeparated)]
     public string? Deployment { get; set; }
+
+    /// <summary>
+    /// Resource name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
 
 }

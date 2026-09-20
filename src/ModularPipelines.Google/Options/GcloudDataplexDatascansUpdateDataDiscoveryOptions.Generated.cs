@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "datascans", "update", "data-discovery")]
-public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions
+public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Dataplex data     discovery scan job
+    /// </summary>
+    /// <param name="Datascan">Datascan resource - Arguments and flags that define the Dataplex datascan you want to update a data discovery scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the dataScans attribute: ▸ provide the argument datascan on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexDatascansUpdateDataDiscoveryOptions(
+        string Datascan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datascan);
+        this.Datascan = Datascan;
+    }
+
+    public void Deconstruct(out string Datascan)
+    {
+        Datascan = this.Datascan;
+    }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex datascan you want to update a data discovery scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument datascan on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Description of the data discovery scan
     /// </summary>
@@ -35,9 +59,9 @@ public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -77,15 +101,15 @@ public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions
     public string? BigqueryPublishingTableType { get; set; }
 
     /// <summary>
-    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to exclude during discovery. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket. Exclude patterns will be applied before include patterns.
+    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to exclude during discovery. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket. Exclude patterns will be applied before include patterns. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--storage-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--storage-exclude-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? StorageExcludePatterns { get; set; }
 
     /// <summary>
-    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to include during discovery when only a subset of the data should be considered. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket.
+    /// Storage config arguments for the data discovery scan. List of patterns that identify the data to include during discovery when only a subset of the data should be considered. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--storage-include-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--storage-include-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? StorageIncludePatterns { get; set; }
 
     /// <summary>
@@ -141,5 +165,25 @@ public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions
     /// </summary>
     [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
     public string? Schedule { get; set; }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex datascan you want to update a data discovery scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the dataScans attribute: ▸ provide the argument datascan on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Datascan { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Async == true ? 1 : 0) + (ValidateOnly == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or ValidateOnly may be specified.", [nameof(Async), nameof(ValidateOnly)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OnDemand) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Schedule) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of OnDemand or Schedule may be specified.", [nameof(OnDemand), nameof(Schedule)]);
+        }
+        yield break;
+    }
 
 }

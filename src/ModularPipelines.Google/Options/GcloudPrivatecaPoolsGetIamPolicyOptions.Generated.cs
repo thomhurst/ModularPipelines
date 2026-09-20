@@ -19,8 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "pools", "get-iam-policy")]
-public record GcloudPrivatecaPoolsGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ca
-) : GcloudOptions
+public record GcloudPrivatecaPoolsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a CA pool
+    /// </summary>
+    /// <param name="Pool">CA Pool resource - The CA pool for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CA Pool or fully qualified identifier for the CA Pool. To set the pool attribute: ▸ provide the argument pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaPoolsGetIamPolicyOptions(
+        string Pool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pool);
+        this.Pool = Pool;
+    }
+
+    public void Deconstruct(out string Pool)
+    {
+        Pool = this.Pool;
+    }
+
+    /// <summary>
+    /// CA Pool resource - The CA pool for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CA Pool. To set the location attribute: ▸ provide the argument pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CA Pool resource - The CA pool for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CA Pool or fully qualified identifier for the CA Pool. To set the pool attribute: ▸ provide the argument pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Pool { get; private init; }
+
 }

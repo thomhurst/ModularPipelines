@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,38 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "indexes", "fields", "describe")]
-public record GcloudFirestoreIndexesFieldsDescribeOptions : GcloudOptions
+public record GcloudFirestoreIndexesFieldsDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Field resource - Field to describe. This can be omitted to describe the database-wide default index settings. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Collection group of the field. To set the collection-group attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ with a fully specified name; ◆ provide the argument --collection-group on the command line; ◆ .
+    /// </summary>
+    [CliOption("--collection-group", Format = OptionFormat.EqualsSeparated)]
+    public string? CollectionGroup { get; set; }
+
+    /// <summary>
+    /// Field resource - Field to describe. This can be omitted to describe the database-wide default index settings. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Database of the field. To set the database attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ with a fully specified name; ◆ provide the argument --database on the command line; ◆ the default value of argument [--database] is (default).
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Field resource - Field to describe. This can be omitted to describe the database-wide default index settings. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the field or fully qualified identifier for the field. To set the field attribute: ◆ provide the argument field on the command line; ◆ .
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Field { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Field) || !string.IsNullOrWhiteSpace(CollectionGroup) || !string.IsNullOrWhiteSpace(Database)) && (!(!string.IsNullOrWhiteSpace(CollectionGroup))))
+        {
+            yield return new ValidationResult("CollectionGroup must be specified when other arguments in this group are specified.", [nameof(CollectionGroup)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Field) || !string.IsNullOrWhiteSpace(CollectionGroup) || !string.IsNullOrWhiteSpace(Database)) && (!(!string.IsNullOrWhiteSpace(Database))))
+        {
+            yield return new ValidationResult("Database must be specified when other arguments in this group are specified.", [nameof(Database)]);
+        }
+        yield break;
+    }
+
 }

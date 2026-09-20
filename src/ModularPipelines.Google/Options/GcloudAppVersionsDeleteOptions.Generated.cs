@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "versions", "delete")]
-public record GcloudAppVersionsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Versions
-) : GcloudOptions
+public record GcloudAppVersionsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a specified version
+    /// </summary>
+    /// <param name="Versions">The versions to delete (optionally filtered by the --service flag).</param>
+    public GcloudAppVersionsDeleteOptions(
+        IEnumerable<string> Versions
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Versions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Versions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Versions));
+            }
+
+            Versions = materialized;
+        }
+        this.Versions = Versions;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Versions)
+    {
+        Versions = this.Versions;
+    }
+
     /// <summary>
     /// If specified, only delete versions from the given service.
     /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
+
+    /// <summary>
+    /// The versions to delete (optionally filtered by the --service flag).
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Versions { get; private init; }
 
 }

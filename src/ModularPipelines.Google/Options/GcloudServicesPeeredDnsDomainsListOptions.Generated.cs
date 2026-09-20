@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("services", "peered-dns-domains", "list")]
 public record GcloudServicesPeeredDnsDomainsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list the peered DNS domains for a     private service connection
+    /// </summary>
+    /// <param name="Network">Network in the consumer project peered with the service.</param>
+    public GcloudServicesPeeredDnsDomainsListOptions(
+        string Network
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out string Network)
+    {
+        Network = this.Network;
+    }
+
+    /// <summary>
+    /// Network in the consumer project peered with the service.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Name of the service to list the peered DNS domains for.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
 }

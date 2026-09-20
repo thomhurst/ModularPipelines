@@ -19,8 +19,100 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "peerings", "update")]
-public record GcloudComputeNetworksPeeringsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworksPeeringsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute Engine network     peering
+    /// </summary>
+    /// <param name="Network">The name of the network in the current project to be peered with the peer network.</param>
+    /// <param name="Name">The name of the peering.</param>
+    public GcloudComputeNetworksPeeringsUpdateOptions(
+        string Network,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Network, out string Name)
+    {
+        Network = this.Network;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the network in the current project to be peered with the peer network.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// If set, the network will export custom routes to peer network. Use --no-export-custom-routes to disable it.
+    /// </summary>
+    [CliFlag("--export-custom-routes")]
+    public bool? ExportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// Negates --export-custom-routes. If set, the network will export custom routes to peer network. Use --no-export-custom-routes to disable it.
+    /// </summary>
+    [CliFlag("--no-export-custom-routes")]
+    public bool? NoExportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// If set, the network will export subnet routes with addresses in the public IP ranges to peer network. Use --no-export-subnet-routes-with-public-ip to disable it.
+    /// </summary>
+    [CliFlag("--export-subnet-routes-with-public-ip")]
+    public bool? ExportSubnetRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// Negates --export-subnet-routes-with-public-ip. If set, the network will export subnet routes with addresses in the public IP ranges to peer network. Use --no-export-subnet-routes-with-public-ip to disable it.
+    /// </summary>
+    [CliFlag("--no-export-subnet-routes-with-public-ip")]
+    public bool? NoExportSubnetRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// If set, the network will import custom routes from peer network. Use --no-import-custom-routes to disable it.
+    /// </summary>
+    [CliFlag("--import-custom-routes")]
+    public bool? ImportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// Negates --import-custom-routes. If set, the network will import custom routes from peer network. Use --no-import-custom-routes to disable it.
+    /// </summary>
+    [CliFlag("--no-import-custom-routes")]
+    public bool? NoImportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// If set, the network will import subnet routes with addresses in the public IP ranges from peer network. Use --no-import-subnet-routes-with-public-ip to disable it.
+    /// </summary>
+    [CliFlag("--import-subnet-routes-with-public-ip")]
+    public bool? ImportSubnetRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// Negates --import-subnet-routes-with-public-ip. If set, the network will import subnet routes with addresses in the public IP ranges from peer network. Use --no-import-subnet-routes-with-public-ip to disable it.
+    /// </summary>
+    [CliFlag("--no-import-subnet-routes-with-public-ip")]
+    public bool? NoImportSubnetRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// Stack type of the peering. If not specified, defaults to IPV4_ONLY. STACK_TYPE must be one of: IPV4_ONLY Only IPv4 traffic and routes will be exchanged across this peering. IPV4_IPV6 IPv4 traffic and routes will be exchanged across this peering. IPv6 traffic and routes will be exchanged if the matching peering configuration also has stack_type set to IPV4_IPV6.
+    /// </summary>
+    [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
+    public string? StackType { get; set; }
+
+    /// <summary>
+    /// Update strategy of the peering. If not specified, defaults to INDEPENDENT. UPDATE_STRATEGY must be one of: INDEPENDENT Updates and deletes to the peering connection can be performed by either network admin. CONSENSUS Updates and deletes to the peering connection must be agreed upon by both network admins.
+    /// </summary>
+    [CliOption("--update-strategy", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateStrategy { get; set; }
+
+    /// <summary>
+    /// The name of the peering.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

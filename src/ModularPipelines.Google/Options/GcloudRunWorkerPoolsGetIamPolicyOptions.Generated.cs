@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("run", "worker-pools", "get-iam-policy")]
 public record GcloudRunWorkerPoolsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a Cloud Run     worker pool
+    /// </summary>
+    /// <param name="Workerpool">Workerpool resource - The worker pool for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workerpool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workerpool or fully qualified identifier for the workerpool. To set the workerpool attribute: ▸ provide the argument workerpool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRunWorkerPoolsGetIamPolicyOptions(
+        string Workerpool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Workerpool);
+        this.Workerpool = Workerpool;
+    }
+
+    public void Deconstruct(out string Workerpool)
+    {
+        Workerpool = this.Workerpool;
+    }
+
+    /// <summary>
+    /// Workerpool resource - The worker pool for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workerpool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Run region. To set the region attribute: ▸ provide the argument workerpool on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property run/region; ▸ specify from a list of available regions in a prompt.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Workerpool resource - The worker pool for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workerpool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workerpool or fully qualified identifier for the workerpool. To set the workerpool attribute: ▸ provide the argument workerpool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Workerpool { get; private init; }
+
 }

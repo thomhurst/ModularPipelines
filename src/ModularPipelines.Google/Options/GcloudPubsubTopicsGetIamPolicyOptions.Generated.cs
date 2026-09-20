@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "topics", "get-iam-policy")]
 public record GcloudPubsubTopicsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a Cloud     Pub/Sub Topic
+    /// </summary>
+    /// <param name="Topic">Topic resource - Name of the topic to get the IAM policy of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line.</param>
+    public GcloudPubsubTopicsGetIamPolicyOptions(
+        string Topic
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Topic);
+        this.Topic = Topic;
+    }
+
+    public void Deconstruct(out string Topic)
+    {
+        Topic = this.Topic;
+    }
+
+    /// <summary>
+    /// Topic resource - Name of the topic to get the IAM policy of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Topic { get; private init; }
+
 }

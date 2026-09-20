@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "migrations", "start")]
-public record GcloudMetastoreServicesMigrationsStartOptions : GcloudOptions
+public record GcloudMetastoreServicesMigrationsStartOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// start the migration from a     Dataproc Metastore service to Lakehouse runtime catalog(s)
+    /// </summary>
+    /// <param name="Service">Service resource - Dataproc Metastore service to start the migration on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreServicesMigrationsStartOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// Service resource - Dataproc Metastore service to start the migration on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataproc Metastore service. If not specified, will use default metastore/location. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -64,10 +88,32 @@ public record GcloudMetastoreServicesMigrationsStartOptions : GcloudOptions
     public string? HiveCatalog { get; set; }
 
     /// <summary>
-    /// Configuration for migrating Hive tables to a BigLake Hive catalog. Comma-separated list of databases to migrate to the Hive catalog. Defaults to * (migrate all databases). Note: If Iceberg tables exist in these databases, they will only be migrated if --iceberg-catalog is also specified.
+    /// Configuration for migrating Hive tables to a BigLake Hive catalog. Comma-separated list of databases to migrate to the Hive catalog. Defaults to * (migrate all databases). Note: If Iceberg tables exist in these databases, they will only be migrated if --iceberg-catalog is also specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--hive-databases", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? HiveDatabases { get; set; }
+    [CliOption("--hive-databases", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? HiveDatabases
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __HiveDatabasesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __HiveDatabasesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog. Target catalog for migrated Iceberg metadata. Format: "projects/{project_id_or_number}/catalogs/{catalog_id}" This flag argument must be specified if any of the other arguments in this group are specified.
@@ -76,9 +122,51 @@ public record GcloudMetastoreServicesMigrationsStartOptions : GcloudOptions
     public string? IcebergCatalog { get; set; }
 
     /// <summary>
-    /// Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog. Comma-separated list of namespaces to migrate to the Iceberg REST catalog. Defaults to * (migrate all namespaces). Note: If Hive tables exist in these namespaces, they will only be migrated if --hive-catalog is also specified.
+    /// Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog. Comma-separated list of namespaces to migrate to the Iceberg REST catalog. Defaults to * (migrate all namespaces). Note: If Hive tables exist in these namespaces, they will only be migrated if --hive-catalog is also specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--iceberg-namespaces", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? IcebergNamespaces { get; set; }
+    [CliOption("--iceberg-namespaces", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IcebergNamespaces
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IcebergNamespacesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __IcebergNamespacesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Service resource - Dataproc Metastore service to start the migration on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(HiveCatalog) || ((object?)HiveDatabases is global::System.Collections.Generic.IEnumerable<char> ? (object?)HiveDatabases is not string || !string.IsNullOrWhiteSpace(HiveDatabases?.ToString()) : ((object?)HiveDatabases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)HiveDatabases, static item => item is not null) : (HiveDatabases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HiveDatabases), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(HiveCatalog))))
+        {
+            yield return new ValidationResult("HiveCatalog must be specified when other arguments in this group are specified.", [nameof(HiveCatalog)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(IcebergCatalog) || ((object?)IcebergNamespaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)IcebergNamespaces is not string || !string.IsNullOrWhiteSpace(IcebergNamespaces?.ToString()) : ((object?)IcebergNamespaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IcebergNamespaces, static item => item is not null) : (IcebergNamespaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IcebergNamespaces), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(IcebergCatalog))))
+        {
+            yield return new ValidationResult("IcebergCatalog must be specified when other arguments in this group are specified.", [nameof(IcebergCatalog)]);
+        }
+        yield break;
+    }
 
 }

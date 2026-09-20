@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// configs destinations     delete - delete a destination
+    /// </summary>
+    /// <param name="Destination">Destination resource - The name of the Destination resource to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the destination or fully qualified identifier for the destination. To set the destination attribute: ▸ provide the argument destination on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsDeleteOptions(
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Destination)
+    {
+        Destination = this.Destination;
+    }
+
+    /// <summary>
+    /// Destination resource - The name of the Destination resource to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the destination resource. To set the location attribute: ▸ provide the argument destination on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Destination resource - The name of the Destination resource to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The multicloudDataTransferConfig id of the destination resource. To set the multicloud-data-transfer-config attribute: ▸ provide the argument destination on the command line with a fully specified name; ▸ provide the argument --multicloud-data-transfer-config on the command line.
+    /// </summary>
+    [CliOption("--multicloud-data-transfer-config", Format = OptionFormat.EqualsSeparated)]
+    public string? MulticloudDataTransferConfig { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -38,5 +67,11 @@ public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Destination resource - The name of the Destination resource to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the destination or fully qualified identifier for the destination. To set the destination attribute: ▸ provide the argument destination on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
 
 }

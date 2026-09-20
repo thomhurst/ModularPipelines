@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "describe")]
-public record GcloudTasksDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Task
-) : GcloudOptions
+public record GcloudTasksDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about a task
+    /// </summary>
+    /// <param name="Task">The task to describe.</param>
+    public GcloudTasksDescribeOptions(
+        string Task
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Task);
+        this.Task = Task;
+    }
+
+    public void Deconstruct(out string Task)
+    {
+        Task = this.Task;
+    }
+
     /// <summary>
     /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
     /// </summary>
@@ -40,6 +55,12 @@ public record GcloudTasksDescribeOptions(
     /// Task response view. RESPONSE_VIEW must be one of: basic, full, view-unspecified.
     /// </summary>
     [CliOption("--response-view", Format = OptionFormat.EqualsSeparated)]
-    public GcloudResponseView? ResponseView { get; set; }
+    public GcloudTasksDescribeResponseView? ResponseView { get; set; }
+
+    /// <summary>
+    /// The task to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Task { get; private init; }
 
 }

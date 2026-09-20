@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("projects", "undelete")]
-public record GcloudProjectsUndeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectIdOrNumber
-) : GcloudOptions
+public record GcloudProjectsUndeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// undelete a project
+    /// </summary>
+    /// <param name="ProjectIdOrNumber">ID or number for the project you want to undelete.</param>
+    public GcloudProjectsUndeleteOptions(
+        string ProjectIdOrNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectIdOrNumber);
+        this.ProjectIdOrNumber = ProjectIdOrNumber;
+    }
+
+    public void Deconstruct(out string ProjectIdOrNumber)
+    {
+        ProjectIdOrNumber = this.ProjectIdOrNumber;
+    }
+
+    /// <summary>
+    /// ID or number for the project you want to undelete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectIdOrNumber { get; private init; }
+
 }

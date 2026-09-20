@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "samples", "workload")]
-public record GcloudSpannerSamplesWorkloadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Appname
-) : GcloudOptions
+public record GcloudSpannerSamplesWorkloadOptions : GcloudOptions
 {
+    /// <summary>
+    /// generate gRPC traffic for a given sample     app's backend service
+    /// </summary>
+    /// <param name="Appname">The sample app name, e.g. "finance".</param>
+    public GcloudSpannerSamplesWorkloadOptions(
+        string Appname
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Appname);
+        this.Appname = Appname;
+    }
+
+    public void Deconstruct(out string Appname)
+    {
+        Appname = this.Appname;
+    }
+
     /// <summary>
     /// Duration of time allowed to run before stopping the workload.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudSpannerSamplesWorkloadOptions(
     /// </summary>
     [CliOption("--target-qps", Format = OptionFormat.EqualsSeparated)]
     public string? TargetQps { get; set; }
+
+    /// <summary>
+    /// The sample app name, e.g. "finance".
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Appname { get; private init; }
 
 }

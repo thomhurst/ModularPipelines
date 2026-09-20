@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,75 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "releases", "promote")]
 public record GcloudDeployReleasesPromoteOptions : GcloudOptions
 {
+    /// <summary>
+    /// promotes a release from one target     (source), to another (destination)
+    /// </summary>
+    /// <param name="Release">Release resource - The name of the Release. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the release or fully qualified identifier for the release. To set the release attribute: ▸ provide the argument --release on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployReleasesPromoteOptions(
+        string Release
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Release);
+        this.Release = Release;
+    }
+
+    public void Deconstruct(out string Release)
+    {
+        Release = this.Release;
+    }
+
+    /// <summary>
+    /// Release resource - The name of the Release. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the release or fully qualified identifier for the release. To set the release attribute: ▸ provide the argument --release on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--release", Format = OptionFormat.EqualsSeparated)]
+    public string Release { get; private init; }
+
+    /// <summary>
+    /// Release resource - The name of the Release. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The delivery pipeline associated with the release. Alternatively, set the property [deploy/delivery-pipeline]. To set the delivery-pipeline attribute: ▸ provide the argument --release on the command line with a fully specified name; ▸ provide the argument --delivery-pipeline on the command line; ▸ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Release resource - The name of the Release. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the release. Alternatively, set the property [deploy/region]. To set the region attribute: ▸ provide the argument --release on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Annotations to apply to the rollout. Annotations take the form of key/value string pairs. Examples: Add annotations: $ gcloud deploy releases promote \ --annotations="from_target=test,status=stable" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Labels to apply to the rollout. Labels take the form of key/value string pairs. Examples: Add labels: $ gcloud deploy releases promote --labels="commit=abc123,author=foo" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Deploy policies to override Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? OverrideDeployPolicies { get; set; }
+
+    /// <summary>
+    /// ID to assign to the generated rollout for promotion.
+    /// </summary>
+    [CliOption("--rollout-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RolloutId { get; set; }
+
+    /// <summary>
+    /// If set, starts the created rollout at the specified phase. Start rollout at stable phase: $ gcloud deploy releases promote --starting-phase-id=stable
+    /// </summary>
+    [CliOption("--starting-phase-id", Format = OptionFormat.EqualsSeparated)]
+    public string? StartingPhaseId { get; set; }
+
+    /// <summary>
+    /// Destination target to promote into.
+    /// </summary>
+    [CliOption("--to-target", Format = OptionFormat.EqualsSeparated)]
+    public string? ToTarget { get; set; }
+
 }

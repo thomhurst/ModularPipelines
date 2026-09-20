@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "get-named-set")]
-public record GcloudComputeRoutersGetNamedSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeRoutersGetNamedSetOptions : GcloudOptions
 {
+    /// <summary>
+    /// get a named set from a Compute     Engine router
+    /// </summary>
+    /// <param name="SetName">Name of the named set to get.</param>
+    /// <param name="Name">Name of the router to get the named set from.</param>
+    public GcloudComputeRoutersGetNamedSetOptions(
+        string SetName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SetName);
+        this.SetName = SetName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string SetName, out string Name)
+    {
+        SetName = this.SetName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the named set to get.
+    /// </summary>
+    [CliOption("--set-name", Format = OptionFormat.EqualsSeparated)]
+    public string SetName { get; private init; }
+
+    /// <summary>
+    /// Region of the router to get the named set from. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the router to get the named set from.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

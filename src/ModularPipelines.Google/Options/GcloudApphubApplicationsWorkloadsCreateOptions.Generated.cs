@@ -21,4 +21,98 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apphub", "applications", "workloads", "create")]
 public record GcloudApphubApplicationsWorkloadsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an Apphub application     workload
+    /// </summary>
+    /// <param name="DiscoveredWorkload">DiscoveredWorkload resource - The discovered workload resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --discovered-workload on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --discovered-workload on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the discoveredWorkload or fully qualified identifier for the discoveredWorkload. To set the discovered_workload attribute: ▸ provide the argument --discovered-workload on the command line.</param>
+    /// <param name="Workload">Workload resource - The Workload resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKLOAD on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload or fully qualified identifier for the workload. To set the workload attribute: ▸ provide the argument WORKLOAD on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApphubApplicationsWorkloadsCreateOptions(
+        string DiscoveredWorkload,
+        string Workload
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiscoveredWorkload);
+        this.DiscoveredWorkload = DiscoveredWorkload;
+        global::System.ArgumentNullException.ThrowIfNull(Workload);
+        this.Workload = Workload;
+    }
+
+    public void Deconstruct(out string DiscoveredWorkload, out string Workload)
+    {
+        DiscoveredWorkload = this.DiscoveredWorkload;
+        Workload = this.Workload;
+    }
+
+    /// <summary>
+    /// DiscoveredWorkload resource - The discovered workload resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --discovered-workload on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --discovered-workload on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the discoveredWorkload or fully qualified identifier for the discoveredWorkload. To set the discovered_workload attribute: ▸ provide the argument --discovered-workload on the command line.
+    /// </summary>
+    [CliOption("--discovered-workload", Format = OptionFormat.EqualsSeparated)]
+    public string DiscoveredWorkload { get; private init; }
+
+    /// <summary>
+    /// Workload resource - The Workload resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKLOAD on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name for the application To set the application attribute: ▸ provide the argument WORKLOAD on the command line with a fully specified name; ▸ provide the argument --application on the command line.
+    /// </summary>
+    [CliOption("--application", Format = OptionFormat.EqualsSeparated)]
+    public string? Application { get; set; }
+
+    /// <summary>
+    /// Workload resource - The Workload resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKLOAD on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the workload. To set the location attribute: ▸ provide the argument WORKLOAD on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Business owners of the workload
+    /// </summary>
+    [CliOption("--business-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? BusinessOwners { get; set; }
+
+    /// <summary>
+    /// Criticality Type of the workload. CRITICALITY_TYPE must be one of: HIGH High impact LOW Low impact MEDIUM Medium impact MISSION_CRITICAL Mission critical service, application or workload TYPE_UNSPECIFIED Unspecified criticality type
+    /// </summary>
+    [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityType { get; set; }
+
+    /// <summary>
+    /// Description of the Workload
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Developer owners of the workload
+    /// </summary>
+    [CliOption("--developer-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperOwners { get; set; }
+
+    /// <summary>
+    /// Human-friendly display name
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Environment Type of the workload. ENVIRONMENT_TYPE must be one of: DEVELOPMENT Development environment PRODUCTION Production environment STAGING Staging environment TEST Test environment TYPE_UNSPECIFIED Unspecified environment type
+    /// </summary>
+    [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvironmentType { get; set; }
+
+    /// <summary>
+    /// Operator owners of the workload
+    /// </summary>
+    [CliOption("--operator-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? OperatorOwners { get; set; }
+
+    /// <summary>
+    /// Workload resource - The Workload resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKLOAD on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload or fully qualified identifier for the workload. To set the workload attribute: ▸ provide the argument WORKLOAD on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Workload { get; private init; }
+
 }

@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
-public record GcloudConfigSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Section
-) : GcloudOptions
+public record GcloudConfigSetOptions : GcloudOptions
 {
+    /// <summary>
+    /// set a Google Cloud CLI property
+    /// </summary>
+    /// <param name="SectionOrProperty">Property to be set. Note that SECTION/ is optional while referring to properties in the core section, i.e., using either core/project or project is a valid way of setting a project. Using section names is required for setting other properties like compute/region. Consult the Available Properties section below for a comprehensive list of properties.</param>
+    /// <param name="Value">Value to be set.</param>
+    public GcloudConfigSetOptions(
+        string SectionOrProperty,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SectionOrProperty);
+        this.SectionOrProperty = SectionOrProperty;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string SectionOrProperty, out string Value)
+    {
+        SectionOrProperty = this.SectionOrProperty;
+        Value = this.Value;
+    }
+
     /// <summary>
     /// If set, the property is updated for the entire Google Cloud CLI installation. Otherwise, by default, the property is updated only in the currently active configuration.
     /// </summary>
     [CliFlag("--installation")]
     public bool? Installation { get; set; }
+
+    /// <summary>
+    /// Property to be set. Note that SECTION/ is optional while referring to properties in the core section, i.e., using either core/project or project is a valid way of setting a project. Using section names is required for setting other properties like compute/region. Consult the Available Properties section below for a comprehensive list of properties.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SectionOrProperty { get; private init; }
+
+    /// <summary>
+    /// Value to be set.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Value { get; private init; }
 
 }

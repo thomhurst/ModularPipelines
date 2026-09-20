@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compliance-manager", "cloud-controls", "delete")]
 public record GcloudComplianceManagerCloudControlsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a cloud control
+    /// </summary>
+    /// <param name="CloudControl">CloudControl resource - The name of the cloud control to delete, in one of the following formats: organizations/{organization}/locations/{location}/CloudControls/{CloudControl} or projects/{project}/locations/{location}/CloudControls/{CloudControl}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControls, cloudsecuritycompliance.projects.locations.cloudControls]. This must be specified. ID of the cloudControl or fully qualified identifier for the cloudControl. To set the cloud_control attribute: ▸ provide the argument cloud_control on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComplianceManagerCloudControlsDeleteOptions(
+        string CloudControl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudControl);
+        this.CloudControl = CloudControl;
+    }
+
+    public void Deconstruct(out string CloudControl)
+    {
+        CloudControl = this.CloudControl;
+    }
+
+    /// <summary>
+    /// CloudControl resource - The name of the cloud control to delete, in one of the following formats: organizations/{organization}/locations/{location}/CloudControls/{CloudControl} or projects/{project}/locations/{location}/CloudControls/{CloudControl}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControls, cloudsecuritycompliance.projects.locations.cloudControls]. This must be specified. The location id of the cloudControl resource. To set the location attribute: ▸ provide the argument cloud_control on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CloudControl resource - The name of the cloud control to delete, in one of the following formats: organizations/{organization}/locations/{location}/CloudControls/{CloudControl} or projects/{project}/locations/{location}/CloudControls/{CloudControl}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControls, cloudsecuritycompliance.projects.locations.cloudControls]. This must be specified. The organization id of the cloudControl resource. To set the organization attribute: ▸ provide the argument cloud_control on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [cloudsecuritycompliance.organizations.locations.cloudControls].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// CloudControl resource - The name of the cloud control to delete, in one of the following formats: organizations/{organization}/locations/{location}/CloudControls/{CloudControl} or projects/{project}/locations/{location}/CloudControls/{CloudControl}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControls, cloudsecuritycompliance.projects.locations.cloudControls]. This must be specified. ID of the cloudControl or fully qualified identifier for the cloudControl. To set the cloud_control attribute: ▸ provide the argument cloud_control on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CloudControl { get; private init; }
+
 }

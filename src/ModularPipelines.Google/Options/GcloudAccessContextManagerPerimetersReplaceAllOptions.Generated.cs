@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "perimeters", "replace-all")]
 public record GcloudAccessContextManagerPerimetersReplaceAllOptions : GcloudOptions
 {
+    /// <summary>
+    /// replace all existing     service perimeters
+    /// </summary>
+    /// <param name="SourceFile">Path to a file containing a list of service perimeters. An service perimeter file is a YAML-formatted list of service perimeters, which are YAML objects representing a Condition as described in the API reference. For example: - name: my_perimeter title: My Perimeter description: Perimeter for foo. perimeterType: PERIMETER_TYPE_REGULAR status: resources: - projects/0123456789 accessLevels: - accessPolicies/my_policy/accessLevels/my_level restrictedServices: - storage.googleapis.com For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For other versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters</param>
+    public GcloudAccessContextManagerPerimetersReplaceAllOptions(
+        string SourceFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceFile);
+        this.SourceFile = SourceFile;
+    }
+
+    public void Deconstruct(out string SourceFile)
+    {
+        SourceFile = this.SourceFile;
+    }
+
+    /// <summary>
+    /// Path to a file containing a list of service perimeters. An service perimeter file is a YAML-formatted list of service perimeters, which are YAML objects representing a Condition as described in the API reference. For example: - name: my_perimeter title: My Perimeter description: Perimeter for foo. perimeterType: PERIMETER_TYPE_REGULAR status: resources: - projects/0123456789 accessLevels: - accessPolicies/my_policy/accessLevels/my_level restrictedServices: - storage.googleapis.com For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For other versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--source-file", Format = OptionFormat.EqualsSeparated)]
+    public string SourceFile { get; private init; }
+
+    /// <summary>
+    /// An etag which specifies the version of the Access Policy. Only etags that represent the latest version of the Access Policy will be accepted.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// Policy resource - The access policy that contains the perimeters you want to replace. This represents a Cloud resource. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ◆ provide the argument policy on the command line; ◆ set the property access_context_manager/policy; ◆ automatically, if the current account belongs to an organization with exactly one access policy..
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Policy { get; set; }
+
 }

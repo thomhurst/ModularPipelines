@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("certificate-manager", "maps", "describe")]
 public record GcloudCertificateManagerMapsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an existing certificate     map
+    /// </summary>
+    /// <param name="Map">Certificate map resource - The certificate map to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument map on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificate map or fully qualified identifier for the certificate map. To set the map attribute: ▸ provide the argument map on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudCertificateManagerMapsDescribeOptions(
+        string Map
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Map);
+        this.Map = Map;
+    }
+
+    public void Deconstruct(out string Map)
+    {
+        Map = this.Map;
+    }
+
+    /// <summary>
+    /// Certificate map resource - The certificate map to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument map on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the certificate map. To set the location attribute: ▸ provide the argument map on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ default value of location is [global].
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Certificate map resource - The certificate map to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument map on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificate map or fully qualified identifier for the certificate map. To set the map attribute: ▸ provide the argument map on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Map { get; private init; }
+
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "hub", "rolloutsequences", "describe")]
 public record GcloudContainerHubRolloutsequencesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a rollout     sequence
+    /// </summary>
+    /// <param name="Rolloutsequence">RolloutSequence resource - The group of arguments defining a Rollout Sequence. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rolloutSequence or fully qualified identifier for the rolloutSequence. To set the rollout_sequence attribute: ▸ provide the argument rolloutSequence on the command line.</param>
+    public GcloudContainerHubRolloutsequencesDescribeOptions(
+        string Rolloutsequence
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rolloutsequence);
+        this.Rolloutsequence = Rolloutsequence;
+    }
+
+    public void Deconstruct(out string Rolloutsequence)
+    {
+        Rolloutsequence = this.Rolloutsequence;
+    }
+
+    /// <summary>
+    /// RolloutSequence resource - The group of arguments defining a Rollout Sequence. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rolloutSequence or fully qualified identifier for the rolloutSequence. To set the rollout_sequence attribute: ▸ provide the argument rolloutSequence on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rolloutsequence { get; private init; }
+
 }

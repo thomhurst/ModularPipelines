@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorystore", "instances", "create")]
-public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions
+public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Memorystore instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - Identifier. Unique name of the instance. Format: projects/{project}/locations/{location}/instances/{instance} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.</param>
+    public GcloudMemorystoreInstancesCreateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// Arguments for the acl policy. AclPolicy resource - The ACL policy for the instance. Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --acl-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --acl-policy on the command line with a fully specified name; ◆ provide the argument --location on the command line. ID of the aclPolicy or fully qualified identifier for the aclPolicy. To set the acl-policy attribute: ◆ provide the argument --acl-policy on the command line.
     /// </summary>
@@ -40,61 +58,61 @@ public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions
     public bool? AsyncInstanceEndpointsDeletionEnabled { get; set; }
 
     /// <summary>
-    /// Arguments for the async instance endpoints deletion enabled. Authorization mode of the instance. AUTHORIZATION_MODE must be one of: auth-disabled Authorization disabled. iam-auth IAM basic authorization.
+    /// Arguments for the async instance endpoints deletion enabled. Authorization mode of the instance. AUTHORIZATION_MODE must be one of: auth-disabled Authorization disabled. iam-auth IAM basic authorization. token-auth Token based authorization.
     /// </summary>
     [CliOption("--authorization-mode", Format = OptionFormat.EqualsSeparated)]
     public string? AuthorizationMode { get; set; }
 
     /// <summary>
-    /// Arguments for the deletion protection enabled. If set to true deletion of the instance will fail.
+    /// Arguments for the deletion protection enabled. Maintenance policy per instance. If set to true deletion of the instance will fail.
     /// </summary>
     [CliFlag("--deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
-    /// Arguments for the deletion protection enabled. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscAutoConnection Detailed information of a PSC connection that is created through service connectivity automation. network The network where the PSC endpoints are created, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. projectId The consumer project_id where PSC connections are established. This should be the same project_id that the instance is being created in. Shorthand Example: --endpoints=connections=[{pscAutoConnection={network=string,port=int,projectId=string}}] --endpoints=connections=[{pscAutoConnection={network=string,port=int,projectId=string}}] JSON Example: --endpoints='[{"connections": [{"pscAutoConnection": {"network": "string", "port": int, "projectId": "string"}}]}]' File Example: --endpoints=path_to_file.(yaml|json)
+    /// Arguments for the deletion protection enabled. Maintenance policy per instance. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscAutoConnection Detailed information of a PSC connection that is created through service connectivity automation. network The network where the PSC endpoints are created, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. projectId The consumer project_id where PSC connections are established. This should be the same project_id that the instance is being created in. Shorthand Example: --endpoints=connections=[{pscAutoConnection={network=string,port=int,projectId=string}}] --endpoints=connections=[{pscAutoConnection={network=string,port=int,projectId=string}}] JSON Example: --endpoints='[{"connections": [{"pscAutoConnection": {"network": "string", "port": int, "projectId": "string"}}]}]' File Example: --endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
-    /// Arguments for the deletion protection enabled. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --engine-configs=string=string JSON Example: --engine-configs='{"string": "string"}' File Example: --engine-configs=path_to_file.(yaml|json)
+    /// Arguments for the deletion protection enabled. Maintenance policy per instance. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --engine-configs=string=string JSON Example: --engine-configs='{"string": "string"}' File Example: --engine-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--engine-configs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EngineConfigs { get; set; }
 
     /// <summary>
-    /// Arguments for the deletion protection enabled. Engine version of the instance.
+    /// Arguments for the deletion protection enabled. Maintenance policy per instance. Engine version of the instance.
     /// </summary>
     [CliOption("--engine-version", Format = OptionFormat.EqualsSeparated)]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// Arguments for the deletion protection enabled. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Arguments for the deletion protection enabled. Maintenance policy per instance. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Arguments for the deletion protection enabled. For resources [instance, acl-policy, kms-key, primary-instance, server-ca-pool], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// Arguments for the deletion protection enabled. Maintenance policy per instance. For resources [instance, acl-policy, kms-key, primary-instance, server-ca-pool], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Maintenance policy per instance. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-window=path_to_file.(yaml|json)
+    /// Arguments for the deletion protection enabled. Maintenance policy per instance. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--maintenance-policy-weekly-window", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MaintenancePolicyWeeklyWindow { get; set; }
 
     /// <summary>
-    /// Maintenance policy per instance. The mode config for the instance. MODE must be one of: cluster Instance is in cluster mode. cluster-disabled Cluster mode is disabled for the instance. standalone Deprecated: Use CLUSTER_DISABLED instead.
+    /// Arguments for the deletion protection enabled. Maintenance policy per instance. The mode config for the instance. MODE must be one of: cluster Instance is in cluster mode. cluster-disabled Cluster mode is disabled for the instance. standalone Deprecated: Use CLUSTER_DISABLED instead.
     /// </summary>
     [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
     public string? Mode { get; set; }
 
     /// <summary>
-    /// Maintenance policy per instance. Machine type for individual nodes of the instance. NODE_TYPE must be one of: custom-micro Custom micro. custom-mini Custom mini. custom-pico Custom pico. highcpu-medium High cpu medium. highmem-2xlarge High memory 2xlarge. highmem-medium High memory medium. highmem-xlarge High memory extra large. shared-core-nano Shared core nano. standard-large Standard large. standard-small Standard small.
+    /// Arguments for the deletion protection enabled. Maintenance policy per instance. Machine type for individual nodes of the instance. NODE_TYPE must be one of: custom-micro Custom micro. custom-mini Custom mini. custom-pico Custom pico. highcpu-medium High cpu medium. highmem-2xlarge High memory 2xlarge. highmem-medium High memory medium. highmem-xlarge High memory extra large. shared-core-nano Shared core nano. standard-large Standard large. standard-small Standard small.
     /// </summary>
     [CliOption("--node-type", Format = OptionFormat.EqualsSeparated)]
     public string? NodeType { get; set; }
@@ -148,88 +166,128 @@ public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions
     public int? ShardCount { get; set; }
 
     /// <summary>
-    /// Arguments for the simulate maintenance event. Simulate a maintenance event.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. Simulate a maintenance event.
     /// </summary>
     [CliFlag("--simulate-maintenance-event")]
     public bool? SimulateMaintenanceEvent { get; set; }
 
     /// <summary>
-    /// Arguments for the simulate maintenance event. In-transit encryption mode of the instance. TRANSIT_ENCRYPTION_MODE must be one of: server-authentication Server-managed encryption is used for in-transit encryption. transit-encryption-disabled In-transit encryption is disabled.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. In-transit encryption mode of the instance. TRANSIT_ENCRYPTION_MODE must be one of: server-authentication Server-managed encryption is used for in-transit encryption. transit-encryption-disabled In-transit encryption is disabled.
     /// </summary>
     [CliOption("--transit-encryption-mode", Format = OptionFormat.EqualsSeparated)]
     public string? TransitEncryptionMode { get; set; }
 
     /// <summary>
-    /// Represents persistence configuration for a instance. Configuration for AOF based persistence. The fsync mode. AOF_CONFIG_APPEND_FSYNC must be one of: always Fsync every time new write commands are appended to the AOF. The best data loss protection at the cost of performance. every-sec Fsync every second. You may lose 1 second of data if there is a disaster. never Never fsync. Normally Linux will flush data every 30 seconds with this configuration, but it's up to the kernel's exact tuning.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. The fsync mode. AOF_CONFIG_APPEND_FSYNC must be one of: always Fsync every time new write commands are appended to the AOF. The best data loss protection at the cost of performance. every-sec Fsync every second. You may lose 1 second of data if there is a disaster. never Never fsync. Normally Linux will flush data every 30 seconds with this configuration, but it's up to the kernel's exact tuning.
     /// </summary>
     [CliOption("--aof-config-append-fsync", Format = OptionFormat.EqualsSeparated)]
     public string? AofConfigAppendFsync { get; set; }
 
     /// <summary>
-    /// Represents persistence configuration for a instance. Configuration for AOF based persistence. Current persistence mode. PERSISTENCE_CONFIG_MODE must be one of: aof AOF based persistence is enabled. disabled Persistence is disabled, and any snapshot data is deleted. rdb RDB based persistence is enabled.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. Current persistence mode. PERSISTENCE_CONFIG_MODE must be one of: aof AOF based persistence is enabled. disabled Persistence is disabled, and any snapshot data is deleted. rdb RDB based persistence is enabled.
     /// </summary>
     [CliOption("--persistence-config-mode", Format = OptionFormat.EqualsSeparated)]
     public string? PersistenceConfigMode { get; set; }
 
     /// <summary>
-    /// Configuration for RDB based persistence. Period between RDB snapshots. RDB_CONFIG_SNAPSHOT_PERIOD must be one of: one-hour One hour. six-hours Six hours. twelve-hours Twelve hours. twenty-four-hours Twenty four hours.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. Period between RDB snapshots. RDB_CONFIG_SNAPSHOT_PERIOD must be one of: one-hour One hour. six-hours Six hours. twelve-hours Twelve hours. twenty-four-hours Twenty four hours.
     /// </summary>
     [CliOption("--rdb-config-snapshot-period", Format = OptionFormat.EqualsSeparated)]
     public string? RdbConfigSnapshotPeriod { get; set; }
 
     /// <summary>
-    /// Configuration for RDB based persistence. Time that the first snapshot was/will be attempted, and to which future snapshots will be aligned. If not provided, the current time will be used.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. Time that the first snapshot was/will be attempted, and to which future snapshots will be aligned. If not provided, the current time will be used.
     /// </summary>
     [CliOption("--rdb-config-snapshot-start-time", Format = OptionFormat.EqualsSeparated)]
     public string? RdbConfigSnapshotStartTime { get; set; }
 
     /// <summary>
-    /// The automated backup config for an instance. The automated backup mode. If the mode is disabled, the other fields will be ignored. AUTOMATED_BACKUP_CONFIG_MODE must be one of: disabled Automated backup config disabled. enabled Automated backup config enabled.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. The automated backup mode. If the mode is disabled, the other fields will be ignored. AUTOMATED_BACKUP_CONFIG_MODE must be one of: disabled Automated backup config disabled. enabled Automated backup config enabled.
     /// </summary>
     [CliOption("--automated-backup-config-mode", Format = OptionFormat.EqualsSeparated)]
     public string? AutomatedBackupConfigMode { get; set; }
 
     /// <summary>
-    /// The automated backup config for an instance. How long to keep automated backups before the backups are deleted. The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. How long to keep automated backups before the backups are deleted. The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
     /// </summary>
     [CliOption("--automated-backup-config-retention", Format = OptionFormat.EqualsSeparated)]
     public string? AutomatedBackupConfigRetention { get; set; }
 
     /// <summary>
-    /// The automated backup config for an instance. Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. At least one of these must be specified: Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. At least one of these must be specified: Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-hours", Format = OptionFormat.EqualsSeparated)]
     public string? FixedFrequencyScheduleStartTimeHours { get; set; }
 
     /// <summary>
-    /// The automated backup config for an instance. Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. At least one of these must be specified: Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. At least one of these must be specified: Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-minutes", Format = OptionFormat.EqualsSeparated)]
     public string? FixedFrequencyScheduleStartTimeMinutes { get; set; }
 
     /// <summary>
-    /// The automated backup config for an instance. Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. At least one of these must be specified: Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. At least one of these must be specified: Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-nanos", Format = OptionFormat.EqualsSeparated)]
     public string? FixedFrequencyScheduleStartTimeNanos { get; set; }
 
     /// <summary>
-    /// The automated backup config for an instance. Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. At least one of these must be specified: Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. At least one of these must be specified: Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? FixedFrequencyScheduleStartTimeSeconds { get; set; }
 
     /// <summary>
-    /// Cross instance replication config. The role of the instance in cross instance replication. CROSS_INSTANCE_REPLICATION_CONFIG_ROLE must be one of: none This instance does not participate in cross instance replication. It is an independent instance and does not replicate to or from any other instances. primary A instance that allows both reads and writes. Any data written to this instance is also replicated to the attached secondary instances. secondary A instance that allows only reads and replicates data from a primary instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. The role of the instance in cross instance replication. CROSS_INSTANCE_REPLICATION_CONFIG_ROLE must be one of: none This instance does not participate in cross instance replication. It is an independent instance and does not replicate to or from any other instances. primary A instance that allows both reads and writes. Any data written to this instance is also replicated to the attached secondary instances. secondary A instance that allows only reads and replicates data from a primary instance. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--cross-instance-replication-config-role", Format = OptionFormat.EqualsSeparated)]
     public string? CrossInstanceReplicationConfigRole { get; set; }
 
     /// <summary>
-    /// Cross instance replication config. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --cross-instance-replication-config-secondary-instances=instance=string --cross-instance-replication-config-secondary-instances=instance=string JSON Example: --cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Cross instance replication config. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --cross-instance-replication-config-secondary-instances=instance=string --cross-instance-replication-config-secondary-instances=instance=string JSON Example: --cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--cross-instance-replication-config-secondary-instances", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CrossInstanceReplicationConfigSecondaryInstances { get; set; }
+    public IEnumerable<string>? CrossInstanceReplicationConfigSecondaryInstances
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __CrossInstanceReplicationConfigSecondaryInstancesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CrossInstanceReplicationConfigSecondaryInstancesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CrossInstanceReplicationConfigSecondaryInstancesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __CrossInstanceReplicationConfigSecondaryInstancesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Details of the remote instance associated with this instance in a cross instance replication setup. Instance resource - The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt; This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ◆ provide the argument --primary-instance on the command line.
@@ -238,45 +296,117 @@ public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions
     public string? PrimaryInstance { get; set; }
 
     /// <summary>
-    /// Details of the remote instance associated with this instance in a cross instance replication setup. Instance resource - The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt; This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. Arguments for the import sources. At most one of these can be specified: Backups that stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the instances. Example: gs://bucket1/object1, gs://bucket2/folder2/object2
+    /// Details of the remote instance associated with this instance in a cross instance replication setup. Instance resource - The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt; This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. Arguments for the import sources. At most one of these can be specified: Backups that stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the instances. Example: gs://bucket1/object1, gs://bucket2/folder2/object2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gcs-source-uris", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? GcsSourceUris { get; set; }
+    [CliOption("--gcs-source-uris", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GcsSourceUris
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __GcsSourceUrisSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __GcsSourceUrisSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Details of the remote instance associated with this instance in a cross instance replication setup. Instance resource - The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt; This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. Backups that generated and managed by memorystore. Example: //memorystore.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup} A shorter version (without the prefix) of the backup name is also supported, like projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup_id} In this case, it assumes the backup is under memorystore.googleapis.com.
+    /// Details of the remote instance associated with this instance in a cross instance replication setup. Instance resource - The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt; This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --primary-instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. Arguments for the import sources. At most one of these can be specified: Backups that generated and managed by memorystore. Example: //memorystore.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup} A shorter version (without the prefix) of the backup name is also supported, like projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup_id} In this case, it assumes the backup is under memorystore.googleapis.com.
     /// </summary>
     [CliOption("--managed-backup-source", Format = OptionFormat.EqualsSeparated)]
     public string? ManagedBackupSource { get; set; }
 
     /// <summary>
-    /// Arguments for the kms key. CryptoKey resource - The KMS key used to encrypt the at-rest data of the cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --location on the command line. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Arguments for the kms key. CryptoKey resource - The KMS key used to encrypt the at-rest data of the cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --location on the command line. Zone distribution configuration for allocation of instance resources. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// Arguments for the kms key. CryptoKey resource - The KMS key used to encrypt the at-rest data of the cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --location on the command line. The keyRing id of the cryptoKey resource. To set the key-ring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --key-ring on the command line.
+    /// Arguments for the kms key. CryptoKey resource - The KMS key used to encrypt the at-rest data of the cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --location on the command line. Zone distribution configuration for allocation of instance resources. The keyRing id of the cryptoKey resource. To set the key-ring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --key-ring on the command line.
     /// </summary>
     [CliOption("--key-ring", Format = OptionFormat.EqualsSeparated)]
     public string? KeyRing { get; set; }
 
     /// <summary>
-    /// Zone distribution configuration for allocation of instance resources. Defines zone where all resources will be allocated with SINGLE_ZONE mode. Ignored for MULTI_ZONE mode.
+    /// Arguments for the kms key. CryptoKey resource - The KMS key used to encrypt the at-rest data of the cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --location on the command line. Zone distribution configuration for allocation of instance resources. Defines zone where all resources will be allocated with SINGLE_ZONE mode. Ignored for MULTI_ZONE mode.
     /// </summary>
     [CliOption("--zone-distribution-config", Format = OptionFormat.EqualsSeparated)]
     public string? ZoneDistributionConfig { get; set; }
 
     /// <summary>
-    /// Zone distribution configuration for allocation of instance resources. Current zone distribution mode. Defaults to MULTI_ZONE. ZONE_DISTRIBUTION_CONFIG_MODE must be one of: multi-zone Distribute resources across 3 zones picked at random within the region. single-zone Provision resources in a single zone. Zone field must be specified.
+    /// Arguments for the kms key. CryptoKey resource - The KMS key used to encrypt the at-rest data of the cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --location on the command line. Zone distribution configuration for allocation of instance resources. Current zone distribution mode. Defaults to MULTI_ZONE. ZONE_DISTRIBUTION_CONFIG_MODE must be one of: multi-zone Distribute resources across 3 zones picked at random within the region. single-zone Provision resources in a single zone. Zone field must be specified.
     /// </summary>
     [CliOption("--zone-distribution-config-mode", Format = OptionFormat.EqualsSeparated)]
     public string? ZoneDistributionConfigMode { get; set; }
 
     /// <summary>
-    /// Zone distribution configuration for allocation of instance resources. Specify the zones of a multi-zone instance where Memorystore instance allocates resources. This flag isn't applicable for single-zone instances.
+    /// Arguments for the kms key. CryptoKey resource - The KMS key used to encrypt the at-rest data of the cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --location on the command line. Zone distribution configuration for allocation of instance resources. Specify the zones of a multi-zone instance where Memorystore instance allocates resources. This flag isn't applicable for single-zone instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--zone-distribution-config-zones", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ZoneDistributionConfigZones { get; set; }
+    [CliOption("--zone-distribution-config-zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ZoneDistributionConfigZones
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ZoneDistributionConfigZonesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ZoneDistributionConfigZonesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Instance resource - Identifier. Unique name of the instance. Format: projects/{project}/locations/{location}/instances/{instance} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((SimulateMaintenanceEvent == true || !string.IsNullOrWhiteSpace(TransitEncryptionMode) || !string.IsNullOrWhiteSpace(AofConfigAppendFsync) || !string.IsNullOrWhiteSpace(PersistenceConfigMode) || !string.IsNullOrWhiteSpace(RdbConfigSnapshotPeriod) || !string.IsNullOrWhiteSpace(RdbConfigSnapshotStartTime) || !string.IsNullOrWhiteSpace(AutomatedBackupConfigMode) || !string.IsNullOrWhiteSpace(AutomatedBackupConfigRetention) || !string.IsNullOrWhiteSpace(CrossInstanceReplicationConfigRole) || ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)CrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(CrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (CrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CrossInstanceReplicationConfigSecondaryInstances), static item => item is not null))))) || !string.IsNullOrWhiteSpace(FixedFrequencyScheduleStartTimeHours) || !string.IsNullOrWhiteSpace(FixedFrequencyScheduleStartTimeMinutes) || !string.IsNullOrWhiteSpace(FixedFrequencyScheduleStartTimeNanos) || (object?)FixedFrequencyScheduleStartTimeSeconds is not null) && (!(!string.IsNullOrWhiteSpace(CrossInstanceReplicationConfigRole))))
+        {
+            yield return new ValidationResult("CrossInstanceReplicationConfigRole must be specified when other arguments in this group are specified.", [nameof(CrossInstanceReplicationConfigRole)]);
+        }
+        if ((SimulateMaintenanceEvent == true || !string.IsNullOrWhiteSpace(TransitEncryptionMode) || !string.IsNullOrWhiteSpace(AofConfigAppendFsync) || !string.IsNullOrWhiteSpace(PersistenceConfigMode) || !string.IsNullOrWhiteSpace(RdbConfigSnapshotPeriod) || !string.IsNullOrWhiteSpace(RdbConfigSnapshotStartTime) || !string.IsNullOrWhiteSpace(AutomatedBackupConfigMode) || !string.IsNullOrWhiteSpace(AutomatedBackupConfigRetention) || !string.IsNullOrWhiteSpace(CrossInstanceReplicationConfigRole) || ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)CrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(CrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (CrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CrossInstanceReplicationConfigSecondaryInstances), static item => item is not null))))) || !string.IsNullOrWhiteSpace(FixedFrequencyScheduleStartTimeHours) || !string.IsNullOrWhiteSpace(FixedFrequencyScheduleStartTimeMinutes) || !string.IsNullOrWhiteSpace(FixedFrequencyScheduleStartTimeNanos) || (object?)FixedFrequencyScheduleStartTimeSeconds is not null) && (!(!string.IsNullOrWhiteSpace(FixedFrequencyScheduleStartTimeHours) || !string.IsNullOrWhiteSpace(FixedFrequencyScheduleStartTimeMinutes) || !string.IsNullOrWhiteSpace(FixedFrequencyScheduleStartTimeNanos) || (object?)FixedFrequencyScheduleStartTimeSeconds is not null)))
+        {
+            yield return new ValidationResult("At least one of FixedFrequencyScheduleStartTimeHours, FixedFrequencyScheduleStartTimeMinutes, FixedFrequencyScheduleStartTimeNanos, or FixedFrequencyScheduleStartTimeSeconds must be specified.", [nameof(FixedFrequencyScheduleStartTimeHours), nameof(FixedFrequencyScheduleStartTimeMinutes), nameof(FixedFrequencyScheduleStartTimeNanos), nameof(FixedFrequencyScheduleStartTimeSeconds)]);
+        }
+        if (((((object?)GcsSourceUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsSourceUris is not string || !string.IsNullOrWhiteSpace(GcsSourceUris?.ToString()) : ((object?)GcsSourceUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsSourceUris, static item => item is not null) : (GcsSourceUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsSourceUris), static item => item is not null))))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ManagedBackupSource)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (GcsSourceUris) or (ManagedBackupSource) may be specified.", [nameof(GcsSourceUris), nameof(ManagedBackupSource)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KeyRing) || !string.IsNullOrWhiteSpace(ZoneDistributionConfig) || !string.IsNullOrWhiteSpace(ZoneDistributionConfigMode) || ((object?)ZoneDistributionConfigZones is global::System.Collections.Generic.IEnumerable<char> ? (object?)ZoneDistributionConfigZones is not string || !string.IsNullOrWhiteSpace(ZoneDistributionConfigZones?.ToString()) : ((object?)ZoneDistributionConfigZones is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ZoneDistributionConfigZones, static item => item is not null) : (ZoneDistributionConfigZones is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ZoneDistributionConfigZones), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
 
 }

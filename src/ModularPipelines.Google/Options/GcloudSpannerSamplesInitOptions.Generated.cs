@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "samples", "init")]
-public record GcloudSpannerSamplesInitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Appname
-) : GcloudOptions
+public record GcloudSpannerSamplesInitOptions : GcloudOptions
 {
+    /// <summary>
+    /// initialize a Cloud Spanner sample app
+    /// </summary>
+    /// <param name="InstanceId">The Cloud Spanner instance ID for the sample app.</param>
+    /// <param name="Appname">The sample app name, e.g. "finance", "finance-graph".</param>
+    public GcloudSpannerSamplesInitOptions(
+        string InstanceId,
+        string Appname
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Appname);
+        this.Appname = Appname;
+    }
+
+    public void Deconstruct(out string InstanceId, out string Appname)
+    {
+        InstanceId = this.InstanceId;
+        Appname = this.Appname;
+    }
+
+    /// <summary>
+    /// The Cloud Spanner instance ID for the sample app.
+    /// </summary>
+    [CliOption("--instance-id", Format = OptionFormat.EqualsSeparated)]
+    public string InstanceId { get; private init; }
+
+    /// <summary>
+    /// ID of the new Cloud Spanner database to create for the sample app.
+    /// </summary>
+    [CliOption("--database-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseId { get; set; }
+
+    /// <summary>
+    /// The sample app name, e.g. "finance", "finance-graph".
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Appname { get; private init; }
+
 }

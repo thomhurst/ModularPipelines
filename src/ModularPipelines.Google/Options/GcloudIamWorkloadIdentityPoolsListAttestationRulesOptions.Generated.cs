@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkloadIdentityPoolsListAttestationRulesOptions : GcloudOptions
 {
     /// <summary>
-    /// Apply a filter on the container ids of the attestation rules being listed. Expects a comma-delimited string of project numbers in the format projects/&lt;project-number&gt;,....
+    /// list the     attestation rules on a workload identity pool
     /// </summary>
-    [CliOption("--container-id-filter", Format = OptionFormat.EqualsSeparated)]
-    public string? ContainerIdFilter { get; set; }
+    /// <param name="WorkloadIdentityPool">Workload identity pool resource - The workload identity pool to list attestation rules for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool or fully qualified identifier for the workload identity pool. To set the workload_identity_pool attribute: ▸ provide the argument workload_identity_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkloadIdentityPoolsListAttestationRulesOptions(
+        string WorkloadIdentityPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadIdentityPool);
+        this.WorkloadIdentityPool = WorkloadIdentityPool;
+    }
+
+    public void Deconstruct(out string WorkloadIdentityPool)
+    {
+        WorkloadIdentityPool = this.WorkloadIdentityPool;
+    }
+
+    /// <summary>
+    /// Workload identity pool resource - The workload identity pool to list attestation rules for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument workload_identity_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Apply a filter on the container ids of the attestation rules being listed. Expects a comma-delimited string of project numbers in the format projects/&lt;project-number&gt;,.... Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-id-filter", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ContainerIdFilter { get; set; }
+
+    /// <summary>
+    /// Workload identity pool resource - The workload identity pool to list attestation rules for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool or fully qualified identifier for the workload identity pool. To set the workload_identity_pool attribute: ▸ provide the argument workload_identity_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkloadIdentityPool { get; private init; }
 
 }

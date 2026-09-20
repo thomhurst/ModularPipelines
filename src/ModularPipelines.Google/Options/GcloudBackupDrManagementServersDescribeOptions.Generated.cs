@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "management-servers", "describe")]
 public record GcloudBackupDrManagementServersDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details of the     management server
+    /// </summary>
+    /// <param name="ManagementServer">Management server resource - Name of the management server to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the management_server or fully qualified identifier for the management_server. To set the management_server attribute: ▸ provide the argument management_server on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrManagementServersDescribeOptions(
+        string ManagementServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementServer);
+        this.ManagementServer = ManagementServer;
+    }
+
+    public void Deconstruct(out string ManagementServer)
+    {
+        ManagementServer = this.ManagementServer;
+    }
+
+    /// <summary>
+    /// Management server resource - Name of the management server to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location ID of the resource. To set the location attribute: ▸ provide the argument management_server on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Management server resource - Name of the management server to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the management_server or fully qualified identifier for the management_server. To set the management_server attribute: ▸ provide the argument management_server on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ManagementServer { get; private init; }
+
 }

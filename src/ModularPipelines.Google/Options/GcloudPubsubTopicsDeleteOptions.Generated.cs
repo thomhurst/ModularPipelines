@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "topics", "delete")]
 public record GcloudPubsubTopicsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// deletes one or more Cloud Pub/Sub topics
+    /// </summary>
+    /// <param name="Topic">Topic resource - One or more topics to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the topics or fully qualified identifiers for the topics. To set the topic attribute: ▸ provide the argument topic on the command line.</param>
+    public GcloudPubsubTopicsDeleteOptions(
+        IEnumerable<string> Topic
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Topic);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Topic));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Topic));
+            }
+
+            Topic = materialized;
+        }
+        this.Topic = Topic;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Topic)
+    {
+        Topic = this.Topic;
+    }
+
+    /// <summary>
+    /// Topic resource - One or more topics to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the topics or fully qualified identifiers for the topics. To set the topic attribute: ▸ provide the argument topic on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Topic { get; private init; }
+
 }

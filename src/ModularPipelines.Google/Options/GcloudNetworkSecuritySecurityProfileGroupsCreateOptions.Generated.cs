@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,181 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "security-profile-groups", "create")]
-public record GcloudNetworkSecuritySecurityProfileGroupsCreateOptions : GcloudOptions
+public record GcloudNetworkSecuritySecurityProfileGroupsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new     Security Profile Group
+    /// </summary>
+    /// <param name="SecurityProfileGroup">Security profile group resource - Security Profile Group Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile_group on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfileGroups, networksecurity.projects.locations.securityProfileGroups]. This must be specified. ID of the security_profile_group or fully qualified identifier for the security_profile_group. To set the security_profile_group attribute: ▸ provide the argument security_profile_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecuritySecurityProfileGroupsCreateOptions(
+        string SecurityProfileGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityProfileGroup);
+        this.SecurityProfileGroup = SecurityProfileGroup;
+    }
+
+    public void Deconstruct(out string SecurityProfileGroup)
+    {
+        SecurityProfileGroup = this.SecurityProfileGroup;
+    }
+
+    /// <summary>
+    /// Security profile group resource - Security Profile Group Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile_group on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfileGroups, networksecurity.projects.locations.securityProfileGroups]. This must be specified. location of the security_profile_group - Global. To set the location attribute: ▸ provide the argument security_profile_group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Security profile group resource - Security Profile Group Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile_group on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfileGroups, networksecurity.projects.locations.securityProfileGroups]. This must be specified. Organization ID of Security Profile Group To set the organization attribute: ▸ provide the argument security_profile_group on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [networksecurity.organizations.locations.securityProfileGroups].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Custom intercept profile resource - Path to Custom Intercept Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. ID of the custom_intercept_profile or fully qualified identifier for the custom_intercept_profile. To set the name attribute: ▸ provide the argument --custom-intercept-profile on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--custom-intercept-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomInterceptProfile { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Custom intercept profile resource - Path to Custom Intercept Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Location of the custom_intercept_profile. NOTE: Only global security profiles are supported. To set the location attribute: ▸ provide the argument --custom-intercept-profile on the command line with a fully specified name; ▸ provide the argument --custom-intercept-profile-location on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument security_profile_group on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--custom-intercept-profile-location", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomInterceptProfileLocation { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Custom intercept profile resource - Path to Custom Intercept Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Organization ID of the Security Profile. To set the organization attribute: ▸ provide the argument --custom-intercept-profile on the command line with a fully specified name; ▸ provide the argument --custom-intercept-profile-organization on the command line; ▸ provide the argument --organization on the command line; ▸ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.organizations.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--custom-intercept-profile-organization", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomInterceptProfileOrganization { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Custom intercept profile resource - Path to Custom Intercept Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Project ID of the custom_intercept_profile. To set the project attribute: ▸ provide the argument --custom-intercept-profile on the command line with a fully specified name; ▸ provide the argument --custom-intercept-profile-project on the command line; ▸ set the property core/project; ▸ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.projects.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--custom-intercept-profile-project", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomInterceptProfileProject { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Custom mirroring profile resource - Path to Custom Mirroring Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. ID of the custom_mirroring_profile or fully qualified identifier for the custom_mirroring_profile. To set the name attribute: ▸ provide the argument --custom-mirroring-profile on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--custom-mirroring-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomMirroringProfile { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Custom mirroring profile resource - Path to Custom Mirroring Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Location of the custom_mirroring_profile. NOTE: Only global security profiles are supported. To set the location attribute: ▸ provide the argument --custom-mirroring-profile on the command line with a fully specified name; ▸ provide the argument --custom-mirroring-profile-location on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument security_profile_group on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--custom-mirroring-profile-location", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomMirroringProfileLocation { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Custom mirroring profile resource - Path to Custom Mirroring Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Organization ID of the Security Profile. To set the organization attribute: ▸ provide the argument --custom-mirroring-profile on the command line with a fully specified name; ▸ provide the argument --custom-mirroring-profile-organization on the command line; ▸ provide the argument --organization on the command line; ▸ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.organizations.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--custom-mirroring-profile-organization", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomMirroringProfileOrganization { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Custom mirroring profile resource - Path to Custom Mirroring Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Project ID of the custom_mirroring_profile. To set the project attribute: ▸ provide the argument --custom-mirroring-profile on the command line with a fully specified name; ▸ provide the argument --custom-mirroring-profile-project on the command line; ▸ set the property core/project; ▸ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.projects.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--custom-mirroring-profile-project", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomMirroringProfileProject { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Threat prevention profile resource - Path to Threat Prevention Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. ID of the threat_prevention_profile or fully qualified identifier for the threat_prevention_profile. To set the name attribute: ▸ provide the argument --threat-prevention-profile on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--threat-prevention-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreatPreventionProfile { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Threat prevention profile resource - Path to Threat Prevention Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Location of the threat_prevention_profile. NOTE: Only global security profiles are supported. To set the location attribute: ▸ provide the argument --threat-prevention-profile on the command line with a fully specified name; ▸ provide the argument --threat-prevention-profile-location on the command line; ▸ provide the argument --security-profile-location on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument security_profile_group on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--threat-prevention-profile-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreatPreventionProfileLocation { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Threat prevention profile resource - Path to Threat Prevention Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Organization ID of the Security Profile. To set the organization attribute: ▸ provide the argument --threat-prevention-profile on the command line with a fully specified name; ▸ provide the argument --threat-prevention-profile-organization on the command line; ▸ provide the argument --security-profile-organization on the command line; ▸ provide the argument --organization on the command line; ▸ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.organizations.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--threat-prevention-profile-organization", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreatPreventionProfileOrganization { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Threat prevention profile resource - Path to Threat Prevention Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Project ID of the threat_prevention_profile. To set the project attribute: ▸ provide the argument --threat-prevention-profile on the command line with a fully specified name; ▸ provide the argument --threat-prevention-profile-project on the command line; ▸ set the property core/project; ▸ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.projects.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--threat-prevention-profile-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreatPreventionProfileProject { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Url filtering profile resource - Path to URL Filtering Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. ID of the url_filtering_profile or fully qualified identifier for the url_filtering_profile. To set the name attribute: ▸ provide the argument --url-filtering-profile on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--url-filtering-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlFilteringProfile { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Url filtering profile resource - Path to URL Filtering Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Location of the url_filtering_profile. NOTE: Only global security profiles are supported. To set the location attribute: ▸ provide the argument --url-filtering-profile on the command line with a fully specified name; ▸ provide the argument --url-filtering-profile-location on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument security_profile_group on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--url-filtering-profile-location", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlFilteringProfileLocation { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Url filtering profile resource - Path to URL Filtering Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Organization ID of the Security Profile. To set the organization attribute: ▸ provide the argument --url-filtering-profile on the command line with a fully specified name; ▸ provide the argument --url-filtering-profile-organization on the command line; ▸ provide the argument --organization on the command line; ▸ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.organizations.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--url-filtering-profile-organization", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlFilteringProfileOrganization { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Url filtering profile resource - Path to URL Filtering Profile resource. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. Project ID of the url_filtering_profile. To set the project attribute: ▸ provide the argument --url-filtering-profile on the command line with a fully specified name; ▸ provide the argument --url-filtering-profile-project on the command line; ▸ set the property core/project; ▸ provide the argument security_profile_group on the command line with a fully specified name. Must be specified for resource of type [networksecurity.projects.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--url-filtering-profile-project", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlFilteringProfileProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is False.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Brief description of the security profile group
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Security profile group resource - Security Profile Group Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile_group on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfileGroups, networksecurity.projects.locations.securityProfileGroups]. This must be specified. ID of the security_profile_group or fully qualified identifier for the security_profile_group. To set the security_profile_group attribute: ▸ provide the argument security_profile_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityProfileGroup { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(CustomInterceptProfile) || !string.IsNullOrWhiteSpace(CustomInterceptProfileLocation) || !string.IsNullOrWhiteSpace(CustomInterceptProfileOrganization) || !string.IsNullOrWhiteSpace(CustomInterceptProfileProject) || !string.IsNullOrWhiteSpace(CustomMirroringProfile) || !string.IsNullOrWhiteSpace(CustomMirroringProfileLocation) || !string.IsNullOrWhiteSpace(CustomMirroringProfileOrganization) || !string.IsNullOrWhiteSpace(CustomMirroringProfileProject) || !string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject) || !string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)))
+        {
+            yield return new ValidationResult("At least one of CustomInterceptProfile, CustomInterceptProfileLocation, CustomInterceptProfileOrganization, CustomInterceptProfileProject, CustomMirroringProfile, CustomMirroringProfileLocation, CustomMirroringProfileOrganization, CustomMirroringProfileProject, ThreatPreventionProfile, ThreatPreventionProfileLocation, ThreatPreventionProfileOrganization, ThreatPreventionProfileProject, UrlFilteringProfile, UrlFilteringProfileLocation, UrlFilteringProfileOrganization, or UrlFilteringProfileProject must be specified.", [nameof(CustomInterceptProfile), nameof(CustomInterceptProfileLocation), nameof(CustomInterceptProfileOrganization), nameof(CustomInterceptProfileProject), nameof(CustomMirroringProfile), nameof(CustomMirroringProfileLocation), nameof(CustomMirroringProfileOrganization), nameof(CustomMirroringProfileProject), nameof(ThreatPreventionProfile), nameof(ThreatPreventionProfileLocation), nameof(ThreatPreventionProfileOrganization), nameof(ThreatPreventionProfileProject), nameof(UrlFilteringProfile), nameof(UrlFilteringProfileLocation), nameof(UrlFilteringProfileOrganization), nameof(UrlFilteringProfileProject)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomInterceptProfile) || !string.IsNullOrWhiteSpace(CustomInterceptProfileLocation) || !string.IsNullOrWhiteSpace(CustomInterceptProfileOrganization) || !string.IsNullOrWhiteSpace(CustomInterceptProfileProject) || !string.IsNullOrWhiteSpace(CustomMirroringProfile) || !string.IsNullOrWhiteSpace(CustomMirroringProfileLocation) || !string.IsNullOrWhiteSpace(CustomMirroringProfileOrganization) || !string.IsNullOrWhiteSpace(CustomMirroringProfileProject) || !string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject) || !string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)) && (!string.IsNullOrWhiteSpace(CustomInterceptProfile) || !string.IsNullOrWhiteSpace(CustomInterceptProfileLocation) || !string.IsNullOrWhiteSpace(CustomInterceptProfileOrganization) || !string.IsNullOrWhiteSpace(CustomInterceptProfileProject)) && (!(!string.IsNullOrWhiteSpace(CustomInterceptProfile))))
+        {
+            yield return new ValidationResult("CustomInterceptProfile must be specified when other arguments in this group are specified.", [nameof(CustomInterceptProfile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomInterceptProfile) || !string.IsNullOrWhiteSpace(CustomInterceptProfileLocation) || !string.IsNullOrWhiteSpace(CustomInterceptProfileOrganization) || !string.IsNullOrWhiteSpace(CustomInterceptProfileProject) || !string.IsNullOrWhiteSpace(CustomMirroringProfile) || !string.IsNullOrWhiteSpace(CustomMirroringProfileLocation) || !string.IsNullOrWhiteSpace(CustomMirroringProfileOrganization) || !string.IsNullOrWhiteSpace(CustomMirroringProfileProject) || !string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject) || !string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)) && (!string.IsNullOrWhiteSpace(CustomMirroringProfile) || !string.IsNullOrWhiteSpace(CustomMirroringProfileLocation) || !string.IsNullOrWhiteSpace(CustomMirroringProfileOrganization) || !string.IsNullOrWhiteSpace(CustomMirroringProfileProject)) && (!(!string.IsNullOrWhiteSpace(CustomMirroringProfile))))
+        {
+            yield return new ValidationResult("CustomMirroringProfile must be specified when other arguments in this group are specified.", [nameof(CustomMirroringProfile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomInterceptProfile) || !string.IsNullOrWhiteSpace(CustomInterceptProfileLocation) || !string.IsNullOrWhiteSpace(CustomInterceptProfileOrganization) || !string.IsNullOrWhiteSpace(CustomInterceptProfileProject) || !string.IsNullOrWhiteSpace(CustomMirroringProfile) || !string.IsNullOrWhiteSpace(CustomMirroringProfileLocation) || !string.IsNullOrWhiteSpace(CustomMirroringProfileOrganization) || !string.IsNullOrWhiteSpace(CustomMirroringProfileProject) || !string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject) || !string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)) && (!string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject)) && (!(!string.IsNullOrWhiteSpace(ThreatPreventionProfile))))
+        {
+            yield return new ValidationResult("ThreatPreventionProfile must be specified when other arguments in this group are specified.", [nameof(ThreatPreventionProfile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomInterceptProfile) || !string.IsNullOrWhiteSpace(CustomInterceptProfileLocation) || !string.IsNullOrWhiteSpace(CustomInterceptProfileOrganization) || !string.IsNullOrWhiteSpace(CustomInterceptProfileProject) || !string.IsNullOrWhiteSpace(CustomMirroringProfile) || !string.IsNullOrWhiteSpace(CustomMirroringProfileLocation) || !string.IsNullOrWhiteSpace(CustomMirroringProfileOrganization) || !string.IsNullOrWhiteSpace(CustomMirroringProfileProject) || !string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject) || !string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)) && (!string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)) && (!(!string.IsNullOrWhiteSpace(UrlFilteringProfile))))
+        {
+            yield return new ValidationResult("UrlFilteringProfile must be specified when other arguments in this group are specified.", [nameof(UrlFilteringProfile)]);
+        }
+        yield break;
+    }
+
 }

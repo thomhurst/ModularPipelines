@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "url-maps", "invalidate-cdn-cache")]
-public record GcloudPreviewComputeUrlMapsInvalidateCdnCacheOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Urlmap
-) : GcloudOptions
+public record GcloudPreviewComputeUrlMapsInvalidateCdnCacheOptions : GcloudOptions
 {
+    /// <summary>
+    /// invalidate specified     objects for a URL map in Cloud CDN caches
+    /// </summary>
+    /// <param name="Urlmap">Name of the URL map to operate on.</param>
+    public GcloudPreviewComputeUrlMapsInvalidateCdnCacheOptions(
+        string Urlmap
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Urlmap);
+        this.Urlmap = Urlmap;
+    }
+
+    public void Deconstruct(out string Urlmap)
+    {
+        Urlmap = this.Urlmap;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -42,15 +57,21 @@ public record GcloudPreviewComputeUrlMapsInvalidateCdnCacheOptions(
     public string? Host { get; set; }
 
     /// <summary>
-    /// A path specifying which objects to invalidate. PATH must start with ``/'' and the only place a ``*'' is allowed is at the end following a ``/''. It will be matched against URL paths, which do not include scheme, host, or any text after the first ``?'' or ``#'' (and those characters are not allowed here). For example, for the URL https://example.com/whatever/x.html?a=b, the path is /whatever/x.html. If PATH ends with ``*'', the preceding string is a prefix, and all URLs whose paths begin with it will be invalidated. If PATH doesn't end with ``*'', then only URLs with exactly that path will be invalidated. Examples: ◆ ``'', ``*'', anything that doesn't start with ``/'': error ◆ ``/'': just the root URL ◆ ``/*'': everything ◆ ``/x/y'': ``/x/y'' only (and not ``/x/y/'') ◆ ``/x/y/'': ``/x/y/'' only (and not ``/x/y'') ◆ ``/x/y/*'': ``/x/y/'' and everything under it
+    /// A path specifying which objects to invalidate. PATH must start with ``/'' and the only place a ``*'' is allowed is at the end of the path. It will be matched against URL paths, which do not include scheme, host, or any text after the first ``?'' or ``#'' (and those characters are not allowed here). For example, for the URL https://example.com/whatever/x.html?a=b, the path is /whatever/x.html. If PATH ends with ``*'', the preceding string is a prefix, and all URLs whose paths begin with it will be invalidated. If PATH doesn't end with ``*'', then only URLs with exactly that path will be invalidated. Examples: ◆ ``'', ``*'', anything that doesn't start with ``/'': error ◆ ``/'': just the root URL ◆ ``/*'': everything ◆ ``/x/y'': ``/x/y'' only (and not ``/x/y/'') ◆ ``/x/y/'': ``/x/y/'' only (and not ``/x/y'') ◆ ``/x/y*'': ``/x/y'' and everything with the prefix (e.g. /x/yy, ``/x/y/z'')
     /// </summary>
     [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
     public string? Path { get; set; }
 
     /// <summary>
-    /// A single tag or a comma-delimited list of tags. When multiple tags are specified, the invalidation applies them using boolean OR logic. Example: ◆ --tags=abcd,user123
+    /// A single tag or a comma-delimited list of tags. When multiple tags are specified, the invalidation applies them using boolean OR logic. Example: ◆ --tags=abcd,user123 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public string? Tags { get; set; }
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Name of the URL map to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Urlmap { get; private init; }
 
 }

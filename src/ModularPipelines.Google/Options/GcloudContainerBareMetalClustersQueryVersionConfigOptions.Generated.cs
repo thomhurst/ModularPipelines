@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "clusters", "query-version-config")]
-public record GcloudContainerBareMetalClustersQueryVersionConfigOptions : GcloudOptions
+public record GcloudContainerBareMetalClustersQueryVersionConfigOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Location resource - Google Cloud location to query versions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_bare_metal/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property container_bare_metal/location.
@@ -50,5 +51,23 @@ public record GcloudContainerBareMetalClustersQueryVersionConfigOptions : Gcloud
     /// </summary>
     [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
     public string? AdminClusterMembershipLocation { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(Cluster) || !string.IsNullOrWhiteSpace(AdminClusterMembership) || !string.IsNullOrWhiteSpace(AdminClusterMembershipProject) || !string.IsNullOrWhiteSpace(AdminClusterMembershipLocation)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AdminClusterMembership) || !string.IsNullOrWhiteSpace(AdminClusterMembershipLocation) || !string.IsNullOrWhiteSpace(AdminClusterMembershipProject)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (Cluster, AdminClusterMembership, AdminClusterMembershipProject, or AdminClusterMembershipLocation) or (AdminClusterMembership, AdminClusterMembershipLocation, or AdminClusterMembershipProject) may be specified.", [nameof(Cluster), nameof(AdminClusterMembership), nameof(AdminClusterMembershipProject), nameof(AdminClusterMembershipLocation)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Cluster) || !string.IsNullOrWhiteSpace(AdminClusterMembership) || !string.IsNullOrWhiteSpace(AdminClusterMembershipProject) || !string.IsNullOrWhiteSpace(AdminClusterMembershipLocation)) && (!string.IsNullOrWhiteSpace(Cluster) || !string.IsNullOrWhiteSpace(AdminClusterMembership) || !string.IsNullOrWhiteSpace(AdminClusterMembershipProject) || !string.IsNullOrWhiteSpace(AdminClusterMembershipLocation)) && (!(!string.IsNullOrWhiteSpace(Cluster))))
+        {
+            yield return new ValidationResult("Cluster must be specified when other arguments in this group are specified.", [nameof(Cluster)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Cluster) || !string.IsNullOrWhiteSpace(AdminClusterMembership) || !string.IsNullOrWhiteSpace(AdminClusterMembershipProject) || !string.IsNullOrWhiteSpace(AdminClusterMembershipLocation)) && (!string.IsNullOrWhiteSpace(AdminClusterMembership) || !string.IsNullOrWhiteSpace(AdminClusterMembershipLocation) || !string.IsNullOrWhiteSpace(AdminClusterMembershipProject)) && (!(!string.IsNullOrWhiteSpace(AdminClusterMembership))))
+        {
+            yield return new ValidationResult("AdminClusterMembership must be specified when other arguments in this group are specified.", [nameof(AdminClusterMembership)]);
+        }
+        yield break;
+    }
 
 }

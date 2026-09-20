@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,310 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "flex-template", "build")]
-public record GcloudDataflowFlexTemplateBuildOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TemplateFileGcsPath
-) : GcloudOptions
+public record GcloudDataflowFlexTemplateBuildOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// builds a flex template file from the     specified parameters
+    /// </summary>
+    /// <param name="SdkLanguage">SDK language of the flex template job. SDK_LANGUAGE must be one of: JAVA, PYTHON, GO, YAML.</param>
+    /// <param name="TemplateFileGcsPath">The Google Cloud Storage location of the flex template file.Overrides if file already exists.</param>
+    public GcloudDataflowFlexTemplateBuildOptions(
+        GcloudDataflowFlexTemplateBuildSdkLanguage SdkLanguage,
+        string TemplateFileGcsPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SdkLanguage);
+        this.SdkLanguage = SdkLanguage;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateFileGcsPath);
+        this.TemplateFileGcsPath = TemplateFileGcsPath;
+    }
+
+    public void Deconstruct(out GcloudDataflowFlexTemplateBuildSdkLanguage SdkLanguage, out string TemplateFileGcsPath)
+    {
+        SdkLanguage = this.SdkLanguage;
+        TemplateFileGcsPath = this.TemplateFileGcsPath;
+    }
+
+    /// <summary>
+    /// SDK language of the flex template job. SDK_LANGUAGE must be one of: JAVA, PYTHON, GO, YAML.
+    /// </summary>
+    [CliOption("--sdk-language", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDataflowFlexTemplateBuildSdkLanguage SdkLanguage { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to the any image registry location of the prebuilt flex template image.
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Environment variables to create for the Dockerfile. You can pass them as a comma separated list or repeat individually with --env flag. Ex: --env="A=B,C=D" or --env A=B, --env C=D.When you reference files/dir in env variables, please specify relative path to the paths passed via --py-path.Ex: if you pass. --py-path="path/pipleline/" then set FLEX_TEMPLATE_PYTHON_PY_FILE="pipeline/pipeline.py" You can find the list of supported environment variables in this link. https://cloud.google.com/dataflow/docs/guides/templates/configuring-flex-templates#setting_required_dockerfile_environment_variables. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Env
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __EnvSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __EnvSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flex template base image to be used while building the container image. Allowed choices are allowed labels (JAVA11/17/21/25, PYTHON3, GO), supported distroless images (JAVA11/17/21/25_DISTROLESS, GO_DISTROLESS), or full gcr.io path of the specific version of the base image. For labels, we use the latest base image version to build the container. You can also provide a specific version from this link https://gcr.io/dataflow-templates-base/ This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--flex-template-base-image", Format = OptionFormat.EqualsSeparated)]
+    public string? FlexTemplateBaseImage { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: The Google Container Registry or Google Artifact Registry location to store the flex template image to be built. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--image-gcr-path", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageGcrPath { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Exactly one of these must be specified: Local path to your compiled dataflow pipeline Go binary. The binary should be compiled to run on the target worker architecture (usually linux-amd64). See https://beam.apache.org/documentation/sdks/go-cross-compilation/ for more information.
+    /// </summary>
+    [CliOption("--go-binary-path", Format = OptionFormat.EqualsSeparated)]
+    public string? GoBinaryPath { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Exactly one of these must be specified: Local path to your dataflow pipeline jar file and all their dependent jar files required for the flex template classpath. You can pass them as a comma separated list or repeat individually with --jar flag. Ex: --jar="code.jar,dep.jar" or --jar code.jar, --jar dep.jar. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--jar", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Jar
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __JarSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __JarSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Exactly one of these must be specified: Local path to your dataflow pipeline python files and all their dependent files required for the flex template classpath. You can pass them as a comma separated list or repeat individually with --py-path flag. Ex: --py-path="path/pipleline/,path/dependency/" or --py-path path/pipleline/, --py-path path/dependency/. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--py-path", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PyPath
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PyPathSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PyPathSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Local path to your YAML pipeline file. Use a full or relative path to a local file containing the value of yaml_pipeline_path. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--yaml-pipeline-path", Format = OptionFormat.EqualsSeparated)]
+    public string? YamlPipelinePath { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Path to the any image registry location of the prebuilt yaml template image.
+    /// </summary>
+    [CliOption("--yaml-image", Format = OptionFormat.EqualsSeparated)]
+    public string? YamlImage { get; set; }
+
+    /// <summary>
+    /// Default experiments to pass to the job. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-experiments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalExperiments { get; set; }
+
+    /// <summary>
+    /// Default user labels to pass to the job. Example: --additional-user-labels='{"key1":"value1"}' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-user-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalUserLabels { get; set; }
+
+    /// <summary>
+    /// Service account to run the Cloud Build in the format projects/{project}/serviceAccounts/{service_account}. Ensure that the account you are using to run 'gcloud dataflow flex-template build' has 'ServiceAccountUser' role on the specified Cloud Build service account you provide with the --cloud-build-service-account flag. The specified service account must have required permissions to build the image. If the specified service account is in a project that is different from the project where you are starting builds, see https://cloud.google.com/build/docs/securing-builds/configure-user-specified-service-accounts#cross-project_set_up to grant the necessary access.
+    /// </summary>
+    [CliOption("--cloud-build-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudBuildServiceAccount { get; set; }
+
+    /// <summary>
+    /// Default Cloud KMS key to protect the job resources.
+    /// </summary>
+    [CliOption("--dataflow-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? DataflowKmsKey { get; set; }
+
+    /// <summary>
+    /// Cloud Dataflow workers must not use public IP addresses. Overrides the default dataflow/disable_public_ips property value for this command invocation.
+    /// </summary>
+    [CliFlag("--disable-public-ips")]
+    public bool? DisablePublicIps { get; set; }
+
+    /// <summary>
+    /// Enable Streaming Engine for the streaming job by default. Overrides the default dataflow/enable_streaming_engine property value for this command invocation.
+    /// </summary>
+    [CliFlag("--enable-streaming-engine")]
+    public bool? EnableStreamingEngine { get; set; }
+
+    /// <summary>
+    /// Google Cloud Storage directory to save build logs.(Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--gcs-log-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsLogDir { get; set; }
+
+    /// <summary>
+    /// The full URL to self-signed certificate of private registry in Cloud Storage. For example, gs://mybucket/mycerts/selfsigned.crt. The certificate provided in Cloud Storage must be DER-encoded and may be supplied in binary or printable (Base64) encoding. If the certificate is provided in Base64 encoding, it must be bounded at the beginning by -----BEGIN CERTIFICATE-----, and must be bounded at the end by -----END CERTIFICATE-----. If this parameter is provided, the docker daemon in the template launcher will be instructed to trust that certificate.
+    /// </summary>
+    [CliOption("--image-repository-cert-path", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageRepositoryCertPath { get; set; }
+
+    /// <summary>
+    /// Secret Manager secret id for the password to authenticate to private registry. Should be in the format projects/{project}/secrets/{secret}/versions/{secret_version} or projects/{project}/secrets/{secret}. If the version is not provided latest version will be used.
+    /// </summary>
+    [CliOption("--image-repository-password-secret-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageRepositoryPasswordSecretId { get; set; }
+
+    /// <summary>
+    /// Secret Manager secret id for the username to authenticate to private registry. Should be in the format projects/{project}/secrets/{secret}/versions/{secret_version} or projects/{project}/secrets/{secret}. If the version is not provided latest version will be used.
+    /// </summary>
+    [CliOption("--image-repository-username-secret-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageRepositoryUsernameSecretId { get; set; }
+
+    /// <summary>
+    /// Default maximum number of workers to run.
+    /// </summary>
+    [CliOption("--max-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWorkers { get; set; }
+
+    /// <summary>
+    /// Local path to the metadata json file for the flex template. Use a full or relative path to a local file containing the value of metadata_file.
+    /// </summary>
+    [CliOption("--metadata-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MetadataFile { get; set; }
+
+    /// <summary>
+    /// Default Compute Engine network for launching instances to run your pipeline.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Initial number of workers to use by default.
+    /// </summary>
+    [CliOption("--num-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? NumWorkers { get; set; }
+
+    /// <summary>
+    /// Prints the container spec to stdout. Does not save in Google Cloud Storage. Overrides the default dataflow/print_only property value for this command invocation.
+    /// </summary>
+    [CliFlag("--print-only")]
+    public bool? PrintOnly { get; set; }
+
+    /// <summary>
+    /// Default service account to run the workers as.
+    /// </summary>
+    [CliOption("--service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccountEmail { get; set; }
+
+    /// <summary>
+    /// Default Google Cloud Storage location to stage local files.(Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--staging-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StagingLocation { get; set; }
+
+    /// <summary>
+    /// Default Compute Engine subnetwork for launching instances to run your pipeline.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// Default Google Cloud Storage location to stage temporary files. If not set, defaults to the value for --staging-location.(Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--temp-location", Format = OptionFormat.EqualsSeparated)]
+    public string? TempLocation { get; set; }
+
+    /// <summary>
+    /// Default type of machine to use for workers. Defaults to server-specified.
+    /// </summary>
+    [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerMachineType { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Default region to run the workers in.
+    /// </summary>
+    [CliOption("--worker-region", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Default zone to run the workers in.
+    /// </summary>
+    [CliOption("--worker-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerZone { get; set; }
+
+    /// <summary>
+    /// The Google Cloud Storage location of the flex template file.Overrides if file already exists.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TemplateFileGcsPath { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Image) ? 1 : 0) + ((((object?)Env is global::System.Collections.Generic.IEnumerable<char> ? (object?)Env is not string || !string.IsNullOrWhiteSpace(Env?.ToString()) : ((object?)Env is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Env, static item => item is not null) : (Env is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Env), static item => item is not null)))) || !string.IsNullOrWhiteSpace(FlexTemplateBaseImage) || !string.IsNullOrWhiteSpace(ImageGcrPath) || !string.IsNullOrWhiteSpace(GoBinaryPath) || ((object?)Jar is global::System.Collections.Generic.IEnumerable<char> ? (object?)Jar is not string || !string.IsNullOrWhiteSpace(Jar?.ToString()) : ((object?)Jar is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Jar, static item => item is not null) : (Jar is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Jar), static item => item is not null)))) || ((object?)PyPath is global::System.Collections.Generic.IEnumerable<char> ? (object?)PyPath is not string || !string.IsNullOrWhiteSpace(PyPath?.ToString()) : ((object?)PyPath is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PyPath, static item => item is not null) : (PyPath is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PyPath), static item => item is not null))))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(YamlPipelinePath) || !string.IsNullOrWhiteSpace(YamlImage)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Image, (Env, FlexTemplateBaseImage, ImageGcrPath, GoBinaryPath, Jar, or PyPath), or (YamlPipelinePath or YamlImage) must be specified.", [nameof(Image), nameof(Env), nameof(FlexTemplateBaseImage), nameof(ImageGcrPath), nameof(GoBinaryPath), nameof(Jar), nameof(PyPath), nameof(YamlPipelinePath), nameof(YamlImage)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Image) || ((object?)Env is global::System.Collections.Generic.IEnumerable<char> ? (object?)Env is not string || !string.IsNullOrWhiteSpace(Env?.ToString()) : ((object?)Env is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Env, static item => item is not null) : (Env is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Env), static item => item is not null)))) || !string.IsNullOrWhiteSpace(FlexTemplateBaseImage) || !string.IsNullOrWhiteSpace(ImageGcrPath) || !string.IsNullOrWhiteSpace(GoBinaryPath) || ((object?)Jar is global::System.Collections.Generic.IEnumerable<char> ? (object?)Jar is not string || !string.IsNullOrWhiteSpace(Jar?.ToString()) : ((object?)Jar is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Jar, static item => item is not null) : (Jar is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Jar), static item => item is not null)))) || ((object?)PyPath is global::System.Collections.Generic.IEnumerable<char> ? (object?)PyPath is not string || !string.IsNullOrWhiteSpace(PyPath?.ToString()) : ((object?)PyPath is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PyPath, static item => item is not null) : (PyPath is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PyPath), static item => item is not null)))) || !string.IsNullOrWhiteSpace(YamlPipelinePath) || !string.IsNullOrWhiteSpace(YamlImage)) && (((object?)Env is global::System.Collections.Generic.IEnumerable<char> ? (object?)Env is not string || !string.IsNullOrWhiteSpace(Env?.ToString()) : ((object?)Env is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Env, static item => item is not null) : (Env is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Env), static item => item is not null)))) || !string.IsNullOrWhiteSpace(FlexTemplateBaseImage) || !string.IsNullOrWhiteSpace(ImageGcrPath) || !string.IsNullOrWhiteSpace(GoBinaryPath) || ((object?)Jar is global::System.Collections.Generic.IEnumerable<char> ? (object?)Jar is not string || !string.IsNullOrWhiteSpace(Jar?.ToString()) : ((object?)Jar is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Jar, static item => item is not null) : (Jar is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Jar), static item => item is not null)))) || ((object?)PyPath is global::System.Collections.Generic.IEnumerable<char> ? (object?)PyPath is not string || !string.IsNullOrWhiteSpace(PyPath?.ToString()) : ((object?)PyPath is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PyPath, static item => item is not null) : (PyPath is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PyPath), static item => item is not null))))) && ((!string.IsNullOrWhiteSpace(GoBinaryPath) ? 1 : 0) + (((object?)Jar is global::System.Collections.Generic.IEnumerable<char> ? (object?)Jar is not string || !string.IsNullOrWhiteSpace(Jar?.ToString()) : ((object?)Jar is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Jar, static item => item is not null) : (Jar is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Jar), static item => item is not null)))) ? 1 : 0) + (((object?)PyPath is global::System.Collections.Generic.IEnumerable<char> ? (object?)PyPath is not string || !string.IsNullOrWhiteSpace(PyPath?.ToString()) : ((object?)PyPath is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PyPath, static item => item is not null) : (PyPath is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PyPath), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of GoBinaryPath, Jar, or PyPath may be specified.", [nameof(GoBinaryPath), nameof(Jar), nameof(PyPath)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(WorkerRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerZone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of WorkerRegion or WorkerZone may be specified.", [nameof(WorkerRegion), nameof(WorkerZone)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "vpc-flow-logs-configs", "create")]
-public record GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions : GcloudOptions
+public record GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// creates a new VPC     Flow Logs configuration
+    /// </summary>
+    /// <param name="VpcFlowLogsConfig">VpcFlowLogsConfig resource - Identifier. Unique name of the configuration. The name can have one of the following forms: ◆ For project-level configurations: projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} ◆ For organization-level configurations: organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkmanagement.organizations.locations.vpcFlowLogsConfigs, networkmanagement.projects.locations.vpcFlowLogsConfigs]. This must be specified. ID of the vpcFlowLogsConfig or fully qualified identifier for the vpcFlowLogsConfig. To set the vpc_flow_logs_config attribute: ▸ provide the argument vpc_flow_logs_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions(
+        string VpcFlowLogsConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcFlowLogsConfig);
+        this.VpcFlowLogsConfig = VpcFlowLogsConfig;
+    }
+
+    public void Deconstruct(out string VpcFlowLogsConfig)
+    {
+        VpcFlowLogsConfig = this.VpcFlowLogsConfig;
+    }
+
+    /// <summary>
+    /// VpcFlowLogsConfig resource - Identifier. Unique name of the configuration. The name can have one of the following forms: ◆ For project-level configurations: projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} ◆ For organization-level configurations: organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkmanagement.organizations.locations.vpcFlowLogsConfigs, networkmanagement.projects.locations.vpcFlowLogsConfigs]. This must be specified. The location id of the vpcFlowLogsConfig resource. To set the location attribute: ▸ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// VpcFlowLogsConfig resource - Identifier. Unique name of the configuration. The name can have one of the following forms: ◆ For project-level configurations: projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} ◆ For organization-level configurations: organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkmanagement.organizations.locations.vpcFlowLogsConfigs, networkmanagement.projects.locations.vpcFlowLogsConfigs]. This must be specified. The organization id of the vpcFlowLogsConfig resource. To set the organization attribute: ▸ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [networkmanagement.organizations.locations.vpcFlowLogsConfigs].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
     /// <summary>
     /// Arguments for the aggregation interval. The aggregation interval for the logs. Default value is INTERVAL_5_SEC. AGGREGATION_INTERVAL must be one of: interval-1-min Aggregate logs in 1m intervals. interval-10-min Aggregate logs in 10m intervals. interval-15-min Aggregate logs in 15m intervals. interval-30-sec Aggregate logs in 30s intervals. interval-5-min Aggregate logs in 5m intervals. interval-5-sec Aggregate logs in 5s intervals.
     /// </summary>
@@ -70,9 +100,9 @@ public record GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions : GcloudOpt
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// Arguments for the metadata. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA.
+    /// Arguments for the metadata. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     /// <summary>
@@ -104,5 +134,21 @@ public record GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions : GcloudOpt
     /// </summary>
     [CliOption("--vpn-tunnel", Format = OptionFormat.EqualsSeparated)]
     public string? VpnTunnel { get; set; }
+
+    /// <summary>
+    /// VpcFlowLogsConfig resource - Identifier. Unique name of the configuration. The name can have one of the following forms: ◆ For project-level configurations: projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} ◆ For organization-level configurations: organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkmanagement.organizations.locations.vpcFlowLogsConfigs, networkmanagement.projects.locations.vpcFlowLogsConfigs]. This must be specified. ID of the vpcFlowLogsConfig or fully qualified identifier for the vpcFlowLogsConfig. To set the vpc_flow_logs_config attribute: ▸ provide the argument vpc_flow_logs_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string VpcFlowLogsConfig { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(InterconnectAttachment) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Network) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Subnet) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VpnTunnel) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InterconnectAttachment, Network, Subnet, or VpnTunnel may be specified.", [nameof(InterconnectAttachment), nameof(Network), nameof(Subnet), nameof(VpnTunnel)]);
+        }
+        yield break;
+    }
 
 }

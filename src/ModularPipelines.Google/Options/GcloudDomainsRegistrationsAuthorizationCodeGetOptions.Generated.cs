@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("domains", "registrations", "authorization-code", "get")]
 public record GcloudDomainsRegistrationsAuthorizationCodeGetOptions : GcloudOptions
 {
+    /// <summary>
+    /// get authorization     code of a specific Cloud Domains registration
+    /// </summary>
+    /// <param name="Registration">Registration resource - The domain registration to get authorization code for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ location is always global. This must be specified. ID of the registration or fully qualified identifier for the registration. To set the registration attribute: ▸ provide the argument registration on the command line.</param>
+    public GcloudDomainsRegistrationsAuthorizationCodeGetOptions(
+        string Registration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Registration);
+        this.Registration = Registration;
+    }
+
+    public void Deconstruct(out string Registration)
+    {
+        Registration = this.Registration;
+    }
+
+    /// <summary>
+    /// Registration resource - The domain registration to get authorization code for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ location is always global. This must be specified. ID of the registration or fully qualified identifier for the registration. To set the registration attribute: ▸ provide the argument registration on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Registration { get; private init; }
+
 }

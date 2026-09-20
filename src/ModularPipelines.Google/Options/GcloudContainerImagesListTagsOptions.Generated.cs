@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "images", "list-tags")]
-public record GcloudContainerImagesListTagsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
-) : GcloudOptions
+public record GcloudContainerImagesListTagsOptions : GcloudOptions
 {
+    /// <summary>
+    /// list tags and digests for the specified     image
+    /// </summary>
+    /// <param name="ImageName">The name of the image to list tags for. The name format should be *.gcr.io/PROJECT_ID/IMAGE_PATH.</param>
+    public GcloudContainerImagesListTagsOptions(
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    public void Deconstruct(out string ImageName)
+    {
+        ImageName = this.ImageName;
+    }
+
+    /// <summary>
+    /// The name of the image to list tags for. The name format should be *.gcr.io/PROJECT_ID/IMAGE_PATH.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageName { get; private init; }
+
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-management", "connectivity-tests", "describe")]
 public record GcloudNetworkManagementConnectivityTestsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     connectivity test
+    /// </summary>
+    /// <param name="ConnectivityTest">Connectivity test resource - Name of the connectivity test you want to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connectivity_test on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connectivity test or fully qualified identifier for the connectivity test. To set the connectivity_test attribute: ▸ provide the argument connectivity_test on the command line.</param>
+    public GcloudNetworkManagementConnectivityTestsDescribeOptions(
+        string ConnectivityTest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectivityTest);
+        this.ConnectivityTest = ConnectivityTest;
+    }
+
+    public void Deconstruct(out string ConnectivityTest)
+    {
+        ConnectivityTest = this.ConnectivityTest;
+    }
+
+    /// <summary>
+    /// Connectivity test resource - Name of the connectivity test you want to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connectivity_test on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connectivity test or fully qualified identifier for the connectivity test. To set the connectivity_test attribute: ▸ provide the argument connectivity_test on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectivityTest { get; private init; }
+
 }

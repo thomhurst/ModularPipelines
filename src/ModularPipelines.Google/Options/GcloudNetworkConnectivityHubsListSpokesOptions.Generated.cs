@@ -23,15 +23,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityHubsListSpokesOptions : GcloudOptions
 {
     /// <summary>
-    /// A comma separated list of locations. The locations can be set to 'global' and/or Google Cloud supported regions. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).
+    /// list hub spokes
     /// </summary>
-    [CliOption("--spoke-locations", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Hub">Hub resource - Name of the hub associated with the returned list of spokes. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.</param>
+    public GcloudNetworkConnectivityHubsListSpokesOptions(
+        string Hub
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hub);
+        this.Hub = Hub;
+    }
+
+    public void Deconstruct(out string Hub)
+    {
+        Hub = this.Hub;
+    }
+
+    /// <summary>
+    /// A comma separated list of locations. The locations can be set to 'global' and/or Google Cloud supported regions. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--spoke-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SpokeLocations { get; set; }
 
     /// <summary>
     /// Enumeration to control which spoke fields are included in the response. VIEW must be one of: basic, detailed.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
-    public GcloudView? View { get; set; }
+    public GcloudNetworkConnectivityHubsListSpokesView? View { get; set; }
+
+    /// <summary>
+    /// Hub resource - Name of the hub associated with the returned list of spokes. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Hub { get; private init; }
 
 }

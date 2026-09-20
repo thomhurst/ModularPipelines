@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "schemas", "delete-revision")]
 public record GcloudPubsubSchemasDeleteRevisionOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Pub/Sub schema revision
+    /// </summary>
+    /// <param name="Schema">Schema resource - Name of the schema revision to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument schema on the command line.</param>
+    public GcloudPubsubSchemasDeleteRevisionOptions(
+        string Schema
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+    }
+
+    public void Deconstruct(out string Schema)
+    {
+        Schema = this.Schema;
+    }
+
+    /// <summary>
+    /// Schema resource - Name of the schema revision to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument schema on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Schema { get; private init; }
+
 }

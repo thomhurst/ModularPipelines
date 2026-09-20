@@ -19,8 +19,104 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "import", "csv")]
-public record GcloudSqlImportCsvOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlImportCsvOptions : GcloudOptions
 {
+    /// <summary>
+    /// imports data into a Cloud SQL instance from a CSV     file
+    /// </summary>
+    /// <param name="Database">The database (for example, guestbook) to which the import is made.</param>
+    /// <param name="Table">The database table to import csv file into.</param>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="Uri">Path to the CSV file in Google Cloud Storage from which the import is made. The URI is in the form gs://bucketName/fileName. Compressed gzip files (.gz) are also supported.</param>
+    public GcloudSqlImportCsvOptions(
+        string Database,
+        string Table,
+        string Instance,
+        string Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Uri);
+        this.Uri = Uri;
+    }
+
+    public void Deconstruct(out string Database, out string Table, out string Instance, out string Uri)
+    {
+        Database = this.Database;
+        Table = this.Table;
+        Instance = this.Instance;
+        Uri = this.Uri;
+    }
+
+    /// <summary>
+    /// The database (for example, guestbook) to which the import is made.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// The database table to import csv file into.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string Table { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The columns to import from csv file. These correspond to actual database columns to import. If not set, all columns from csv file are imported to corresponding database columns. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--columns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Columns { get; set; }
+
+    /// <summary>
+    /// Specifies the character that should appear before a data character that needs to be escaped. The value of this argument has to be a character in Hex ASCII Code. For example, "22" represents double quotes. This flag is only available for MySQL and Postgres. If this flag is not provided, double quotes character will be used as the default value.
+    /// </summary>
+    [CliOption("--escape", Format = OptionFormat.EqualsSeparated)]
+    public string? Escape { get; set; }
+
+    /// <summary>
+    /// Specifies the character that splits column values. The value of this argument has to be a character in Hex ASCII Code. For example, "2C" represents a comma. This flag is only available for MySQL and Postgres. If this flag is not provided, a comma character will be used as the default value.
+    /// </summary>
+    [CliOption("--fields-terminated-by", Format = OptionFormat.EqualsSeparated)]
+    public string? FieldsTerminatedBy { get; set; }
+
+    /// <summary>
+    /// Specifies the character that split line records. The value of this argument has to be a character in Hex ASCII Code. For example, "0A" represents a new line. This flag is only available for MySQL. If this flag is not provided, a new line character will be used as the default value.
+    /// </summary>
+    [CliOption("--lines-terminated-by", Format = OptionFormat.EqualsSeparated)]
+    public string? LinesTerminatedBy { get; set; }
+
+    /// <summary>
+    /// Specifies the character that encloses values from columns that have string data type. The value of this argument has to be a character in Hex ASCII Code. For example, "22" represents double quotes. This flag is only available for MySQL and Postgres. If this flag is not provided, double quotes character will be used as the default value.
+    /// </summary>
+    [CliOption("--quote", Format = OptionFormat.EqualsSeparated)]
+    public string? Quote { get; set; }
+
+    /// <summary>
+    /// PostgreSQL user for this import operation.
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public string? User { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Path to the CSV file in Google Cloud Storage from which the import is made. The URI is in the form gs://bucketName/fileName. Compressed gzip files (.gz) are also supported.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Uri { get; private init; }
+
 }

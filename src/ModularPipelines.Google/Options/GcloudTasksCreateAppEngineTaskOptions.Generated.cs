@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,93 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "create-app-engine-task")]
-public record GcloudTasksCreateAppEngineTaskOptions : GcloudOptions
+public record GcloudTasksCreateAppEngineTaskOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create and add a task that targets     App Engine
+    /// </summary>
+    /// <param name="Queue">The queue the task belongs to.</param>
+    public GcloudTasksCreateAppEngineTaskOptions(
+        string Queue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Queue);
+        this.Queue = Queue;
+    }
+
+    public void Deconstruct(out string Queue)
+    {
+        Queue = this.Queue;
+    }
+
+    /// <summary>
+    /// The queue the task belongs to.
+    /// </summary>
+    [CliOption("--queue", Format = OptionFormat.EqualsSeparated)]
+    public string Queue { get; private init; }
+
+    /// <summary>
+    /// An HTTP request header. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden.
+    /// </summary>
+    [CliOption("--header", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Header { get; set; }
+
+    /// <summary>
+    /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The HTTP method to use for the request. If not specified, "POST" will be used.
+    /// </summary>
+    [CliOption("--method", Format = OptionFormat.EqualsSeparated)]
+    public string? Method { get; set; }
+
+    /// <summary>
+    /// The relative URI of the request. Must begin with "/" and must be a valid HTTP relative URI. It can contain a path and query string arguments. If not specified, then the root path "/" will be used.
+    /// </summary>
+    [CliOption("--relative-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? RelativeUri { get; set; }
+
+    /// <summary>
+    /// The route to be used for this task. KEY must be at least one of: [service, version, instance]. Any missing keys will use the default. Routing can be overridden by the queue-level --routing-override flag. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--routing", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Routing { get; set; }
+
+    /// <summary>
+    /// The time when the task is scheduled to be first attempted. Defaults to "now" if not specified.
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: HTTP Body data sent to the task worker processing the task.
+    /// </summary>
+    [CliOption("--body-content", Format = OptionFormat.EqualsSeparated)]
+    public string? BodyContent { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: File containing HTTP body data sent to the task worker processing the task.
+    /// </summary>
+    [CliOption("--body-file", Format = OptionFormat.EqualsSeparated)]
+    public string? BodyFile { get; set; }
+
+    /// <summary>
+    /// The task to create. If not specified then the system will generate a random unique task ID. Explicitly specifying a task ID enables task de-duplication. If a task's ID is identical to that of an existing task or a task that was deleted or completed recently then the call will fail. Because there is an extra lookup cost to identify duplicate task names, tasks created with IDs have significantly increased latency. Using hashed strings for the task ID or for the prefix of the task ID is recommended.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? TaskId { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BodyContent) ? 1 : 0) + (!string.IsNullOrWhiteSpace(BodyFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BodyContent or BodyFile may be specified.", [nameof(BodyContent), nameof(BodyFile)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "rules", "create")]
 public record GcloudArtifactsRulesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an Artifact Registry rule
+    /// </summary>
+    /// <param name="Action">The action the rule would make, can only be DENY or ALLOW. ACTION must be one of: allow, deny.</param>
+    /// <param name="Rule">Rule resource - The Artifact Registry rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rule or fully qualified identifier for the rule. To set the rule attribute: ▸ provide the argument rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudArtifactsRulesCreateOptions(
+        GcloudArtifactsRulesCreateAction Action,
+        string Rule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Rule);
+        this.Rule = Rule;
+    }
+
+    public void Deconstruct(out GcloudArtifactsRulesCreateAction Action, out string Rule)
+    {
+        Action = this.Action;
+        Rule = this.Rule;
+    }
+
+    /// <summary>
+    /// The action the rule would make, can only be DENY or ALLOW. ACTION must be one of: allow, deny.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public GcloudArtifactsRulesCreateAction Action { get; private init; }
+
+    /// <summary>
+    /// Rule resource - The Artifact Registry rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the rule. Overrides the default artifacts/location property value for this command invocation. To configure the default location, use the command: gcloud config set artifacts/location. To set the location attribute: ▸ provide the argument rule on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Rule resource - The Artifact Registry rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The repository associated with the rule. Overrides the default artifacts/repository property value for this command invocation. To configure the default repository, use the command: gcloud config set artifacts/repository. To set the repository attribute: ▸ provide the argument rule on the command line with a fully specified name; ▸ provide the argument --repository on the command line; ▸ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// The CEL expression for the rule.
+    /// </summary>
+    [CliOption("--condition", Format = OptionFormat.EqualsSeparated)]
+    public string? Condition { get; set; }
+
+    /// <summary>
+    /// The operation the rule applies to. OPERATION must be (only one value is supported): download.
+    /// </summary>
+    [CliOption("--operation", Format = OptionFormat.EqualsSeparated)]
+    public string? Operation { get; set; }
+
+    /// <summary>
+    /// The package the rule applies to. Empty means the rule is set for the entire repository.
+    /// </summary>
+    [CliOption("--package", Format = OptionFormat.EqualsSeparated)]
+    public string? Package { get; set; }
+
+    /// <summary>
+    /// Rule resource - The Artifact Registry rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rule or fully qualified identifier for the rule. To set the rule attribute: ▸ provide the argument rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rule { get; private init; }
+
 }

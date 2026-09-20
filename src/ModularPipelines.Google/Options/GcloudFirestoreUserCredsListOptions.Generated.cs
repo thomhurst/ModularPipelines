@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "user-creds", "list")]
 public record GcloudFirestoreUserCredsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// lists user creds under a Cloud Firestore     database
+    /// </summary>
+    /// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore user-creds list --database='foo'</param>
+    public GcloudFirestoreUserCredsListOptions(
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string Database)
+    {
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// The database to operate on. For example, to operate on database foo: $ gcloud firestore user-creds list --database='foo'
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
 }

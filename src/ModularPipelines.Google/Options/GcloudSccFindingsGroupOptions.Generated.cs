@@ -35,10 +35,10 @@ public record GcloudSccFindingsGroupOptions : GcloudOptions
     public string? Filter { get; set; }
 
     /// <summary>
-    /// Expression that defines what findings fields to use for grouping (including 'state'). String value should follow SQL syntax: comma separated list of fields. For example: "parent,resource_name". The following fields are supported: ◆ resource_name ◆ category ◆ state ◆ parent
+    /// Expression that defines what findings fields to use for grouping (including 'state'). String value should follow SQL syntax: comma separated list of fields. For example: "parent,resource_name". The following fields are supported: ◆ resource_name ◆ category ◆ state ◆ parent Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--group-by", Format = OptionFormat.EqualsSeparated)]
-    public string? GroupBy { get; set; }
+    [CliOption("--group-by", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>
     /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
@@ -70,5 +70,11 @@ public record GcloudSccFindingsGroupOptions : GcloudOptions
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// Parent resource - parent organization, folder, or project in the Google Cloud resource hierarchy to be used for the gcloud scc command. Specify the argument as either [RESOURCE_TYPE/RESOURCE_ID] or [RESOURCE_ID], as shown in the preceding examples. This represents a Cloud resource. ID of the parent or fully qualified identifier for the parent. To set the parent attribute: ◆ provide the argument parent on the command line; ◆ Set the parent property in configuration using gcloud config set scc/parent if it is not specified in command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Parent { get; set; }
 
 }

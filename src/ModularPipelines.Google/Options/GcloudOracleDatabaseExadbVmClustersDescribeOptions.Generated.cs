@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "exadb-vm-clusters", "describe")]
 public record GcloudOracleDatabaseExadbVmClustersDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get details of a     ExadbVmCluster
+    /// </summary>
+    /// <param name="ExadbVmCluster">ExadbVmCluster resource - The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the exadbVmCluster or fully qualified identifier for the exadbVmCluster. To set the exadb_vm_cluster attribute: ▸ provide the argument exadb_vm_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseExadbVmClustersDescribeOptions(
+        string ExadbVmCluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExadbVmCluster);
+        this.ExadbVmCluster = ExadbVmCluster;
+    }
+
+    public void Deconstruct(out string ExadbVmCluster)
+    {
+        ExadbVmCluster = this.ExadbVmCluster;
+    }
+
+    /// <summary>
+    /// ExadbVmCluster resource - The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the exadbVmCluster resource. To set the location attribute: ▸ provide the argument exadb_vm_cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ExadbVmCluster resource - The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the exadbVmCluster or fully qualified identifier for the exadbVmCluster. To set the exadb_vm_cluster attribute: ▸ provide the argument exadb_vm_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ExadbVmCluster { get; private init; }
+
 }

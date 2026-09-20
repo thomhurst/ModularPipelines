@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("anthos", "create-login-config")]
 public record GcloudAnthosCreateLoginConfigOptions : GcloudOptions
 {
+    /// <summary>
+    /// generates a login configuration file
+    /// </summary>
+    /// <param name="KubeConfig">Specifies the input kubeconfig file to access user cluster for login configuration data.</param>
+    public GcloudAnthosCreateLoginConfigOptions(
+        string KubeConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KubeConfig);
+        this.KubeConfig = KubeConfig;
+    }
+
+    public void Deconstruct(out string KubeConfig)
+    {
+        KubeConfig = this.KubeConfig;
+    }
+
+    /// <summary>
+    /// Specifies the input kubeconfig file to access user cluster for login configuration data.
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string KubeConfig { get; private init; }
+
+    /// <summary>
+    /// Specifies the file path of an existing login configuration file to merge with.
+    /// </summary>
+    [CliOption("--merge-from", Format = OptionFormat.EqualsSeparated)]
+    public string? MergeFrom { get; set; }
+
+    /// <summary>
+    /// Destination to write login configuration file. Defaults to "kubectl-anthos-config.yaml".
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public string? Output { get; set; }
+
 }

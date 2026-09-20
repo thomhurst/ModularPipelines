@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,18 +21,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "scopes", "update")]
-public record GcloudContainerHubScopesUpdateOptions : GcloudOptions
+public record GcloudContainerHubScopesUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// update a scope
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Scope">Scope resource - fleet scope resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument scope on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the scope or fully qualified identifier for the scope. To set the scope attribute: ▸ provide the argument scope on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerHubScopesUpdateOptions(
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Scope)
+    {
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// Scope resource - fleet scope resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument scope on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument scope on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ global is the only supported location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// List of scope-level label KEY=VALUE pairs to update in the cluster namespace. If a label exists, its value is modified. Otherwise, a new label is' created.
+    /// List of scope-level label KEY=VALUE pairs to update in the cluster namespace. If a label exists, its value is modified. Otherwise, a new label is' created. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-namespace-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-namespace-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateNamespaceLabels { get; set; }
 
     /// <summary>
@@ -41,10 +65,32 @@ public record GcloudContainerHubScopesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Remove all scope-level labels from the cluster namespace. If --update-namespace-labels is also specified then --clear-namespace-labels is applied first. For example, to remove all labels: $ gcloud container hub scopes update scope_name \ --clear-namespace-labels To remove all existing scope-level labels and create two new labels, foo and baz: $ gcloud container hub scopes update scope_name \ --clear-namespace-labels \ --update-namespace-labels foo=bar,baz=qux
@@ -53,10 +99,32 @@ public record GcloudContainerHubScopesUpdateOptions : GcloudOptions
     public bool? ClearNamespaceLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of scope-level label keys to remove in the cluster namespace. If a label does not exist it is silently ignored. If --update-namespace-labels is also specified then --update-namespace-labels is applied first.
+    /// At most one of these can be specified: List of scope-level label keys to remove in the cluster namespace. If a label does not exist it is silently ignored. If --update-namespace-labels is also specified then --update-namespace-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-namespace-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveNamespaceLabels { get; set; }
+    [CliOption("--remove-namespace-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveNamespaceLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveNamespaceLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveNamespaceLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Rollout Sequencing Configures the default soaking duration for each upgrade propagating through the current scope to become "COMPLETE". Soaking begins after all clusters in the scope are on the target version, or after 30 days if all cluster upgrades are not complete. Once an upgrade state becomes "COMPLETE", it will automatically be propagated to the downstream scope. Max is 30 days. See $ gcloud topic datetimes for information on duration formats. To configure Rollout Sequencing for a given scope, SCOPE_NAME, this attribute must be set. To do this while specifying a default soaking duration of 7 days, run: $ gcloud container hub scopes update SCOPE_NAME \ default-upgrade-soaking=7d
@@ -93,5 +161,41 @@ public record GcloudContainerHubScopesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--upstream-scope", Format = OptionFormat.EqualsSeparated)]
     public string? UpstreamScope { get; set; }
+
+    /// <summary>
+    /// Scope resource - fleet scope resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument scope on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the scope or fully qualified identifier for the scope. To set the scope attribute: ▸ provide the argument scope on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Scope { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((ClearNamespaceLabels == true ? 1 : 0) + (((object?)RemoveNamespaceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveNamespaceLabels is not string || !string.IsNullOrWhiteSpace(RemoveNamespaceLabels?.ToString()) : ((object?)RemoveNamespaceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveNamespaceLabels, static item => item is not null) : (RemoveNamespaceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveNamespaceLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearNamespaceLabels or RemoveNamespaceLabels may be specified.", [nameof(ClearNamespaceLabels), nameof(RemoveNamespaceLabels)]);
+        }
+        if ((RemoveUpgradeSoakingOverrides == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RemoveUpgradeSoakingOverrides, (AddUpgradeSoakingOverride or UpgradeSelector), or (AddUpgradeSoakingOverride or UpgradeSelector) may be specified.", [nameof(RemoveUpgradeSoakingOverrides), nameof(AddUpgradeSoakingOverride), nameof(UpgradeSelector)]);
+        }
+        if ((RemoveUpgradeSoakingOverrides == true || !string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) && (!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) && (!(!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride))))
+        {
+            yield return new ValidationResult("AddUpgradeSoakingOverride must be specified when other arguments in this group are specified.", [nameof(AddUpgradeSoakingOverride)]);
+        }
+        if ((RemoveUpgradeSoakingOverrides == true || !string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) && (!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) && (!(!string.IsNullOrWhiteSpace(UpgradeSelector))))
+        {
+            yield return new ValidationResult("UpgradeSelector must be specified when other arguments in this group are specified.", [nameof(UpgradeSelector)]);
+        }
+        if ((ResetUpstreamScope == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(UpstreamScope) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ResetUpstreamScope or UpstreamScope may be specified.", [nameof(ResetUpstreamScope), nameof(UpstreamScope)]);
+        }
+        yield break;
+    }
 
 }

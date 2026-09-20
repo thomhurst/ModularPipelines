@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "tensorboards", "delete")]
 public record GcloudAiTensorboardsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete an existing Vertex AI Tensorboard
+    /// </summary>
+    /// <param name="Tensorboard">Tensorboard resource - The tensorboard to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tensorboard on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tensorboard or fully qualified identifier for the tensorboard. To set the name attribute: ▸ provide the argument tensorboard on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiTensorboardsDeleteOptions(
+        string Tensorboard
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Tensorboard);
+        this.Tensorboard = Tensorboard;
+    }
+
+    public void Deconstruct(out string Tensorboard)
+    {
+        Tensorboard = this.Tensorboard;
+    }
+
+    /// <summary>
+    /// Tensorboard resource - The tensorboard to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tensorboard on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the tensorboard. To set the region attribute: ▸ provide the argument tensorboard on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Tensorboard resource - The tensorboard to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tensorboard on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tensorboard or fully qualified identifier for the tensorboard. To set the name attribute: ▸ provide the argument tensorboard on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Tensorboard { get; private init; }
+
 }

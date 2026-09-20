@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBigtableClustersListOptions : GcloudOptions
 {
     /// <summary>
-    /// Instance resource - The instances to list clusters for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instances on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. IDs of the instances or fully qualified identifiers for the instances. To set the instance attribute: ◆ provide the argument --instances on the command line.
+    /// Instance resource - The instances to list clusters for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instances on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. IDs of the instances or fully qualified identifiers for the instances. To set the instance attribute: ◆ provide the argument --instances on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--instances", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Instances { get; set; }
 
 }

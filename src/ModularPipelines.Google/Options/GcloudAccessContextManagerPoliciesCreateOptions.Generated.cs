@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "policies", "create")]
 public record GcloudAccessContextManagerPoliciesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new access policy
+    /// </summary>
+    /// <param name="Organization">Parent organization for the access policies.</param>
+    /// <param name="Title">Short human-readable title of the access policy.</param>
+    public GcloudAccessContextManagerPoliciesCreateOptions(
+        string Organization,
+        string Title
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Organization);
+        this.Organization = Organization;
+        global::System.ArgumentNullException.ThrowIfNull(Title);
+        this.Title = Title;
+    }
+
+    public void Deconstruct(out string Organization, out string Title)
+    {
+        Organization = this.Organization;
+        Title = this.Title;
+    }
+
+    /// <summary>
+    /// Parent organization for the access policies.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string Organization { get; private init; }
+
+    /// <summary>
+    /// Short human-readable title of the access policy.
+    /// </summary>
+    [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
+    public string Title { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Folder or project on which this policy is applicable. You can specify only one folder or project as the scope and the scope must exist within the specified organization. If you don't specify a scope, the policy applies to the entire organization. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Scopes { get; set; }
+
 }

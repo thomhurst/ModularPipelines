@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,84 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "add-user-defined-field")]
-public record GcloudPreviewComputeSecurityPoliciesAddUserDefinedFieldOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeSecurityPoliciesAddUserDefinedFieldOptions : GcloudOptions
 {
+    /// <summary>
+    /// add a     user defined field to a Compute Engine security policy
+    /// </summary>
+    /// <param name="Base">The base relative to which offset is measured. BASE must be one of: ipv4, ipv6, tcp, udp.</param>
+    /// <param name="Offset">Offset of the first byte of the field (in network byte order) relative to base.</param>
+    /// <param name="Size">Size of the field in bytes. Valid values: 1-4.</param>
+    /// <param name="UserDefinedFieldName">The name for the user defined field.</param>
+    /// <param name="Name">Name of the security policy to update.</param>
+    public GcloudPreviewComputeSecurityPoliciesAddUserDefinedFieldOptions(
+        GcloudPreviewComputeSecurityPoliciesAddUserDefinedFieldBase Base,
+        string Offset,
+        int Size,
+        string UserDefinedFieldName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Base);
+        this.Base = Base;
+        global::System.ArgumentNullException.ThrowIfNull(Offset);
+        this.Offset = Offset;
+        this.Size = Size;
+        global::System.ArgumentNullException.ThrowIfNull(UserDefinedFieldName);
+        this.UserDefinedFieldName = UserDefinedFieldName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out GcloudPreviewComputeSecurityPoliciesAddUserDefinedFieldBase Base, out string Offset, out int Size, out string UserDefinedFieldName, out string Name)
+    {
+        Base = this.Base;
+        Offset = this.Offset;
+        Size = this.Size;
+        UserDefinedFieldName = this.UserDefinedFieldName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The base relative to which offset is measured. BASE must be one of: ipv4, ipv6, tcp, udp.
+    /// </summary>
+    [CliOption("--base", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPreviewComputeSecurityPoliciesAddUserDefinedFieldBase Base { get; private init; }
+
+    /// <summary>
+    /// Offset of the first byte of the field (in network byte order) relative to base.
+    /// </summary>
+    [CliOption("--offset", Format = OptionFormat.EqualsSeparated)]
+    public string Offset { get; private init; }
+
+    /// <summary>
+    /// Size of the field in bytes. Valid values: 1-4.
+    /// </summary>
+    [CliOption("--size", Format = OptionFormat.EqualsSeparated)]
+    public int Size { get; private init; }
+
+    /// <summary>
+    /// The name for the user defined field.
+    /// </summary>
+    [CliOption("--user-defined-field-name", Format = OptionFormat.EqualsSeparated)]
+    public string UserDefinedFieldName { get; private init; }
+
+    /// <summary>
+    /// If specified, apply this mask (bitwise AND) to the field to ignore bits before matching. Encoded as a hexadecimal number (starting with "0x").
+    /// </summary>
+    [CliOption("--mask", Format = OptionFormat.EqualsSeparated)]
+    public string? Mask { get; set; }
+
+    /// <summary>
+    /// Region of the security policy to update. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the security policy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,91 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "spokes", "linked-vpc-network", "create")]
 public record GcloudNetworkConnectivitySpokesLinkedVpcNetworkCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new     VPC spoke
+    /// </summary>
+    /// <param name="Hub">Hub that the spoke will attach to. The hub must already exist.</param>
+    /// <param name="VpcNetwork">VPC network that the spoke provides connectivity to. The resource must already exist.</param>
+    /// <param name="Spoke">Spoke resource - Name of the spoke to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --global on the command line. This must be specified. ID of the spoke or fully qualified identifier for the spoke. To set the spoke attribute: ▸ provide the argument spoke on the command line.</param>
+    public GcloudNetworkConnectivitySpokesLinkedVpcNetworkCreateOptions(
+        string Hub,
+        string VpcNetwork,
+        string Spoke
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hub);
+        this.Hub = Hub;
+        global::System.ArgumentNullException.ThrowIfNull(VpcNetwork);
+        this.VpcNetwork = VpcNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(Spoke);
+        this.Spoke = Spoke;
+    }
+
+    public void Deconstruct(out string Hub, out string VpcNetwork, out string Spoke)
+    {
+        Hub = this.Hub;
+        VpcNetwork = this.VpcNetwork;
+        Spoke = this.Spoke;
+    }
+
+    /// <summary>
+    /// Hub that the spoke will attach to. The hub must already exist.
+    /// </summary>
+    [CliOption("--hub", Format = OptionFormat.EqualsSeparated)]
+    public string Hub { get; private init; }
+
+    /// <summary>
+    /// VPC network that the spoke provides connectivity to. The resource must already exist.
+    /// </summary>
+    [CliOption("--vpc-network", Format = OptionFormat.EqualsSeparated)]
+    public string VpcNetwork { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the spoke to create.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Subnet IP address range(s) to hide from other VPC networks that are connected through Network Connectivity Center. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludeExportRanges { get; set; }
+
+    /// <summary>
+    /// Indicates that the spoke is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// Group that the spoke will be part of. The group must already exist.
+    /// </summary>
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
+    public string? Group { get; set; }
+
+    /// <summary>
+    /// Subnet IP address range(s) to export to other VPC networks that are connected through Network Connectivity Center. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IncludeExportRanges { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Spoke resource - Name of the spoke to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --global on the command line. This must be specified. ID of the spoke or fully qualified identifier for the spoke. To set the spoke attribute: ▸ provide the argument spoke on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Spoke { get; private init; }
+
 }

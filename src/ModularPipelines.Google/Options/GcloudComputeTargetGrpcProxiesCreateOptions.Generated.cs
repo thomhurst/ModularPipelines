@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,74 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-grpc-proxies", "create")]
-public record GcloudComputeTargetGrpcProxiesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeTargetGrpcProxiesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a target gRPC proxy
+    /// </summary>
+    /// <param name="UrlMap">A reference to a URL map resource. A URL map defines the mapping of URLs to backend services. Before you can refer to a URL map, you must create the URL map. To delete a URL map that a target proxy is referring to, you must first delete the target gRPC proxy.</param>
+    /// <param name="Name">Name of the target gRPC proxy to create.</param>
+    public GcloudComputeTargetGrpcProxiesCreateOptions(
+        string UrlMap,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UrlMap);
+        this.UrlMap = UrlMap;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string UrlMap, out string Name)
+    {
+        UrlMap = this.UrlMap;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// A reference to a URL map resource. A URL map defines the mapping of URLs to backend services. Before you can refer to a URL map, you must create the URL map. To delete a URL map that a target proxy is referring to, you must first delete the target gRPC proxy.
+    /// </summary>
+    [CliOption("--url-map", Format = OptionFormat.EqualsSeparated)]
+    public string UrlMap { get; private init; }
+
+    /// <summary>
+    /// An optional, textual description for the target gRPC proxy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// If specified, configuration in the associated urlMap and the BackendServices is checked to allow only the features that are supported in the latest release of gRPC. If unspecified, no such configuration checks are performed. This may cause unexpected behavior in gRPC applications if unsupported features are configured.
+    /// </summary>
+    [CliFlag("--validate-for-proxyless")]
+    public bool? ValidateForProxyless { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global-url-map")]
+    public bool? GlobalUrlMap { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--url-map-region", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlMapRegion { get; set; }
+
+    /// <summary>
+    /// Name of the target gRPC proxy to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((GlobalUrlMap == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(UrlMapRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalUrlMap or UrlMapRegion may be specified.", [nameof(GlobalUrlMap), nameof(UrlMapRegion)]);
+        }
+        yield break;
+    }
+
 }

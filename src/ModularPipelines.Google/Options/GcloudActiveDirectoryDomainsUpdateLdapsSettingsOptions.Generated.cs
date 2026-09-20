@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,64 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "update-ldaps-settings")]
-public record GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions : GcloudOptions
+public record GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the LDAPS     settings for a domain
+    /// </summary>
+    /// <param name="Domain">Domain resource - Name of the managed Managed Microsoft AD domain you want to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.</param>
+    public GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions(
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string Domain)
+    {
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Disable LDAPS by deleting all existing certificates. Certificates will need to be re-uploaded if LDAPS is to be re-enabled.
+    /// </summary>
+    [CliFlag("--clear-certificates")]
+    public bool? ClearCertificates { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: PKCS#12-formatted pfx file that specifies the certificate chain used to configure LDAPS. If certificate-password is not specified, command will prompt user for secret. Use a full or relative path to a local file containing the value of certificate_pfx_file. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--certificate-pfx-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificatePfxFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Password used to encrypt the PKCS#12 certificate. If not specified, command will prompt user for secret.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--certificate-password", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificatePassword { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Domain resource - Name of the managed Managed Microsoft AD domain you want to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearCertificates == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CertificatePfxFile) || !string.IsNullOrWhiteSpace(CertificatePassword)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ClearCertificates or (CertificatePfxFile or CertificatePassword) must be specified.", [nameof(ClearCertificates), nameof(CertificatePfxFile), nameof(CertificatePassword)]);
+        }
+        yield break;
+    }
+
 }

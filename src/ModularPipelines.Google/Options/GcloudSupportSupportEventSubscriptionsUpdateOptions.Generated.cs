@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSupportSupportEventSubscriptionsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update     supportEventSubscriptions
+    /// </summary>
+    /// <param name="SupportEventSubscription">SupportEventSubscription resource - Identifier. The resource name of the support event subscription. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the supportEventSubscription or fully qualified identifier for the supportEventSubscription. To set the support_event_subscription attribute: ▸ provide the argument support_event_subscription on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSupportSupportEventSubscriptionsUpdateOptions(
+        string SupportEventSubscription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SupportEventSubscription);
+        this.SupportEventSubscription = SupportEventSubscription;
+    }
+
+    public void Deconstruct(out string SupportEventSubscription)
+    {
+        SupportEventSubscription = this.SupportEventSubscription;
+    }
+
+    /// <summary>
+    /// SupportEventSubscription resource - Identifier. The resource name of the support event subscription. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The organization id of the supportEventSubscription resource. To set the organization attribute: ▸ provide the argument support_event_subscription on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// The name of the Pub/Sub topic to publish notifications to. Format: projects/{project}/topics/{topic}
     /// </summary>
     [CliOption("--pub-sub-topic", Format = OptionFormat.EqualsSeparated)]
     public string? PubSubTopic { get; set; }
+
+    /// <summary>
+    /// SupportEventSubscription resource - Identifier. The resource name of the support event subscription. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the supportEventSubscription or fully qualified identifier for the supportEventSubscription. To set the support_event_subscription attribute: ▸ provide the argument support_event_subscription on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SupportEventSubscription { get; private init; }
 
 }

@@ -19,8 +19,92 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "wire-groups", "create")]
-public record GcloudPreviewComputeInterconnectsWireGroupsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsWireGroupsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Compute     Engine wire group
+    /// </summary>
+    /// <param name="BandwidthAllocation">The bandwidth allocation for the wire group. BANDWIDTH_ALLOCATION must be one of: ALLOCATE_PER_WIRE Configures a separate unmetered bandwidth allocation (and associated charges) for each wire in the group. SHARED_WITH_WIRE_GROUP Configures one unmetered bandwidth allocation for the wire group. The unmetered bandwidth is divided equally across each wire in the group, but dynamic throttling reallocates unused unmetered bandwidth from unused or underused wires to other wires in the group.</param>
+    /// <param name="BandwidthUnmetered">The amount of unmetered bandwidth to assign to the wire group.</param>
+    /// <param name="CrossSiteNetwork">Name of the crossSiteNetwork to operate on.</param>
+    /// <param name="Name">Name of the wire group to create.</param>
+    public GcloudPreviewComputeInterconnectsWireGroupsCreateOptions(
+        string BandwidthAllocation,
+        string BandwidthUnmetered,
+        string CrossSiteNetwork,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BandwidthAllocation);
+        this.BandwidthAllocation = BandwidthAllocation;
+        global::System.ArgumentNullException.ThrowIfNull(BandwidthUnmetered);
+        this.BandwidthUnmetered = BandwidthUnmetered;
+        global::System.ArgumentNullException.ThrowIfNull(CrossSiteNetwork);
+        this.CrossSiteNetwork = CrossSiteNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string BandwidthAllocation, out string BandwidthUnmetered, out string CrossSiteNetwork, out string Name)
+    {
+        BandwidthAllocation = this.BandwidthAllocation;
+        BandwidthUnmetered = this.BandwidthUnmetered;
+        CrossSiteNetwork = this.CrossSiteNetwork;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The bandwidth allocation for the wire group. BANDWIDTH_ALLOCATION must be one of: ALLOCATE_PER_WIRE Configures a separate unmetered bandwidth allocation (and associated charges) for each wire in the group. SHARED_WITH_WIRE_GROUP Configures one unmetered bandwidth allocation for the wire group. The unmetered bandwidth is divided equally across each wire in the group, but dynamic throttling reallocates unused unmetered bandwidth from unused or underused wires to other wires in the group.
+    /// </summary>
+    [CliOption("--bandwidth-allocation", Format = OptionFormat.EqualsSeparated)]
+    public string BandwidthAllocation { get; private init; }
+
+    /// <summary>
+    /// The amount of unmetered bandwidth to assign to the wire group.
+    /// </summary>
+    [CliOption("--bandwidth-unmetered", Format = OptionFormat.EqualsSeparated)]
+    public string BandwidthUnmetered { get; private init; }
+
+    /// <summary>
+    /// Name of the crossSiteNetwork to operate on.
+    /// </summary>
+    [CliOption("--cross-site-network", Format = OptionFormat.EqualsSeparated)]
+    public string CrossSiteNetwork { get; private init; }
+
+    /// <summary>
+    /// Administrative status of the wire group. If not provided on creation, defaults to enabled. When this is enabled, the wire group is operational and will carry traffic. Use --no-admin-enabled to disable it.
+    /// </summary>
+    [CliFlag("--admin-enabled")]
+    public bool? AdminEnabled { get; set; }
+
+    /// <summary>
+    /// Negates --admin-enabled. Administrative status of the wire group. If not provided on creation, defaults to enabled. When this is enabled, the wire group is operational and will carry traffic. Use --no-admin-enabled to disable it.
+    /// </summary>
+    [CliFlag("--no-admin-enabled")]
+    public bool? NoAdminEnabled { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the wire group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The fault response for the wire group. FAULT_RESPONSE must be one of: DISABLE_PORT Disable port NONE None
+    /// </summary>
+    [CliOption("--fault-response", Format = OptionFormat.EqualsSeparated)]
+    public string? FaultResponse { get; set; }
+
+    /// <summary>
+    /// Validate the new configuration, but don't update it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Name of the wire group to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

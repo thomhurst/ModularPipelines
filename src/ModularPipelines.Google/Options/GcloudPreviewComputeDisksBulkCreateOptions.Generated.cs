@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,56 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "disks", "bulk", "create")]
-public record GcloudPreviewComputeDisksBulkCreateOptions : GcloudOptions
+public record GcloudPreviewComputeDisksBulkCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Target region of the created disks, which currently must be the same as the source region. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target zone of the created disks, which currently must be the same as the source zone. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// URL of the format regions/&lt;REGION&gt;/resourcePolicies/&lt;RESOURCE_POLICY&gt; of the source consistency group resource policy. The resource policy is always in the same region as the source disks.
+    /// </summary>
+    [CliOption("--source-consistency-group-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceConsistencyGroupPolicy { get; set; }
+
+    /// <summary>
+    /// URL of the format regions/&lt;REGION&gt;/instantSnapshotGroups/&lt;INSTANT_SNAPSHOT_GROUP&gt; or zones/&lt;ZONE&gt;/instantSnapshotGroups/&lt;INSTANT_SNAPSHOT_GROUP&gt; of the source consistency group of instant snapshots used to create the disks.
+    /// </summary>
+    [CliOption("--source-instant-snapshot-group", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstantSnapshotGroup { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the source instant snapshot group to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--source-instant-snapshot-group-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstantSnapshotGroupRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the source instant snapshot group to operate on. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--source-instant-snapshot-group-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstantSnapshotGroupZone { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Region or Zone must be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SourceInstantSnapshotGroupRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceInstantSnapshotGroupZone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SourceInstantSnapshotGroupRegion or SourceInstantSnapshotGroupZone may be specified.", [nameof(SourceInstantSnapshotGroupRegion), nameof(SourceInstantSnapshotGroupZone)]);
+        }
+        yield break;
+    }
+
 }

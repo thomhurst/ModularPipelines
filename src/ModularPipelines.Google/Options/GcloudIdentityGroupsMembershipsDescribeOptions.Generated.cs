@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("identity", "groups", "memberships", "describe")]
 public record GcloudIdentityGroupsMembershipsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a membership in a     group
+    /// </summary>
+    /// <param name="GroupEmail">The email address of the group whose membership is being described.</param>
+    /// <param name="MemberEmail">The email address of the member whose membership is being described.</param>
+    public GcloudIdentityGroupsMembershipsDescribeOptions(
+        string GroupEmail,
+        string MemberEmail
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupEmail);
+        this.GroupEmail = GroupEmail;
+        global::System.ArgumentNullException.ThrowIfNull(MemberEmail);
+        this.MemberEmail = MemberEmail;
+    }
+
+    public void Deconstruct(out string GroupEmail, out string MemberEmail)
+    {
+        GroupEmail = this.GroupEmail;
+        MemberEmail = this.MemberEmail;
+    }
+
+    /// <summary>
+    /// The email address of the group whose membership is being described.
+    /// </summary>
+    [CliOption("--group-email", Format = OptionFormat.EqualsSeparated)]
+    public string GroupEmail { get; private init; }
+
+    /// <summary>
+    /// The email address of the member whose membership is being described.
+    /// </summary>
+    [CliOption("--member-email", Format = OptionFormat.EqualsSeparated)]
+    public string MemberEmail { get; private init; }
+
 }

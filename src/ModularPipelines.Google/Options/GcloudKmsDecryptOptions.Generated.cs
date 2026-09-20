@@ -21,4 +21,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "decrypt")]
 public record GcloudKmsDecryptOptions : GcloudOptions
 {
+    /// <summary>
+    /// decrypt a ciphertext file using a Cloud KMS key
+    /// </summary>
+    /// <param name="CiphertextFile">File path of the ciphertext file to decrypt. This file should contain the result of encrypting a file with gcloud kms encrypt.</param>
+    /// <param name="PlaintextFile">File path of the plaintext file to output.</param>
+    public GcloudKmsDecryptOptions(
+        string CiphertextFile,
+        string PlaintextFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CiphertextFile);
+        this.CiphertextFile = CiphertextFile;
+        global::System.ArgumentNullException.ThrowIfNull(PlaintextFile);
+        this.PlaintextFile = PlaintextFile;
+    }
+
+    public void Deconstruct(out string CiphertextFile, out string PlaintextFile)
+    {
+        CiphertextFile = this.CiphertextFile;
+        PlaintextFile = this.PlaintextFile;
+    }
+
+    /// <summary>
+    /// File path of the ciphertext file to decrypt. This file should contain the result of encrypting a file with gcloud kms encrypt.
+    /// </summary>
+    [CliOption("--ciphertext-file", Format = OptionFormat.EqualsSeparated)]
+    public string CiphertextFile { get; private init; }
+
+    /// <summary>
+    /// File path of the plaintext file to output.
+    /// </summary>
+    [CliOption("--plaintext-file", Format = OptionFormat.EqualsSeparated)]
+    public string PlaintextFile { get; private init; }
+
+    /// <summary>
+    /// File path to the optional file containing the additional authenticated data.
+    /// </summary>
+    [CliOption("--additional-authenticated-data-file", Format = OptionFormat.EqualsSeparated)]
+    public string? AdditionalAuthenticatedDataFile { get; set; }
+
+    /// <summary>
+    /// Cloud KMS key to use for decryption. ◆ For symmetric keys, Cloud KMS detects the decryption key version from the ciphertext. If you specify a key version as part of a symmetric decryption request, an error is logged and decryption fails. ◆ For asymmetric keys, the encryption key version can't be detected automatically. You must keep track of this information and provide the key version in the decryption request. The key version itself is not sensitive data and does not need to be encrypted.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Skip integrity verification on request and response API fields.
+    /// </summary>
+    [CliFlag("--skip-integrity-verification")]
+    public bool? SkipIntegrityVerification { get; set; }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,79 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "custom-modules", "sha", "create")]
-public record GcloudSccCustomModulesShaCreateOptions : GcloudOptions
+public record GcloudSccCustomModulesShaCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Security Health Analytics     custom module
+    /// </summary>
+    /// <param name="CustomConfigFromFile">Path to a YAML file that contains the configuration for the Security Health Analytics custom module. Use a full or relative path to a local file containing the value of custom_config.</param>
+    /// <param name="DisplayName">Sets the display name of the Security Health Analytics custom module. This display name becomes the finding category for all findings that are returned by this custom module. The display name must be between 1 and 128 characters, start with a lowercase letter, and contain alphanumeric characters or underscores only.</param>
+    /// <param name="EnablementState">Sets the enablement state of the Security Health Analytics custom module. From the following list of possible enablement states, specify either enabled or disabled only. ENABLEMENT_STATE must be one of: disabled, enabled, enablement-state-unspecified, inherited.</param>
+    public GcloudSccCustomModulesShaCreateOptions(
+        string CustomConfigFromFile,
+        string DisplayName,
+        GcloudSccCustomModulesShaCreateEnablementState EnablementState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomConfigFromFile);
+        this.CustomConfigFromFile = CustomConfigFromFile;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(EnablementState);
+        this.EnablementState = EnablementState;
+    }
+
+    public void Deconstruct(out string CustomConfigFromFile, out string DisplayName, out GcloudSccCustomModulesShaCreateEnablementState EnablementState)
+    {
+        CustomConfigFromFile = this.CustomConfigFromFile;
+        DisplayName = this.DisplayName;
+        EnablementState = this.EnablementState;
+    }
+
+    /// <summary>
+    /// Path to a YAML file that contains the configuration for the Security Health Analytics custom module. Use a full or relative path to a local file containing the value of custom_config.
+    /// </summary>
+    [CliOption("--custom-config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string CustomConfigFromFile { get; private init; }
+
+    /// <summary>
+    /// Sets the display name of the Security Health Analytics custom module. This display name becomes the finding category for all findings that are returned by this custom module. The display name must be between 1 and 128 characters, start with a lowercase letter, and contain alphanumeric characters or underscores only.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Sets the enablement state of the Security Health Analytics custom module. From the following list of possible enablement states, specify either enabled or disabled only. ENABLEMENT_STATE must be one of: disabled, enabled, enablement-state-unspecified, inherited.
+    /// </summary>
+    [CliOption("--enablement-state", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSccCustomModulesShaCreateEnablementState EnablementState { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder where the Security Health Analytics custom module resides. Formatted as folders/456 or just 456.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization where the Security Health Analytics custom module resides. Formatted as organizations/123 or just 123.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ID or number of the project where the Security Health Analytics custom module resides. Formatted as projects/789 or just 789.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

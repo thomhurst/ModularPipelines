@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instance-partitions", "update")]
-public record GcloudSpannerInstancePartitionsUpdateOptions : GcloudOptions
+public record GcloudSpannerInstancePartitionsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Spanner instance     partition. You can't update the default instance partition using this     command
+    /// </summary>
+    /// <param name="InstancePartition">Instance partition resource - The Spanner instance partition to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_partition on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance partition or fully qualified identifier for the instance partition. To set the instance partition attribute: ▸ provide the argument instance_partition on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerInstancePartitionsUpdateOptions(
+        string InstancePartition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstancePartition);
+        this.InstancePartition = InstancePartition;
+    }
+
+    public void Deconstruct(out string InstancePartition)
+    {
+        InstancePartition = this.InstancePartition;
+    }
+
+    /// <summary>
+    /// Instance partition resource - The Spanner instance partition to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_partition on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the instance partition. To set the instance attribute: ▸ provide the argument instance_partition on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -52,39 +76,59 @@ public record GcloudSpannerInstancePartitionsUpdateOptions : GcloudOptions
     public string? AutoscalingStorageTarget { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Autoscaling CPU targets. Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling CPU targets. Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
     /// </summary>
     [CliOption("--autoscaling-high-priority-cpu-target", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingHighPriorityCpuTarget { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Autoscaling CPU targets. Specifies the target percentage of total CPU the autoscaled instance can utilize.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling CPU targets. Specifies the target percentage of total CPU the autoscaled instance can utilize.
     /// </summary>
     [CliOption("--autoscaling-total-cpu-target", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingTotalCpuTarget { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Maximum number of nodes for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Maximum number of nodes for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMaxNodes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Minimum number of nodes for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Minimum number of nodes for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMinNodes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Autoscaling CPU targets. Autoscaling limits in processing units: Maximum number of processing units for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in processing units: Maximum number of processing units for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-max-processing-units", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMaxProcessingUnits { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Autoscaling CPU targets. Autoscaling limits in processing units: Minimum number of processing units for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling CPU targets. Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in processing units: Minimum number of processing units for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-min-processing-units", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMinProcessingUnits { get; set; }
+
+    /// <summary>
+    /// Instance partition resource - The Spanner instance partition to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_partition on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance partition or fully qualified identifier for the instance partition. To set the instance partition attribute: ▸ provide the argument instance_partition on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstancePartition { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Nodes) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ProcessingUnits) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Nodes, ProcessingUnits, or (AutoscalingStorageTarget, AutoscalingHighPriorityCpuTarget, AutoscalingTotalCpuTarget, AutoscalingMaxNodes, AutoscalingMinNodes, AutoscalingMaxProcessingUnits, or AutoscalingMinProcessingUnits) may be specified.", [nameof(Nodes), nameof(ProcessingUnits), nameof(AutoscalingStorageTarget), nameof(AutoscalingHighPriorityCpuTarget), nameof(AutoscalingTotalCpuTarget), nameof(AutoscalingMaxNodes), nameof(AutoscalingMinNodes), nameof(AutoscalingMaxProcessingUnits), nameof(AutoscalingMinProcessingUnits)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (((!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of (AutoscalingMaxNodes or AutoscalingMinNodes) or (AutoscalingMaxProcessingUnits or AutoscalingMinProcessingUnits) may be specified.", [nameof(AutoscalingMaxNodes), nameof(AutoscalingMinNodes), nameof(AutoscalingMaxProcessingUnits), nameof(AutoscalingMinProcessingUnits)]);
+        }
+        yield break;
+    }
 
 }

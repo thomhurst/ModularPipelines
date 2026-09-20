@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,143 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "locations", "configure-and-deploy-server")]
-public record GcloudApihubLocationsConfigureAndDeployServerOptions : GcloudOptions
+public record GcloudApihubLocationsConfigureAndDeployServerOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// configure and deploy     an API Hub server
+    /// </summary>
+    /// <param name="Location">Location resource - The location in which to configure and deploy the server. Format: projects/{project}/locations/{location}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument location on the command line.</param>
+    public GcloudApihubLocationsConfigureAndDeployServerOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. The specific Apigee X environment where the server will be deployed. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--apigee-x-environment", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXEnvironment { get; set; }
+
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. Name identifying the proxy resource in Apigee X. Standard alphanumeric format (e.g. "mcp-discovery-server"). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--apigee-x-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXProxy { get; set; }
+
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. The runtime project that hosts the Apigee X organization. This must be one of the runtime projects attached to the API Hub host project. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--apigee-x-target-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXTargetProject { get; set; }
+
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. Description for the deployed proxy revision in Apigee X.
+    /// </summary>
+    [CliOption("--apigee-x-proxy-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXProxyDescription { get; set; }
+
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. Display name for the deployed proxy revision in Apigee X.
+    /// </summary>
+    [CliOption("--apigee-x-proxy-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXProxyDisplayName { get; set; }
+
+    /// <summary>
+    /// Server protocol configuration. Exactly one server type must be specified. This must be specified. MCP (Model Context Protocol) server configuration. Provide either --mcp-tools (one or more) or --mcp-tools-from-file. Exactly one of these must be specified: A tool to expose on the MCP server. Repeatable. Each value is a comma-separated dict with keys: ▫ tool-id (required) Unique identifier for the tool. ▫ description (required) What the tool does. ▫ operation (required) Full API Hub operation resource name, e.g. projects/{project}/locations/ {location}/apis/{api}/versions/{version}/ operations/{operation}. For tools that reference an operation by spec + path + method, use --mcp-tools-from-file instead (this flag cannot express the http_operation oneof arm).
+    /// </summary>
+    [CliOption("--mcp-tools", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? McpTools
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __McpToolsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __McpToolsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __McpToolsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __McpToolsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Server protocol configuration. Exactly one server type must be specified. This must be specified. MCP (Model Context Protocol) server configuration. Provide either --mcp-tools (one or more) or --mcp-tools-from-file. Exactly one of these must be specified: Path to a YAML or JSON file containing a list of MCP tools. Each list item maps 1:1 to a tool, with keys: ▫ tool_id (required) ▫ description (required) ▫ Exactly one of: ◇ operation: full API Hub operation resource name ◇ http_operation: { spec, path, method } where method is one of GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH, TRACE.
+    /// </summary>
+    [CliOption("--mcp-tools-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolsFromFile { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Location resource - The location in which to configure and deploy the server. Format: projects/{project}/locations/{location}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument location on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Location { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(ApigeeXEnvironment) || !string.IsNullOrWhiteSpace(ApigeeXProxy) || !string.IsNullOrWhiteSpace(ApigeeXTargetProject) || !string.IsNullOrWhiteSpace(ApigeeXProxyDescription) || !string.IsNullOrWhiteSpace(ApigeeXProxyDisplayName)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (ApigeeXEnvironment, ApigeeXProxy, ApigeeXTargetProject, ApigeeXProxyDescription, or ApigeeXProxyDisplayName) must be specified.", [nameof(ApigeeXEnvironment), nameof(ApigeeXProxy), nameof(ApigeeXTargetProject), nameof(ApigeeXProxyDescription), nameof(ApigeeXProxyDisplayName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApigeeXEnvironment) || !string.IsNullOrWhiteSpace(ApigeeXProxy) || !string.IsNullOrWhiteSpace(ApigeeXTargetProject) || !string.IsNullOrWhiteSpace(ApigeeXProxyDescription) || !string.IsNullOrWhiteSpace(ApigeeXProxyDisplayName)) && (!string.IsNullOrWhiteSpace(ApigeeXEnvironment) || !string.IsNullOrWhiteSpace(ApigeeXProxy) || !string.IsNullOrWhiteSpace(ApigeeXTargetProject) || !string.IsNullOrWhiteSpace(ApigeeXProxyDescription) || !string.IsNullOrWhiteSpace(ApigeeXProxyDisplayName)) && (!(!string.IsNullOrWhiteSpace(ApigeeXEnvironment))))
+        {
+            yield return new ValidationResult("ApigeeXEnvironment must be specified when other arguments in this group are specified.", [nameof(ApigeeXEnvironment)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApigeeXEnvironment) || !string.IsNullOrWhiteSpace(ApigeeXProxy) || !string.IsNullOrWhiteSpace(ApigeeXTargetProject) || !string.IsNullOrWhiteSpace(ApigeeXProxyDescription) || !string.IsNullOrWhiteSpace(ApigeeXProxyDisplayName)) && (!string.IsNullOrWhiteSpace(ApigeeXEnvironment) || !string.IsNullOrWhiteSpace(ApigeeXProxy) || !string.IsNullOrWhiteSpace(ApigeeXTargetProject) || !string.IsNullOrWhiteSpace(ApigeeXProxyDescription) || !string.IsNullOrWhiteSpace(ApigeeXProxyDisplayName)) && (!(!string.IsNullOrWhiteSpace(ApigeeXProxy))))
+        {
+            yield return new ValidationResult("ApigeeXProxy must be specified when other arguments in this group are specified.", [nameof(ApigeeXProxy)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApigeeXEnvironment) || !string.IsNullOrWhiteSpace(ApigeeXProxy) || !string.IsNullOrWhiteSpace(ApigeeXTargetProject) || !string.IsNullOrWhiteSpace(ApigeeXProxyDescription) || !string.IsNullOrWhiteSpace(ApigeeXProxyDisplayName)) && (!string.IsNullOrWhiteSpace(ApigeeXEnvironment) || !string.IsNullOrWhiteSpace(ApigeeXProxy) || !string.IsNullOrWhiteSpace(ApigeeXTargetProject) || !string.IsNullOrWhiteSpace(ApigeeXProxyDescription) || !string.IsNullOrWhiteSpace(ApigeeXProxyDisplayName)) && (!(!string.IsNullOrWhiteSpace(ApigeeXTargetProject))))
+        {
+            yield return new ValidationResult("ApigeeXTargetProject must be specified when other arguments in this group are specified.", [nameof(ApigeeXTargetProject)]);
+        }
+        if ((((object?)McpTools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)McpTools, static item => item is not null) : ((object?)McpTools is global::System.Collections.Generic.IEnumerable<char> ? (object?)McpTools is not string || !string.IsNullOrWhiteSpace(McpTools?.ToString()) : ((object?)McpTools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)McpTools, static item => item is not null) : (McpTools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)McpTools), static item => item is not null))))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(McpToolsFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of McpTools or McpToolsFromFile must be specified.", [nameof(McpTools), nameof(McpToolsFromFile)]);
+        }
+        yield break;
+    }
+
 }

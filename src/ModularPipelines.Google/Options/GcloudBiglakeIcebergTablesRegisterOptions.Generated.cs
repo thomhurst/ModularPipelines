@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("biglake", "iceberg", "tables", "register")]
 public record GcloudBiglakeIcebergTablesRegisterOptions : GcloudOptions
 {
+    /// <summary>
+    /// register a BigLake Iceberg table
+    /// </summary>
+    /// <param name="MetadataLocation">Metadata location of the table.</param>
+    /// <param name="Table">Table resource - The Iceberg Table to register. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ▸ provide the argument table on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBiglakeIcebergTablesRegisterOptions(
+        string MetadataLocation,
+        string Table
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetadataLocation);
+        this.MetadataLocation = MetadataLocation;
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+    }
+
+    public void Deconstruct(out string MetadataLocation, out string Table)
+    {
+        MetadataLocation = this.MetadataLocation;
+        Table = this.Table;
+    }
+
+    /// <summary>
+    /// Metadata location of the table.
+    /// </summary>
+    [CliOption("--metadata-location", Format = OptionFormat.EqualsSeparated)]
+    public string MetadataLocation { get; private init; }
+
+    /// <summary>
+    /// Table resource - The Iceberg Table to register. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Iceberg Catalog for the resource. To set the catalog attribute: ▸ provide the argument table on the command line with a fully specified name; ▸ provide the argument --catalog on the command line.
+    /// </summary>
+    [CliOption("--catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? Catalog { get; set; }
+
+    /// <summary>
+    /// Table resource - The Iceberg Table to register. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Iceberg Namespace for the resource. To set the namespace attribute: ▸ provide the argument table on the command line with a fully specified name; ▸ provide the argument --namespace on the command line.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// Overwrite the table if it already exists.
+    /// </summary>
+    [CliFlag("--overwrite")]
+    public bool? Overwrite { get; set; }
+
+    /// <summary>
+    /// Table resource - The Iceberg Table to register. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ▸ provide the argument table on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Table { get; private init; }
+
 }

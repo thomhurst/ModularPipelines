@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-pools", "set-backup")]
-public record GcloudComputeTargetPoolsSetBackupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeTargetPoolsSetBackupOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set a backup pool for a target     pool
+    /// </summary>
+    /// <param name="Name">The name of the target pool for which to set the backup pool.</param>
+    public GcloudComputeTargetPoolsSetBackupOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Name of the target pool that will serve as backup.
+    /// </summary>
+    [CliOption("--backup-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupPool { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Unsets the backup pool. This disables failover.
+    /// </summary>
+    [CliFlag("--no-backup-pool")]
+    public bool? NoBackupPool { get; set; }
+
+    /// <summary>
+    /// The new failover ratio value for the target pool. This must be a float in the range of [0, 1].
+    /// </summary>
+    [CliOption("--failover-ratio", Format = OptionFormat.EqualsSeparated)]
+    public string? FailoverRatio { get; set; }
+
+    /// <summary>
+    /// Region of the target pool to set a backup pool for. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The name of the target pool for which to set the backup pool.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BackupPool) ? 1 : 0) + (NoBackupPool == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BackupPool or NoBackupPool must be specified.", [nameof(BackupPool), nameof(NoBackupPool)]);
+        }
+        yield break;
+    }
+
 }

@@ -21,4 +21,83 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "plugins", "instances", "manage-source-data")]
 public record GcloudApihubPluginsInstancesManageSourceDataOptions : GcloudOptions
 {
+    /// <summary>
+    /// manage pluginInstances
+    /// </summary>
+    /// <param name="Action">Action to be performed. ACTION must be one of: delete Delete data. upload Upload or upsert data.</param>
+    /// <param name="Data">Data to be managed.</param>
+    /// <param name="DataType">Type of data to be managed. DATA_TYPE must be one of: environment-manifest Environment manifest. proxy-bundle Proxy bundle. proxy-deployment-manifest Proxy deployment manifest. shared-flow-bundle Shared flow bundle.</param>
+    /// <param name="RelativePath">Relative path of data being managed for a given plugin instance.</param>
+    /// <param name="Instance">Instance resource - The name of the plugin instance for which data needs to be managed. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubPluginsInstancesManageSourceDataOptions(
+        string Action,
+        string Data,
+        string DataType,
+        string RelativePath,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Data);
+        this.Data = Data;
+        global::System.ArgumentNullException.ThrowIfNull(DataType);
+        this.DataType = DataType;
+        global::System.ArgumentNullException.ThrowIfNull(RelativePath);
+        this.RelativePath = RelativePath;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Action, out string Data, out string DataType, out string RelativePath, out string Instance)
+    {
+        Action = this.Action;
+        Data = this.Data;
+        DataType = this.DataType;
+        RelativePath = this.RelativePath;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Action to be performed. ACTION must be one of: delete Delete data. upload Upload or upsert data.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public string Action { get; private init; }
+
+    /// <summary>
+    /// Data to be managed.
+    /// </summary>
+    [CliOption("--data", Format = OptionFormat.EqualsSeparated)]
+    public string Data { get; private init; }
+
+    /// <summary>
+    /// Type of data to be managed. DATA_TYPE must be one of: environment-manifest Environment manifest. proxy-bundle Proxy bundle. proxy-deployment-manifest Proxy deployment manifest. shared-flow-bundle Shared flow bundle.
+    /// </summary>
+    [CliOption("--data-type", Format = OptionFormat.EqualsSeparated)]
+    public string DataType { get; private init; }
+
+    /// <summary>
+    /// Relative path of data being managed for a given plugin instance.
+    /// </summary>
+    [CliOption("--relative-path", Format = OptionFormat.EqualsSeparated)]
+    public string RelativePath { get; private init; }
+
+    /// <summary>
+    /// Instance resource - The name of the plugin instance for which data needs to be managed. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the instance resource. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Instance resource - The name of the plugin instance for which data needs to be managed. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The plugin id of the instance resource. To set the plugin attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --plugin on the command line.
+    /// </summary>
+    [CliOption("--plugin", Format = OptionFormat.EqualsSeparated)]
+    public string? Plugin { get; set; }
+
+    /// <summary>
+    /// Instance resource - The name of the plugin instance for which data needs to be managed. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

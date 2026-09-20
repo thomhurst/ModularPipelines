@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "composite-health-checks", "get-health")]
-public record GcloudComputeCompositeHealthChecksGetHealthOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CompositeHealthCheck
-) : GcloudOptions
+public record GcloudComputeCompositeHealthChecksGetHealthOptions : GcloudOptions
 {
+    /// <summary>
+    /// get health status of a     composite health check
+    /// </summary>
+    /// <param name="CompositeHealthCheck">Name of the composite health check to operate on.</param>
+    public GcloudComputeCompositeHealthChecksGetHealthOptions(
+        string CompositeHealthCheck
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CompositeHealthCheck);
+        this.CompositeHealthCheck = CompositeHealthCheck;
+    }
+
+    public void Deconstruct(out string CompositeHealthCheck)
+    {
+        CompositeHealthCheck = this.CompositeHealthCheck;
+    }
+
     /// <summary>
     /// Region of the composite health check to operate on. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the composite health check to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CompositeHealthCheck { get; private init; }
 
 }

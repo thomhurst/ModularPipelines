@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "partner", "update")]
-public record GcloudPreviewComputeInterconnectsAttachmentsPartnerUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsAttachmentsPartnerUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a     Compute Engine partner interconnect attachment
+    /// </summary>
+    /// <param name="Name">Name of the interconnect attachment to patch.</param>
+    public GcloudPreviewComputeInterconnectsAttachmentsPartnerUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Single IPv6 address + prefix length to be configured on the cloud router interface for this interconnect attachment. Example: 2001:db8::1/125
     /// </summary>
@@ -70,5 +85,11 @@ public record GcloudPreviewComputeInterconnectsAttachmentsPartnerUpdateOptions(
     /// </summary>
     [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
     public string? StackType { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect attachment to patch.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

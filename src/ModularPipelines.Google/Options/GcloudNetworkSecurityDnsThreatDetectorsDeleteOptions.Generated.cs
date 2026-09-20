@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "dns-threat-detectors", "delete")]
 public record GcloudNetworkSecurityDnsThreatDetectorsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a     DnsThreatDetector resource
+    /// </summary>
+    /// <param name="DnsThreatDetector">DnsThreatDetector resource - Name of the DnsThreatDetector resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dns_threat_detector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dnsThreatDetector or fully qualified identifier for the dnsThreatDetector. To set the dns_threat_detector attribute: ▸ provide the argument dns_threat_detector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityDnsThreatDetectorsDeleteOptions(
+        string DnsThreatDetector
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DnsThreatDetector);
+        this.DnsThreatDetector = DnsThreatDetector;
+    }
+
+    public void Deconstruct(out string DnsThreatDetector)
+    {
+        DnsThreatDetector = this.DnsThreatDetector;
+    }
+
+    /// <summary>
+    /// DnsThreatDetector resource - Name of the DnsThreatDetector resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dns_threat_detector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the dnsThreatDetector resource. To set the location attribute: ▸ provide the argument dns_threat_detector on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// DnsThreatDetector resource - Name of the DnsThreatDetector resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dns_threat_detector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dnsThreatDetector or fully qualified identifier for the dnsThreatDetector. To set the dns_threat_detector attribute: ▸ provide the argument dns_threat_detector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DnsThreatDetector { get; private init; }
+
 }

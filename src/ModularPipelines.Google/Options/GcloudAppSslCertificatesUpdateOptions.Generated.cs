@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "ssl-certificates", "update")]
-public record GcloudAppSslCertificatesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : GcloudOptions
+public record GcloudAppSslCertificatesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// updates an SSL certificate
+    /// </summary>
+    /// <param name="Id">The id of the certificate. This identifier is printed upon creation of a new certificate. Run gcloud app ssl-certificates list to view existing certificates.</param>
+    public GcloudAppSslCertificatesUpdateOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// The file path for the new certificate to upload. Must be in PEM x.509 format including the header and footer.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudAppSslCertificatesUpdateOptions(
     /// </summary>
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKey { get; set; }
+
+    /// <summary>
+    /// The id of the certificate. This identifier is printed upon creation of a new certificate. Run gcloud app ssl-certificates list to view existing certificates.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

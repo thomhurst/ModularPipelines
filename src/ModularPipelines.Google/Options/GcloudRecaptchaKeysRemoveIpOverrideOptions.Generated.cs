@@ -21,4 +21,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("recaptcha", "keys", "remove-ip-override")]
 public record GcloudRecaptchaKeysRemoveIpOverrideOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove an IP override from a key
+    /// </summary>
+    /// <param name="Ip">IP address to override for the key.</param>
+    /// <param name="Override">If set to allow, the IP address/CIDR range will be removed from the allowlisted IPs. OVERRIDE must be one of: allow, override-type-unspecified.</param>
+    /// <param name="Key">Key resource - The reCAPTCHA key from which to remove the IP override. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the key or fully qualified identifier for the key. To set the key attribute: ▸ provide the argument key on the command line.</param>
+    public GcloudRecaptchaKeysRemoveIpOverrideOptions(
+        string Ip,
+        string Override,
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ip);
+        this.Ip = Ip;
+        global::System.ArgumentNullException.ThrowIfNull(Override);
+        this.Override = Override;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Ip, out string Override, out string Key)
+    {
+        Ip = this.Ip;
+        Override = this.Override;
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// IP address to override for the key.
+    /// </summary>
+    [CliOption("--ip", Format = OptionFormat.EqualsSeparated)]
+    public string Ip { get; private init; }
+
+    /// <summary>
+    /// If set to allow, the IP address/CIDR range will be removed from the allowlisted IPs. OVERRIDE must be one of: allow, override-type-unspecified.
+    /// </summary>
+    [CliOption("--override", Format = OptionFormat.EqualsSeparated)]
+    public string Override { get; private init; }
+
+    /// <summary>
+    /// Key resource - The reCAPTCHA key from which to remove the IP override. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the key or fully qualified identifier for the key. To set the key attribute: ▸ provide the argument key on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
+
 }

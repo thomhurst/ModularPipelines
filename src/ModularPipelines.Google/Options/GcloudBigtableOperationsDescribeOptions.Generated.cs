@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "operations", "describe")]
 public record GcloudBigtableOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Cloud Bigtable operation
+    /// </summary>
+    /// <param name="Operation">Operation resource - Cloud Bigtable operation to describe. This represents a Cloud resource. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line.</param>
+    public GcloudBigtableOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Operation resource - Cloud Bigtable operation to describe. This represents a Cloud resource. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

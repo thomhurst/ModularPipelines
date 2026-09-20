@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "get-iam-policy")]
-public record GcloudOrganizationsGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrganizationId
-) : GcloudOptions
+public record GcloudOrganizationsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get IAM policy for an organization
+    /// </summary>
+    /// <param name="OrganizationId">ID or domain for the organization whose policy you want to get.</param>
+    public GcloudOrganizationsGetIamPolicyOptions(
+        string OrganizationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+    }
+
+    public void Deconstruct(out string OrganizationId)
+    {
+        OrganizationId = this.OrganizationId;
+    }
+
+    /// <summary>
+    /// ID or domain for the organization whose policy you want to get.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrganizationId { get; private init; }
+
 }

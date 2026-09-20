@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudHealthcareFhirStoresUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Cloud Healthcare API FHIR     store
+    /// </summary>
+    /// <param name="FhirStore">FhirStore resource - The Cloud Healthcare API FHIR store you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the fhirStore or fully qualified identifier for the fhirStore. To set the fhir_store attribute: ▸ provide the argument fhir_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareFhirStoresUpdateOptions(
+        string FhirStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FhirStore);
+        this.FhirStore = FhirStore;
+    }
+
+    public void Deconstruct(out string FhirStore)
+    {
+        FhirStore = this.FhirStore;
+    }
+
+    /// <summary>
+    /// FhirStore resource - The Cloud Healthcare API FHIR store you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument fhir_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// FhirStore resource - The Cloud Healthcare API FHIR store you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument fhir_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Whether this FHIR store has the [updateCreate] (https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate) capability. Determines if the client can use an Update operation to create a new resource with a client-specified ID. If false, all IDs are server-assigned through the Create operation and attempts to Update a non-existent resource will return errors.
     /// </summary>
     [CliFlag("--enable-update-create")]
@@ -32,5 +61,11 @@ public record GcloudHealthcareFhirStoresUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)]
     public string? PubsubTopic { get; set; }
+
+    /// <summary>
+    /// FhirStore resource - The Cloud Healthcare API FHIR store you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the fhirStore or fully qualified identifier for the fhirStore. To set the fhir_store attribute: ▸ provide the argument fhir_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FhirStore { get; private init; }
 
 }

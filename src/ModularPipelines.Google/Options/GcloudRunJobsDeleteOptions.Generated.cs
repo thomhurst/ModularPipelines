@@ -22,6 +22,23 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunJobsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a job
+    /// </summary>
+    /// <param name="Job">Job resource - Job to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument JOB on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Job or fully qualified identifier for the Job. To set the jobs attribute: ▸ provide the argument JOB on the command line.</param>
+    public GcloudRunJobsDeleteOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. Defaults to --no-async. Use --async to enable and --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
@@ -38,5 +55,11 @@ public record GcloudRunJobsDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Job resource - Job to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument JOB on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Job or fully qualified identifier for the Job. To set the jobs attribute: ▸ provide the argument JOB on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
 
 }

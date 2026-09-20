@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "packages", "rollouts", "describe")]
-public record GcloudContainerFleetPackagesRolloutsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudContainerFleetPackagesRolloutsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe Rollout     resource
+    /// </summary>
+    /// <param name="FleetPackage">Parent Fleet Package of the Rollout.</param>
+    /// <param name="Name">Resource name.</param>
+    public GcloudContainerFleetPackagesRolloutsDescribeOptions(
+        string FleetPackage,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetPackage);
+        this.FleetPackage = FleetPackage;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string FleetPackage, out string Name)
+    {
+        FleetPackage = this.FleetPackage;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Parent Fleet Package of the Rollout.
+    /// </summary>
+    [CliOption("--fleet-package", Format = OptionFormat.EqualsSeparated)]
+    public string FleetPackage { get; private init; }
+
+    /// <summary>
+    /// Show less verbose output.
+    /// </summary>
+    [CliFlag("--less")]
+    public bool? Less { get; set; }
+
+    /// <summary>
+    /// Google Cloud zone or region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "commitments", "update")]
-public record GcloudComputeCommitmentsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Commitment
-) : GcloudOptions
+public record GcloudComputeCommitmentsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update Compute Engine commitments
+    /// </summary>
+    /// <param name="Commitment">Name of the commitment to update.</param>
+    public GcloudComputeCommitmentsUpdateOptions(
+        string Commitment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Commitment);
+        this.Commitment = Commitment;
+    }
+
+    public void Deconstruct(out string Commitment)
+    {
+        Commitment = this.Commitment;
+    }
+
     /// <summary>
     /// Enable auto renewal for the commitment.
     /// </summary>
@@ -46,5 +61,11 @@ public record GcloudComputeCommitmentsUpdateOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the commitment to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Commitment { get; private init; }
 
 }

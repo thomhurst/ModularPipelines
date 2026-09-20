@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "jobs", "drain")]
-public record GcloudDataflowJobsDrainOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> JobId
-) : GcloudOptions
+public record GcloudDataflowJobsDrainOptions : GcloudOptions
 {
+    /// <summary>
+    /// drains all jobs that match the command line     arguments
+    /// </summary>
+    /// <param name="JobId">Job IDs to operate on.</param>
+    public GcloudDataflowJobsDrainOptions(
+        IEnumerable<string> JobId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(JobId);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(JobId));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(JobId));
+            }
+
+            JobId = materialized;
+        }
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out IEnumerable<string> JobId)
+    {
+        JobId = this.JobId;
+    }
+
     /// <summary>
     /// Region ID of the jobs' regional endpoint. Defaults to 'us-central1'.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Job IDs to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> JobId { get; private init; }
 
 }

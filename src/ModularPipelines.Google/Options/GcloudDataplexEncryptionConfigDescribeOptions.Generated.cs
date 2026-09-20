@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "encryption-config", "describe")]
 public record GcloudDataplexEncryptionConfigDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an EncryptionConfig
+    /// </summary>
+    /// <param name="EncryptionConfig">Encryption config resource - encryption_config you want to Describe The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the encryption config or fully qualified identifier for the encryption config. To set the encryption_config attribute: ▸ provide the argument encryption_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexEncryptionConfigDescribeOptions(
+        string EncryptionConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionConfig);
+        this.EncryptionConfig = EncryptionConfig;
+    }
+
+    public void Deconstruct(out string EncryptionConfig)
+    {
+        EncryptionConfig = this.EncryptionConfig;
+    }
+
+    /// <summary>
+    /// Encryption config resource - encryption_config you want to Describe The arguments in this group can be used to specify the attributes of this resource. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument encryption_config on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Encryption config resource - encryption_config you want to Describe The arguments in this group can be used to specify the attributes of this resource. This must be specified. Name of the Cloud organization to use. To set the organization attribute: ▸ provide the argument encryption_config on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Encryption config resource - encryption_config you want to Describe The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the encryption config or fully qualified identifier for the encryption config. To set the encryption_config attribute: ▸ provide the argument encryption_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EncryptionConfig { get; private init; }
+
 }

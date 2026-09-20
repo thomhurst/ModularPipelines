@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "zone-vm-extension-policies", "list")]
 public record GcloudComputeZoneVmExtensionPoliciesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Compute Engine zone     VM extension policies
+    /// </summary>
+    /// <param name="Zone">The zone to list the extension policies from.</param>
+    public GcloudComputeZoneVmExtensionPoliciesListOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// The zone to list the extension policies from.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
 }
