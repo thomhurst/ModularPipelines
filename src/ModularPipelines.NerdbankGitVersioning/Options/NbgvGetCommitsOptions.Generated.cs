@@ -19,10 +19,25 @@ namespace ModularPipelines.NerdbankGitVersioning.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get-commits")]
-public record NbgvGetCommitsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : NbgvOptions
+public record NbgvGetCommitsOptions : NbgvOptions
 {
+    /// <summary>
+    /// Gets the commit(s) that match a given version.
+    /// </summary>
+    /// <param name="Version">The &lt;version&gt; operand.</param>
+    public NbgvGetCommitsOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
     /// <summary>
     /// The path to the project or project directory. The default is the root directory of the repo that spans the current directory, or an existing version.json file, if applicable.
     /// </summary>
@@ -34,5 +49,11 @@ public record NbgvGetCommitsOptions(
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// The &lt;version&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }
