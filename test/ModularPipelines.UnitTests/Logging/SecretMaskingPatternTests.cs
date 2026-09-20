@@ -1615,7 +1615,7 @@ public class SecretMaskingPatternTests
         using var releaseWriter = new ManualResetEventSlim();
         using var contenderStarted = new ManualResetEventSlim();
 
-        var firstEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+        var firstEmission = RunOnDedicatedThread(() => provider.ExecuteWithStableSecrets(
             firstEmissionStarted,
             started =>
             {
@@ -1626,48 +1626,50 @@ public class SecretMaskingPatternTests
                 }
             }));
 
-        await Assert.That(firstEmissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
-        var queuedWriter = Task.Run(() =>
-        {
-            emissionLock.EnterWriteLock();
-            try
-            {
-                writerAcquired.Set();
-                if (!releaseWriter.Wait(TimeSpan.FromSeconds(10)))
-                {
-                    throw new TimeoutException("Timed out waiting to release the queued writer.");
-                }
-            }
-            finally
-            {
-                emissionLock.ExitWriteLock();
-            }
-        });
-
-        await Assert.That(SpinWait.SpinUntil(
-            () => emissionLock.WaitingWriteCount > 0,
-            TimeSpan.FromSeconds(5))).IsTrue();
-        var contender = Task.Run(() => provider.ExecuteWithStableSecrets(
-            contenderStarted,
-            started => started.Set()));
-
+        var queuedWriter = Task.CompletedTask;
+        var contender = Task.CompletedTask;
         try
         {
+            await Assert.That(firstEmissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            queuedWriter = RunOnDedicatedThread(() =>
+            {
+                emissionLock.EnterWriteLock();
+                try
+                {
+                    writerAcquired.Set();
+                    if (!releaseWriter.Wait(TimeSpan.FromSeconds(10)))
+                    {
+                        throw new TimeoutException("Timed out waiting to release the queued writer.");
+                    }
+                }
+                finally
+                {
+                    emissionLock.ExitWriteLock();
+                }
+            });
+
+            await Assert.That(SpinWait.SpinUntil(
+                () => emissionLock.WaitingWriteCount > 0,
+                TimeSpan.FromSeconds(5))).IsTrue();
+            contender = RunOnDedicatedThread(() => provider.ExecuteWithStableSecrets(
+                contenderStarted,
+                started => started.Set()));
+
             await Assert.That(SpinWait.SpinUntil(
                 () => emissionLock.WaitingReadCount > 0,
                 TimeSpan.FromSeconds(5))).IsTrue();
             releaseFirstEmission.Set();
             await Assert.That(writerAcquired.Wait(TimeSpan.FromSeconds(5))).IsTrue();
-            releaseWriter.Set();
-            await Task.WhenAll(firstEmission, queuedWriter, contender)
-                .WaitAsync(TimeSpan.FromSeconds(5));
-            await Assert.That(contenderStarted.IsSet).IsTrue();
         }
         finally
         {
             releaseFirstEmission.Set();
             releaseWriter.Set();
+            await Task.WhenAll(firstEmission, queuedWriter, contender)
+                .WaitAsync(TimeSpan.FromSeconds(5));
         }
+
+        await Assert.That(contenderStarted.IsSet).IsTrue();
     }
 
     [Test]
@@ -1676,9 +1678,9 @@ public class SecretMaskingPatternTests
         const string discoveredSecret = "cross-thread-sink-discovered-secret";
         var provider = CreateProvider(out _);
 
-        var emission = Task.Run(() => provider.ExecuteWithStableSecrets(
+        var emission = RunOnDedicatedThread(() => provider.ExecuteWithStableSecrets(
             provider,
-            outerProvider => Task.Run(() => outerProvider.AddSecret(discoveredSecret))
+            outerProvider => RunOnDedicatedThread(() => outerProvider.AddSecret(discoveredSecret))
                 .GetAwaiter()
                 .GetResult()));
 
