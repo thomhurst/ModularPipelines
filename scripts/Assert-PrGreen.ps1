@@ -26,7 +26,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][int]$Pr,
-    [string]$Repo
+    [string]$Repo,
+    [switch]$Json
 )
 
 $ErrorActionPreference = 'Stop'
@@ -41,7 +42,7 @@ $repoArgs = @()
 if ($Repo) { $repoArgs = @('--repo', $Repo) }
 
 # Re-fetch fresh — survey output goes stale within seconds.
-$raw = gh pr view $Pr @repoArgs --json number,state,mergeable,mergeStateStatus,statusCheckRollup,latestReviews,commits,headRefOid 2>$null
+$raw = gh pr view $Pr @repoArgs --json number,state,mergeable,mergeStateStatus,statusCheckRollup,commits,headRefOid,headRefName 2>$null
 if ($LASTEXITCODE -ne 0) { Deny "gh pr view failed (exit $LASTEXITCODE)" }
 try {
     $view = $raw | ConvertFrom-Json
@@ -89,12 +90,40 @@ if ($bad.Count -gt 0) {
 $headCommit = @($view.commits | Where-Object { $null -ne $_ }) | Select-Object -Last 1
 $headCommittedAt = if ($headCommit) { ConvertTo-UtcDateTimeOffset $headCommit.committedDate } else { $null }
 
+if ($Repo) {
+    $owner, $name = $Repo -split '/', 2
+}
+else {
+    $nwo = gh repo view --json nameWithOwner --jq '.nameWithOwner' 2>$null
+    if ($LASTEXITCODE -ne 0 -or -not $nwo) { Deny "could not resolve repo for review checks" }
+    $owner, $name = $nwo.Trim() -split '/', 2
+}
+
+# gh pr view's latestReviews selection leaves commit.oid empty. Request it
+# explicitly and paginate the connection before authenticating workflow verdicts.
+$reviewQuery = 'query($owner:String!,$repo:String!,$pr:Int!,$endCursor:String){repository(owner:$owner,name:$repo){pullRequest(number:$pr){latestReviews(first:100,after:$endCursor){pageInfo{hasNextPage endCursor} nodes{id author{login} submittedAt body state commit{oid}}}}}}'
+$reviewsRaw = gh api graphql --paginate --slurp -f "query=$reviewQuery" -F "owner=$owner" -F "repo=$name" -F "pr=$Pr" 2>$null
+if ($LASTEXITCODE -ne 0) { Deny "could not fetch latest reviews (exit $LASTEXITCODE)" }
+try {
+    $reviewPages = @($reviewsRaw | ConvertFrom-Json)
+    if ($reviewPages.Count -eq 0) { throw 'Latest-review response contained no pages.' }
+    $latestReviews = @(
+        foreach ($page in $reviewPages) {
+            $connection = $page.data.repository.pullRequest.latestReviews
+            if ($null -eq $connection) { throw 'Latest-review response did not contain the requested PR.' }
+            $connection.nodes | Where-Object { $null -ne $_ }
+        }
+    )
+}
+catch {
+    Deny "could not parse latest reviews: $($_.Exception.Message)"
+}
+
 # Top-level review comments are not review threads, so GitHub does not expose a
 # resolved flag for them. Fail closed on common review-finding shapes instead
 # of treating a COMMENTED review as automatically safe. A stale Claude review
 # from before the current head commit is ignored only when the current-head
 # claude-review check completed green.
-$latestReviews = @($view.latestReviews | Where-Object { $null -ne $_ })
 $requestedChanges = @($latestReviews | Where-Object { $_.state -eq 'CHANGES_REQUESTED' })
 if ($requestedChanges.Count -gt 0) {
     $authors = ($requestedChanges | ForEach-Object { $_.author.login }) -join ', '
@@ -102,6 +131,8 @@ if ($requestedChanges.Count -gt 0) {
 }
 
 $actionableReviews = @()
+$workflowRuns = $null
+$reviewChecks = @($checks)
 foreach ($review in $latestReviews) {
     if ($review.state -ne 'COMMENTED') { continue }
     if (Test-StaleBotReviewCanBeIgnored -Review $review -HeadCommitCommittedAt $headCommittedAt -Checks $checks) {
@@ -110,9 +141,41 @@ foreach ($review in $latestReviews) {
 
     $body = [string]$review.body
     $reason = Get-ActionableReviewBodyReason -Body $body
+    # Dispatch and pull_request_target checks can belong to the base ref.
+    # Fetch its actual workflow jobs before deciding whether its verdict is trusted.
+    if ($reason -and $review.author.login -match '^github-actions(?:\[bot\])?$' -and
+        [string]$review.commit.oid -eq [string]$view.headRefOid -and
+        -not (Test-TrustedBotClearVerdict -Review $review -HeadSha $view.headRefOid -Checks $reviewChecks)) {
+        try {
+            if ($null -eq $workflowRuns) {
+                $workflowRuns = @(
+                    foreach ($workflowEvent in @('workflow_dispatch', 'pull_request_target')) {
+                        $runsRaw = gh api --paginate --slurp "repos/$owner/$name/actions/workflows/claude-code-review.yml/runs?event=$workflowEvent&status=success&per_page=100" 2>$null
+                        if ($LASTEXITCODE -ne 0) { throw "Could not fetch $workflowEvent runs (exit $LASTEXITCODE)." }
+                        ($runsRaw | ConvertFrom-Json).workflow_runs
+                    }
+                )
+            }
+            $submittedAt = ConvertTo-UtcDateTimeOffset $review.submittedAt
+            foreach ($run in $workflowRuns) {
+                $createdAt = ConvertTo-UtcDateTimeOffset $run.created_at
+                $updatedAt = ConvertTo-UtcDateTimeOffset $run.updated_at
+                if ($null -eq $submittedAt -or $null -eq $createdAt -or $null -eq $updatedAt -or
+                    $createdAt -gt $submittedAt -or $updatedAt -lt $submittedAt) { continue }
+                $jobsRaw = gh api --paginate --slurp "repos/$owner/$name/actions/runs/$($run.id)/jobs?per_page=100" 2>$null
+                if ($LASTEXITCODE -ne 0) { throw "Could not fetch review jobs (exit $LASTEXITCODE)." }
+                $jobs = @(($jobsRaw | ConvertFrom-Json).jobs)
+                $reviewChecks += @(ConvertTo-WorkflowReviewChecks -Run $run -Jobs $jobs)
+            }
+        }
+        catch {
+            Deny "could not verify workflow review: $($_.Exception.Message)"
+        }
+    }
     if ($reason -and -not (Test-TrustedBotClearVerdict `
             -Review $review `
-            -HeadSha ([string]$view.headRefOid))) {
+            -HeadSha ([string]$view.headRefOid) `
+            -Checks $reviewChecks)) {
         $actionableReviews += "$($review.author.login): $reason"
     }
 }
@@ -121,15 +184,6 @@ if ($actionableReviews.Count -gt 0) {
 }
 
 # Unresolved review threads block merge even when a review's state is COMMENTED.
-if ($Repo) {
-    $owner, $name = $Repo -split '/', 2
-}
-else {
-    $nwo = gh repo view --json nameWithOwner --jq '.nameWithOwner' 2>$null
-    if ($LASTEXITCODE -ne 0 -or -not $nwo) { Deny "could not resolve repo for review-thread check" }
-    $owner, $name = $nwo.Trim() -split '/', 2
-}
-
 $query = 'query($owner:String!,$repo:String!,$pr:Int!,$after:String){repository(owner:$owner,name:$repo){pullRequest(number:$pr){reviewThreads(first:100,after:$after){pageInfo{hasNextPage endCursor} nodes{isResolved}}}}}'
 $unresolved = 0
 $after = $null
@@ -171,5 +225,10 @@ while ($after)
 
 if ($unresolved -gt 0) { Deny "$unresolved unresolved review thread(s)" }
 
-Write-Host "OK #${Pr} -- MERGEABLE, CLEAN, $($checks.Count) check(s) green, no unresolved threads. Safe to merge."
+if ($Json) {
+    [pscustomobject]@{ headRefOid = $view.headRefOid; headRefName = $view.headRefName } | ConvertTo-Json -Compress
+}
+else {
+    Write-Host "OK #${Pr} -- MERGEABLE, CLEAN, $($checks.Count) check(s) green, no unresolved threads. Safe to merge."
+}
 exit 0
