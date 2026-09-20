@@ -19,10 +19,25 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dependency", "update")]
-public record HelmDependencyUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Chart
-) : HelmOptions
+public record HelmDependencyUpdateOptions : HelmOptions
 {
+    /// <summary>
+    /// Update the on-disk dependencies to mirror Chart.yaml.
+    /// </summary>
+    /// <param name="Chart">The CHART operand.</param>
+    public HelmDependencyUpdateOptions(
+        string Chart
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Chart);
+        this.Chart = Chart;
+    }
+
+    public void Deconstruct(out string Chart)
+    {
+        Chart = this.Chart;
+    }
+
     /// <summary>
     /// verify certificates of HTTPS-enabled servers using this CA bundle
     /// </summary>
@@ -34,12 +49,6 @@ public record HelmDependencyUpdateOptions(
     /// </summary>
     [CliOption("--cert-file", Format = OptionFormat.EqualsSeparated)]
     public string? CertFile { get; set; }
-
-    /// <summary>
-    /// help for update
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// skip tls certificate checks for the chart download
@@ -186,5 +195,11 @@ public record HelmDependencyUpdateOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The CHART operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Chart { get; private init; }
 
 }

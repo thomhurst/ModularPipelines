@@ -59,12 +59,6 @@ public record HelmListOptions : HelmOptions
     public string? Filter { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// maximum number of releases to fetch (default 256)
     /// </summary>
     [CliOption("--max", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]

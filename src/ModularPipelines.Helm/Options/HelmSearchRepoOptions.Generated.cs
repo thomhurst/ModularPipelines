@@ -35,12 +35,6 @@ public record HelmSearchRepoOptions : HelmOptions
     public bool? FailOnNoResult { get; set; }
 
     /// <summary>
-    /// help for repo
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// maximum column width for output table (default 50)
     /// </summary>
     [CliOption("--max-col-width", Format = OptionFormat.EqualsSeparated)]

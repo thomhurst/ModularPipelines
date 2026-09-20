@@ -52,12 +52,6 @@ public record HelmPackageOptions : HelmOptions
     public string? Destination { get; set; }
 
     /// <summary>
-    /// help for package
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// skip tls certificate checks for the chart download
     /// </summary>
     [CliFlag("--insecure-skip-tls-verify")]

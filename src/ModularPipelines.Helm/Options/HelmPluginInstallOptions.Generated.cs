@@ -19,15 +19,24 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "install")]
-public record HelmPluginInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : HelmOptions
+public record HelmPluginInstallOptions : HelmOptions
 {
     /// <summary>
-    /// help for install
+    /// This command allows you to install a plugin from a url to a VCS repo or a local path.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Path">The path operand.</param>
+    public HelmPluginInstallOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
 
     /// <summary>
     /// specify a version constraint. If this is not specified, the latest version is installed
@@ -131,5 +140,11 @@ public record HelmPluginInstallOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The path operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
 
 }

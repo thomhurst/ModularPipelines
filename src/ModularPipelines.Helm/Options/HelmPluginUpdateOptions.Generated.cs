@@ -19,15 +19,35 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "update")]
-public record HelmPluginUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Plugin
-) : HelmOptions
+public record HelmPluginUpdateOptions : HelmOptions
 {
     /// <summary>
-    /// help for update
+    /// update one or more Helm plugins
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Plugin">The &lt;plugin&gt; operand.</param>
+    public HelmPluginUpdateOptions(
+        IEnumerable<string> Plugin
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Plugin);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Plugin));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Plugin));
+            }
+
+            Plugin = materialized;
+        }
+        this.Plugin = Plugin;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Plugin)
+    {
+        Plugin = this.Plugin;
+    }
 
     /// <summary>
     /// client-side default throttling limit (default 100)
@@ -125,5 +145,11 @@ public record HelmPluginUpdateOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The &lt;plugin&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Plugin { get; private init; }
 
 }

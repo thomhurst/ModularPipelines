@@ -19,15 +19,24 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify")]
-public record HelmVerifyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path
-) : HelmOptions
+public record HelmVerifyOptions : HelmOptions
 {
     /// <summary>
-    /// help for verify
+    /// Verify that the given chart has a valid provenance file.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Path">The PATH operand.</param>
+    public HelmVerifyOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
 
     /// <summary>
     /// keyring containing public keys (default "~/.gnupg/pubring.gpg")
@@ -131,5 +140,11 @@ public record HelmVerifyOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path { get; private init; }
 
 }

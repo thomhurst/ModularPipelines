@@ -20,15 +20,24 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("history")]
-public record HelmHistoryOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ReleaseName
-) : HelmOptions
+public record HelmHistoryOptions : HelmOptions
 {
     /// <summary>
-    /// help for history
+    /// History prints historical revisions for a given release.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="ReleaseName">The RELEASE_NAME operand.</param>
+    public HelmHistoryOptions(
+        string ReleaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReleaseName);
+        this.ReleaseName = ReleaseName;
+    }
+
+    public void Deconstruct(out string ReleaseName)
+    {
+        ReleaseName = this.ReleaseName;
+    }
 
     /// <summary>
     /// maximum number of revision to include in history (default 256)
@@ -138,5 +147,11 @@ public record HelmHistoryOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The RELEASE_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ReleaseName { get; private init; }
 
 }

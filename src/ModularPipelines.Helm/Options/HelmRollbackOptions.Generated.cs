@@ -19,10 +19,25 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollback")]
-public record HelmRollbackOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Release
-) : HelmOptions
+public record HelmRollbackOptions : HelmOptions
 {
+    /// <summary>
+    /// This command rolls back a release to a previous revision.
+    /// </summary>
+    /// <param name="Release">The &lt;RELEASE&gt; operand.</param>
+    public HelmRollbackOptions(
+        string Release
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Release);
+        this.Release = Release;
+    }
+
+    public void Deconstruct(out string Release)
+    {
+        Release = this.Release;
+    }
+
     /// <summary>
     /// allow deletion of new resources created in this rollback when rollback fails
     /// </summary>
@@ -40,12 +55,6 @@ public record HelmRollbackOptions(
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
-
-    /// <summary>
-    /// help for rollback
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// limit the maximum number of revisions saved per release. Use 0 for no limit (default 10)
@@ -179,6 +188,12 @@ public record HelmRollbackOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The &lt;RELEASE&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Release { get; private init; }
 
     /// <summary>
     /// The REVISION operand.

@@ -20,21 +20,30 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get", "values")]
-public record HelmGetValuesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ReleaseName
-) : HelmOptions
+public record HelmGetValuesOptions : HelmOptions
 {
+    /// <summary>
+    /// This command downloads a values file for a given release.
+    /// </summary>
+    /// <param name="ReleaseName">The RELEASE_NAME operand.</param>
+    public HelmGetValuesOptions(
+        string ReleaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReleaseName);
+        this.ReleaseName = ReleaseName;
+    }
+
+    public void Deconstruct(out string ReleaseName)
+    {
+        ReleaseName = this.ReleaseName;
+    }
+
     /// <summary>
     /// dump all (computed) values
     /// </summary>
     [CliFlag("--all", ShortForm = "-a")]
     public bool? All { get; set; }
-
-    /// <summary>
-    /// help for values
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// prints the output in the specified format. Allowed values: table, json, yaml (default table)
@@ -144,5 +153,11 @@ public record HelmGetValuesOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The RELEASE_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ReleaseName { get; private init; }
 
 }

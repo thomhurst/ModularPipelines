@@ -22,12 +22,6 @@ namespace ModularPipelines.Helm.Options;
 public record HelmRepoIndexOptions : HelmOptions
 {
     /// <summary>
-    /// help for index
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// output in JSON format
     /// </summary>
     [CliFlag("--json")]

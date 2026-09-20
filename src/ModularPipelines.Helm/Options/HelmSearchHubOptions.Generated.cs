@@ -35,12 +35,6 @@ public record HelmSearchHubOptions : HelmOptions
     public bool? FailOnNoResult { get; set; }
 
     /// <summary>
-    /// help for hub
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// print charts repository URL
     /// </summary>
     [CliFlag("--list-repo-url")]

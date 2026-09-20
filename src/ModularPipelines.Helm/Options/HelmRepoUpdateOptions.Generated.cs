@@ -28,12 +28,6 @@ public record HelmRepoUpdateOptions : HelmOptions
     public bool? FailOnRepoUpdateFail { get; set; }
 
     /// <summary>
-    /// help for update
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// time to wait for the index file download to complete (default 2m0s)
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]

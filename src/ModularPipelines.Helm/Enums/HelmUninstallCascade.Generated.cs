@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Helm.Enums;
 
 /// <summary>
-/// Allowed values for the --cascade option.
+/// Allowed values for --cascade.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum HelmUninstallCascade
