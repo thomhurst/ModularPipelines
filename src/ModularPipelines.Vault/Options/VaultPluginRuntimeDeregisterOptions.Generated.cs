@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "runtime", "deregister")]
-public record VaultPluginRuntimeDeregisterOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : VaultOptions
+public record VaultPluginRuntimeDeregisterOptions : VaultOptions
 {
+    /// <summary>
+    /// Deregister an existing plugin runtime in the catalog with the given name. If
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public VaultPluginRuntimeDeregisterOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
+
 }

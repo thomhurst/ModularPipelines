@@ -19,10 +19,31 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "patch")]
-public record VaultKvPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Key
-) : VaultOptions
+public record VaultKvPatchOptions : VaultOptions
 {
+    /// <summary>
+    /// *NOTE*: This is only supported for KV v2 engine mounts.
+    /// </summary>
+    /// <param name="Key">The KEY operand.</param>
+    public VaultKvPatchOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// The KEY operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Key { get; private init; }
+
     /// <summary>
     /// The DATA operand.
     /// </summary>

@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "destroy")]
-public record VaultKvDestroyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Key
-) : VaultOptions
+public record VaultKvDestroyOptions : VaultOptions
 {
+    /// <summary>
+    /// Permanently removes the specified versions' data from the key-value store. If
+    /// </summary>
+    /// <param name="Key">The KEY operand.</param>
+    public VaultKvDestroyOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// The KEY operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Key { get; private init; }
+
 }

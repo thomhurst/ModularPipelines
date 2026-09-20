@@ -19,9 +19,40 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "write")]
-public record VaultPolicyWriteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : VaultOptions
+public record VaultPolicyWriteOptions : VaultOptions
 {
+    /// <summary>
+    /// Uploads a policy with name NAME from the contents of a local file PATH or
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    /// <param name="Path">The PATH operand.</param>
+    public VaultPolicyWriteOptions(
+        string Name,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Name, out string Path)
+    {
+        Name = this.Name;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
+
 }

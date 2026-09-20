@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "remove-peer")]
-public record VaultOperatorRaftRemovePeerOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServerId
-) : VaultOptions
+public record VaultOperatorRaftRemovePeerOptions : VaultOptions
 {
+    /// <summary>
+    /// Removes a node from the Raft cluster.
+    /// </summary>
+    /// <param name="ServerId">The &lt;server_id&gt; operand.</param>
+    public VaultOperatorRaftRemovePeerOptions(
+        string ServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+    }
+
+    public void Deconstruct(out string ServerId)
+    {
+        ServerId = this.ServerId;
+    }
+
+    /// <summary>
+    /// The &lt;server_id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServerId { get; private init; }
+
 }

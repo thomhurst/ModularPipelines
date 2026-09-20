@@ -19,9 +19,40 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "issue")]
-public record VaultPkiIssueOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parent,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ChildMount
-) : VaultOptions
+public record VaultPkiIssueOptions : VaultOptions
 {
+    /// <summary>
+    /// PARENT is the fully qualified path of the Certificate Authority in vault which will issue the new intermediate certificate.
+    /// </summary>
+    /// <param name="Parent">The PARENT operand.</param>
+    /// <param name="ChildMount">The CHILD_MOUNT operand.</param>
+    public VaultPkiIssueOptions(
+        string Parent,
+        string ChildMount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+        global::System.ArgumentNullException.ThrowIfNull(ChildMount);
+        this.ChildMount = ChildMount;
+    }
+
+    public void Deconstruct(out string Parent, out string ChildMount)
+    {
+        Parent = this.Parent;
+        ChildMount = this.ChildMount;
+    }
+
+    /// <summary>
+    /// The PARENT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Parent { get; private init; }
+
+    /// <summary>
+    /// The CHILD_MOUNT operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ChildMount { get; private init; }
+
 }

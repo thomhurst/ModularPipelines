@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "undelete")]
-public record VaultKvUndeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Key
-) : VaultOptions
+public record VaultKvUndeleteOptions : VaultOptions
 {
+    /// <summary>
+    /// Undeletes the data for the provided version and path in the key-value store.
+    /// </summary>
+    /// <param name="Key">The KEY operand.</param>
+    public VaultKvUndeleteOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// The KEY operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Key { get; private init; }
+
 }

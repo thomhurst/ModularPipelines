@@ -19,9 +19,40 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "verify-sign")]
-public record VaultPkiVerifySignOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PossibleIssuer,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PossibleIssued
-) : VaultOptions
+public record VaultPkiVerifySignOptions : VaultOptions
 {
+    /// <summary>
+    /// Verifies whether the listed issuer has signed the listed issued certificate.
+    /// </summary>
+    /// <param name="PossibleIssuer">The POSSIBLE-ISSUER operand.</param>
+    /// <param name="PossibleIssued">The POSSIBLE-ISSUED operand.</param>
+    public VaultPkiVerifySignOptions(
+        string PossibleIssuer,
+        string PossibleIssued
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PossibleIssuer);
+        this.PossibleIssuer = PossibleIssuer;
+        global::System.ArgumentNullException.ThrowIfNull(PossibleIssued);
+        this.PossibleIssued = PossibleIssued;
+    }
+
+    public void Deconstruct(out string PossibleIssuer, out string PossibleIssued)
+    {
+        PossibleIssuer = this.PossibleIssuer;
+        PossibleIssued = this.PossibleIssued;
+    }
+
+    /// <summary>
+    /// The POSSIBLE-ISSUER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PossibleIssuer { get; private init; }
+
+    /// <summary>
+    /// The POSSIBLE-ISSUED operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PossibleIssued { get; private init; }
+
 }

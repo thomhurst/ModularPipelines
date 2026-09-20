@@ -19,9 +19,40 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "info")]
-public record VaultPluginInfoOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Type,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : VaultOptions
+public record VaultPluginInfoOptions : VaultOptions
 {
+    /// <summary>
+    /// Displays information about a plugin in the catalog with the given name. If
+    /// </summary>
+    /// <param name="Type">The TYPE operand.</param>
+    /// <param name="Name">The NAME operand.</param>
+    public VaultPluginInfoOptions(
+        string Type,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Type, out string Name)
+    {
+        Type = this.Type;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The TYPE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
+
 }

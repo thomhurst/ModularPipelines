@@ -19,10 +19,31 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "list-intermediates")]
-public record VaultPkiListIntermediatesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parent
-) : VaultOptions
+public record VaultPkiListIntermediatesOptions : VaultOptions
 {
+    /// <summary>
+    /// Lists the set of intermediate CAs issued by this parent issuer.
+    /// </summary>
+    /// <param name="Parent">The PARENT operand.</param>
+    public VaultPkiListIntermediatesOptions(
+        string Parent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+    }
+
+    public void Deconstruct(out string Parent)
+    {
+        Parent = this.Parent;
+    }
+
+    /// <summary>
+    /// The PARENT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Parent { get; private init; }
+
     /// <summary>
     /// The CHILD operand.
     /// </summary>

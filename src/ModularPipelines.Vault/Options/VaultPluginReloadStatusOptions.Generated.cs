@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "reload-status")]
-public record VaultPluginReloadStatusOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ReloadId
-) : VaultOptions
+public record VaultPluginReloadStatusOptions : VaultOptions
 {
+    /// <summary>
+    /// Retrieves the status of a recent cluster plugin reload.  The reload id must be provided.
+    /// </summary>
+    /// <param name="ReloadId">The RELOAD_ID operand.</param>
+    public VaultPluginReloadStatusOptions(
+        string ReloadId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReloadId);
+        this.ReloadId = ReloadId;
+    }
+
+    public void Deconstruct(out string ReloadId)
+    {
+        ReloadId = this.ReloadId;
+    }
+
+    /// <summary>
+    /// The RELOAD_ID operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ReloadId { get; private init; }
+
 }

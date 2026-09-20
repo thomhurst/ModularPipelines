@@ -19,10 +19,31 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssh")]
-public record VaultSshOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string UsernameIp
-) : VaultOptions
+public record VaultSshOptions : VaultOptions
 {
+    /// <summary>
+    /// Establishes an SSH connection with the target machine.
+    /// </summary>
+    /// <param name="UsernameIp">The username@ip operand.</param>
+    public VaultSshOptions(
+        string UsernameIp
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UsernameIp);
+        this.UsernameIp = UsernameIp;
+    }
+
+    public void Deconstruct(out string UsernameIp)
+    {
+        UsernameIp = this.UsernameIp;
+    }
+
+    /// <summary>
+    /// The username@ip operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string UsernameIp { get; private init; }
+
     /// <summary>
     /// The ssh options operand.
     /// </summary>
