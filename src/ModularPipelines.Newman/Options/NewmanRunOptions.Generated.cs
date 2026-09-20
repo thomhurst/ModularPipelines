@@ -20,10 +20,25 @@ namespace ModularPipelines.Newman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run")]
-public record NewmanRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Collection
-) : NewmanOptions
+public record NewmanRunOptions : NewmanOptions
 {
+    /// <summary>
+    /// Initiate a Postman Collection run from a given URL or path
+    /// </summary>
+    /// <param name="Collection">The &lt;collection&gt; operand.</param>
+    public NewmanRunOptions(
+        string Collection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+    }
+
+    public void Deconstruct(out string Collection)
+    {
+        Collection = this.Collection;
+    }
+
     /// <summary>
     /// Specify a URL or path to a Postman
     /// </summary>
@@ -219,9 +234,9 @@ public record NewmanRunOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// display help for command
+    /// The &lt;collection&gt; operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Collection { get; private init; }
 
 }
