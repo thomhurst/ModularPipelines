@@ -6,6 +6,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 namespace ModularPipelines.OptionsGenerator.Tests.External;
 
@@ -63,7 +64,9 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
-    public async Task External_Metadata_Generates_Deterministic_Output_Outside_Repository()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task External_Metadata_Generates_Deterministic_Output_Outside_Repository(bool includeDocumentation)
     {
         var workspace = CreateTemporaryDirectory();
         var metadataPath = Path.Combine(workspace, "private-widget.json");
@@ -73,6 +76,21 @@ public class ExternalToolDefinitionTests
         {
             await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
             var tool = await ExternalToolDefinitionLoader.LoadAsync(metadataPath, outputDirectory);
+            var usage = UsageSynopsisParser.Parse(
+                "Usage: private-widget deploy <name>", ["private-widget", "deploy"]);
+            tool = tool with
+            {
+                DocumentationOutputDirectory = includeDocumentation ? "docs" : null,
+                Commands =
+                [
+                    tool.Commands.Single() with
+                    {
+                        PositionalArguments = usage.PositionalArguments,
+                        UsageSynopsis = usage.Synopsis,
+                        HasOperandTakingUsage = usage.HasOperandTokens,
+                    },
+                ],
+            };
             var orchestrator = CreateOrchestrator();
 
             var firstResult = await orchestrator.GenerateFromDefinitionAsync(tool, outputDirectory);
@@ -93,9 +111,9 @@ public class ExternalToolDefinitionTests
                 "Options",
                 "PrivateWidgetDeployOptions.Generated.cs");
             await Assert.That(firstFiles.ContainsKey(optionsPath)).IsTrue();
-            await Assert.That(firstFiles.Keys.Any(path =>
-                    path.Contains("docs", StringComparison.OrdinalIgnoreCase)))
-                .IsFalse();
+            await Assert.That(firstFiles[optionsPath]).Contains("The &lt;name&gt; operand.");
+            await Assert.That(firstFiles.ContainsKey(Path.Combine("docs", "private-widget.md")))
+                .IsEqualTo(includeDocumentation);
         }
         finally
         {
