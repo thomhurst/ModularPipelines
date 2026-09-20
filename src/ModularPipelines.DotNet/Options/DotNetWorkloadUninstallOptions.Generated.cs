@@ -18,14 +18,46 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workload", "uninstall")]
-public record DotNetWorkloadUninstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> WorkloadId
-) : DotNetOptions
+public record DotNetWorkloadUninstallOptions : DotNetOptions
 {
+    /// <summary>
+    /// Uninstall one or more workloads.
+    /// </summary>
+    /// <param name="WorkloadId">The NuGet package ID of the workload to install.</param>
+    public DotNetWorkloadUninstallOptions(
+        IEnumerable<string> WorkloadId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(WorkloadId);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(WorkloadId));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(WorkloadId));
+            }
+
+            WorkloadId = materialized;
+        }
+        this.WorkloadId = WorkloadId;
+    }
+
+    public void Deconstruct(out IEnumerable<string> WorkloadId)
+    {
+        WorkloadId = this.WorkloadId;
+    }
+
     /// <summary>
     /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// The NuGet package ID of the workload to install.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> WorkloadId { get; private init; }
 
 }

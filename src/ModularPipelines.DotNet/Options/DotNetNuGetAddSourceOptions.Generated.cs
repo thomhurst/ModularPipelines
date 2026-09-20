@@ -19,10 +19,25 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "add", "source")]
-public record DotNetNuGetAddSourceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PackageSourcePath
-) : DotNetOptions
+public record DotNetNuGetAddSourceOptions : DotNetOptions
 {
+    /// <summary>
+    /// Add a NuGet source.
+    /// </summary>
+    /// <param name="PackageSourcePath">Path to the package source.</param>
+    public DotNetNuGetAddSourceOptions(
+        string PackageSourcePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageSourcePath);
+        this.PackageSourcePath = PackageSourcePath;
+    }
+
+    public void Deconstruct(out string PackageSourcePath)
+    {
+        PackageSourcePath = this.PackageSourcePath;
+    }
+
     /// <summary>
     /// Name of the source.
     /// </summary>
@@ -78,5 +93,11 @@ public record DotNetNuGetAddSourceOptions(
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// Path to the package source.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PackageSourcePath { get; private init; }
 
 }

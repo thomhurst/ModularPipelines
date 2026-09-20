@@ -18,10 +18,25 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "sync")]
-public record DotNetNuGetTrustSyncOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : DotNetOptions
+public record DotNetNuGetTrustSyncOptions : DotNetOptions
 {
+    /// <summary>
+    /// Deletes the current list of certificates and replaces them with an up-to-date list from the repository.
+    /// </summary>
+    /// <param name="Name">The name of the existing trusted signer to sync.</param>
+    public DotNetNuGetTrustSyncOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
     /// </summary>
@@ -39,5 +54,11 @@ public record DotNetNuGetTrustSyncOptions(
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// The name of the existing trusted signer to sync.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -18,11 +18,30 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "author")]
-public record DotNetNuGetTrustAuthorOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
-) : DotNetOptions
+public record DotNetNuGetTrustAuthorOptions : DotNetOptions
 {
+    /// <summary>
+    /// Adds a trusted signer with the given name, based on the author signature of the package.
+    /// </summary>
+    /// <param name="Name">The name of the trusted signer to add. If name already exists in the configuration, the signature is appended.</param>
+    /// <param name="Package">The given package should be a local path to the signed .nupkg file.</param>
+    public DotNetNuGetTrustAuthorOptions(
+        string Name,
+        string Package
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+    }
+
+    public void Deconstruct(out string Name, out string Package)
+    {
+        Name = this.Name;
+        Package = this.Package;
+    }
+
     /// <summary>
     /// Specifies if the certificate for the trusted signer should be allowed to chain to an untrusted root. This is not recommended.
     /// </summary>
@@ -46,5 +65,17 @@ public record DotNetNuGetTrustAuthorOptions(
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// The name of the trusted signer to add. If name already exists in the configuration, the signature is appended.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The given package should be a local path to the signed .nupkg file.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Package { get; private init; }
 
 }

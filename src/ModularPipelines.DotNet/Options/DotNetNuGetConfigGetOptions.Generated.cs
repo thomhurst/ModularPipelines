@@ -18,10 +18,25 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "config", "get")]
-public record DotNetNuGetConfigGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AllOrConfigKey
-) : DotNetOptions
+public record DotNetNuGetConfigGetOptions : DotNetOptions
 {
+    /// <summary>
+    /// Gets the NuGet configuration settings that will be applied.
+    /// </summary>
+    /// <param name="AllOrConfigKey">ALL: Get all merged NuGet configuration settings from multiple NuGet configuration files that will be applied, when invoking NuGet command from the working directory path.  CONFIG_KEY: Get the effective value of the specified configuration settings of the config section.</param>
+    public DotNetNuGetConfigGetOptions(
+        string AllOrConfigKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AllOrConfigKey);
+        this.AllOrConfigKey = AllOrConfigKey;
+    }
+
+    public void Deconstruct(out string AllOrConfigKey)
+    {
+        AllOrConfigKey = this.AllOrConfigKey;
+    }
+
     /// <summary>
     /// Specifies the directory to start from when listing configuration files. If not specified, the current directory is used.
     /// </summary>
@@ -39,5 +54,11 @@ public record DotNetNuGetConfigGetOptions(
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// ALL: Get all merged NuGet configuration settings from multiple NuGet configuration files that will be applied, when invoking NuGet command from the working directory path.  CONFIG_KEY: Get the effective value of the specified configuration settings of the config section.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AllOrConfigKey { get; private init; }
 
 }

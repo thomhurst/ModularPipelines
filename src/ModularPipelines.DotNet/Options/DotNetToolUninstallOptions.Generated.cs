@@ -18,10 +18,25 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tool", "uninstall")]
-public record DotNetToolUninstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PackageId
-) : DotNetOptions
+public record DotNetToolUninstallOptions : DotNetOptions
 {
+    /// <summary>
+    /// Uninstall a global tool or local tool.
+    /// </summary>
+    /// <param name="PackageId">Package reference</param>
+    public DotNetToolUninstallOptions(
+        string PackageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageId);
+        this.PackageId = PackageId;
+    }
+
+    public void Deconstruct(out string PackageId)
+    {
+        PackageId = this.PackageId;
+    }
+
     /// <summary>
     /// Uninstall the tool from the current user's tools directory. [default: False]
     /// </summary>
@@ -45,5 +60,11 @@ public record DotNetToolUninstallOptions(
     /// </summary>
     [CliOption("--tool-manifest")]
     public string? ToolManifest { get; set; }
+
+    /// <summary>
+    /// Package reference
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PackageId { get; private init; }
 
 }

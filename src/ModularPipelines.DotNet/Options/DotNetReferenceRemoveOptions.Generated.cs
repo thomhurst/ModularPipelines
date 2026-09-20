@@ -18,10 +18,36 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("reference", "remove")]
-public record DotNetReferenceRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ProjectPath
-) : DotNetOptions
+public record DotNetReferenceRemoveOptions : DotNetOptions
 {
+    /// <summary>
+    /// Remove a project-to-project reference from the project.
+    /// </summary>
+    /// <param name="ProjectPath">The paths to the referenced projects to remove.</param>
+    public DotNetReferenceRemoveOptions(
+        IEnumerable<string> ProjectPath
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ProjectPath);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ProjectPath));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ProjectPath));
+            }
+
+            ProjectPath = materialized;
+        }
+        this.ProjectPath = ProjectPath;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ProjectPath)
+    {
+        ProjectPath = this.ProjectPath;
+    }
+
     /// <summary>
     /// Remove the reference only when targeting a specific framework.
     /// </summary>
@@ -39,5 +65,11 @@ public record DotNetReferenceRemoveOptions(
     /// </summary>
     [CliFlag("--project")]
     public bool? Project { get; set; }
+
+    /// <summary>
+    /// The paths to the referenced projects to remove.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ProjectPath { get; private init; }
 
 }

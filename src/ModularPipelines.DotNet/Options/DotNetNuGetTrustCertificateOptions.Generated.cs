@@ -18,11 +18,30 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "certificate")]
-public record DotNetNuGetTrustCertificateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Fingerprint
-) : DotNetOptions
+public record DotNetNuGetTrustCertificateOptions : DotNetOptions
 {
+    /// <summary>
+    /// Adds a trusted signer with the given name, based on the repository signature or countersignature of a signed package.
+    /// </summary>
+    /// <param name="Name">The name of the trusted signer to add. If a trusted signer with the given name already exists, the certificate item is added to that signer. Otherwise a trusted author is created with a certificate item from the given certificate information.</param>
+    /// <param name="Fingerprint">The fingerprint of the certificate.</param>
+    public DotNetNuGetTrustCertificateOptions(
+        string Name,
+        string Fingerprint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Fingerprint);
+        this.Fingerprint = Fingerprint;
+    }
+
+    public void Deconstruct(out string Name, out string Fingerprint)
+    {
+        Name = this.Name;
+        Fingerprint = this.Fingerprint;
+    }
+
     /// <summary>
     /// Specifies the hash algorithm used to calculate the certificate fingerprint. Defaults to SHA256. Values supported are SHA256, SHA384 and SHA512.
     /// </summary>
@@ -52,5 +71,17 @@ public record DotNetNuGetTrustCertificateOptions(
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// The name of the trusted signer to add. If a trusted signer with the given name already exists, the certificate item is added to that signer. Otherwise a trusted author is created with a certificate item from the given certificate information.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The fingerprint of the certificate.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Fingerprint { get; private init; }
 
 }

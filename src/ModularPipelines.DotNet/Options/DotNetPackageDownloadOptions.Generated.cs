@@ -18,10 +18,36 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "download")]
-public record DotNetPackageDownloadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Packages
-) : DotNetOptions
+public record DotNetPackageDownloadOptions : DotNetOptions
 {
+    /// <summary>
+    /// Downloads a NuGet package to a local folder without requiring a project file.
+    /// </summary>
+    /// <param name="Packages">Package reference in the form of a package identifier like 'Newtonsoft.Json' or package identifier and version separated by '@' like 'Newtonsoft.Json@13.0.3'.</param>
+    public DotNetPackageDownloadOptions(
+        IEnumerable<string> Packages
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Packages);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Packages));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Packages));
+            }
+
+            Packages = materialized;
+        }
+        this.Packages = Packages;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Packages)
+    {
+        Packages = this.Packages;
+    }
+
     /// <summary>
     /// Allows downloading from HTTP (non-HTTPS) package sources. [default: False]
     /// </summary>
@@ -63,5 +89,11 @@ public record DotNetPackageDownloadOptions(
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// Package reference in the form of a package identifier like 'Newtonsoft.Json' or package identifier and version separated by '@' like 'Newtonsoft.Json@13.0.3'.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Packages { get; private init; }
 
 }

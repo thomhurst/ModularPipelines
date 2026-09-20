@@ -18,10 +18,25 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tool", "search")]
-public record DotNetToolSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SearchTerm
-) : DotNetOptions
+public record DotNetToolSearchOptions : DotNetOptions
 {
+    /// <summary>
+    /// Search dotnet tools in nuget.org
+    /// </summary>
+    /// <param name="SearchTerm">Search term from package id or package description. Require at least one character.</param>
+    public DotNetToolSearchOptions(
+        string SearchTerm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SearchTerm);
+        this.SearchTerm = SearchTerm;
+    }
+
+    public void Deconstruct(out string SearchTerm)
+    {
+        SearchTerm = this.SearchTerm;
+    }
+
     /// <summary>
     /// Show detail result of the query. [default: False]
     /// </summary>
@@ -45,5 +60,11 @@ public record DotNetToolSearchOptions(
     /// </summary>
     [CliFlag("--prerelease")]
     public bool? Prerelease { get; set; }
+
+    /// <summary>
+    /// Search term from package id or package description. Require at least one character.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SearchTerm { get; private init; }
 
 }

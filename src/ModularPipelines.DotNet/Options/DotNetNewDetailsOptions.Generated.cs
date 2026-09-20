@@ -18,10 +18,25 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("new", "details")]
-public record DotNetNewDetailsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PackageIdentifier
-) : DotNetOptions
+public record DotNetNewDetailsOptions : DotNetOptions
 {
+    /// <summary>
+    /// Provides the details for specified template package.
+    /// </summary>
+    /// <param name="PackageIdentifier">Package identifier</param>
+    public DotNetNewDetailsOptions(
+        string PackageIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageIdentifier);
+        this.PackageIdentifier = PackageIdentifier;
+    }
+
+    public void Deconstruct(out string PackageIdentifier)
+    {
+        PackageIdentifier = this.PackageIdentifier;
+    }
+
     /// <summary>
     /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
     /// </summary>
@@ -33,5 +48,11 @@ public record DotNetNewDetailsOptions(
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// Package identifier
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PackageIdentifier { get; private init; }
 
 }
