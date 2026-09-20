@@ -118,6 +118,32 @@ public class SnykCliScraperTests
     }
 
     [Test]
+    [Arguments("Monitor")]
+    [Arguments("Container monitor")]
+    [Arguments("Usage:")]
+    [Arguments("Monitor a container image")]
+    public async Task Combined_Description_Skips_Headings_Before_Synopsis(string heading)
+    {
+        var help = $"""
+            Container monitor
+            Usage and description
+              {heading}
+                snyk container monitor [<OPTIONS>]
+                  [<IMAGE>]
+
+                The snyk container monitor command captures image dependencies
+                and monitors the snapshot for vulnerabilities.
+
+            Options
+              --json
+                Emit JSON.
+            """;
+
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "container", "monitor"], help))!;
+        await Assert.That(command.Description).IsEqualTo("The snyk container monitor command captures image dependencies and monitors the snapshot for vulnerabilities.");
+    }
+
+    [Test]
     [Arguments("")]
     [Arguments(":")]
     public async Task Explicit_Description_Takes_Precedence_Over_Prerequisites(string headingSuffix)

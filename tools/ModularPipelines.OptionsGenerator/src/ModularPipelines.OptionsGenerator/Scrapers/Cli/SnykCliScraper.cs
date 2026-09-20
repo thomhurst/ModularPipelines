@@ -230,10 +230,16 @@ public partial class SnykCliScraper : CliScraperBase
         var combinedHeading = Array.FindIndex(lines, line => line.Trim().TrimEnd(':').Equals("Usage and description", StringComparison.OrdinalIgnoreCase));
         var start = descriptionHeading >= 0 ? descriptionHeading + 1 : combinedHeading + 1;
         var summary = new List<string>();
+        var awaitingSynopsis = descriptionHeading < 0 && combinedHeading >= 0;
         var inSynopsis = false;
         for (var index = start; index < lines.Length; index++)
         {
             var trimmed = lines[index].Trim();
+            if (awaitingSynopsis && trimmed.TrimEnd(':').Equals("Usage", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
             if (DescriptionBoundaryPattern().IsMatch(trimmed))
             {
                 break;
@@ -253,10 +259,11 @@ public partial class SnykCliScraper : CliScraperBase
             if (trimmed.StartsWith("snyk ", StringComparison.OrdinalIgnoreCase)
                 || trimmed.StartsWith("$ snyk ", StringComparison.OrdinalIgnoreCase))
             {
+                awaitingSynopsis = false;
                 inSynopsis = true;
             }
 
-            if (inSynopsis || (descriptionHeading < 0 && summary.Count == 0
+            if (awaitingSynopsis || inSynopsis || (descriptionHeading < 0 && combinedHeading < 0 && summary.Count == 0
                 && (trimmed.Equals(commandTitle, StringComparison.OrdinalIgnoreCase) || trimmed.EndsWith(':'))))
             {
                 continue;
