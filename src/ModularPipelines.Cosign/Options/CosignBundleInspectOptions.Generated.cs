@@ -18,15 +18,24 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bundle", "inspect")]
-public record CosignBundleInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Bundle
-) : CosignOptions
+public record CosignBundleInspectOptions : CosignOptions
 {
     /// <summary>
-    /// help for inspect
+    /// Inspect a Sigstore protobuf bundle
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Bundle"></param>
+    public CosignBundleInspectOptions(
+        string Bundle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bundle);
+        this.Bundle = Bundle;
+    }
+
+    public void Deconstruct(out string Bundle)
+    {
+        Bundle = this.Bundle;
+    }
 
     /// <summary>
     /// log output to a file
@@ -45,5 +54,8 @@ public record CosignBundleInspectOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Bundle { get; private init; }
 
 }

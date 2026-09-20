@@ -33,12 +33,6 @@ public record CosignSigningConfigCreateOptions : CosignOptions
     public IEnumerable<string>? Fulcio { get; set; }
 
     /// <summary>
-    /// help for create
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// removes the default Fulcio URLs from the signing config.
     /// </summary>
     [CliFlag("--no-default-fulcio")]

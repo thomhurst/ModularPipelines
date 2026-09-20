@@ -45,12 +45,6 @@ public record CosignBundleCreateOptions : CosignOptions
     public string? Certificate { get; set; }
 
     /// <summary>
-    /// help for create
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// ignore transparency log verification, to be used when an artifact signature has not been uploaded to the transparency log.
     /// </summary>
     [CliFlag("--ignore-tlog")]

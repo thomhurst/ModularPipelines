@@ -18,10 +18,25 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify-blob")]
-public record CosignVerifyBlobOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Blob
-) : CosignOptions
+public record CosignVerifyBlobOptions : CosignOptions
 {
+    /// <summary>
+    /// Verify a signature on the supplied blob input using the specified key reference.
+    /// </summary>
+    /// <param name="Blob"></param>
+    public CosignVerifyBlobOptions(
+        string Blob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Blob);
+        this.Blob = Blob;
+    }
+
+    public void Deconstruct(out string Blob)
+    {
+        Blob = this.Blob;
+    }
+
     /// <summary>
     /// allow X.509 certificate chains in bundle verification material for v0.3+ bundles
     /// </summary>
@@ -89,12 +104,6 @@ public record CosignVerifyBlobOptions(
     public string? CertificateOidcIssuerRegexp { get; set; }
 
     /// <summary>
-    /// help for verify-blob
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// when set, verification will not check that a certificate contains an embedded SCT, a proof of inclusion in a certificate transparency log
     /// </summary>
     [CliFlag("--insecure-ignore-sct")]
@@ -159,5 +168,8 @@ public record CosignVerifyBlobOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Blob { get; private init; }
 
 }

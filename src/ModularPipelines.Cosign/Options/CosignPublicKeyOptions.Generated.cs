@@ -21,12 +21,6 @@ namespace ModularPipelines.Cosign.Options;
 public record CosignPublicKeyOptions : CosignOptions
 {
     /// <summary>
-    /// help for public-key
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// path to the private key file, KMS URI or Kubernetes Secret
     /// </summary>
     [CliOption("--key", Format = OptionFormat.EqualsSeparated)]

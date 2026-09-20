@@ -18,15 +18,24 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bundle", "upgrade")]
-public record CosignBundleUpgradeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Bundle
-) : CosignOptions
+public record CosignBundleUpgradeOptions : CosignOptions
 {
     /// <summary>
-    /// help for upgrade
+    /// Upgrade a Sigstore Protobuf bundle to the latest version. This command only supports standardized bundles.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Bundle"></param>
+    public CosignBundleUpgradeOptions(
+        string Bundle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bundle);
+        this.Bundle = Bundle;
+    }
+
+    public void Deconstruct(out string Bundle)
+    {
+        Bundle = this.Bundle;
+    }
 
     /// <summary>
     /// path to the output upgraded bundle file
@@ -57,5 +66,8 @@ public record CosignBundleUpgradeOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Bundle { get; private init; }
 
 }

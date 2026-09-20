@@ -33,12 +33,6 @@ public record CosignTrustedRootCreateOptions : CosignOptions
     public IEnumerable<string>? Fulcio { get; set; }
 
     /// <summary>
-    /// help for create
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// removes the default CTFE URLs from the trusted root.
     /// </summary>
     [CliFlag("--no-default-ctfe")]

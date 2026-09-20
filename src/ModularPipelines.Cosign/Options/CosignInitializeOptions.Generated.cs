@@ -21,12 +21,6 @@ namespace ModularPipelines.Cosign.Options;
 public record CosignInitializeOptions : CosignOptions
 {
     /// <summary>
-    /// help for initialize
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// GCS bucket to a SigStore TUF repository, or HTTP(S) base URL, or file:/// for local filestore remote (air-gap)
     /// </summary>
     [CliOption("--mirror", Format = OptionFormat.EqualsSeparated)]

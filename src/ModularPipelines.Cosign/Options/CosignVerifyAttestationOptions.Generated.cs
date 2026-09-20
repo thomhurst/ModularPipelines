@@ -20,10 +20,36 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify-attestation")]
-public record CosignVerifyAttestationOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Images
-) : CosignOptions
+public record CosignVerifyAttestationOptions : CosignOptions
 {
+    /// <summary>
+    /// Verify an attestation on an image by checking the claims
+    /// </summary>
+    /// <param name="Images"></param>
+    public CosignVerifyAttestationOptions(
+        IEnumerable<string> Images
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Images);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Images));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Images));
+            }
+
+            Images = materialized;
+        }
+        this.Images = Images;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Images)
+    {
+        Images = this.Images;
+    }
+
     /// <summary>
     /// allow X.509 certificate chains in bundle verification material for v0.3+ bundles
     /// </summary>
@@ -101,12 +127,6 @@ public record CosignVerifyAttestationOptions(
     /// </summary>
     [CliOption("--check-claims", Format = OptionFormat.EqualsSeparated)]
     public bool? CheckClaims { get; set; }
-
-    /// <summary>
-    /// help for verify-attestation
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// when set, verification will not check that a certificate contains an embedded SCT, a proof of inclusion in a certificate transparency log
@@ -247,5 +267,8 @@ public record CosignVerifyAttestationOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Images { get; private init; }
 
 }

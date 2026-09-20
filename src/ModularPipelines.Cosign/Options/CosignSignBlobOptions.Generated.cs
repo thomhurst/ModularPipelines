@@ -19,10 +19,36 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sign-blob")]
-public record CosignSignBlobOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Blobs
-) : CosignOptions
+public record CosignSignBlobOptions : CosignOptions
 {
+    /// <summary>
+    /// Sign the supplied blob, outputting the base64-encoded signature to stdout
+    /// </summary>
+    /// <param name="Blobs"></param>
+    public CosignSignBlobOptions(
+        IEnumerable<string> Blobs
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Blobs);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Blobs));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Blobs));
+            }
+
+            Blobs = materialized;
+        }
+        this.Blobs = Blobs;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Blobs)
+    {
+        Blobs = this.Blobs;
+    }
+
     /// <summary>
     /// write everything required to verify the blob to a FILE
     /// </summary>
@@ -46,12 +72,6 @@ public record CosignSignBlobOptions(
     /// </summary>
     [CliOption("--fulcio-auth-flow", Format = OptionFormat.EqualsSeparated)]
     public string? FulcioAuthFlow { get; set; }
-
-    /// <summary>
-    /// help for sign-blob
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// identity token to use for certificate from fulcio. the token or a path to a file containing the token is accepted.
@@ -180,5 +200,8 @@ public record CosignSignBlobOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Blobs { get; private init; }
 
 }

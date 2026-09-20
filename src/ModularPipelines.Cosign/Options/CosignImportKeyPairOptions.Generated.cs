@@ -21,12 +21,6 @@ namespace ModularPipelines.Cosign.Options;
 public record CosignImportKeyPairOptions : CosignOptions
 {
     /// <summary>
-    /// help for import-key-pair
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// import key pair to use for signing
     /// </summary>
     [CliOption("--key", ShortForm = "-k", Format = OptionFormat.EqualsSeparated)]

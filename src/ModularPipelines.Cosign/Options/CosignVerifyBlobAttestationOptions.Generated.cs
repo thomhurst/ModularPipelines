@@ -105,12 +105,6 @@ public record CosignVerifyBlobAttestationOptions : CosignOptions
     public string? DigestAlg { get; set; }
 
     /// <summary>
-    /// help for verify-blob-attestation
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// when set, verification will not check that a certificate contains an embedded SCT, a proof of inclusion in a certificate transparency log
     /// </summary>
     [CliFlag("--insecure-ignore-sct")]

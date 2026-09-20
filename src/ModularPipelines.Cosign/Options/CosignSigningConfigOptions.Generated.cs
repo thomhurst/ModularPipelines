@@ -21,12 +21,6 @@ namespace ModularPipelines.Cosign.Options;
 public record CosignSigningConfigOptions : CosignOptions
 {
     /// <summary>
-    /// help for signing-config
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// log output to a file
     /// </summary>
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]

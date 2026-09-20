@@ -19,10 +19,25 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("download", "attestation")]
-public record CosignDownloadAttestationOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : CosignOptions
+public record CosignDownloadAttestationOptions : CosignOptions
 {
+    /// <summary>
+    /// Download in-toto attestations from the supplied container image
+    /// </summary>
+    /// <param name="Image"></param>
+    public CosignDownloadAttestationOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// whether to allow using HTTP protocol while connecting to registries. Don't use this for anything but testing
     /// </summary>
@@ -34,12 +49,6 @@ public record CosignDownloadAttestationOptions(
     /// </summary>
     [CliFlag("--allow-insecure-registry")]
     public bool? AllowInsecureRegistry { get; set; }
-
-    /// <summary>
-    /// help for attestation
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// whether to use the kubernetes keychain instead of the default keychain (supports workload identity).
@@ -120,5 +129,8 @@ public record CosignDownloadAttestationOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
 }

@@ -21,12 +21,6 @@ namespace ModularPipelines.Cosign.Options;
 public record CosignGenerateKeyPairOptions : CosignOptions
 {
     /// <summary>
-    /// help for generate-key-pair
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// create key pair in KMS service to use for signing
     /// </summary>
     [CliOption("--kms", Format = OptionFormat.EqualsSeparated)]
