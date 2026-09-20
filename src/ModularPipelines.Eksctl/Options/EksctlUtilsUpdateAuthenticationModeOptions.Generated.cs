@@ -57,12 +57,6 @@ public record EksctlUtilsUpdateAuthenticationModeOptions : EksctlOptions
     public bool? Dumplogs { get; set; }
 
     /// <summary>
-    /// help for this command
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set log level, use 0 to silence, 4 for debugging and 5 for debugging with AWS debug logging (default 3)
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
