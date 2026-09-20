@@ -10,6 +10,7 @@ public class ChocolateyCliScraperTests
     [Test]
     [Arguments("Chocolatey validates package signatures.")]
     [Arguments("Inspect packages with this command")]
+    [Arguments("Choco commands support package management.")]
     public async Task Summary_Does_Not_Discard_Prose_That_Resembles_A_Banner(string summary)
     {
         var command = await new TestChocolateyCliScraper().Parse(["choco", "info"],
@@ -23,6 +24,17 @@ public class ChocolateyCliScraperTests
         var command = await new TestChocolateyCliScraper().Parse(["choco", "info"],
             "Chocolatey v2.7.4\nInfo Command\n\nDisplays package information.\nchoco info example\n\nUsage\n    choco info <pkg>\n\nOptions and Switches");
         await Assert.That(command!.Description).IsEqualTo("Displays package information.");
+    }
+
+    [Test]
+    [Arguments("sources", "Source")]
+    [Arguments("features", "Feature")]
+    [Arguments("templates", "Template")]
+    public async Task Alias_Help_Skips_The_Canonical_Command_Title(string commandName, string title)
+    {
+        var command = await new TestChocolateyCliScraper().Parse(["choco", commandName],
+            $"Chocolatey v2.7.4\n{title} Command\n\nChocolatey will allow you to interact with {commandName}.\n\nUsage\n    choco {commandName} [<options/switches>]\n\nOptions and Switches");
+        await Assert.That(command!.Description).IsEqualTo($"Chocolatey will allow you to interact with {commandName}.");
     }
 
     [Test]

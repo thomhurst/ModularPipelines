@@ -347,6 +347,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
     private static string? ExtractDescription(string helpText, string commandName)
     {
         var summary = new List<string>();
+        var expectCommandTitle = false;
         foreach (var line in helpText.Split('\n'))
         {
             var trimmed = line.Trim();
@@ -366,16 +367,29 @@ public partial class ChocolateyCliScraper : CliScraperBase
                 continue;
             }
 
-            // Chocolatey prints a banner and command title before the first prose paragraph.
-            if (summary.Count == 0
-                && (VersionBannerPattern().IsMatch(trimmed)
-                    || trimmed.Equals($"{commandName} Command", StringComparison.OrdinalIgnoreCase)
-                    || trimmed.All(c => c == '=')))
+            if (summary.Count == 0 && VersionBannerPattern().IsMatch(trimmed))
+            {
+                expectCommandTitle = true;
+                continue;
+            }
+
+            // Alias help uses the canonical title immediately after the version banner.
+            if (expectCommandTitle)
+            {
+                expectCommandTitle = false;
+                if (CommandTitlePattern().IsMatch(trimmed))
+                {
+                    continue;
+                }
+            }
+
+            if (summary.Count == 0 && trimmed.All(c => c == '='))
             {
                 continue;
             }
 
-            if (trimmed.StartsWith("choco ", StringComparison.OrdinalIgnoreCase))
+            if (trimmed.Equals($"choco {commandName}", StringComparison.OrdinalIgnoreCase)
+                || trimmed.StartsWith($"choco {commandName} ", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -388,6 +402,9 @@ public partial class ChocolateyCliScraper : CliScraperBase
 
     [GeneratedRegex(@"^Chocolatey v\d+(?:\.\d+)+(?:[-+][0-9A-Za-z.-]+)?$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex VersionBannerPattern();
+
+    [GeneratedRegex(@"^[\w-]+ Command$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex CommandTitlePattern();
 
     /// <summary>
     /// Parses options from Chocolatey help text.
