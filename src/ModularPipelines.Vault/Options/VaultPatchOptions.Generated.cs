@@ -19,10 +19,31 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("patch")]
-public record VaultPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : VaultOptions
+public record VaultPatchOptions : VaultOptions
 {
+    /// <summary>
+    /// Patches data in Vault at the given path. The data can be credentials, secrets,
+    /// </summary>
+    /// <param name="Path">The PATH operand.</param>
+    public VaultPatchOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
+
     /// <summary>
     /// The DATA K=V operand.
     /// </summary>

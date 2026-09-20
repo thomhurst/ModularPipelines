@@ -20,15 +20,36 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("token", "capabilities")]
-public record VaultTokenCapabilitiesOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : VaultOptions
+public record VaultTokenCapabilitiesOptions : VaultOptions
 {
+    /// <summary>
+    /// Fetches the capabilities of a token or accessor for a given path. If a TOKEN
+    /// </summary>
+    /// <param name="Path">The PATH operand.</param>
+    public VaultTokenCapabilitiesOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
     /// <summary>
     /// The TOKEN operand.
     /// </summary>
     [SecretValue]
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Token { get; set; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
 
 }

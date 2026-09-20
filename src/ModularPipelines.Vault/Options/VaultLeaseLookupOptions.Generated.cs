@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lease", "lookup")]
-public record VaultLeaseLookupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : VaultOptions
+public record VaultLeaseLookupOptions : VaultOptions
 {
+    /// <summary>
+    /// Lookup the lease information of a secret.
+    /// </summary>
+    /// <param name="Id">The ID operand.</param>
+    public VaultLeaseLookupOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// The ID operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
+
 }

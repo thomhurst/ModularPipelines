@@ -19,9 +19,40 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "move")]
-public record VaultAuthMoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Source,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
-) : VaultOptions
+public record VaultAuthMoveOptions : VaultOptions
 {
+    /// <summary>
+    /// Moves an existing auth method to a new path. Any leases from the old
+    /// </summary>
+    /// <param name="Source">The SOURCE operand.</param>
+    /// <param name="Destination">The DESTINATION operand.</param>
+    public VaultAuthMoveOptions(
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Source, out string Destination)
+    {
+        Source = this.Source;
+        Destination = this.Destination;
+    }
+
+    /// <summary>
+    /// The SOURCE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// The DESTINATION operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Destination { get; private init; }
+
 }

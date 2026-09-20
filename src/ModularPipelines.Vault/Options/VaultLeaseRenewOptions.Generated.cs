@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lease", "renew")]
-public record VaultLeaseRenewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Id
-) : VaultOptions
+public record VaultLeaseRenewOptions : VaultOptions
 {
+    /// <summary>
+    /// Renews the lease on a secret, extending the time that it can be used before
+    /// </summary>
+    /// <param name="Id">The ID operand.</param>
+    public VaultLeaseRenewOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// The ID operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Id { get; private init; }
+
 }

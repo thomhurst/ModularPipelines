@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "metadata", "patch")]
-public record VaultKvMetadataPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Key
-) : VaultOptions
+public record VaultKvMetadataPatchOptions : VaultOptions
 {
+    /// <summary>
+    /// This command can be used to create a blank key in the key-value store or to
+    /// </summary>
+    /// <param name="Key">The KEY operand.</param>
+    public VaultKvMetadataPatchOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// The KEY operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Key { get; private init; }
+
 }

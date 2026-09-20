@@ -19,11 +19,42 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transit", "import")]
-public record VaultTransitImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
-) : VaultOptions
+public record VaultTransitImportOptions : VaultOptions
 {
+    /// <summary>
+    /// Using the Transit key wrapping system, imports key material from
+    /// </summary>
+    /// <param name="Path">The PATH operand.</param>
+    /// <param name="Key">The KEY operand.</param>
+    public VaultTransitImportOptions(
+        string Path,
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Path, out string Key)
+    {
+        Path = this.Path;
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path { get; private init; }
+
+    /// <summary>
+    /// The KEY operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
+
     /// <summary>
     /// The options operand.
     /// </summary>

@@ -19,10 +19,31 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv")]
-public record VaultKvOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
-) : VaultOptions
+public record VaultKvOptions : VaultOptions
 {
+    /// <summary>
+    /// This command has subcommands for interacting with Vault's key-value
+    /// </summary>
+    /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
+    public VaultKvOptions(
+        string Subcommand
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subcommand);
+        this.Subcommand = Subcommand;
+    }
+
+    public void Deconstruct(out string Subcommand)
+    {
+        Subcommand = this.Subcommand;
+    }
+
+    /// <summary>
+    /// The &lt;subcommand&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subcommand { get; private init; }
+
     /// <summary>
     /// The args operand.
     /// </summary>

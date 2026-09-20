@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "snapshot", "restore")]
-public record VaultOperatorRaftSnapshotRestoreOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnapshotFile
-) : VaultOptions
+public record VaultOperatorRaftSnapshotRestoreOptions : VaultOptions
 {
+    /// <summary>
+    /// Installs the provided snapshot, returning the cluster to the state defined in it.
+    /// </summary>
+    /// <param name="SnapshotFile">The &lt;snapshot_file&gt; operand.</param>
+    public VaultOperatorRaftSnapshotRestoreOptions(
+        string SnapshotFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotFile);
+        this.SnapshotFile = SnapshotFile;
+    }
+
+    public void Deconstruct(out string SnapshotFile)
+    {
+        SnapshotFile = this.SnapshotFile;
+    }
+
+    /// <summary>
+    /// The &lt;snapshot_file&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SnapshotFile { get; private init; }
+
 }

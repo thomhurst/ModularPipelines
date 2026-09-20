@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "enable")]
-public record VaultSecretsEnableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Type
-) : VaultOptions
+public record VaultSecretsEnableOptions : VaultOptions
 {
+    /// <summary>
+    /// Enables a secrets engine. By default, secrets engines are enabled at the path
+    /// </summary>
+    /// <param name="Type">The TYPE operand.</param>
+    public VaultSecretsEnableOptions(
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string Type)
+    {
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// The TYPE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Type { get; private init; }
+
 }

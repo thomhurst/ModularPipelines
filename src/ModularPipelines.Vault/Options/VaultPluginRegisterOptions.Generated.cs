@@ -19,9 +19,40 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "register")]
-public record VaultPluginRegisterOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Type,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : VaultOptions
+public record VaultPluginRegisterOptions : VaultOptions
 {
+    /// <summary>
+    /// Registers a new plugin in the catalog. The plugin binary must exist in Vault's
+    /// </summary>
+    /// <param name="Type">The TYPE operand.</param>
+    /// <param name="Name">The NAME operand.</param>
+    public VaultPluginRegisterOptions(
+        string Type,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Type, out string Name)
+    {
+        Type = this.Type;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The TYPE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
+
 }

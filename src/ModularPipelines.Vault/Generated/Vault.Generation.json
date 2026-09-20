@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "vault",
-  "toolVersion": "Vault v2.1.0 (cb6a54face072e372480d7cc2e64a3110b84756f), built 2026-08-31T13:29:27Z",
+  "toolVersion": "Vault v2.1.1 (d78bbbe2d2f3d289c1ec29d431071beb23668212), built 2026-09-15T21:21:56Z",
   "commandTreeSha256": "f36ed874ca357f0eaaca930ad12a318f29c127df35a38f4096aae134e56ae477",
-  "generatorSourceSha256": "46df17d264224d4ab0a8cd670e5c64f4aab6500f3267ba5c4a93a5cf6a303bdd"
+  "generatorSourceSha256": "3c04f8b39c6c54a9dac25bdc0684a2529905122e447265041337bfe69fc485b4"
 }

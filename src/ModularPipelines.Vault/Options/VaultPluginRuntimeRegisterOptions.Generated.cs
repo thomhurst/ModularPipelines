@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "runtime", "register")]
-public record VaultPluginRuntimeRegisterOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : VaultOptions
+public record VaultPluginRuntimeRegisterOptions : VaultOptions
 {
+    /// <summary>
+    /// Registers a new plugin runtime in the catalog. Currently, Vault only supports registering runtimes of type "container".
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public VaultPluginRuntimeRegisterOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
+
 }
