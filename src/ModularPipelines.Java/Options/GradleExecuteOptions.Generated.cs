@@ -23,12 +23,6 @@ namespace ModularPipelines.Java.Options;
 public record GradleExecuteOptions : GradleOptions
 {
     /// <summary>
-    /// Shows this help message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Prints version information and continues.
     /// </summary>
     [CliFlag("--show-version", ShortForm = "-V")]
