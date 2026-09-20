@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get information about the specified private endpoint
 /// </summary>
-/// <param name="AccountName">The name of the Batch account. Required.</param>
-/// <param name="Name">The private endpoint connection name. This must be unique within the account.</param>
-/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "private-endpoint-connection", "show")]
-public record AzBatchPrivateEndpointConnectionShowOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzBatchPrivateEndpointConnectionShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get information about the specified private endpoint
+    /// </summary>
+    /// <param name="AccountName">The name of the Batch account. Required.</param>
+    /// <param name="Name">The private endpoint connection name. This must be unique within the account.</param>
+    /// <param name="ResourceGroup">Name of the resource group.</param>
+    public AzBatchPrivateEndpointConnectionShowOptions(
+        string AccountName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string Name, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Batch account. Required.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The private endpoint connection name. This must be unique within the account.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the resource group.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

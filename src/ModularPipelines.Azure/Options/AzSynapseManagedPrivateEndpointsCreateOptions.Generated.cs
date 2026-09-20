@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a synapse managed private endpoints.
 /// </summary>
-/// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
-/// <param name="PeName">The managed private endpoint name.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "managed-private-endpoints", "create")]
-public record AzSynapseManagedPrivateEndpointsCreateOptions(
-    [property: CliOption("--file")] string File,
-    [property: CliOption("--pe-name")] string PeName,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseManagedPrivateEndpointsCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a synapse managed private endpoints.
+    /// </summary>
+    /// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
+    /// <param name="PeName">The managed private endpoint name.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseManagedPrivateEndpointsCreateOptions(
+        string File,
+        string PeName,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(PeName);
+        this.PeName = PeName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string File, out string PeName, out string WorkspaceName)
+    {
+        File = this.File;
+        PeName = this.PeName;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.
+    /// </summary>
+    [CliOption("--file")]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// The managed private endpoint name.
+    /// </summary>
+    [CliOption("--pe-name")]
+    public string PeName { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

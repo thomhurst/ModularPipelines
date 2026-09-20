@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a synapse managed private endpoints.
 /// </summary>
-/// <param name="PeName">The managed private endpoint name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "managed-private-endpoints", "show")]
-public record AzSynapseManagedPrivateEndpointsShowOptions(
-    [property: CliOption("--pe-name")] string PeName
-) : AzOptions
+public record AzSynapseManagedPrivateEndpointsShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a synapse managed private endpoints.
+    /// </summary>
+    /// <param name="PeName">The managed private endpoint name.</param>
+    public AzSynapseManagedPrivateEndpointsShowOptions(
+        string PeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PeName);
+        this.PeName = PeName;
+    }
+
+    public void Deconstruct(out string PeName)
+    {
+        PeName = this.PeName;
+    }
+
+    /// <summary>
+    /// The managed private endpoint name.
+    /// </summary>
+    [CliOption("--pe-name")]
+    public string PeName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

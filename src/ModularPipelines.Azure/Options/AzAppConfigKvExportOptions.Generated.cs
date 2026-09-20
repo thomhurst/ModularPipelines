@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export configurations to another place from your App Configuration
 /// </summary>
-/// <param name="Destination">The destination of exporting. Note that exporting feature flags to appservice is not supported.  Allowed values: appconfig, appservice, file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "export")]
-public record AzAppConfigKvExportOptions(
-    [property: CliOption("--destination", ShortForm = "-d")] string Destination
-) : AzOptions
+public record AzAppConfigKvExportOptions : AzOptions
 {
+    /// <summary>
+    /// Export configurations to another place from your App Configuration
+    /// </summary>
+    /// <param name="Destination">The destination of exporting. Note that exporting feature flags to appservice is not supported.  Allowed values: appconfig, appservice, file.</param>
+    public AzAppConfigKvExportOptions(
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Destination)
+    {
+        Destination = this.Destination;
+    }
+
+    /// <summary>
+    /// The destination of exporting. Note that exporting feature flags to appservice is not supported.  Allowed values: appconfig, appservice, file.
+    /// </summary>
+    [CliOption("--destination", ShortForm = "-d")]
+    public string Destination { get; private init; }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app-configuration/concept- enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>

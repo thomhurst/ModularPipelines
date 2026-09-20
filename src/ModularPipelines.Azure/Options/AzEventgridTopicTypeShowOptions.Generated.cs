@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the details for a topic type.
 /// </summary>
-/// <param name="Name">Name of the topic type.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "topic-type", "show")]
-public record AzEventgridTopicTypeShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzEventgridTopicTypeShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get the details for a topic type.
+    /// </summary>
+    /// <param name="Name">Name of the topic type.</param>
+    public AzEventgridTopicTypeShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the topic type.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

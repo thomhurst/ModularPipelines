@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restores a backed up certificate to a vault.
 /// </summary>
-/// <param name="File">Local certificate backup from which to restore certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "restore")]
-public record AzKeyvaultCertificateRestoreOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzKeyvaultCertificateRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restores a backed up certificate to a vault.
+    /// </summary>
+    /// <param name="File">Local certificate backup from which to restore certificate.</param>
+    public AzKeyvaultCertificateRestoreOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// Local certificate backup from which to restore certificate.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Name of the Key Vault.
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Managed Instance link between Sql On-Prem and Sql Managed
 /// </summary>
-/// <param name="InstanceName">Name of the managed instance.</param>
-/// <param name="LinkName">Managed Instance link name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "link", "create")]
-public record AzSqlMiLinkCreateOptions(
-    [property: CliOption("--instance-name", ShortForm = "--mi")] string InstanceName,
-    [property: CliOption("--link-name", ShortForm = "-n")] string LinkName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlMiLinkCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Managed Instance link between Sql On-Prem and Sql Managed
+    /// </summary>
+    /// <param name="InstanceName">Name of the managed instance.</param>
+    /// <param name="LinkName">Managed Instance link name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSqlMiLinkCreateOptions(
+        string InstanceName,
+        string LinkName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+        global::System.ArgumentNullException.ThrowIfNull(LinkName);
+        this.LinkName = LinkName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string InstanceName, out string LinkName, out string ResourceGroup)
+    {
+        InstanceName = this.InstanceName;
+        LinkName = this.LinkName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the managed instance.
+    /// </summary>
+    [CliOption("--instance-name", ShortForm = "--mi")]
+    public string InstanceName { get; private init; }
+
+    /// <summary>
+    /// Managed Instance link name.
+    /// </summary>
+    [CliOption("--link-name", ShortForm = "-n")]
+    public string LinkName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

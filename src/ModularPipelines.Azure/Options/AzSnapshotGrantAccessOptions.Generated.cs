@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Grant read access to a snapshot.
 /// </summary>
-/// <param name="DurationInSeconds">Time duration in seconds until the SAS access expires.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snapshot", "grant-access")]
-public record AzSnapshotGrantAccessOptions(
-    [property: CliOption("--duration-in-seconds")] string DurationInSeconds
-) : AzOptions
+public record AzSnapshotGrantAccessOptions : AzOptions
 {
+    /// <summary>
+    /// Grant read access to a snapshot.
+    /// </summary>
+    /// <param name="DurationInSeconds">Time duration in seconds until the SAS access expires.</param>
+    public AzSnapshotGrantAccessOptions(
+        string DurationInSeconds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DurationInSeconds);
+        this.DurationInSeconds = DurationInSeconds;
+    }
+
+    public void Deconstruct(out string DurationInSeconds)
+    {
+        DurationInSeconds = this.DurationInSeconds;
+    }
+
+    /// <summary>
+    /// Time duration in seconds until the SAS access expires.
+    /// </summary>
+    [CliOption("--duration-in-seconds")]
+    public string DurationInSeconds { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

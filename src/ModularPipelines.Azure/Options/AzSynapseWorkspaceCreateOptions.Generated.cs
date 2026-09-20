@@ -16,24 +16,90 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Synapse workspace.
 /// </summary>
-/// <param name="FileSystem">The file system of the data lake storage account.</param>
-/// <param name="Name">The workspace name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SqlAdminLoginPassword">The sql administrator login password.</param>
-/// <param name="SqlAdminLoginUser">The sql administrator login user name.</param>
-/// <param name="StorageAccount">The data lake storage account name or resource id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "create")]
-public record AzSynapseWorkspaceCreateOptions(
-    [property: CliOption("--file-system")] string FileSystem,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: SecretValue, CliOption("--sql-admin-login-password", ShortForm = "-p")] string SqlAdminLoginPassword,
-    [property: CliOption("--sql-admin-login-user", ShortForm = "-u")] string SqlAdminLoginUser,
-    [property: CliOption("--storage-account")] string StorageAccount
-) : AzOptions
+public record AzSynapseWorkspaceCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Synapse workspace.
+    /// </summary>
+    /// <param name="FileSystem">The file system of the data lake storage account.</param>
+    /// <param name="Name">The workspace name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SqlAdminLoginPassword">The sql administrator login password.</param>
+    /// <param name="SqlAdminLoginUser">The sql administrator login user name.</param>
+    /// <param name="StorageAccount">The data lake storage account name or resource id.</param>
+    public AzSynapseWorkspaceCreateOptions(
+        string FileSystem,
+        string Name,
+        string ResourceGroup,
+        string SqlAdminLoginPassword,
+        string SqlAdminLoginUser,
+        string StorageAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SqlAdminLoginPassword);
+        this.SqlAdminLoginPassword = SqlAdminLoginPassword;
+        global::System.ArgumentNullException.ThrowIfNull(SqlAdminLoginUser);
+        this.SqlAdminLoginUser = SqlAdminLoginUser;
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccount);
+        this.StorageAccount = StorageAccount;
+    }
+
+    public void Deconstruct(out string FileSystem, out string Name, out string ResourceGroup, out string SqlAdminLoginPassword, out string SqlAdminLoginUser, out string StorageAccount)
+    {
+        FileSystem = this.FileSystem;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SqlAdminLoginPassword = this.SqlAdminLoginPassword;
+        SqlAdminLoginUser = this.SqlAdminLoginUser;
+        StorageAccount = this.StorageAccount;
+    }
+
+    /// <summary>
+    /// The file system of the data lake storage account.
+    /// </summary>
+    [CliOption("--file-system")]
+    public string FileSystem { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The sql administrator login password.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--sql-admin-login-password", ShortForm = "-p")]
+    public string SqlAdminLoginPassword { get; private init; }
+
+    /// <summary>
+    /// The sql administrator login user name.
+    /// </summary>
+    [CliOption("--sql-admin-login-user", ShortForm = "-u")]
+    public string SqlAdminLoginUser { get; private init; }
+
+    /// <summary>
+    /// The data lake storage account name or resource id.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string StorageAccount { get; private init; }
+
     /// <summary>
     /// The approved Azure AD tenants which outbound data traffic allowed to. The Azure AD tenant of the current user will be included by default. Use "" or '' ('""' in PowerShell) to disable all allowed tenant ids.
     /// </summary>

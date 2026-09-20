@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a deployment stack what-if result from management group
 /// </summary>
-/// <param name="ManagementGroupId">The management group ID to create a deployment stack what- if result in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "mg", "delete")]
-public record AzStackWhatifMgDeleteOptions(
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
-) : AzOptions
+public record AzStackWhatifMgDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a deployment stack what-if result from management group
+    /// </summary>
+    /// <param name="ManagementGroupId">The management group ID to create a deployment stack what- if result in.</param>
+    public AzStackWhatifMgDeleteOptions(
+        string ManagementGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+    }
+
+    public void Deconstruct(out string ManagementGroupId)
+    {
+        ManagementGroupId = this.ManagementGroupId;
+    }
+
+    /// <summary>
+    /// The management group ID to create a deployment stack what- if result in.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
     /// <summary>
     /// The deployment stack what-if result resource ID.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get detailed security information on a VM for the
 /// </summary>
-/// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "show-security-group-view")]
-public record AzNetworkWatcherShowSecurityGroupViewOptions(
-    [property: CliOption("--vm")] string Vm
-) : AzOptions
+public record AzNetworkWatcherShowSecurityGroupViewOptions : AzOptions
 {
+    /// <summary>
+    /// Get detailed security information on a VM for the
+    /// </summary>
+    /// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
+    public AzNetworkWatcherShowSecurityGroupViewOptions(
+        string Vm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Vm);
+        this.Vm = Vm;
+    }
+
+    public void Deconstruct(out string Vm)
+    {
+        Vm = this.Vm;
+    }
+
+    /// <summary>
+    /// Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.
+    /// </summary>
+    [CliOption("--vm")]
+    public string Vm { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

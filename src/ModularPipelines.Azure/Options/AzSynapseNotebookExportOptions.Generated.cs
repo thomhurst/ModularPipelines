@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export notebooks.
 /// </summary>
-/// <param name="OutputFolder">The folder where the notebook should be placed.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "notebook", "export")]
-public record AzSynapseNotebookExportOptions(
-    [property: CliOption("--output-folder")] string OutputFolder,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseNotebookExportOptions : AzOptions
 {
+    /// <summary>
+    /// Export notebooks.
+    /// </summary>
+    /// <param name="OutputFolder">The folder where the notebook should be placed.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseNotebookExportOptions(
+        string OutputFolder,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFolder);
+        this.OutputFolder = OutputFolder;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string OutputFolder, out string WorkspaceName)
+    {
+        OutputFolder = this.OutputFolder;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The folder where the notebook should be placed.
+    /// </summary>
+    [CliOption("--output-folder")]
+    public string OutputFolder { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// The notebook name.
     /// </summary>

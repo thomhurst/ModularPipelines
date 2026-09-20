@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an empty A record set.
 /// </summary>
-/// <param name="Name">Name of the record set, relative to the name of the zone.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ZoneName">Name of the Private DNS zone (without a terminating dot).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "a", "create")]
-public record AzNetworkPrivateDnsRecordSetACreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkPrivateDnsRecordSetACreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an empty A record set.
+    /// </summary>
+    /// <param name="Name">Name of the record set, relative to the name of the zone.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ZoneName">Name of the Private DNS zone (without a terminating dot).</param>
+    public AzNetworkPrivateDnsRecordSetACreateOptions(
+        string Name,
+        string ResourceGroup,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string ZoneName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// Name of the record set, relative to the name of the zone.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Private DNS zone (without a terminating dot).
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Metadata attached to the record set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>

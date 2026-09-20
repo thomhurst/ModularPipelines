@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the versions of all the sql containers that
 /// </summary>
-/// <param name="DatabaseRid">Rid of the database.</param>
-/// <param name="InstanceId">InstanceId of the Account.</param>
-/// <param name="Location">Location.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "restorable-container", "list")]
-public record AzCosmosdbSqlRestorableContainerListOptions(
-    [property: CliOption("--database-rid", ShortForm = "-d")] string DatabaseRid,
-    [property: CliOption("--instance-id", ShortForm = "-i")] string InstanceId,
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzCosmosdbSqlRestorableContainerListOptions : AzOptions
 {
+    /// <summary>
+    /// List all the versions of all the sql containers that
+    /// </summary>
+    /// <param name="DatabaseRid">Rid of the database.</param>
+    /// <param name="InstanceId">InstanceId of the Account.</param>
+    /// <param name="Location">Location.</param>
+    public AzCosmosdbSqlRestorableContainerListOptions(
+        string DatabaseRid,
+        string InstanceId,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseRid);
+        this.DatabaseRid = DatabaseRid;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string DatabaseRid, out string InstanceId, out string Location)
+    {
+        DatabaseRid = this.DatabaseRid;
+        InstanceId = this.InstanceId;
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Rid of the database.
+    /// </summary>
+    [CliOption("--database-rid", ShortForm = "-d")]
+    public string DatabaseRid { get; private init; }
+
+    /// <summary>
+    /// InstanceId of the Account.
+    /// </summary>
+    [CliOption("--instance-id", ShortForm = "-i")]
+    public string InstanceId { get; private init; }
+
+    /// <summary>
+    /// Location.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
     /// <summary>
     /// End time of restorable Sql container event feed.
     /// </summary>

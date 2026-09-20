@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start a link connnection.
 /// </summary>
-/// <param name="Name">The link connection name.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "link-connection", "start")]
-public record AzSynapseLinkConnectionStartOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseLinkConnectionStartOptions : AzOptions
 {
+    /// <summary>
+    /// Start a link connnection.
+    /// </summary>
+    /// <param name="Name">The link connection name.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseLinkConnectionStartOptions(
+        string Name,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Name, out string WorkspaceName)
+    {
+        Name = this.Name;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The link connection name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

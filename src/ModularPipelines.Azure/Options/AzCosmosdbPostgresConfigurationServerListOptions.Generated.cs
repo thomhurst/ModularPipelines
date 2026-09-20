@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the configurations of a server in
 /// </summary>
-/// <param name="ClusterName">The name of the cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServerName">The name of the server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "configuration", "server", "list")]
-public record AzCosmosdbPostgresConfigurationServerListOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-name")] string ServerName
-) : AzOptions
+public record AzCosmosdbPostgresConfigurationServerListOptions : AzOptions
 {
+    /// <summary>
+    /// List all the configurations of a server in
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServerName">The name of the server.</param>
+    public AzCosmosdbPostgresConfigurationServerListOptions(
+        string ClusterName,
+        string ResourceGroup,
+        string ServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+    }
+
+    public void Deconstruct(out string ClusterName, out string ResourceGroup, out string ServerName)
+    {
+        ClusterName = this.ClusterName;
+        ResourceGroup = this.ResourceGroup;
+        ServerName = this.ServerName;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the server.
+    /// </summary>
+    [CliOption("--server-name")]
+    public string ServerName { get; private init; }
+
 }

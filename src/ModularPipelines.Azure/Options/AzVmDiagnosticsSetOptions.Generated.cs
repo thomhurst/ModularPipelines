@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure the Azure VM diagnostics extension.
 /// </summary>
-/// <param name="Settings">Json string or a file path, which defines data to be collected.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "diagnostics", "set")]
-public record AzVmDiagnosticsSetOptions(
-    [property: CliOption("--settings")] string Settings
-) : AzOptions
+public record AzVmDiagnosticsSetOptions : AzOptions
 {
+    /// <summary>
+    /// Configure the Azure VM diagnostics extension.
+    /// </summary>
+    /// <param name="Settings">Json string or a file path, which defines data to be collected.</param>
+    public AzVmDiagnosticsSetOptions(
+        string Settings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Settings);
+        this.Settings = Settings;
+    }
+
+    public void Deconstruct(out string Settings)
+    {
+        Settings = this.Settings;
+    }
+
+    /// <summary>
+    /// Json string or a file path, which defines data to be collected.
+    /// </summary>
+    [CliOption("--settings")]
+    public string Settings { get; private init; }
+
     /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
     /// </summary>

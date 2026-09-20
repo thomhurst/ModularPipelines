@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a linked IoT hub in an Azure IoT Hub Device Provisioning
 /// </summary>
-/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
-/// <param name="LinkedHub">Host name of linked IoT Hub.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "delete")]
-public record AzIotDpsLinkedHubDeleteOptions(
-    [property: CliOption("--dps-name")] string DpsName,
-    [property: CliOption("--linked-hub")] string LinkedHub
-) : AzOptions
+public record AzIotDpsLinkedHubDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Update a linked IoT hub in an Azure IoT Hub Device Provisioning
+    /// </summary>
+    /// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+    /// <param name="LinkedHub">Host name of linked IoT Hub.</param>
+    public AzIotDpsLinkedHubDeleteOptions(
+        string DpsName,
+        string LinkedHub
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DpsName);
+        this.DpsName = DpsName;
+        global::System.ArgumentNullException.ThrowIfNull(LinkedHub);
+        this.LinkedHub = LinkedHub;
+    }
+
+    public void Deconstruct(out string DpsName, out string LinkedHub)
+    {
+        DpsName = this.DpsName;
+        LinkedHub = this.LinkedHub;
+    }
+
+    /// <summary>
+    /// IoT Hub Device Provisioning Service name.
+    /// </summary>
+    [CliOption("--dps-name")]
+    public string DpsName { get; private init; }
+
+    /// <summary>
+    /// Host name of linked IoT Hub.
+    /// </summary>
+    [CliOption("--linked-hub")]
+    public string LinkedHub { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

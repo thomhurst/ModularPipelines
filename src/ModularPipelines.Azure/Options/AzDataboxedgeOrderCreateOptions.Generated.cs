@@ -15,36 +15,155 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an order.
 /// </summary>
-/// <param name="DeviceName">The order details of a device.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="CompanyName">The name of the company.</param>
-/// <param name="ContactPerson">The contact person name.</param>
-/// <param name="EmailList">The email list.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
-/// <param name="Phone">The phone number.</param>
-/// <param name="Status">Status of the order as per the allowed status types.  Allowed values: Arriving, AwaitingDrop, AwaitingFulfillment, AwaitingPickup, AwaitingPreparation, AwaitingReturnShipment, AwaitingShipment, CollectedAtMicrosoft, Declined, Delivered, LostDevice, PickupCompleted, ReplacementRequested, ReturnInitiated, Shipped, ShippedBack, Untracked.</param>
-/// <param name="AddressLine1">The address line1.</param>
-/// <param name="City">The city name.</param>
-/// <param name="Country">The country name.</param>
-/// <param name="PostalCode">The postal code.</param>
-/// <param name="State">The state name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "order", "create")]
-public record AzDataboxedgeOrderCreateOptions(
-    [property: CliOption("--device-name", ShortForm = "-d")] string DeviceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--company-name")] string CompanyName,
-    [property: CliOption("--contact-person")] string ContactPerson,
-    [property: CliOption("--email-list")] string EmailList,
-    [property: CliOption("--phone")] string Phone,
-    [property: CliOption("--status")] string Status,
-    [property: CliOption("--address-line1")] string AddressLine1,
-    [property: CliOption("--city")] string City,
-    [property: CliOption("--country")] string Country,
-    [property: CliOption("--postal-code")] string PostalCode,
-    [property: CliOption("--state")] string State
-) : AzOptions
+public record AzDataboxedgeOrderCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an order.
+    /// </summary>
+    /// <param name="DeviceName">The order details of a device.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="CompanyName">The name of the company.</param>
+    /// <param name="ContactPerson">The contact person name.</param>
+    /// <param name="EmailList">The email list.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+    /// <param name="Phone">The phone number.</param>
+    /// <param name="Status">Status of the order as per the allowed status types.  Allowed values: Arriving, AwaitingDrop, AwaitingFulfillment, AwaitingPickup, AwaitingPreparation, AwaitingReturnShipment, AwaitingShipment, CollectedAtMicrosoft, Declined, Delivered, LostDevice, PickupCompleted, ReplacementRequested, ReturnInitiated, Shipped, ShippedBack, Untracked.</param>
+    /// <param name="AddressLine1">The address line1.</param>
+    /// <param name="City">The city name.</param>
+    /// <param name="Country">The country name.</param>
+    /// <param name="PostalCode">The postal code.</param>
+    /// <param name="State">The state name.</param>
+    public AzDataboxedgeOrderCreateOptions(
+        string DeviceName,
+        string ResourceGroup,
+        string CompanyName,
+        string ContactPerson,
+        string EmailList,
+        string Phone,
+        string Status,
+        string AddressLine1,
+        string City,
+        string Country,
+        string PostalCode,
+        string State
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(CompanyName);
+        this.CompanyName = CompanyName;
+        global::System.ArgumentNullException.ThrowIfNull(ContactPerson);
+        this.ContactPerson = ContactPerson;
+        global::System.ArgumentNullException.ThrowIfNull(EmailList);
+        this.EmailList = EmailList;
+        global::System.ArgumentNullException.ThrowIfNull(Phone);
+        this.Phone = Phone;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+        global::System.ArgumentNullException.ThrowIfNull(AddressLine1);
+        this.AddressLine1 = AddressLine1;
+        global::System.ArgumentNullException.ThrowIfNull(City);
+        this.City = City;
+        global::System.ArgumentNullException.ThrowIfNull(Country);
+        this.Country = Country;
+        global::System.ArgumentNullException.ThrowIfNull(PostalCode);
+        this.PostalCode = PostalCode;
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+    }
+
+    public void Deconstruct(out string DeviceName, out string ResourceGroup, out string CompanyName, out string ContactPerson, out string EmailList, out string Phone, out string Status, out string AddressLine1, out string City, out string Country, out string PostalCode, out string State)
+    {
+        DeviceName = this.DeviceName;
+        ResourceGroup = this.ResourceGroup;
+        CompanyName = this.CompanyName;
+        ContactPerson = this.ContactPerson;
+        EmailList = this.EmailList;
+        Phone = this.Phone;
+        Status = this.Status;
+        AddressLine1 = this.AddressLine1;
+        City = this.City;
+        Country = this.Country;
+        PostalCode = this.PostalCode;
+        State = this.State;
+    }
+
+    /// <summary>
+    /// The order details of a device.
+    /// </summary>
+    [CliOption("--device-name", ShortForm = "-d")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the company.
+    /// </summary>
+    [CliOption("--company-name")]
+    public string CompanyName { get; private init; }
+
+    /// <summary>
+    /// The contact person name.
+    /// </summary>
+    [CliOption("--contact-person")]
+    public string ContactPerson { get; private init; }
+
+    /// <summary>
+    /// The email list.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--email-list")]
+    public string EmailList { get; private init; }
+
+    /// <summary>
+    /// The phone number.
+    /// </summary>
+    [CliOption("--phone")]
+    public string Phone { get; private init; }
+
+    /// <summary>
+    /// Status of the order as per the allowed status types.  Allowed values: Arriving, AwaitingDrop, AwaitingFulfillment, AwaitingPickup, AwaitingPreparation, AwaitingReturnShipment, AwaitingShipment, CollectedAtMicrosoft, Declined, Delivered, LostDevice, PickupCompleted, ReplacementRequested, ReturnInitiated, Shipped, ShippedBack, Untracked.
+    /// </summary>
+    [CliOption("--status")]
+    public string Status { get; private init; }
+
+    /// <summary>
+    /// The address line1.
+    /// </summary>
+    [CliOption("--address-line1")]
+    public string AddressLine1 { get; private init; }
+
+    /// <summary>
+    /// The city name.
+    /// </summary>
+    [CliOption("--city")]
+    public string City { get; private init; }
+
+    /// <summary>
+    /// The country name.
+    /// </summary>
+    [CliOption("--country")]
+    public string Country { get; private init; }
+
+    /// <summary>
+    /// The postal code.
+    /// </summary>
+    [CliOption("--postal-code")]
+    public string PostalCode { get; private init; }
+
+    /// <summary>
+    /// The state name.
+    /// </summary>
+    [CliOption("--state")]
+    public string State { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

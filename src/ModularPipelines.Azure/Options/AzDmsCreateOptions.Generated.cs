@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an instance of the Azure Database Migration Service (classic).
 /// </summary>
-/// <param name="Name">The name of the Service.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SkuName">The name of the CPU SKU on which the service's virtual machine will run. Check the name and the availability of SKUs in your area with "az dms list-skus".</param>
-/// <param name="Subnet">The Resource ID of the VNet's Subnet you will use to connect the source and target DBs. Use "az network vnet subnet show -h" for help to get your subnet's ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "create")]
-public record AzDmsCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--sku-name")] string SkuName,
-    [property: CliOption("--subnet")] string Subnet
-) : AzOptions
+public record AzDmsCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an instance of the Azure Database Migration Service (classic).
+    /// </summary>
+    /// <param name="Name">The name of the Service.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SkuName">The name of the CPU SKU on which the service's virtual machine will run. Check the name and the availability of SKUs in your area with "az dms list-skus".</param>
+    /// <param name="Subnet">The Resource ID of the VNet's Subnet you will use to connect the source and target DBs. Use "az network vnet subnet show -h" for help to get your subnet's ID.</param>
+    public AzDmsCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string SkuName,
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SkuName);
+        this.SkuName = SkuName;
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string SkuName, out string Subnet)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SkuName = this.SkuName;
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// The name of the Service.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the CPU SKU on which the service's virtual machine will run. Check the name and the availability of SKUs in your area with "az dms list-skus".
+    /// </summary>
+    [CliOption("--sku-name")]
+    public string SkuName { get; private init; }
+
+    /// <summary>
+    /// The Resource ID of the VNet's Subnet you will use to connect the source and target DBs. Use "az network vnet subnet show -h" for help to get your subnet's ID.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string Subnet { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

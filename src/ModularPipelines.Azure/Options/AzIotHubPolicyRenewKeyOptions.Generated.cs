@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate keys of a shared access policy of an IoT hub.
 /// </summary>
-/// <param name="RenewKey">Regenerate keys.  Allowed values: primary, secondary, swap.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "policy", "renew-key")]
-public record AzIotHubPolicyRenewKeyOptions(
-    [property: CliOption("--renew-key", ShortForm = "--rk")] string RenewKey
-) : AzOptions
+public record AzIotHubPolicyRenewKeyOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerate keys of a shared access policy of an IoT hub.
+    /// </summary>
+    /// <param name="RenewKey">Regenerate keys.  Allowed values: primary, secondary, swap.</param>
+    public AzIotHubPolicyRenewKeyOptions(
+        string RenewKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RenewKey);
+        this.RenewKey = RenewKey;
+    }
+
+    public void Deconstruct(out string RenewKey)
+    {
+        RenewKey = this.RenewKey;
+    }
+
+    /// <summary>
+    /// Regenerate keys.  Allowed values: primary, secondary, swap.
+    /// </summary>
+    [CliOption("--renew-key", ShortForm = "--rk")]
+    public string RenewKey { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

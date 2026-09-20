@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Unregister a preview feature.
 /// </summary>
-/// <param name="Name">The feature name.</param>
-/// <param name="Namespace">The resource namespace, aka 'provider'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("feature", "unregister")]
-public record AzFeatureUnregisterOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--namespace")] string Namespace
-) : AzOptions
+public record AzFeatureUnregisterOptions : AzOptions
 {
+    /// <summary>
+    /// Unregister a preview feature.
+    /// </summary>
+    /// <param name="Name">The feature name.</param>
+    /// <param name="Namespace">The resource namespace, aka 'provider'.</param>
+    public AzFeatureUnregisterOptions(
+        string Name,
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Name, out string Namespace)
+    {
+        Name = this.Name;
+        Namespace = this.Namespace;
+    }
+
+    /// <summary>
+    /// The feature name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The resource namespace, aka 'provider'.
+    /// </summary>
+    [CliOption("--namespace")]
+    public string Namespace { get; private init; }
+
 }

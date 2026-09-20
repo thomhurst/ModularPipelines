@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds a server link to the Redis cache (requires Premium SKU).
 /// </summary>
-/// <param name="Name">Name of the Redis cache.</param>
-/// <param name="ReplicationRole">Role of the redis cache to be linked.  Allowed values: Primary, Secondary.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServerToLink">Resource ID or name of the redis cache to be linked.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "server-link", "create")]
-public record AzRedisServerLinkCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--replication-role")] string ReplicationRole,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-to-link")] string ServerToLink
-) : AzOptions
+public record AzRedisServerLinkCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Adds a server link to the Redis cache (requires Premium SKU).
+    /// </summary>
+    /// <param name="Name">Name of the Redis cache.</param>
+    /// <param name="ReplicationRole">Role of the redis cache to be linked.  Allowed values: Primary, Secondary.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServerToLink">Resource ID or name of the redis cache to be linked.</param>
+    public AzRedisServerLinkCreateOptions(
+        string Name,
+        string ReplicationRole,
+        string ResourceGroup,
+        string ServerToLink
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationRole);
+        this.ReplicationRole = ReplicationRole;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerToLink);
+        this.ServerToLink = ServerToLink;
+    }
+
+    public void Deconstruct(out string Name, out string ReplicationRole, out string ResourceGroup, out string ServerToLink)
+    {
+        Name = this.Name;
+        ReplicationRole = this.ReplicationRole;
+        ResourceGroup = this.ResourceGroup;
+        ServerToLink = this.ServerToLink;
+    }
+
+    /// <summary>
+    /// Name of the Redis cache.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Role of the redis cache to be linked.  Allowed values: Primary, Secondary.
+    /// </summary>
+    [CliOption("--replication-role")]
+    public string ReplicationRole { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Resource ID or name of the redis cache to be linked.
+    /// </summary>
+    [CliOption("--server-to-link")]
+    public string ServerToLink { get; private init; }
+
 }

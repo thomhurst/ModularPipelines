@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get groups of which the user is a member.
 /// </summary>
-/// <param name="Id">The object ID or principal name of the user for which to get information.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "user", "get-member-groups")]
-public record AzAdUserGetMemberGroupsOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdUserGetMemberGroupsOptions : AzOptions
 {
+    /// <summary>
+    /// Get groups of which the user is a member.
+    /// </summary>
+    /// <param name="Id">The object ID or principal name of the user for which to get information.</param>
+    public AzAdUserGetMemberGroupsOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// The object ID or principal name of the user for which to get information.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
     /// <summary>
     /// True to specify that only security groups that the entity is a member of should be returned; false to specify that all groups and directory roles that the entity is a member of should be returned.  Allowed values: false, true.
     /// </summary>

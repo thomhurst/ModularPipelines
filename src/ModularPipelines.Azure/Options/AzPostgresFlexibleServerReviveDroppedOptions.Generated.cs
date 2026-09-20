@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Revive a dropped flexible server from backup.
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="SourceServer">The name or resource identifier of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "revive-dropped")]
-public record AzPostgresFlexibleServerReviveDroppedOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--source-server")] string SourceServer
-) : AzOptions
+public record AzPostgresFlexibleServerReviveDroppedOptions : AzOptions
 {
+    /// <summary>
+    /// Revive a dropped flexible server from backup.
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="SourceServer">The name or resource identifier of the source server to restore from.</param>
+    public AzPostgresFlexibleServerReviveDroppedOptions(
+        string Location,
+        string SourceServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(SourceServer);
+        this.SourceServer = SourceServer;
+    }
+
+    public void Deconstruct(out string Location, out string SourceServer)
+    {
+        Location = this.Location;
+        SourceServer = this.SourceServer;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name or resource identifier of the source server to restore from.
+    /// </summary>
+    [CliOption("--source-server")]
+    public string SourceServer { get; private init; }
+
     /// <summary>
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>

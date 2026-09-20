@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Link a backend to a static web app. Also known as "Bring your
 /// </summary>
-/// <param name="BackendResourceId">Resource ID of the backend to link.</param>
-/// <param name="Name">Name of the static site.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "backends", "link")]
-public record AzStaticwebappBackendsLinkOptions(
-    [property: CliOption("--backend-resource-id")] string BackendResourceId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzStaticwebappBackendsLinkOptions : AzOptions
 {
+    /// <summary>
+    /// Link a backend to a static web app. Also known as "Bring your
+    /// </summary>
+    /// <param name="BackendResourceId">Resource ID of the backend to link.</param>
+    /// <param name="Name">Name of the static site.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzStaticwebappBackendsLinkOptions(
+        string BackendResourceId,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendResourceId);
+        this.BackendResourceId = BackendResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string BackendResourceId, out string Name, out string ResourceGroup)
+    {
+        BackendResourceId = this.BackendResourceId;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Resource ID of the backend to link.
+    /// </summary>
+    [CliOption("--backend-resource-id")]
+    public string BackendResourceId { get; private init; }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Region of the backend resource.
     /// </summary>

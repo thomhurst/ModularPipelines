@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List load balancing rules.
 /// </summary>
-/// <param name="LbName">The load balancer name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "rule", "list")]
-public record AzNetworkCrossRegionLbRuleListOptions(
-    [property: CliOption("--lb-name")] string LbName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkCrossRegionLbRuleListOptions : AzOptions
 {
+    /// <summary>
+    /// List load balancing rules.
+    /// </summary>
+    /// <param name="LbName">The load balancer name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkCrossRegionLbRuleListOptions(
+        string LbName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbName);
+        this.LbName = LbName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string LbName, out string ResourceGroup)
+    {
+        LbName = this.LbName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The load balancer name.
+    /// </summary>
+    [CliOption("--lb-name")]
+    public string LbName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

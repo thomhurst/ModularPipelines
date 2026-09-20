@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set a revision label to a revision with an associated
 /// </summary>
-/// <param name="Label">Name of the label.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Revision">Name of the revision.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "revision", "label", "add")]
-public record AzContainerappRevisionLabelAddOptions(
-    [property: CliOption("--label")] string Label,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--revision")] string Revision
-) : AzOptions
+public record AzContainerappRevisionLabelAddOptions : AzOptions
 {
+    /// <summary>
+    /// Set a revision label to a revision with an associated
+    /// </summary>
+    /// <param name="Label">Name of the label.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Revision">Name of the revision.</param>
+    public AzContainerappRevisionLabelAddOptions(
+        string Label,
+        string ResourceGroup,
+        string Revision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Label);
+        this.Label = Label;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+    }
+
+    public void Deconstruct(out string Label, out string ResourceGroup, out string Revision)
+    {
+        Label = this.Label;
+        ResourceGroup = this.ResourceGroup;
+        Revision = this.Revision;
+    }
+
+    /// <summary>
+    /// Name of the label.
+    /// </summary>
+    [CliOption("--label")]
+    public string Label { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the revision.
+    /// </summary>
+    [CliOption("--revision")]
+    public string Revision { get; private init; }
+
     /// <summary>
     /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
     /// </summary>

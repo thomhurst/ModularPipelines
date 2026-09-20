@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Convert a webapp from sitecontainers to a classic custom
 /// </summary>
-/// <param name="Mode">Mode for conversion.  Allowed values: docker, sitecontainers.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "sitecontainers", "convert")]
-public record AzWebappSitecontainersConvertOptions(
-    [property: CliOption("--mode")] string Mode
-) : AzOptions
+public record AzWebappSitecontainersConvertOptions : AzOptions
 {
+    /// <summary>
+    /// Convert a webapp from sitecontainers to a classic custom
+    /// </summary>
+    /// <param name="Mode">Mode for conversion.  Allowed values: docker, sitecontainers.</param>
+    public AzWebappSitecontainersConvertOptions(
+        string Mode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Mode);
+        this.Mode = Mode;
+    }
+
+    public void Deconstruct(out string Mode)
+    {
+        Mode = this.Mode;
+    }
+
+    /// <summary>
+    /// Mode for conversion.  Allowed values: docker, sitecontainers.
+    /// </summary>
+    [CliOption("--mode")]
+    public string Mode { get; private init; }
+
     /// <summary>
     /// For COMPOSE to sitecontainers conversion, specifies which compose service should be the main container. If not provided, the service with a port mapping is auto-detected.
     /// </summary>

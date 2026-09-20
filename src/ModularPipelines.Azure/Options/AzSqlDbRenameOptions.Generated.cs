@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Rename a database.
 /// </summary>
-/// <param name="NewName">The new name that the database will be renamed to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "rename")]
-public record AzSqlDbRenameOptions(
-    [property: CliOption("--new-name")] string NewName
-) : AzOptions
+public record AzSqlDbRenameOptions : AzOptions
 {
+    /// <summary>
+    /// Rename a database.
+    /// </summary>
+    /// <param name="NewName">The new name that the database will be renamed to.</param>
+    public AzSqlDbRenameOptions(
+        string NewName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewName);
+        this.NewName = NewName;
+    }
+
+    public void Deconstruct(out string NewName)
+    {
+        NewName = this.NewName;
+    }
+
+    /// <summary>
+    /// The new name that the database will be renamed to.
+    /// </summary>
+    [CliOption("--new-name")]
+    public string NewName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

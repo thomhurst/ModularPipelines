@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition is met.
 /// </summary>
-/// <param name="Assignment">The identifier (guid) or the fully qualified resource id of the registration assignment. When resource id is used, subscription id and resource group parameters are ignored.</param>
-/// <param name="Scope">Scope of the resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "assignment", "wait")]
-public record AzManagedservicesAssignmentWaitOptions(
-    [property: CliOption("--assignment")] string Assignment,
-    [property: CliOption("--scope")] string Scope
-) : AzOptions
+public record AzManagedservicesAssignmentWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="Assignment">The identifier (guid) or the fully qualified resource id of the registration assignment. When resource id is used, subscription id and resource group parameters are ignored.</param>
+    /// <param name="Scope">Scope of the resource.</param>
+    public AzManagedservicesAssignmentWaitOptions(
+        string Assignment,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Assignment);
+        this.Assignment = Assignment;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Assignment, out string Scope)
+    {
+        Assignment = this.Assignment;
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// The identifier (guid) or the fully qualified resource id of the registration assignment. When resource id is used, subscription id and resource group parameters are ignored.
+    /// </summary>
+    [CliOption("--assignment")]
+    public string Assignment { get; private init; }
+
+    /// <summary>
+    /// Scope of the resource.
+    /// </summary>
+    [CliOption("--scope")]
+    public string Scope { get; private init; }
+
     /// <summary>
     /// Tells whether to return registration definition details also along with registration assignment details.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

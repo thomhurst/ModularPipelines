@@ -15,18 +15,55 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Resize a file to the specified size.
 /// </summary>
-/// <param name="Path">The path to the file within the file share.</param>
-/// <param name="ShareName">The file share name.</param>
-/// <param name="Size">Size to resize file to (in bytes).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "resize")]
-public record AzStorageFileResizeOptions(
-    [property: CliOption("--path", ShortForm = "-p")] string Path,
-    [property: CliOption("--share-name", ShortForm = "-s")] string ShareName,
-    [property: CliOption("--size")] int Size
-) : AzOptions
+public record AzStorageFileResizeOptions : AzOptions
 {
+    /// <summary>
+    /// Resize a file to the specified size.
+    /// </summary>
+    /// <param name="Path">The path to the file within the file share.</param>
+    /// <param name="ShareName">The file share name.</param>
+    /// <param name="Size">Size to resize file to (in bytes).</param>
+    public AzStorageFileResizeOptions(
+        string Path,
+        string ShareName,
+        int Size
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        global::System.ArgumentNullException.ThrowIfNull(ShareName);
+        this.ShareName = ShareName;
+        this.Size = Size;
+    }
+
+    public void Deconstruct(out string Path, out string ShareName, out int Size)
+    {
+        Path = this.Path;
+        ShareName = this.ShareName;
+        Size = this.Size;
+    }
+
+    /// <summary>
+    /// The path to the file within the file share.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string ShareName { get; private init; }
+
+    /// <summary>
+    /// Size to resize file to (in bytes).
+    /// </summary>
+    [CliOption("--size")]
+    public int Size { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

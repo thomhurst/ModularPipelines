@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a tag value.
 /// </summary>
-/// <param name="Name">The tag name.</param>
-/// <param name="Value">The tag value.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tag", "add-value")]
-public record AzTagAddValueOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--value")] string Value
-) : AzOptions
+public record AzTagAddValueOptions : AzOptions
 {
+    /// <summary>
+    /// Create a tag value.
+    /// </summary>
+    /// <param name="Name">The tag name.</param>
+    /// <param name="Value">The tag value.</param>
+    public AzTagAddValueOptions(
+        string Name,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string Name, out string Value)
+    {
+        Name = this.Name;
+        Value = this.Value;
+    }
+
+    /// <summary>
+    /// The tag name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The tag value.
+    /// </summary>
+    [CliOption("--value")]
+    public string Value { get; private init; }
+
 }

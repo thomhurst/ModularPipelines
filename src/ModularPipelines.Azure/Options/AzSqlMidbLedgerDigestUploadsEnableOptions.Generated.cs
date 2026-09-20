@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable uploading ledger digests to an Azure Storage
 /// </summary>
-/// <param name="Endpoint">The endpoint of a digest storage, which can be either an Azure Blob storage or a ledger in Azure Confidential Ledger.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "ledger-digest-uploads", "enable")]
-public record AzSqlMidbLedgerDigestUploadsEnableOptions(
-    [property: CliOption("--endpoint")] string Endpoint
-) : AzOptions
+public record AzSqlMidbLedgerDigestUploadsEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Enable uploading ledger digests to an Azure Storage
+    /// </summary>
+    /// <param name="Endpoint">The endpoint of a digest storage, which can be either an Azure Blob storage or a ledger in Azure Confidential Ledger.</param>
+    public AzSqlMidbLedgerDigestUploadsEnableOptions(
+        string Endpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Endpoint);
+        this.Endpoint = Endpoint;
+    }
+
+    public void Deconstruct(out string Endpoint)
+    {
+        Endpoint = this.Endpoint;
+    }
+
+    /// <summary>
+    /// The endpoint of a digest storage, which can be either an Azure Blob storage or a ledger in Azure Confidential Ledger.
+    /// </summary>
+    [CliOption("--endpoint")]
+    public string Endpoint { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

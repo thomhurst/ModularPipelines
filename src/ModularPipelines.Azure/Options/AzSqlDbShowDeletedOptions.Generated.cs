@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the details for a deleted database.
 /// </summary>
-/// <param name="RestorableDroppedDatabaseId">Restorable dropped database id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "show-deleted")]
-public record AzSqlDbShowDeletedOptions(
-    [property: CliOption("--restorable-dropped-database-id", ShortForm = "-r")] string RestorableDroppedDatabaseId
-) : AzOptions
+public record AzSqlDbShowDeletedOptions : AzOptions
 {
+    /// <summary>
+    /// Get the details for a deleted database.
+    /// </summary>
+    /// <param name="RestorableDroppedDatabaseId">Restorable dropped database id.</param>
+    public AzSqlDbShowDeletedOptions(
+        string RestorableDroppedDatabaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestorableDroppedDatabaseId);
+        this.RestorableDroppedDatabaseId = RestorableDroppedDatabaseId;
+    }
+
+    public void Deconstruct(out string RestorableDroppedDatabaseId)
+    {
+        RestorableDroppedDatabaseId = this.RestorableDroppedDatabaseId;
+    }
+
+    /// <summary>
+    /// Restorable dropped database id.
+    /// </summary>
+    [CliOption("--restorable-dropped-database-id", ShortForm = "-r")]
+    public string RestorableDroppedDatabaseId { get; private init; }
+
     /// <summary>
     /// Expand the AKV keys for the database.  Allowed values: false, true.
     /// </summary>

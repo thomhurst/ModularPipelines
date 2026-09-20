@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a web app backup.
 /// </summary>
-/// <param name="BackupId">Id of the backup.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WebappName">The name of the web app.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "delete")]
-public record AzWebappConfigBackupDeleteOptions(
-    [property: CliOption("--backup-id")] string BackupId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--webapp-name", ShortForm = "-n")] string WebappName
-) : AzOptions
+public record AzWebappConfigBackupDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a web app backup.
+    /// </summary>
+    /// <param name="BackupId">Id of the backup.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WebappName">The name of the web app.</param>
+    public AzWebappConfigBackupDeleteOptions(
+        string BackupId,
+        string ResourceGroup,
+        string WebappName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupId);
+        this.BackupId = BackupId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WebappName);
+        this.WebappName = WebappName;
+    }
+
+    public void Deconstruct(out string BackupId, out string ResourceGroup, out string WebappName)
+    {
+        BackupId = this.BackupId;
+        ResourceGroup = this.ResourceGroup;
+        WebappName = this.WebappName;
+    }
+
+    /// <summary>
+    /// Id of the backup.
+    /// </summary>
+    [CliOption("--backup-id")]
+    public string BackupId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the web app.
+    /// </summary>
+    [CliOption("--webapp-name", ShortForm = "-n")]
+    public string WebappName { get; private init; }
+
     /// <summary>
     /// The name of the slot.
     /// </summary>

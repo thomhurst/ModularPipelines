@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an App Service Plan for an Azure Function.
 /// </summary>
-/// <param name="Name">The name of the app service plan.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Sku">The SKU of the app service plan. e.g., F1(Free), D1(Shared), B1(Basic Small), B2(Basic Medium), B3(Basic Large), S1(Standard Small), P1V2(Premium V2 Small), I1 (Isolated Small), I2 (Isolated Medium), I3 (Isolated Large), K1 (Kubernetes).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "plan", "create")]
-public record AzFunctionappPlanCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--sku")] string Sku
-) : AzOptions
+public record AzFunctionappPlanCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an App Service Plan for an Azure Function.
+    /// </summary>
+    /// <param name="Name">The name of the app service plan.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Sku">The SKU of the app service plan. e.g., F1(Free), D1(Shared), B1(Basic Small), B2(Basic Medium), B3(Basic Large), S1(Standard Small), P1V2(Premium V2 Small), I1 (Isolated Small), I2 (Isolated Medium), I3 (Isolated Large), K1 (Kubernetes).</param>
+    public AzFunctionappPlanCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Sku
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        this.Sku = Sku;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Sku)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Sku = this.Sku;
+    }
+
+    /// <summary>
+    /// The name of the app service plan.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The SKU of the app service plan. e.g., F1(Free), D1(Shared), B1(Basic Small), B2(Basic Medium), B3(Basic Large), S1(Standard Small), P1V2(Premium V2 Small), I1 (Isolated Small), I2 (Isolated Medium), I3 (Isolated Large), K1 (Kubernetes).
+    /// </summary>
+    [CliOption("--sku")]
+    public string Sku { get; private init; }
+
     /// <summary>
     /// Host function app on Linux worker.  Allowed values: false, true.
     /// </summary>

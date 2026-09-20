@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate a shared access key of a topic.
 /// </summary>
-/// <param name="KeyName">Key name to regenerate key1 or key2.</param>
-/// <param name="Name">Name of the topic.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "topic", "key", "regenerate")]
-public record AzEventgridTopicKeyRegenerateOptions(
-    [property: CliOption("--key-name")] string KeyName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridTopicKeyRegenerateOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerate a shared access key of a topic.
+    /// </summary>
+    /// <param name="KeyName">Key name to regenerate key1 or key2.</param>
+    /// <param name="Name">Name of the topic.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridTopicKeyRegenerateOptions(
+        string KeyName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string KeyName, out string Name, out string ResourceGroup)
+    {
+        KeyName = this.KeyName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Key name to regenerate key1 or key2.
+    /// </summary>
+    [CliOption("--key-name")]
+    public string KeyName { get; private init; }
+
+    /// <summary>
+    /// Name of the topic.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

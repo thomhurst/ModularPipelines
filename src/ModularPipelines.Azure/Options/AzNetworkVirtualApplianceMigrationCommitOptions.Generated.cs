@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Commit the migration of a Network Virtual
 /// </summary>
-/// <param name="MigrationType">The type of migration workflow to commit for the Network Virtual Appliance. Must match the type used in the prepare and execute phases.  Allowed values: MigrateToNewILBArchitecture, MigrateToNewOSVersion.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "migration", "commit")]
-public record AzNetworkVirtualApplianceMigrationCommitOptions(
-    [property: CliOption("--migration-type")] string MigrationType
-) : AzOptions
+public record AzNetworkVirtualApplianceMigrationCommitOptions : AzOptions
 {
+    /// <summary>
+    /// Commit the migration of a Network Virtual
+    /// </summary>
+    /// <param name="MigrationType">The type of migration workflow to commit for the Network Virtual Appliance. Must match the type used in the prepare and execute phases.  Allowed values: MigrateToNewILBArchitecture, MigrateToNewOSVersion.</param>
+    public AzNetworkVirtualApplianceMigrationCommitOptions(
+        string MigrationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationType);
+        this.MigrationType = MigrationType;
+    }
+
+    public void Deconstruct(out string MigrationType)
+    {
+        MigrationType = this.MigrationType;
+    }
+
+    /// <summary>
+    /// The type of migration workflow to commit for the Network Virtual Appliance. Must match the type used in the prepare and execute phases.  Allowed values: MigrateToNewILBArchitecture, MigrateToNewOSVersion.
+    /// </summary>
+    [CliOption("--migration-type")]
+    public string MigrationType { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

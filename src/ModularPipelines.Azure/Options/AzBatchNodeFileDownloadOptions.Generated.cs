@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download the content of the a node file.
 /// </summary>
-/// <param name="Destination">The path to the destination file or directory.</param>
-/// <param name="FilePath">The path to the file or directory that you want to delete. Required.</param>
-/// <param name="NodeId">The ID of the Compute Node from which you want to delete the file. Required.</param>
-/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "file", "download")]
-public record AzBatchNodeFileDownloadOptions(
-    [property: CliOption("--destination")] string Destination,
-    [property: CliOption("--file-path")] string FilePath,
-    [property: CliOption("--node-id")] string NodeId,
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchNodeFileDownloadOptions : AzOptions
 {
+    /// <summary>
+    /// Download the content of the a node file.
+    /// </summary>
+    /// <param name="Destination">The path to the destination file or directory.</param>
+    /// <param name="FilePath">The path to the file or directory that you want to delete. Required.</param>
+    /// <param name="NodeId">The ID of the Compute Node from which you want to delete the file. Required.</param>
+    /// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
+    public AzBatchNodeFileDownloadOptions(
+        string Destination,
+        string FilePath,
+        string NodeId,
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+        global::System.ArgumentNullException.ThrowIfNull(NodeId);
+        this.NodeId = NodeId;
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string Destination, out string FilePath, out string NodeId, out string PoolId)
+    {
+        Destination = this.Destination;
+        FilePath = this.FilePath;
+        NodeId = this.NodeId;
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The path to the destination file or directory.
+    /// </summary>
+    [CliOption("--destination")]
+    public string Destination { get; private init; }
+
+    /// <summary>
+    /// The path to the file or directory that you want to delete. Required.
+    /// </summary>
+    [CliOption("--file-path")]
+    public string FilePath { get; private init; }
+
+    /// <summary>
+    /// The ID of the Compute Node from which you want to delete the file. Required.
+    /// </summary>
+    [CliOption("--node-id")]
+    public string NodeId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Pool that contains the Compute Node. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

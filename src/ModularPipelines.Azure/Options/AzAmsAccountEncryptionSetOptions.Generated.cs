@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the encryption settings for an Azure Media Services account.
 /// </summary>
-/// <param name="KeyType">SystemKeyThe encryption key source (provider). Allowed values: , .CustomerKey.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "encryption", "set")]
-public record AzAmsAccountEncryptionSetOptions(
-    [property: CliOption("--key-type")] string KeyType
-) : AzOptions
+public record AzAmsAccountEncryptionSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set the encryption settings for an Azure Media Services account.
+    /// </summary>
+    /// <param name="KeyType">SystemKeyThe encryption key source (provider). Allowed values: , .CustomerKey.</param>
+    public AzAmsAccountEncryptionSetOptions(
+        string KeyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyType);
+        this.KeyType = KeyType;
+    }
+
+    public void Deconstruct(out string KeyType)
+    {
+        KeyType = this.KeyType;
+    }
+
+    /// <summary>
+    /// SystemKeyThe encryption key source (provider). Allowed values: , .CustomerKey.
+    /// </summary>
+    [CliOption("--key-type")]
+    public string KeyType { get; private init; }
+
     /// <summary>
     /// The current key used to encrypt the Media Services account, including the key version.
     /// </summary>

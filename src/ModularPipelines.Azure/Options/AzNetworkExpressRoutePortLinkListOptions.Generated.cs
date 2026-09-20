@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List ExpressRoute links.
 /// </summary>
-/// <param name="PortName">ExpressRoute port name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "port", "link", "list")]
-public record AzNetworkExpressRoutePortLinkListOptions(
-    [property: CliOption("--port-name")] string PortName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkExpressRoutePortLinkListOptions : AzOptions
 {
+    /// <summary>
+    /// List ExpressRoute links.
+    /// </summary>
+    /// <param name="PortName">ExpressRoute port name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkExpressRoutePortLinkListOptions(
+        string PortName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortName);
+        this.PortName = PortName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string PortName, out string ResourceGroup)
+    {
+        PortName = this.PortName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// ExpressRoute port name.
+    /// </summary>
+    [CliOption("--port-name")]
+    public string PortName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

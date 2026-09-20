@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete all IPsec policies on a VPN connection.
 /// </summary>
-/// <param name="ConnectionName">Connection name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "ipsec-policy", "clear")]
-public record AzNetworkVpnConnectionIpsecPolicyClearOptions(
-    [property: CliOption("--connection-name")] string ConnectionName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkVpnConnectionIpsecPolicyClearOptions : AzOptions
 {
+    /// <summary>
+    /// Delete all IPsec policies on a VPN connection.
+    /// </summary>
+    /// <param name="ConnectionName">Connection name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkVpnConnectionIpsecPolicyClearOptions(
+        string ConnectionName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ConnectionName, out string ResourceGroup)
+    {
+        ConnectionName = this.ConnectionName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Connection name.
+    /// </summary>
+    [CliOption("--connection-name")]
+    public string ConnectionName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

@@ -15,26 +15,100 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an SRV record from its record set.
 /// </summary>
-/// <param name="Port">Service port.</param>
-/// <param name="Priority">Priority metric.</param>
-/// <param name="RecordSetName">The name of the record set relative to the zone.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Target">Target domain name.</param>
-/// <param name="Weight">Weight metric.</param>
-/// <param name="ZoneName">The name of the zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "srv", "remove-record")]
-public record AzNetworkDnsRecordSetSrvRemoveRecordOptions(
-    [property: CliOption("--port", ShortForm = "-r")] string Port,
-    [property: CliOption("--priority", ShortForm = "-p")] string Priority,
-    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--target", ShortForm = "-t")] string Target,
-    [property: CliOption("--weight", ShortForm = "-w")] string Weight,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkDnsRecordSetSrvRemoveRecordOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an SRV record from its record set.
+    /// </summary>
+    /// <param name="Port">Service port.</param>
+    /// <param name="Priority">Priority metric.</param>
+    /// <param name="RecordSetName">The name of the record set relative to the zone.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Target">Target domain name.</param>
+    /// <param name="Weight">Weight metric.</param>
+    /// <param name="ZoneName">The name of the zone.</param>
+    public AzNetworkDnsRecordSetSrvRemoveRecordOptions(
+        string Port,
+        string Priority,
+        string RecordSetName,
+        string ResourceGroup,
+        string Target,
+        string Weight,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Port);
+        this.Port = Port;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(RecordSetName);
+        this.RecordSetName = RecordSetName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+        global::System.ArgumentNullException.ThrowIfNull(Weight);
+        this.Weight = Weight;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string Port, out string Priority, out string RecordSetName, out string ResourceGroup, out string Target, out string Weight, out string ZoneName)
+    {
+        Port = this.Port;
+        Priority = this.Priority;
+        RecordSetName = this.RecordSetName;
+        ResourceGroup = this.ResourceGroup;
+        Target = this.Target;
+        Weight = this.Weight;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// Service port.
+    /// </summary>
+    [CliOption("--port", ShortForm = "-r")]
+    public string Port { get; private init; }
+
+    /// <summary>
+    /// Priority metric.
+    /// </summary>
+    [CliOption("--priority", ShortForm = "-p")]
+    public string Priority { get; private init; }
+
+    /// <summary>
+    /// The name of the record set relative to the zone.
+    /// </summary>
+    [CliOption("--record-set-name", ShortForm = "-n")]
+    public string RecordSetName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Target domain name.
+    /// </summary>
+    [CliOption("--target", ShortForm = "-t")]
+    public string Target { get; private init; }
+
+    /// <summary>
+    /// Weight metric.
+    /// </summary>
+    [CliOption("--weight", ShortForm = "-w")]
+    public string Weight { get; private init; }
+
+    /// <summary>
+    /// The name of the zone.
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Keep the empty record set if the last record is removed.
     /// </summary>

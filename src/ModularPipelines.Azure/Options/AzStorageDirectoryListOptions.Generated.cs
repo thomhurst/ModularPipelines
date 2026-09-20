@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List directories in a share.
 /// </summary>
-/// <param name="ShareName">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "directory", "list")]
-public record AzStorageDirectoryListOptions(
-    [property: CliOption("--share-name", ShortForm = "-s")] string ShareName
-) : AzOptions
+public record AzStorageDirectoryListOptions : AzOptions
 {
+    /// <summary>
+    /// List directories in a share.
+    /// </summary>
+    /// <param name="ShareName">The file share name.</param>
+    public AzStorageDirectoryListOptions(
+        string ShareName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ShareName);
+        this.ShareName = ShareName;
+    }
+
+    public void Deconstruct(out string ShareName)
+    {
+        ShareName = this.ShareName;
+    }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string ShareName { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create server key.
 /// </summary>
-/// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.ne t/keys/YourKeyName/01234567890123456789012345678901".</param>
-/// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "key", "create")]
-public record AzMysqlServerKeyCreateOptions(
-    [property: CliOption("--kid", ShortForm = "-k")] string Kid,
-    [property: CliOption("--name", ShortForm = "-s")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMysqlServerKeyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create server key.
+    /// </summary>
+    /// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.ne t/keys/YourKeyName/01234567890123456789012345678901".</param>
+    /// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMysqlServerKeyCreateOptions(
+        string Kid,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Kid);
+        this.Kid = Kid;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Kid, out string Name, out string ResourceGroup)
+    {
+        Kid = this.Kid;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.ne t/keys/YourKeyName/01234567890123456789012345678901".
+    /// </summary>
+    [CliOption("--kid", ShortForm = "-k")]
+    public string Kid { get; private init; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-s")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

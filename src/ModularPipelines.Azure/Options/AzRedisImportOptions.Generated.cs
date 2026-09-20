@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import data into a Redis cache. Deletes all preexisting cache data.
 /// </summary>
-/// <param name="Files">SAS url for blobs that needs to be imported.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "import")]
-public record AzRedisImportOptions(
-    [property: CliOption("--files")] string Files
-) : AzOptions
+public record AzRedisImportOptions : AzOptions
 {
+    /// <summary>
+    /// Import data into a Redis cache. Deletes all preexisting cache data.
+    /// </summary>
+    /// <param name="Files">SAS url for blobs that needs to be imported.</param>
+    public AzRedisImportOptions(
+        string Files
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Files);
+        this.Files = Files;
+    }
+
+    public void Deconstruct(out string Files)
+    {
+        Files = this.Files;
+    }
+
+    /// <summary>
+    /// SAS url for blobs that needs to be imported.
+    /// </summary>
+    [CliOption("--files")]
+    public string Files { get; private init; }
+
     /// <summary>
     /// Preferred auth method to communicate to storage account used for data archive, default value is SAS.  Allowed values: ManagedIdentity, SAS.
     /// </summary>

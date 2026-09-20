@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition of
 /// </summary>
-/// <param name="RuleName">The IP firewall rule name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "firewall-rule", "wait")]
-public record AzSynapseWorkspaceFirewallRuleWaitOptions(
-    [property: CliOption("--rule-name")] string RuleName
-) : AzOptions
+public record AzSynapseWorkspaceFirewallRuleWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition of
+    /// </summary>
+    /// <param name="RuleName">The IP firewall rule name.</param>
+    public AzSynapseWorkspaceFirewallRuleWaitOptions(
+        string RuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+    }
+
+    public void Deconstruct(out string RuleName)
+    {
+        RuleName = this.RuleName;
+    }
+
+    /// <summary>
+    /// The IP firewall rule name.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

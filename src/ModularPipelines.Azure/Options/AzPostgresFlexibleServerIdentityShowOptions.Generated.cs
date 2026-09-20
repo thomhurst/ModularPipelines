@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get an user assigned managed identity from the
 /// </summary>
-/// <param name="Identity">Name or identifier of identity to show.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "identity", "show")]
-public record AzPostgresFlexibleServerIdentityShowOptions(
-    [property: CliOption("--identity", ShortForm = "-n")] string Identity
-) : AzOptions
+public record AzPostgresFlexibleServerIdentityShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get an user assigned managed identity from the
+    /// </summary>
+    /// <param name="Identity">Name or identifier of identity to show.</param>
+    public AzPostgresFlexibleServerIdentityShowOptions(
+        string Identity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identity);
+        this.Identity = Identity;
+    }
+
+    public void Deconstruct(out string Identity)
+    {
+        Identity = this.Identity;
+    }
+
+    /// <summary>
+    /// Name or identifier of identity to show.
+    /// </summary>
+    [CliOption("--identity", ShortForm = "-n")]
+    public string Identity { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

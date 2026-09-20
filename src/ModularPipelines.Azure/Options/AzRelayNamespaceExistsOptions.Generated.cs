@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check for the availability of the given name for the Namespace.
 /// </summary>
-/// <param name="Name">Namespace name. Name can contain only letters, numbers, and hyphens. The                            namespace must start with a letter, and it must end with a letter or number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "namespace", "exists")]
-public record AzRelayNamespaceExistsOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzRelayNamespaceExistsOptions : AzOptions
 {
+    /// <summary>
+    /// Check for the availability of the given name for the Namespace.
+    /// </summary>
+    /// <param name="Name">Namespace name. Name can contain only letters, numbers, and hyphens. The                            namespace must start with a letter, and it must end with a letter or number.</param>
+    public AzRelayNamespaceExistsOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Namespace name. Name can contain only letters, numbers, and hyphens. The                            namespace must start with a letter, and it must end with a letter or number.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

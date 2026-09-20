@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List event subscriptions of a specific
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SystemTopicName">Name of the system topic.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "system-topic", "event-subscription", "list")]
-public record AzEventgridSystemTopicEventSubscriptionListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--system-topic-name")] string SystemTopicName
-) : AzOptions
+public record AzEventgridSystemTopicEventSubscriptionListOptions : AzOptions
 {
+    /// <summary>
+    /// List event subscriptions of a specific
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SystemTopicName">Name of the system topic.</param>
+    public AzEventgridSystemTopicEventSubscriptionListOptions(
+        string ResourceGroup,
+        string SystemTopicName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SystemTopicName);
+        this.SystemTopicName = SystemTopicName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string SystemTopicName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        SystemTopicName = this.SystemTopicName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the system topic.
+    /// </summary>
+    [CliOption("--system-topic-name")]
+    public string SystemTopicName { get; private init; }
+
     /// <summary>
     /// The OData query used for filtering the list results. Filtering is currently allowed on the Name property only. The supported operations include: CONTAINS, eq (for equal), ne (for not equal), AND, OR and NOT.
     /// </summary>

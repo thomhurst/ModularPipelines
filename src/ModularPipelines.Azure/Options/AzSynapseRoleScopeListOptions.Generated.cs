@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List role scopes.
 /// </summary>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "role", "scope", "list")]
-public record AzSynapseRoleScopeListOptions(
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseRoleScopeListOptions : AzOptions
 {
+    /// <summary>
+    /// List role scopes.
+    /// </summary>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseRoleScopeListOptions(
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string WorkspaceName)
+    {
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

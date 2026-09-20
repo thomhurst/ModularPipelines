@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Key Vault certificate.
 /// </summary>
-/// <param name="Policy">JSON encoded policy definition. Use @{file} to load from a file(e.g. @my_policy.json).</param>
-/// <param name="Name">Name of the certificate.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "create")]
-public record AzKeyvaultCertificateCreateOptions(
-    [property: CliOption("--policy", ShortForm = "-p")] string Policy,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificateCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Key Vault certificate.
+    /// </summary>
+    /// <param name="Policy">JSON encoded policy definition. Use @{file} to load from a file(e.g. @my_policy.json).</param>
+    /// <param name="Name">Name of the certificate.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificateCreateOptions(
+        string Policy,
+        string Name,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string Policy, out string Name, out string VaultName)
+    {
+        Policy = this.Policy;
+        Name = this.Name;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// JSON encoded policy definition. Use @{file} to load from a file(e.g. @my_policy.json).
+    /// </summary>
+    [CliOption("--policy", ShortForm = "-p")]
+    public string Policy { get; private init; }
+
+    /// <summary>
+    /// Name of the certificate.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Create certificate in disabled state.  Allowed values: false, true.
     /// </summary>

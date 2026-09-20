@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable disk encryption on the OS disk and/or data disks. Encrypt
 /// </summary>
-/// <param name="DiskEncryptionKeyvault">Name or ID of the key vault where the generated encryption key will be placed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "encryption", "enable")]
-public record AzVmEncryptionEnableOptions(
-    [property: CliOption("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
-) : AzOptions
+public record AzVmEncryptionEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Enable disk encryption on the OS disk and/or data disks. Encrypt
+    /// </summary>
+    /// <param name="DiskEncryptionKeyvault">Name or ID of the key vault where the generated encryption key will be placed.</param>
+    public AzVmEncryptionEnableOptions(
+        string DiskEncryptionKeyvault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskEncryptionKeyvault);
+        this.DiskEncryptionKeyvault = DiskEncryptionKeyvault;
+    }
+
+    public void Deconstruct(out string DiskEncryptionKeyvault)
+    {
+        DiskEncryptionKeyvault = this.DiskEncryptionKeyvault;
+    }
+
+    /// <summary>
+    /// Name or ID of the key vault where the generated encryption key will be placed.
+    /// </summary>
+    [CliOption("--disk-encryption-keyvault")]
+    public string DiskEncryptionKeyvault { get; private init; }
+
     /// <summary>
     /// Encrypts-formats data disks instead of encrypting them. Encrypt-formatting is a lot faster than in-place encryption but wipes out the partition getting encrypt- formatted. (Only supported for Linux virtual machines.).
     /// </summary>

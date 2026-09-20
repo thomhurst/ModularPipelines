@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a route server.
 /// </summary>
-/// <param name="HostedSubnet">ID of a subnet where route server would be deployed.</param>
-/// <param name="Name">Name of the route server.</param>
-/// <param name="PublicIpAddress">Name or ID of the public IP address.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "routeserver", "create")]
-public record AzNetworkRouteServerCreateOptions(
-    [property: CliOption("--hosted-subnet")] string HostedSubnet,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--public-ip-address")] string PublicIpAddress,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkRouteServerCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a route server.
+    /// </summary>
+    /// <param name="HostedSubnet">ID of a subnet where route server would be deployed.</param>
+    /// <param name="Name">Name of the route server.</param>
+    /// <param name="PublicIpAddress">Name or ID of the public IP address.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkRouteServerCreateOptions(
+        string HostedSubnet,
+        string Name,
+        string PublicIpAddress,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostedSubnet);
+        this.HostedSubnet = HostedSubnet;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PublicIpAddress);
+        this.PublicIpAddress = PublicIpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string HostedSubnet, out string Name, out string PublicIpAddress, out string ResourceGroup)
+    {
+        HostedSubnet = this.HostedSubnet;
+        Name = this.Name;
+        PublicIpAddress = this.PublicIpAddress;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// ID of a subnet where route server would be deployed.
+    /// </summary>
+    [CliOption("--hosted-subnet")]
+    public string HostedSubnet { get; private init; }
+
+    /// <summary>
+    /// Name of the route server.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the public IP address.
+    /// </summary>
+    [CliOption("--public-ip-address")]
+    public string PublicIpAddress { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// VirtualHub Router autoscale configuration. Use space-separated property=value [property=value ...]. Supported properties: min-capacity: The minimum number of scale units for VirtualHub Router.
     /// </summary>

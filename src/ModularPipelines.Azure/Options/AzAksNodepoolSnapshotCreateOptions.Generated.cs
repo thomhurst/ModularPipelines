@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a nodepool snapshot.
 /// </summary>
-/// <param name="Name">The nodepool snapshot name.</param>
-/// <param name="NodepoolId">The source nodepool id from which to create this snapshot.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "snapshot", "create")]
-public record AzAksNodepoolSnapshotCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--nodepool-id")] string NodepoolId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksNodepoolSnapshotCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a nodepool snapshot.
+    /// </summary>
+    /// <param name="Name">The nodepool snapshot name.</param>
+    /// <param name="NodepoolId">The source nodepool id from which to create this snapshot.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksNodepoolSnapshotCreateOptions(
+        string Name,
+        string NodepoolId,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NodepoolId);
+        this.NodepoolId = NodepoolId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string NodepoolId, out string ResourceGroup)
+    {
+        Name = this.Name;
+        NodepoolId = this.NodepoolId;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The nodepool snapshot name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The source nodepool id from which to create this snapshot.
+    /// </summary>
+    [CliOption("--nodepool-id")]
+    public string NodepoolId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>

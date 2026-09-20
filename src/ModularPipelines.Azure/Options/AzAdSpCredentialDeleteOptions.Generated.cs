@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a service principal's password or certificate credentials.
 /// </summary>
-/// <param name="Id">Service principal name, or object id.</param>
-/// <param name="KeyId">Credential key id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "sp", "credential", "delete")]
-public record AzAdSpCredentialDeleteOptions(
-    [property: CliOption("--id")] string Id,
-    [property: CliOption("--key-id")] string KeyId
-) : AzOptions
+public record AzAdSpCredentialDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a service principal's password or certificate credentials.
+    /// </summary>
+    /// <param name="Id">Service principal name, or object id.</param>
+    /// <param name="KeyId">Credential key id.</param>
+    public AzAdSpCredentialDeleteOptions(
+        string Id,
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    public void Deconstruct(out string Id, out string KeyId)
+    {
+        Id = this.Id;
+        KeyId = this.KeyId;
+    }
+
+    /// <summary>
+    /// Service principal name, or object id.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// Credential key id.
+    /// </summary>
+    [CliOption("--key-id")]
+    public string KeyId { get; private init; }
+
     /// <summary>
     /// Operate on certificate credentials.
     /// </summary>

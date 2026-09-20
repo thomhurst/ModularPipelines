@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Detach vnet for a flexible server.
 /// </summary>
-/// <param name="PublicNetworkAccess">Determines the public access after vnet detach.  Allowed values: Disabled, Enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "detach-vnet")]
-public record AzMysqlFlexibleServerDetachVnetOptions(
-    [property: CliOption("--public-network-access")] string PublicNetworkAccess
-) : AzOptions
+public record AzMysqlFlexibleServerDetachVnetOptions : AzOptions
 {
+    /// <summary>
+    /// Detach vnet for a flexible server.
+    /// </summary>
+    /// <param name="PublicNetworkAccess">Determines the public access after vnet detach.  Allowed values: Disabled, Enabled.</param>
+    public AzMysqlFlexibleServerDetachVnetOptions(
+        string PublicNetworkAccess
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PublicNetworkAccess);
+        this.PublicNetworkAccess = PublicNetworkAccess;
+    }
+
+    public void Deconstruct(out string PublicNetworkAccess)
+    {
+        PublicNetworkAccess = this.PublicNetworkAccess;
+    }
+
+    /// <summary>
+    /// Determines the public access after vnet detach.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--public-network-access")]
+    public string PublicNetworkAccess { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

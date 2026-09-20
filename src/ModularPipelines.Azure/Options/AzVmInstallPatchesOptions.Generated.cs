@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Install patches on a VM.
 /// </summary>
-/// <param name="MaximumDuration">Specify the maximum amount of time that the operation will run. It must be an ISO 8601-compliant duration string such as PT4H (4 hours).</param>
-/// <param name="RebootSetting">Define when it is acceptable to reboot a VM during a software update operation.  Allowed values: Always, IfRequired, Never.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "install-patches")]
-public record AzVmInstallPatchesOptions(
-    [property: CliOption("--maximum-duration")] string MaximumDuration,
-    [property: CliOption("--reboot-setting")] string RebootSetting
-) : AzOptions
+public record AzVmInstallPatchesOptions : AzOptions
 {
+    /// <summary>
+    /// Install patches on a VM.
+    /// </summary>
+    /// <param name="MaximumDuration">Specify the maximum amount of time that the operation will run. It must be an ISO 8601-compliant duration string such as PT4H (4 hours).</param>
+    /// <param name="RebootSetting">Define when it is acceptable to reboot a VM during a software update operation.  Allowed values: Always, IfRequired, Never.</param>
+    public AzVmInstallPatchesOptions(
+        string MaximumDuration,
+        string RebootSetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MaximumDuration);
+        this.MaximumDuration = MaximumDuration;
+        global::System.ArgumentNullException.ThrowIfNull(RebootSetting);
+        this.RebootSetting = RebootSetting;
+    }
+
+    public void Deconstruct(out string MaximumDuration, out string RebootSetting)
+    {
+        MaximumDuration = this.MaximumDuration;
+        RebootSetting = this.RebootSetting;
+    }
+
+    /// <summary>
+    /// Specify the maximum amount of time that the operation will run. It must be an ISO 8601-compliant duration string such as PT4H (4 hours).
+    /// </summary>
+    [CliOption("--maximum-duration")]
+    public string MaximumDuration { get; private init; }
+
+    /// <summary>
+    /// Define when it is acceptable to reboot a VM during a software update operation.  Allowed values: Always, IfRequired, Never.
+    /// </summary>
+    [CliOption("--reboot-setting")]
+    public string RebootSetting { get; private init; }
+
     /// <summary>
     /// Space-separated list of classifications to include for Linux VM.  Allowed values: Critical, Other, Security.
     /// </summary>

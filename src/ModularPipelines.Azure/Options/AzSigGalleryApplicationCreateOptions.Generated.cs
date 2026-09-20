@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery Application Definition.
 /// </summary>
-/// <param name="ApplicationName">The name of the gallery application.</param>
-/// <param name="GalleryName">Gallery name.</param>
-/// <param name="OsType">This property allows you to specify the supported type of the OS that application is built for. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Allowed values: Linux, Windows.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "gallery-application", "create")]
-public record AzSigGalleryApplicationCreateOptions(
-    [property: CliOption("--application-name", ShortForm = "-n")] string ApplicationName,
-    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
-    [property: CliOption("--os-type")] string OsType,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSigGalleryApplicationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a gallery Application Definition.
+    /// </summary>
+    /// <param name="ApplicationName">The name of the gallery application.</param>
+    /// <param name="GalleryName">Gallery name.</param>
+    /// <param name="OsType">This property allows you to specify the supported type of the OS that application is built for. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Allowed values: Linux, Windows.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSigGalleryApplicationCreateOptions(
+        string ApplicationName,
+        string GalleryName,
+        string OsType,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(GalleryName);
+        this.GalleryName = GalleryName;
+        global::System.ArgumentNullException.ThrowIfNull(OsType);
+        this.OsType = OsType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ApplicationName, out string GalleryName, out string OsType, out string ResourceGroup)
+    {
+        ApplicationName = this.ApplicationName;
+        GalleryName = this.GalleryName;
+        OsType = this.OsType;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the gallery application.
+    /// </summary>
+    [CliOption("--application-name", ShortForm = "-n")]
+    public string ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Gallery name.
+    /// </summary>
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string GalleryName { get; private init; }
+
+    /// <summary>
+    /// This property allows you to specify the supported type of the OS that application is built for. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Allowed values: Linux, Windows.
+    /// </summary>
+    [CliOption("--os-type")]
+    public string OsType { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The description of this gallery Application Definition resource. This property is updatable.
     /// </summary>

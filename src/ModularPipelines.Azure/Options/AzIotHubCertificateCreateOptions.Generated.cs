@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create/upload an Azure IoT Hub certificate.
 /// </summary>
-/// <param name="HubName">IoT Hub name.</param>
-/// <param name="Name">A friendly name for the certificate.</param>
-/// <param name="Path">The path to the file containing the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "certificate", "create")]
-public record AzIotHubCertificateCreateOptions(
-    [property: CliOption("--hub-name")] string HubName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzIotHubCertificateCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create/upload an Azure IoT Hub certificate.
+    /// </summary>
+    /// <param name="HubName">IoT Hub name.</param>
+    /// <param name="Name">A friendly name for the certificate.</param>
+    /// <param name="Path">The path to the file containing the certificate.</param>
+    public AzIotHubCertificateCreateOptions(
+        string HubName,
+        string Name,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HubName);
+        this.HubName = HubName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string HubName, out string Name, out string Path)
+    {
+        HubName = this.HubName;
+        Name = this.Name;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// IoT Hub name.
+    /// </summary>
+    [CliOption("--hub-name")]
+    public string HubName { get; private init; }
+
+    /// <summary>
+    /// A friendly name for the certificate.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The path to the file containing the certificate.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

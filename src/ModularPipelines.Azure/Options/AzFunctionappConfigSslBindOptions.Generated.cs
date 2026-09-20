@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Bind an SSL certificate to a function app.
 /// </summary>
-/// <param name="CertificateThumbprint">The ssl cert thumbprint.</param>
-/// <param name="SslType">The ssl cert type.  Allowed values: IP, SNI.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "ssl", "bind")]
-public record AzFunctionappConfigSslBindOptions(
-    [property: CliOption("--certificate-thumbprint")] string CertificateThumbprint,
-    [property: CliOption("--ssl-type")] string SslType
-) : AzOptions
+public record AzFunctionappConfigSslBindOptions : AzOptions
 {
+    /// <summary>
+    /// Bind an SSL certificate to a function app.
+    /// </summary>
+    /// <param name="CertificateThumbprint">The ssl cert thumbprint.</param>
+    /// <param name="SslType">The ssl cert type.  Allowed values: IP, SNI.</param>
+    public AzFunctionappConfigSslBindOptions(
+        string CertificateThumbprint,
+        string SslType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateThumbprint);
+        this.CertificateThumbprint = CertificateThumbprint;
+        global::System.ArgumentNullException.ThrowIfNull(SslType);
+        this.SslType = SslType;
+    }
+
+    public void Deconstruct(out string CertificateThumbprint, out string SslType)
+    {
+        CertificateThumbprint = this.CertificateThumbprint;
+        SslType = this.SslType;
+    }
+
+    /// <summary>
+    /// The ssl cert thumbprint.
+    /// </summary>
+    [CliOption("--certificate-thumbprint")]
+    public string CertificateThumbprint { get; private init; }
+
+    /// <summary>
+    /// The ssl cert type.  Allowed values: IP, SNI.
+    /// </summary>
+    [CliOption("--ssl-type")]
+    public string SslType { get; private init; }
+
     /// <summary>
     /// The custom domain name. If empty, hostnames will be selected automatically.
     /// </summary>

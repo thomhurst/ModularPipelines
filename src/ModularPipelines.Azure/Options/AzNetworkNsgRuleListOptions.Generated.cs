@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all rules in a network security group.
 /// </summary>
-/// <param name="NsgName">Name of the network security group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nsg", "rule", "list")]
-public record AzNetworkNsgRuleListOptions(
-    [property: CliOption("--nsg-name")] string NsgName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkNsgRuleListOptions : AzOptions
 {
+    /// <summary>
+    /// List all rules in a network security group.
+    /// </summary>
+    /// <param name="NsgName">Name of the network security group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkNsgRuleListOptions(
+        string NsgName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NsgName);
+        this.NsgName = NsgName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string NsgName, out string ResourceGroup)
+    {
+        NsgName = this.NsgName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the network security group.
+    /// </summary>
+    [CliOption("--nsg-name")]
+    public string NsgName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Include default security rules in the output.
     /// </summary>

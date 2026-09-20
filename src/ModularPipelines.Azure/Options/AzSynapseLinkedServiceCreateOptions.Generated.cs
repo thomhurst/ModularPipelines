@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a linked service.
 /// </summary>
-/// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
-/// <param name="Name">The linked service name.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "linked-service", "create")]
-public record AzSynapseLinkedServiceCreateOptions(
-    [property: CliOption("--file")] string File,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseLinkedServiceCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a linked service.
+    /// </summary>
+    /// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
+    /// <param name="Name">The linked service name.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseLinkedServiceCreateOptions(
+        string File,
+        string Name,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string File, out string Name, out string WorkspaceName)
+    {
+        File = this.File;
+        Name = this.Name;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.
+    /// </summary>
+    [CliOption("--file")]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// The linked service name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

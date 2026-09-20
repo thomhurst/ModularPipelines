@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery in VM access control profile.
 /// </summary>
-/// <param name="GalleryName">The name of the Shared Image Gallery in which the in VM access control profile is to be created.</param>
-/// <param name="Name">The name of the gallery in VM access control profile to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "in-vm-access-control-profile", "create")]
-public record AzSigInVmAccessControlProfileCreateOptions(
-    [property: CliOption("--gallery-name")] string GalleryName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSigInVmAccessControlProfileCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a gallery in VM access control profile.
+    /// </summary>
+    /// <param name="GalleryName">The name of the Shared Image Gallery in which the in VM access control profile is to be created.</param>
+    /// <param name="Name">The name of the gallery in VM access control profile to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSigInVmAccessControlProfileCreateOptions(
+        string GalleryName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GalleryName);
+        this.GalleryName = GalleryName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GalleryName, out string Name, out string ResourceGroup)
+    {
+        GalleryName = this.GalleryName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Shared Image Gallery in which the in VM access control profile is to be created.
+    /// </summary>
+    [CliOption("--gallery-name")]
+    public string GalleryName { get; private init; }
+
+    /// <summary>
+    /// The name of the gallery in VM access control profile to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

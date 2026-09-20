@@ -16,14 +16,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing sitecontainer for a linux webapp.
 /// </summary>
-/// <param name="ContainerName">Name of the SiteContainer.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "sitecontainers", "update")]
-public record AzWebappSitecontainersUpdateOptions(
-    [property: CliOption("--container-name")] string ContainerName
-) : AzOptions
+public record AzWebappSitecontainersUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing sitecontainer for a linux webapp.
+    /// </summary>
+    /// <param name="ContainerName">Name of the SiteContainer.</param>
+    public AzWebappSitecontainersUpdateOptions(
+        string ContainerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+    }
+
+    public void Deconstruct(out string ContainerName)
+    {
+        ContainerName = this.ContainerName;
+    }
+
+    /// <summary>
+    /// Name of the SiteContainer.
+    /// </summary>
+    [CliOption("--container-name")]
+    public string ContainerName { get; private init; }
+
     /// <summary>
     /// Image Name.
     /// </summary>

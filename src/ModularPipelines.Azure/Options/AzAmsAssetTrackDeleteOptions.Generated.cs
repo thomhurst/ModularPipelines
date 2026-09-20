@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a Track.
 /// </summary>
-/// <param name="AssetName">The asset name.</param>
-/// <param name="TrackName">The name of the track.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "asset-track", "delete")]
-public record AzAmsAssetTrackDeleteOptions(
-    [property: CliOption("--asset-name")] string AssetName,
-    [property: CliOption("--track-name")] string TrackName
-) : AzOptions
+public record AzAmsAssetTrackDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a Track.
+    /// </summary>
+    /// <param name="AssetName">The asset name.</param>
+    /// <param name="TrackName">The name of the track.</param>
+    public AzAmsAssetTrackDeleteOptions(
+        string AssetName,
+        string TrackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetName);
+        this.AssetName = AssetName;
+        global::System.ArgumentNullException.ThrowIfNull(TrackName);
+        this.TrackName = TrackName;
+    }
+
+    public void Deconstruct(out string AssetName, out string TrackName)
+    {
+        AssetName = this.AssetName;
+        TrackName = this.TrackName;
+    }
+
+    /// <summary>
+    /// The asset name.
+    /// </summary>
+    [CliOption("--asset-name")]
+    public string AssetName { get; private init; }
+
+    /// <summary>
+    /// The name of the track.
+    /// </summary>
+    [CliOption("--track-name")]
+    public string TrackName { get; private init; }
+
     /// <summary>
     /// The name of the Azure Media Services account.
     /// </summary>

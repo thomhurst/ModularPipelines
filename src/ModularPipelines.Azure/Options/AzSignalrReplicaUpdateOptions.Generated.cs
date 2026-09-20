@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a replica of SignalR Service.
 /// </summary>
-/// <param name="ReplicaName">Name of the replica.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SignalrName">Name of the SignalR.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "replica", "update")]
-public record AzSignalrReplicaUpdateOptions(
-    [property: CliOption("--replica-name")] string ReplicaName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--signalr-name")] string SignalrName
-) : AzOptions
+public record AzSignalrReplicaUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a replica of SignalR Service.
+    /// </summary>
+    /// <param name="ReplicaName">Name of the replica.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SignalrName">Name of the SignalR.</param>
+    public AzSignalrReplicaUpdateOptions(
+        string ReplicaName,
+        string ResourceGroup,
+        string SignalrName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicaName);
+        this.ReplicaName = ReplicaName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SignalrName);
+        this.SignalrName = SignalrName;
+    }
+
+    public void Deconstruct(out string ReplicaName, out string ResourceGroup, out string SignalrName)
+    {
+        ReplicaName = this.ReplicaName;
+        ResourceGroup = this.ResourceGroup;
+        SignalrName = this.SignalrName;
+    }
+
+    /// <summary>
+    /// Name of the replica.
+    /// </summary>
+    [CliOption("--replica-name")]
+    public string ReplicaName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the SignalR.
+    /// </summary>
+    [CliOption("--signalr-name")]
+    public string SignalrName { get; private init; }
+
     /// <summary>
     /// Enable or disable region endpoint for a SignalR Service. Allowed values: false, true.
     /// </summary>

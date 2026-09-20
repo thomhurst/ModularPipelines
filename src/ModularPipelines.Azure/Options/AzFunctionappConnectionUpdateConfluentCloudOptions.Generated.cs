@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a functionapp to confluent-cloud
 /// </summary>
-/// <param name="Connection">Name of the connection.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "connection", "update", "confluent-cloud")]
-public record AzFunctionappConnectionUpdateConfluentCloudOptions(
-    [property: CliOption("--connection")] string Connection
-) : AzOptions
+public record AzFunctionappConnectionUpdateConfluentCloudOptions : AzOptions
 {
+    /// <summary>
+    /// Update a functionapp to confluent-cloud
+    /// </summary>
+    /// <param name="Connection">Name of the connection.</param>
+    public AzFunctionappConnectionUpdateConfluentCloudOptions(
+        string Connection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Connection);
+        this.Connection = Connection;
+    }
+
+    public void Deconstruct(out string Connection)
+    {
+        Connection = this.Connection;
+    }
+
+    /// <summary>
+    /// Name of the connection.
+    /// </summary>
+    [CliOption("--connection")]
+    public string Connection { get; private init; }
+
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>

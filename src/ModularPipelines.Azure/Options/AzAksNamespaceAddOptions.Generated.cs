@@ -15,26 +15,100 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add namespace to the managed Kubernetes cluster.
 /// </summary>
-/// <param name="ClusterName">Name of the managed cluster.</param>
-/// <param name="CpuLimit">CPU limit of the namespace.</param>
-/// <param name="CpuRequest">CPU request of the namespace.</param>
-/// <param name="MemoryLimit">Memory limit of the namespace.</param>
-/// <param name="MemoryRequest">Memory request of the namespace.</param>
-/// <param name="Name">The managed namespace name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "namespace", "add")]
-public record AzAksNamespaceAddOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--cpu-limit")] string CpuLimit,
-    [property: CliOption("--cpu-request")] string CpuRequest,
-    [property: CliOption("--memory-limit")] string MemoryLimit,
-    [property: CliOption("--memory-request")] string MemoryRequest,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksNamespaceAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add namespace to the managed Kubernetes cluster.
+    /// </summary>
+    /// <param name="ClusterName">Name of the managed cluster.</param>
+    /// <param name="CpuLimit">CPU limit of the namespace.</param>
+    /// <param name="CpuRequest">CPU request of the namespace.</param>
+    /// <param name="MemoryLimit">Memory limit of the namespace.</param>
+    /// <param name="MemoryRequest">Memory request of the namespace.</param>
+    /// <param name="Name">The managed namespace name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksNamespaceAddOptions(
+        string ClusterName,
+        string CpuLimit,
+        string CpuRequest,
+        string MemoryLimit,
+        string MemoryRequest,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(CpuLimit);
+        this.CpuLimit = CpuLimit;
+        global::System.ArgumentNullException.ThrowIfNull(CpuRequest);
+        this.CpuRequest = CpuRequest;
+        global::System.ArgumentNullException.ThrowIfNull(MemoryLimit);
+        this.MemoryLimit = MemoryLimit;
+        global::System.ArgumentNullException.ThrowIfNull(MemoryRequest);
+        this.MemoryRequest = MemoryRequest;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string CpuLimit, out string CpuRequest, out string MemoryLimit, out string MemoryRequest, out string Name, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        CpuLimit = this.CpuLimit;
+        CpuRequest = this.CpuRequest;
+        MemoryLimit = this.MemoryLimit;
+        MemoryRequest = this.MemoryRequest;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the managed cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// CPU limit of the namespace.
+    /// </summary>
+    [CliOption("--cpu-limit")]
+    public string CpuLimit { get; private init; }
+
+    /// <summary>
+    /// CPU request of the namespace.
+    /// </summary>
+    [CliOption("--cpu-request")]
+    public string CpuRequest { get; private init; }
+
+    /// <summary>
+    /// Memory limit of the namespace.
+    /// </summary>
+    [CliOption("--memory-limit")]
+    public string MemoryLimit { get; private init; }
+
+    /// <summary>
+    /// Memory request of the namespace.
+    /// </summary>
+    [CliOption("--memory-request")]
+    public string MemoryRequest { get; private init; }
+
+    /// <summary>
+    /// The managed namespace name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Action if Kubernetes namespace with same name already exists. The default value is Never.  Allowed values: Always, IfIdentical, Never.
     /// </summary>

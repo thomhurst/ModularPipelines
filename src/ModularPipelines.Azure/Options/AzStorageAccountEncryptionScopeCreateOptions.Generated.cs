@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an encryption scope within storage account.
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
-/// <param name="Name">The name of the encryption scope within the specified storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "encryption-scope", "create")]
-public record AzStorageAccountEncryptionScopeCreateOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageAccountEncryptionScopeCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an encryption scope within storage account.
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    /// <param name="Name">The name of the encryption scope within the specified storage account.</param>
+    public AzStorageAccountEncryptionScopeCreateOptions(
+        string AccountName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string AccountName, out string Name)
+    {
+        AccountName = this.AccountName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the encryption scope within the specified storage account.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The provider for the encryption scope.  Allowed values: Microsoft.KeyVault, Microsoft.Storage.  Default: Microsoft.Storage.
     /// </summary>

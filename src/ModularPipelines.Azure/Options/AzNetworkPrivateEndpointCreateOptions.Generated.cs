@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a private endpoint.
 /// </summary>
-/// <param name="ConnectionName">Name of the private link service connection.</param>
-/// <param name="Name">Name of the private endpoint.</param>
-/// <param name="PrivateConnectionResourceId">The resource id of the private endpoint to connect to.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Subnet">Name or ID of an existing subnet. If name specified, also specify --vnet-name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet and do not specify the--vnet-name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "create")]
-public record AzNetworkPrivateEndpointCreateOptions(
-    [property: CliOption("--connection-name")] string ConnectionName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--private-connection-resource-id")] string PrivateConnectionResourceId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--subnet")] string Subnet
-) : AzOptions
+public record AzNetworkPrivateEndpointCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a private endpoint.
+    /// </summary>
+    /// <param name="ConnectionName">Name of the private link service connection.</param>
+    /// <param name="Name">Name of the private endpoint.</param>
+    /// <param name="PrivateConnectionResourceId">The resource id of the private endpoint to connect to.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Subnet">Name or ID of an existing subnet. If name specified, also specify --vnet-name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet and do not specify the--vnet-name.</param>
+    public AzNetworkPrivateEndpointCreateOptions(
+        string ConnectionName,
+        string Name,
+        string PrivateConnectionResourceId,
+        string ResourceGroup,
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PrivateConnectionResourceId);
+        this.PrivateConnectionResourceId = PrivateConnectionResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string ConnectionName, out string Name, out string PrivateConnectionResourceId, out string ResourceGroup, out string Subnet)
+    {
+        ConnectionName = this.ConnectionName;
+        Name = this.Name;
+        PrivateConnectionResourceId = this.PrivateConnectionResourceId;
+        ResourceGroup = this.ResourceGroup;
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// Name of the private link service connection.
+    /// </summary>
+    [CliOption("--connection-name")]
+    public string ConnectionName { get; private init; }
+
+    /// <summary>
+    /// Name of the private endpoint.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The resource id of the private endpoint to connect to.
+    /// </summary>
+    [CliOption("--private-connection-resource-id")]
+    public string PrivateConnectionResourceId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name or ID of an existing subnet. If name specified, also specify --vnet-name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet and do not specify the--vnet-name.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string Subnet { get; private init; }
+
     /// <summary>
     /// The name of edge zone.
     /// </summary>

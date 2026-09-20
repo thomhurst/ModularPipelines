@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all Spark statements.
 /// </summary>
-/// <param name="SessionId">The id of Spark session.</param>
-/// <param name="SparkPoolName">The name of the Spark pool.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "statement", "list")]
-public record AzSynapseSparkStatementListOptions(
-    [property: CliOption("--session-id")] string SessionId,
-    [property: CliOption("--spark-pool-name")] string SparkPoolName,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseSparkStatementListOptions : AzOptions
 {
+    /// <summary>
+    /// List all Spark statements.
+    /// </summary>
+    /// <param name="SessionId">The id of Spark session.</param>
+    /// <param name="SparkPoolName">The name of the Spark pool.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzSynapseSparkStatementListOptions(
+        string SessionId,
+        string SparkPoolName,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(SparkPoolName);
+        this.SparkPoolName = SparkPoolName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string SessionId, out string SparkPoolName, out string WorkspaceName)
+    {
+        SessionId = this.SessionId;
+        SparkPoolName = this.SparkPoolName;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The id of Spark session.
+    /// </summary>
+    [CliOption("--session-id")]
+    public string SessionId { get; private init; }
+
+    /// <summary>
+    /// The name of the Spark pool.
+    /// </summary>
+    [CliOption("--spark-pool-name")]
+    public string SparkPoolName { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

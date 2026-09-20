@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates a server's secure connection policy.
 /// </summary>
-/// <param name="ConnectionType">The required parameters for updating a secure connection policy. The value is default.  Allowed values: Default, Proxy, Redirect.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "conn-policy", "update")]
-public record AzSqlServerConnPolicyUpdateOptions(
-    [property: CliOption("--connection-type", ShortForm = "-t")] string ConnectionType
-) : AzOptions
+public record AzSqlServerConnPolicyUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates a server's secure connection policy.
+    /// </summary>
+    /// <param name="ConnectionType">The required parameters for updating a secure connection policy. The value is default.  Allowed values: Default, Proxy, Redirect.</param>
+    public AzSqlServerConnPolicyUpdateOptions(
+        string ConnectionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionType);
+        this.ConnectionType = ConnectionType;
+    }
+
+    public void Deconstruct(out string ConnectionType)
+    {
+        ConnectionType = this.ConnectionType;
+    }
+
+    /// <summary>
+    /// The required parameters for updating a secure connection policy. The value is default.  Allowed values: Default, Proxy, Redirect.
+    /// </summary>
+    [CliOption("--connection-type", ShortForm = "-t")]
+    public string ConnectionType { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

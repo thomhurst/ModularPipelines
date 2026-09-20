@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List VM Image definitions in a gallery community.
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="PublicGalleryName">The public name of the community gallery.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-definition", "list-community")]
-public record AzSigImageDefinitionListCommunityOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--public-gallery-name")] string PublicGalleryName
-) : AzOptions
+public record AzSigImageDefinitionListCommunityOptions : AzOptions
 {
+    /// <summary>
+    /// List VM Image definitions in a gallery community.
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="PublicGalleryName">The public name of the community gallery.</param>
+    public AzSigImageDefinitionListCommunityOptions(
+        string Location,
+        string PublicGalleryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(PublicGalleryName);
+        this.PublicGalleryName = PublicGalleryName;
+    }
+
+    public void Deconstruct(out string Location, out string PublicGalleryName)
+    {
+        Location = this.Location;
+        PublicGalleryName = this.PublicGalleryName;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The public name of the community gallery.
+    /// </summary>
+    [CliOption("--public-gallery-name")]
+    public string PublicGalleryName { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

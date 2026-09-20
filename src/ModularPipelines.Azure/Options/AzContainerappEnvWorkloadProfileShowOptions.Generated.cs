@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a workload profile from a Container Apps
 /// </summary>
-/// <param name="Name">The name of the Container App environment.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkloadProfileName">The friendly name for the workload profile.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "workload-profile", "show")]
-public record AzContainerappEnvWorkloadProfileShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workload-profile-name", ShortForm = "-w")] string WorkloadProfileName
-) : AzOptions
+public record AzContainerappEnvWorkloadProfileShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show a workload profile from a Container Apps
+    /// </summary>
+    /// <param name="Name">The name of the Container App environment.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkloadProfileName">The friendly name for the workload profile.</param>
+    public AzContainerappEnvWorkloadProfileShowOptions(
+        string Name,
+        string ResourceGroup,
+        string WorkloadProfileName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadProfileName);
+        this.WorkloadProfileName = WorkloadProfileName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string WorkloadProfileName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        WorkloadProfileName = this.WorkloadProfileName;
+    }
+
+    /// <summary>
+    /// The name of the Container App environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The friendly name for the workload profile.
+    /// </summary>
+    [CliOption("--workload-profile-name", ShortForm = "-w")]
+    public string WorkloadProfileName { get; private init; }
+
 }

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable scheduling on a Batch compute node.
 /// </summary>
-/// <param name="NodeId">The ID of the Compute Node on which you want to enable Task scheduling. Required.</param>
-/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "scheduling", "enable")]
-public record AzBatchNodeSchedulingEnableOptions(
-    [property: CliOption("--node-id")] string NodeId,
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchNodeSchedulingEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Enable scheduling on a Batch compute node.
+    /// </summary>
+    /// <param name="NodeId">The ID of the Compute Node on which you want to enable Task scheduling. Required.</param>
+    /// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
+    public AzBatchNodeSchedulingEnableOptions(
+        string NodeId,
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeId);
+        this.NodeId = NodeId;
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string NodeId, out string PoolId)
+    {
+        NodeId = this.NodeId;
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the Compute Node on which you want to enable Task scheduling. Required.
+    /// </summary>
+    [CliOption("--node-id")]
+    public string NodeId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Pool that contains the Compute Node. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

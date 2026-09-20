@@ -15,16 +15,44 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update metrics settings for a storage account.
 /// </summary>
-/// <param name="Retention">Number of days for which to retain metrics. 0 to disable. Applies to both hour and minute metrics if both are specified.</param>
-/// <param name="Services">The storage services from which to retrieve metrics info: (b)lob (q)ueue (t)able. Can be combined.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "metrics", "update")]
-public record AzStorageMetricsUpdateOptions(
-    [property: CliOption("--retention")] int Retention,
-    [property: CliOption("--services")] string Services
-) : AzOptions
+public record AzStorageMetricsUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update metrics settings for a storage account.
+    /// </summary>
+    /// <param name="Retention">Number of days for which to retain metrics. 0 to disable. Applies to both hour and minute metrics if both are specified.</param>
+    /// <param name="Services">The storage services from which to retrieve metrics info: (b)lob (q)ueue (t)able. Can be combined.</param>
+    public AzStorageMetricsUpdateOptions(
+        int Retention,
+        string Services
+    )
+    {
+        this.Retention = Retention;
+        global::System.ArgumentNullException.ThrowIfNull(Services);
+        this.Services = Services;
+    }
+
+    public void Deconstruct(out int Retention, out string Services)
+    {
+        Retention = this.Retention;
+        Services = this.Services;
+    }
+
+    /// <summary>
+    /// Number of days for which to retain metrics. 0 to disable. Applies to both hour and minute metrics if both are specified.
+    /// </summary>
+    [CliOption("--retention")]
+    public int Retention { get; private init; }
+
+    /// <summary>
+    /// The storage services from which to retrieve metrics info: (b)lob (q)ueue (t)able. Can be combined.
+    /// </summary>
+    [CliOption("--services")]
+    public string Services { get; private init; }
+
     /// <summary>
     /// Specify whether to include API in metrics. Applies to both hour and minute metrics if both are specified. Must be specified if hour or minute metrics are enabled and being updated.  Allowed values: false, true.
     /// </summary>

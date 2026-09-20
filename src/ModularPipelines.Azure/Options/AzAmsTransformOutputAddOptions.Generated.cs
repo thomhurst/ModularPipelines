@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an output to an existing transform.
 /// </summary>
-/// <param name="Preset">Preset that describes the operations that will be used to modify, transcode, or extract insights from the source file to generate the transform output. Allowed values: H264SingleBitrateSD, H264SingleBitrate720p, H264SingleBitrate1080p, AdaptiveStreaming, AACGoodQualityAudio, ContentAwareEncodingExperimental, ContentAwareEncoding, CopyAllBitrateNonInterleaved, H264MultipleBitrate1080p, H264MultipleBitrate720p, H264MultipleBitrateSD, H265ContentAwareEncoding, H265AdaptiveStreaming, H265SingleBitrate720p, H265SingleBitrate1080p, H265SingleBitrate4K, AudioAnalyzer, VideoAnalyzer, FaceDetector. In addition to the allowed values, you can also pass a path to a custom Standard Encoder preset JSON file. See https://learn.microsoft.com/rest/api/media/transforms/cr eateorupdate#standardencoderpreset for further details on the settings to use to build a custom preset.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "transform", "output", "add")]
-public record AzAmsTransformOutputAddOptions(
-    [property: CliOption("--preset")] string Preset
-) : AzOptions
+public record AzAmsTransformOutputAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add an output to an existing transform.
+    /// </summary>
+    /// <param name="Preset">Preset that describes the operations that will be used to modify, transcode, or extract insights from the source file to generate the transform output. Allowed values: H264SingleBitrateSD, H264SingleBitrate720p, H264SingleBitrate1080p, AdaptiveStreaming, AACGoodQualityAudio, ContentAwareEncodingExperimental, ContentAwareEncoding, CopyAllBitrateNonInterleaved, H264MultipleBitrate1080p, H264MultipleBitrate720p, H264MultipleBitrateSD, H265ContentAwareEncoding, H265AdaptiveStreaming, H265SingleBitrate720p, H265SingleBitrate1080p, H265SingleBitrate4K, AudioAnalyzer, VideoAnalyzer, FaceDetector. In addition to the allowed values, you can also pass a path to a custom Standard Encoder preset JSON file. See https://learn.microsoft.com/rest/api/media/transforms/cr eateorupdate#standardencoderpreset for further details on the settings to use to build a custom preset.</param>
+    public AzAmsTransformOutputAddOptions(
+        string Preset
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Preset);
+        this.Preset = Preset;
+    }
+
+    public void Deconstruct(out string Preset)
+    {
+        Preset = this.Preset;
+    }
+
+    /// <summary>
+    /// Preset that describes the operations that will be used to modify, transcode, or extract insights from the source file to generate the transform output. Allowed values: H264SingleBitrateSD, H264SingleBitrate720p, H264SingleBitrate1080p, AdaptiveStreaming, AACGoodQualityAudio, ContentAwareEncodingExperimental, ContentAwareEncoding, CopyAllBitrateNonInterleaved, H264MultipleBitrate1080p, H264MultipleBitrate720p, H264MultipleBitrateSD, H265ContentAwareEncoding, H265AdaptiveStreaming, H265SingleBitrate720p, H265SingleBitrate1080p, H265SingleBitrate4K, AudioAnalyzer, VideoAnalyzer, FaceDetector. In addition to the allowed values, you can also pass a path to a custom Standard Encoder preset JSON file. See https://learn.microsoft.com/rest/api/media/transforms/cr eateorupdate#standardencoderpreset for further details on the settings to use to build a custom preset.
+    /// </summary>
+    [CliOption("--preset")]
+    public string Preset { get; private init; }
+
     /// <summary>
     /// A Transform can define more than one output. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The overall Job state will not reflect failures of outputs that are specified with 'ContinueJob'. The default is 'StopProcessingJob'.  Allowed values: ContinueJob, StopProcessingJob.
     /// </summary>

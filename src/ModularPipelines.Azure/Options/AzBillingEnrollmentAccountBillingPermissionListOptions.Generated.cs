@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the billing permissions the caller
 /// </summary>
-/// <param name="BillingAccountName">The ID that uniquely identifies a billing account.</param>
-/// <param name="EnrollmentAccountName">The ID that uniquely identifies an enrollment account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "enrollment-account", "billing-permission", "list")]
-public record AzBillingEnrollmentAccountBillingPermissionListOptions(
-    [property: CliOption("--billing-account-name")] string BillingAccountName,
-    [property: CliOption("--enrollment-account-name")] string EnrollmentAccountName
-) : AzOptions
+public record AzBillingEnrollmentAccountBillingPermissionListOptions : AzOptions
 {
+    /// <summary>
+    /// List the billing permissions the caller
+    /// </summary>
+    /// <param name="BillingAccountName">The ID that uniquely identifies a billing account.</param>
+    /// <param name="EnrollmentAccountName">The ID that uniquely identifies an enrollment account.</param>
+    public AzBillingEnrollmentAccountBillingPermissionListOptions(
+        string BillingAccountName,
+        string EnrollmentAccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BillingAccountName);
+        this.BillingAccountName = BillingAccountName;
+        global::System.ArgumentNullException.ThrowIfNull(EnrollmentAccountName);
+        this.EnrollmentAccountName = EnrollmentAccountName;
+    }
+
+    public void Deconstruct(out string BillingAccountName, out string EnrollmentAccountName)
+    {
+        BillingAccountName = this.BillingAccountName;
+        EnrollmentAccountName = this.EnrollmentAccountName;
+    }
+
+    /// <summary>
+    /// The ID that uniquely identifies a billing account.
+    /// </summary>
+    [CliOption("--billing-account-name")]
+    public string BillingAccountName { get; private init; }
+
+    /// <summary>
+    /// The ID that uniquely identifies an enrollment account.
+    /// </summary>
+    [CliOption("--enrollment-account-name")]
+    public string EnrollmentAccountName { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

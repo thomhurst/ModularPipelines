@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a signature from a digest using a key that is stored in a Vault or
 /// </summary>
-/// <param name="Algorithm">Algorithm identifier.  Allowed values: ES256, ES256K, ES384, ES512, HS256, HS384, HS512, PS256, PS384, PS512, RS256, RS384, RS512.</param>
-/// <param name="Digest">The value to sign (base64 encoded).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "sign")]
-public record AzKeyvaultKeySignOptions(
-    [property: CliOption("--algorithm", ShortForm = "-a")] string Algorithm,
-    [property: CliOption("--digest")] string Digest
-) : AzOptions
+public record AzKeyvaultKeySignOptions : AzOptions
 {
+    /// <summary>
+    /// Create a signature from a digest using a key that is stored in a Vault or
+    /// </summary>
+    /// <param name="Algorithm">Algorithm identifier.  Allowed values: ES256, ES256K, ES384, ES512, HS256, HS384, HS512, PS256, PS384, PS512, RS256, RS384, RS512.</param>
+    /// <param name="Digest">The value to sign (base64 encoded).</param>
+    public AzKeyvaultKeySignOptions(
+        string Algorithm,
+        string Digest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Algorithm);
+        this.Algorithm = Algorithm;
+        global::System.ArgumentNullException.ThrowIfNull(Digest);
+        this.Digest = Digest;
+    }
+
+    public void Deconstruct(out string Algorithm, out string Digest)
+    {
+        Algorithm = this.Algorithm;
+        Digest = this.Digest;
+    }
+
+    /// <summary>
+    /// Algorithm identifier.  Allowed values: ES256, ES256K, ES384, ES512, HS256, HS384, HS512, PS256, PS384, PS512, RS256, RS384, RS512.
+    /// </summary>
+    [CliOption("--algorithm", ShortForm = "-a")]
+    public string Algorithm { get; private init; }
+
+    /// <summary>
+    /// The value to sign (base64 encoded).
+    /// </summary>
+    [CliOption("--digest")]
+    public string Digest { get; private init; }
+
     /// <summary>
     /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
     /// </summary>

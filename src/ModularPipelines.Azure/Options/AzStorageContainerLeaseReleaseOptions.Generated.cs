@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Release the lease.
 /// </summary>
-/// <param name="ContainerName">The container name.</param>
-/// <param name="LeaseId">Lease ID for active lease.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "lease", "release")]
-public record AzStorageContainerLeaseReleaseOptions(
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
-    [property: CliOption("--lease-id")] string LeaseId
-) : AzOptions
+public record AzStorageContainerLeaseReleaseOptions : AzOptions
 {
+    /// <summary>
+    /// Release the lease.
+    /// </summary>
+    /// <param name="ContainerName">The container name.</param>
+    /// <param name="LeaseId">Lease ID for active lease.</param>
+    public AzStorageContainerLeaseReleaseOptions(
+        string ContainerName,
+        string LeaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(LeaseId);
+        this.LeaseId = LeaseId;
+    }
+
+    public void Deconstruct(out string ContainerName, out string LeaseId)
+    {
+        ContainerName = this.ContainerName;
+        LeaseId = this.LeaseId;
+    }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// Lease ID for active lease.
+    /// </summary>
+    [CliOption("--lease-id")]
+    public string LeaseId { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

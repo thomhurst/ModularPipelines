@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the metric definitions for the resource.
 /// </summary>
-/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list-definitions")]
-public record AzMonitorMetricsListDefinitionsOptions(
-    [property: CliOption("--resource")] string Resource
-) : AzOptions
+public record AzMonitorMetricsListDefinitionsOptions : AzOptions
 {
+    /// <summary>
+    /// List the metric definitions for the resource.
+    /// </summary>
+    /// <param name="Resource">Name or ID of the target resource.</param>
+    public AzMonitorMetricsListDefinitionsOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// Name or ID of the target resource.
+    /// </summary>
+    [CliOption("--resource")]
+    public string Resource { get; private init; }
+
     /// <summary>
     /// Namespace to query metric definitions for.  Values from: az monitor metrics list-namespaces.
     /// </summary>

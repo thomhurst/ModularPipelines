@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add scopes to this activity log alert rule.
 /// </summary>
-/// <param name="Scope">List of scopes to add. Each scope could be a resource ID or a subscription ID.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "activity-log", "alert", "scope", "add")]
-public record AzMonitorActivityLogAlertScopeAddOptions(
-    [property: CliOption("--scope", ShortForm = "-s", GroupValues = true)] IEnumerable<string> Scope
-) : AzOptions
+public record AzMonitorActivityLogAlertScopeAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add scopes to this activity log alert rule.
+    /// </summary>
+    /// <param name="Scope">List of scopes to add. Each scope could be a resource ID or a subscription ID.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzMonitorActivityLogAlertScopeAddOptions(
+        IEnumerable<string> Scope
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Scope);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Scope));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Scope));
+            }
+
+            Scope = materialized;
+        }
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Scope)
+    {
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// List of scopes to add. Each scope could be a resource ID or a subscription ID.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--scope", ShortForm = "-s", GroupValues = true)]
+    public IEnumerable<string> Scope { get; private init; }
+
     /// <summary>
     /// Remove all the existing action groups before add new conditions.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

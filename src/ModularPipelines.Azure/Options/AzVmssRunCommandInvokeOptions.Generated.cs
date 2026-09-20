@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute a specific run command on a Virtual Machine Scale Set
 /// </summary>
-/// <param name="CommandId">The command id.  Values from: az vmss run-command list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "invoke")]
-public record AzVmssRunCommandInvokeOptions(
-    [property: CliOption("--command-id")] string CommandId
-) : AzOptions
+public record AzVmssRunCommandInvokeOptions : AzOptions
 {
+    /// <summary>
+    /// Execute a specific run command on a Virtual Machine Scale Set
+    /// </summary>
+    /// <param name="CommandId">The command id.  Values from: az vmss run-command list.</param>
+    public AzVmssRunCommandInvokeOptions(
+        string CommandId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommandId);
+        this.CommandId = CommandId;
+    }
+
+    public void Deconstruct(out string CommandId)
+    {
+        CommandId = this.CommandId;
+    }
+
+    /// <summary>
+    /// The command id.  Values from: az vmss run-command list.
+    /// </summary>
+    [CliOption("--command-id")]
+    public string CommandId { get; private init; }
+
     /// <summary>
     /// Space-separated parameters in the format of '[name=]value'.
     /// </summary>

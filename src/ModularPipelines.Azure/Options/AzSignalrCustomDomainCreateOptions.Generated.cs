@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a custom domain of SignalR Service.
 /// </summary>
-/// <param name="CertificateResourceId">ResourceId of a previously created custom certificate.</param>
-/// <param name="DomainName">Custom domain name. For example, `contoso.com`.</param>
-/// <param name="Name">Name of the custom domain.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SignalrName">Name of the SignalR.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "custom-domain", "create")]
-public record AzSignalrCustomDomainCreateOptions(
-    [property: CliOption("--certificate-resource-id")] string CertificateResourceId,
-    [property: CliOption("--domain-name")] string DomainName,
-    [property: CliOption("--name")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--signalr-name")] string SignalrName
-) : AzOptions
+public record AzSignalrCustomDomainCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a custom domain of SignalR Service.
+    /// </summary>
+    /// <param name="CertificateResourceId">ResourceId of a previously created custom certificate.</param>
+    /// <param name="DomainName">Custom domain name. For example, `contoso.com`.</param>
+    /// <param name="Name">Name of the custom domain.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SignalrName">Name of the SignalR.</param>
+    public AzSignalrCustomDomainCreateOptions(
+        string CertificateResourceId,
+        string DomainName,
+        string Name,
+        string ResourceGroup,
+        string SignalrName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateResourceId);
+        this.CertificateResourceId = CertificateResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SignalrName);
+        this.SignalrName = SignalrName;
+    }
+
+    public void Deconstruct(out string CertificateResourceId, out string DomainName, out string Name, out string ResourceGroup, out string SignalrName)
+    {
+        CertificateResourceId = this.CertificateResourceId;
+        DomainName = this.DomainName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SignalrName = this.SignalrName;
+    }
+
+    /// <summary>
+    /// ResourceId of a previously created custom certificate.
+    /// </summary>
+    [CliOption("--certificate-resource-id")]
+    public string CertificateResourceId { get; private init; }
+
+    /// <summary>
+    /// Custom domain name. For example, `contoso.com`.
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string DomainName { get; private init; }
+
+    /// <summary>
+    /// Name of the custom domain.
+    /// </summary>
+    [CliOption("--name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the SignalR.
+    /// </summary>
+    [CliOption("--signalr-name")]
+    public string SignalrName { get; private init; }
+
 }

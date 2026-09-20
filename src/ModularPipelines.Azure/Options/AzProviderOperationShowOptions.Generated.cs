@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get an individual provider's operations.
 /// </summary>
-/// <param name="Namespace">The resource namespace, aka 'provider'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("provider", "operation", "show")]
-public record AzProviderOperationShowOptions(
-    [property: CliOption("--namespace", ShortForm = "-n")] string Namespace
-) : AzOptions
+public record AzProviderOperationShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get an individual provider's operations.
+    /// </summary>
+    /// <param name="Namespace">The resource namespace, aka 'provider'.</param>
+    public AzProviderOperationShowOptions(
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Namespace)
+    {
+        Namespace = this.Namespace;
+    }
+
+    /// <summary>
+    /// The resource namespace, aka 'provider'.
+    /// </summary>
+    [CliOption("--namespace", ShortForm = "-n")]
+    public string Namespace { get; private init; }
+
 }

@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows a regulatory compliance details state
 /// </summary>
-/// <param name="Name">Name of the resource to be fetched.</param>
-/// <param name="StandardName">The compliance standard name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "regulatory-compliance-controls", "show")]
-public record AzSecurityRegulatoryComplianceControlsShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--standard-name")] string StandardName
-) : AzOptions
+public record AzSecurityRegulatoryComplianceControlsShowOptions : AzOptions
 {
+    /// <summary>
+    /// Shows a regulatory compliance details state
+    /// </summary>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    /// <param name="StandardName">The compliance standard name.</param>
+    public AzSecurityRegulatoryComplianceControlsShowOptions(
+        string Name,
+        string StandardName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(StandardName);
+        this.StandardName = StandardName;
+    }
+
+    public void Deconstruct(out string Name, out string StandardName)
+    {
+        Name = this.Name;
+        StandardName = this.StandardName;
+    }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The compliance standard name.
+    /// </summary>
+    [CliOption("--standard-name")]
+    public string StandardName { get; private init; }
+
 }

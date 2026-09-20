@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a flexible server from backup.
 /// </summary>
-/// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "restore")]
-public record AzMysqlFlexibleServerRestoreOptions(
-    [property: CliOption("--source-server")] string SourceServer
-) : AzOptions
+public record AzMysqlFlexibleServerRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restore a flexible server from backup.
+    /// </summary>
+    /// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
+    public AzMysqlFlexibleServerRestoreOptions(
+        string SourceServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServer);
+        this.SourceServer = SourceServer;
+    }
+
+    public void Deconstruct(out string SourceServer)
+    {
+        SourceServer = this.SourceServer;
+    }
+
+    /// <summary>
+    /// The name or resource ID of the source server to restore from.
+    /// </summary>
+    [CliOption("--source-server")]
+    public string SourceServer { get; private init; }
+
     /// <summary>
     /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
@@ -78,7 +98,7 @@ public record AzMysqlFlexibleServerRestoreOptions(
     public string? PublicAccess { get; set; }
 
     /// <summary>
-    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+00:00The default value is set to current time. Default: 2026-09-14T10:27:53+00:00.
+    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+00:00The default value is set to current time. Default: 2026-09-20T12:16:41+00:00.
     /// </summary>
     [CliOption("--restore-time")]
     public string? RestoreTime { get; set; }

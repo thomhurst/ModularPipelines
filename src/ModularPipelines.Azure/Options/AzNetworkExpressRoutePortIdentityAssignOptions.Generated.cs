@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Assign a managed service identity to an
 /// </summary>
-/// <param name="Name">ExpressRoute port name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Identity">Name or ID of the ManagedIdentity Resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "port", "identity", "assign")]
-public record AzNetworkExpressRoutePortIdentityAssignOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--identity")] string Identity
-) : AzOptions
+public record AzNetworkExpressRoutePortIdentityAssignOptions : AzOptions
 {
+    /// <summary>
+    /// Assign a managed service identity to an
+    /// </summary>
+    /// <param name="Name">ExpressRoute port name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Identity">Name or ID of the ManagedIdentity Resource.</param>
+    public AzNetworkExpressRoutePortIdentityAssignOptions(
+        string Name,
+        string ResourceGroup,
+        string Identity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Identity);
+        this.Identity = Identity;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Identity)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Identity = this.Identity;
+    }
+
+    /// <summary>
+    /// ExpressRoute port name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the ManagedIdentity Resource.
+    /// </summary>
+    [CliOption("--identity")]
+    public string Identity { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

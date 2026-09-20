@@ -15,20 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation stops an ongoing failover
 /// </summary>
-/// <param name="CircuitTestCategory">The type of maintenance test category.  Allowed values: ASPathPrepend, BgpDisconnect.</param>
-/// <param name="IsVerified">Whether the customer was able to establish connectivity through this failover link or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
-/// <param name="LinkType">The type of link on which failover test was performed. Allowed values: Primary, Secondary.</param>
-/// <param name="SimulationSuccessful">Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "stop-link-failover-test")]
-public record AzNetworkExpressRouteStopLinkFailoverTestOptions(
-    [property: CliOption("--circuit-test-category")] string CircuitTestCategory,
-    [property: CliOption("--is-verified")] bool IsVerified,
-    [property: CliOption("--link-type")] string LinkType,
-    [property: CliOption("--simulation-successful")] bool SimulationSuccessful
-) : AzOptions
+public record AzNetworkExpressRouteStopLinkFailoverTestOptions : AzOptions
 {
+    /// <summary>
+    /// This operation stops an ongoing failover
+    /// </summary>
+    /// <param name="CircuitTestCategory">The type of maintenance test category.  Allowed values: ASPathPrepend, BgpDisconnect.</param>
+    /// <param name="IsVerified">Whether the customer was able to establish connectivity through this failover link or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+    /// <param name="LinkType">The type of link on which failover test was performed. Allowed values: Primary, Secondary.</param>
+    /// <param name="SimulationSuccessful">Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+    public AzNetworkExpressRouteStopLinkFailoverTestOptions(
+        string CircuitTestCategory,
+        bool IsVerified,
+        string LinkType,
+        bool SimulationSuccessful
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CircuitTestCategory);
+        this.CircuitTestCategory = CircuitTestCategory;
+        this.IsVerified = IsVerified;
+        global::System.ArgumentNullException.ThrowIfNull(LinkType);
+        this.LinkType = LinkType;
+        this.SimulationSuccessful = SimulationSuccessful;
+    }
+
+    public void Deconstruct(out string CircuitTestCategory, out bool IsVerified, out string LinkType, out bool SimulationSuccessful)
+    {
+        CircuitTestCategory = this.CircuitTestCategory;
+        IsVerified = this.IsVerified;
+        LinkType = this.LinkType;
+        SimulationSuccessful = this.SimulationSuccessful;
+    }
+
+    /// <summary>
+    /// The type of maintenance test category.  Allowed values: ASPathPrepend, BgpDisconnect.
+    /// </summary>
+    [CliOption("--circuit-test-category")]
+    public string CircuitTestCategory { get; private init; }
+
+    /// <summary>
+    /// Whether the customer was able to establish connectivity through this failover link or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--is-verified")]
+    public bool IsVerified { get; private init; }
+
+    /// <summary>
+    /// The type of link on which failover test was performed. Allowed values: Primary, Secondary.
+    /// </summary>
+    [CliOption("--link-type")]
+    public string LinkType { get; private init; }
+
+    /// <summary>
+    /// Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--simulation-successful")]
+    public bool SimulationSuccessful { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

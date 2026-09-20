@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details of managed identities.
 /// </summary>
-/// <param name="GalleryName">The name of the Shared Image Gallery.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "identity", "show")]
-public record AzSigIdentityShowOptions(
-    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSigIdentityShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the details of managed identities.
+    /// </summary>
+    /// <param name="GalleryName">The name of the Shared Image Gallery.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSigIdentityShowOptions(
+        string GalleryName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GalleryName);
+        this.GalleryName = GalleryName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GalleryName, out string ResourceGroup)
+    {
+        GalleryName = this.GalleryName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Shared Image Gallery.
+    /// </summary>
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string GalleryName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

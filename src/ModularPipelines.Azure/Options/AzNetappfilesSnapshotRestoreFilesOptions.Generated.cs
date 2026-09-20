@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore the specified files from the specified snapshot
 /// </summary>
-/// <param name="FilePaths">List of files to be restored  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "snapshot", "restore-files")]
-public record AzNetappfilesSnapshotRestoreFilesOptions(
-    [property: CliOption("--file-paths", GroupValues = true)] IEnumerable<string> FilePaths
-) : AzOptions
+public record AzNetappfilesSnapshotRestoreFilesOptions : AzOptions
 {
+    /// <summary>
+    /// Restore the specified files from the specified snapshot
+    /// </summary>
+    /// <param name="FilePaths">List of files to be restored  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzNetappfilesSnapshotRestoreFilesOptions(
+        IEnumerable<string> FilePaths
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FilePaths);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FilePaths));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FilePaths));
+            }
+
+            FilePaths = materialized;
+        }
+        this.FilePaths = FilePaths;
+    }
+
+    public void Deconstruct(out IEnumerable<string> FilePaths)
+    {
+        FilePaths = this.FilePaths;
+    }
+
+    /// <summary>
+    /// List of files to be restored  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--file-paths", GroupValues = true)]
+    public IEnumerable<string> FilePaths { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

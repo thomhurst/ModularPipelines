@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disable a Batch job.
 /// </summary>
-/// <param name="JobId">The ID of the Job to disable. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job", "disable")]
-public record AzBatchJobDisableOptions(
-    [property: CliOption("--job-id")] string JobId
-) : AzOptions
+public record AzBatchJobDisableOptions : AzOptions
 {
+    /// <summary>
+    /// Disable a Batch job.
+    /// </summary>
+    /// <param name="JobId">The ID of the Job to disable. Required.</param>
+    public AzBatchJobDisableOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out string JobId)
+    {
+        JobId = this.JobId;
+    }
+
+    /// <summary>
+    /// The ID of the Job to disable. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
     /// <summary>
     /// A file containing the content specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Content Arguments' are ignored.
     /// </summary>

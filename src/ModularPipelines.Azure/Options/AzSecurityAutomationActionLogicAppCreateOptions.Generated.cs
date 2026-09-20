@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates security automation logic app action.
 /// </summary>
-/// <param name="LogicAppResourceId">The triggered Logic App Azure Resource ID. This can also reside on other subscriptions, given that you have permissions to trigger the Logic App.</param>
-/// <param name="Uri">The Logic App trigger URI endpoint (it will not be included in any response).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-action-logic-app", "create")]
-public record AzSecurityAutomationActionLogicAppCreateOptions(
-    [property: CliOption("--logic-app-resource-id")] string LogicAppResourceId,
-    [property: CliOption("--uri")] string Uri
-) : AzOptions
+public record AzSecurityAutomationActionLogicAppCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates security automation logic app action.
+    /// </summary>
+    /// <param name="LogicAppResourceId">The triggered Logic App Azure Resource ID. This can also reside on other subscriptions, given that you have permissions to trigger the Logic App.</param>
+    /// <param name="Uri">The Logic App trigger URI endpoint (it will not be included in any response).</param>
+    public AzSecurityAutomationActionLogicAppCreateOptions(
+        string LogicAppResourceId,
+        string Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogicAppResourceId);
+        this.LogicAppResourceId = LogicAppResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(Uri);
+        this.Uri = Uri;
+    }
+
+    public void Deconstruct(out string LogicAppResourceId, out string Uri)
+    {
+        LogicAppResourceId = this.LogicAppResourceId;
+        Uri = this.Uri;
+    }
+
+    /// <summary>
+    /// The triggered Logic App Azure Resource ID. This can also reside on other subscriptions, given that you have permissions to trigger the Logic App.
+    /// </summary>
+    [CliOption("--logic-app-resource-id")]
+    public string LogicAppResourceId { get; private init; }
+
+    /// <summary>
+    /// The Logic App trigger URI endpoint (it will not be included in any response).
+    /// </summary>
+    [CliOption("--uri")]
+    public string Uri { get; private init; }
+
 }

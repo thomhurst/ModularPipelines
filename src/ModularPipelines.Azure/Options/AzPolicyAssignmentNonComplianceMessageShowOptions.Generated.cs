@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve a non-compliance message.
 /// </summary>
-/// <param name="Message">A custom non-compliance message.</param>
-/// <param name="Name">The name of the policy assignment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "assignment", "non-compliance-message", "show")]
-public record AzPolicyAssignmentNonComplianceMessageShowOptions(
-    [property: CliOption("--message", ShortForm = "-m")] string Message,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzPolicyAssignmentNonComplianceMessageShowOptions : AzOptions
 {
+    /// <summary>
+    /// Retrieve a non-compliance message.
+    /// </summary>
+    /// <param name="Message">A custom non-compliance message.</param>
+    /// <param name="Name">The name of the policy assignment.</param>
+    public AzPolicyAssignmentNonComplianceMessageShowOptions(
+        string Message,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Message, out string Name)
+    {
+        Message = this.Message;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// A custom non-compliance message.
+    /// </summary>
+    [CliOption("--message", ShortForm = "-m")]
+    public string Message { get; private init; }
+
+    /// <summary>
+    /// The name of the policy assignment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The policy definition reference ID.
     /// </summary>

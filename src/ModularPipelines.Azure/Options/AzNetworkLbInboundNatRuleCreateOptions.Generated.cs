@@ -15,22 +15,77 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an inbound NAT rule.
 /// </summary>
-/// <param name="LbName">The load balancer name.</param>
-/// <param name="Name">The name of the resource that is unique within the set of inbound NAT rules used by the load balancer.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="BackendPort">The port used for the internal endpoint. Acceptable values range from 1 to 65535.</param>
-/// <param name="Protocol">The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "inbound-nat-rule", "create")]
-public record AzNetworkLbInboundNatRuleCreateOptions(
-    [property: CliOption("--lb-name")] string LbName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--backend-port")] int BackendPort,
-    [property: CliOption("--protocol")] string Protocol
-) : AzOptions
+public record AzNetworkLbInboundNatRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an inbound NAT rule.
+    /// </summary>
+    /// <param name="LbName">The load balancer name.</param>
+    /// <param name="Name">The name of the resource that is unique within the set of inbound NAT rules used by the load balancer.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="BackendPort">The port used for the internal endpoint. Acceptable values range from 1 to 65535.</param>
+    /// <param name="Protocol">The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.</param>
+    public AzNetworkLbInboundNatRuleCreateOptions(
+        string LbName,
+        string Name,
+        string ResourceGroup,
+        int BackendPort,
+        string Protocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbName);
+        this.LbName = LbName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        this.BackendPort = BackendPort;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+    }
+
+    public void Deconstruct(out string LbName, out string Name, out string ResourceGroup, out int BackendPort, out string Protocol)
+    {
+        LbName = this.LbName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        BackendPort = this.BackendPort;
+        Protocol = this.Protocol;
+    }
+
+    /// <summary>
+    /// The load balancer name.
+    /// </summary>
+    [CliOption("--lb-name")]
+    public string LbName { get; private init; }
+
+    /// <summary>
+    /// The name of the resource that is unique within the set of inbound NAT rules used by the load balancer.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The port used for the internal endpoint. Acceptable values range from 1 to 65535.
+    /// </summary>
+    [CliOption("--backend-port")]
+    public int BackendPort { get; private init; }
+
+    /// <summary>
+    /// The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string Protocol { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

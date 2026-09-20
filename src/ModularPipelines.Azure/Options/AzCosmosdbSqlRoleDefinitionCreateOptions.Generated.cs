@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a SQL role definition under an Azure Cosmos DB
 /// </summary>
-/// <param name="AccountName">Cosmosdb account name.</param>
-/// <param name="Body">Role Definition body with Id (Optional for create), DataActions or Permissions, Type (Default is CustomRole), and AssignableScopes.  You can enter it as a string or as a file, e.g., --body @rdbody-file.json or --body "{ \"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\", \"RoleName\": \"My Read Write Role\", \"Type\": \"CustomRole\", \"AssignableScopes\": [ \"/\" ], \"DataActions\": [ \"Microsoft .DocumentDB/databaseAccounts/sqlDatabases/containers/items/crea te\", \"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/cont ainers/items/read\" ]}".</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "role", "definition", "create")]
-public record AzCosmosdbSqlRoleDefinitionCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--body", ShortForm = "-b")] string Body,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbSqlRoleDefinitionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a SQL role definition under an Azure Cosmos DB
+    /// </summary>
+    /// <param name="AccountName">Cosmosdb account name.</param>
+    /// <param name="Body">Role Definition body with Id (Optional for create), DataActions or Permissions, Type (Default is CustomRole), and AssignableScopes.  You can enter it as a string or as a file, e.g., --body @rdbody-file.json or --body "{ \"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\", \"RoleName\": \"My Read Write Role\", \"Type\": \"CustomRole\", \"AssignableScopes\": [ \"/\" ], \"DataActions\": [ \"Microsoft .DocumentDB/databaseAccounts/sqlDatabases/containers/items/crea te\", \"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/cont ainers/items/read\" ]}".</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbSqlRoleDefinitionCreateOptions(
+        string AccountName,
+        string Body,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string Body, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        Body = this.Body;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cosmosdb account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Role Definition body with Id (Optional for create), DataActions or Permissions, Type (Default is CustomRole), and AssignableScopes.  You can enter it as a string or as a file, e.g., --body @rdbody-file.json or --body "{ \"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\", \"RoleName\": \"My Read Write Role\", \"Type\": \"CustomRole\", \"AssignableScopes\": [ \"/\" ], \"DataActions\": [ \"Microsoft .DocumentDB/databaseAccounts/sqlDatabases/containers/items/crea te\", \"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/cont ainers/items/read\" ]}".
+    /// </summary>
+    [CliOption("--body", ShortForm = "-b")]
+    public string Body { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add allowed origins to a SignalR Service.
 /// </summary>
-/// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "cors", "add")]
-public record AzSignalrCorsAddOptions(
-    [property: CliOption("--allowed-origins", ShortForm = "-a")] string AllowedOrigins
-) : AzOptions
+public record AzSignalrCorsAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add allowed origins to a SignalR Service.
+    /// </summary>
+    /// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".</param>
+    public AzSignalrCorsAddOptions(
+        string AllowedOrigins
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AllowedOrigins);
+        this.AllowedOrigins = AllowedOrigins;
+    }
+
+    public void Deconstruct(out string AllowedOrigins)
+    {
+        AllowedOrigins = this.AllowedOrigins;
+    }
+
+    /// <summary>
+    /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".
+    /// </summary>
+    [CliOption("--allowed-origins", ShortForm = "-a")]
+    public string AllowedOrigins { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

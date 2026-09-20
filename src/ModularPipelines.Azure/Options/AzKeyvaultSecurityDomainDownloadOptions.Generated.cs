@@ -15,18 +15,66 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download the security domain file from the HSM.
 /// </summary>
-/// <param name="SdQuorum">The minimum number of shares required to decrypt the security domain for recovery.</param>
-/// <param name="SdWrappingKeys">Space-separated file paths to PEM files containing public keys.</param>
-/// <param name="SecurityDomainFile">Path to a file where the JSON blob returned by this command is stored.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "download")]
-public record AzKeyvaultSecurityDomainDownloadOptions(
-    [property: CliOption("--sd-quorum")] int SdQuorum,
-    [property: CliOption("--sd-wrapping-keys", GroupValues = true)] IEnumerable<string> SdWrappingKeys,
-    [property: CliOption("--security-domain-file")] string SecurityDomainFile
-) : AzOptions
+public record AzKeyvaultSecurityDomainDownloadOptions : AzOptions
 {
+    /// <summary>
+    /// Download the security domain file from the HSM.
+    /// </summary>
+    /// <param name="SdQuorum">The minimum number of shares required to decrypt the security domain for recovery.</param>
+    /// <param name="SdWrappingKeys">Space-separated file paths to PEM files containing public keys.</param>
+    /// <param name="SecurityDomainFile">Path to a file where the JSON blob returned by this command is stored.</param>
+    public AzKeyvaultSecurityDomainDownloadOptions(
+        int SdQuorum,
+        IEnumerable<string> SdWrappingKeys,
+        string SecurityDomainFile
+    )
+    {
+        this.SdQuorum = SdQuorum;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SdWrappingKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SdWrappingKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SdWrappingKeys));
+            }
+
+            SdWrappingKeys = materialized;
+        }
+        this.SdWrappingKeys = SdWrappingKeys;
+        global::System.ArgumentNullException.ThrowIfNull(SecurityDomainFile);
+        this.SecurityDomainFile = SecurityDomainFile;
+    }
+
+    public void Deconstruct(out int SdQuorum, out IEnumerable<string> SdWrappingKeys, out string SecurityDomainFile)
+    {
+        SdQuorum = this.SdQuorum;
+        SdWrappingKeys = this.SdWrappingKeys;
+        SecurityDomainFile = this.SecurityDomainFile;
+    }
+
+    /// <summary>
+    /// The minimum number of shares required to decrypt the security domain for recovery.
+    /// </summary>
+    [CliOption("--sd-quorum")]
+    public int SdQuorum { get; private init; }
+
+    /// <summary>
+    /// Space-separated file paths to PEM files containing public keys.
+    /// </summary>
+    [CliOption("--sd-wrapping-keys", GroupValues = true)]
+    public IEnumerable<string> SdWrappingKeys { get; private init; }
+
+    /// <summary>
+    /// Path to a file where the JSON blob returned by this command is stored.
+    /// </summary>
+    [CliOption("--security-domain-file")]
+    public string SecurityDomainFile { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

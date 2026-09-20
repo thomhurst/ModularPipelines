@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an event subscription of a topic.
 /// </summary>
-/// <param name="Name">Name of the event subscription.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="TopicName">Name of the topic.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "topic", "event-subscription", "update")]
-public record AzEventgridTopicEventSubscriptionUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--topic-name")] string TopicName
-) : AzOptions
+public record AzEventgridTopicEventSubscriptionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an event subscription of a topic.
+    /// </summary>
+    /// <param name="Name">Name of the event subscription.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="TopicName">Name of the topic.</param>
+    public AzEventgridTopicEventSubscriptionUpdateOptions(
+        string Name,
+        string ResourceGroup,
+        string TopicName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(TopicName);
+        this.TopicName = TopicName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string TopicName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        TopicName = this.TopicName;
+    }
+
+    /// <summary>
+    /// Name of the event subscription.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the topic.
+    /// </summary>
+    [CliOption("--topic-name")]
+    public string TopicName { get; private init; }
+
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination where EventGrid should deadletter undeliverable events for this event subscription.
     /// </summary>

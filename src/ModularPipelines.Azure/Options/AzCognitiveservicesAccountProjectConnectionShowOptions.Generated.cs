@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists Cognitive Services project
 /// </summary>
-/// <param name="ConnectionName">Cognitive Services account connection name.</param>
-/// <param name="Name">Cognitive service account name.</param>
-/// <param name="ProjectName">Cognitive Services account project name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "project", "connection", "show")]
-public record AzCognitiveservicesAccountProjectConnectionShowOptions(
-    [property: CliOption("--connection-name")] string ConnectionName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--project-name")] string ProjectName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCognitiveservicesAccountProjectConnectionShowOptions : AzOptions
 {
+    /// <summary>
+    /// Lists Cognitive Services project
+    /// </summary>
+    /// <param name="ConnectionName">Cognitive Services account connection name.</param>
+    /// <param name="Name">Cognitive service account name.</param>
+    /// <param name="ProjectName">Cognitive Services account project name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCognitiveservicesAccountProjectConnectionShowOptions(
+        string ConnectionName,
+        string Name,
+        string ProjectName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ConnectionName, out string Name, out string ProjectName, out string ResourceGroup)
+    {
+        ConnectionName = this.ConnectionName;
+        Name = this.Name;
+        ProjectName = this.ProjectName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cognitive Services account connection name.
+    /// </summary>
+    [CliOption("--connection-name")]
+    public string ConnectionName { get; private init; }
+
+    /// <summary>
+    /// Cognitive service account name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Cognitive Services account project name.
+    /// </summary>
+    [CliOption("--project-name")]
+    public string ProjectName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

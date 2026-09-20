@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a named billing period.
 /// </summary>
-/// <param name="Name">Name of the billing period. Run the az billing period list command to list the name of billing period.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "period", "show")]
-public record AzBillingPeriodShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzBillingPeriodShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show a named billing period.
+    /// </summary>
+    /// <param name="Name">Name of the billing period. Run the az billing period list command to list the name of billing period.</param>
+    public AzBillingPeriodShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the billing period. Run the az billing period list command to list the name of billing period.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

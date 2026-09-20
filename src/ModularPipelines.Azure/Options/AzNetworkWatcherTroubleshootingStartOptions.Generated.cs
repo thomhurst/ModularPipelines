@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Troubleshoot issues with VPN connections or gateway
 /// </summary>
-/// <param name="Resource">Name or ID of the resource to troubleshoot.</param>
-/// <param name="StorageAccount">Name or ID of the storage account in which to store the troubleshooting results.</param>
-/// <param name="StoragePath">Fully qualified URI to the storage blob container in which to store the troubleshooting results.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "troubleshooting", "start")]
-public record AzNetworkWatcherTroubleshootingStartOptions(
-    [property: CliOption("--resource")] string Resource,
-    [property: CliOption("--storage-account")] string StorageAccount,
-    [property: CliOption("--storage-path")] string StoragePath
-) : AzOptions
+public record AzNetworkWatcherTroubleshootingStartOptions : AzOptions
 {
+    /// <summary>
+    /// Troubleshoot issues with VPN connections or gateway
+    /// </summary>
+    /// <param name="Resource">Name or ID of the resource to troubleshoot.</param>
+    /// <param name="StorageAccount">Name or ID of the storage account in which to store the troubleshooting results.</param>
+    /// <param name="StoragePath">Fully qualified URI to the storage blob container in which to store the troubleshooting results.</param>
+    public AzNetworkWatcherTroubleshootingStartOptions(
+        string Resource,
+        string StorageAccount,
+        string StoragePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccount);
+        this.StorageAccount = StorageAccount;
+        global::System.ArgumentNullException.ThrowIfNull(StoragePath);
+        this.StoragePath = StoragePath;
+    }
+
+    public void Deconstruct(out string Resource, out string StorageAccount, out string StoragePath)
+    {
+        Resource = this.Resource;
+        StorageAccount = this.StorageAccount;
+        StoragePath = this.StoragePath;
+    }
+
+    /// <summary>
+    /// Name or ID of the resource to troubleshoot.
+    /// </summary>
+    [CliOption("--resource")]
+    public string Resource { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the storage account in which to store the troubleshooting results.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string StorageAccount { get; private init; }
+
+    /// <summary>
+    /// Fully qualified URI to the storage blob container in which to store the troubleshooting results.
+    /// </summary>
+    [CliOption("--storage-path")]
+    public string StoragePath { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

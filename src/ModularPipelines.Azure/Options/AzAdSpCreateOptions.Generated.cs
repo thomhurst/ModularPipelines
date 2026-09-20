@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a service principal.
 /// </summary>
-/// <param name="Id">Identifier uri, application id, or object id of the associated application.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "sp", "create")]
-public record AzAdSpCreateOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdSpCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a service principal.
+    /// </summary>
+    /// <param name="Id">Identifier uri, application id, or object id of the associated application.</param>
+    public AzAdSpCreateOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Identifier uri, application id, or object id of the associated application.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
 }

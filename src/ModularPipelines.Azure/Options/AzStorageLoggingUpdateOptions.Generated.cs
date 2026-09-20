@@ -15,18 +15,55 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update logging settings for a storage account.
 /// </summary>
-/// <param name="Log">The operations for which to enable logging: (r)ead (w)rite (d)elete. Can be combined.</param>
-/// <param name="Retention">Number of days for which to retain logs. 0 to disable.</param>
-/// <param name="Services">The storage service(s) for which to update logging info: (b)lob (q)ueue (t)able. Can be combined.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "logging", "update")]
-public record AzStorageLoggingUpdateOptions(
-    [property: CliOption("--log")] string Log,
-    [property: CliOption("--retention")] int Retention,
-    [property: CliOption("--services")] string Services
-) : AzOptions
+public record AzStorageLoggingUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update logging settings for a storage account.
+    /// </summary>
+    /// <param name="Log">The operations for which to enable logging: (r)ead (w)rite (d)elete. Can be combined.</param>
+    /// <param name="Retention">Number of days for which to retain logs. 0 to disable.</param>
+    /// <param name="Services">The storage service(s) for which to update logging info: (b)lob (q)ueue (t)able. Can be combined.</param>
+    public AzStorageLoggingUpdateOptions(
+        string Log,
+        int Retention,
+        string Services
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Log);
+        this.Log = Log;
+        this.Retention = Retention;
+        global::System.ArgumentNullException.ThrowIfNull(Services);
+        this.Services = Services;
+    }
+
+    public void Deconstruct(out string Log, out int Retention, out string Services)
+    {
+        Log = this.Log;
+        Retention = this.Retention;
+        Services = this.Services;
+    }
+
+    /// <summary>
+    /// The operations for which to enable logging: (r)ead (w)rite (d)elete. Can be combined.
+    /// </summary>
+    [CliOption("--log")]
+    public string Log { get; private init; }
+
+    /// <summary>
+    /// Number of days for which to retain logs. 0 to disable.
+    /// </summary>
+    [CliOption("--retention")]
+    public int Retention { get; private init; }
+
+    /// <summary>
+    /// The storage service(s) for which to update logging info: (b)lob (q)ueue (t)able. Can be combined.
+    /// </summary>
+    [CliOption("--services")]
+    public string Services { get; private init; }
+
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>

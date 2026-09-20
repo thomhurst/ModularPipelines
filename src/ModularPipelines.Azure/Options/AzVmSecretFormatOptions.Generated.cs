@@ -16,14 +16,46 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Transform secrets into a form that can be used by VMs and VMSSes.
 /// </summary>
-/// <param name="Secrets">Space-separated list of key vault secret URIs. Perhaps, produced by 'az keyvault secret list-versions --vault-name vaultname -n cert1 --query "[?attributes.enabled].id" -o tsv'. The command will attempt to resolve the vault ID for each secret. If it is unable to do so, specify the vault ID to use for *all* secrets using: --keyvault NAME --resource-group NAME | --keyvault ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "secret", "format")]
-public record AzVmSecretFormatOptions(
-    [property: SecretValue, CliOption("--secrets", ShortForm = "-s", GroupValues = true)] IEnumerable<string> Secrets
-) : AzOptions
+public record AzVmSecretFormatOptions : AzOptions
 {
+    /// <summary>
+    /// Transform secrets into a form that can be used by VMs and VMSSes.
+    /// </summary>
+    /// <param name="Secrets">Space-separated list of key vault secret URIs. Perhaps, produced by 'az keyvault secret list-versions --vault-name vaultname -n cert1 --query "[?attributes.enabled].id" -o tsv'. The command will attempt to resolve the vault ID for each secret. If it is unable to do so, specify the vault ID to use for *all* secrets using: --keyvault NAME --resource-group NAME | --keyvault ID.</param>
+    public AzVmSecretFormatOptions(
+        IEnumerable<string> Secrets
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Secrets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Secrets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Secrets));
+            }
+
+            Secrets = materialized;
+        }
+        this.Secrets = Secrets;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Secrets)
+    {
+        Secrets = this.Secrets;
+    }
+
+    /// <summary>
+    /// Space-separated list of key vault secret URIs. Perhaps, produced by 'az keyvault secret list-versions --vault-name vaultname -n cert1 --query "[?attributes.enabled].id" -o tsv'. The command will attempt to resolve the vault ID for each secret. If it is unable to do so, specify the vault ID to use for *all* secrets using: --keyvault NAME --resource-group NAME | --keyvault ID.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secrets", ShortForm = "-s", GroupValues = true)]
+    public IEnumerable<string> Secrets { get; private init; }
+
     /// <summary>
     /// Windows certificate store names. Default: My.
     /// </summary>

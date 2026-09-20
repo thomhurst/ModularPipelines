@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Returns a feature registration.
 /// </summary>
-/// <param name="Name">The feature name.</param>
-/// <param name="ProviderNamespace">The provider namespace. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("feature", "registration", "show")]
-public record AzFeatureRegistrationShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--provider-namespace")] string ProviderNamespace
-) : AzOptions
+public record AzFeatureRegistrationShowOptions : AzOptions
 {
+    /// <summary>
+    /// Returns a feature registration.
+    /// </summary>
+    /// <param name="Name">The feature name.</param>
+    /// <param name="ProviderNamespace">The provider namespace. Required.</param>
+    public AzFeatureRegistrationShowOptions(
+        string Name,
+        string ProviderNamespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderNamespace);
+        this.ProviderNamespace = ProviderNamespace;
+    }
+
+    public void Deconstruct(out string Name, out string ProviderNamespace)
+    {
+        Name = this.Name;
+        ProviderNamespace = this.ProviderNamespace;
+    }
+
+    /// <summary>
+    /// The feature name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The provider namespace. Required.
+    /// </summary>
+    [CliOption("--provider-namespace")]
+    public string ProviderNamespace { get; private init; }
+
 }

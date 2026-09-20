@@ -15,20 +15,66 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a streaming endpoint.
 /// </summary>
-/// <param name="AccountName">The name of the Azure Media Services account.</param>
-/// <param name="Name">The name of the streaming endpoint.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ScaleUnits">The number of scale units for Premium StreamingEndpoints. For Standard StreamingEndpoints, set this value to 0. Use the Scale operation to adjust this value for Premium StreamingEndpoints.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-endpoint", "create")]
-public record AzAmsStreamingEndpointCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--scale-units")] int ScaleUnits
-) : AzOptions
+public record AzAmsStreamingEndpointCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a streaming endpoint.
+    /// </summary>
+    /// <param name="AccountName">The name of the Azure Media Services account.</param>
+    /// <param name="Name">The name of the streaming endpoint.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ScaleUnits">The number of scale units for Premium StreamingEndpoints. For Standard StreamingEndpoints, set this value to 0. Use the Scale operation to adjust this value for Premium StreamingEndpoints.</param>
+    public AzAmsStreamingEndpointCreateOptions(
+        string AccountName,
+        string Name,
+        string ResourceGroup,
+        int ScaleUnits
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        this.ScaleUnits = ScaleUnits;
+    }
+
+    public void Deconstruct(out string AccountName, out string Name, out string ResourceGroup, out int ScaleUnits)
+    {
+        AccountName = this.AccountName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ScaleUnits = this.ScaleUnits;
+    }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the streaming endpoint.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The number of scale units for Premium StreamingEndpoints. For Standard StreamingEndpoints, set this value to 0. Use the Scale operation to adjust this value for Premium StreamingEndpoints.
+    /// </summary>
+    [CliOption("--scale-units")]
+    public int ScaleUnits { get; private init; }
+
     /// <summary>
     /// The flag indicates if the resource should be automatically started on creation.
     /// </summary>

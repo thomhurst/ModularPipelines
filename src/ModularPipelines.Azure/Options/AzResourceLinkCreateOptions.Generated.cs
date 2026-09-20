@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new link between resources.
 /// </summary>
-/// <param name="Link">Fully-qualified resource ID of the resource link. Format: /subscriptions/{SubID}/resourceGroups/{ResourceGroupID}/providers/{ProviderNamespace }/{ResourceType}/{ResourceName}/providers/Microsoft.Resources/links/{LinkName}.</param>
-/// <param name="Target">Fully-qualified resource ID of the resource link target.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "link", "create")]
-public record AzResourceLinkCreateOptions(
-    [property: CliOption("--link")] string Link,
-    [property: CliOption("--target")] string Target
-) : AzOptions
+public record AzResourceLinkCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new link between resources.
+    /// </summary>
+    /// <param name="Link">Fully-qualified resource ID of the resource link. Format: /subscriptions/{SubID}/resourceGroups/{ResourceGroupID}/providers/{ProviderNamespace }/{ResourceType}/{ResourceName}/providers/Microsoft.Resources/links/{LinkName}.</param>
+    /// <param name="Target">Fully-qualified resource ID of the resource link target.</param>
+    public AzResourceLinkCreateOptions(
+        string Link,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Link);
+        this.Link = Link;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    public void Deconstruct(out string Link, out string Target)
+    {
+        Link = this.Link;
+        Target = this.Target;
+    }
+
+    /// <summary>
+    /// Fully-qualified resource ID of the resource link. Format: /subscriptions/{SubID}/resourceGroups/{ResourceGroupID}/providers/{ProviderNamespace }/{ResourceType}/{ResourceName}/providers/Microsoft.Resources/links/{LinkName}.
+    /// </summary>
+    [CliOption("--link")]
+    public string Link { get; private init; }
+
+    /// <summary>
+    /// Fully-qualified resource ID of the resource link target.
+    /// </summary>
+    [CliOption("--target")]
+    public string Target { get; private init; }
+
     /// <summary>
     /// Notes for the link.
     /// </summary>

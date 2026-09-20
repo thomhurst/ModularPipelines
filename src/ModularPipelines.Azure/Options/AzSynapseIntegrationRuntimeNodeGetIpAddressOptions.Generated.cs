@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get self-hosted integration runtime node
 /// </summary>
-/// <param name="NodeName">The integration runtime node name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "integration-runtime-node", "get-ip-address")]
-public record AzSynapseIntegrationRuntimeNodeGetIpAddressOptions(
-    [property: CliOption("--node-name")] string NodeName
-) : AzOptions
+public record AzSynapseIntegrationRuntimeNodeGetIpAddressOptions : AzOptions
 {
+    /// <summary>
+    /// Get self-hosted integration runtime node
+    /// </summary>
+    /// <param name="NodeName">The integration runtime node name.</param>
+    public AzSynapseIntegrationRuntimeNodeGetIpAddressOptions(
+        string NodeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeName);
+        this.NodeName = NodeName;
+    }
+
+    public void Deconstruct(out string NodeName)
+    {
+        NodeName = this.NodeName;
+    }
+
+    /// <summary>
+    /// The integration runtime node name.
+    /// </summary>
+    [CliOption("--node-name")]
+    public string NodeName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

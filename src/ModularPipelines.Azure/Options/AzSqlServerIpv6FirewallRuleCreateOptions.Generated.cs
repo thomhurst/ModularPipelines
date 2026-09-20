@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an ipv6 firewall rule.
 /// </summary>
-/// <param name="Name">The name of the IPv6 firewall rule.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "ipv6-firewall-rule", "create")]
-public record AzSqlServerIpv6FirewallRuleCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server", ShortForm = "-s")] string Server
-) : AzOptions
+public record AzSqlServerIpv6FirewallRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an ipv6 firewall rule.
+    /// </summary>
+    /// <param name="Name">The name of the IPv6 firewall rule.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
+    public AzSqlServerIpv6FirewallRuleCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Server)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Server = this.Server;
+    }
+
+    /// <summary>
+    /// The name of the IPv6 firewall rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string Server { get; private init; }
+
     /// <summary>
     /// The end IPv6 address of the firewall rule. Must be IPv6 format.
     /// </summary>

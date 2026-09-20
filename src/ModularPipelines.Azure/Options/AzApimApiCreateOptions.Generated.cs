@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an API Management API.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
-/// <param name="ApiId">Unique name of the api to be created. API revision identifier. Must be unique in the current API Management service instance. Non- current revision has ;rev=n as a suffix where n is the revision number.</param>
-/// <param name="DisplayName">Display name of the API to be created.</param>
-/// <param name="Path">Path to the API.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "create")]
-public record AzApimApiCreateOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
-    [property: CliOption("--api-id")] string ApiId,
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--path")] string Path
-) : AzOptions
+public record AzApimApiCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an API Management API.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    /// <param name="ApiId">Unique name of the api to be created. API revision identifier. Must be unique in the current API Management service instance. Non- current revision has ;rev=n as a suffix where n is the revision number.</param>
+    /// <param name="DisplayName">Display name of the API to be created.</param>
+    /// <param name="Path">Path to the API.</param>
+    public AzApimApiCreateOptions(
+        string ResourceGroup,
+        string ServiceName,
+        string ApiId,
+        string DisplayName,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string ServiceName, out string ApiId, out string DisplayName, out string Path)
+    {
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        ApiId = this.ApiId;
+        DisplayName = this.DisplayName;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// Unique name of the api to be created. API revision identifier. Must be unique in the current API Management service instance. Non- current revision has ;rev=n as a suffix where n is the revision number.
+    /// </summary>
+    [CliOption("--api-id")]
+    public string ApiId { get; private init; }
+
+    /// <summary>
+    /// Display name of the API to be created.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Path to the API.
+    /// </summary>
+    [CliOption("--path")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// Specifies the OAuth operations scope.
     /// </summary>

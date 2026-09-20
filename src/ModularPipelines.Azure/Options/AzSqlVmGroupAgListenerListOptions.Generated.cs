@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists all availability group listeners in a SQL virtual
 /// </summary>
-/// <param name="GroupName">Name of the SQL virtual machine group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "group", "ag-listener", "list")]
-public record AzSqlVmGroupAgListenerListOptions(
-    [property: CliOption("--group-name", ShortForm = "-r")] string GroupName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlVmGroupAgListenerListOptions : AzOptions
 {
+    /// <summary>
+    /// Lists all availability group listeners in a SQL virtual
+    /// </summary>
+    /// <param name="GroupName">Name of the SQL virtual machine group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSqlVmGroupAgListenerListOptions(
+        string GroupName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GroupName, out string ResourceGroup)
+    {
+        GroupName = this.GroupName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the SQL virtual machine group.
+    /// </summary>
+    [CliOption("--group-name", ShortForm = "-r")]
+    public string GroupName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing autoscale profile of a VirtualMachines
 /// </summary>
-/// <param name="ClusterName">The cluster name.</param>
-/// <param name="CurrentNodeVmSize">The current VM size of the autoscale profile to be updated.</param>
-/// <param name="Name">The node pool name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "auto-scale", "update")]
-public record AzAksNodepoolAutoScaleUpdateOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--current-node-vm-size")] string CurrentNodeVmSize,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksNodepoolAutoScaleUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing autoscale profile of a VirtualMachines
+    /// </summary>
+    /// <param name="ClusterName">The cluster name.</param>
+    /// <param name="CurrentNodeVmSize">The current VM size of the autoscale profile to be updated.</param>
+    /// <param name="Name">The node pool name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksNodepoolAutoScaleUpdateOptions(
+        string ClusterName,
+        string CurrentNodeVmSize,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentNodeVmSize);
+        this.CurrentNodeVmSize = CurrentNodeVmSize;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string CurrentNodeVmSize, out string Name, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        CurrentNodeVmSize = this.CurrentNodeVmSize;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The cluster name.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The current VM size of the autoscale profile to be updated.
+    /// </summary>
+    [CliOption("--current-node-vm-size")]
+    public string CurrentNodeVmSize { get; private init; }
+
+    /// <summary>
+    /// The node pool name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Maximum number of nodes for autoscaling.
     /// </summary>

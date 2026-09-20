@@ -15,20 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a managed application definition.
 /// </summary>
-/// <param name="Authorizations">Space-separated authorization pairs in a format of `&lt;principalId&gt;:&lt;roleDefinitionId&gt;`.</param>
-/// <param name="Description">The managed application definition description.</param>
-/// <param name="DisplayName">The managed application definition display name.</param>
-/// <param name="LockLevel">The type of lock restriction.  Allowed values: CanNotDelete, None, ReadOnly.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedapp", "definition", "update")]
-public record AzManagedappDefinitionUpdateOptions(
-    [property: CliOption("--authorizations", ShortForm = "-a", GroupValues = true)] IEnumerable<string> Authorizations,
-    [property: CliOption("--description")] string Description,
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--lock-level")] string LockLevel
-) : AzOptions
+public record AzManagedappDefinitionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a managed application definition.
+    /// </summary>
+    /// <param name="Authorizations">Space-separated authorization pairs in a format of `&lt;principalId&gt;:&lt;roleDefinitionId&gt;`.</param>
+    /// <param name="Description">The managed application definition description.</param>
+    /// <param name="DisplayName">The managed application definition display name.</param>
+    /// <param name="LockLevel">The type of lock restriction.  Allowed values: CanNotDelete, None, ReadOnly.</param>
+    public AzManagedappDefinitionUpdateOptions(
+        IEnumerable<string> Authorizations,
+        string Description,
+        string DisplayName,
+        string LockLevel
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Authorizations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Authorizations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Authorizations));
+            }
+
+            Authorizations = materialized;
+        }
+        this.Authorizations = Authorizations;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(LockLevel);
+        this.LockLevel = LockLevel;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Authorizations, out string Description, out string DisplayName, out string LockLevel)
+    {
+        Authorizations = this.Authorizations;
+        Description = this.Description;
+        DisplayName = this.DisplayName;
+        LockLevel = this.LockLevel;
+    }
+
+    /// <summary>
+    /// Space-separated authorization pairs in a format of `&lt;principalId&gt;:&lt;roleDefinitionId&gt;`.
+    /// </summary>
+    [CliOption("--authorizations", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string> Authorizations { get; private init; }
+
+    /// <summary>
+    /// The managed application definition description.
+    /// </summary>
+    [CliOption("--description")]
+    public string Description { get; private init; }
+
+    /// <summary>
+    /// The managed application definition display name.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The type of lock restriction.  Allowed values: CanNotDelete, None, ReadOnly.
+    /// </summary>
+    [CliOption("--lock-level")]
+    public string LockLevel { get; private init; }
+
     /// <summary>
     /// JSON formatted string or a path to a file with such content.
     /// </summary>

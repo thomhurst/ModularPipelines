@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an image builder customizer to an image builder template.
 /// </summary>
-/// <param name="CustomizerName">Name of the customizer.</param>
-/// <param name="Type">Type of customizer to be added to the image template.  Allowed values: file, powershell, shell, windows-restart, windows-update.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "customizer", "add")]
-public record AzImageBuilderCustomizerAddOptions(
-    [property: CliOption("--customizer-name")] string CustomizerName,
-    [property: CliOption("--type", ShortForm = "-t")] string Type
-) : AzOptions
+public record AzImageBuilderCustomizerAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add an image builder customizer to an image builder template.
+    /// </summary>
+    /// <param name="CustomizerName">Name of the customizer.</param>
+    /// <param name="Type">Type of customizer to be added to the image template.  Allowed values: file, powershell, shell, windows-restart, windows-update.</param>
+    public AzImageBuilderCustomizerAddOptions(
+        string CustomizerName,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomizerName);
+        this.CustomizerName = CustomizerName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string CustomizerName, out string Type)
+    {
+        CustomizerName = this.CustomizerName;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Name of the customizer.
+    /// </summary>
+    [CliOption("--customizer-name")]
+    public string CustomizerName { get; private init; }
+
+    /// <summary>
+    /// Type of customizer to be added to the image template.  Allowed values: file, powershell, shell, windows-restart, windows-update.
+    /// </summary>
+    [CliOption("--type", ShortForm = "-t")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>

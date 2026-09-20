@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Cancel a pipeline run by its run ID.
 /// </summary>
-/// <param name="RunId">The pipeline run identifier.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "pipeline-run", "cancel")]
-public record AzSynapsePipelineRunCancelOptions(
-    [property: CliOption("--run-id")] string RunId,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapsePipelineRunCancelOptions : AzOptions
 {
+    /// <summary>
+    /// Cancel a pipeline run by its run ID.
+    /// </summary>
+    /// <param name="RunId">The pipeline run identifier.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapsePipelineRunCancelOptions(
+        string RunId,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RunId);
+        this.RunId = RunId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string RunId, out string WorkspaceName)
+    {
+        RunId = this.RunId;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The pipeline run identifier.
+    /// </summary>
+    [CliOption("--run-id")]
+    public string RunId { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// If true, cancel all the Child pipelines that are triggered by the current pipeline.  Allowed values: false, true.
     /// </summary>

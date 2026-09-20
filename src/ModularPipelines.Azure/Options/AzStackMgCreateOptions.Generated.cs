@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a deployment stack at management group scope.
 /// </summary>
-/// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
-/// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
-/// <param name="Location">The location to store the deployment stack.</param>
-/// <param name="ManagementGroupId">The management group ID to create a deployment stack in.</param>
-/// <param name="Name">The name of the deployment stack.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "mg", "create")]
-public record AzStackMgCreateOptions(
-    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage,
-    [property: CliOption("--deny-settings-mode", ShortForm = "--dm")] string DenySettingsMode,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStackMgCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create or update a deployment stack at management group scope.
+    /// </summary>
+    /// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
+    /// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
+    /// <param name="Location">The location to store the deployment stack.</param>
+    /// <param name="ManagementGroupId">The management group ID to create a deployment stack in.</param>
+    /// <param name="Name">The name of the deployment stack.</param>
+    public AzStackMgCreateOptions(
+        string ActionOnUnmanage,
+        string DenySettingsMode,
+        string Location,
+        string ManagementGroupId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionOnUnmanage);
+        this.ActionOnUnmanage = ActionOnUnmanage;
+        global::System.ArgumentNullException.ThrowIfNull(DenySettingsMode);
+        this.DenySettingsMode = DenySettingsMode;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string ActionOnUnmanage, out string DenySettingsMode, out string Location, out string ManagementGroupId, out string Name)
+    {
+        ActionOnUnmanage = this.ActionOnUnmanage;
+        DenySettingsMode = this.DenySettingsMode;
+        Location = this.Location;
+        ManagementGroupId = this.ManagementGroupId;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.
+    /// </summary>
+    [CliOption("--action-on-unmanage", ShortForm = "--aou")]
+    public string ActionOnUnmanage { get; private init; }
+
+    /// <summary>
+    /// Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.
+    /// </summary>
+    [CliOption("--deny-settings-mode", ShortForm = "--dm")]
+    public string DenySettingsMode { get; private init; }
+
+    /// <summary>
+    /// The location to store the deployment stack.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The management group ID to create a deployment stack in.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
+    /// <summary>
+    /// The name of the deployment stack.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. Allowed values: false, true.
     /// </summary>

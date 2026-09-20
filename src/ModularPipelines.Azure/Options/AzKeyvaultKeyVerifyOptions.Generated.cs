@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Verify a signature using the key that is stored in a Vault or HSM.
 /// </summary>
-/// <param name="Algorithm">Algorithm identifier.  Allowed values: ES256, ES256K, ES384, ES512, HS256, HS384, HS512, PS256, PS384, PS512, RS256, RS384, RS512.</param>
-/// <param name="Digest">The value to sign (base64 encoded).</param>
-/// <param name="Signature">Signature to verify.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "verify")]
-public record AzKeyvaultKeyVerifyOptions(
-    [property: CliOption("--algorithm", ShortForm = "-a")] string Algorithm,
-    [property: CliOption("--digest")] string Digest,
-    [property: CliOption("--signature")] string Signature
-) : AzOptions
+public record AzKeyvaultKeyVerifyOptions : AzOptions
 {
+    /// <summary>
+    /// Verify a signature using the key that is stored in a Vault or HSM.
+    /// </summary>
+    /// <param name="Algorithm">Algorithm identifier.  Allowed values: ES256, ES256K, ES384, ES512, HS256, HS384, HS512, PS256, PS384, PS512, RS256, RS384, RS512.</param>
+    /// <param name="Digest">The value to sign (base64 encoded).</param>
+    /// <param name="Signature">Signature to verify.</param>
+    public AzKeyvaultKeyVerifyOptions(
+        string Algorithm,
+        string Digest,
+        string Signature
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Algorithm);
+        this.Algorithm = Algorithm;
+        global::System.ArgumentNullException.ThrowIfNull(Digest);
+        this.Digest = Digest;
+        global::System.ArgumentNullException.ThrowIfNull(Signature);
+        this.Signature = Signature;
+    }
+
+    public void Deconstruct(out string Algorithm, out string Digest, out string Signature)
+    {
+        Algorithm = this.Algorithm;
+        Digest = this.Digest;
+        Signature = this.Signature;
+    }
+
+    /// <summary>
+    /// Algorithm identifier.  Allowed values: ES256, ES256K, ES384, ES512, HS256, HS384, HS512, PS256, PS384, PS512, RS256, RS384, RS512.
+    /// </summary>
+    [CliOption("--algorithm", ShortForm = "-a")]
+    public string Algorithm { get; private init; }
+
+    /// <summary>
+    /// The value to sign (base64 encoded).
+    /// </summary>
+    [CliOption("--digest")]
+    public string Digest { get; private init; }
+
+    /// <summary>
+    /// Signature to verify.
+    /// </summary>
+    [CliOption("--signature")]
+    public string Signature { get; private init; }
+
     /// <summary>
     /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
     /// </summary>

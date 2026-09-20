@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an extension to a VMSS or update an existing extension.
 /// </summary>
-/// <param name="Name">Name of the extension.  Values from: az vm extension image list.</param>
-/// <param name="Publisher">The name of the extension publisher.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VmssName">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "extension", "set")]
-public record AzVmssExtensionSetOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--publisher")] string Publisher,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vmss-name")] string VmssName
-) : AzOptions
+public record AzVmssExtensionSetOptions : AzOptions
 {
+    /// <summary>
+    /// Add an extension to a VMSS or update an existing extension.
+    /// </summary>
+    /// <param name="Name">Name of the extension.  Values from: az vm extension image list.</param>
+    /// <param name="Publisher">The name of the extension publisher.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VmssName">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
+    public AzVmssExtensionSetOptions(
+        string Name,
+        string Publisher,
+        string ResourceGroup,
+        string VmssName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Publisher);
+        this.Publisher = Publisher;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VmssName);
+        this.VmssName = VmssName;
+    }
+
+    public void Deconstruct(out string Name, out string Publisher, out string ResourceGroup, out string VmssName)
+    {
+        Name = this.Name;
+        Publisher = this.Publisher;
+        ResourceGroup = this.ResourceGroup;
+        VmssName = this.VmssName;
+    }
+
+    /// <summary>
+    /// Name of the extension.  Values from: az vm extension image list.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the extension publisher.
+    /// </summary>
+    [CliOption("--publisher")]
+    public string Publisher { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--vmss-name")]
+    public string VmssName { get; private init; }
+
     /// <summary>
     /// Indicate the extension should be automatically upgraded by the platform if there is a newer version of the extension available.  Allowed values: false, true.
     /// </summary>

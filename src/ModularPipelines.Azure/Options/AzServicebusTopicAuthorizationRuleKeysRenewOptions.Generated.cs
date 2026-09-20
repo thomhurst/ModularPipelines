@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerates primary or secondary connection
 /// </summary>
-/// <param name="Key">The access key to regenerate.  Allowed values: PrimaryKey, SecondaryKey.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "topic", "authorization-rule", "keys", "renew")]
-public record AzServicebusTopicAuthorizationRuleKeysRenewOptions(
-    [property: CliOption("--key")] string Key
-) : AzOptions
+public record AzServicebusTopicAuthorizationRuleKeysRenewOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerates primary or secondary connection
+    /// </summary>
+    /// <param name="Key">The access key to regenerate.  Allowed values: PrimaryKey, SecondaryKey.</param>
+    public AzServicebusTopicAuthorizationRuleKeysRenewOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// The access key to regenerate.  Allowed values: PrimaryKey, SecondaryKey.
+    /// </summary>
+    [CliOption("--key")]
+    public string Key { get; private init; }
+
     /// <summary>
     /// Optional, if the key value provided, is reset for KeyType value or autogenerate Key value set for keyType.
     /// </summary>

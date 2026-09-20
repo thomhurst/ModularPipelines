@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Revoke a certificate.
 /// </summary>
-/// <param name="GatewayName">Virtual network gateway name.</param>
-/// <param name="Name">Root certificate name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Thumbprint">Certificate thumbprint.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "revoked-cert", "create")]
-public record AzNetworkVnetGatewayRevokedCertCreateOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--thumbprint")] string Thumbprint
-) : AzOptions
+public record AzNetworkVnetGatewayRevokedCertCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Revoke a certificate.
+    /// </summary>
+    /// <param name="GatewayName">Virtual network gateway name.</param>
+    /// <param name="Name">Root certificate name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Thumbprint">Certificate thumbprint.</param>
+    public AzNetworkVnetGatewayRevokedCertCreateOptions(
+        string GatewayName,
+        string Name,
+        string ResourceGroup,
+        string Thumbprint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Thumbprint);
+        this.Thumbprint = Thumbprint;
+    }
+
+    public void Deconstruct(out string GatewayName, out string Name, out string ResourceGroup, out string Thumbprint)
+    {
+        GatewayName = this.GatewayName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Thumbprint = this.Thumbprint;
+    }
+
+    /// <summary>
+    /// Virtual network gateway name.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Root certificate name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Certificate thumbprint.
+    /// </summary>
+    [CliOption("--thumbprint")]
+    public string Thumbprint { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

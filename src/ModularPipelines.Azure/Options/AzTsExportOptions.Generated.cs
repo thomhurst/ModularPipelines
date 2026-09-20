@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export the specified template spec version and artifacts (if any) to the
 /// </summary>
-/// <param name="OutputFolder">Existing folder to output export(s).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ts", "export")]
-public record AzTsExportOptions(
-    [property: CliOption("--output-folder")] string OutputFolder
-) : AzOptions
+public record AzTsExportOptions : AzOptions
 {
+    /// <summary>
+    /// Export the specified template spec version and artifacts (if any) to the
+    /// </summary>
+    /// <param name="OutputFolder">Existing folder to output export(s).</param>
+    public AzTsExportOptions(
+        string OutputFolder
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFolder);
+        this.OutputFolder = OutputFolder;
+    }
+
+    public void Deconstruct(out string OutputFolder)
+    {
+        OutputFolder = this.OutputFolder;
+    }
+
+    /// <summary>
+    /// Existing folder to output export(s).
+    /// </summary>
+    [CliOption("--output-folder")]
+    public string OutputFolder { get; private init; }
+
     /// <summary>
     /// The name of the template spec.
     /// </summary>

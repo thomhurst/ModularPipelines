@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new link authorization for an ExpressRoute
 /// </summary>
-/// <param name="CircuitName">ExpressRoute circuit name.</param>
-/// <param name="Name">Authorization name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "auth", "create")]
-public record AzNetworkExpressRouteAuthCreateOptions(
-    [property: CliOption("--circuit-name")] string CircuitName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkExpressRouteAuthCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new link authorization for an ExpressRoute
+    /// </summary>
+    /// <param name="CircuitName">ExpressRoute circuit name.</param>
+    /// <param name="Name">Authorization name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkExpressRouteAuthCreateOptions(
+        string CircuitName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CircuitName);
+        this.CircuitName = CircuitName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string CircuitName, out string Name, out string ResourceGroup)
+    {
+        CircuitName = this.CircuitName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// ExpressRoute circuit name.
+    /// </summary>
+    [CliOption("--circuit-name")]
+    public string CircuitName { get; private init; }
+
+    /// <summary>
+    /// Authorization name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

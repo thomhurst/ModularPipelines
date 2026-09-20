@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show details of a container registry's private
 /// </summary>
-/// <param name="Name">The name of the private endpoint connection.</param>
-/// <param name="RegistryName">The name of the container registry. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "private-endpoint-connection", "show")]
-public record AzAcrPrivateEndpointConnectionShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--registry-name", ShortForm = "-r")] string RegistryName
-) : AzOptions
+public record AzAcrPrivateEndpointConnectionShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show details of a container registry's private
+    /// </summary>
+    /// <param name="Name">The name of the private endpoint connection.</param>
+    /// <param name="RegistryName">The name of the container registry. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrPrivateEndpointConnectionShowOptions(
+        string Name,
+        string RegistryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RegistryName);
+        this.RegistryName = RegistryName;
+    }
+
+    public void Deconstruct(out string Name, out string RegistryName)
+    {
+        Name = this.Name;
+        RegistryName = this.RegistryName;
+    }
+
+    /// <summary>
+    /// The name of the private endpoint connection.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry-name", ShortForm = "-r")]
+    public string RegistryName { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

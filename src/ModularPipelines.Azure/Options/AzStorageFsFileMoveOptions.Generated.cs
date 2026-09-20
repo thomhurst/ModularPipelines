@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Move a file in ADLS Gen2 Account.
 /// </summary>
-/// <param name="FileSystem">File system name (i.e. container name).</param>
-/// <param name="NewPath">The new path the users want to move to. The value must have the following format: "{filesystem}/{directory}/{subdirectory}/{file}".</param>
-/// <param name="Path">The original file path users want to move in a file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "file", "move")]
-public record AzStorageFsFileMoveOptions(
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
-    [property: CliOption("--new-path")] string NewPath,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzStorageFsFileMoveOptions : AzOptions
 {
+    /// <summary>
+    /// Move a file in ADLS Gen2 Account.
+    /// </summary>
+    /// <param name="FileSystem">File system name (i.e. container name).</param>
+    /// <param name="NewPath">The new path the users want to move to. The value must have the following format: "{filesystem}/{directory}/{subdirectory}/{file}".</param>
+    /// <param name="Path">The original file path users want to move in a file system.</param>
+    public AzStorageFsFileMoveOptions(
+        string FileSystem,
+        string NewPath,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+        global::System.ArgumentNullException.ThrowIfNull(NewPath);
+        this.NewPath = NewPath;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string FileSystem, out string NewPath, out string Path)
+    {
+        FileSystem = this.FileSystem;
+        NewPath = this.NewPath;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// File system name (i.e. container name).
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
+    /// <summary>
+    /// The new path the users want to move to. The value must have the following format: "{filesystem}/{directory}/{subdirectory}/{file}".
+    /// </summary>
+    [CliOption("--new-path")]
+    public string NewPath { get; private init; }
+
+    /// <summary>
+    /// The original file path users want to move in a file system.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

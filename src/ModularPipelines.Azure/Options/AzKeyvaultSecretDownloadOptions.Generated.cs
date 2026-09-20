@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download a secret from a KeyVault.
 /// </summary>
-/// <param name="File">File to receive the secret contents.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "secret", "download")]
-public record AzKeyvaultSecretDownloadOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzKeyvaultSecretDownloadOptions : AzOptions
 {
+    /// <summary>
+    /// Download a secret from a KeyVault.
+    /// </summary>
+    /// <param name="File">File to receive the secret contents.</param>
+    public AzKeyvaultSecretDownloadOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// File to receive the secret contents.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Encoding of the secret. By default, will look for the 'file-encoding' tag on the secret. Otherwise will assume 'utf-8'.  Allowed values: ascii, base64, hex, utf-16be, utf-16le, utf-8.
     /// </summary>

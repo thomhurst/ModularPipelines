@@ -15,22 +15,77 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a virtual network link to the specified Private
 /// </summary>
-/// <param name="Name">Name of the virtual network link to the specified private DNS zone.</param>
-/// <param name="RegistrationEnabled">Specify if the link is registration enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VirtualNetwork">Name or ID of the virtual network.</param>
-/// <param name="ZoneName">Name of the private DNS zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "link", "vnet", "create")]
-public record AzNetworkPrivateDnsLinkVnetCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--registration-enabled", ShortForm = "-e")] bool RegistrationEnabled,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--virtual-network", ShortForm = "-v")] string VirtualNetwork,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkPrivateDnsLinkVnetCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a virtual network link to the specified Private
+    /// </summary>
+    /// <param name="Name">Name of the virtual network link to the specified private DNS zone.</param>
+    /// <param name="RegistrationEnabled">Specify if the link is registration enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VirtualNetwork">Name or ID of the virtual network.</param>
+    /// <param name="ZoneName">Name of the private DNS zone.</param>
+    public AzNetworkPrivateDnsLinkVnetCreateOptions(
+        string Name,
+        bool RegistrationEnabled,
+        string ResourceGroup,
+        string VirtualNetwork,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.RegistrationEnabled = RegistrationEnabled;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VirtualNetwork);
+        this.VirtualNetwork = VirtualNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string Name, out bool RegistrationEnabled, out string ResourceGroup, out string VirtualNetwork, out string ZoneName)
+    {
+        Name = this.Name;
+        RegistrationEnabled = this.RegistrationEnabled;
+        ResourceGroup = this.ResourceGroup;
+        VirtualNetwork = this.VirtualNetwork;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// Name of the virtual network link to the specified private DNS zone.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Specify if the link is registration enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--registration-enabled", ShortForm = "-e")]
+    public bool RegistrationEnabled { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the virtual network.
+    /// </summary>
+    [CliOption("--virtual-network", ShortForm = "-v")]
+    public string VirtualNetwork { get; private init; }
+
+    /// <summary>
+    /// Name of the private DNS zone.
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

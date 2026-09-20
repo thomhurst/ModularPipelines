@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Resize or stop resizing a Batch pool.
 /// </summary>
-/// <param name="PoolId">The ID of the pool.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "resize")]
-public record AzBatchPoolResizeOptions(
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchPoolResizeOptions : AzOptions
 {
+    /// <summary>
+    /// Resize or stop resizing a Batch pool.
+    /// </summary>
+    /// <param name="PoolId">The ID of the pool.</param>
+    public AzBatchPoolResizeOptions(
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string PoolId)
+    {
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the pool.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// Stop the pool resize operation.
     /// </summary>

@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the keys and connection strings of
 /// </summary>
-/// <param name="HybridConnectionName">Name of Hybrid Connection.</param>
-/// <param name="Name">Name of Hybrid Connection Authorization Rule.</param>
-/// <param name="NamespaceName">Name of Namespace.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "hyco", "authorization-rule", "keys", "list")]
-public record AzRelayHycoAuthorizationRuleKeysListOptions(
-    [property: CliOption("--hybrid-connection-name")] string HybridConnectionName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzRelayHycoAuthorizationRuleKeysListOptions : AzOptions
 {
+    /// <summary>
+    /// List the keys and connection strings of
+    /// </summary>
+    /// <param name="HybridConnectionName">Name of Hybrid Connection.</param>
+    /// <param name="Name">Name of Hybrid Connection Authorization Rule.</param>
+    /// <param name="NamespaceName">Name of Namespace.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzRelayHycoAuthorizationRuleKeysListOptions(
+        string HybridConnectionName,
+        string Name,
+        string NamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HybridConnectionName);
+        this.HybridConnectionName = HybridConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string HybridConnectionName, out string Name, out string NamespaceName, out string ResourceGroup)
+    {
+        HybridConnectionName = this.HybridConnectionName;
+        Name = this.Name;
+        NamespaceName = this.NamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of Hybrid Connection.
+    /// </summary>
+    [CliOption("--hybrid-connection-name")]
+    public string HybridConnectionName { get; private init; }
+
+    /// <summary>
+    /// Name of Hybrid Connection Authorization Rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of Namespace.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

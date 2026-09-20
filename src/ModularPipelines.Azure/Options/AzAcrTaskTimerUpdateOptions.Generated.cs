@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the timer trigger for a task.
 /// </summary>
-/// <param name="Name">The name of the task.</param>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
-/// <param name="TimerName">The name of the timer trigger.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "timer", "update")]
-public record AzAcrTaskTimerUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
-    [property: CliOption("--timer-name")] string TimerName
-) : AzOptions
+public record AzAcrTaskTimerUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update the timer trigger for a task.
+    /// </summary>
+    /// <param name="Name">The name of the task.</param>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    /// <param name="TimerName">The name of the timer trigger.</param>
+    public AzAcrTaskTimerUpdateOptions(
+        string Name,
+        string Registry,
+        string TimerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+        global::System.ArgumentNullException.ThrowIfNull(TimerName);
+        this.TimerName = TimerName;
+    }
+
+    public void Deconstruct(out string Name, out string Registry, out string TimerName)
+    {
+        Name = this.Name;
+        Registry = this.Registry;
+        TimerName = this.TimerName;
+    }
+
+    /// <summary>
+    /// The name of the task.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
+    /// <summary>
+    /// The name of the timer trigger.
+    /// </summary>
+    [CliOption("--timer-name")]
+    public string TimerName { get; private init; }
+
     /// <summary>
     /// Indicates whether the timer trigger is enabled.  Allowed values: false, true.
     /// </summary>

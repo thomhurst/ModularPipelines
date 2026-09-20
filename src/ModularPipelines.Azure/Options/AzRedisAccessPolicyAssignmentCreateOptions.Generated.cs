@@ -15,22 +15,87 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an Access Policy Assignment (Redis User) to the
 /// </summary>
-/// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
-/// <param name="Name">Name of the Redis cache.</param>
-/// <param name="ObjectId">Object Id to assign access policy to.</param>
-/// <param name="ObjectIdAlias">User friendly name for object id. Also represents username for token based authentication.</param>
-/// <param name="PolicyAssignmentName">The name of the access policy assignment.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy-assignment", "create")]
-public record AzRedisAccessPolicyAssignmentCreateOptions(
-    [property: CliOption("--access-policy-name")] string AccessPolicyName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--object-id")] string ObjectId,
-    [property: CliOption("--object-id-alias")] string ObjectIdAlias,
-    [property: CliOption("--policy-assignment-name")] string PolicyAssignmentName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzRedisAccessPolicyAssignmentCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Add an Access Policy Assignment (Redis User) to the
+    /// </summary>
+    /// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
+    /// <param name="Name">Name of the Redis cache.</param>
+    /// <param name="ObjectId">Object Id to assign access policy to.</param>
+    /// <param name="ObjectIdAlias">User friendly name for object id. Also represents username for token based authentication.</param>
+    /// <param name="PolicyAssignmentName">The name of the access policy assignment.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzRedisAccessPolicyAssignmentCreateOptions(
+        string AccessPolicyName,
+        string Name,
+        string ObjectId,
+        string ObjectIdAlias,
+        string PolicyAssignmentName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessPolicyName);
+        this.AccessPolicyName = AccessPolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectId);
+        this.ObjectId = ObjectId;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectIdAlias);
+        this.ObjectIdAlias = ObjectIdAlias;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyAssignmentName);
+        this.PolicyAssignmentName = PolicyAssignmentName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccessPolicyName, out string Name, out string ObjectId, out string ObjectIdAlias, out string PolicyAssignmentName, out string ResourceGroup)
+    {
+        AccessPolicyName = this.AccessPolicyName;
+        Name = this.Name;
+        ObjectId = this.ObjectId;
+        ObjectIdAlias = this.ObjectIdAlias;
+        PolicyAssignmentName = this.PolicyAssignmentName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the access policy that is being assigned.
+    /// </summary>
+    [CliOption("--access-policy-name")]
+    public string AccessPolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of the Redis cache.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Object Id to assign access policy to.
+    /// </summary>
+    [CliOption("--object-id")]
+    public string ObjectId { get; private init; }
+
+    /// <summary>
+    /// User friendly name for object id. Also represents username for token based authentication.
+    /// </summary>
+    [CliOption("--object-id-alias")]
+    public string ObjectIdAlias { get; private init; }
+
+    /// <summary>
+    /// The name of the access policy assignment.
+    /// </summary>
+    [CliOption("--policy-assignment-name")]
+    public string PolicyAssignmentName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

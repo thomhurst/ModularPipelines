@@ -16,14 +16,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add or update a container registry's details.
 /// </summary>
-/// <param name="Server">The container registry server, e.g. myregistry.azurecr.io.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "registry", "set")]
-public record AzContainerappRegistrySetOptions(
-    [property: CliOption("--server")] string Server
-) : AzOptions
+public record AzContainerappRegistrySetOptions : AzOptions
 {
+    /// <summary>
+    /// Add or update a container registry's details.
+    /// </summary>
+    /// <param name="Server">The container registry server, e.g. myregistry.azurecr.io.</param>
+    public AzContainerappRegistrySetOptions(
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string Server)
+    {
+        Server = this.Server;
+    }
+
+    /// <summary>
+    /// The container registry server, e.g. myregistry.azurecr.io.
+    /// </summary>
+    [CliOption("--server")]
+    public string Server { get; private init; }
+
     /// <summary>
     /// The managed identity with which to authenticate to the Azure Container Registry (instead of username/password). Use 'system' for a system- defined identity or a resource id for a user-defined identity. The managed identity should have been assigned acrpull permissions on the ACR before deployment (use 'az role assignment create --role acrpull ...').
     /// </summary>

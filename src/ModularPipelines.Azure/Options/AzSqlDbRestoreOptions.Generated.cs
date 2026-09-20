@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new database by restoring from a backup.
 /// </summary>
-/// <param name="DestName">Name of the database that will be created as the restore destination.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "restore")]
-public record AzSqlDbRestoreOptions(
-    [property: CliOption("--dest-name")] string DestName
-) : AzOptions
+public record AzSqlDbRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new database by restoring from a backup.
+    /// </summary>
+    /// <param name="DestName">Name of the database that will be created as the restore destination.</param>
+    public AzSqlDbRestoreOptions(
+        string DestName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestName);
+        this.DestName = DestName;
+    }
+
+    public void Deconstruct(out string DestName)
+    {
+        DestName = this.DestName;
+    }
+
+    /// <summary>
+    /// Name of the database that will be created as the restore destination.
+    /// </summary>
+    [CliOption("--dest-name")]
+    public string DestName { get; private init; }
+
     /// <summary>
     /// Assign identity for database.  Allowed values: false, true.
     /// </summary>

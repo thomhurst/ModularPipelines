@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets information about the specified Job Schedule.
 /// </summary>
-/// <param name="JobScheduleId">The ID of the Job Schedule to get. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job-schedule", "show")]
-public record AzBatchJobScheduleShowOptions(
-    [property: CliOption("--job-schedule-id")] string JobScheduleId
-) : AzOptions
+public record AzBatchJobScheduleShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets information about the specified Job Schedule.
+    /// </summary>
+    /// <param name="JobScheduleId">The ID of the Job Schedule to get. Required.</param>
+    public AzBatchJobScheduleShowOptions(
+        string JobScheduleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobScheduleId);
+        this.JobScheduleId = JobScheduleId;
+    }
+
+    public void Deconstruct(out string JobScheduleId)
+    {
+        JobScheduleId = this.JobScheduleId;
+    }
+
+    /// <summary>
+    /// The ID of the Job Schedule to get. Required.
+    /// </summary>
+    [CliOption("--job-schedule-id")]
+    public string JobScheduleId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

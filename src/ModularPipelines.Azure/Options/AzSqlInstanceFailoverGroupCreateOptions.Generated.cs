@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates an instance failover group between two connected
 /// </summary>
-/// <param name="Mi">Name of the Azure SQL Managed Instance.</param>
-/// <param name="Name">The name of the Instance Failover Group.</param>
-/// <param name="PartnerMi">The name of the partner managed instance of a Instance Failover Group.</param>
-/// <param name="PartnerResourceGroup">The name of the resource group of the partner managed instance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instance-failover-group", "create")]
-public record AzSqlInstanceFailoverGroupCreateOptions(
-    [property: CliOption("--mi", ShortForm = "--source-mi")] string Mi,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--partner-mi")] string PartnerMi,
-    [property: CliOption("--partner-resource-group")] string PartnerResourceGroup,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlInstanceFailoverGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates an instance failover group between two connected
+    /// </summary>
+    /// <param name="Mi">Name of the Azure SQL Managed Instance.</param>
+    /// <param name="Name">The name of the Instance Failover Group.</param>
+    /// <param name="PartnerMi">The name of the partner managed instance of a Instance Failover Group.</param>
+    /// <param name="PartnerResourceGroup">The name of the resource group of the partner managed instance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSqlInstanceFailoverGroupCreateOptions(
+        string Mi,
+        string Name,
+        string PartnerMi,
+        string PartnerResourceGroup,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Mi);
+        this.Mi = Mi;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerMi);
+        this.PartnerMi = PartnerMi;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerResourceGroup);
+        this.PartnerResourceGroup = PartnerResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Mi, out string Name, out string PartnerMi, out string PartnerResourceGroup, out string ResourceGroup)
+    {
+        Mi = this.Mi;
+        Name = this.Name;
+        PartnerMi = this.PartnerMi;
+        PartnerResourceGroup = this.PartnerResourceGroup;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the Azure SQL Managed Instance.
+    /// </summary>
+    [CliOption("--mi", ShortForm = "--source-mi")]
+    public string Mi { get; private init; }
+
+    /// <summary>
+    /// The name of the Instance Failover Group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the partner managed instance of a Instance Failover Group.
+    /// </summary>
+    [CliOption("--partner-mi")]
+    public string PartnerMi { get; private init; }
+
+    /// <summary>
+    /// The name of the resource group of the partner managed instance.
+    /// </summary>
+    [CliOption("--partner-resource-group")]
+    public string PartnerResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The failover policy of the Instance Failover Group. Allowed values: Automatic, Manual.  Default: Automatic.
     /// </summary>

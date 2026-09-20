@@ -16,16 +16,46 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload an SSL certificate to a function app.
 /// </summary>
-/// <param name="CertificateFile">The filepath for the .pfx file.</param>
-/// <param name="CertificatePassword">The ssl cert password.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "ssl", "upload")]
-public record AzFunctionappConfigSslUploadOptions(
-    [property: CliOption("--certificate-file")] string CertificateFile,
-    [property: SecretValue, CliOption("--certificate-password")] string CertificatePassword
-) : AzOptions
+public record AzFunctionappConfigSslUploadOptions : AzOptions
 {
+    /// <summary>
+    /// Upload an SSL certificate to a function app.
+    /// </summary>
+    /// <param name="CertificateFile">The filepath for the .pfx file.</param>
+    /// <param name="CertificatePassword">The ssl cert password.</param>
+    public AzFunctionappConfigSslUploadOptions(
+        string CertificateFile,
+        string CertificatePassword
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateFile);
+        this.CertificateFile = CertificateFile;
+        global::System.ArgumentNullException.ThrowIfNull(CertificatePassword);
+        this.CertificatePassword = CertificatePassword;
+    }
+
+    public void Deconstruct(out string CertificateFile, out string CertificatePassword)
+    {
+        CertificateFile = this.CertificateFile;
+        CertificatePassword = this.CertificatePassword;
+    }
+
+    /// <summary>
+    /// The filepath for the .pfx file.
+    /// </summary>
+    [CliOption("--certificate-file")]
+    public string CertificateFile { get; private init; }
+
+    /// <summary>
+    /// The ssl cert password.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--certificate-password")]
+    public string CertificatePassword { get; private init; }
+
     /// <summary>
     /// The name of the certificate.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a sitecontainer for a linux webapp.
 /// </summary>
-/// <param name="ContainerName">Name of the SiteContainer.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "sitecontainers", "delete")]
-public record AzWebappSitecontainersDeleteOptions(
-    [property: CliOption("--container-name")] string ContainerName
-) : AzOptions
+public record AzWebappSitecontainersDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a sitecontainer for a linux webapp.
+    /// </summary>
+    /// <param name="ContainerName">Name of the SiteContainer.</param>
+    public AzWebappSitecontainersDeleteOptions(
+        string ContainerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+    }
+
+    public void Deconstruct(out string ContainerName)
+    {
+        ContainerName = this.ContainerName;
+    }
+
+    /// <summary>
+    /// Name of the SiteContainer.
+    /// </summary>
+    [CliOption("--container-name")]
+    public string ContainerName { get; private init; }
+
     /// <summary>
     /// Name of the web app slot. Default to the productions slot if not specified.
     /// </summary>

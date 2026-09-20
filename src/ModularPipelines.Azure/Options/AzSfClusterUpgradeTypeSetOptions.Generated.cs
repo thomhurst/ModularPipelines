@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Change the upgrade type for a cluster.
 /// </summary>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="UpgradeMode">Cluster upgrade mode.  Allowed values: automatic, manual.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "upgrade-type", "set")]
-public record AzSfClusterUpgradeTypeSetOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--upgrade-mode")] string UpgradeMode
-) : AzOptions
+public record AzSfClusterUpgradeTypeSetOptions : AzOptions
 {
+    /// <summary>
+    /// Change the upgrade type for a cluster.
+    /// </summary>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="UpgradeMode">Cluster upgrade mode.  Allowed values: automatic, manual.</param>
+    public AzSfClusterUpgradeTypeSetOptions(
+        string ClusterName,
+        string ResourceGroup,
+        string UpgradeMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(UpgradeMode);
+        this.UpgradeMode = UpgradeMode;
+    }
+
+    public void Deconstruct(out string ClusterName, out string ResourceGroup, out string UpgradeMode)
+    {
+        ClusterName = this.ClusterName;
+        ResourceGroup = this.ResourceGroup;
+        UpgradeMode = this.UpgradeMode;
+    }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Cluster upgrade mode.  Allowed values: automatic, manual.
+    /// </summary>
+    [CliOption("--upgrade-mode")]
+    public string UpgradeMode { get; private init; }
+
     /// <summary>
     /// Cluster code version.
     /// </summary>

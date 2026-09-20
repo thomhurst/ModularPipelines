@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new role assignment for a user, group, or service
 /// </summary>
-/// <param name="Role">Role name or id.</param>
-/// <param name="Scope">Scope at which the role assignment or definition applies to, e.g., "/" or "/keys" or "/keys/{keyname}".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "role", "assignment", "create")]
-public record AzKeyvaultRoleAssignmentCreateOptions(
-    [property: CliOption("--role")] string Role,
-    [property: CliOption("--scope")] string Scope
-) : AzOptions
+public record AzKeyvaultRoleAssignmentCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new role assignment for a user, group, or service
+    /// </summary>
+    /// <param name="Role">Role name or id.</param>
+    /// <param name="Scope">Scope at which the role assignment or definition applies to, e.g., "/" or "/keys" or "/keys/{keyname}".</param>
+    public AzKeyvaultRoleAssignmentCreateOptions(
+        string Role,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Role, out string Scope)
+    {
+        Role = this.Role;
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// Role name or id.
+    /// </summary>
+    [CliOption("--role")]
+    public string Role { get; private init; }
+
+    /// <summary>
+    /// Scope at which the role assignment or definition applies to, e.g., "/" or "/keys" or "/keys/{keyname}".
+    /// </summary>
+    [CliOption("--scope")]
+    public string Scope { get; private init; }
+
     /// <summary>
     /// Represent a user, group, or service principal. supported format: object id, user sign-in name, or service principal name.
     /// </summary>

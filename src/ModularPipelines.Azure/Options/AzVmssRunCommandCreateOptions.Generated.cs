@@ -16,20 +16,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// The operation to Create the VMSS VM run command.
 /// </summary>
-/// <param name="InstanceId">The instance ID of the virtual machine.</param>
-/// <param name="Name">The name of the virtual machine run command.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VmssName">The name of the VM scale set.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "create")]
-public record AzVmssRunCommandCreateOptions(
-    [property: CliOption("--instance-id")] string InstanceId,
-    [property: CliOption("--name", ShortForm = "--run-command-name")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vmss-name")] string VmssName
-) : AzOptions
+public record AzVmssRunCommandCreateOptions : AzOptions
 {
+    /// <summary>
+    /// The operation to Create the VMSS VM run command.
+    /// </summary>
+    /// <param name="InstanceId">The instance ID of the virtual machine.</param>
+    /// <param name="Name">The name of the virtual machine run command.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VmssName">The name of the VM scale set.</param>
+    public AzVmssRunCommandCreateOptions(
+        string InstanceId,
+        string Name,
+        string ResourceGroup,
+        string VmssName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VmssName);
+        this.VmssName = VmssName;
+    }
+
+    public void Deconstruct(out string InstanceId, out string Name, out string ResourceGroup, out string VmssName)
+    {
+        InstanceId = this.InstanceId;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        VmssName = this.VmssName;
+    }
+
+    /// <summary>
+    /// The instance ID of the virtual machine.
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string InstanceId { get; private init; }
+
+    /// <summary>
+    /// The name of the virtual machine run command.
+    /// </summary>
+    [CliOption("--name", ShortForm = "--run-command-name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the VM scale set.
+    /// </summary>
+    [CliOption("--vmss-name")]
+    public string VmssName { get; private init; }
+
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
     /// </summary>

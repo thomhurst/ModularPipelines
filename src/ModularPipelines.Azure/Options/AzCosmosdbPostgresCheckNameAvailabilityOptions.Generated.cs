@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Checks availability of a cluster name. Cluster
 /// </summary>
-/// <param name="Name">Cluster name to verify.</param>
-/// <param name="Type">Resource type used for verification.  Allowed values: Microsoft.DBforPostgreSQL/serverGroupsv2.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "check-name-availability")]
-public record AzCosmosdbPostgresCheckNameAvailabilityOptions(
-    [property: CliOption("--name")] string Name,
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzCosmosdbPostgresCheckNameAvailabilityOptions : AzOptions
 {
+    /// <summary>
+    /// Checks availability of a cluster name. Cluster
+    /// </summary>
+    /// <param name="Name">Cluster name to verify.</param>
+    /// <param name="Type">Resource type used for verification.  Allowed values: Microsoft.DBforPostgreSQL/serverGroupsv2.</param>
+    public AzCosmosdbPostgresCheckNameAvailabilityOptions(
+        string Name,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string Name, out string Type)
+    {
+        Name = this.Name;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Cluster name to verify.
+    /// </summary>
+    [CliOption("--name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Resource type used for verification.  Allowed values: Microsoft.DBforPostgreSQL/serverGroupsv2.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
 }

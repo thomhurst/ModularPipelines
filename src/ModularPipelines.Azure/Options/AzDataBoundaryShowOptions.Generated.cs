@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get data boundary at specified scope.
 /// </summary>
-/// <param name="Default">Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.</param>
-/// <param name="Scope">The scope at which the operation is performed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-boundary", "show")]
-public record AzDataBoundaryShowOptions(
-    [property: CliOption("--default")] string Default,
-    [property: CliOption("--scope")] string Scope
-) : AzOptions
+public record AzDataBoundaryShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get data boundary at specified scope.
+    /// </summary>
+    /// <param name="Default">Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.</param>
+    /// <param name="Scope">The scope at which the operation is performed.</param>
+    public AzDataBoundaryShowOptions(
+        string Default,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Default);
+        this.Default = Default;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Default, out string Scope)
+    {
+        Default = this.Default;
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.
+    /// </summary>
+    [CliOption("--default")]
+    public string Default { get; private init; }
+
+    /// <summary>
+    /// The scope at which the operation is performed.
+    /// </summary>
+    [CliOption("--scope")]
+    public string Scope { get; private init; }
+
 }

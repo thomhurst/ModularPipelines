@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists the certificate contacts for a specified key vault.
 /// </summary>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "contact", "list")]
-public record AzKeyvaultCertificateContactListOptions(
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificateContactListOptions : AzOptions
 {
+    /// <summary>
+    /// Lists the certificate contacts for a specified key vault.
+    /// </summary>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificateContactListOptions(
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string VaultName)
+    {
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
 }

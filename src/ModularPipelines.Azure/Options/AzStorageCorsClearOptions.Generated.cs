@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove all CORS rules from a storage account.
 /// </summary>
-/// <param name="Services">The storage service(s) to remove rules from. Allowed options are: (b)lob, (f)ile, (q)ueue, (t)able. Can be combined.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "cors", "clear")]
-public record AzStorageCorsClearOptions(
-    [property: CliOption("--services")] string Services
-) : AzOptions
+public record AzStorageCorsClearOptions : AzOptions
 {
+    /// <summary>
+    /// Remove all CORS rules from a storage account.
+    /// </summary>
+    /// <param name="Services">The storage service(s) to remove rules from. Allowed options are: (b)lob, (f)ile, (q)ueue, (t)able. Can be combined.</param>
+    public AzStorageCorsClearOptions(
+        string Services
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Services);
+        this.Services = Services;
+    }
+
+    public void Deconstruct(out string Services)
+    {
+        Services = this.Services;
+    }
+
+    /// <summary>
+    /// The storage service(s) to remove rules from. Allowed options are: (b)lob, (f)ile, (q)ueue, (t)able. Can be combined.
+    /// </summary>
+    [CliOption("--services")]
+    public string Services { get; private init; }
+
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>

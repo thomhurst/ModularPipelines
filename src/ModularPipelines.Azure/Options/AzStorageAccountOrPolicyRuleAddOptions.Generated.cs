@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add rule to the specified Object Replication Service
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
-/// <param name="DestinationContainer">The destination storage container name.</param>
-/// <param name="PolicyId">The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.</param>
-/// <param name="SourceContainer">The source storage container name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "rule", "add")]
-public record AzStorageAccountOrPolicyRuleAddOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
-    [property: CliOption("--destination-container", ShortForm = "-d")] string DestinationContainer,
-    [property: CliOption("--policy-id")] string PolicyId,
-    [property: CliOption("--source-container", ShortForm = "-s")] string SourceContainer
-) : AzOptions
+public record AzStorageAccountOrPolicyRuleAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add rule to the specified Object Replication Service
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    /// <param name="DestinationContainer">The destination storage container name.</param>
+    /// <param name="PolicyId">The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.</param>
+    /// <param name="SourceContainer">The source storage container name.</param>
+    public AzStorageAccountOrPolicyRuleAddOptions(
+        string AccountName,
+        string DestinationContainer,
+        string PolicyId,
+        string SourceContainer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationContainer);
+        this.DestinationContainer = DestinationContainer;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceContainer);
+        this.SourceContainer = SourceContainer;
+    }
+
+    public void Deconstruct(out string AccountName, out string DestinationContainer, out string PolicyId, out string SourceContainer)
+    {
+        AccountName = this.AccountName;
+        DestinationContainer = this.DestinationContainer;
+        PolicyId = this.PolicyId;
+        SourceContainer = this.SourceContainer;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The destination storage container name.
+    /// </summary>
+    [CliOption("--destination-container", ShortForm = "-d")]
+    public string DestinationContainer { get; private init; }
+
+    /// <summary>
+    /// The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.
+    /// </summary>
+    [CliOption("--policy-id")]
+    public string PolicyId { get; private init; }
+
+    /// <summary>
+    /// The source storage container name.
+    /// </summary>
+    [CliOption("--source-container", ShortForm = "-s")]
+    public string SourceContainer { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

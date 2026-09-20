@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a custom role definition.
 /// </summary>
-/// <param name="RoleDefinition">Description of a role as JSON, or a path to a file containing a JSON description.</param>
-/// <param name="HsmName">Name of the HSM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "role", "definition", "create")]
-public record AzKeyvaultRoleDefinitionCreateOptions(
-    [property: CliOption("--role-definition")] string RoleDefinition,
-    [property: CliOption("--hsm-name")] string HsmName
-) : AzOptions
+public record AzKeyvaultRoleDefinitionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a custom role definition.
+    /// </summary>
+    /// <param name="RoleDefinition">Description of a role as JSON, or a path to a file containing a JSON description.</param>
+    /// <param name="HsmName">Name of the HSM.</param>
+    public AzKeyvaultRoleDefinitionCreateOptions(
+        string RoleDefinition,
+        string HsmName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleDefinition);
+        this.RoleDefinition = RoleDefinition;
+        global::System.ArgumentNullException.ThrowIfNull(HsmName);
+        this.HsmName = HsmName;
+    }
+
+    public void Deconstruct(out string RoleDefinition, out string HsmName)
+    {
+        RoleDefinition = this.RoleDefinition;
+        HsmName = this.HsmName;
+    }
+
+    /// <summary>
+    /// Description of a role as JSON, or a path to a file containing a JSON description.
+    /// </summary>
+    [CliOption("--role-definition")]
+    public string RoleDefinition { get; private init; }
+
+    /// <summary>
+    /// Name of the HSM.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string HsmName { get; private init; }
+
 }

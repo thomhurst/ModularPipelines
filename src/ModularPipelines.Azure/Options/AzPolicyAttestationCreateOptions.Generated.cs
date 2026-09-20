@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a policy attestation.
 /// </summary>
-/// <param name="AttestationName">The name of the attestation.</param>
-/// <param name="PolicyAssignment">The resource ID of the policy assignment that the attestation is setting the state for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "attestation", "create")]
-public record AzPolicyAttestationCreateOptions(
-    [property: CliOption("--attestation-name", ShortForm = "-n")] string AttestationName,
-    [property: CliOption("--policy-assignment", ShortForm = "-a")] string PolicyAssignment
-) : AzOptions
+public record AzPolicyAttestationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a policy attestation.
+    /// </summary>
+    /// <param name="AttestationName">The name of the attestation.</param>
+    /// <param name="PolicyAssignment">The resource ID of the policy assignment that the attestation is setting the state for.</param>
+    public AzPolicyAttestationCreateOptions(
+        string AttestationName,
+        string PolicyAssignment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttestationName);
+        this.AttestationName = AttestationName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyAssignment);
+        this.PolicyAssignment = PolicyAssignment;
+    }
+
+    public void Deconstruct(out string AttestationName, out string PolicyAssignment)
+    {
+        AttestationName = this.AttestationName;
+        PolicyAssignment = this.PolicyAssignment;
+    }
+
+    /// <summary>
+    /// The name of the attestation.
+    /// </summary>
+    [CliOption("--attestation-name", ShortForm = "-n")]
+    public string AttestationName { get; private init; }
+
+    /// <summary>
+    /// The resource ID of the policy assignment that the attestation is setting the state for.
+    /// </summary>
+    [CliOption("--policy-assignment", ShortForm = "-a")]
+    public string PolicyAssignment { get; private init; }
+
     /// <summary>
     /// The time the evidence was assessed.
     /// </summary>

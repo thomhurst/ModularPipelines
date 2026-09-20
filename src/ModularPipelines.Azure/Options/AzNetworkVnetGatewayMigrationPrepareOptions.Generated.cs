@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Trigger prepare migration for the virtual network
 /// </summary>
-/// <param name="MigrationType">MigrationType for the virtual network gateway.  Allowed values: UpgradeDeploymentToStandardIP.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "migration", "prepare")]
-public record AzNetworkVnetGatewayMigrationPrepareOptions(
-    [property: CliOption("--migration-type")] string MigrationType
-) : AzOptions
+public record AzNetworkVnetGatewayMigrationPrepareOptions : AzOptions
 {
+    /// <summary>
+    /// Trigger prepare migration for the virtual network
+    /// </summary>
+    /// <param name="MigrationType">MigrationType for the virtual network gateway.  Allowed values: UpgradeDeploymentToStandardIP.</param>
+    public AzNetworkVnetGatewayMigrationPrepareOptions(
+        string MigrationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationType);
+        this.MigrationType = MigrationType;
+    }
+
+    public void Deconstruct(out string MigrationType)
+    {
+        MigrationType = this.MigrationType;
+    }
+
+    /// <summary>
+    /// MigrationType for the virtual network gateway.  Allowed values: UpgradeDeploymentToStandardIP.
+    /// </summary>
+    [CliOption("--migration-type")]
+    public string MigrationType { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get details for a staticwebapp custom domain. Can be used to
 /// </summary>
-/// <param name="Hostname">Custom hostname such as www.example.com. Only support sub domain in preview.</param>
-/// <param name="Name">Name of the static site.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "hostname", "show")]
-public record AzStaticwebappHostnameShowOptions(
-    [property: CliOption("--hostname")] string Hostname,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzStaticwebappHostnameShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get details for a staticwebapp custom domain. Can be used to
+    /// </summary>
+    /// <param name="Hostname">Custom hostname such as www.example.com. Only support sub domain in preview.</param>
+    /// <param name="Name">Name of the static site.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzStaticwebappHostnameShowOptions(
+        string Hostname,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Hostname, out string Name, out string ResourceGroup)
+    {
+        Hostname = this.Hostname;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Custom hostname such as www.example.com. Only support sub domain in preview.
+    /// </summary>
+    [CliOption("--hostname")]
+    public string Hostname { get; private init; }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

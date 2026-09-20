@@ -15,18 +15,64 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove nodes from a node type in a cluster.
 /// </summary>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="NodeType">The Node type name.</param>
-/// <param name="NodesToRemove">Number of nodes to remove.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "node", "remove")]
-public record AzSfClusterNodeRemoveOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--node-type")] string NodeType,
-    [property: CliOption("--nodes-to-remove", ShortForm = "--number-of-nodes-to-remove")] int NodesToRemove,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSfClusterNodeRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove nodes from a node type in a cluster.
+    /// </summary>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="NodeType">The Node type name.</param>
+    /// <param name="NodesToRemove">Number of nodes to remove.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSfClusterNodeRemoveOptions(
+        string ClusterName,
+        string NodeType,
+        int NodesToRemove,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(NodeType);
+        this.NodeType = NodeType;
+        this.NodesToRemove = NodesToRemove;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string NodeType, out int NodesToRemove, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        NodeType = this.NodeType;
+        NodesToRemove = this.NodesToRemove;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The Node type name.
+    /// </summary>
+    [CliOption("--node-type")]
+    public string NodeType { get; private init; }
+
+    /// <summary>
+    /// Number of nodes to remove.
+    /// </summary>
+    [CliOption("--nodes-to-remove", ShortForm = "--number-of-nodes-to-remove")]
+    public int NodesToRemove { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

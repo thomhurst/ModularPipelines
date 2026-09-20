@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upgrade VMs within a VMSS.
 /// </summary>
-/// <param name="InstanceIds">Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances.</param>
-/// <param name="Name">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "update-instances")]
-public record AzVmssUpdateInstancesOptions(
-    [property: CliOption("--instance-ids", GroupValues = true)] IEnumerable<string> InstanceIds,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzVmssUpdateInstancesOptions : AzOptions
 {
+    /// <summary>
+    /// Upgrade VMs within a VMSS.
+    /// </summary>
+    /// <param name="InstanceIds">Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances.</param>
+    /// <param name="Name">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzVmssUpdateInstancesOptions(
+        IEnumerable<string> InstanceIds,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceIds));
+            }
+
+            InstanceIds = materialized;
+        }
+        this.InstanceIds = InstanceIds;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstanceIds, out string Name, out string ResourceGroup)
+    {
+        InstanceIds = this.InstanceIds;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances.
+    /// </summary>
+    [CliOption("--instance-ids", GroupValues = true)]
+    public IEnumerable<string> InstanceIds { get; private init; }
+
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

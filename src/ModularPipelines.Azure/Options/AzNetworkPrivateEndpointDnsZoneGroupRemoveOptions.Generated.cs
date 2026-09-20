@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a private endpoint dns zone into a
 /// </summary>
-/// <param name="EndpointName">Name of the private endpoint.</param>
-/// <param name="Name">Name of the private dns zone group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ZoneName">Name of the private dns zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "dns-zone-group", "remove")]
-public record AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions(
-    [property: CliOption("--endpoint-name")] string EndpointName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--zone-name")] string ZoneName
-) : AzOptions
+public record AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a private endpoint dns zone into a
+    /// </summary>
+    /// <param name="EndpointName">Name of the private endpoint.</param>
+    /// <param name="Name">Name of the private dns zone group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ZoneName">Name of the private dns zone.</param>
+    public AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions(
+        string EndpointName,
+        string Name,
+        string ResourceGroup,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string EndpointName, out string Name, out string ResourceGroup, out string ZoneName)
+    {
+        EndpointName = this.EndpointName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// Name of the private endpoint.
+    /// </summary>
+    [CliOption("--endpoint-name")]
+    public string EndpointName { get; private init; }
+
+    /// <summary>
+    /// Name of the private dns zone group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the private dns zone.
+    /// </summary>
+    [CliOption("--zone-name")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

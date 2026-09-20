@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new SQL pool by restoring from a backup.
 /// </summary>
-/// <param name="DestName">Name of the sql pool that will be created as the restore destination.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "restore")]
-public record AzSynapseSqlPoolRestoreOptions(
-    [property: CliOption("--dest-name", ShortForm = "--destination-name")] string DestName
-) : AzOptions
+public record AzSynapseSqlPoolRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new SQL pool by restoring from a backup.
+    /// </summary>
+    /// <param name="DestName">Name of the sql pool that will be created as the restore destination.</param>
+    public AzSynapseSqlPoolRestoreOptions(
+        string DestName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestName);
+        this.DestName = DestName;
+    }
+
+    public void Deconstruct(out string DestName)
+    {
+        DestName = this.DestName;
+    }
+
+    /// <summary>
+    /// Name of the sql pool that will be created as the restore destination.
+    /// </summary>
+    [CliOption("--dest-name", ShortForm = "--destination-name")]
+    public string DestName { get; private init; }
+
     /// <summary>
     /// The performance level.
     /// </summary>

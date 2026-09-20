@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create and start a packet capture on the
 /// </summary>
-/// <param name="Name">The name of the packet capture session.</param>
-/// <param name="NetworkWatcherName">The name of the network watcher.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StorageLocation">The storage location for a packet capture session.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
-/// <param name="Target">The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "network-watcher", "packet-capture", "create")]
-public record AzNetworkNetworkWatcherPacketCaptureCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--network-watcher-name")] string NetworkWatcherName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--storage-location")] string StorageLocation,
-    [property: CliOption("--target")] string Target
-) : AzOptions
+public record AzNetworkNetworkWatcherPacketCaptureCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create and start a packet capture on the
+    /// </summary>
+    /// <param name="Name">The name of the packet capture session.</param>
+    /// <param name="NetworkWatcherName">The name of the network watcher.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StorageLocation">The storage location for a packet capture session.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="Target">The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported.</param>
+    public AzNetworkNetworkWatcherPacketCaptureCreateOptions(
+        string Name,
+        string NetworkWatcherName,
+        string ResourceGroup,
+        string StorageLocation,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkWatcherName);
+        this.NetworkWatcherName = NetworkWatcherName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StorageLocation);
+        this.StorageLocation = StorageLocation;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    public void Deconstruct(out string Name, out string NetworkWatcherName, out string ResourceGroup, out string StorageLocation, out string Target)
+    {
+        Name = this.Name;
+        NetworkWatcherName = this.NetworkWatcherName;
+        ResourceGroup = this.ResourceGroup;
+        StorageLocation = this.StorageLocation;
+        Target = this.Target;
+    }
+
+    /// <summary>
+    /// The name of the packet capture session.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the network watcher.
+    /// </summary>
+    [CliOption("--network-watcher-name")]
+    public string NetworkWatcherName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The storage location for a packet capture session.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--storage-location")]
+    public string StorageLocation { get; private init; }
+
+    /// <summary>
+    /// The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported.
+    /// </summary>
+    [CliOption("--target")]
+    public string Target { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

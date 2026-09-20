@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a Dapr component.
 /// </summary>
-/// <param name="DaprComponentName">The Dapr component name.</param>
-/// <param name="Name">The environment name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Yaml">Path to a .yaml file with the configuration of a Dapr component. All other parameters will be ignored. For an example, see https://learn.microsoft.com/en- us/azure/container-apps/dapr- overview?tabs=bicep1%2Cyaml#component-schema.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "dapr-component", "set")]
-public record AzContainerappEnvDaprComponentSetOptions(
-    [property: CliOption("--dapr-component-name")] string DaprComponentName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--yaml")] string Yaml
-) : AzOptions
+public record AzContainerappEnvDaprComponentSetOptions : AzOptions
 {
+    /// <summary>
+    /// Create or update a Dapr component.
+    /// </summary>
+    /// <param name="DaprComponentName">The Dapr component name.</param>
+    /// <param name="Name">The environment name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Yaml">Path to a .yaml file with the configuration of a Dapr component. All other parameters will be ignored. For an example, see https://learn.microsoft.com/en- us/azure/container-apps/dapr- overview?tabs=bicep1%2Cyaml#component-schema.</param>
+    public AzContainerappEnvDaprComponentSetOptions(
+        string DaprComponentName,
+        string Name,
+        string ResourceGroup,
+        string Yaml
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DaprComponentName);
+        this.DaprComponentName = DaprComponentName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Yaml);
+        this.Yaml = Yaml;
+    }
+
+    public void Deconstruct(out string DaprComponentName, out string Name, out string ResourceGroup, out string Yaml)
+    {
+        DaprComponentName = this.DaprComponentName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Yaml = this.Yaml;
+    }
+
+    /// <summary>
+    /// The Dapr component name.
+    /// </summary>
+    [CliOption("--dapr-component-name")]
+    public string DaprComponentName { get; private init; }
+
+    /// <summary>
+    /// The environment name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Path to a .yaml file with the configuration of a Dapr component. All other parameters will be ignored. For an example, see https://learn.microsoft.com/en- us/azure/container-apps/dapr- overview?tabs=bicep1%2Cyaml#component-schema.
+    /// </summary>
+    [CliOption("--yaml")]
+    public string Yaml { get; private init; }
+
 }

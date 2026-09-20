@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset a service principal's password or certificate credentials.
 /// </summary>
-/// <param name="Id">Service principal name, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "sp", "credential", "reset")]
-public record AzAdSpCredentialResetOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdSpCredentialResetOptions : AzOptions
 {
+    /// <summary>
+    /// Reset a service principal's password or certificate credentials.
+    /// </summary>
+    /// <param name="Id">Service principal name, or object id.</param>
+    public AzAdSpCredentialResetOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Service principal name, or object id.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
     /// <summary>
     /// Append the new credential instead of overwriting.
     /// </summary>

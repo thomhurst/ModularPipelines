@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes the creation operation for a specific
 /// </summary>
-/// <param name="Name">Name of the pending certificate.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "pending", "delete")]
-public record AzKeyvaultCertificatePendingDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificatePendingDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes the creation operation for a specific
+    /// </summary>
+    /// <param name="Name">Name of the pending certificate.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificatePendingDeleteOptions(
+        string Name,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string Name, out string VaultName)
+    {
+        Name = this.Name;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Name of the pending certificate.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
 }

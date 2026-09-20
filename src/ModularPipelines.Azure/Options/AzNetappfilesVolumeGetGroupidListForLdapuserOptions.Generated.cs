@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Returns the list of group Ids for a
 /// </summary>
-/// <param name="Username">Username is required to fetch the group to which user is part of.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "get-groupid-list-for-ldapuser")]
-public record AzNetappfilesVolumeGetGroupidListForLdapuserOptions(
-    [property: CliOption("--username")] string Username
-) : AzOptions
+public record AzNetappfilesVolumeGetGroupidListForLdapuserOptions : AzOptions
 {
+    /// <summary>
+    /// Returns the list of group Ids for a
+    /// </summary>
+    /// <param name="Username">Username is required to fetch the group to which user is part of.</param>
+    public AzNetappfilesVolumeGetGroupidListForLdapuserOptions(
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    public void Deconstruct(out string Username)
+    {
+        Username = this.Username;
+    }
+
+    /// <summary>
+    /// Username is required to fetch the group to which user is part of.
+    /// </summary>
+    [CliOption("--username")]
+    public string Username { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Publish a bicep file to a remote module registry.
 /// </summary>
-/// <param name="File">The path to the Bicep module file to publish in the file system.</param>
-/// <param name="Target">The target location where the Bicep module will be published.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "publish")]
-public record AzBicepPublishOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File,
-    [property: CliOption("--target", ShortForm = "-t")] string Target
-) : AzOptions
+public record AzBicepPublishOptions : AzOptions
 {
+    /// <summary>
+    /// Publish a bicep file to a remote module registry.
+    /// </summary>
+    /// <param name="File">The path to the Bicep module file to publish in the file system.</param>
+    /// <param name="Target">The target location where the Bicep module will be published.</param>
+    public AzBicepPublishOptions(
+        string File,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    public void Deconstruct(out string File, out string Target)
+    {
+        File = this.File;
+        Target = this.Target;
+    }
+
+    /// <summary>
+    /// The path to the Bicep module file to publish in the file system.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// The target location where the Bicep module will be published.
+    /// </summary>
+    [CliOption("--target", ShortForm = "-t")]
+    public string Target { get; private init; }
+
     /// <summary>
     /// The documentation uri of the Bicep module.
     /// </summary>

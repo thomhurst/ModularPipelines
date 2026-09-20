@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add action groups to this activity log alert
 /// </summary>
-/// <param name="ActionGroup">The names or the resource ids of the action groups to be added.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "activity-log", "alert", "action-group", "add")]
-public record AzMonitorActivityLogAlertActionGroupAddOptions(
-    [property: CliOption("--action-group", ShortForm = "-a")] string ActionGroup
-) : AzOptions
+public record AzMonitorActivityLogAlertActionGroupAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add action groups to this activity log alert
+    /// </summary>
+    /// <param name="ActionGroup">The names or the resource ids of the action groups to be added.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzMonitorActivityLogAlertActionGroupAddOptions(
+        string ActionGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionGroup);
+        this.ActionGroup = ActionGroup;
+    }
+
+    public void Deconstruct(out string ActionGroup)
+    {
+        ActionGroup = this.ActionGroup;
+    }
+
+    /// <summary>
+    /// The names or the resource ids of the action groups to be added.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--action-group", ShortForm = "-a")]
+    public string ActionGroup { get; private init; }
+
     /// <summary>
     /// Remove all the existing action groups before add new conditions.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

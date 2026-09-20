@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show properties for specified encryption scope within
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
-/// <param name="Name">The name of the encryption scope within the specified storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "encryption-scope", "show")]
-public record AzStorageAccountEncryptionScopeShowOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageAccountEncryptionScopeShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show properties for specified encryption scope within
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    /// <param name="Name">The name of the encryption scope within the specified storage account.</param>
+    public AzStorageAccountEncryptionScopeShowOptions(
+        string AccountName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string AccountName, out string Name)
+    {
+        AccountName = this.AccountName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the encryption scope within the specified storage account.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

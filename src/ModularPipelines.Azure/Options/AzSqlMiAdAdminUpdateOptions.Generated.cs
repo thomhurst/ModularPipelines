@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates an existing managed instance Active Directory administrator.
 /// </summary>
-/// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
-/// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "ad-admin", "update")]
-public record AzSqlMiAdAdminUpdateOptions(
-    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
-    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId
-) : AzOptions
+public record AzSqlMiAdAdminUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates an existing managed instance Active Directory administrator.
+    /// </summary>
+    /// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
+    /// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
+    public AzSqlMiAdAdminUpdateOptions(
+        string DisplayName,
+        string ObjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectId);
+        this.ObjectId = ObjectId;
+    }
+
+    public void Deconstruct(out string DisplayName, out string ObjectId)
+    {
+        DisplayName = this.DisplayName;
+        ObjectId = this.ObjectId;
+    }
+
+    /// <summary>
+    /// Display name of the Azure AD administrator user or group.
+    /// </summary>
+    [CliOption("--display-name", ShortForm = "-u")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The unique ID of the Azure AD administrator.
+    /// </summary>
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string ObjectId { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

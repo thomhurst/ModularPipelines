@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all shared access policies in an Azure IoT Hub Device Provisioning
 /// </summary>
-/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "policy", "list")]
-public record AzIotDpsPolicyListOptions(
-    [property: CliOption("--dps-name", ShortForm = "-n")] string DpsName
-) : AzOptions
+public record AzIotDpsPolicyListOptions : AzOptions
 {
+    /// <summary>
+    /// List all shared access policies in an Azure IoT Hub Device Provisioning
+    /// </summary>
+    /// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+    public AzIotDpsPolicyListOptions(
+        string DpsName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DpsName);
+        this.DpsName = DpsName;
+    }
+
+    public void Deconstruct(out string DpsName)
+    {
+        DpsName = this.DpsName;
+    }
+
+    /// <summary>
+    /// IoT Hub Device Provisioning Service name.
+    /// </summary>
+    [CliOption("--dps-name", ShortForm = "-n")]
+    public string DpsName { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

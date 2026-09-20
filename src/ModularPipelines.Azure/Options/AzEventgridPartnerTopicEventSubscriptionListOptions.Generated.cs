@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List event subscriptions of a specific
 /// </summary>
-/// <param name="PartnerTopicName">Name of the partner topic.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "topic", "event-subscription", "list")]
-public record AzEventgridPartnerTopicEventSubscriptionListOptions(
-    [property: CliOption("--partner-topic-name")] string PartnerTopicName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridPartnerTopicEventSubscriptionListOptions : AzOptions
 {
+    /// <summary>
+    /// List event subscriptions of a specific
+    /// </summary>
+    /// <param name="PartnerTopicName">Name of the partner topic.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridPartnerTopicEventSubscriptionListOptions(
+        string PartnerTopicName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PartnerTopicName);
+        this.PartnerTopicName = PartnerTopicName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string PartnerTopicName, out string ResourceGroup)
+    {
+        PartnerTopicName = this.PartnerTopicName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the partner topic.
+    /// </summary>
+    [CliOption("--partner-topic-name")]
+    public string PartnerTopicName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The OData query used for filtering the list results. Filtering is currently allowed on the Name property only. The supported operations include: CONTAINS, eq (for equal), ne (for not equal), AND, OR and NOT.
     /// </summary>

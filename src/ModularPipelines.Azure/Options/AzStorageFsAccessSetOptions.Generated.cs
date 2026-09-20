@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the access control properties of a path(directory or file) in
 /// </summary>
-/// <param name="FileSystem">File system name (i.e. container name).</param>
-/// <param name="Path">The path to a file or directory in the specified file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "access", "set")]
-public record AzStorageFsAccessSetOptions(
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzStorageFsAccessSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set the access control properties of a path(directory or file) in
+    /// </summary>
+    /// <param name="FileSystem">File system name (i.e. container name).</param>
+    /// <param name="Path">The path to a file or directory in the specified file system.</param>
+    public AzStorageFsAccessSetOptions(
+        string FileSystem,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string FileSystem, out string Path)
+    {
+        FileSystem = this.FileSystem;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// File system name (i.e. container name).
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
+    /// <summary>
+    /// The path to a file or directory in the specified file system.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// Invalid in conjunction with acl. POSIX access control rights on files and directories in the format "[scope:][type]:[id]:[permissions]". e.g. "user::rwx,group::r--,other::---,mask::rwx". The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". The scope must be "default" to indicate the ACE belongs to the default ACL for a directory; otherwise scope is implicit and the ACE belongs to the access ACL. There are four ACE types: "user" grants rights to the owner or a named user, "group" grants rights to the owning group or a named group, "mask" restricts rights granted to named users and the members of groups, and "other" grants rights to all users not found in any of the other entries. The user or group identifier is omitted for entries of type "mask" and "other". The user or group identifier is also omitted for the owner and owning group. For example, the following ACL grants read, write, and execute rights to the file owner an john.doe@contoso, the read right to the owning group, and nothing to everyone else: "user::rwx,user:john.doe@contoso:rwx,group::r--,other::---,mask::rwx". For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data-lake-storage-access- control.
     /// </summary>

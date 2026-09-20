@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a trusted access role binding.
 /// </summary>
-/// <param name="ClusterName">The cluster name.</param>
-/// <param name="Name">Specify the role binding name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Roles">Specify the comma-separated roles.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "trustedaccess", "rolebinding", "update")]
-public record AzAksTrustedaccessRolebindingUpdateOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--roles")] string Roles
-) : AzOptions
+public record AzAksTrustedaccessRolebindingUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a trusted access role binding.
+    /// </summary>
+    /// <param name="ClusterName">The cluster name.</param>
+    /// <param name="Name">Specify the role binding name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Roles">Specify the comma-separated roles.</param>
+    public AzAksTrustedaccessRolebindingUpdateOptions(
+        string ClusterName,
+        string Name,
+        string ResourceGroup,
+        string Roles
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Roles);
+        this.Roles = Roles;
+    }
+
+    public void Deconstruct(out string ClusterName, out string Name, out string ResourceGroup, out string Roles)
+    {
+        ClusterName = this.ClusterName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Roles = this.Roles;
+    }
+
+    /// <summary>
+    /// The cluster name.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Specify the role binding name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Specify the comma-separated roles.
+    /// </summary>
+    [CliOption("--roles")]
+    public string Roles { get; private init; }
+
 }

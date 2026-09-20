@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an outbound-rule.
 /// </summary>
-/// <param name="LbName">The load balancer name.</param>
-/// <param name="Name">The name of the outbound rule.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="AddressPool">The name or ID of the backend address pool.</param>
-/// <param name="Protocol">The protocol for the outbound rule in load balancer.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "outbound-rule", "create")]
-public record AzNetworkLbOutboundRuleCreateOptions(
-    [property: CliOption("--lb-name")] string LbName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--address-pool", ShortForm = "--backend-address-pool")] string AddressPool,
-    [property: CliOption("--protocol")] string Protocol
-) : AzOptions
+public record AzNetworkLbOutboundRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an outbound-rule.
+    /// </summary>
+    /// <param name="LbName">The load balancer name.</param>
+    /// <param name="Name">The name of the outbound rule.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="AddressPool">The name or ID of the backend address pool.</param>
+    /// <param name="Protocol">The protocol for the outbound rule in load balancer.  Allowed values: All, Tcp, Udp.</param>
+    public AzNetworkLbOutboundRuleCreateOptions(
+        string LbName,
+        string Name,
+        string ResourceGroup,
+        string AddressPool,
+        string Protocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbName);
+        this.LbName = LbName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(AddressPool);
+        this.AddressPool = AddressPool;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+    }
+
+    public void Deconstruct(out string LbName, out string Name, out string ResourceGroup, out string AddressPool, out string Protocol)
+    {
+        LbName = this.LbName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        AddressPool = this.AddressPool;
+        Protocol = this.Protocol;
+    }
+
+    /// <summary>
+    /// The load balancer name.
+    /// </summary>
+    [CliOption("--lb-name")]
+    public string LbName { get; private init; }
+
+    /// <summary>
+    /// The name of the outbound rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name or ID of the backend address pool.
+    /// </summary>
+    [CliOption("--address-pool", ShortForm = "--backend-address-pool")]
+    public string AddressPool { get; private init; }
+
+    /// <summary>
+    /// The protocol for the outbound rule in load balancer.  Allowed values: All, Tcp, Udp.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string Protocol { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

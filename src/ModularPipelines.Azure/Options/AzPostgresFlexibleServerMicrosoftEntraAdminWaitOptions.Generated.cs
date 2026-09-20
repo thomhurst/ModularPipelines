@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Wait for a Microsoft Entra
 /// </summary>
-/// <param name="ObjectId">The unique identifier of the Microsoft Entra administrator.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "microsoft-entra-admin", "wait")]
-public record AzPostgresFlexibleServerMicrosoftEntraAdminWaitOptions(
-    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId
-) : AzOptions
+public record AzPostgresFlexibleServerMicrosoftEntraAdminWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Wait for a Microsoft Entra
+    /// </summary>
+    /// <param name="ObjectId">The unique identifier of the Microsoft Entra administrator.</param>
+    public AzPostgresFlexibleServerMicrosoftEntraAdminWaitOptions(
+        string ObjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ObjectId);
+        this.ObjectId = ObjectId;
+    }
+
+    public void Deconstruct(out string ObjectId)
+    {
+        ObjectId = this.ObjectId;
+    }
+
+    /// <summary>
+    /// The unique identifier of the Microsoft Entra administrator.
+    /// </summary>
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string ObjectId { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

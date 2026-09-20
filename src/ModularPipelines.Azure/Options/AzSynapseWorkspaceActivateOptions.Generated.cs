@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Activates a workspace and change it's state from pending to
 /// </summary>
-/// <param name="KeyIdentifier">The Key Vault Url of the workspace encryption key. should be in the format of: https://{keyvaultname}.vault.azure.net/keys/{keyname}.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "activate")]
-public record AzSynapseWorkspaceActivateOptions(
-    [property: CliOption("--key-identifier")] string KeyIdentifier
-) : AzOptions
+public record AzSynapseWorkspaceActivateOptions : AzOptions
 {
+    /// <summary>
+    /// Activates a workspace and change it's state from pending to
+    /// </summary>
+    /// <param name="KeyIdentifier">The Key Vault Url of the workspace encryption key. should be in the format of: https://{keyvaultname}.vault.azure.net/keys/{keyname}.</param>
+    public AzSynapseWorkspaceActivateOptions(
+        string KeyIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyIdentifier);
+        this.KeyIdentifier = KeyIdentifier;
+    }
+
+    public void Deconstruct(out string KeyIdentifier)
+    {
+        KeyIdentifier = this.KeyIdentifier;
+    }
+
+    /// <summary>
+    /// The Key Vault Url of the workspace encryption key. should be in the format of: https://{keyvaultname}.vault.azure.net/keys/{keyname}.
+    /// </summary>
+    [CliOption("--key-identifier")]
+    public string KeyIdentifier { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

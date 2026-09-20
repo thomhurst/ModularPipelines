@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates your automatic provisioning settings on
 /// </summary>
-/// <param name="AutoProvision">Automatic provisioning toggle. possible values are "On" or "Off".</param>
-/// <param name="Name">Name of the resource to be fetched.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "auto-provisioning-setting", "update")]
-public record AzSecurityAutoProvisioningSettingUpdateOptions(
-    [property: CliOption("--auto-provision")] string AutoProvision,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSecurityAutoProvisioningSettingUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates your automatic provisioning settings on
+    /// </summary>
+    /// <param name="AutoProvision">Automatic provisioning toggle. possible values are "On" or "Off".</param>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    public AzSecurityAutoProvisioningSettingUpdateOptions(
+        string AutoProvision,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoProvision);
+        this.AutoProvision = AutoProvision;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string AutoProvision, out string Name)
+    {
+        AutoProvision = this.AutoProvision;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Automatic provisioning toggle. possible values are "On" or "Off".
+    /// </summary>
+    [CliOption("--auto-provision")]
+    public string AutoProvision { get; private init; }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

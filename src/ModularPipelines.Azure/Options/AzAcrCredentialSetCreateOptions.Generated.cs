@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a credential set.
 /// </summary>
-/// <param name="LoginServer">The login server address of the upstream registry such as 'docker.io'.</param>
-/// <param name="Name">The name of the credential set.</param>
-/// <param name="PasswordId">The Azure Key Vault secret ID of the secret containing the password to the upstream registry.</param>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
-/// <param name="UsernameId">The Azure Key Vault secret ID of the secret containing the username to the upstream registry.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "credential-set", "create")]
-public record AzAcrCredentialSetCreateOptions(
-    [property: CliOption("--login-server", ShortForm = "-l")] string LoginServer,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--password-id", ShortForm = "-p")] string PasswordId,
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
-    [property: CliOption("--username-id", ShortForm = "-u")] string UsernameId
-) : AzOptions
+public record AzAcrCredentialSetCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a credential set.
+    /// </summary>
+    /// <param name="LoginServer">The login server address of the upstream registry such as 'docker.io'.</param>
+    /// <param name="Name">The name of the credential set.</param>
+    /// <param name="PasswordId">The Azure Key Vault secret ID of the secret containing the password to the upstream registry.</param>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    /// <param name="UsernameId">The Azure Key Vault secret ID of the secret containing the username to the upstream registry.</param>
+    public AzAcrCredentialSetCreateOptions(
+        string LoginServer,
+        string Name,
+        string PasswordId,
+        string Registry,
+        string UsernameId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoginServer);
+        this.LoginServer = LoginServer;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PasswordId);
+        this.PasswordId = PasswordId;
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+        global::System.ArgumentNullException.ThrowIfNull(UsernameId);
+        this.UsernameId = UsernameId;
+    }
+
+    public void Deconstruct(out string LoginServer, out string Name, out string PasswordId, out string Registry, out string UsernameId)
+    {
+        LoginServer = this.LoginServer;
+        Name = this.Name;
+        PasswordId = this.PasswordId;
+        Registry = this.Registry;
+        UsernameId = this.UsernameId;
+    }
+
+    /// <summary>
+    /// The login server address of the upstream registry such as 'docker.io'.
+    /// </summary>
+    [CliOption("--login-server", ShortForm = "-l")]
+    public string LoginServer { get; private init; }
+
+    /// <summary>
+    /// The name of the credential set.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The Azure Key Vault secret ID of the secret containing the password to the upstream registry.
+    /// </summary>
+    [CliOption("--password-id", ShortForm = "-p")]
+    public string PasswordId { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
+    /// <summary>
+    /// The Azure Key Vault secret ID of the secret containing the username to the upstream registry.
+    /// </summary>
+    [CliOption("--username-id", ShortForm = "-u")]
+    public string UsernameId { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

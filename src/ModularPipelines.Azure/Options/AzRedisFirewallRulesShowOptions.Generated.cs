@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets a single firewall rule in a specified redis cache.
 /// </summary>
-/// <param name="RuleName">The name of the firewall rule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "firewall-rules", "show")]
-public record AzRedisFirewallRulesShowOptions(
-    [property: CliOption("--rule-name")] string RuleName
-) : AzOptions
+public record AzRedisFirewallRulesShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets a single firewall rule in a specified redis cache.
+    /// </summary>
+    /// <param name="RuleName">The name of the firewall rule.</param>
+    public AzRedisFirewallRulesShowOptions(
+        string RuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+    }
+
+    public void Deconstruct(out string RuleName)
+    {
+        RuleName = this.RuleName;
+    }
+
+    /// <summary>
+    /// The name of the firewall rule.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

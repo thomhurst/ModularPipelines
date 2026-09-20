@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets a single Adaptive Network Hardening
 /// </summary>
-/// <param name="AdaptiveNetworkHardeningsResourceName">Adaptive Network Hardening resource name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ResourceName">Name of the resource.</param>
-/// <param name="ResourceNamespace">The Namespace of the resource.</param>
-/// <param name="ResourceType">The type of the resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "adaptive_network_hardenings", "show")]
-public record AzSecurityAdaptiveNetworkHardeningsShowOptions(
-    [property: CliOption("--adaptive-network-hardenings-resource-name")] string AdaptiveNetworkHardeningsResourceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--resource-name")] string ResourceName,
-    [property: CliOption("--resource-namespace")] string ResourceNamespace,
-    [property: CliOption("--resource-type")] string ResourceType
-) : AzOptions
+public record AzSecurityAdaptiveNetworkHardeningsShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets a single Adaptive Network Hardening
+    /// </summary>
+    /// <param name="AdaptiveNetworkHardeningsResourceName">Adaptive Network Hardening resource name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ResourceName">Name of the resource.</param>
+    /// <param name="ResourceNamespace">The Namespace of the resource.</param>
+    /// <param name="ResourceType">The type of the resource.</param>
+    public AzSecurityAdaptiveNetworkHardeningsShowOptions(
+        string AdaptiveNetworkHardeningsResourceName,
+        string ResourceGroup,
+        string ResourceName,
+        string ResourceNamespace,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdaptiveNetworkHardeningsResourceName);
+        this.AdaptiveNetworkHardeningsResourceName = AdaptiveNetworkHardeningsResourceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceNamespace);
+        this.ResourceNamespace = ResourceNamespace;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    public void Deconstruct(out string AdaptiveNetworkHardeningsResourceName, out string ResourceGroup, out string ResourceName, out string ResourceNamespace, out string ResourceType)
+    {
+        AdaptiveNetworkHardeningsResourceName = this.AdaptiveNetworkHardeningsResourceName;
+        ResourceGroup = this.ResourceGroup;
+        ResourceName = this.ResourceName;
+        ResourceNamespace = this.ResourceNamespace;
+        ResourceType = this.ResourceType;
+    }
+
+    /// <summary>
+    /// Adaptive Network Hardening resource name.
+    /// </summary>
+    [CliOption("--adaptive-network-hardenings-resource-name")]
+    public string AdaptiveNetworkHardeningsResourceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the resource.
+    /// </summary>
+    [CliOption("--resource-name")]
+    public string ResourceName { get; private init; }
+
+    /// <summary>
+    /// The Namespace of the resource.
+    /// </summary>
+    [CliOption("--resource-namespace")]
+    public string ResourceNamespace { get; private init; }
+
+    /// <summary>
+    /// The type of the resource.
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string ResourceType { get; private init; }
+
 }

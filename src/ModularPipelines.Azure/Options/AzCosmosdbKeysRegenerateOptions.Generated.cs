@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate an access key for an Azure Cosmos DB database account.
 /// </summary>
-/// <param name="KeyKind">The access key to regenerate.  Allowed values: primary, primaryReadonly, secondary, secondaryReadonly.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "keys", "regenerate")]
-public record AzCosmosdbKeysRegenerateOptions(
-    [property: CliOption("--key-kind")] string KeyKind
-) : AzOptions
+public record AzCosmosdbKeysRegenerateOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerate an access key for an Azure Cosmos DB database account.
+    /// </summary>
+    /// <param name="KeyKind">The access key to regenerate.  Allowed values: primary, primaryReadonly, secondary, secondaryReadonly.</param>
+    public AzCosmosdbKeysRegenerateOptions(
+        string KeyKind
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyKind);
+        this.KeyKind = KeyKind;
+    }
+
+    public void Deconstruct(out string KeyKind)
+    {
+        KeyKind = this.KeyKind;
+    }
+
+    /// <summary>
+    /// The access key to regenerate.  Allowed values: primary, primaryReadonly, secondary, secondaryReadonly.
+    /// </summary>
+    [CliOption("--key-kind")]
+    public string KeyKind { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

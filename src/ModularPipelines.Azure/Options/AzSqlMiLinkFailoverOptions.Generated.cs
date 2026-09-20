@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Performs requested failover type in this Managed Instance link.
 /// </summary>
-/// <param name="FailoverType">The failover type, can be ForcedAllowDataLoss or Planned.  Allowed values: ForcedAllowDataLoss, Planned.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "link", "failover")]
-public record AzSqlMiLinkFailoverOptions(
-    [property: CliOption("--failover-type")] string FailoverType
-) : AzOptions
+public record AzSqlMiLinkFailoverOptions : AzOptions
 {
+    /// <summary>
+    /// Performs requested failover type in this Managed Instance link.
+    /// </summary>
+    /// <param name="FailoverType">The failover type, can be ForcedAllowDataLoss or Planned.  Allowed values: ForcedAllowDataLoss, Planned.</param>
+    public AzSqlMiLinkFailoverOptions(
+        string FailoverType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FailoverType);
+        this.FailoverType = FailoverType;
+    }
+
+    public void Deconstruct(out string FailoverType)
+    {
+        FailoverType = this.FailoverType;
+    }
+
+    /// <summary>
+    /// The failover type, can be ForcedAllowDataLoss or Planned.  Allowed values: ForcedAllowDataLoss, Planned.
+    /// </summary>
+    [CliOption("--failover-type")]
+    public string FailoverType { get; private init; }
+
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

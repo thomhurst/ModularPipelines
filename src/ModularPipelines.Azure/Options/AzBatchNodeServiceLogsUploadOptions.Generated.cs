@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload service logs from a specified Batch compute node.
 /// </summary>
-/// <param name="NodeId">The ID of the Compute Node for which you want to get the Remote Desktop Protocol file. Required.</param>
-/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "service-logs", "upload")]
-public record AzBatchNodeServiceLogsUploadOptions(
-    [property: CliOption("--node-id")] string NodeId,
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchNodeServiceLogsUploadOptions : AzOptions
 {
+    /// <summary>
+    /// Upload service logs from a specified Batch compute node.
+    /// </summary>
+    /// <param name="NodeId">The ID of the Compute Node for which you want to get the Remote Desktop Protocol file. Required.</param>
+    /// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
+    public AzBatchNodeServiceLogsUploadOptions(
+        string NodeId,
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeId);
+        this.NodeId = NodeId;
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string NodeId, out string PoolId)
+    {
+        NodeId = this.NodeId;
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the Compute Node for which you want to get the Remote Desktop Protocol file. Required.
+    /// </summary>
+    [CliOption("--node-id")]
+    public string NodeId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Pool that contains the Compute Node. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// A file containing the content specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Content Arguments' are ignored.
     /// </summary>

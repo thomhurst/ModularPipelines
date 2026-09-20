@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates security automation event hub action.
 /// </summary>
-/// <param name="ConnectionString">The target Event Hub connection string (it will not be included in any response).</param>
-/// <param name="EventHubResourceId">The target Event Hub Azure Resource ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-action-event-hub", "create")]
-public record AzSecurityAutomationActionEventHubCreateOptions(
-    [property: CliOption("--connection-string")] string ConnectionString,
-    [property: CliOption("--event-hub-resource-id")] string EventHubResourceId
-) : AzOptions
+public record AzSecurityAutomationActionEventHubCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates security automation event hub action.
+    /// </summary>
+    /// <param name="ConnectionString">The target Event Hub connection string (it will not be included in any response).</param>
+    /// <param name="EventHubResourceId">The target Event Hub Azure Resource ID.</param>
+    public AzSecurityAutomationActionEventHubCreateOptions(
+        string ConnectionString,
+        string EventHubResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionString);
+        this.ConnectionString = ConnectionString;
+        global::System.ArgumentNullException.ThrowIfNull(EventHubResourceId);
+        this.EventHubResourceId = EventHubResourceId;
+    }
+
+    public void Deconstruct(out string ConnectionString, out string EventHubResourceId)
+    {
+        ConnectionString = this.ConnectionString;
+        EventHubResourceId = this.EventHubResourceId;
+    }
+
+    /// <summary>
+    /// The target Event Hub connection string (it will not be included in any response).
+    /// </summary>
+    [CliOption("--connection-string")]
+    public string ConnectionString { get; private init; }
+
+    /// <summary>
+    /// The target Event Hub Azure Resource ID.
+    /// </summary>
+    [CliOption("--event-hub-resource-id")]
+    public string EventHubResourceId { get; private init; }
+
     /// <summary>
     /// The target Event Hub SAS policy name.
     /// </summary>

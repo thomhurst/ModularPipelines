@@ -16,20 +16,68 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new role or updates an existing role.
 /// </summary>
-/// <param name="ClusterName">The name of the cluster.</param>
-/// <param name="Name">The name of the cluster role.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Password">The password of the cluster role.  If value is blank it's asked from the tty.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "role", "create")]
-public record AzCosmosdbPostgresRoleCreateOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: SecretValue, CliOption("--password")] string Password
-) : AzOptions
+public record AzCosmosdbPostgresRoleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new role or updates an existing role.
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster.</param>
+    /// <param name="Name">The name of the cluster role.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Password">The password of the cluster role.  If value is blank it's asked from the tty.</param>
+    public AzCosmosdbPostgresRoleCreateOptions(
+        string ClusterName,
+        string Name,
+        string ResourceGroup,
+        string Password
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+    }
+
+    public void Deconstruct(out string ClusterName, out string Name, out string ResourceGroup, out string Password)
+    {
+        ClusterName = this.ClusterName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Password = this.Password;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The name of the cluster role.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The password of the cluster role.  If value is blank it's asked from the tty.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password")]
+    public string Password { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

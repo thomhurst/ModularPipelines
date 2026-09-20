@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show details of a container registry.
 /// </summary>
-/// <param name="Server">The container registry server, e.g. myregistry.azurecr.io.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "registry", "show")]
-public record AzContainerappRegistryShowOptions(
-    [property: CliOption("--server")] string Server
-) : AzOptions
+public record AzContainerappRegistryShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show details of a container registry.
+    /// </summary>
+    /// <param name="Server">The container registry server, e.g. myregistry.azurecr.io.</param>
+    public AzContainerappRegistryShowOptions(
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string Server)
+    {
+        Server = this.Server;
+    }
+
+    /// <summary>
+    /// The container registry server, e.g. myregistry.azurecr.io.
+    /// </summary>
+    [CliOption("--server")]
+    public string Server { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

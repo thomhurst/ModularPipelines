@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export an API Management API.
 /// </summary>
-/// <param name="Ef">Specify the format of the exporting API.  Allowed values: OpenApiJsonFile, OpenApiJsonUrl, OpenApiYamlFile, OpenApiYamlUrl, SwaggerFile, SwaggerUrl, WadlFile, WadlUrl, WsdlFile, WsdlUrl.</param>
-/// <param name="ResourceGroup">The name of the resource group. The name is case insensitive.</param>
-/// <param name="ServiceName">The name of the api management service instance.</param>
-/// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. Regex pattern: ^[^*#&amp;+:&lt;&gt;?]+$.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "export")]
-public record AzApimApiExportOptions(
-    [property: CliOption("--ef", ShortForm = "--export-format")] string Ef,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
-    [property: CliOption("--api-id")] string ApiId
-) : AzOptions
+public record AzApimApiExportOptions : AzOptions
 {
+    /// <summary>
+    /// Export an API Management API.
+    /// </summary>
+    /// <param name="Ef">Specify the format of the exporting API.  Allowed values: OpenApiJsonFile, OpenApiJsonUrl, OpenApiYamlFile, OpenApiYamlUrl, SwaggerFile, SwaggerUrl, WadlFile, WadlUrl, WsdlFile, WsdlUrl.</param>
+    /// <param name="ResourceGroup">The name of the resource group. The name is case insensitive.</param>
+    /// <param name="ServiceName">The name of the api management service instance.</param>
+    /// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. Regex pattern: ^[^*#&amp;+:&lt;&gt;?]+$.</param>
+    public AzApimApiExportOptions(
+        string Ef,
+        string ResourceGroup,
+        string ServiceName,
+        string ApiId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ef);
+        this.Ef = Ef;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+    }
+
+    public void Deconstruct(out string Ef, out string ResourceGroup, out string ServiceName, out string ApiId)
+    {
+        Ef = this.Ef;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        ApiId = this.ApiId;
+    }
+
+    /// <summary>
+    /// Specify the format of the exporting API.  Allowed values: OpenApiJsonFile, OpenApiJsonUrl, OpenApiYamlFile, OpenApiYamlUrl, SwaggerFile, SwaggerUrl, WadlFile, WadlUrl, WsdlFile, WsdlUrl.
+    /// </summary>
+    [CliOption("--ef", ShortForm = "--export-format")]
+    public string Ef { get; private init; }
+
+    /// <summary>
+    /// The name of the resource group. The name is case insensitive.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the api management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. Regex pattern: ^[^*#&amp;+:&lt;&gt;?]+$.
+    /// </summary>
+    [CliOption("--api-id")]
+    public string ApiId { get; private init; }
+
     /// <summary>
     /// File path specified to export the API.
     /// </summary>

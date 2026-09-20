@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all deployment stack what-if results in a resource group.
 /// </summary>
-/// <param name="ResourceGroup">The resource group where the deployment stack what-if result exists.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "group", "list")]
-public record AzStackWhatifGroupListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzStackWhatifGroupListOptions : AzOptions
 {
+    /// <summary>
+    /// List all deployment stack what-if results in a resource group.
+    /// </summary>
+    /// <param name="ResourceGroup">The resource group where the deployment stack what-if result exists.</param>
+    public AzStackWhatifGroupListOptions(
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The resource group where the deployment stack what-if result exists.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

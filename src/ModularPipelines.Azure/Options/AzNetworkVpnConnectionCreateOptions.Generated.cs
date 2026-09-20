@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a VPN connection.
 /// </summary>
-/// <param name="Name">Connection name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VnetGateway1">Name or ID of the source virtual network gateway.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "create")]
-public record AzNetworkVpnConnectionCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vnet-gateway1")] string VnetGateway1
-) : AzOptions
+public record AzNetworkVpnConnectionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a VPN connection.
+    /// </summary>
+    /// <param name="Name">Connection name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VnetGateway1">Name or ID of the source virtual network gateway.</param>
+    public AzNetworkVpnConnectionCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string VnetGateway1
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VnetGateway1);
+        this.VnetGateway1 = VnetGateway1;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string VnetGateway1)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        VnetGateway1 = this.VnetGateway1;
+    }
+
+    /// <summary>
+    /// Connection name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the source virtual network gateway.
+    /// </summary>
+    [CliOption("--vnet-gateway1")]
+    public string VnetGateway1 { get; private init; }
+
     /// <summary>
     /// Authentication type for the VPN connection.  Allowed values: Certificate, PSK.
     /// </summary>

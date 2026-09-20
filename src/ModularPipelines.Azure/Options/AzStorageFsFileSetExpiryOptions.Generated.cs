@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets the time a file will expire and be deleted.
 /// </summary>
-/// <param name="ExpiryOptions">Required. Indicates mode of the expiry time.  Allowed values: Absolute, NeverExpire, RelativeToCreation, RelativeToNow.</param>
-/// <param name="FileSystem">File system name (i.e. container name).</param>
-/// <param name="Path">The file path in a file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "file", "set-expiry")]
-public record AzStorageFsFileSetExpiryOptions(
-    [property: CliOption("--expiry-options")] string ExpiryOptions,
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzStorageFsFileSetExpiryOptions : AzOptions
 {
+    /// <summary>
+    /// Sets the time a file will expire and be deleted.
+    /// </summary>
+    /// <param name="ExpiryOptions">Required. Indicates mode of the expiry time.  Allowed values: Absolute, NeverExpire, RelativeToCreation, RelativeToNow.</param>
+    /// <param name="FileSystem">File system name (i.e. container name).</param>
+    /// <param name="Path">The file path in a file system.</param>
+    public AzStorageFsFileSetExpiryOptions(
+        string ExpiryOptions,
+        string FileSystem,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExpiryOptions);
+        this.ExpiryOptions = ExpiryOptions;
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string ExpiryOptions, out string FileSystem, out string Path)
+    {
+        ExpiryOptions = this.ExpiryOptions;
+        FileSystem = this.FileSystem;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// Required. Indicates mode of the expiry time.  Allowed values: Absolute, NeverExpire, RelativeToCreation, RelativeToNow.
+    /// </summary>
+    [CliOption("--expiry-options")]
+    public string ExpiryOptions { get; private init; }
+
+    /// <summary>
+    /// File system name (i.e. container name).
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
+    /// <summary>
+    /// The file path in a file system.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

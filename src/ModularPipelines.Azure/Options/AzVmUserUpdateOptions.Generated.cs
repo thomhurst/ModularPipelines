@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a user account for VM. You can use it to update password or ssh key
 /// </summary>
-/// <param name="Username">The user name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "user", "update")]
-public record AzVmUserUpdateOptions(
-    [property: CliOption("--username", ShortForm = "-u")] string Username
-) : AzOptions
+public record AzVmUserUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a user account for VM. You can use it to update password or ssh key
+    /// </summary>
+    /// <param name="Username">The user name.</param>
+    public AzVmUserUpdateOptions(
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    public void Deconstruct(out string Username)
+    {
+        Username = this.Username;
+    }
+
+    /// <summary>
+    /// The user name.
+    /// </summary>
+    [CliOption("--username", ShortForm = "-u")]
+    public string Username { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

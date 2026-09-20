@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List application owners.
 /// </summary>
-/// <param name="Id">Identifier uri, application id, or object id of the application.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "owner", "list")]
-public record AzAdAppOwnerListOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdAppOwnerListOptions : AzOptions
 {
+    /// <summary>
+    /// List application owners.
+    /// </summary>
+    /// <param name="Id">Identifier uri, application id, or object id of the application.</param>
+    public AzAdAppOwnerListOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Identifier uri, application id, or object id of the application.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
 }

@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the primary and secondary admin API keys for the
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SearchServiceName">The name of the Azure AI Search service associated with the specified resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "service", "admin-key", "list")]
-public record AzSearchServiceAdminKeyListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--search-service-name")] string SearchServiceName
-) : AzOptions
+public record AzSearchServiceAdminKeyListOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the primary and secondary admin API keys for the
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SearchServiceName">The name of the Azure AI Search service associated with the specified resource group.</param>
+    public AzSearchServiceAdminKeyListOptions(
+        string ResourceGroup,
+        string SearchServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SearchServiceName);
+        this.SearchServiceName = SearchServiceName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string SearchServiceName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        SearchServiceName = this.SearchServiceName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Azure AI Search service associated with the specified resource group.
+    /// </summary>
+    [CliOption("--search-service-name")]
+    public string SearchServiceName { get; private init; }
+
 }

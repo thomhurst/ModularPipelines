@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows a security sub assessment.
 /// </summary>
-/// <param name="AssessmentName">Name of the assessment resource.</param>
-/// <param name="Name">Name of the resource to be fetched.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "sub-assessment", "show")]
-public record AzSecuritySubAssessmentShowOptions(
-    [property: CliOption("--assessment-name")] string AssessmentName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSecuritySubAssessmentShowOptions : AzOptions
 {
+    /// <summary>
+    /// Shows a security sub assessment.
+    /// </summary>
+    /// <param name="AssessmentName">Name of the assessment resource.</param>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    public AzSecuritySubAssessmentShowOptions(
+        string AssessmentName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentName);
+        this.AssessmentName = AssessmentName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string AssessmentName, out string Name)
+    {
+        AssessmentName = this.AssessmentName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the assessment resource.
+    /// </summary>
+    [CliOption("--assessment-name")]
+    public string AssessmentName { get; private init; }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The target resource for this assessment.
     /// </summary>

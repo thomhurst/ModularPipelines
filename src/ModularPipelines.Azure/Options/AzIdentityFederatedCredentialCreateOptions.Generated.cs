@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a federated identity credential under an
 /// </summary>
-/// <param name="IdentityName">The name of the identity resource.</param>
-/// <param name="Name">The name of the federated identity credential resource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "federated-credential", "create")]
-public record AzIdentityFederatedCredentialCreateOptions(
-    [property: CliOption("--identity-name")] string IdentityName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzIdentityFederatedCredentialCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a federated identity credential under an
+    /// </summary>
+    /// <param name="IdentityName">The name of the identity resource.</param>
+    /// <param name="Name">The name of the federated identity credential resource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzIdentityFederatedCredentialCreateOptions(
+        string IdentityName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityName);
+        this.IdentityName = IdentityName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string IdentityName, out string Name, out string ResourceGroup)
+    {
+        IdentityName = this.IdentityName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the identity resource.
+    /// </summary>
+    [CliOption("--identity-name")]
+    public string IdentityName { get; private init; }
+
+    /// <summary>
+    /// The name of the federated identity credential resource.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The aud value in the token sent to Azure for getting the user- assigned managed identity token. The value configured in the federated credential and the one in the incoming token must exactly match for Azure to issue the access token.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more. Default: ['api://AzureADTokenExchange'].
     /// </summary>

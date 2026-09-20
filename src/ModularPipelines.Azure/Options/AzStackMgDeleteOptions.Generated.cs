@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete specified deployment stack from management group scope.
 /// </summary>
-/// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted. Allowed values: deleteAll, deleteResources, detachAll.</param>
-/// <param name="ManagementGroupId">The management group ID to create a deployment stack in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "mg", "delete")]
-public record AzStackMgDeleteOptions(
-    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage,
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
-) : AzOptions
+public record AzStackMgDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete specified deployment stack from management group scope.
+    /// </summary>
+    /// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted. Allowed values: deleteAll, deleteResources, detachAll.</param>
+    /// <param name="ManagementGroupId">The management group ID to create a deployment stack in.</param>
+    public AzStackMgDeleteOptions(
+        string ActionOnUnmanage,
+        string ManagementGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionOnUnmanage);
+        this.ActionOnUnmanage = ActionOnUnmanage;
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+    }
+
+    public void Deconstruct(out string ActionOnUnmanage, out string ManagementGroupId)
+    {
+        ActionOnUnmanage = this.ActionOnUnmanage;
+        ManagementGroupId = this.ManagementGroupId;
+    }
+
+    /// <summary>
+    /// Defines what happens to resources that are no longer managed after the stack is updated or deleted. Allowed values: deleteAll, deleteResources, detachAll.
+    /// </summary>
+    [CliOption("--action-on-unmanage", ShortForm = "--aou")]
+    public string ActionOnUnmanage { get; private init; }
+
+    /// <summary>
+    /// The management group ID to create a deployment stack in.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
     /// <summary>
     /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized.  Allowed values: false, true.
     /// </summary>

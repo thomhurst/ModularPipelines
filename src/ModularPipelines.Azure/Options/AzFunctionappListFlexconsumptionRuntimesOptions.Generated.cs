@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List available built-in stacks which can be used
 /// </summary>
-/// <param name="Location">Limit the output to just the runtimes available in the specified location.</param>
-/// <param name="Runtime">Limit the output to just the specified runtime.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "list-flexconsumption-runtimes")]
-public record AzFunctionappListFlexconsumptionRuntimesOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--runtime")] string Runtime
-) : AzOptions
+public record AzFunctionappListFlexconsumptionRuntimesOptions : AzOptions
 {
+    /// <summary>
+    /// List available built-in stacks which can be used
+    /// </summary>
+    /// <param name="Location">Limit the output to just the runtimes available in the specified location.</param>
+    /// <param name="Runtime">Limit the output to just the specified runtime.</param>
+    public AzFunctionappListFlexconsumptionRuntimesOptions(
+        string Location,
+        string Runtime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Runtime);
+        this.Runtime = Runtime;
+    }
+
+    public void Deconstruct(out string Location, out string Runtime)
+    {
+        Location = this.Location;
+        Runtime = this.Runtime;
+    }
+
+    /// <summary>
+    /// Limit the output to just the runtimes available in the specified location.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Limit the output to just the specified runtime.
+    /// </summary>
+    [CliOption("--runtime")]
+    public string Runtime { get; private init; }
+
 }

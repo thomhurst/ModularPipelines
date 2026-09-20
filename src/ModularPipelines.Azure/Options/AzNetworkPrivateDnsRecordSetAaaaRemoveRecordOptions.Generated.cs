@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove AAAA record from its record set.
 /// </summary>
-/// <param name="Ipv6Address">IPV6 address in string notation.</param>
-/// <param name="RecordSetName">The name of the record set relative to the zone.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ZoneName">The name of the Private DNS zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "aaaa", "remove-record")]
-public record AzNetworkPrivateDnsRecordSetAaaaRemoveRecordOptions(
-    [property: CliOption("--ipv6-address", ShortForm = "-a")] string Ipv6Address,
-    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkPrivateDnsRecordSetAaaaRemoveRecordOptions : AzOptions
 {
+    /// <summary>
+    /// Remove AAAA record from its record set.
+    /// </summary>
+    /// <param name="Ipv6Address">IPV6 address in string notation.</param>
+    /// <param name="RecordSetName">The name of the record set relative to the zone.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ZoneName">The name of the Private DNS zone.</param>
+    public AzNetworkPrivateDnsRecordSetAaaaRemoveRecordOptions(
+        string Ipv6Address,
+        string RecordSetName,
+        string ResourceGroup,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ipv6Address);
+        this.Ipv6Address = Ipv6Address;
+        global::System.ArgumentNullException.ThrowIfNull(RecordSetName);
+        this.RecordSetName = RecordSetName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string Ipv6Address, out string RecordSetName, out string ResourceGroup, out string ZoneName)
+    {
+        Ipv6Address = this.Ipv6Address;
+        RecordSetName = this.RecordSetName;
+        ResourceGroup = this.ResourceGroup;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// IPV6 address in string notation.
+    /// </summary>
+    [CliOption("--ipv6-address", ShortForm = "-a")]
+    public string Ipv6Address { get; private init; }
+
+    /// <summary>
+    /// The name of the record set relative to the zone.
+    /// </summary>
+    [CliOption("--record-set-name", ShortForm = "-n")]
+    public string RecordSetName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Private DNS zone.
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Keep the empty record set if the last record is removed.
     /// </summary>

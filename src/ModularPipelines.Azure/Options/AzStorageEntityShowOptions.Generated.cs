@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a single entity in a table.
 /// </summary>
-/// <param name="PartitionKey">The PartitionKey of the entity.</param>
-/// <param name="RowKey">The RowKey of the entity.</param>
-/// <param name="TableName">The table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "entity", "show")]
-public record AzStorageEntityShowOptions(
-    [property: CliOption("--partition-key")] string PartitionKey,
-    [property: CliOption("--row-key")] string RowKey,
-    [property: CliOption("--table-name", ShortForm = "-t")] string TableName
-) : AzOptions
+public record AzStorageEntityShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a single entity in a table.
+    /// </summary>
+    /// <param name="PartitionKey">The PartitionKey of the entity.</param>
+    /// <param name="RowKey">The RowKey of the entity.</param>
+    /// <param name="TableName">The table name.</param>
+    public AzStorageEntityShowOptions(
+        string PartitionKey,
+        string RowKey,
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PartitionKey);
+        this.PartitionKey = PartitionKey;
+        global::System.ArgumentNullException.ThrowIfNull(RowKey);
+        this.RowKey = RowKey;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    public void Deconstruct(out string PartitionKey, out string RowKey, out string TableName)
+    {
+        PartitionKey = this.PartitionKey;
+        RowKey = this.RowKey;
+        TableName = this.TableName;
+    }
+
+    /// <summary>
+    /// The PartitionKey of the entity.
+    /// </summary>
+    [CliOption("--partition-key")]
+    public string PartitionKey { get; private init; }
+
+    /// <summary>
+    /// The RowKey of the entity.
+    /// </summary>
+    [CliOption("--row-key")]
+    public string RowKey { get; private init; }
+
+    /// <summary>
+    /// The table name.
+    /// </summary>
+    [CliOption("--table-name", ShortForm = "-t")]
+    public string TableName { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

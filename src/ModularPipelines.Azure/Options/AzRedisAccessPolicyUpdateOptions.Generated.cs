@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an Access Policy of the Redis Cache.
 /// </summary>
-/// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
-/// <param name="Permissions">Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy", "update")]
-public record AzRedisAccessPolicyUpdateOptions(
-    [property: CliOption("--access-policy-name")] string AccessPolicyName,
-    [property: CliOption("--permissions")] string Permissions
-) : AzOptions
+public record AzRedisAccessPolicyUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an Access Policy of the Redis Cache.
+    /// </summary>
+    /// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
+    /// <param name="Permissions">Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites.</param>
+    public AzRedisAccessPolicyUpdateOptions(
+        string AccessPolicyName,
+        string Permissions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessPolicyName);
+        this.AccessPolicyName = AccessPolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(Permissions);
+        this.Permissions = Permissions;
+    }
+
+    public void Deconstruct(out string AccessPolicyName, out string Permissions)
+    {
+        AccessPolicyName = this.AccessPolicyName;
+        Permissions = this.Permissions;
+    }
+
+    /// <summary>
+    /// The name of the access policy that is being assigned.
+    /// </summary>
+    [CliOption("--access-policy-name")]
+    public string AccessPolicyName { get; private init; }
+
+    /// <summary>
+    /// Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites.
+    /// </summary>
+    [CliOption("--permissions")]
+    public string Permissions { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

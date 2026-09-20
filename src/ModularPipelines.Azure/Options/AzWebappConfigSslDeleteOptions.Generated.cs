@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an SSL certificate from a web app.
 /// </summary>
-/// <param name="CertificateThumbprint">The ssl cert thumbprint.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "ssl", "delete")]
-public record AzWebappConfigSslDeleteOptions(
-    [property: CliOption("--certificate-thumbprint")] string CertificateThumbprint
-) : AzOptions
+public record AzWebappConfigSslDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete an SSL certificate from a web app.
+    /// </summary>
+    /// <param name="CertificateThumbprint">The ssl cert thumbprint.</param>
+    public AzWebappConfigSslDeleteOptions(
+        string CertificateThumbprint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateThumbprint);
+        this.CertificateThumbprint = CertificateThumbprint;
+    }
+
+    public void Deconstruct(out string CertificateThumbprint)
+    {
+        CertificateThumbprint = this.CertificateThumbprint;
+    }
+
+    /// <summary>
+    /// The ssl cert thumbprint.
+    /// </summary>
+    [CliOption("--certificate-thumbprint")]
+    public string CertificateThumbprint { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

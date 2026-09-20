@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an event hub consumer group.
 /// </summary>
-/// <param name="HubName">IoT Hub name.</param>
-/// <param name="Name">Event hub consumer group name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "consumer-group", "create")]
-public record AzIotHubConsumerGroupCreateOptions(
-    [property: CliOption("--hub-name")] string HubName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzIotHubConsumerGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an event hub consumer group.
+    /// </summary>
+    /// <param name="HubName">IoT Hub name.</param>
+    /// <param name="Name">Event hub consumer group name.</param>
+    public AzIotHubConsumerGroupCreateOptions(
+        string HubName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HubName);
+        this.HubName = HubName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string HubName, out string Name)
+    {
+        HubName = this.HubName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// IoT Hub name.
+    /// </summary>
+    [CliOption("--hub-name")]
+    public string HubName { get; private init; }
+
+    /// <summary>
+    /// Event hub consumer group name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Event hub endpoint name.  Default: events.
     /// </summary>

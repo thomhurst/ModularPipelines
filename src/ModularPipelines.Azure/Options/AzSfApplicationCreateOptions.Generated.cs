@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new application on an Azure Service Fabric cluster.
 /// </summary>
-/// <param name="ApplicationName">Specify the application name.</param>
-/// <param name="ApplicationTypeName">Specify the application type name.</param>
-/// <param name="ApplicationTypeVersion">Specify the application type version.</param>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "application", "create")]
-public record AzSfApplicationCreateOptions(
-    [property: CliOption("--application-name", ShortForm = "--name")] string ApplicationName,
-    [property: CliOption("--application-type-name", ShortForm = "--type-name")] string ApplicationTypeName,
-    [property: CliOption("--application-type-version", ShortForm = "--version")] string ApplicationTypeVersion,
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSfApplicationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new application on an Azure Service Fabric cluster.
+    /// </summary>
+    /// <param name="ApplicationName">Specify the application name.</param>
+    /// <param name="ApplicationTypeName">Specify the application type name.</param>
+    /// <param name="ApplicationTypeVersion">Specify the application type version.</param>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSfApplicationCreateOptions(
+        string ApplicationName,
+        string ApplicationTypeName,
+        string ApplicationTypeVersion,
+        string ClusterName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationTypeName);
+        this.ApplicationTypeName = ApplicationTypeName;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationTypeVersion);
+        this.ApplicationTypeVersion = ApplicationTypeVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ApplicationName, out string ApplicationTypeName, out string ApplicationTypeVersion, out string ClusterName, out string ResourceGroup)
+    {
+        ApplicationName = this.ApplicationName;
+        ApplicationTypeName = this.ApplicationTypeName;
+        ApplicationTypeVersion = this.ApplicationTypeVersion;
+        ClusterName = this.ClusterName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Specify the application name.
+    /// </summary>
+    [CliOption("--application-name", ShortForm = "--name")]
+    public string ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Specify the application type name.
+    /// </summary>
+    [CliOption("--application-type-name", ShortForm = "--type-name")]
+    public string ApplicationTypeName { get; private init; }
+
+    /// <summary>
+    /// Specify the application type version.
+    /// </summary>
+    [CliOption("--application-type-version", ShortForm = "--version")]
+    public string ApplicationTypeVersion { get; private init; }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Specify the application parameters as key/value pairs. These parameters must exist in the application manifest. for example: --application-parameters param1=value1 param2=value2.
     /// </summary>

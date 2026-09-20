@@ -15,26 +15,100 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a bandwidth schedule.
 /// </summary>
-/// <param name="Days">The days of the week when this schedule is applicable.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
-/// <param name="DeviceName">The device name.</param>
-/// <param name="Name">The bandwidth schedule name which needs to be added/updated.</param>
-/// <param name="RateInMbps">The bandwidth rate in Mbps.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Start">The start time of the schedule in UTC.</param>
-/// <param name="Stop">The stop time of the schedule in UTC.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "bandwidth-schedule", "create")]
-public record AzDataboxedgeBandwidthScheduleCreateOptions(
-    [property: CliOption("--days")] string Days,
-    [property: CliOption("--device-name", ShortForm = "-d")] string DeviceName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--rate-in-mbps")] string RateInMbps,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--start")] string Start,
-    [property: CliOption("--stop")] string Stop
-) : AzOptions
+public record AzDataboxedgeBandwidthScheduleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a bandwidth schedule.
+    /// </summary>
+    /// <param name="Days">The days of the week when this schedule is applicable.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="DeviceName">The device name.</param>
+    /// <param name="Name">The bandwidth schedule name which needs to be added/updated.</param>
+    /// <param name="RateInMbps">The bandwidth rate in Mbps.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Start">The start time of the schedule in UTC.</param>
+    /// <param name="Stop">The stop time of the schedule in UTC.</param>
+    public AzDataboxedgeBandwidthScheduleCreateOptions(
+        string Days,
+        string DeviceName,
+        string Name,
+        string RateInMbps,
+        string ResourceGroup,
+        string Start,
+        string Stop
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Days);
+        this.Days = Days;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RateInMbps);
+        this.RateInMbps = RateInMbps;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Start);
+        this.Start = Start;
+        global::System.ArgumentNullException.ThrowIfNull(Stop);
+        this.Stop = Stop;
+    }
+
+    public void Deconstruct(out string Days, out string DeviceName, out string Name, out string RateInMbps, out string ResourceGroup, out string Start, out string Stop)
+    {
+        Days = this.Days;
+        DeviceName = this.DeviceName;
+        Name = this.Name;
+        RateInMbps = this.RateInMbps;
+        ResourceGroup = this.ResourceGroup;
+        Start = this.Start;
+        Stop = this.Stop;
+    }
+
+    /// <summary>
+    /// The days of the week when this schedule is applicable.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--days")]
+    public string Days { get; private init; }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliOption("--device-name", ShortForm = "-d")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// The bandwidth schedule name which needs to be added/updated.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The bandwidth rate in Mbps.
+    /// </summary>
+    [CliOption("--rate-in-mbps")]
+    public string RateInMbps { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The start time of the schedule in UTC.
+    /// </summary>
+    [CliOption("--start")]
+    public string Start { get; private init; }
+
+    /// <summary>
+    /// The stop time of the schedule in UTC.
+    /// </summary>
+    [CliOption("--stop")]
+    public string Stop { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

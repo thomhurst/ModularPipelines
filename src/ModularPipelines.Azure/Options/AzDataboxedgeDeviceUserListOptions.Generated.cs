@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the users registered on a Data Box Edge/Data Box
 /// </summary>
-/// <param name="DeviceName">The device name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "user", "list")]
-public record AzDataboxedgeDeviceUserListOptions(
-    [property: CliOption("--device-name")] string DeviceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzDataboxedgeDeviceUserListOptions : AzOptions
 {
+    /// <summary>
+    /// List all the users registered on a Data Box Edge/Data Box
+    /// </summary>
+    /// <param name="DeviceName">The device name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzDataboxedgeDeviceUserListOptions(
+        string DeviceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DeviceName, out string ResourceGroup)
+    {
+        DeviceName = this.DeviceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliOption("--device-name")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Specify `$filter='Type eq &lt;type&gt;'` to filter on user type property.
     /// </summary>

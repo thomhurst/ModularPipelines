@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate placement scores for Spot VM skus.
 /// </summary>
-/// <param name="DesiredLocations">The desired regions  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
-/// <param name="DesiredSizes">The desired resource SKUs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-recommender", "spot-placement-score")]
-public record AzComputeRecommenderSpotPlacementScoreOptions(
-    [property: CliOption("--desired-locations")] string DesiredLocations,
-    [property: CliOption("--desired-sizes")] string DesiredSizes
-) : AzOptions
+public record AzComputeRecommenderSpotPlacementScoreOptions : AzOptions
 {
+    /// <summary>
+    /// Generate placement scores for Spot VM skus.
+    /// </summary>
+    /// <param name="DesiredLocations">The desired regions  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="DesiredSizes">The desired resource SKUs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzComputeRecommenderSpotPlacementScoreOptions(
+        string DesiredLocations,
+        string DesiredSizes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DesiredLocations);
+        this.DesiredLocations = DesiredLocations;
+        global::System.ArgumentNullException.ThrowIfNull(DesiredSizes);
+        this.DesiredSizes = DesiredSizes;
+    }
+
+    public void Deconstruct(out string DesiredLocations, out string DesiredSizes)
+    {
+        DesiredLocations = this.DesiredLocations;
+        DesiredSizes = this.DesiredSizes;
+    }
+
+    /// <summary>
+    /// The desired regions  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--desired-locations")]
+    public string DesiredLocations { get; private init; }
+
+    /// <summary>
+    /// The desired resource SKUs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--desired-sizes")]
+    public string DesiredSizes { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

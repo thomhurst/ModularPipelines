@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update to enable or disable system assigned
 /// </summary>
-/// <param name="SystemAssigned">Enable or disable system assigned identity to authenticate to cloud services without storing credentials in code. Default is `Disabled`.  Allowed values: Disabled, Enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "identity", "update")]
-public record AzPostgresFlexibleServerIdentityUpdateOptions(
-    [property: CliOption("--system-assigned")] string SystemAssigned
-) : AzOptions
+public record AzPostgresFlexibleServerIdentityUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update to enable or disable system assigned
+    /// </summary>
+    /// <param name="SystemAssigned">Enable or disable system assigned identity to authenticate to cloud services without storing credentials in code. Default is `Disabled`.  Allowed values: Disabled, Enabled.</param>
+    public AzPostgresFlexibleServerIdentityUpdateOptions(
+        string SystemAssigned
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SystemAssigned);
+        this.SystemAssigned = SystemAssigned;
+    }
+
+    public void Deconstruct(out string SystemAssigned)
+    {
+        SystemAssigned = this.SystemAssigned;
+    }
+
+    /// <summary>
+    /// Enable or disable system assigned identity to authenticate to cloud services without storing credentials in code. Default is `Disabled`.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--system-assigned")]
+    public string SystemAssigned { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

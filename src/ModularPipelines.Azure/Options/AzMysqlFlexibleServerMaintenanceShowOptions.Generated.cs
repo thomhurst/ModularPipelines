@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the specific maintenance of a flexible server by
 /// </summary>
-/// <param name="MaintenanceName">The name of the maintenance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "maintenance", "show")]
-public record AzMysqlFlexibleServerMaintenanceShowOptions(
-    [property: CliOption("--maintenance-name", ShortForm = "-m")] string MaintenanceName
-) : AzOptions
+public record AzMysqlFlexibleServerMaintenanceShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get the specific maintenance of a flexible server by
+    /// </summary>
+    /// <param name="MaintenanceName">The name of the maintenance.</param>
+    public AzMysqlFlexibleServerMaintenanceShowOptions(
+        string MaintenanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MaintenanceName);
+        this.MaintenanceName = MaintenanceName;
+    }
+
+    public void Deconstruct(out string MaintenanceName)
+    {
+        MaintenanceName = this.MaintenanceName;
+    }
+
+    /// <summary>
+    /// The name of the maintenance.
+    /// </summary>
+    [CliOption("--maintenance-name", ShortForm = "-m")]
+    public string MaintenanceName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

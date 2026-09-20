@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset an application's password or certificate credentials.
 /// </summary>
-/// <param name="Id">Identifier uri, application id, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "credential", "reset")]
-public record AzAdAppCredentialResetOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdAppCredentialResetOptions : AzOptions
 {
+    /// <summary>
+    /// Reset an application's password or certificate credentials.
+    /// </summary>
+    /// <param name="Id">Identifier uri, application id, or object id.</param>
+    public AzAdAppCredentialResetOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Identifier uri, application id, or object id.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
     /// <summary>
     /// Append the new credential instead of overwriting.
     /// </summary>

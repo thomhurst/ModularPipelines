@@ -15,32 +15,133 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a VPN connection IPSec policy.
 /// </summary>
-/// <param name="ConnectionName">Connection name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="DhGroup">The DH Groups used for initial SA.  Allowed values: DHGroup1, DHGroup14, DHGroup2, DHGroup2048, DHGroup24, ECP256, ECP384, None.</param>
-/// <param name="IpsecEncryption">The IPSec encryption algorithm.  Allowed values: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES192, GCMAES256, None.</param>
-/// <param name="IpsecIntegrity">The IPSec integrity algorithm.  Allowed values: GCMAES128, GCMAES192, GCMAES256, MD5, SHA1, SHA256.</param>
-/// <param name="IkeEncryption">The IKE encryption algorithm.  Allowed values: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES256.</param>
-/// <param name="IkeIntegrity">The IKE integrity algorithm.  Allowed values: GCMAES128, GCMAES256, MD5, SHA1, SHA256, SHA384.</param>
-/// <param name="PfsGroup">The Pfs Groups used for new child SA.  Allowed values: ECP256, ECP384, None, PFS1, PFS14, PFS2, PFS2048, PFS24, PFSMM.</param>
-/// <param name="SaLifetime">The lifetime in seconds for P2S client.</param>
-/// <param name="SaMaxSize">The payload size in KB for P2S client.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "ipsec-policy", "add")]
-public record AzNetworkVpnConnectionIpsecPolicyAddOptions(
-    [property: CliOption("--connection-name")] string ConnectionName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--dh-group")] string DhGroup,
-    [property: CliOption("--ipsec-encryption")] string IpsecEncryption,
-    [property: CliOption("--ipsec-integrity")] string IpsecIntegrity,
-    [property: CliOption("--ike-encryption")] string IkeEncryption,
-    [property: CliOption("--ike-integrity")] string IkeIntegrity,
-    [property: CliOption("--pfs-group")] string PfsGroup,
-    [property: CliOption("--sa-lifetime")] string SaLifetime,
-    [property: CliOption("--sa-max-size")] string SaMaxSize
-) : AzOptions
+public record AzNetworkVpnConnectionIpsecPolicyAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a VPN connection IPSec policy.
+    /// </summary>
+    /// <param name="ConnectionName">Connection name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="DhGroup">The DH Groups used for initial SA.  Allowed values: DHGroup1, DHGroup14, DHGroup2, DHGroup2048, DHGroup24, ECP256, ECP384, None.</param>
+    /// <param name="IpsecEncryption">The IPSec encryption algorithm.  Allowed values: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES192, GCMAES256, None.</param>
+    /// <param name="IpsecIntegrity">The IPSec integrity algorithm.  Allowed values: GCMAES128, GCMAES192, GCMAES256, MD5, SHA1, SHA256.</param>
+    /// <param name="IkeEncryption">The IKE encryption algorithm.  Allowed values: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES256.</param>
+    /// <param name="IkeIntegrity">The IKE integrity algorithm.  Allowed values: GCMAES128, GCMAES256, MD5, SHA1, SHA256, SHA384.</param>
+    /// <param name="PfsGroup">The Pfs Groups used for new child SA.  Allowed values: ECP256, ECP384, None, PFS1, PFS14, PFS2, PFS2048, PFS24, PFSMM.</param>
+    /// <param name="SaLifetime">The lifetime in seconds for P2S client.</param>
+    /// <param name="SaMaxSize">The payload size in KB for P2S client.</param>
+    public AzNetworkVpnConnectionIpsecPolicyAddOptions(
+        string ConnectionName,
+        string ResourceGroup,
+        string DhGroup,
+        string IpsecEncryption,
+        string IpsecIntegrity,
+        string IkeEncryption,
+        string IkeIntegrity,
+        string PfsGroup,
+        string SaLifetime,
+        string SaMaxSize
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(DhGroup);
+        this.DhGroup = DhGroup;
+        global::System.ArgumentNullException.ThrowIfNull(IpsecEncryption);
+        this.IpsecEncryption = IpsecEncryption;
+        global::System.ArgumentNullException.ThrowIfNull(IpsecIntegrity);
+        this.IpsecIntegrity = IpsecIntegrity;
+        global::System.ArgumentNullException.ThrowIfNull(IkeEncryption);
+        this.IkeEncryption = IkeEncryption;
+        global::System.ArgumentNullException.ThrowIfNull(IkeIntegrity);
+        this.IkeIntegrity = IkeIntegrity;
+        global::System.ArgumentNullException.ThrowIfNull(PfsGroup);
+        this.PfsGroup = PfsGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SaLifetime);
+        this.SaLifetime = SaLifetime;
+        global::System.ArgumentNullException.ThrowIfNull(SaMaxSize);
+        this.SaMaxSize = SaMaxSize;
+    }
+
+    public void Deconstruct(out string ConnectionName, out string ResourceGroup, out string DhGroup, out string IpsecEncryption, out string IpsecIntegrity, out string IkeEncryption, out string IkeIntegrity, out string PfsGroup, out string SaLifetime, out string SaMaxSize)
+    {
+        ConnectionName = this.ConnectionName;
+        ResourceGroup = this.ResourceGroup;
+        DhGroup = this.DhGroup;
+        IpsecEncryption = this.IpsecEncryption;
+        IpsecIntegrity = this.IpsecIntegrity;
+        IkeEncryption = this.IkeEncryption;
+        IkeIntegrity = this.IkeIntegrity;
+        PfsGroup = this.PfsGroup;
+        SaLifetime = this.SaLifetime;
+        SaMaxSize = this.SaMaxSize;
+    }
+
+    /// <summary>
+    /// Connection name.
+    /// </summary>
+    [CliOption("--connection-name")]
+    public string ConnectionName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The DH Groups used for initial SA.  Allowed values: DHGroup1, DHGroup14, DHGroup2, DHGroup2048, DHGroup24, ECP256, ECP384, None.
+    /// </summary>
+    [CliOption("--dh-group")]
+    public string DhGroup { get; private init; }
+
+    /// <summary>
+    /// The IPSec encryption algorithm.  Allowed values: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES192, GCMAES256, None.
+    /// </summary>
+    [CliOption("--ipsec-encryption")]
+    public string IpsecEncryption { get; private init; }
+
+    /// <summary>
+    /// The IPSec integrity algorithm.  Allowed values: GCMAES128, GCMAES192, GCMAES256, MD5, SHA1, SHA256.
+    /// </summary>
+    [CliOption("--ipsec-integrity")]
+    public string IpsecIntegrity { get; private init; }
+
+    /// <summary>
+    /// The IKE encryption algorithm.  Allowed values: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES256.
+    /// </summary>
+    [CliOption("--ike-encryption")]
+    public string IkeEncryption { get; private init; }
+
+    /// <summary>
+    /// The IKE integrity algorithm.  Allowed values: GCMAES128, GCMAES256, MD5, SHA1, SHA256, SHA384.
+    /// </summary>
+    [CliOption("--ike-integrity")]
+    public string IkeIntegrity { get; private init; }
+
+    /// <summary>
+    /// The Pfs Groups used for new child SA.  Allowed values: ECP256, ECP384, None, PFS1, PFS14, PFS2, PFS2048, PFS24, PFSMM.
+    /// </summary>
+    [CliOption("--pfs-group")]
+    public string PfsGroup { get; private init; }
+
+    /// <summary>
+    /// The lifetime in seconds for P2S client.
+    /// </summary>
+    [CliOption("--sa-lifetime")]
+    public string SaLifetime { get; private init; }
+
+    /// <summary>
+    /// The payload size in KB for P2S client.
+    /// </summary>
+    [CliOption("--sa-max-size")]
+    public string SaMaxSize { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

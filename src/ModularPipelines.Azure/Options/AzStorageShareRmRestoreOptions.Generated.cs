@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a file share within a valid retention days if share soft
 /// </summary>
-/// <param name="DeletedVersion">Identify the version of the deleted share that will be restored.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share-rm", "restore")]
-public record AzStorageShareRmRestoreOptions(
-    [property: CliOption("--deleted-version")] string DeletedVersion
-) : AzOptions
+public record AzStorageShareRmRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restore a file share within a valid retention days if share soft
+    /// </summary>
+    /// <param name="DeletedVersion">Identify the version of the deleted share that will be restored.</param>
+    public AzStorageShareRmRestoreOptions(
+        string DeletedVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeletedVersion);
+        this.DeletedVersion = DeletedVersion;
+    }
+
+    public void Deconstruct(out string DeletedVersion)
+    {
+        DeletedVersion = this.DeletedVersion;
+    }
+
+    /// <summary>
+    /// Identify the version of the deleted share that will be restored.
+    /// </summary>
+    [CliOption("--deleted-version")]
+    public string DeletedVersion { get; private init; }
+
     /// <summary>
     /// A new file share name to be restored. If not specified, deleted share name will be used.
     /// </summary>

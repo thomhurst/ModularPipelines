@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export data stored in a Redis cache.
 /// </summary>
-/// <param name="Container">SAS url for container where data needs to be exported to.</param>
-/// <param name="Prefix">Prefix to use for exported files.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "export")]
-public record AzRedisExportOptions(
-    [property: CliOption("--container")] string Container,
-    [property: CliOption("--prefix")] string Prefix
-) : AzOptions
+public record AzRedisExportOptions : AzOptions
 {
+    /// <summary>
+    /// Export data stored in a Redis cache.
+    /// </summary>
+    /// <param name="Container">SAS url for container where data needs to be exported to.</param>
+    /// <param name="Prefix">Prefix to use for exported files.</param>
+    public AzRedisExportOptions(
+        string Container,
+        string Prefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+        global::System.ArgumentNullException.ThrowIfNull(Prefix);
+        this.Prefix = Prefix;
+    }
+
+    public void Deconstruct(out string Container, out string Prefix)
+    {
+        Container = this.Container;
+        Prefix = this.Prefix;
+    }
+
+    /// <summary>
+    /// SAS url for container where data needs to be exported to.
+    /// </summary>
+    [CliOption("--container")]
+    public string Container { get; private init; }
+
+    /// <summary>
+    /// Prefix to use for exported files.
+    /// </summary>
+    [CliOption("--prefix")]
+    public string Prefix { get; private init; }
+
     /// <summary>
     /// Preferred auth method to communicate to storage account used for data archive, default value is SAS.  Allowed values: ManagedIdentity, SAS.
     /// </summary>

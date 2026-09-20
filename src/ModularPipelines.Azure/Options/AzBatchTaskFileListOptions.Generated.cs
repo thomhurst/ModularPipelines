@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists the files in a Task's directory on its Compute Node.
 /// </summary>
-/// <param name="JobId">The ID of the Job that contains the Task. Required.</param>
-/// <param name="TaskId">The ID of the Task whose files you want to list. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "file", "list")]
-public record AzBatchTaskFileListOptions(
-    [property: CliOption("--job-id")] string JobId,
-    [property: CliOption("--task-id")] string TaskId
-) : AzOptions
+public record AzBatchTaskFileListOptions : AzOptions
 {
+    /// <summary>
+    /// Lists the files in a Task's directory on its Compute Node.
+    /// </summary>
+    /// <param name="JobId">The ID of the Job that contains the Task. Required.</param>
+    /// <param name="TaskId">The ID of the Task whose files you want to list. Required.</param>
+    public AzBatchTaskFileListOptions(
+        string JobId,
+        string TaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+    }
+
+    public void Deconstruct(out string JobId, out string TaskId)
+    {
+        JobId = this.JobId;
+        TaskId = this.TaskId;
+    }
+
+    /// <summary>
+    /// The ID of the Job that contains the Task. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Task whose files you want to list. Required.
+    /// </summary>
+    [CliOption("--task-id")]
+    public string TaskId { get; private init; }
+
     /// <summary>
     /// Whether to list children of the Task directory. This parameter can be used in combination with the filter parameter to list specific type of files.  Allowed values: false, true.
     /// </summary>

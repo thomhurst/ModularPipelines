@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a network rule.
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "network-rule", "add")]
-public record AzStorageAccountNetworkRuleAddOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
-) : AzOptions
+public record AzStorageAccountNetworkRuleAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a network rule.
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    public AzStorageAccountNetworkRuleAddOptions(
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    public void Deconstruct(out string AccountName)
+    {
+        AccountName = this.AccountName;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
     /// <summary>
     /// The action of virtual network rule. Possible value is Allow. Default: Allow.
     /// </summary>

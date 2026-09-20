@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Managed Cassandra Cluster.
 /// </summary>
-/// <param name="ClusterName">Cluster Name.</param>
-/// <param name="DelegatedManagementSubnetId">The resource id of a subnet where the ip address of the cassandra management server will be allocated. This subnet must have connectivity to the delegated_subnet_id subnet of each data center.</param>
-/// <param name="Location">Azure Location of the Cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "cluster", "create")]
-public record AzManagedCassandraClusterCreateOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--delegated-management-subnet-id", ShortForm = "-s")] string DelegatedManagementSubnetId,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzManagedCassandraClusterCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Managed Cassandra Cluster.
+    /// </summary>
+    /// <param name="ClusterName">Cluster Name.</param>
+    /// <param name="DelegatedManagementSubnetId">The resource id of a subnet where the ip address of the cassandra management server will be allocated. This subnet must have connectivity to the delegated_subnet_id subnet of each data center.</param>
+    /// <param name="Location">Azure Location of the Cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzManagedCassandraClusterCreateOptions(
+        string ClusterName,
+        string DelegatedManagementSubnetId,
+        string Location,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(DelegatedManagementSubnetId);
+        this.DelegatedManagementSubnetId = DelegatedManagementSubnetId;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string DelegatedManagementSubnetId, out string Location, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        DelegatedManagementSubnetId = this.DelegatedManagementSubnetId;
+        Location = this.Location;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cluster Name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The resource id of a subnet where the ip address of the cassandra management server will be allocated. This subnet must have connectivity to the delegated_subnet_id subnet of each data center.
+    /// </summary>
+    [CliOption("--delegated-management-subnet-id", ShortForm = "-s")]
+    public string DelegatedManagementSubnetId { get; private init; }
+
+    /// <summary>
+    /// Azure Location of the Cluster.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Authentication mode can be None or Cassandra. If None, no authentication will be required to connect to the Cassandra API. If Cassandra, then passwords will be used.  Allowed values: Cassandra, None.
     /// </summary>

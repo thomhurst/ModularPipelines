@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List supported of secure score controls
 /// </summary>
-/// <param name="Name">Name of the resource to be fetched.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "secure-score-controls", "list_by_score")]
-public record AzSecuritySecureScoreControlsListByScoreOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSecuritySecureScoreControlsListByScoreOptions : AzOptions
 {
+    /// <summary>
+    /// List supported of secure score controls
+    /// </summary>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    public AzSecuritySecureScoreControlsListByScoreOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

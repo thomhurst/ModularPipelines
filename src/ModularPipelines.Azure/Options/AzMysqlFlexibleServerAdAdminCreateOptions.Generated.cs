@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an Active Directory administrator.
 /// </summary>
-/// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
-/// <param name="Identity">Name or ID of identity used for AAD Authentication.</param>
-/// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServerName">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "ad-admin", "create")]
-public record AzMysqlFlexibleServerAdAdminCreateOptions(
-    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
-    [property: CliOption("--identity")] string Identity,
-    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
-) : AzOptions
+public record AzMysqlFlexibleServerAdAdminCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an Active Directory administrator.
+    /// </summary>
+    /// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
+    /// <param name="Identity">Name or ID of identity used for AAD Authentication.</param>
+    /// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServerName">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+    public AzMysqlFlexibleServerAdAdminCreateOptions(
+        string DisplayName,
+        string Identity,
+        string ObjectId,
+        string ResourceGroup,
+        string ServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Identity);
+        this.Identity = Identity;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectId);
+        this.ObjectId = ObjectId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Identity, out string ObjectId, out string ResourceGroup, out string ServerName)
+    {
+        DisplayName = this.DisplayName;
+        Identity = this.Identity;
+        ObjectId = this.ObjectId;
+        ResourceGroup = this.ResourceGroup;
+        ServerName = this.ServerName;
+    }
+
+    /// <summary>
+    /// Display name of the Azure AD administrator user or group.
+    /// </summary>
+    [CliOption("--display-name", ShortForm = "-u")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Name or ID of identity used for AAD Authentication.
+    /// </summary>
+    [CliOption("--identity")]
+    public string Identity { get; private init; }
+
+    /// <summary>
+    /// The unique ID of the Azure AD administrator.
+    /// </summary>
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string ObjectId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string ServerName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

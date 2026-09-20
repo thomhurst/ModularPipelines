@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a role definition.
 /// </summary>
-/// <param name="Name">Matches the role definition's name (GUID) or roleName (e.g. 'Reader') property.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("role", "definition", "delete")]
-public record AzRoleDefinitionDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzRoleDefinitionDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a role definition.
+    /// </summary>
+    /// <param name="Name">Matches the role definition's name (GUID) or roleName (e.g. 'Reader') property.</param>
+    public AzRoleDefinitionDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Matches the role definition's name (GUID) or roleName (e.g. 'Reader') property.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Custom roles only(vs. build-in ones).  Allowed values: false, true.
     /// </summary>

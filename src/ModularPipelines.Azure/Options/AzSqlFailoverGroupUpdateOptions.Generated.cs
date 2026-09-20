@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates the failover group.
 /// </summary>
-/// <param name="Name">The name of the Failover Group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "failover-group", "update")]
-public record AzSqlFailoverGroupUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSqlFailoverGroupUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates the failover group.
+    /// </summary>
+    /// <param name="Name">The name of the Failover Group.</param>
+    public AzSqlFailoverGroupUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the Failover Group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// List of databases to add to Failover Group.
     /// </summary>

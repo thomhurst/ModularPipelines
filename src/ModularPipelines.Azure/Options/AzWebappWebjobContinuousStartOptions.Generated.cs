@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start a specific continuous webjob on a selected web app.
 /// </summary>
-/// <param name="WebjobName">The name of the webjob.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "webjob", "continuous", "start")]
-public record AzWebappWebjobContinuousStartOptions(
-    [property: CliOption("--webjob-name", ShortForm = "-w")] string WebjobName
-) : AzOptions
+public record AzWebappWebjobContinuousStartOptions : AzOptions
 {
+    /// <summary>
+    /// Start a specific continuous webjob on a selected web app.
+    /// </summary>
+    /// <param name="WebjobName">The name of the webjob.</param>
+    public AzWebappWebjobContinuousStartOptions(
+        string WebjobName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebjobName);
+        this.WebjobName = WebjobName;
+    }
+
+    public void Deconstruct(out string WebjobName)
+    {
+        WebjobName = this.WebjobName;
+    }
+
+    /// <summary>
+    /// The name of the webjob.
+    /// </summary>
+    [CliOption("--webjob-name", ShortForm = "-w")]
+    public string WebjobName { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

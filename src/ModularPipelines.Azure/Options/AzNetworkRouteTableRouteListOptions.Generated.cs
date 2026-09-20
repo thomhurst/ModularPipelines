@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List routes in a route table.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="RouteTableName">Route table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "route-table", "route", "list")]
-public record AzNetworkRouteTableRouteListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--route-table-name")] string RouteTableName
-) : AzOptions
+public record AzNetworkRouteTableRouteListOptions : AzOptions
 {
+    /// <summary>
+    /// List routes in a route table.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="RouteTableName">Route table name.</param>
+    public AzNetworkRouteTableRouteListOptions(
+        string ResourceGroup,
+        string RouteTableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(RouteTableName);
+        this.RouteTableName = RouteTableName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string RouteTableName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        RouteTableName = this.RouteTableName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Route table name.
+    /// </summary>
+    [CliOption("--route-table-name")]
+    public string RouteTableName { get; private init; }
+
 }

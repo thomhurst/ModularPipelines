@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the policy associated with this item. Use this to change
 /// </summary>
-/// <param name="PolicyName">Name of the Backup policy. You can use the backup policy list command to get the name of a backup policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "item", "set-policy")]
-public record AzBackupItemSetPolicyOptions(
-    [property: CliOption("--policy-name", ShortForm = "-p")] string PolicyName
-) : AzOptions
+public record AzBackupItemSetPolicyOptions : AzOptions
 {
+    /// <summary>
+    /// Update the policy associated with this item. Use this to change
+    /// </summary>
+    /// <param name="PolicyName">Name of the Backup policy. You can use the backup policy list command to get the name of a backup policy.</param>
+    public AzBackupItemSetPolicyOptions(
+        string PolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+    }
+
+    public void Deconstruct(out string PolicyName)
+    {
+        PolicyName = this.PolicyName;
+    }
+
+    /// <summary>
+    /// Name of the Backup policy. You can use the backup policy list command to get the name of a backup policy.
+    /// </summary>
+    [CliOption("--policy-name", ShortForm = "-p")]
+    public string PolicyName { get; private init; }
+
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
     /// </summary>

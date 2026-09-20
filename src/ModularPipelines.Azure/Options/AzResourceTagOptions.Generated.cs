@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Tag a resource.
 /// </summary>
-/// <param name="Tags">Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "tag")]
-public record AzResourceTagOptions(
-    [property: CliOption("--tags", GroupValues = true)] IEnumerable<string> Tags
-) : AzOptions
+public record AzResourceTagOptions : AzOptions
 {
+    /// <summary>
+    /// Tag a resource.
+    /// </summary>
+    /// <param name="Tags">Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.</param>
+    public AzResourceTagOptions(
+        IEnumerable<string> Tags
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Tags)
+    {
+        Tags = this.Tags;
+    }
+
+    /// <summary>
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// </summary>
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string> Tags { get; private init; }
+
     /// <summary>
     /// The option to add tags incrementally without deleting the original tags. If the key of new tag and original tag are duplicated, the original value will be overwritten.
     /// </summary>

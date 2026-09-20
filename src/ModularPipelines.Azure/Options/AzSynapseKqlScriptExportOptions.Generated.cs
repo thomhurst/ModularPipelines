@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export KQL scripts.
 /// </summary>
-/// <param name="OutputFolder">The name of the output folder.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kql-script", "export")]
-public record AzSynapseKqlScriptExportOptions(
-    [property: CliOption("--output-folder")] string OutputFolder,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseKqlScriptExportOptions : AzOptions
 {
+    /// <summary>
+    /// Export KQL scripts.
+    /// </summary>
+    /// <param name="OutputFolder">The name of the output folder.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzSynapseKqlScriptExportOptions(
+        string OutputFolder,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFolder);
+        this.OutputFolder = OutputFolder;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string OutputFolder, out string WorkspaceName)
+    {
+        OutputFolder = this.OutputFolder;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The name of the output folder.
+    /// </summary>
+    [CliOption("--output-folder")]
+    public string OutputFolder { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// The name of the KQL script.
     /// </summary>

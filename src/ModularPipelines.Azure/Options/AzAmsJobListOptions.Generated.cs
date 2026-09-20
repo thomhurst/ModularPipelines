@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the jobs of a transform within an Azure Media Services account.
 /// </summary>
-/// <param name="AccountName">The name of the Azure Media Services account.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="TransformName">The name of the transform.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "job", "list")]
-public record AzAmsJobListOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--transform-name", ShortForm = "-t")] string TransformName
-) : AzOptions
+public record AzAmsJobListOptions : AzOptions
 {
+    /// <summary>
+    /// List all the jobs of a transform within an Azure Media Services account.
+    /// </summary>
+    /// <param name="AccountName">The name of the Azure Media Services account.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="TransformName">The name of the transform.</param>
+    public AzAmsJobListOptions(
+        string AccountName,
+        string ResourceGroup,
+        string TransformName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(TransformName);
+        this.TransformName = TransformName;
+    }
+
+    public void Deconstruct(out string AccountName, out string ResourceGroup, out string TransformName)
+    {
+        AccountName = this.AccountName;
+        ResourceGroup = this.ResourceGroup;
+        TransformName = this.TransformName;
+    }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the transform.
+    /// </summary>
+    [CliOption("--transform-name", ShortForm = "-t")]
+    public string TransformName { get; private init; }
+
     /// <summary>
     /// Restricts the set of items returned.
     /// </summary>

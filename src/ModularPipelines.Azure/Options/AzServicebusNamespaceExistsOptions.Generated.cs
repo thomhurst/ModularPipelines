@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check the give namespace name availability.
 /// </summary>
-/// <param name="Name">The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "exists")]
-public record AzServicebusNamespaceExistsOptions(
-    [property: CliOption("--name")] string Name
-) : AzOptions
+public record AzServicebusNamespaceExistsOptions : AzOptions
 {
+    /// <summary>
+    /// Check the give namespace name availability.
+    /// </summary>
+    /// <param name="Name">The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.</param>
+    public AzServicebusNamespaceExistsOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.
+    /// </summary>
+    [CliOption("--name")]
+    public string Name { get; private init; }
+
 }

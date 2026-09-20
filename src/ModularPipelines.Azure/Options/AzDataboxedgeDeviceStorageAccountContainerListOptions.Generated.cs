@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the containers of a storage
 /// </summary>
-/// <param name="DeviceName">The device name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StorageAccountName">The storage Account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account", "container", "list")]
-public record AzDataboxedgeDeviceStorageAccountContainerListOptions(
-    [property: CliOption("--device-name")] string DeviceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--storage-account-name")] string StorageAccountName
-) : AzOptions
+public record AzDataboxedgeDeviceStorageAccountContainerListOptions : AzOptions
 {
+    /// <summary>
+    /// List all the containers of a storage
+    /// </summary>
+    /// <param name="DeviceName">The device name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StorageAccountName">The storage Account name.</param>
+    public AzDataboxedgeDeviceStorageAccountContainerListOptions(
+        string DeviceName,
+        string ResourceGroup,
+        string StorageAccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccountName);
+        this.StorageAccountName = StorageAccountName;
+    }
+
+    public void Deconstruct(out string DeviceName, out string ResourceGroup, out string StorageAccountName)
+    {
+        DeviceName = this.DeviceName;
+        ResourceGroup = this.ResourceGroup;
+        StorageAccountName = this.StorageAccountName;
+    }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliOption("--device-name")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The storage Account name.
+    /// </summary>
+    [CliOption("--storage-account-name")]
+    public string StorageAccountName { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

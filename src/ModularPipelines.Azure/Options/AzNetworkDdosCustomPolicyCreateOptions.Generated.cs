@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a DDoS custom policy.
 /// </summary>
-/// <param name="DdosCustomPolicyName">The name of the DDoS custom policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "ddos-custom-policy", "create")]
-public record AzNetworkDdosCustomPolicyCreateOptions(
-    [property: CliOption("--ddos-custom-policy-name", ShortForm = "-n")] string DdosCustomPolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkDdosCustomPolicyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a DDoS custom policy.
+    /// </summary>
+    /// <param name="DdosCustomPolicyName">The name of the DDoS custom policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkDdosCustomPolicyCreateOptions(
+        string DdosCustomPolicyName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DdosCustomPolicyName);
+        this.DdosCustomPolicyName = DdosCustomPolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DdosCustomPolicyName, out string ResourceGroup)
+    {
+        DdosCustomPolicyName = this.DdosCustomPolicyName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the DDoS custom policy.
+    /// </summary>
+    [CliOption("--ddos-custom-policy-name", ShortForm = "-n")]
+    public string DdosCustomPolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

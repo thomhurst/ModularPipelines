@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable the premium ingress settings for the
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkloadProfileName">The workload profile to run ingress replicas on. This profile must not be shared with any container app or job.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "premium-ingress", "add")]
-public record AzContainerappEnvPremiumIngressAddOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workload-profile-name", ShortForm = "-w")] string WorkloadProfileName
-) : AzOptions
+public record AzContainerappEnvPremiumIngressAddOptions : AzOptions
 {
+    /// <summary>
+    /// Enable the premium ingress settings for the
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkloadProfileName">The workload profile to run ingress replicas on. This profile must not be shared with any container app or job.</param>
+    public AzContainerappEnvPremiumIngressAddOptions(
+        string ResourceGroup,
+        string WorkloadProfileName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadProfileName);
+        this.WorkloadProfileName = WorkloadProfileName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string WorkloadProfileName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        WorkloadProfileName = this.WorkloadProfileName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The workload profile to run ingress replicas on. This profile must not be shared with any container app or job.
+    /// </summary>
+    [CliOption("--workload-profile-name", ShortForm = "-w")]
+    public string WorkloadProfileName { get; private init; }
+
     /// <summary>
     /// Limit of http headers per request. Default 100, minimum 1.
     /// </summary>

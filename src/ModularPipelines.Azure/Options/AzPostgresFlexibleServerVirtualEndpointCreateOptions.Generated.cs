@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new virtual endpoint for a
 /// </summary>
-/// <param name="EndpointType">Virtual Endpoints offer two distinct types of connection points. Writer endpoint (Read/Write), this endpoint always points to the current primary server. Read-only endpoint, This endpoint can point to either a read replica or primary server. Allowed values: ReadWrite.</param>
-/// <param name="Members">The read replicas the virtual endpoints point to.</param>
-/// <param name="Name">Name of the virtual endpoint. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServerName">Name of the server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "virtual-endpoint", "create")]
-public record AzPostgresFlexibleServerVirtualEndpointCreateOptions(
-    [property: CliOption("--endpoint-type", ShortForm = "-t")] string EndpointType,
-    [property: CliOption("--members", ShortForm = "-m")] string Members,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
-) : AzOptions
+public record AzPostgresFlexibleServerVirtualEndpointCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new virtual endpoint for a
+    /// </summary>
+    /// <param name="EndpointType">Virtual Endpoints offer two distinct types of connection points. Writer endpoint (Read/Write), this endpoint always points to the current primary server. Read-only endpoint, This endpoint can point to either a read replica or primary server. Allowed values: ReadWrite.</param>
+    /// <param name="Members">The read replicas the virtual endpoints point to.</param>
+    /// <param name="Name">Name of the virtual endpoint. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServerName">Name of the server.</param>
+    public AzPostgresFlexibleServerVirtualEndpointCreateOptions(
+        string EndpointType,
+        string Members,
+        string Name,
+        string ResourceGroup,
+        string ServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointType);
+        this.EndpointType = EndpointType;
+        global::System.ArgumentNullException.ThrowIfNull(Members);
+        this.Members = Members;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+    }
+
+    public void Deconstruct(out string EndpointType, out string Members, out string Name, out string ResourceGroup, out string ServerName)
+    {
+        EndpointType = this.EndpointType;
+        Members = this.Members;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ServerName = this.ServerName;
+    }
+
+    /// <summary>
+    /// Virtual Endpoints offer two distinct types of connection points. Writer endpoint (Read/Write), this endpoint always points to the current primary server. Read-only endpoint, This endpoint can point to either a read replica or primary server. Allowed values: ReadWrite.
+    /// </summary>
+    [CliOption("--endpoint-type", ShortForm = "-t")]
+    public string EndpointType { get; private init; }
+
+    /// <summary>
+    /// The read replicas the virtual endpoints point to.
+    /// </summary>
+    [CliOption("--members", ShortForm = "-m")]
+    public string Members { get; private init; }
+
+    /// <summary>
+    /// Name of the virtual endpoint. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the server.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string ServerName { get; private init; }
+
 }

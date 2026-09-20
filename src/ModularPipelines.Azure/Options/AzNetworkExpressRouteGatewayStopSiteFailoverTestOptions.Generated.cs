@@ -15,18 +15,66 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation stops an ongoing
 /// </summary>
-/// <param name="Details">List of all the failover connections for this peering location  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
-/// <param name="PeeringLocation">Peering location of the test.</param>
-/// <param name="SimulationSuccessful">Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "gateway", "stop-site-failover-test")]
-public record AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions(
-    [property: CliOption("--details", GroupValues = true)] IEnumerable<string> Details,
-    [property: CliOption("--peering-location")] string PeeringLocation,
-    [property: CliOption("--simulation-successful")] bool SimulationSuccessful
-) : AzOptions
+public record AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions : AzOptions
 {
+    /// <summary>
+    /// This operation stops an ongoing
+    /// </summary>
+    /// <param name="Details">List of all the failover connections for this peering location  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+    /// <param name="PeeringLocation">Peering location of the test.</param>
+    /// <param name="SimulationSuccessful">Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+    public AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions(
+        IEnumerable<string> Details,
+        string PeeringLocation,
+        bool SimulationSuccessful
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Details);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Details));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Details));
+            }
+
+            Details = materialized;
+        }
+        this.Details = Details;
+        global::System.ArgumentNullException.ThrowIfNull(PeeringLocation);
+        this.PeeringLocation = PeeringLocation;
+        this.SimulationSuccessful = SimulationSuccessful;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Details, out string PeeringLocation, out bool SimulationSuccessful)
+    {
+        Details = this.Details;
+        PeeringLocation = this.PeeringLocation;
+        SimulationSuccessful = this.SimulationSuccessful;
+    }
+
+    /// <summary>
+    /// List of all the failover connections for this peering location  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--details", GroupValues = true)]
+    public IEnumerable<string> Details { get; private init; }
+
+    /// <summary>
+    /// Peering location of the test.
+    /// </summary>
+    [CliOption("--peering-location")]
+    public string PeeringLocation { get; private init; }
+
+    /// <summary>
+    /// Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--simulation-successful")]
+    public bool SimulationSuccessful { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

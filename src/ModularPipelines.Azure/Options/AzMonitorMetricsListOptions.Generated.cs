@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the metric values for a resource.
 /// </summary>
-/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list")]
-public record AzMonitorMetricsListOptions(
-    [property: CliOption("--resource")] string Resource
-) : AzOptions
+public record AzMonitorMetricsListOptions : AzOptions
 {
+    /// <summary>
+    /// List the metric values for a resource.
+    /// </summary>
+    /// <param name="Resource">Name or ID of the target resource.</param>
+    public AzMonitorMetricsListOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// Name or ID of the target resource.
+    /// </summary>
+    [CliOption("--resource")]
+    public string Resource { get; private init; }
+
     /// <summary>
     /// The list of aggregation types (space-separated) to retrieve.  Allowed values: Average, Count, Maximum, Minimum, None, Total.  Values from: az monitor metrics list-definitions.
     /// </summary>

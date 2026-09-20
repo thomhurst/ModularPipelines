@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Attach a managed persistent disk to a VM.
 /// </summary>
-/// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "disk", "attach")]
-public record AzVmDiskAttachOptions(
-    [property: CliOption("--vm-name")] string VmName
-) : AzOptions
+public record AzVmDiskAttachOptions : AzOptions
 {
+    /// <summary>
+    /// Attach a managed persistent disk to a VM.
+    /// </summary>
+    /// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
+    public AzVmDiskAttachOptions(
+        string VmName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VmName);
+        this.VmName = VmName;
+    }
+
+    public void Deconstruct(out string VmName)
+    {
+        VmName = this.VmName;
+    }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--vm-name")]
+    public string VmName { get; private init; }
+
     /// <summary>
     /// Disk caching policy.  Allowed values: None, ReadOnly, ReadWrite.
     /// </summary>

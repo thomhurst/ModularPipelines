@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a resource-level lock.
 /// </summary>
-/// <param name="LockType">The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.</param>
-/// <param name="Name">Name of the lock.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "lock", "create")]
-public record AzResourceLockCreateOptions(
-    [property: CliOption("--lock-type", ShortForm = "-t")] string LockType,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzResourceLockCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a resource-level lock.
+    /// </summary>
+    /// <param name="LockType">The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.</param>
+    /// <param name="Name">Name of the lock.</param>
+    public AzResourceLockCreateOptions(
+        string LockType,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LockType);
+        this.LockType = LockType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string LockType, out string Name)
+    {
+        LockType = this.LockType;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.
+    /// </summary>
+    [CliOption("--lock-type", ShortForm = "-t")]
+    public string LockType { get; private init; }
+
+    /// <summary>
+    /// Name of the lock.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Notes about this lock.
     /// </summary>

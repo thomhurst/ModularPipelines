@@ -15,22 +15,77 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a probe in the load balance.
 /// </summary>
-/// <param name="LbName">The load balancer name.</param>
-/// <param name="Name">The name of the probe.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Port">The port for communicating the probe. Possible values range from 1 to 65535, inclusive.</param>
-/// <param name="Protocol">The protocol of the end point.  Allowed values: Http, Https, Tcp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "probe", "create")]
-public record AzNetworkLbProbeCreateOptions(
-    [property: CliOption("--lb-name")] string LbName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--port")] int Port,
-    [property: CliOption("--protocol")] string Protocol
-) : AzOptions
+public record AzNetworkLbProbeCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a probe in the load balance.
+    /// </summary>
+    /// <param name="LbName">The load balancer name.</param>
+    /// <param name="Name">The name of the probe.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Port">The port for communicating the probe. Possible values range from 1 to 65535, inclusive.</param>
+    /// <param name="Protocol">The protocol of the end point.  Allowed values: Http, Https, Tcp.</param>
+    public AzNetworkLbProbeCreateOptions(
+        string LbName,
+        string Name,
+        string ResourceGroup,
+        int Port,
+        string Protocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbName);
+        this.LbName = LbName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        this.Port = Port;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+    }
+
+    public void Deconstruct(out string LbName, out string Name, out string ResourceGroup, out int Port, out string Protocol)
+    {
+        LbName = this.LbName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Port = this.Port;
+        Protocol = this.Protocol;
+    }
+
+    /// <summary>
+    /// The load balancer name.
+    /// </summary>
+    [CliOption("--lb-name")]
+    public string LbName { get; private init; }
+
+    /// <summary>
+    /// The name of the probe.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
+    /// </summary>
+    [CliOption("--port")]
+    public int Port { get; private init; }
+
+    /// <summary>
+    /// The protocol of the end point.  Allowed values: Http, Https, Tcp.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string Protocol { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new role assignment for a user, group, or service
 /// </summary>
-/// <param name="Role">Role name or id.</param>
-/// <param name="Scope">Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/ virtualMachines/myVM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("role", "assignment", "create")]
-public record AzRoleAssignmentCreateOptions(
-    [property: CliOption("--role")] string Role,
-    [property: CliOption("--scope")] string Scope
-) : AzOptions
+public record AzRoleAssignmentCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new role assignment for a user, group, or service
+    /// </summary>
+    /// <param name="Role">Role name or id.</param>
+    /// <param name="Scope">Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/ virtualMachines/myVM.</param>
+    public AzRoleAssignmentCreateOptions(
+        string Role,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Role, out string Scope)
+    {
+        Role = this.Role;
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// Role name or id.
+    /// </summary>
+    [CliOption("--role")]
+    public string Role { get; private init; }
+
+    /// <summary>
+    /// Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/ virtualMachines/myVM.
+    /// </summary>
+    [CliOption("--scope")]
+    public string Scope { get; private init; }
+
     /// <summary>
     /// Represent a user, group, or service principal. supported format: object id, user sign-in name, or service principal name.
     /// </summary>

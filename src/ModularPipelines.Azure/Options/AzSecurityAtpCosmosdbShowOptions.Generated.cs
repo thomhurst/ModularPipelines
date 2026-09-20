@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Display Advanced Threat Protection settings for an Azure Cosmos
 /// </summary>
-/// <param name="CosmosdbAccount">Name of an existing Cosmos DB account.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "atp", "cosmosdb", "show")]
-public record AzSecurityAtpCosmosdbShowOptions(
-    [property: CliOption("--cosmosdb-account")] string CosmosdbAccount,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSecurityAtpCosmosdbShowOptions : AzOptions
 {
+    /// <summary>
+    /// Display Advanced Threat Protection settings for an Azure Cosmos
+    /// </summary>
+    /// <param name="CosmosdbAccount">Name of an existing Cosmos DB account.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSecurityAtpCosmosdbShowOptions(
+        string CosmosdbAccount,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CosmosdbAccount);
+        this.CosmosdbAccount = CosmosdbAccount;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string CosmosdbAccount, out string ResourceGroup)
+    {
+        CosmosdbAccount = this.CosmosdbAccount;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of an existing Cosmos DB account.
+    /// </summary>
+    [CliOption("--cosmosdb-account")]
+    public string CosmosdbAccount { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

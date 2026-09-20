@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes the specified file from the Compute Node.
 /// </summary>
-/// <param name="FilePath">The path to the file or directory. Required.</param>
-/// <param name="NodeId">The ID of the Compute Node. Required.</param>
-/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "file", "delete")]
-public record AzBatchNodeFileDeleteOptions(
-    [property: CliOption("--file-path")] string FilePath,
-    [property: CliOption("--node-id")] string NodeId,
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchNodeFileDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes the specified file from the Compute Node.
+    /// </summary>
+    /// <param name="FilePath">The path to the file or directory. Required.</param>
+    /// <param name="NodeId">The ID of the Compute Node. Required.</param>
+    /// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
+    public AzBatchNodeFileDeleteOptions(
+        string FilePath,
+        string NodeId,
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+        global::System.ArgumentNullException.ThrowIfNull(NodeId);
+        this.NodeId = NodeId;
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string FilePath, out string NodeId, out string PoolId)
+    {
+        FilePath = this.FilePath;
+        NodeId = this.NodeId;
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The path to the file or directory. Required.
+    /// </summary>
+    [CliOption("--file-path")]
+    public string FilePath { get; private init; }
+
+    /// <summary>
+    /// The ID of the Compute Node. Required.
+    /// </summary>
+    [CliOption("--node-id")]
+    public string NodeId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Pool that contains the Compute Node. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// Whether to delete children of a directory. If the filePath parameter represents a directory instead of a file, you can set recursive to true to delete the directory and all of the files and subdirectories in it. If recursive is false then the directory must be empty or deletion will fail. Default value is None.  Allowed values: false, true.
     /// </summary>

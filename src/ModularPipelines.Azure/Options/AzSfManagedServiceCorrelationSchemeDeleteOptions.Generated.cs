@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a managed service correlation scheme.
 /// </summary>
-/// <param name="Application">Specify the name of the service.</param>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="CorrelatedName">Specify the Arm Resource ID of the service that the correlation relationship is established with.</param>
-/// <param name="Name">Specify the name of the service.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-service", "correlation-scheme", "delete")]
-public record AzSfManagedServiceCorrelationSchemeDeleteOptions(
-    [property: CliOption("--application", ShortForm = "--application-name")] string Application,
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--correlated-name", ShortForm = "--correlated-service-name")] string CorrelatedName,
-    [property: CliOption("--name", ShortForm = "--service-name")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSfManagedServiceCorrelationSchemeDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a managed service correlation scheme.
+    /// </summary>
+    /// <param name="Application">Specify the name of the service.</param>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="CorrelatedName">Specify the Arm Resource ID of the service that the correlation relationship is established with.</param>
+    /// <param name="Name">Specify the name of the service.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSfManagedServiceCorrelationSchemeDeleteOptions(
+        string Application,
+        string ClusterName,
+        string CorrelatedName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(CorrelatedName);
+        this.CorrelatedName = CorrelatedName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Application, out string ClusterName, out string CorrelatedName, out string Name, out string ResourceGroup)
+    {
+        Application = this.Application;
+        ClusterName = this.ClusterName;
+        CorrelatedName = this.CorrelatedName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Specify the name of the service.
+    /// </summary>
+    [CliOption("--application", ShortForm = "--application-name")]
+    public string Application { get; private init; }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Specify the Arm Resource ID of the service that the correlation relationship is established with.
+    /// </summary>
+    [CliOption("--correlated-name", ShortForm = "--correlated-service-name")]
+    public string CorrelatedName { get; private init; }
+
+    /// <summary>
+    /// Specify the name of the service.
+    /// </summary>
+    [CliOption("--name", ShortForm = "--service-name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

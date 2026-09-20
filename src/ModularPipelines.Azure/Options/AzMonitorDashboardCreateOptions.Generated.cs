@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Dashboard with Grafana resource. This API is idempotent,
 /// </summary>
-/// <param name="DashboardName">The name of the Azure Managed Dashboard.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "dashboard", "create")]
-public record AzMonitorDashboardCreateOptions(
-    [property: CliOption("--dashboard-name", ShortForm = "-n")] string DashboardName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMonitorDashboardCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Dashboard with Grafana resource. This API is idempotent,
+    /// </summary>
+    /// <param name="DashboardName">The name of the Azure Managed Dashboard.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMonitorDashboardCreateOptions(
+        string DashboardName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DashboardName);
+        this.DashboardName = DashboardName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DashboardName, out string ResourceGroup)
+    {
+        DashboardName = this.DashboardName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Azure Managed Dashboard.
+    /// </summary>
+    [CliOption("--dashboard-name", ShortForm = "-n")]
+    public string DashboardName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

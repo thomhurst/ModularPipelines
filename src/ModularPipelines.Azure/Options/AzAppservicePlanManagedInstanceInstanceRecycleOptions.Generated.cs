@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Recycle a specific instance in a managed
 /// </summary>
-/// <param name="InstanceName">The name of the instance to recycle.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "instance", "recycle")]
-public record AzAppservicePlanManagedInstanceInstanceRecycleOptions(
-    [property: CliOption("--instance-name")] string InstanceName
-) : AzOptions
+public record AzAppservicePlanManagedInstanceInstanceRecycleOptions : AzOptions
 {
+    /// <summary>
+    /// Recycle a specific instance in a managed
+    /// </summary>
+    /// <param name="InstanceName">The name of the instance to recycle.</param>
+    public AzAppservicePlanManagedInstanceInstanceRecycleOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
+    /// <summary>
+    /// The name of the instance to recycle.
+    /// </summary>
+    [CliOption("--instance-name")]
+    public string InstanceName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

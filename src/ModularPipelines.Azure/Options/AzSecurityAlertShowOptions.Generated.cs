@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows a security alert.
 /// </summary>
-/// <param name="Location">Location of the resource.</param>
-/// <param name="Name">Name of the resource to be fetched.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alert", "show")]
-public record AzSecurityAlertShowOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSecurityAlertShowOptions : AzOptions
 {
+    /// <summary>
+    /// Shows a security alert.
+    /// </summary>
+    /// <param name="Location">Location of the resource.</param>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    public AzSecurityAlertShowOptions(
+        string Location,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Location, out string Name)
+    {
+        Location = this.Location;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Location of the resource.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

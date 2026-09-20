@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validate whether a template is valid at tenant scope.
 /// </summary>
-/// <param name="Location">The location to store the deployment metadata.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "tenant", "validate")]
-public record AzDeploymentTenantValidateOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzDeploymentTenantValidateOptions : AzOptions
 {
+    /// <summary>
+    /// Validate whether a template is valid at tenant scope.
+    /// </summary>
+    /// <param name="Location">The location to store the deployment metadata.</param>
+    public AzDeploymentTenantValidateOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The location to store the deployment metadata.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
     /// <summary>
     /// The deployment name.
     /// </summary>

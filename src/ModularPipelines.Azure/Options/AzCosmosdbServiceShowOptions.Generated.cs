@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get cosmosdb service resource under an account.
 /// </summary>
-/// <param name="AccountName">Name of the Cosmos DB database account.</param>
-/// <param name="Name">Service Name.</param>
-/// <param name="ResourceGroupName">Name of the resource group of the database account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "service", "show")]
-public record AzCosmosdbServiceShowOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group-name", ShortForm = "-g")] string ResourceGroupName
-) : AzOptions
+public record AzCosmosdbServiceShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get cosmosdb service resource under an account.
+    /// </summary>
+    /// <param name="AccountName">Name of the Cosmos DB database account.</param>
+    /// <param name="Name">Service Name.</param>
+    /// <param name="ResourceGroupName">Name of the resource group of the database account.</param>
+    public AzCosmosdbServiceShowOptions(
+        string AccountName,
+        string Name,
+        string ResourceGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroupName);
+        this.ResourceGroupName = ResourceGroupName;
+    }
+
+    public void Deconstruct(out string AccountName, out string Name, out string ResourceGroupName)
+    {
+        AccountName = this.AccountName;
+        Name = this.Name;
+        ResourceGroupName = this.ResourceGroupName;
+    }
+
+    /// <summary>
+    /// Name of the Cosmos DB database account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Service Name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the resource group of the database account.
+    /// </summary>
+    [CliOption("--resource-group-name", ShortForm = "-g")]
+    public string ResourceGroupName { get; private init; }
+
 }

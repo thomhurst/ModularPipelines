@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a project for Azure Cognitive Services
 /// </summary>
-/// <param name="Name">Cognitive service account name.</param>
-/// <param name="ProjectName">Cognitive Services account project name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "project", "update")]
-public record AzCognitiveservicesAccountProjectUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--project-name")] string ProjectName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCognitiveservicesAccountProjectUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a project for Azure Cognitive Services
+    /// </summary>
+    /// <param name="Name">Cognitive service account name.</param>
+    /// <param name="ProjectName">Cognitive Services account project name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCognitiveservicesAccountProjectUpdateOptions(
+        string Name,
+        string ProjectName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string ProjectName, out string ResourceGroup)
+    {
+        Name = this.Name;
+        ProjectName = this.ProjectName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cognitive service account name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Cognitive Services account project name.
+    /// </summary>
+    [CliOption("--project-name")]
+    public string ProjectName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Description of the project.
     /// </summary>

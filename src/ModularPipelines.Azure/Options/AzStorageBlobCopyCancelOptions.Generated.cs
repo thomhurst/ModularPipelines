@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Abort an ongoing copy operation.
 /// </summary>
-/// <param name="CopyId">The copy operation to abort. This can be either an ID string, or an instance of BlobProperties.</param>
-/// <param name="DestinationBlob">Name of the destination blob. If it exists, it will be overwritten.</param>
-/// <param name="DestinationContainer">The container name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "blob", "copy", "cancel")]
-public record AzStorageBlobCopyCancelOptions(
-    [property: CliOption("--copy-id")] string CopyId,
-    [property: CliOption("--destination-blob", ShortForm = "-b")] string DestinationBlob,
-    [property: CliOption("--destination-container", ShortForm = "-c")] string DestinationContainer
-) : AzOptions
+public record AzStorageBlobCopyCancelOptions : AzOptions
 {
+    /// <summary>
+    /// Abort an ongoing copy operation.
+    /// </summary>
+    /// <param name="CopyId">The copy operation to abort. This can be either an ID string, or an instance of BlobProperties.</param>
+    /// <param name="DestinationBlob">Name of the destination blob. If it exists, it will be overwritten.</param>
+    /// <param name="DestinationContainer">The container name.</param>
+    public AzStorageBlobCopyCancelOptions(
+        string CopyId,
+        string DestinationBlob,
+        string DestinationContainer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CopyId);
+        this.CopyId = CopyId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationBlob);
+        this.DestinationBlob = DestinationBlob;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationContainer);
+        this.DestinationContainer = DestinationContainer;
+    }
+
+    public void Deconstruct(out string CopyId, out string DestinationBlob, out string DestinationContainer)
+    {
+        CopyId = this.CopyId;
+        DestinationBlob = this.DestinationBlob;
+        DestinationContainer = this.DestinationContainer;
+    }
+
+    /// <summary>
+    /// The copy operation to abort. This can be either an ID string, or an instance of BlobProperties.
+    /// </summary>
+    [CliOption("--copy-id")]
+    public string CopyId { get; private init; }
+
+    /// <summary>
+    /// Name of the destination blob. If it exists, it will be overwritten.
+    /// </summary>
+    [CliOption("--destination-blob", ShortForm = "-b")]
+    public string DestinationBlob { get; private init; }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--destination-container", ShortForm = "-c")]
+    public string DestinationContainer { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

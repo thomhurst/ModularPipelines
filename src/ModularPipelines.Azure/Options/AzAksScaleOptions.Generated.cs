@@ -15,18 +15,55 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Scale the node pool in a managed Kubernetes cluster.
 /// </summary>
-/// <param name="Name">Name of the managed cluster.</param>
-/// <param name="NodeCount">Number of nodes in the Kubernetes node pool.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "scale")]
-public record AzAksScaleOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--node-count", ShortForm = "-c")] int NodeCount,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksScaleOptions : AzOptions
 {
+    /// <summary>
+    /// Scale the node pool in a managed Kubernetes cluster.
+    /// </summary>
+    /// <param name="Name">Name of the managed cluster.</param>
+    /// <param name="NodeCount">Number of nodes in the Kubernetes node pool.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksScaleOptions(
+        string Name,
+        int NodeCount,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.NodeCount = NodeCount;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out int NodeCount, out string ResourceGroup)
+    {
+        Name = this.Name;
+        NodeCount = this.NodeCount;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the managed cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Number of nodes in the Kubernetes node pool.
+    /// </summary>
+    [CliOption("--node-count", ShortForm = "-c")]
+    public int NodeCount { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

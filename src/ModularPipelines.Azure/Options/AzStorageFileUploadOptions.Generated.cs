@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload a file to a share.
 /// </summary>
-/// <param name="Source">Path of the local file to upload as the file content.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "upload")]
-public record AzStorageFileUploadOptions(
-    [property: CliOption("--source")] string Source
-) : AzOptions
+public record AzStorageFileUploadOptions : AzOptions
 {
+    /// <summary>
+    /// Upload a file to a share.
+    /// </summary>
+    /// <param name="Source">Path of the local file to upload as the file content.</param>
+    public AzStorageFileUploadOptions(
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Source)
+    {
+        Source = this.Source;
+    }
+
+    /// <summary>
+    /// Path of the local file to upload as the file content.
+    /// </summary>
+    [CliOption("--source")]
+    public string Source { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

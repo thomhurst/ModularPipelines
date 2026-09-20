@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable a receiver in an action group.
 /// </summary>
-/// <param name="Name">The name of the receiver to resubscribe.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "action-group", "enable-receiver")]
-public record AzMonitorActionGroupEnableReceiverOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzMonitorActionGroupEnableReceiverOptions : AzOptions
 {
+    /// <summary>
+    /// Enable a receiver in an action group.
+    /// </summary>
+    /// <param name="Name">The name of the receiver to resubscribe.</param>
+    public AzMonitorActionGroupEnableReceiverOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the receiver to resubscribe.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The name of the action group.
     /// </summary>

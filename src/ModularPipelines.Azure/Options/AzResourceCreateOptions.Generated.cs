@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a resource.
 /// </summary>
-/// <param name="Properties">A JSON-formatted string containing resource properties.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "create")]
-public record AzResourceCreateOptions(
-    [property: CliOption("--properties", ShortForm = "-p")] string Properties
-) : AzOptions
+public record AzResourceCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a resource.
+    /// </summary>
+    /// <param name="Properties">A JSON-formatted string containing resource properties.</param>
+    public AzResourceCreateOptions(
+        string Properties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Properties);
+        this.Properties = Properties;
+    }
+
+    public void Deconstruct(out string Properties)
+    {
+        Properties = this.Properties;
+    }
+
+    /// <summary>
+    /// A JSON-formatted string containing resource properties.
+    /// </summary>
+    [CliOption("--properties", ShortForm = "-p")]
+    public string Properties { get; private init; }
+
     /// <summary>
     /// Resource ID.
     /// </summary>

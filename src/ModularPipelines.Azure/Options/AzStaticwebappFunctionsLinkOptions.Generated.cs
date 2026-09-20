@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Link an Azure Function to a static webapp. Also known as "Bring
 /// </summary>
-/// <param name="FunctionResourceId">Resource ID of the functionapp to link. Can be retrieved with 'az functionapp --query id'.</param>
-/// <param name="Name">Name of the static site.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "functions", "link")]
-public record AzStaticwebappFunctionsLinkOptions(
-    [property: CliOption("--function-resource-id")] string FunctionResourceId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzStaticwebappFunctionsLinkOptions : AzOptions
 {
+    /// <summary>
+    /// Link an Azure Function to a static webapp. Also known as "Bring
+    /// </summary>
+    /// <param name="FunctionResourceId">Resource ID of the functionapp to link. Can be retrieved with 'az functionapp --query id'.</param>
+    /// <param name="Name">Name of the static site.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzStaticwebappFunctionsLinkOptions(
+        string FunctionResourceId,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FunctionResourceId);
+        this.FunctionResourceId = FunctionResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string FunctionResourceId, out string Name, out string ResourceGroup)
+    {
+        FunctionResourceId = this.FunctionResourceId;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Resource ID of the functionapp to link. Can be retrieved with 'az functionapp --query id'.
+    /// </summary>
+    [CliOption("--function-resource-id")]
+    public string FunctionResourceId { get; private init; }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Name of the environment of static site.
     /// </summary>

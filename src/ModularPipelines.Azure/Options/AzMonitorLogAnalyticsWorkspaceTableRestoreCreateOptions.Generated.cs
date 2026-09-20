@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Log Analytics workspace
 /// </summary>
-/// <param name="EndRestoreTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
-/// <param name="Name">Name of the table. The table name needs to end with _RST.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="RestoreSourceTable">The table to restore data from.</param>
-/// <param name="StartRestoreTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
-/// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "table", "restore", "create")]
-public record AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions(
-    [property: CliOption("--end-restore-time")] string EndRestoreTime,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--restore-source-table")] string RestoreSourceTable,
-    [property: CliOption("--start-restore-time")] string StartRestoreTime,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Log Analytics workspace
+    /// </summary>
+    /// <param name="EndRestoreTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
+    /// <param name="Name">Name of the table. The table name needs to end with _RST.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="RestoreSourceTable">The table to restore data from.</param>
+    /// <param name="StartRestoreTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
+    /// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
+    public AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions(
+        string EndRestoreTime,
+        string Name,
+        string ResourceGroup,
+        string RestoreSourceTable,
+        string StartRestoreTime,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndRestoreTime);
+        this.EndRestoreTime = EndRestoreTime;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(RestoreSourceTable);
+        this.RestoreSourceTable = RestoreSourceTable;
+        global::System.ArgumentNullException.ThrowIfNull(StartRestoreTime);
+        this.StartRestoreTime = StartRestoreTime;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string EndRestoreTime, out string Name, out string ResourceGroup, out string RestoreSourceTable, out string StartRestoreTime, out string WorkspaceName)
+    {
+        EndRestoreTime = this.EndRestoreTime;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        RestoreSourceTable = this.RestoreSourceTable;
+        StartRestoreTime = this.StartRestoreTime;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliOption("--end-restore-time")]
+    public string EndRestoreTime { get; private init; }
+
+    /// <summary>
+    /// Name of the table. The table name needs to end with _RST.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The table to restore data from.
+    /// </summary>
+    [CliOption("--restore-source-table")]
+    public string RestoreSourceTable { get; private init; }
+
+    /// <summary>
+    /// Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliOption("--start-restore-time")]
+    public string StartRestoreTime { get; private init; }
+
+    /// <summary>
+    /// Name of the Log Analytics Workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

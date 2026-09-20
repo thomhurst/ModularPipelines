@@ -15,20 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a URL path map.
 /// </summary>
-/// <param name="GatewayName">Name of the application gateway.</param>
-/// <param name="Name">Name of the URL path map.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Paths">Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "url-path-map", "create")]
-public record AzNetworkApplicationGatewayUrlPathMapCreateOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--paths", GroupValues = true)] IEnumerable<string> Paths
-) : AzOptions
+public record AzNetworkApplicationGatewayUrlPathMapCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a URL path map.
+    /// </summary>
+    /// <param name="GatewayName">Name of the application gateway.</param>
+    /// <param name="Name">Name of the URL path map.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Paths">Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzNetworkApplicationGatewayUrlPathMapCreateOptions(
+        string GatewayName,
+        string Name,
+        string ResourceGroup,
+        IEnumerable<string> Paths
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Paths);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Paths));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Paths));
+            }
+
+            Paths = materialized;
+        }
+        this.Paths = Paths;
+    }
+
+    public void Deconstruct(out string GatewayName, out string Name, out string ResourceGroup, out IEnumerable<string> Paths)
+    {
+        GatewayName = this.GatewayName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Paths = this.Paths;
+    }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Name of the URL path map.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--paths", GroupValues = true)]
+    public IEnumerable<string> Paths { get; private init; }
+
     /// <summary>
     /// Name or ID of the default backend address pool. It is mandatory unless target type is redirection.
     /// </summary>

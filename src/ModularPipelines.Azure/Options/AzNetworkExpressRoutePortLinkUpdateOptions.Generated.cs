@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manage MACsec configuration of an ExpressRoute Link.
 /// </summary>
-/// <param name="Name">The link name of the ExpressRoute Port.</param>
-/// <param name="PortName">ExpressRoute port name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "port", "link", "update")]
-public record AzNetworkExpressRoutePortLinkUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--port-name")] string PortName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Manage MACsec configuration of an ExpressRoute Link.
+    /// </summary>
+    /// <param name="Name">The link name of the ExpressRoute Port.</param>
+    /// <param name="PortName">ExpressRoute port name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkExpressRoutePortLinkUpdateOptions(
+        string Name,
+        string PortName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PortName);
+        this.PortName = PortName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string PortName, out string ResourceGroup)
+    {
+        Name = this.Name;
+        PortName = this.PortName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The link name of the ExpressRoute Port.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// ExpressRoute port name.
+    /// </summary>
+    [CliOption("--port-name")]
+    public string PortName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Enable/Disable administrative state of an ExpressRoute Link. Allowed values: Disabled, Enabled.
     /// </summary>

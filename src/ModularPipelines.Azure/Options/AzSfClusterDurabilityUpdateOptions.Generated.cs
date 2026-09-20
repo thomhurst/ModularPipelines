@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the durability tier or VM SKU of a node type in the
 /// </summary>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="DurabilityLevel">Durability level.  Allowed values: Bronze, Gold, Silver.</param>
-/// <param name="NodeType">The Node type name.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "durability", "update")]
-public record AzSfClusterDurabilityUpdateOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--durability-level")] string DurabilityLevel,
-    [property: CliOption("--node-type")] string NodeType,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSfClusterDurabilityUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update the durability tier or VM SKU of a node type in the
+    /// </summary>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="DurabilityLevel">Durability level.  Allowed values: Bronze, Gold, Silver.</param>
+    /// <param name="NodeType">The Node type name.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSfClusterDurabilityUpdateOptions(
+        string ClusterName,
+        string DurabilityLevel,
+        string NodeType,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(DurabilityLevel);
+        this.DurabilityLevel = DurabilityLevel;
+        global::System.ArgumentNullException.ThrowIfNull(NodeType);
+        this.NodeType = NodeType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string DurabilityLevel, out string NodeType, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        DurabilityLevel = this.DurabilityLevel;
+        NodeType = this.NodeType;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Durability level.  Allowed values: Bronze, Gold, Silver.
+    /// </summary>
+    [CliOption("--durability-level")]
+    public string DurabilityLevel { get; private init; }
+
+    /// <summary>
+    /// The Node type name.
+    /// </summary>
+    [CliOption("--node-type")]
+    public string NodeType { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

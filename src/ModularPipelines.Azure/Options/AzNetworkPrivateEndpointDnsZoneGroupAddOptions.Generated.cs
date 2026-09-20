@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a private endpoint dns zone into a dns zone
 /// </summary>
-/// <param name="EndpointName">Name of the private endpoint.</param>
-/// <param name="Name">Name of the private dns zone group.</param>
-/// <param name="PrivateDnsZone">Name or ID of the private dns zone.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ZoneName">Name of the resource that is unique within a resource group. This name can be used to access the resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "dns-zone-group", "add")]
-public record AzNetworkPrivateEndpointDnsZoneGroupAddOptions(
-    [property: CliOption("--endpoint-name")] string EndpointName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--private-dns-zone")] string PrivateDnsZone,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--zone-name")] string ZoneName
-) : AzOptions
+public record AzNetworkPrivateEndpointDnsZoneGroupAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a private endpoint dns zone into a dns zone
+    /// </summary>
+    /// <param name="EndpointName">Name of the private endpoint.</param>
+    /// <param name="Name">Name of the private dns zone group.</param>
+    /// <param name="PrivateDnsZone">Name or ID of the private dns zone.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ZoneName">Name of the resource that is unique within a resource group. This name can be used to access the resource.</param>
+    public AzNetworkPrivateEndpointDnsZoneGroupAddOptions(
+        string EndpointName,
+        string Name,
+        string PrivateDnsZone,
+        string ResourceGroup,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PrivateDnsZone);
+        this.PrivateDnsZone = PrivateDnsZone;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string EndpointName, out string Name, out string PrivateDnsZone, out string ResourceGroup, out string ZoneName)
+    {
+        EndpointName = this.EndpointName;
+        Name = this.Name;
+        PrivateDnsZone = this.PrivateDnsZone;
+        ResourceGroup = this.ResourceGroup;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// Name of the private endpoint.
+    /// </summary>
+    [CliOption("--endpoint-name")]
+    public string EndpointName { get; private init; }
+
+    /// <summary>
+    /// Name of the private dns zone group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the private dns zone.
+    /// </summary>
+    [CliOption("--private-dns-zone")]
+    public string PrivateDnsZone { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    /// </summary>
+    [CliOption("--zone-name")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the background visualization for the
 /// </summary>
-/// <param name="Visualization">The background visualization content, in Adaptive Card format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "issue", "set-background-visualization")]
-public record AzMonitorAccountIssueSetBackgroundVisualizationOptions(
-    [property: CliOption("--visualization")] string Visualization
-) : AzOptions
+public record AzMonitorAccountIssueSetBackgroundVisualizationOptions : AzOptions
 {
+    /// <summary>
+    /// Set the background visualization for the
+    /// </summary>
+    /// <param name="Visualization">The background visualization content, in Adaptive Card format.</param>
+    public AzMonitorAccountIssueSetBackgroundVisualizationOptions(
+        string Visualization
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Visualization);
+        this.Visualization = Visualization;
+    }
+
+    public void Deconstruct(out string Visualization)
+    {
+        Visualization = this.Visualization;
+    }
+
+    /// <summary>
+    /// The background visualization content, in Adaptive Card format.
+    /// </summary>
+    [CliOption("--visualization")]
+    public string Visualization { get; private init; }
+
     /// <summary>
     /// The name of the Azure Monitor Workspace. The name is case insensitive.
     /// </summary>

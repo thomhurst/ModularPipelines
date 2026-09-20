@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Decompile a parameters .json file to .bicepparam.
 /// </summary>
-/// <param name="File">The path to the parameters file to build in the file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "decompile-params")]
-public record AzBicepDecompileParamsOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzBicepDecompileParamsOptions : AzOptions
 {
+    /// <summary>
+    /// Decompile a parameters .json file to .bicepparam.
+    /// </summary>
+    /// <param name="File">The path to the parameters file to build in the file system.</param>
+    public AzBicepDecompileParamsOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// The path to the parameters file to build in the file system.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Path to the bicep template file (relative to the .bicepparam file) that will be referenced in the using declaration.
     /// </summary>

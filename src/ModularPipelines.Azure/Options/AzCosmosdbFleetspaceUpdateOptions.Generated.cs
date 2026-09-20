@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing Cosmos DB Fleetspace.
 /// </summary>
-/// <param name="Body">Fleetspace body with properties.serviceTier (optional), properties.dataRegions (optional), and properties.throughputPoolConfiguration (fields: minThroughput, maxThroughput). You can enter it as a string or as a file, e.g., --body @fleetspace.json or --body "{ \"properties\": { \"serviceTier\": \"GeneralPurpose\", \"dataRegions\": [\"West US 2\"], \"throughputPoolConfiguration\": { \"minThroughput\": 100000, \"maxThroughput\": 300000 } }</param>
-/// <param name="FleetName">Name of the Cosmos DB Fleet.</param>
-/// <param name="FleetspaceName">Name of the Fleetspace resource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "fleetspace", "update")]
-public record AzCosmosdbFleetspaceUpdateOptions(
-    [property: CliOption("--body", ShortForm = "-b")] string Body,
-    [property: CliOption("--fleet-name")] string FleetName,
-    [property: CliOption("--fleetspace-name", ShortForm = "-n")] string FleetspaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbFleetspaceUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing Cosmos DB Fleetspace.
+    /// </summary>
+    /// <param name="Body">Fleetspace body with properties.serviceTier (optional), properties.dataRegions (optional), and properties.throughputPoolConfiguration (fields: minThroughput, maxThroughput). You can enter it as a string or as a file, e.g., --body @fleetspace.json or --body "{ \"properties\": { \"serviceTier\": \"GeneralPurpose\", \"dataRegions\": [\"West US 2\"], \"throughputPoolConfiguration\": { \"minThroughput\": 100000, \"maxThroughput\": 300000 } }</param>
+    /// <param name="FleetName">Name of the Cosmos DB Fleet.</param>
+    /// <param name="FleetspaceName">Name of the Fleetspace resource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbFleetspaceUpdateOptions(
+        string Body,
+        string FleetName,
+        string FleetspaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+        global::System.ArgumentNullException.ThrowIfNull(FleetName);
+        this.FleetName = FleetName;
+        global::System.ArgumentNullException.ThrowIfNull(FleetspaceName);
+        this.FleetspaceName = FleetspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Body, out string FleetName, out string FleetspaceName, out string ResourceGroup)
+    {
+        Body = this.Body;
+        FleetName = this.FleetName;
+        FleetspaceName = this.FleetspaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Fleetspace body with properties.serviceTier (optional), properties.dataRegions (optional), and properties.throughputPoolConfiguration (fields: minThroughput, maxThroughput). You can enter it as a string or as a file, e.g., --body @fleetspace.json or --body "{ \"properties\": { \"serviceTier\": \"GeneralPurpose\", \"dataRegions\": [\"West US 2\"], \"throughputPoolConfiguration\": { \"minThroughput\": 100000, \"maxThroughput\": 300000 } }
+    /// </summary>
+    [CliOption("--body", ShortForm = "-b")]
+    public string Body { get; private init; }
+
+    /// <summary>
+    /// Name of the Cosmos DB Fleet.
+    /// </summary>
+    [CliOption("--fleet-name")]
+    public string FleetName { get; private init; }
+
+    /// <summary>
+    /// Name of the Fleetspace resource.
+    /// </summary>
+    [CliOption("--fleetspace-name", ShortForm = "-n")]
+    public string FleetspaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

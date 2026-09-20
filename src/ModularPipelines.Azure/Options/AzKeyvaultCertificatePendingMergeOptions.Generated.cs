@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Merges a certificate or a certificate chain with a key
 /// </summary>
-/// <param name="File">File containing the certificate or certificate chain to merge.</param>
-/// <param name="Name">Name of the pending certificate.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "pending", "merge")]
-public record AzKeyvaultCertificatePendingMergeOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificatePendingMergeOptions : AzOptions
 {
+    /// <summary>
+    /// Merges a certificate or a certificate chain with a key
+    /// </summary>
+    /// <param name="File">File containing the certificate or certificate chain to merge.</param>
+    /// <param name="Name">Name of the pending certificate.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificatePendingMergeOptions(
+        string File,
+        string Name,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string File, out string Name, out string VaultName)
+    {
+        File = this.File;
+        Name = this.Name;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// File containing the certificate or certificate chain to merge.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// Name of the pending certificate.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Create certificate in disabled state.  Allowed values: false, true.
     /// </summary>

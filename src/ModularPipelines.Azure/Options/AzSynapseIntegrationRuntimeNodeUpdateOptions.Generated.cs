@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update self-hosted integration runtime node.
 /// </summary>
-/// <param name="AutoUpdate">Enable or disable the self-hosted integration runtime auto- update.  Allowed values: Off, On.</param>
-/// <param name="NodeName">The integration runtime node name.</param>
-/// <param name="UpdateDelayOffset">The time of the day for the self-hosted integration runtime auto-update.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "integration-runtime-node", "update")]
-public record AzSynapseIntegrationRuntimeNodeUpdateOptions(
-    [property: CliOption("--auto-update")] string AutoUpdate,
-    [property: CliOption("--node-name")] string NodeName,
-    [property: CliOption("--update-delay-offset")] string UpdateDelayOffset
-) : AzOptions
+public record AzSynapseIntegrationRuntimeNodeUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update self-hosted integration runtime node.
+    /// </summary>
+    /// <param name="AutoUpdate">Enable or disable the self-hosted integration runtime auto- update.  Allowed values: Off, On.</param>
+    /// <param name="NodeName">The integration runtime node name.</param>
+    /// <param name="UpdateDelayOffset">The time of the day for the self-hosted integration runtime auto-update.</param>
+    public AzSynapseIntegrationRuntimeNodeUpdateOptions(
+        string AutoUpdate,
+        string NodeName,
+        string UpdateDelayOffset
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoUpdate);
+        this.AutoUpdate = AutoUpdate;
+        global::System.ArgumentNullException.ThrowIfNull(NodeName);
+        this.NodeName = NodeName;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateDelayOffset);
+        this.UpdateDelayOffset = UpdateDelayOffset;
+    }
+
+    public void Deconstruct(out string AutoUpdate, out string NodeName, out string UpdateDelayOffset)
+    {
+        AutoUpdate = this.AutoUpdate;
+        NodeName = this.NodeName;
+        UpdateDelayOffset = this.UpdateDelayOffset;
+    }
+
+    /// <summary>
+    /// Enable or disable the self-hosted integration runtime auto- update.  Allowed values: Off, On.
+    /// </summary>
+    [CliOption("--auto-update")]
+    public string AutoUpdate { get; private init; }
+
+    /// <summary>
+    /// The integration runtime node name.
+    /// </summary>
+    [CliOption("--node-name")]
+    public string NodeName { get; private init; }
+
+    /// <summary>
+    /// The time of the day for the self-hosted integration runtime auto-update.
+    /// </summary>
+    [CliOption("--update-delay-offset")]
+    public string UpdateDelayOffset { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

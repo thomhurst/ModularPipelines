@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get an invoice. The operation is supported for billing accounts with
 /// </summary>
-/// <param name="Name">The ID that uniquely identifies an invoice.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "invoice", "show")]
-public record AzBillingInvoiceShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzBillingInvoiceShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get an invoice. The operation is supported for billing accounts with
+    /// </summary>
+    /// <param name="Name">The ID that uniquely identifies an invoice.</param>
+    public AzBillingInvoiceShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The ID that uniquely identifies an invoice.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The ID that uniquely identifies a billing account.
     /// </summary>

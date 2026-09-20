@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the Network rules from a Network
 /// </summary>
-/// <param name="ResourceGroup">Name of the resource group. If not specified will display currently set account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "network-profile", "network-rule", "list")]
-public record AzBatchAccountNetworkProfileNetworkRuleListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzBatchAccountNetworkProfileNetworkRuleListOptions : AzOptions
 {
+    /// <summary>
+    /// List the Network rules from a Network
+    /// </summary>
+    /// <param name="ResourceGroup">Name of the resource group. If not specified will display currently set account.</param>
+    public AzBatchAccountNetworkProfileNetworkRuleListOptions(
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the resource group. If not specified will display currently set account.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Name of the batch account to show. If not specified will display currently set account.
     /// </summary>

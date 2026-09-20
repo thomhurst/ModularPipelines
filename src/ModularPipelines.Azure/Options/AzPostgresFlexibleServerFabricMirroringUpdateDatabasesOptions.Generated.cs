@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update allowed mirrored
 /// </summary>
-/// <param name="DatabaseNames">Space-separated list of the database names to be mirrored. Required if --mirroring is enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "fabric-mirroring", "update-databases")]
-public record AzPostgresFlexibleServerFabricMirroringUpdateDatabasesOptions(
-    [property: CliOption("--database-names", ShortForm = "-d", GroupValues = true)] IEnumerable<string> DatabaseNames
-) : AzOptions
+public record AzPostgresFlexibleServerFabricMirroringUpdateDatabasesOptions : AzOptions
 {
+    /// <summary>
+    /// Update allowed mirrored
+    /// </summary>
+    /// <param name="DatabaseNames">Space-separated list of the database names to be mirrored. Required if --mirroring is enabled.</param>
+    public AzPostgresFlexibleServerFabricMirroringUpdateDatabasesOptions(
+        IEnumerable<string> DatabaseNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DatabaseNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DatabaseNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DatabaseNames));
+            }
+
+            DatabaseNames = materialized;
+        }
+        this.DatabaseNames = DatabaseNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> DatabaseNames)
+    {
+        DatabaseNames = this.DatabaseNames;
+    }
+
+    /// <summary>
+    /// Space-separated list of the database names to be mirrored. Required if --mirroring is enabled.
+    /// </summary>
+    [CliOption("--database-names", ShortForm = "-d", GroupValues = true)]
+    public IEnumerable<string> DatabaseNames { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

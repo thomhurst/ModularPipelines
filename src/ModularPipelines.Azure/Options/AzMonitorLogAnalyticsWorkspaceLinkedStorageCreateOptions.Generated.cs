@@ -15,18 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create some linked storage accounts
 /// </summary>
-/// <param name="DataSourceType">Data source type for the linked storage account.  Allowed values: Alerts, AzureWatson, CustomLogs, Ingestion, Query.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
-/// <param name="StorageAccounts">List of Name or ID of Azure Storage Account.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "linked-storage", "create")]
-public record AzMonitorLogAnalyticsWorkspaceLinkedStorageCreateOptions(
-    [property: CliOption("--data-source-type", ShortForm = "--type")] string DataSourceType,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace-name", ShortForm = "-n")] string WorkspaceName,
-    [property: CliOption("--storage-accounts", GroupValues = true)] IEnumerable<string> StorageAccounts
-) : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceLinkedStorageCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create some linked storage accounts
+    /// </summary>
+    /// <param name="DataSourceType">Data source type for the linked storage account.  Allowed values: Alerts, AzureWatson, CustomLogs, Ingestion, Query.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    /// <param name="StorageAccounts">List of Name or ID of Azure Storage Account.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzMonitorLogAnalyticsWorkspaceLinkedStorageCreateOptions(
+        string DataSourceType,
+        string ResourceGroup,
+        string WorkspaceName,
+        IEnumerable<string> StorageAccounts
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceType);
+        this.DataSourceType = DataSourceType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StorageAccounts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StorageAccounts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StorageAccounts));
+            }
+
+            StorageAccounts = materialized;
+        }
+        this.StorageAccounts = StorageAccounts;
+    }
+
+    public void Deconstruct(out string DataSourceType, out string ResourceGroup, out string WorkspaceName, out IEnumerable<string> StorageAccounts)
+    {
+        DataSourceType = this.DataSourceType;
+        ResourceGroup = this.ResourceGroup;
+        WorkspaceName = this.WorkspaceName;
+        StorageAccounts = this.StorageAccounts;
+    }
+
+    /// <summary>
+    /// Data source type for the linked storage account.  Allowed values: Alerts, AzureWatson, CustomLogs, Ingestion, Query.
+    /// </summary>
+    [CliOption("--data-source-type", ShortForm = "--type")]
+    public string DataSourceType { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name", ShortForm = "-n")]
+    public string WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// List of Name or ID of Azure Storage Account.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--storage-accounts", GroupValues = true)]
+    public IEnumerable<string> StorageAccounts { get; private init; }
+
 }

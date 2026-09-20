@@ -15,22 +15,87 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a secret to the node type.
 /// </summary>
-/// <param name="CertificateStore">Specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account.</param>
-/// <param name="CertificateUrl">This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://learn.microsoft.com/azure/key-vault/key- vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: `&lt;br&gt;&lt;br&gt; {&lt;br&gt; "data":"&lt;Base64-encoded-certificate&gt;",&lt;br&gt; "dataType":"pfx",&lt;br&gt;  "password":"&lt;pfx-file- password&gt;"&lt;br&gt;}/`.</param>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="Name">Node type name.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SourceVaultId">Key Vault resource id containing the certificates.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "vm-secret", "add")]
-public record AzSfManagedNodeTypeVmSecretAddOptions(
-    [property: CliOption("--certificate-store")] string CertificateStore,
-    [property: CliOption("--certificate-url")] string CertificateUrl,
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--source-vault-id")] string SourceVaultId
-) : AzOptions
+public record AzSfManagedNodeTypeVmSecretAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a secret to the node type.
+    /// </summary>
+    /// <param name="CertificateStore">Specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account.</param>
+    /// <param name="CertificateUrl">This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://learn.microsoft.com/azure/key-vault/key- vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: `&lt;br&gt;&lt;br&gt; {&lt;br&gt; "data":"&lt;Base64-encoded-certificate&gt;",&lt;br&gt; "dataType":"pfx",&lt;br&gt;  "password":"&lt;pfx-file- password&gt;"&lt;br&gt;}/`.</param>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="Name">Node type name.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SourceVaultId">Key Vault resource id containing the certificates.</param>
+    public AzSfManagedNodeTypeVmSecretAddOptions(
+        string CertificateStore,
+        string CertificateUrl,
+        string ClusterName,
+        string Name,
+        string ResourceGroup,
+        string SourceVaultId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateStore);
+        this.CertificateStore = CertificateStore;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateUrl);
+        this.CertificateUrl = CertificateUrl;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SourceVaultId);
+        this.SourceVaultId = SourceVaultId;
+    }
+
+    public void Deconstruct(out string CertificateStore, out string CertificateUrl, out string ClusterName, out string Name, out string ResourceGroup, out string SourceVaultId)
+    {
+        CertificateStore = this.CertificateStore;
+        CertificateUrl = this.CertificateUrl;
+        ClusterName = this.ClusterName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SourceVaultId = this.SourceVaultId;
+    }
+
+    /// <summary>
+    /// Specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account.
+    /// </summary>
+    [CliOption("--certificate-store")]
+    public string CertificateStore { get; private init; }
+
+    /// <summary>
+    /// This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://learn.microsoft.com/azure/key-vault/key- vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: `&lt;br&gt;&lt;br&gt; {&lt;br&gt; "data":"&lt;Base64-encoded-certificate&gt;",&lt;br&gt; "dataType":"pfx",&lt;br&gt;  "password":"&lt;pfx-file- password&gt;"&lt;br&gt;}/`.
+    /// </summary>
+    [CliOption("--certificate-url")]
+    public string CertificateUrl { get; private init; }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Node type name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Key Vault resource id containing the certificates.
+    /// </summary>
+    [CliOption("--source-vault-id")]
+    public string SourceVaultId { get; private init; }
+
 }

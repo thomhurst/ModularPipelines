@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Register a cloud.
 /// </summary>
-/// <param name="Name">Name of a registered cloud.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloud", "register")]
-public record AzCloudRegisterOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzCloudRegisterOptions : AzOptions
 {
+    /// <summary>
+    /// Register a cloud.
+    /// </summary>
+    /// <param name="Name">Name of a registered cloud.</param>
+    public AzCloudRegisterOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of a registered cloud.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// JSON encoded cloud configuration. Use @{file} to load from a file.
     /// </summary>

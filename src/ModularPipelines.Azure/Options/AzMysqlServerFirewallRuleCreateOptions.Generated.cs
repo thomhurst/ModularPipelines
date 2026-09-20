@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new firewall rule for a server.
 /// </summary>
-/// <param name="EndIpAddress">The end IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.</param>
-/// <param name="Name">The name of the firewall rule. The firewall rule name cannot be empty. The firewall rule name can only contain 0-9, a-z, A-Z, '-' and '_'. Additionally, the name of the firewall rule must be at least 3 characters and no more than 128 characters in length.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServerName">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
-/// <param name="StartIpAddress">The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "firewall-rule", "create")]
-public record AzMysqlServerFirewallRuleCreateOptions(
-    [property: CliOption("--end-ip-address")] string EndIpAddress,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName,
-    [property: CliOption("--start-ip-address")] string StartIpAddress
-) : AzOptions
+public record AzMysqlServerFirewallRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new firewall rule for a server.
+    /// </summary>
+    /// <param name="EndIpAddress">The end IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.</param>
+    /// <param name="Name">The name of the firewall rule. The firewall rule name cannot be empty. The firewall rule name can only contain 0-9, a-z, A-Z, '-' and '_'. Additionally, the name of the firewall rule must be at least 3 characters and no more than 128 characters in length.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServerName">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+    /// <param name="StartIpAddress">The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.</param>
+    public AzMysqlServerFirewallRuleCreateOptions(
+        string EndIpAddress,
+        string Name,
+        string ResourceGroup,
+        string ServerName,
+        string StartIpAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndIpAddress);
+        this.EndIpAddress = EndIpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+        global::System.ArgumentNullException.ThrowIfNull(StartIpAddress);
+        this.StartIpAddress = StartIpAddress;
+    }
+
+    public void Deconstruct(out string EndIpAddress, out string Name, out string ResourceGroup, out string ServerName, out string StartIpAddress)
+    {
+        EndIpAddress = this.EndIpAddress;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ServerName = this.ServerName;
+        StartIpAddress = this.StartIpAddress;
+    }
+
+    /// <summary>
+    /// The end IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.
+    /// </summary>
+    [CliOption("--end-ip-address")]
+    public string EndIpAddress { get; private init; }
+
+    /// <summary>
+    /// The name of the firewall rule. The firewall rule name cannot be empty. The firewall rule name can only contain 0-9, a-z, A-Z, '-' and '_'. Additionally, the name of the firewall rule must be at least 3 characters and no more than 128 characters in length.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string ServerName { get; private init; }
+
+    /// <summary>
+    /// The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.
+    /// </summary>
+    [CliOption("--start-ip-address")]
+    public string StartIpAddress { get; private init; }
+
 }

@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update tags on a snapshot of a nodepool.
 /// </summary>
-/// <param name="Name">The nodepool snapshot name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Tags">The tags to set to the snapshot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "snapshot", "update")]
-public record AzAksNodepoolSnapshotUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--tags")] string Tags
-) : AzOptions
+public record AzAksNodepoolSnapshotUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update tags on a snapshot of a nodepool.
+    /// </summary>
+    /// <param name="Name">The nodepool snapshot name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Tags">The tags to set to the snapshot.</param>
+    public AzAksNodepoolSnapshotUpdateOptions(
+        string Name,
+        string ResourceGroup,
+        string Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Tags);
+        this.Tags = Tags;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Tags)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Tags = this.Tags;
+    }
+
+    /// <summary>
+    /// The nodepool snapshot name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The tags to set to the snapshot.
+    /// </summary>
+    [CliOption("--tags")]
+    public string Tags { get; private init; }
+
 }

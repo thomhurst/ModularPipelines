@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a private endpoint ip configuration.
 /// </summary>
-/// <param name="EndpointName">Name of the private endpoint.</param>
-/// <param name="Name">Name of the ip configuration.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "ip-config", "add")]
-public record AzNetworkPrivateEndpointIpConfigAddOptions(
-    [property: CliOption("--endpoint-name")] string EndpointName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkPrivateEndpointIpConfigAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a private endpoint ip configuration.
+    /// </summary>
+    /// <param name="EndpointName">Name of the private endpoint.</param>
+    /// <param name="Name">Name of the ip configuration.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkPrivateEndpointIpConfigAddOptions(
+        string EndpointName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string EndpointName, out string Name, out string ResourceGroup)
+    {
+        EndpointName = this.EndpointName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the private endpoint.
+    /// </summary>
+    [CliOption("--endpoint-name")]
+    public string EndpointName { get; private init; }
+
+    /// <summary>
+    /// Name of the ip configuration.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The ID of a group obtained from the remote resource that this private endpoint should connect to.
     /// </summary>

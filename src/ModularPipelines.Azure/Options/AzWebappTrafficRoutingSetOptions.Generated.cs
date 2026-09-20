@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure routing traffic to deployment slots.
 /// </summary>
-/// <param name="Distribution">Space-separated slot routings in a format of `&lt;slot- name&gt;=&lt;percentage&gt;` e.g. staging=50. Unused traffic percentage will go to the Production slot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "traffic-routing", "set")]
-public record AzWebappTrafficRoutingSetOptions(
-    [property: CliOption("--distribution", ShortForm = "-d", GroupValues = true)] IEnumerable<string> Distribution
-) : AzOptions
+public record AzWebappTrafficRoutingSetOptions : AzOptions
 {
+    /// <summary>
+    /// Configure routing traffic to deployment slots.
+    /// </summary>
+    /// <param name="Distribution">Space-separated slot routings in a format of `&lt;slot- name&gt;=&lt;percentage&gt;` e.g. staging=50. Unused traffic percentage will go to the Production slot.</param>
+    public AzWebappTrafficRoutingSetOptions(
+        IEnumerable<string> Distribution
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Distribution);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Distribution));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Distribution));
+            }
+
+            Distribution = materialized;
+        }
+        this.Distribution = Distribution;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Distribution)
+    {
+        Distribution = this.Distribution;
+    }
+
+    /// <summary>
+    /// Space-separated slot routings in a format of `&lt;slot- name&gt;=&lt;percentage&gt;` e.g. staging=50. Unused traffic percentage will go to the Production slot.
+    /// </summary>
+    [CliOption("--distribution", ShortForm = "-d", GroupValues = true)]
+    public IEnumerable<string> Distribution { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

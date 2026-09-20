@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Recover a managed database using geo-pair instance backup.
 /// </summary>
-/// <param name="RecoverableDatabaseId">The id of recoverable database from geo-replicated instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "recover")]
-public record AzSqlMidbRecoverOptions(
-    [property: CliOption("--recoverable-database-id", ShortForm = "-r")] string RecoverableDatabaseId
-) : AzOptions
+public record AzSqlMidbRecoverOptions : AzOptions
 {
+    /// <summary>
+    /// Recover a managed database using geo-pair instance backup.
+    /// </summary>
+    /// <param name="RecoverableDatabaseId">The id of recoverable database from geo-replicated instance.</param>
+    public AzSqlMidbRecoverOptions(
+        string RecoverableDatabaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoverableDatabaseId);
+        this.RecoverableDatabaseId = RecoverableDatabaseId;
+    }
+
+    public void Deconstruct(out string RecoverableDatabaseId)
+    {
+        RecoverableDatabaseId = this.RecoverableDatabaseId;
+    }
+
+    /// <summary>
+    /// The id of recoverable database from geo-replicated instance.
+    /// </summary>
+    [CliOption("--recoverable-database-id", ShortForm = "-r")]
+    public string RecoverableDatabaseId { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

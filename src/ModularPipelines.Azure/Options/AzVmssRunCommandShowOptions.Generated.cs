@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// The operation to get the VMSS run command.
 /// </summary>
-/// <param name="Name">The name of the virtual machine run command.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "show")]
-public record AzVmssRunCommandShowOptions(
-    [property: CliOption("--name", ShortForm = "--run-command-name")] string Name
-) : AzOptions
+public record AzVmssRunCommandShowOptions : AzOptions
 {
+    /// <summary>
+    /// The operation to get the VMSS run command.
+    /// </summary>
+    /// <param name="Name">The name of the virtual machine run command.</param>
+    public AzVmssRunCommandShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the virtual machine run command.
+    /// </summary>
+    [CliOption("--name", ShortForm = "--run-command-name")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The instance view of a run command.
     /// </summary>

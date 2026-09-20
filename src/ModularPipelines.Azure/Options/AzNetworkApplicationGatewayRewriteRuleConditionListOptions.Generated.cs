@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List rewrite rule conditions.
 /// </summary>
-/// <param name="GatewayName">Name of the application gateway.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="RuleName">Name of the rewrite rule.</param>
-/// <param name="RuleSetName">Name of the rewrite rule set.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "rewrite-rule", "condition", "list")]
-public record AzNetworkApplicationGatewayRewriteRuleConditionListOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--rule-name")] string RuleName,
-    [property: CliOption("--rule-set-name")] string RuleSetName
-) : AzOptions
+public record AzNetworkApplicationGatewayRewriteRuleConditionListOptions : AzOptions
 {
+    /// <summary>
+    /// List rewrite rule conditions.
+    /// </summary>
+    /// <param name="GatewayName">Name of the application gateway.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="RuleName">Name of the rewrite rule.</param>
+    /// <param name="RuleSetName">Name of the rewrite rule set.</param>
+    public AzNetworkApplicationGatewayRewriteRuleConditionListOptions(
+        string GatewayName,
+        string ResourceGroup,
+        string RuleName,
+        string RuleSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+        global::System.ArgumentNullException.ThrowIfNull(RuleSetName);
+        this.RuleSetName = RuleSetName;
+    }
+
+    public void Deconstruct(out string GatewayName, out string ResourceGroup, out string RuleName, out string RuleSetName)
+    {
+        GatewayName = this.GatewayName;
+        ResourceGroup = this.ResourceGroup;
+        RuleName = this.RuleName;
+        RuleSetName = this.RuleSetName;
+    }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the rewrite rule.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
+    /// <summary>
+    /// Name of the rewrite rule set.
+    /// </summary>
+    [CliOption("--rule-set-name")]
+    public string RuleSetName { get; private init; }
+
 }

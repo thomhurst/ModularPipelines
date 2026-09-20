@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the primary of the failover group by failing over all
 /// </summary>
-/// <param name="Name">The name of the Failover Group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "failover-group", "set-primary")]
-public record AzSqlFailoverGroupSetPrimaryOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSqlFailoverGroupSetPrimaryOptions : AzOptions
 {
+    /// <summary>
+    /// Set the primary of the failover group by failing over all
+    /// </summary>
+    /// <param name="Name">The name of the Failover Group.</param>
+    public AzSqlFailoverGroupSetPrimaryOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the Failover Group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Complete the failover even if doing so may result in data loss. This will allow the failover to proceed even if a primary database is unavailable.
     /// </summary>

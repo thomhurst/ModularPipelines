@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Unbind an SSL certificate from a function app.
 /// </summary>
-/// <param name="CertificateThumbprint">The ssl cert thumbprint.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "ssl", "unbind")]
-public record AzFunctionappConfigSslUnbindOptions(
-    [property: CliOption("--certificate-thumbprint")] string CertificateThumbprint
-) : AzOptions
+public record AzFunctionappConfigSslUnbindOptions : AzOptions
 {
+    /// <summary>
+    /// Unbind an SSL certificate from a function app.
+    /// </summary>
+    /// <param name="CertificateThumbprint">The ssl cert thumbprint.</param>
+    public AzFunctionappConfigSslUnbindOptions(
+        string CertificateThumbprint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateThumbprint);
+        this.CertificateThumbprint = CertificateThumbprint;
+    }
+
+    public void Deconstruct(out string CertificateThumbprint)
+    {
+        CertificateThumbprint = this.CertificateThumbprint;
+    }
+
+    /// <summary>
+    /// The ssl cert thumbprint.
+    /// </summary>
+    [CliOption("--certificate-thumbprint")]
+    public string CertificateThumbprint { get; private init; }
+
     /// <summary>
     /// The custom domain name. If empty, hostnames will be selected automatically.
     /// </summary>

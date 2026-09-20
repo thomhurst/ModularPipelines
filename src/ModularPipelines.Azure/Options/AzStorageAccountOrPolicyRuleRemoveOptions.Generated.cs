@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove the specified rule from the specified Object
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
-/// <param name="PolicyId">The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.</param>
-/// <param name="RuleId">Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "rule", "remove")]
-public record AzStorageAccountOrPolicyRuleRemoveOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
-    [property: CliOption("--policy-id")] string PolicyId,
-    [property: CliOption("--rule-id", ShortForm = "-r")] string RuleId
-) : AzOptions
+public record AzStorageAccountOrPolicyRuleRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove the specified rule from the specified Object
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    /// <param name="PolicyId">The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.</param>
+    /// <param name="RuleId">Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.</param>
+    public AzStorageAccountOrPolicyRuleRemoveOptions(
+        string AccountName,
+        string PolicyId,
+        string RuleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+        global::System.ArgumentNullException.ThrowIfNull(RuleId);
+        this.RuleId = RuleId;
+    }
+
+    public void Deconstruct(out string AccountName, out string PolicyId, out string RuleId)
+    {
+        AccountName = this.AccountName;
+        PolicyId = this.PolicyId;
+        RuleId = this.RuleId;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.
+    /// </summary>
+    [CliOption("--policy-id")]
+    public string PolicyId { get; private init; }
+
+    /// <summary>
+    /// Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.
+    /// </summary>
+    [CliOption("--rule-id", ShortForm = "-r")]
+    public string RuleId { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

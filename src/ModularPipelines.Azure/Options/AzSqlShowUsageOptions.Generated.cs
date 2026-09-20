@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets a subscription usage metric.
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="Usage">Name of usage metric to return. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "show-usage")]
-public record AzSqlShowUsageOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--usage", ShortForm = "-u")] string Usage
-) : AzOptions
+public record AzSqlShowUsageOptions : AzOptions
 {
+    /// <summary>
+    /// Gets a subscription usage metric.
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Usage">Name of usage metric to return. Required.</param>
+    public AzSqlShowUsageOptions(
+        string Location,
+        string Usage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Usage);
+        this.Usage = Usage;
+    }
+
+    public void Deconstruct(out string Location, out string Usage)
+    {
+        Location = this.Location;
+        Usage = this.Usage;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of usage metric to return. Required.
+    /// </summary>
+    [CliOption("--usage", ShortForm = "-u")]
+    public string Usage { get; private init; }
+
 }

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a managed application.
 /// </summary>
-/// <param name="Kind">The managed application kind. can be marketplace or servicecatalog.</param>
-/// <param name="ManagedRgId">The resource group managed by the managed application.</param>
-/// <param name="Name">The managed application name.</param>
-/// <param name="ResourceGroup">The resource group of the managed application.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedapp", "create")]
-public record AzManagedappCreateOptions(
-    [property: CliOption("--kind")] string Kind,
-    [property: CliOption("--managed-rg-id", ShortForm = "-m")] string ManagedRgId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzManagedappCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a managed application.
+    /// </summary>
+    /// <param name="Kind">The managed application kind. can be marketplace or servicecatalog.</param>
+    /// <param name="ManagedRgId">The resource group managed by the managed application.</param>
+    /// <param name="Name">The managed application name.</param>
+    /// <param name="ResourceGroup">The resource group of the managed application.</param>
+    public AzManagedappCreateOptions(
+        string Kind,
+        string ManagedRgId,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Kind);
+        this.Kind = Kind;
+        global::System.ArgumentNullException.ThrowIfNull(ManagedRgId);
+        this.ManagedRgId = ManagedRgId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Kind, out string ManagedRgId, out string Name, out string ResourceGroup)
+    {
+        Kind = this.Kind;
+        ManagedRgId = this.ManagedRgId;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The managed application kind. can be marketplace or servicecatalog.
+    /// </summary>
+    [CliOption("--kind")]
+    public string Kind { get; private init; }
+
+    /// <summary>
+    /// The resource group managed by the managed application.
+    /// </summary>
+    [CliOption("--managed-rg-id", ShortForm = "-m")]
+    public string ManagedRgId { get; private init; }
+
+    /// <summary>
+    /// The managed application name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The resource group of the managed application.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The managed application location.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition of the HSM is met.
 /// </summary>
-/// <param name="HsmName">Name of the HSM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "wait-hsm")]
-public record AzKeyvaultWaitHsmOptions(
-    [property: CliOption("--hsm-name")] string HsmName
-) : AzOptions
+public record AzKeyvaultWaitHsmOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition of the HSM is met.
+    /// </summary>
+    /// <param name="HsmName">Name of the HSM.</param>
+    public AzKeyvaultWaitHsmOptions(
+        string HsmName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HsmName);
+        this.HsmName = HsmName;
+    }
+
+    public void Deconstruct(out string HsmName)
+    {
+        HsmName = this.HsmName;
+    }
+
+    /// <summary>
+    /// Name of the HSM.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string HsmName { get; private init; }
+
     /// <summary>
     /// Proceed only if HSM belongs to the specified resource group.
     /// </summary>

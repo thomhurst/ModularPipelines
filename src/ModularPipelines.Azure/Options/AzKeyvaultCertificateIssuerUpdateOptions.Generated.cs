@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a certificate issuer record.
 /// </summary>
-/// <param name="IssuerName">Certificate issuer name.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "update")]
-public record AzKeyvaultCertificateIssuerUpdateOptions(
-    [property: CliOption("--issuer-name")] string IssuerName,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificateIssuerUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a certificate issuer record.
+    /// </summary>
+    /// <param name="IssuerName">Certificate issuer name.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificateIssuerUpdateOptions(
+        string IssuerName,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IssuerName);
+        this.IssuerName = IssuerName;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string IssuerName, out string VaultName)
+    {
+        IssuerName = this.IssuerName;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Certificate issuer name.
+    /// </summary>
+    [CliOption("--issuer-name")]
+    public string IssuerName { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Set issuer enabled state.  Allowed values: false, true.
     /// </summary>

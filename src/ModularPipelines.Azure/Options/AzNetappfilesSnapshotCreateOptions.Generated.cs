@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the specified snapshot within the given volume.
 /// </summary>
-/// <param name="AccountName">The name of the NetApp account.</param>
-/// <param name="Name">The name of the snapshot.</param>
-/// <param name="PoolName">The name of the capacity pool.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VolumeName">The name of the volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "snapshot", "create")]
-public record AzNetappfilesSnapshotCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--name", ShortForm = "-s")] string Name,
-    [property: CliOption("--pool-name", ShortForm = "-p")] string PoolName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--volume-name", ShortForm = "-v")] string VolumeName
-) : AzOptions
+public record AzNetappfilesSnapshotCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create the specified snapshot within the given volume.
+    /// </summary>
+    /// <param name="AccountName">The name of the NetApp account.</param>
+    /// <param name="Name">The name of the snapshot.</param>
+    /// <param name="PoolName">The name of the capacity pool.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VolumeName">The name of the volume.</param>
+    public AzNetappfilesSnapshotCreateOptions(
+        string AccountName,
+        string Name,
+        string PoolName,
+        string ResourceGroup,
+        string VolumeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PoolName);
+        this.PoolName = PoolName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VolumeName);
+        this.VolumeName = VolumeName;
+    }
+
+    public void Deconstruct(out string AccountName, out string Name, out string PoolName, out string ResourceGroup, out string VolumeName)
+    {
+        AccountName = this.AccountName;
+        Name = this.Name;
+        PoolName = this.PoolName;
+        ResourceGroup = this.ResourceGroup;
+        VolumeName = this.VolumeName;
+    }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the snapshot.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-s")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the capacity pool.
+    /// </summary>
+    [CliOption("--pool-name", ShortForm = "-p")]
+    public string PoolName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the volume.
+    /// </summary>
+    [CliOption("--volume-name", ShortForm = "-v")]
+    public string VolumeName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

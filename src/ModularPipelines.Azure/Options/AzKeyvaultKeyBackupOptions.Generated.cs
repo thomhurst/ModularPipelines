@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Request that a backup of the specified key be downloaded to the client.
 /// </summary>
-/// <param name="File">Local file path in which to store key backup.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "backup")]
-public record AzKeyvaultKeyBackupOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzKeyvaultKeyBackupOptions : AzOptions
 {
+    /// <summary>
+    /// Request that a backup of the specified key be downloaded to the client.
+    /// </summary>
+    /// <param name="File">Local file path in which to store key backup.</param>
+    public AzKeyvaultKeyBackupOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// Local file path in which to store key backup.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
     /// </summary>

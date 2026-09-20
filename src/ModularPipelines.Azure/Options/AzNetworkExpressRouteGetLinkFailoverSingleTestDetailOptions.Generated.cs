@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation retrieves the
 /// </summary>
-/// <param name="FailoverTestId">The unique Guid value which identifies the test.</param>
-/// <param name="LinkType">The type of link on which failover test was performed. Allowed values: Primary, Secondary.</param>
-/// <param name="MaintenanceCategory">The type of maintenance test category.  Allowed values: ASPathPrepend, BgpDisconnect.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "get-link-failover-single-test-detail")]
-public record AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions(
-    [property: CliOption("--failover-test-id")] string FailoverTestId,
-    [property: CliOption("--link-type")] string LinkType,
-    [property: CliOption("--maintenance-category")] string MaintenanceCategory
-) : AzOptions
+public record AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions : AzOptions
 {
+    /// <summary>
+    /// This operation retrieves the
+    /// </summary>
+    /// <param name="FailoverTestId">The unique Guid value which identifies the test.</param>
+    /// <param name="LinkType">The type of link on which failover test was performed. Allowed values: Primary, Secondary.</param>
+    /// <param name="MaintenanceCategory">The type of maintenance test category.  Allowed values: ASPathPrepend, BgpDisconnect.</param>
+    public AzNetworkExpressRouteGetLinkFailoverSingleTestDetailOptions(
+        string FailoverTestId,
+        string LinkType,
+        string MaintenanceCategory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FailoverTestId);
+        this.FailoverTestId = FailoverTestId;
+        global::System.ArgumentNullException.ThrowIfNull(LinkType);
+        this.LinkType = LinkType;
+        global::System.ArgumentNullException.ThrowIfNull(MaintenanceCategory);
+        this.MaintenanceCategory = MaintenanceCategory;
+    }
+
+    public void Deconstruct(out string FailoverTestId, out string LinkType, out string MaintenanceCategory)
+    {
+        FailoverTestId = this.FailoverTestId;
+        LinkType = this.LinkType;
+        MaintenanceCategory = this.MaintenanceCategory;
+    }
+
+    /// <summary>
+    /// The unique Guid value which identifies the test.
+    /// </summary>
+    [CliOption("--failover-test-id")]
+    public string FailoverTestId { get; private init; }
+
+    /// <summary>
+    /// The type of link on which failover test was performed. Allowed values: Primary, Secondary.
+    /// </summary>
+    [CliOption("--link-type")]
+    public string LinkType { get; private init; }
+
+    /// <summary>
+    /// The type of maintenance test category.  Allowed values: ASPathPrepend, BgpDisconnect.
+    /// </summary>
+    [CliOption("--maintenance-category")]
+    public string MaintenanceCategory { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

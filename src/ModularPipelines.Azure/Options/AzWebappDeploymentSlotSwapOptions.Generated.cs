@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Swap deployment slots for a web app.
 /// </summary>
-/// <param name="Slot">The name of the slot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "slot", "swap")]
-public record AzWebappDeploymentSlotSwapOptions(
-    [property: CliOption("--slot", ShortForm = "-s")] string Slot
-) : AzOptions
+public record AzWebappDeploymentSlotSwapOptions : AzOptions
 {
+    /// <summary>
+    /// Swap deployment slots for a web app.
+    /// </summary>
+    /// <param name="Slot">The name of the slot.</param>
+    public AzWebappDeploymentSlotSwapOptions(
+        string Slot
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Slot);
+        this.Slot = Slot;
+    }
+
+    public void Deconstruct(out string Slot)
+    {
+        Slot = this.Slot;
+    }
+
+    /// <summary>
+    /// The name of the slot.
+    /// </summary>
+    [CliOption("--slot", ShortForm = "-s")]
+    public string Slot { get; private init; }
+
     /// <summary>
     /// Swap types. use 'preview' to apply target slot's settings on the source slot first; use 'swap' to complete it; use 'reset' to reset the swap. Allowed values: preview, reset, swap.  Default: swap.
     /// </summary>

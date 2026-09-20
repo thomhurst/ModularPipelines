@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable Fabric Mirroring for a MySQL Flexible Server.
 /// </summary>
-/// <param name="IdentityResourceId">Resource ID of the User Assigned Managed Identity (UAMI) used for Fabric Mirroring. Example: /subscriptions/{sub-id}/ resourceGroups/{rg}/providers/Microsoft.ManagedIdentity/user AssignedIdentities/{identity-name}.</param>
-/// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "mirroring", "enable")]
-public record AzMysqlFlexibleServerMirroringEnableOptions(
-    [property: CliOption("--identity-resource-id")] string IdentityResourceId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMysqlFlexibleServerMirroringEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Enable Fabric Mirroring for a MySQL Flexible Server.
+    /// </summary>
+    /// <param name="IdentityResourceId">Resource ID of the User Assigned Managed Identity (UAMI) used for Fabric Mirroring. Example: /subscriptions/{sub-id}/ resourceGroups/{rg}/providers/Microsoft.ManagedIdentity/user AssignedIdentities/{identity-name}.</param>
+    /// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMysqlFlexibleServerMirroringEnableOptions(
+        string IdentityResourceId,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityResourceId);
+        this.IdentityResourceId = IdentityResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string IdentityResourceId, out string Name, out string ResourceGroup)
+    {
+        IdentityResourceId = this.IdentityResourceId;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Resource ID of the User Assigned Managed Identity (UAMI) used for Fabric Mirroring. Example: /subscriptions/{sub-id}/ resourceGroups/{rg}/providers/Microsoft.ManagedIdentity/user AssignedIdentities/{identity-name}.
+    /// </summary>
+    [CliOption("--identity-resource-id")]
+    public string IdentityResourceId { get; private init; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a connection.
 /// </summary>
-/// <param name="ConnectionName">Cognitive Services account connection name.</param>
-/// <param name="Name">Cognitive service account name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "connection", "update")]
-public record AzCognitiveservicesAccountConnectionUpdateOptions(
-    [property: CliOption("--connection-name")] string ConnectionName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCognitiveservicesAccountConnectionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a connection.
+    /// </summary>
+    /// <param name="ConnectionName">Cognitive Services account connection name.</param>
+    /// <param name="Name">Cognitive service account name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCognitiveservicesAccountConnectionUpdateOptions(
+        string ConnectionName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ConnectionName, out string Name, out string ResourceGroup)
+    {
+        ConnectionName = this.ConnectionName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cognitive Services account connection name.
+    /// </summary>
+    [CliOption("--connection-name")]
+    public string ConnectionName { get; private init; }
+
+    /// <summary>
+    /// Cognitive service account name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>

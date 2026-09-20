@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Test IP flow to/from a VM given the currently configured
 /// </summary>
-/// <param name="Direction">Direction of the packet relative to the VM.  Allowed values: Inbound, Outbound.</param>
-/// <param name="Local">Private IPv4 address for the VMs NIC and the port of the packet in X.X.X.X:PORT format. `*` can be used for port when direction is outbound.</param>
-/// <param name="Protocol">Protocol to test.  Allowed values: TCP, UDP.</param>
-/// <param name="Remote">IPv4 address and port for the remote side of the packet X.X.X.X:PORT format. `*` can be used for port when the direction is inbound.</param>
-/// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "test-ip-flow")]
-public record AzNetworkWatcherTestIpFlowOptions(
-    [property: CliOption("--direction")] string Direction,
-    [property: CliOption("--local")] string Local,
-    [property: CliOption("--protocol")] string Protocol,
-    [property: CliOption("--remote")] string Remote,
-    [property: CliOption("--vm")] string Vm
-) : AzOptions
+public record AzNetworkWatcherTestIpFlowOptions : AzOptions
 {
+    /// <summary>
+    /// Test IP flow to/from a VM given the currently configured
+    /// </summary>
+    /// <param name="Direction">Direction of the packet relative to the VM.  Allowed values: Inbound, Outbound.</param>
+    /// <param name="Local">Private IPv4 address for the VMs NIC and the port of the packet in X.X.X.X:PORT format. `*` can be used for port when direction is outbound.</param>
+    /// <param name="Protocol">Protocol to test.  Allowed values: TCP, UDP.</param>
+    /// <param name="Remote">IPv4 address and port for the remote side of the packet X.X.X.X:PORT format. `*` can be used for port when the direction is inbound.</param>
+    /// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
+    public AzNetworkWatcherTestIpFlowOptions(
+        string Direction,
+        string Local,
+        string Protocol,
+        string Remote,
+        string Vm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Direction);
+        this.Direction = Direction;
+        global::System.ArgumentNullException.ThrowIfNull(Local);
+        this.Local = Local;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        global::System.ArgumentNullException.ThrowIfNull(Remote);
+        this.Remote = Remote;
+        global::System.ArgumentNullException.ThrowIfNull(Vm);
+        this.Vm = Vm;
+    }
+
+    public void Deconstruct(out string Direction, out string Local, out string Protocol, out string Remote, out string Vm)
+    {
+        Direction = this.Direction;
+        Local = this.Local;
+        Protocol = this.Protocol;
+        Remote = this.Remote;
+        Vm = this.Vm;
+    }
+
+    /// <summary>
+    /// Direction of the packet relative to the VM.  Allowed values: Inbound, Outbound.
+    /// </summary>
+    [CliOption("--direction")]
+    public string Direction { get; private init; }
+
+    /// <summary>
+    /// Private IPv4 address for the VMs NIC and the port of the packet in X.X.X.X:PORT format. `*` can be used for port when direction is outbound.
+    /// </summary>
+    [CliOption("--local")]
+    public string Local { get; private init; }
+
+    /// <summary>
+    /// Protocol to test.  Allowed values: TCP, UDP.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string Protocol { get; private init; }
+
+    /// <summary>
+    /// IPv4 address and port for the remote side of the packet X.X.X.X:PORT format. `*` can be used for port when the direction is inbound.
+    /// </summary>
+    [CliOption("--remote")]
+    public string Remote { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.
+    /// </summary>
+    [CliOption("--vm")]
+    public string Vm { get; private init; }
+
     /// <summary>
     /// Name or ID of the NIC resource to test. If the VM has multiple NICs and IP forwarding is enabled on any of them, this parameter is required.
     /// </summary>

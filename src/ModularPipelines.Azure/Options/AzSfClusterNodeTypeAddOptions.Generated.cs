@@ -16,24 +16,90 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new node type to a cluster.
 /// </summary>
-/// <param name="Capacity">The capacity tag applied to nodes in the node type. The cluster resource manager uses these tags to understand how much capacity a node has.</param>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="NodeType">The Node type name.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VmPassword">The password of the Vm.</param>
-/// <param name="VmUserName">The user name for logging to Vm. Default will be adminuser.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "node-type", "add")]
-public record AzSfClusterNodeTypeAddOptions(
-    [property: CliOption("--capacity")] string Capacity,
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--node-type")] string NodeType,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: SecretValue, CliOption("--vm-password")] string VmPassword,
-    [property: CliOption("--vm-user-name")] string VmUserName
-) : AzOptions
+public record AzSfClusterNodeTypeAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a new node type to a cluster.
+    /// </summary>
+    /// <param name="Capacity">The capacity tag applied to nodes in the node type. The cluster resource manager uses these tags to understand how much capacity a node has.</param>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="NodeType">The Node type name.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VmPassword">The password of the Vm.</param>
+    /// <param name="VmUserName">The user name for logging to Vm. Default will be adminuser.</param>
+    public AzSfClusterNodeTypeAddOptions(
+        string Capacity,
+        string ClusterName,
+        string NodeType,
+        string ResourceGroup,
+        string VmPassword,
+        string VmUserName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Capacity);
+        this.Capacity = Capacity;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(NodeType);
+        this.NodeType = NodeType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VmPassword);
+        this.VmPassword = VmPassword;
+        global::System.ArgumentNullException.ThrowIfNull(VmUserName);
+        this.VmUserName = VmUserName;
+    }
+
+    public void Deconstruct(out string Capacity, out string ClusterName, out string NodeType, out string ResourceGroup, out string VmPassword, out string VmUserName)
+    {
+        Capacity = this.Capacity;
+        ClusterName = this.ClusterName;
+        NodeType = this.NodeType;
+        ResourceGroup = this.ResourceGroup;
+        VmPassword = this.VmPassword;
+        VmUserName = this.VmUserName;
+    }
+
+    /// <summary>
+    /// The capacity tag applied to nodes in the node type. The cluster resource manager uses these tags to understand how much capacity a node has.
+    /// </summary>
+    [CliOption("--capacity")]
+    public string Capacity { get; private init; }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The Node type name.
+    /// </summary>
+    [CliOption("--node-type")]
+    public string NodeType { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The password of the Vm.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--vm-password")]
+    public string VmPassword { get; private init; }
+
+    /// <summary>
+    /// The user name for logging to Vm. Default will be adminuser.
+    /// </summary>
+    [CliOption("--vm-user-name")]
+    public string VmUserName { get; private init; }
+
     /// <summary>
     /// Durability level.  Allowed values: Bronze, Gold, Silver. Default: Bronze.
     /// </summary>

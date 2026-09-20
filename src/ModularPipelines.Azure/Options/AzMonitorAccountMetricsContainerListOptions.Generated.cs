@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List metrics containers for a monitoring account.
 /// </summary>
-/// <param name="AzureMonitorWorkspaceName">The name of the Azure Monitor Workspace. The name is case insensitive.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "metrics-container", "list")]
-public record AzMonitorAccountMetricsContainerListOptions(
-    [property: CliOption("--azure-monitor-workspace-name", ShortForm = "-w")] string AzureMonitorWorkspaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMonitorAccountMetricsContainerListOptions : AzOptions
 {
+    /// <summary>
+    /// List metrics containers for a monitoring account.
+    /// </summary>
+    /// <param name="AzureMonitorWorkspaceName">The name of the Azure Monitor Workspace. The name is case insensitive.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMonitorAccountMetricsContainerListOptions(
+        string AzureMonitorWorkspaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AzureMonitorWorkspaceName);
+        this.AzureMonitorWorkspaceName = AzureMonitorWorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AzureMonitorWorkspaceName, out string ResourceGroup)
+    {
+        AzureMonitorWorkspaceName = this.AzureMonitorWorkspaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Azure Monitor Workspace. The name is case insensitive.
+    /// </summary>
+    [CliOption("--azure-monitor-workspace-name", ShortForm = "-w")]
+    public string AzureMonitorWorkspaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a secret (if one doesn't exist) or update a secret in a
 /// </summary>
-/// <param name="Name">Name of the secret.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "secret", "set")]
-public record AzKeyvaultSecretSetOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultSecretSetOptions : AzOptions
 {
+    /// <summary>
+    /// Create a secret (if one doesn't exist) or update a secret in a
+    /// </summary>
+    /// <param name="Name">Name of the secret.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultSecretSetOptions(
+        string Name,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string Name, out string VaultName)
+    {
+        Name = this.Name;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Name of the secret.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Description of the secret contents (e.g. password, connection string, etc).
     /// </summary>

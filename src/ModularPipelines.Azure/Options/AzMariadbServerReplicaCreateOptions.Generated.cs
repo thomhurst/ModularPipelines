@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a read replica for a server.
 /// </summary>
-/// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SourceServer">The name or resource ID of the master server to the create replica for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mariadb", "server", "replica", "create")]
-public record AzMariadbServerReplicaCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--source-server", ShortForm = "-s")] string SourceServer
-) : AzOptions
+public record AzMariadbServerReplicaCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a read replica for a server.
+    /// </summary>
+    /// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SourceServer">The name or resource ID of the master server to the create replica for.</param>
+    public AzMariadbServerReplicaCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string SourceServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SourceServer);
+        this.SourceServer = SourceServer;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string SourceServer)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SourceServer = this.SourceServer;
+    }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name or resource ID of the master server to the create replica for.
+    /// </summary>
+    [CliOption("--source-server", ShortForm = "-s")]
+    public string SourceServer { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. If not provided, the create replica will be in the same location as the master server.
     /// </summary>

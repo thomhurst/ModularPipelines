@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Starts peering the external cluster
 /// </summary>
-/// <param name="PeerIpAddresses">A list of IC-LIF IPs that can be used to connect to the On-prem cluster  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "replication", "peer-external-cluster")]
-public record AzNetappfilesVolumeReplicationPeerExternalClusterOptions(
-    [property: CliOption("--peer-ip-addresses", GroupValues = true)] IEnumerable<string> PeerIpAddresses
-) : AzOptions
+public record AzNetappfilesVolumeReplicationPeerExternalClusterOptions : AzOptions
 {
+    /// <summary>
+    /// Starts peering the external cluster
+    /// </summary>
+    /// <param name="PeerIpAddresses">A list of IC-LIF IPs that can be used to connect to the On-prem cluster  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzNetappfilesVolumeReplicationPeerExternalClusterOptions(
+        IEnumerable<string> PeerIpAddresses
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PeerIpAddresses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PeerIpAddresses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PeerIpAddresses));
+            }
+
+            PeerIpAddresses = materialized;
+        }
+        this.PeerIpAddresses = PeerIpAddresses;
+    }
+
+    public void Deconstruct(out IEnumerable<string> PeerIpAddresses)
+    {
+        PeerIpAddresses = this.PeerIpAddresses;
+    }
+
+    /// <summary>
+    /// A list of IC-LIF IPs that can be used to connect to the On-prem cluster  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--peer-ip-addresses", GroupValues = true)]
+    public IEnumerable<string> PeerIpAddresses { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

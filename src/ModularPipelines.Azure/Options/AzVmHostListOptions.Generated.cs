@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List dedicated hosts.
 /// </summary>
-/// <param name="HostGroup">The name of the dedicated host group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "host", "list")]
-public record AzVmHostListOptions(
-    [property: CliOption("--host-group", ShortForm = "--host-group-name")] string HostGroup,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzVmHostListOptions : AzOptions
 {
+    /// <summary>
+    /// List dedicated hosts.
+    /// </summary>
+    /// <param name="HostGroup">The name of the dedicated host group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzVmHostListOptions(
+        string HostGroup,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostGroup);
+        this.HostGroup = HostGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string HostGroup, out string ResourceGroup)
+    {
+        HostGroup = this.HostGroup;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the dedicated host group.
+    /// </summary>
+    [CliOption("--host-group", ShortForm = "--host-group-name")]
+    public string HostGroup { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a workspace's key.
 /// </summary>
-/// <param name="KeyIdentifier">The Key Vault Url of the workspace encryption key. should be in the format of: https://{keyvaultname}.vault.azure.net/keys/{keyname}.</param>
-/// <param name="Name">The workspace customer-managed key display name. All existing keys can be found using /"az synapse workspace key list/" cmdlet.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "key", "create")]
-public record AzSynapseWorkspaceKeyCreateOptions(
-    [property: CliOption("--key-identifier")] string KeyIdentifier,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseWorkspaceKeyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a workspace's key.
+    /// </summary>
+    /// <param name="KeyIdentifier">The Key Vault Url of the workspace encryption key. should be in the format of: https://{keyvaultname}.vault.azure.net/keys/{keyname}.</param>
+    /// <param name="Name">The workspace customer-managed key display name. All existing keys can be found using /"az synapse workspace key list/" cmdlet.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseWorkspaceKeyCreateOptions(
+        string KeyIdentifier,
+        string Name,
+        string ResourceGroup,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyIdentifier);
+        this.KeyIdentifier = KeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string KeyIdentifier, out string Name, out string ResourceGroup, out string WorkspaceName)
+    {
+        KeyIdentifier = this.KeyIdentifier;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The Key Vault Url of the workspace encryption key. should be in the format of: https://{keyvaultname}.vault.azure.net/keys/{keyname}.
+    /// </summary>
+    [CliOption("--key-identifier")]
+    public string KeyIdentifier { get; private init; }
+
+    /// <summary>
+    /// The workspace customer-managed key display name. All existing keys can be found using /"az synapse workspace key list/" cmdlet.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

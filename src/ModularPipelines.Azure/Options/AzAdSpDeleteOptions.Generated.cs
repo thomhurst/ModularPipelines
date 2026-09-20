@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a service principal.
 /// </summary>
-/// <param name="Id">Service principal name, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "sp", "delete")]
-public record AzAdSpDeleteOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdSpDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a service principal.
+    /// </summary>
+    /// <param name="Id">Service principal name, or object id.</param>
+    public AzAdSpDeleteOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Service principal name, or object id.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
 }

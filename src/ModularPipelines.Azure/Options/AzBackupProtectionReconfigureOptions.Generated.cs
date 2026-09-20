@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reconfigures backup protection from an old vault to a new
 /// </summary>
-/// <param name="BackupManagementType">Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.</param>
-/// <param name="NewPolicyName">Name of the backup policy in the destination vault.</param>
-/// <param name="NewRg">Resource group name of the destination Recovery Services vault.</param>
-/// <param name="NewVaultName">Name of the destination Recovery Services vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protection", "reconfigure")]
-public record AzBackupProtectionReconfigureOptions(
-    [property: CliOption("--backup-management-type")] string BackupManagementType,
-    [property: CliOption("--new-policy-name")] string NewPolicyName,
-    [property: CliOption("--new-rg", ShortForm = "--new-vault-resource-group")] string NewRg,
-    [property: CliOption("--new-vault-name")] string NewVaultName
-) : AzOptions
+public record AzBackupProtectionReconfigureOptions : AzOptions
 {
+    /// <summary>
+    /// Reconfigures backup protection from an old vault to a new
+    /// </summary>
+    /// <param name="BackupManagementType">Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.</param>
+    /// <param name="NewPolicyName">Name of the backup policy in the destination vault.</param>
+    /// <param name="NewRg">Resource group name of the destination Recovery Services vault.</param>
+    /// <param name="NewVaultName">Name of the destination Recovery Services vault.</param>
+    public AzBackupProtectionReconfigureOptions(
+        string BackupManagementType,
+        string NewPolicyName,
+        string NewRg,
+        string NewVaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupManagementType);
+        this.BackupManagementType = BackupManagementType;
+        global::System.ArgumentNullException.ThrowIfNull(NewPolicyName);
+        this.NewPolicyName = NewPolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(NewRg);
+        this.NewRg = NewRg;
+        global::System.ArgumentNullException.ThrowIfNull(NewVaultName);
+        this.NewVaultName = NewVaultName;
+    }
+
+    public void Deconstruct(out string BackupManagementType, out string NewPolicyName, out string NewRg, out string NewVaultName)
+    {
+        BackupManagementType = this.BackupManagementType;
+        NewPolicyName = this.NewPolicyName;
+        NewRg = this.NewRg;
+        NewVaultName = this.NewVaultName;
+    }
+
+    /// <summary>
+    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
+    /// </summary>
+    [CliOption("--backup-management-type")]
+    public string BackupManagementType { get; private init; }
+
+    /// <summary>
+    /// Name of the backup policy in the destination vault.
+    /// </summary>
+    [CliOption("--new-policy-name")]
+    public string NewPolicyName { get; private init; }
+
+    /// <summary>
+    /// Resource group name of the destination Recovery Services vault.
+    /// </summary>
+    [CliOption("--new-rg", ShortForm = "--new-vault-resource-group")]
+    public string NewRg { get; private init; }
+
+    /// <summary>
+    /// Name of the destination Recovery Services vault.
+    /// </summary>
+    [CliOption("--new-vault-name")]
+    public string NewVaultName { get; private init; }
+
     /// <summary>
     /// Retain existing recovery points as per current backup policy when stopping protection in the source vault (the source vault is always the one specified by --vault-name/--resource- group).  Allowed values: false, true.
     /// </summary>

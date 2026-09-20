@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload a root certificate.
 /// </summary>
-/// <param name="GatewayName">Virtual network gateway name.</param>
-/// <param name="Name">Root certificate name.</param>
-/// <param name="PublicCertData">Base64 contents of the root certificate file or file path.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "root-cert", "create")]
-public record AzNetworkVnetGatewayRootCertCreateOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--public-cert-data")] string PublicCertData,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkVnetGatewayRootCertCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Upload a root certificate.
+    /// </summary>
+    /// <param name="GatewayName">Virtual network gateway name.</param>
+    /// <param name="Name">Root certificate name.</param>
+    /// <param name="PublicCertData">Base64 contents of the root certificate file or file path.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkVnetGatewayRootCertCreateOptions(
+        string GatewayName,
+        string Name,
+        string PublicCertData,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PublicCertData);
+        this.PublicCertData = PublicCertData;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GatewayName, out string Name, out string PublicCertData, out string ResourceGroup)
+    {
+        GatewayName = this.GatewayName;
+        Name = this.Name;
+        PublicCertData = this.PublicCertData;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Virtual network gateway name.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Root certificate name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Base64 contents of the root certificate file or file path.
+    /// </summary>
+    [CliOption("--public-cert-data")]
+    public string PublicCertData { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

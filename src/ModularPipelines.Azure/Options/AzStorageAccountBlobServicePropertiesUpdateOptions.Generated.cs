@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a storage account's
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "blob-service-properties", "update")]
-public record AzStorageAccountBlobServicePropertiesUpdateOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
-) : AzOptions
+public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update the properties of a storage account's
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    public AzStorageAccountBlobServicePropertiesUpdateOptions(
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    public void Deconstruct(out string AccountName)
+    {
+        AccountName = this.AccountName;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
     /// <summary>
     /// Indicate the default version to use for requests to the Blob service if an incoming request's version is not specified.
     /// </summary>

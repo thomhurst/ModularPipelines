@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Detach managed data disks from a scale set or its instances.
 /// </summary>
-/// <param name="Lun">0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "disk", "detach")]
-public record AzVmssDiskDetachOptions(
-    [property: CliOption("--lun")] string Lun
-) : AzOptions
+public record AzVmssDiskDetachOptions : AzOptions
 {
+    /// <summary>
+    /// Detach managed data disks from a scale set or its instances.
+    /// </summary>
+    /// <param name="Lun">0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.</param>
+    public AzVmssDiskDetachOptions(
+        string Lun
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Lun);
+        this.Lun = Lun;
+    }
+
+    public void Deconstruct(out string Lun)
+    {
+        Lun = this.Lun;
+    }
+
+    /// <summary>
+    /// 0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.
+    /// </summary>
+    [CliOption("--lun")]
+    public string Lun { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

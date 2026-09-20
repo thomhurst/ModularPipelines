@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Change ServiceState property for a given service
 /// </summary>
-/// <param name="Action">The action to be performed.  Allowed values: Resume, Suspend.</param>
-/// <param name="ServiceName">The name of the orchestration service.  Allowed values: AutomaticRepairs.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "set-orchestration-service-state")]
-public record AzVmssSetOrchestrationServiceStateOptions(
-    [property: CliOption("--action")] string Action,
-    [property: CliOption("--service-name")] string ServiceName
-) : AzOptions
+public record AzVmssSetOrchestrationServiceStateOptions : AzOptions
 {
+    /// <summary>
+    /// Change ServiceState property for a given service
+    /// </summary>
+    /// <param name="Action">The action to be performed.  Allowed values: Resume, Suspend.</param>
+    /// <param name="ServiceName">The name of the orchestration service.  Allowed values: AutomaticRepairs.</param>
+    public AzVmssSetOrchestrationServiceStateOptions(
+        string Action,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string Action, out string ServiceName)
+    {
+        Action = this.Action;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// The action to be performed.  Allowed values: Resume, Suspend.
+    /// </summary>
+    [CliOption("--action")]
+    public string Action { get; private init; }
+
+    /// <summary>
+    /// The name of the orchestration service.  Allowed values: AutomaticRepairs.
+    /// </summary>
+    [CliOption("--service-name")]
+    public string ServiceName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

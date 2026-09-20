@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add scripts/config files for publishing with `az webapp deployment`.
 /// </summary>
-/// <param name="Lang">The language or runtime of the bot.  Allowed values: Csharp, Javascript, Typescript.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "prepare-deploy")]
-public record AzBotPrepareDeployOptions(
-    [property: CliOption("--lang")] string Lang
-) : AzOptions
+public record AzBotPrepareDeployOptions : AzOptions
 {
+    /// <summary>
+    /// Add scripts/config files for publishing with `az webapp deployment`.
+    /// </summary>
+    /// <param name="Lang">The language or runtime of the bot.  Allowed values: Csharp, Javascript, Typescript.</param>
+    public AzBotPrepareDeployOptions(
+        string Lang
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Lang);
+        this.Lang = Lang;
+    }
+
+    public void Deconstruct(out string Lang)
+    {
+        Lang = this.Lang;
+    }
+
+    /// <summary>
+    /// The language or runtime of the bot.  Allowed values: Csharp, Javascript, Typescript.
+    /// </summary>
+    [CliOption("--lang")]
+    public string Lang { get; private init; }
+
     /// <summary>
     /// The directory to place the generated deployment files in. Defaults to the current directory the command is called from.
     /// </summary>

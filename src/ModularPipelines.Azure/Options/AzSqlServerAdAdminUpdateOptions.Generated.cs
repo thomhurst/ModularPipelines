@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing server Active Directory administrator.
 /// </summary>
-/// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
-/// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "ad-admin", "update")]
-public record AzSqlServerAdAdminUpdateOptions(
-    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
-    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId
-) : AzOptions
+public record AzSqlServerAdAdminUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing server Active Directory administrator.
+    /// </summary>
+    /// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
+    /// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
+    public AzSqlServerAdAdminUpdateOptions(
+        string DisplayName,
+        string ObjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectId);
+        this.ObjectId = ObjectId;
+    }
+
+    public void Deconstruct(out string DisplayName, out string ObjectId)
+    {
+        DisplayName = this.DisplayName;
+        ObjectId = this.ObjectId;
+    }
+
+    /// <summary>
+    /// Display name of the Azure AD administrator user or group.
+    /// </summary>
+    [CliOption("--display-name", ShortForm = "-u")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The unique ID of the Azure AD administrator.
+    /// </summary>
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string ObjectId { get; private init; }
+
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>

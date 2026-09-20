@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a workspace settings in your subscription - these
 /// </summary>
-/// <param name="Name">Name of the resource to be fetched.</param>
-/// <param name="TargetWorkspace">An ID of the workspace resource that will hold the security data.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "workspace-setting", "create")]
-public record AzSecurityWorkspaceSettingCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--target-workspace")] string TargetWorkspace
-) : AzOptions
+public record AzSecurityWorkspaceSettingCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a workspace settings in your subscription - these
+    /// </summary>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    /// <param name="TargetWorkspace">An ID of the workspace resource that will hold the security data.</param>
+    public AzSecurityWorkspaceSettingCreateOptions(
+        string Name,
+        string TargetWorkspace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TargetWorkspace);
+        this.TargetWorkspace = TargetWorkspace;
+    }
+
+    public void Deconstruct(out string Name, out string TargetWorkspace)
+    {
+        Name = this.Name;
+        TargetWorkspace = this.TargetWorkspace;
+    }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// An ID of the workspace resource that will hold the security data.
+    /// </summary>
+    [CliOption("--target-workspace")]
+    public string TargetWorkspace { get; private init; }
+
 }

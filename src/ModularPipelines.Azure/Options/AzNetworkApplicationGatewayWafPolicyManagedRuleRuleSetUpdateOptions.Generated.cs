@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manage rules of a WAF
 /// </summary>
-/// <param name="PolicyName">The name of the web application firewall policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Type">The type of the web application firewall rule set.  Allowed values: Microsoft_BotManagerRuleSet, Microsoft_DefaultRuleSet, Microsoft_HTTPDDoSRuleSet, OWASP.</param>
-/// <param name="Version">The version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "rule-set", "update")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOptions(
-    [property: CliOption("--policy-name")] string PolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--type")] string Type,
-    [property: CliOption("--version")] string Version
-) : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Manage rules of a WAF
+    /// </summary>
+    /// <param name="PolicyName">The name of the web application firewall policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Type">The type of the web application firewall rule set.  Allowed values: Microsoft_BotManagerRuleSet, Microsoft_DefaultRuleSet, Microsoft_HTTPDDoSRuleSet, OWASP.</param>
+    /// <param name="Version">The version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet.</param>
+    public AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOptions(
+        string PolicyName,
+        string ResourceGroup,
+        string Type,
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string PolicyName, out string ResourceGroup, out string Type, out string Version)
+    {
+        PolicyName = this.PolicyName;
+        ResourceGroup = this.ResourceGroup;
+        Type = this.Type;
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// The name of the web application firewall policy.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The type of the web application firewall rule set.  Allowed values: Microsoft_BotManagerRuleSet, Microsoft_DefaultRuleSet, Microsoft_HTTPDDoSRuleSet, OWASP.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// The version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet.
+    /// </summary>
+    [CliOption("--version")]
+    public string Version { get; private init; }
+
     /// <summary>
     /// The name of the web application firewall rule set group.
     /// </summary>

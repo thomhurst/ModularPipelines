@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create share on the device.
 /// </summary>
-/// <param name="DeviceName">The device name.</param>
-/// <param name="Name">The share name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="AccessProtocol">Access protocol to be used by the share.  Allowed values: NFS, SMB.</param>
-/// <param name="MonitoringStatus">Current monitoring status of the share.  Allowed values: Disabled, Enabled.</param>
-/// <param name="ShareStatus">Current status of the share.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "share", "create")]
-public record AzDataboxedgeDeviceShareCreateOptions(
-    [property: CliOption("--device-name")] string DeviceName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--access-protocol")] string AccessProtocol,
-    [property: CliOption("--monitoring-status")] string MonitoringStatus,
-    [property: CliOption("--share-status")] string ShareStatus
-) : AzOptions
+public record AzDataboxedgeDeviceShareCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create share on the device.
+    /// </summary>
+    /// <param name="DeviceName">The device name.</param>
+    /// <param name="Name">The share name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="AccessProtocol">Access protocol to be used by the share.  Allowed values: NFS, SMB.</param>
+    /// <param name="MonitoringStatus">Current monitoring status of the share.  Allowed values: Disabled, Enabled.</param>
+    /// <param name="ShareStatus">Current status of the share.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.</param>
+    public AzDataboxedgeDeviceShareCreateOptions(
+        string DeviceName,
+        string Name,
+        string ResourceGroup,
+        string AccessProtocol,
+        string MonitoringStatus,
+        string ShareStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(AccessProtocol);
+        this.AccessProtocol = AccessProtocol;
+        global::System.ArgumentNullException.ThrowIfNull(MonitoringStatus);
+        this.MonitoringStatus = MonitoringStatus;
+        global::System.ArgumentNullException.ThrowIfNull(ShareStatus);
+        this.ShareStatus = ShareStatus;
+    }
+
+    public void Deconstruct(out string DeviceName, out string Name, out string ResourceGroup, out string AccessProtocol, out string MonitoringStatus, out string ShareStatus)
+    {
+        DeviceName = this.DeviceName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        AccessProtocol = this.AccessProtocol;
+        MonitoringStatus = this.MonitoringStatus;
+        ShareStatus = this.ShareStatus;
+    }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliOption("--device-name")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// The share name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Access protocol to be used by the share.  Allowed values: NFS, SMB.
+    /// </summary>
+    [CliOption("--access-protocol")]
+    public string AccessProtocol { get; private init; }
+
+    /// <summary>
+    /// Current monitoring status of the share.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--monitoring-status")]
+    public string MonitoringStatus { get; private init; }
+
+    /// <summary>
+    /// Current status of the share.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.
+    /// </summary>
+    [CliOption("--share-status")]
+    public string ShareStatus { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

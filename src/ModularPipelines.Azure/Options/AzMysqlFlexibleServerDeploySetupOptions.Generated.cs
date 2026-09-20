@@ -16,20 +16,68 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create GitHub Actions workflow file for MySQL server.
 /// </summary>
-/// <param name="Repo">The name of your github username and repository e.g., Azure/azure-cli.</param>
-/// <param name="SqlFile">The path of the sql file. The sql file should be already in the repository.</param>
-/// <param name="AdminPassword">The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.</param>
-/// <param name="AdminUser">Administrator username for the server. Once set, it cannot be changed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "deploy", "setup")]
-public record AzMysqlFlexibleServerDeploySetupOptions(
-    [property: CliOption("--repo")] string Repo,
-    [property: CliOption("--sql-file")] string SqlFile,
-    [property: SecretValue, CliOption("--admin-password", ShortForm = "-p")] string AdminPassword,
-    [property: CliOption("--admin-user", ShortForm = "-u")] string AdminUser
-) : AzOptions
+public record AzMysqlFlexibleServerDeploySetupOptions : AzOptions
 {
+    /// <summary>
+    /// Create GitHub Actions workflow file for MySQL server.
+    /// </summary>
+    /// <param name="Repo">The name of your github username and repository e.g., Azure/azure-cli.</param>
+    /// <param name="SqlFile">The path of the sql file. The sql file should be already in the repository.</param>
+    /// <param name="AdminPassword">The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.</param>
+    /// <param name="AdminUser">Administrator username for the server. Once set, it cannot be changed.</param>
+    public AzMysqlFlexibleServerDeploySetupOptions(
+        string Repo,
+        string SqlFile,
+        string AdminPassword,
+        string AdminUser
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repo);
+        this.Repo = Repo;
+        global::System.ArgumentNullException.ThrowIfNull(SqlFile);
+        this.SqlFile = SqlFile;
+        global::System.ArgumentNullException.ThrowIfNull(AdminPassword);
+        this.AdminPassword = AdminPassword;
+        global::System.ArgumentNullException.ThrowIfNull(AdminUser);
+        this.AdminUser = AdminUser;
+    }
+
+    public void Deconstruct(out string Repo, out string SqlFile, out string AdminPassword, out string AdminUser)
+    {
+        Repo = this.Repo;
+        SqlFile = this.SqlFile;
+        AdminPassword = this.AdminPassword;
+        AdminUser = this.AdminUser;
+    }
+
+    /// <summary>
+    /// The name of your github username and repository e.g., Azure/azure-cli.
+    /// </summary>
+    [CliOption("--repo")]
+    public string Repo { get; private init; }
+
+    /// <summary>
+    /// The path of the sql file. The sql file should be already in the repository.
+    /// </summary>
+    [CliOption("--sql-file")]
+    public string SqlFile { get; private init; }
+
+    /// <summary>
+    /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string AdminPassword { get; private init; }
+
+    /// <summary>
+    /// Administrator username for the server. Once set, it cannot be changed.
+    /// </summary>
+    [CliOption("--admin-user", ShortForm = "-u")]
+    public string AdminUser { get; private init; }
+
     /// <summary>
     /// The name of the github action.
     /// </summary>

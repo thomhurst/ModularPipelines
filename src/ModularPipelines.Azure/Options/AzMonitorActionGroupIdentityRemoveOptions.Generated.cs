@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove the user or system managed identities.
 /// </summary>
-/// <param name="ActionGroupName">The name of the action group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "action-group", "identity", "remove")]
-public record AzMonitorActionGroupIdentityRemoveOptions(
-    [property: CliOption("--action-group-name", ShortForm = "-n")] string ActionGroupName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMonitorActionGroupIdentityRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove the user or system managed identities.
+    /// </summary>
+    /// <param name="ActionGroupName">The name of the action group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMonitorActionGroupIdentityRemoveOptions(
+        string ActionGroupName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionGroupName);
+        this.ActionGroupName = ActionGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ActionGroupName, out string ResourceGroup)
+    {
+        ActionGroupName = this.ActionGroupName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the action group.
+    /// </summary>
+    [CliOption("--action-group-name", ShortForm = "-n")]
+    public string ActionGroupName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

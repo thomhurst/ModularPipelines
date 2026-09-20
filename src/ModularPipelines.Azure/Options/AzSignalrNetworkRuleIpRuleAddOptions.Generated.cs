@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add IP rule to SignalR Service.
 /// </summary>
-/// <param name="IpRule">The IP rule for the hub.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "network-rule", "ip-rule", "add")]
-public record AzSignalrNetworkRuleIpRuleAddOptions(
-    [property: CliOption("--ip-rule")] string IpRule
-) : AzOptions
+public record AzSignalrNetworkRuleIpRuleAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add IP rule to SignalR Service.
+    /// </summary>
+    /// <param name="IpRule">The IP rule for the hub.</param>
+    public AzSignalrNetworkRuleIpRuleAddOptions(
+        string IpRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpRule);
+        this.IpRule = IpRule;
+    }
+
+    public void Deconstruct(out string IpRule)
+    {
+        IpRule = this.IpRule;
+    }
+
+    /// <summary>
+    /// The IP rule for the hub.
+    /// </summary>
+    [CliOption("--ip-rule")]
+    public string IpRule { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

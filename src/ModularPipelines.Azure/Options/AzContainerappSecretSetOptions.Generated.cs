@@ -16,14 +16,46 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create/update secrets.
 /// </summary>
-/// <param name="Secrets">A list of secret(s) for the container app. Space-separated values in 'key=value' or 'key=keyvaultref:keyvaulturl,identityref:identity' format (where 'key' cannot be longer than 20 characters. For 'identityref', Use 'system' for a system-defined identity or a resource id for a user-defined identity).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "secret", "set")]
-public record AzContainerappSecretSetOptions(
-    [property: SecretValue, CliOption("--secrets", ShortForm = "-s", GroupValues = true)] IEnumerable<string> Secrets
-) : AzOptions
+public record AzContainerappSecretSetOptions : AzOptions
 {
+    /// <summary>
+    /// Create/update secrets.
+    /// </summary>
+    /// <param name="Secrets">A list of secret(s) for the container app. Space-separated values in 'key=value' or 'key=keyvaultref:keyvaulturl,identityref:identity' format (where 'key' cannot be longer than 20 characters. For 'identityref', Use 'system' for a system-defined identity or a resource id for a user-defined identity).</param>
+    public AzContainerappSecretSetOptions(
+        IEnumerable<string> Secrets
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Secrets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Secrets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Secrets));
+            }
+
+            Secrets = materialized;
+        }
+        this.Secrets = Secrets;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Secrets)
+    {
+        Secrets = this.Secrets;
+    }
+
+    /// <summary>
+    /// A list of secret(s) for the container app. Space-separated values in 'key=value' or 'key=keyvaultref:keyvaulturl,identityref:identity' format (where 'key' cannot be longer than 20 characters. For 'identityref', Use 'system' for a system-defined identity or a resource id for a user-defined identity).
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secrets", ShortForm = "-s", GroupValues = true)]
+    public IEnumerable<string> Secrets { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

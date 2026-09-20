@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the members of a group.
 /// </summary>
-/// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "member", "list")]
-public record AzAdGroupMemberListOptions(
-    [property: CliOption("--group", ShortForm = "-g")] string Group
-) : AzOptions
+public record AzAdGroupMemberListOptions : AzOptions
 {
+    /// <summary>
+    /// Get the members of a group.
+    /// </summary>
+    /// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
+    public AzAdGroupMemberListOptions(
+        string Group
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Group);
+        this.Group = Group;
+    }
+
+    public void Deconstruct(out string Group)
+    {
+        Group = this.Group;
+    }
+
+    /// <summary>
+    /// Group's object id or display name(prefix also works if there is a unique match).
+    /// </summary>
+    [CliOption("--group", ShortForm = "-g")]
+    public string Group { get; private init; }
+
 }

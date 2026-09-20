@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds an Access Restriction to the webapp.
 /// </summary>
-/// <param name="Priority">Priority of the access restriction rule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "access-restriction", "add")]
-public record AzWebappConfigAccessRestrictionAddOptions(
-    [property: CliOption("--priority", ShortForm = "-p")] string Priority
-) : AzOptions
+public record AzWebappConfigAccessRestrictionAddOptions : AzOptions
 {
+    /// <summary>
+    /// Adds an Access Restriction to the webapp.
+    /// </summary>
+    /// <param name="Priority">Priority of the access restriction rule.</param>
+    public AzWebappConfigAccessRestrictionAddOptions(
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string Priority)
+    {
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// Priority of the access restriction rule.
+    /// </summary>
+    [CliOption("--priority", ShortForm = "-p")]
+    public string Priority { get; private init; }
+
     /// <summary>
     /// Allow or deny access.  Allowed values: Allow, Deny.  Default: Allow.
     /// </summary>

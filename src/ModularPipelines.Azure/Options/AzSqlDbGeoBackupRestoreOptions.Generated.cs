@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a geo-redundant backup to a new database.
 /// </summary>
-/// <param name="DestDatabase">Name of the database that will be created as the restore destination.</param>
-/// <param name="DestServer">Name of the server to restore database to.</param>
-/// <param name="GeoBackupId">The resource id of the geo-redundant backup to be restored. Use 'az sql db geo-backup list' or 'az sql db geo-backup show' for backup id.</param>
-/// <param name="ResourceGroup">Name of the target resource group of the server to restore database to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "geo-backup", "restore")]
-public record AzSqlDbGeoBackupRestoreOptions(
-    [property: CliOption("--dest-database")] string DestDatabase,
-    [property: CliOption("--dest-server")] string DestServer,
-    [property: CliOption("--geo-backup-id")] string GeoBackupId,
-    [property: CliOption("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSqlDbGeoBackupRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restore a geo-redundant backup to a new database.
+    /// </summary>
+    /// <param name="DestDatabase">Name of the database that will be created as the restore destination.</param>
+    /// <param name="DestServer">Name of the server to restore database to.</param>
+    /// <param name="GeoBackupId">The resource id of the geo-redundant backup to be restored. Use 'az sql db geo-backup list' or 'az sql db geo-backup show' for backup id.</param>
+    /// <param name="ResourceGroup">Name of the target resource group of the server to restore database to.</param>
+    public AzSqlDbGeoBackupRestoreOptions(
+        string DestDatabase,
+        string DestServer,
+        string GeoBackupId,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestDatabase);
+        this.DestDatabase = DestDatabase;
+        global::System.ArgumentNullException.ThrowIfNull(DestServer);
+        this.DestServer = DestServer;
+        global::System.ArgumentNullException.ThrowIfNull(GeoBackupId);
+        this.GeoBackupId = GeoBackupId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DestDatabase, out string DestServer, out string GeoBackupId, out string ResourceGroup)
+    {
+        DestDatabase = this.DestDatabase;
+        DestServer = this.DestServer;
+        GeoBackupId = this.GeoBackupId;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the database that will be created as the restore destination.
+    /// </summary>
+    [CliOption("--dest-database")]
+    public string DestDatabase { get; private init; }
+
+    /// <summary>
+    /// Name of the server to restore database to.
+    /// </summary>
+    [CliOption("--dest-server")]
+    public string DestServer { get; private init; }
+
+    /// <summary>
+    /// The resource id of the geo-redundant backup to be restored. Use 'az sql db geo-backup list' or 'az sql db geo-backup show' for backup id.
+    /// </summary>
+    [CliOption("--geo-backup-id")]
+    public string GeoBackupId { get; private init; }
+
+    /// <summary>
+    /// Name of the target resource group of the server to restore database to.
+    /// </summary>
+    [CliOption("--resource-group")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Assign identity for database.  Allowed values: false, true.
     /// </summary>

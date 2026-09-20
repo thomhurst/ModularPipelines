@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows information about a particular Azure IoT Hub certificate.
 /// </summary>
-/// <param name="Name">A friendly name for the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "certificate", "show")]
-public record AzIotHubCertificateShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzIotHubCertificateShowOptions : AzOptions
 {
+    /// <summary>
+    /// Shows information about a particular Azure IoT Hub certificate.
+    /// </summary>
+    /// <param name="Name">A friendly name for the certificate.</param>
+    public AzIotHubCertificateShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// A friendly name for the certificate.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// IoT Hub name.
     /// </summary>

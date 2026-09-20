@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deactivate a revision.
 /// </summary>
-/// <param name="Revision">Name of the revision.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "revision", "deactivate")]
-public record AzContainerappRevisionDeactivateOptions(
-    [property: CliOption("--revision")] string Revision
-) : AzOptions
+public record AzContainerappRevisionDeactivateOptions : AzOptions
 {
+    /// <summary>
+    /// Deactivate a revision.
+    /// </summary>
+    /// <param name="Revision">Name of the revision.</param>
+    public AzContainerappRevisionDeactivateOptions(
+        string Revision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+    }
+
+    public void Deconstruct(out string Revision)
+    {
+        Revision = this.Revision;
+    }
+
+    /// <summary>
+    /// Name of the revision.
+    /// </summary>
+    [CliOption("--revision")]
+    public string Revision { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

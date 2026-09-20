@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets a enrollment account by name.
 /// </summary>
-/// <param name="Name">Name of the enrollment account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "enrollment-account", "show")]
-public record AzBillingEnrollmentAccountShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzBillingEnrollmentAccountShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets a enrollment account by name.
+    /// </summary>
+    /// <param name="Name">Name of the enrollment account.</param>
+    public AzBillingEnrollmentAccountShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the enrollment account.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

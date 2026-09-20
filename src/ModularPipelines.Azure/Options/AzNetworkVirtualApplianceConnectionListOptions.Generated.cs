@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists connections under the NVA.
 /// </summary>
-/// <param name="Nva">The name of the Network Virtual Appliance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "connection", "list")]
-public record AzNetworkVirtualApplianceConnectionListOptions(
-    [property: CliOption("--nva", ShortForm = "--virtual-appliance-name")] string Nva,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkVirtualApplianceConnectionListOptions : AzOptions
 {
+    /// <summary>
+    /// Lists connections under the NVA.
+    /// </summary>
+    /// <param name="Nva">The name of the Network Virtual Appliance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkVirtualApplianceConnectionListOptions(
+        string Nva,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Nva);
+        this.Nva = Nva;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Nva, out string ResourceGroup)
+    {
+        Nva = this.Nva;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Network Virtual Appliance.
+    /// </summary>
+    [CliOption("--nva", ShortForm = "--virtual-appliance-name")]
+    public string Nva { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

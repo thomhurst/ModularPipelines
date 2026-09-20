@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a resource by PATCH request.
 /// </summary>
-/// <param name="Properties">A JSON-formatted string containing resource properties.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "patch")]
-public record AzResourcePatchOptions(
-    [property: CliOption("--properties", ShortForm = "-p")] string Properties
-) : AzOptions
+public record AzResourcePatchOptions : AzOptions
 {
+    /// <summary>
+    /// Update a resource by PATCH request.
+    /// </summary>
+    /// <param name="Properties">A JSON-formatted string containing resource properties.</param>
+    public AzResourcePatchOptions(
+        string Properties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Properties);
+        this.Properties = Properties;
+    }
+
+    public void Deconstruct(out string Properties)
+    {
+        Properties = this.Properties;
+    }
+
+    /// <summary>
+    /// A JSON-formatted string containing resource properties.
+    /// </summary>
+    [CliOption("--properties", ShortForm = "-p")]
+    public string Properties { get; private init; }
+
     /// <summary>
     /// Indicate that the properties object includes other options such as location, tags, sku, and/or plan.
     /// </summary>

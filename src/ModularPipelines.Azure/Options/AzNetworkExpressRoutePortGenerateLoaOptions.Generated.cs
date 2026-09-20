@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate and download a letter of authorization for
 /// </summary>
-/// <param name="CustomerName">The customer name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "port", "generate-loa")]
-public record AzNetworkExpressRoutePortGenerateLoaOptions(
-    [property: CliOption("--customer-name")] string CustomerName
-) : AzOptions
+public record AzNetworkExpressRoutePortGenerateLoaOptions : AzOptions
 {
+    /// <summary>
+    /// Generate and download a letter of authorization for
+    /// </summary>
+    /// <param name="CustomerName">The customer name.</param>
+    public AzNetworkExpressRoutePortGenerateLoaOptions(
+        string CustomerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomerName);
+        this.CustomerName = CustomerName;
+    }
+
+    public void Deconstruct(out string CustomerName)
+    {
+        CustomerName = this.CustomerName;
+    }
+
+    /// <summary>
+    /// The customer name.
+    /// </summary>
+    [CliOption("--customer-name")]
+    public string CustomerName { get; private init; }
+
     /// <summary>
     /// Directory or the file path of the letter to be saved to. If the file name extension is not .pdf, Azure CLI will help to append. Be careful, the existing file might get overwritten.  Default: loa.pdf.
     /// </summary>

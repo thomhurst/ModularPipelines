@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start a job.
 /// </summary>
-/// <param name="OutputAssets">Space-separated assets in 'assetName=label' format. An asset without label can be sent like this: 'assetName='.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "job", "start")]
-public record AzAmsJobStartOptions(
-    [property: CliOption("--output-assets", GroupValues = true)] IEnumerable<string> OutputAssets
-) : AzOptions
+public record AzAmsJobStartOptions : AzOptions
 {
+    /// <summary>
+    /// Start a job.
+    /// </summary>
+    /// <param name="OutputAssets">Space-separated assets in 'assetName=label' format. An asset without label can be sent like this: 'assetName='.</param>
+    public AzAmsJobStartOptions(
+        IEnumerable<string> OutputAssets
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OutputAssets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OutputAssets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OutputAssets));
+            }
+
+            OutputAssets = materialized;
+        }
+        this.OutputAssets = OutputAssets;
+    }
+
+    public void Deconstruct(out IEnumerable<string> OutputAssets)
+    {
+        OutputAssets = this.OutputAssets;
+    }
+
+    /// <summary>
+    /// Space-separated assets in 'assetName=label' format. An asset without label can be sent like this: 'assetName='.
+    /// </summary>
+    [CliOption("--output-assets", GroupValues = true)]
+    public IEnumerable<string> OutputAssets { get; private init; }
+
     /// <summary>
     /// Space-separated correlation data in 'key[=value]' format. This customer provided data will be returned in Job and JobOutput state events.
     /// </summary>

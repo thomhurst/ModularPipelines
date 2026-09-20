@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check if a member is in a group.
 /// </summary>
-/// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
-/// <param name="MemberId">The object ID of the contact, group, user, or service principal.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "member", "check")]
-public record AzAdGroupMemberCheckOptions(
-    [property: CliOption("--group", ShortForm = "-g")] string Group,
-    [property: CliOption("--member-id")] string MemberId
-) : AzOptions
+public record AzAdGroupMemberCheckOptions : AzOptions
 {
+    /// <summary>
+    /// Check if a member is in a group.
+    /// </summary>
+    /// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
+    /// <param name="MemberId">The object ID of the contact, group, user, or service principal.</param>
+    public AzAdGroupMemberCheckOptions(
+        string Group,
+        string MemberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Group);
+        this.Group = Group;
+        global::System.ArgumentNullException.ThrowIfNull(MemberId);
+        this.MemberId = MemberId;
+    }
+
+    public void Deconstruct(out string Group, out string MemberId)
+    {
+        Group = this.Group;
+        MemberId = this.MemberId;
+    }
+
+    /// <summary>
+    /// Group's object id or display name(prefix also works if there is a unique match).
+    /// </summary>
+    [CliOption("--group", ShortForm = "-g")]
+    public string Group { get; private init; }
+
+    /// <summary>
+    /// The object ID of the contact, group, user, or service principal.
+    /// </summary>
+    [CliOption("--member-id")]
+    public string MemberId { get; private init; }
+
 }

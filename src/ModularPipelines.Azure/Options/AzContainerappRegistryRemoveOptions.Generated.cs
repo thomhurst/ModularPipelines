@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a container registry's details.
 /// </summary>
-/// <param name="Server">The container registry server, e.g. myregistry.azurecr.io.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "registry", "remove")]
-public record AzContainerappRegistryRemoveOptions(
-    [property: CliOption("--server")] string Server
-) : AzOptions
+public record AzContainerappRegistryRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a container registry's details.
+    /// </summary>
+    /// <param name="Server">The container registry server, e.g. myregistry.azurecr.io.</param>
+    public AzContainerappRegistryRemoveOptions(
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string Server)
+    {
+        Server = this.Server;
+    }
+
+    /// <summary>
+    /// The container registry server, e.g. myregistry.azurecr.io.
+    /// </summary>
+    [CliOption("--server")]
+    public string Server { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

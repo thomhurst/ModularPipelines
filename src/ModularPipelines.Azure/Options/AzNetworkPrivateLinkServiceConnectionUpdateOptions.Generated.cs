@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a private link service endpoint
 /// </summary>
-/// <param name="ConnectionStatus">Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.  Allowed values: Approved, Rejected, Removed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-link-service", "connection", "update")]
-public record AzNetworkPrivateLinkServiceConnectionUpdateOptions(
-    [property: CliOption("--connection-status")] string ConnectionStatus
-) : AzOptions
+public record AzNetworkPrivateLinkServiceConnectionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a private link service endpoint
+    /// </summary>
+    /// <param name="ConnectionStatus">Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.  Allowed values: Approved, Rejected, Removed.</param>
+    public AzNetworkPrivateLinkServiceConnectionUpdateOptions(
+        string ConnectionStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionStatus);
+        this.ConnectionStatus = ConnectionStatus;
+    }
+
+    public void Deconstruct(out string ConnectionStatus)
+    {
+        ConnectionStatus = this.ConnectionStatus;
+    }
+
+    /// <summary>
+    /// Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.  Allowed values: Approved, Rejected, Removed.
+    /// </summary>
+    [CliOption("--connection-status")]
+    public string ConnectionStatus { get; private init; }
+
     /// <summary>
     /// A message indicating if changes on the service provider require any updates on the consumer.
     /// </summary>

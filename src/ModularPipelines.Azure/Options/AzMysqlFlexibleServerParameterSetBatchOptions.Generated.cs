@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Batch update parameters of a flexible server.
 /// </summary>
-/// <param name="Args">List of the configuration key-value pair.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "parameter", "set-batch")]
-public record AzMysqlFlexibleServerParameterSetBatchOptions(
-    [property: CliOption("--args", GroupValues = true)] IEnumerable<string> Args
-) : AzOptions
+public record AzMysqlFlexibleServerParameterSetBatchOptions : AzOptions
 {
+    /// <summary>
+    /// Batch update parameters of a flexible server.
+    /// </summary>
+    /// <param name="Args">List of the configuration key-value pair.</param>
+    public AzMysqlFlexibleServerParameterSetBatchOptions(
+        IEnumerable<string> Args
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Args);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Args));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Args));
+            }
+
+            Args = materialized;
+        }
+        this.Args = Args;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Args)
+    {
+        Args = this.Args;
+    }
+
+    /// <summary>
+    /// List of the configuration key-value pair.
+    /// </summary>
+    [CliOption("--args", GroupValues = true)]
+    public IEnumerable<string> Args { get; private init; }
+
     /// <summary>
     /// Source of the configuration.
     /// </summary>

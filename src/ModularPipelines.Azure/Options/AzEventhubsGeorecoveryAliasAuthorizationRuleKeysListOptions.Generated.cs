@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the primary and secondary
 /// </summary>
-/// <param name="Alias">The Disaster Recovery configuration name.</param>
-/// <param name="AuthorizationRuleName">The authorization rule name.</param>
-/// <param name="NamespaceName">The Namespace name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "georecovery-alias", "authorization-rule", "keys", "list")]
-public record AzEventhubsGeorecoveryAliasAuthorizationRuleKeysListOptions(
-    [property: CliOption("--alias", ShortForm = "-a")] string Alias,
-    [property: CliOption("--authorization-rule-name", ShortForm = "-n")] string AuthorizationRuleName,
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventhubsGeorecoveryAliasAuthorizationRuleKeysListOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the primary and secondary
+    /// </summary>
+    /// <param name="Alias">The Disaster Recovery configuration name.</param>
+    /// <param name="AuthorizationRuleName">The authorization rule name.</param>
+    /// <param name="NamespaceName">The Namespace name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventhubsGeorecoveryAliasAuthorizationRuleKeysListOptions(
+        string Alias,
+        string AuthorizationRuleName,
+        string NamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizationRuleName);
+        this.AuthorizationRuleName = AuthorizationRuleName;
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Alias, out string AuthorizationRuleName, out string NamespaceName, out string ResourceGroup)
+    {
+        Alias = this.Alias;
+        AuthorizationRuleName = this.AuthorizationRuleName;
+        NamespaceName = this.NamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The Disaster Recovery configuration name.
+    /// </summary>
+    [CliOption("--alias", ShortForm = "-a")]
+    public string Alias { get; private init; }
+
+    /// <summary>
+    /// The authorization rule name.
+    /// </summary>
+    [CliOption("--authorization-rule-name", ShortForm = "-n")]
+    public string AuthorizationRuleName { get; private init; }
+
+    /// <summary>
+    /// The Namespace name.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

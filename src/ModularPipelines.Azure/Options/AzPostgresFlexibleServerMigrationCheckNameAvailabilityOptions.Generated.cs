@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Checks if the provided
 /// </summary>
-/// <param name="Name">Name of the migration.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "migration", "check-name-availability")]
-public record AzPostgresFlexibleServerMigrationCheckNameAvailabilityOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzPostgresFlexibleServerMigrationCheckNameAvailabilityOptions : AzOptions
 {
+    /// <summary>
+    /// Checks if the provided
+    /// </summary>
+    /// <param name="Name">Name of the migration.</param>
+    public AzPostgresFlexibleServerMigrationCheckNameAvailabilityOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the migration.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

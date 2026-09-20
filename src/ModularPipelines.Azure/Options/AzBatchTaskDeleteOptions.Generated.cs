@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes a Task from the specified Job.
 /// </summary>
-/// <param name="JobId">The ID of the Job from which to delete the Task. Required.</param>
-/// <param name="TaskId">The ID of the Task to delete. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "delete")]
-public record AzBatchTaskDeleteOptions(
-    [property: CliOption("--job-id")] string JobId,
-    [property: CliOption("--task-id")] string TaskId
-) : AzOptions
+public record AzBatchTaskDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes a Task from the specified Job.
+    /// </summary>
+    /// <param name="JobId">The ID of the Job from which to delete the Task. Required.</param>
+    /// <param name="TaskId">The ID of the Task to delete. Required.</param>
+    public AzBatchTaskDeleteOptions(
+        string JobId,
+        string TaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+    }
+
+    public void Deconstruct(out string JobId, out string TaskId)
+    {
+        JobId = this.JobId;
+        TaskId = this.TaskId;
+    }
+
+    /// <summary>
+    /// The ID of the Job from which to delete the Task. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Task to delete. Required.
+    /// </summary>
+    [CliOption("--task-id")]
+    public string TaskId { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

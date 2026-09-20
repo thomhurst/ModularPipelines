@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a backup policy for Netapp Account.
 /// </summary>
-/// <param name="AccountName">The name of the NetApp account.</param>
-/// <param name="BackupPolicyName">Backup policy Name which uniquely identify backup policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "backup-policy", "create")]
-public record AzNetappfilesAccountBackupPolicyCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--backup-policy-name", ShortForm = "-n")] string BackupPolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetappfilesAccountBackupPolicyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a backup policy for Netapp Account.
+    /// </summary>
+    /// <param name="AccountName">The name of the NetApp account.</param>
+    /// <param name="BackupPolicyName">Backup policy Name which uniquely identify backup policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetappfilesAccountBackupPolicyCreateOptions(
+        string AccountName,
+        string BackupPolicyName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(BackupPolicyName);
+        this.BackupPolicyName = BackupPolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string BackupPolicyName, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        BackupPolicyName = this.BackupPolicyName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Backup policy Name which uniquely identify backup policy.
+    /// </summary>
+    [CliOption("--backup-policy-name", ShortForm = "-n")]
+    public string BackupPolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

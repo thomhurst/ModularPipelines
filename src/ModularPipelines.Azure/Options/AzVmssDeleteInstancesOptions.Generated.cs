@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete VMs within a VMSS.
 /// </summary>
-/// <param name="InstanceIds">Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "delete-instances")]
-public record AzVmssDeleteInstancesOptions(
-    [property: CliOption("--instance-ids", GroupValues = true)] IEnumerable<string> InstanceIds
-) : AzOptions
+public record AzVmssDeleteInstancesOptions : AzOptions
 {
+    /// <summary>
+    /// Delete VMs within a VMSS.
+    /// </summary>
+    /// <param name="InstanceIds">Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzVmssDeleteInstancesOptions(
+        IEnumerable<string> InstanceIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceIds));
+            }
+
+            InstanceIds = materialized;
+        }
+        this.InstanceIds = InstanceIds;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstanceIds)
+    {
+        InstanceIds = this.InstanceIds;
+    }
+
+    /// <summary>
+    /// Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--instance-ids", GroupValues = true)]
+    public IEnumerable<string> InstanceIds { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

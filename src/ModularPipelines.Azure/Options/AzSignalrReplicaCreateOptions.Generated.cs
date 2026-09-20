@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a replica of SignalR Service.
 /// </summary>
-/// <param name="ReplicaName">Name of the replica.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SignalrName">Name of the SignalR.</param>
-/// <param name="Sku">The sku name of the replica. Currently allowed values: Premium_P1.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "replica", "create")]
-public record AzSignalrReplicaCreateOptions(
-    [property: CliOption("--replica-name")] string ReplicaName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--signalr-name")] string SignalrName,
-    [property: CliOption("--sku")] string Sku
-) : AzOptions
+public record AzSignalrReplicaCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a replica of SignalR Service.
+    /// </summary>
+    /// <param name="ReplicaName">Name of the replica.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SignalrName">Name of the SignalR.</param>
+    /// <param name="Sku">The sku name of the replica. Currently allowed values: Premium_P1.</param>
+    public AzSignalrReplicaCreateOptions(
+        string ReplicaName,
+        string ResourceGroup,
+        string SignalrName,
+        string Sku
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicaName);
+        this.ReplicaName = ReplicaName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SignalrName);
+        this.SignalrName = SignalrName;
+        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        this.Sku = Sku;
+    }
+
+    public void Deconstruct(out string ReplicaName, out string ResourceGroup, out string SignalrName, out string Sku)
+    {
+        ReplicaName = this.ReplicaName;
+        ResourceGroup = this.ResourceGroup;
+        SignalrName = this.SignalrName;
+        Sku = this.Sku;
+    }
+
+    /// <summary>
+    /// Name of the replica.
+    /// </summary>
+    [CliOption("--replica-name")]
+    public string ReplicaName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the SignalR.
+    /// </summary>
+    [CliOption("--signalr-name")]
+    public string SignalrName { get; private init; }
+
+    /// <summary>
+    /// The sku name of the replica. Currently allowed values: Premium_P1.
+    /// </summary>
+    [CliOption("--sku")]
+    public string Sku { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

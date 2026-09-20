@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete files from an Azure Storage File Share.
 /// </summary>
-/// <param name="Source">The source of the file delete operation. The source can be the file share URL or the share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "delete-batch")]
-public record AzStorageFileDeleteBatchOptions(
-    [property: CliOption("--source", ShortForm = "-s")] string Source
-) : AzOptions
+public record AzStorageFileDeleteBatchOptions : AzOptions
 {
+    /// <summary>
+    /// Delete files from an Azure Storage File Share.
+    /// </summary>
+    /// <param name="Source">The source of the file delete operation. The source can be the file share URL or the share name.</param>
+    public AzStorageFileDeleteBatchOptions(
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Source)
+    {
+        Source = this.Source;
+    }
+
+    /// <summary>
+    /// The source of the file delete operation. The source can be the file share URL or the share name.
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string Source { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

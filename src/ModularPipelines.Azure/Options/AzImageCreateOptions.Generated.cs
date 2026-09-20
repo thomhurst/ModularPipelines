@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a custom Virtual Machine Image from managed disks or snapshots.
 /// </summary>
-/// <param name="Name">New image name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Source">OS disk source from the same region, including a virtual machine ID or name, OS disk blob URI, managed OS disk ID or name, or OS snapshot ID or name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "create")]
-public record AzImageCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--source")] string Source
-) : AzOptions
+public record AzImageCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a custom Virtual Machine Image from managed disks or snapshots.
+    /// </summary>
+    /// <param name="Name">New image name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Source">OS disk source from the same region, including a virtual machine ID or name, OS disk blob URI, managed OS disk ID or name, or OS snapshot ID or name.</param>
+    public AzImageCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Source)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Source = this.Source;
+    }
+
+    /// <summary>
+    /// New image name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// OS disk source from the same region, including a virtual machine ID or name, OS disk blob URI, managed OS disk ID or name, or OS snapshot ID or name.
+    /// </summary>
+    [CliOption("--source")]
+    public string Source { get; private init; }
+
     /// <summary>
     /// Storage caching type for the image's data disk.  Allowed values: None, ReadOnly, ReadWrite.
     /// </summary>

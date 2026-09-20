@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Checks to see if a service name is available to use.
 /// </summary>
-/// <param name="Name">The name of the api management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "check-name")]
-public record AzApimCheckNameOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzApimCheckNameOptions : AzOptions
 {
+    /// <summary>
+    /// Checks to see if a service name is available to use.
+    /// </summary>
+    /// <param name="Name">The name of the api management service instance.</param>
+    public AzApimCheckNameOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the api management service instance.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

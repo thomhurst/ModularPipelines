@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export a SQL script.
 /// </summary>
-/// <param name="OutputFolder">The SQL script export path.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql-script", "export")]
-public record AzSynapseSqlScriptExportOptions(
-    [property: CliOption("--output-folder")] string OutputFolder,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseSqlScriptExportOptions : AzOptions
 {
+    /// <summary>
+    /// Export a SQL script.
+    /// </summary>
+    /// <param name="OutputFolder">The SQL script export path.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseSqlScriptExportOptions(
+        string OutputFolder,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFolder);
+        this.OutputFolder = OutputFolder;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string OutputFolder, out string WorkspaceName)
+    {
+        OutputFolder = this.OutputFolder;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The SQL script export path.
+    /// </summary>
+    [CliOption("--output-folder")]
+    public string OutputFolder { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// The SQL script name.
     /// </summary>

@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates security automation scope.
 /// </summary>
-/// <param name="Description">The resources scope description.</param>
-/// <param name="ScopePath">The resources scope path. Can be the subscription on which the automation is defined on or a resource group under that subscription (fully qualified Azure resource IDs).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-scope", "create")]
-public record AzSecurityAutomationScopeCreateOptions(
-    [property: CliOption("--description")] string Description,
-    [property: CliOption("--scope-path")] string ScopePath
-) : AzOptions
+public record AzSecurityAutomationScopeCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates security automation scope.
+    /// </summary>
+    /// <param name="Description">The resources scope description.</param>
+    /// <param name="ScopePath">The resources scope path. Can be the subscription on which the automation is defined on or a resource group under that subscription (fully qualified Azure resource IDs).</param>
+    public AzSecurityAutomationScopeCreateOptions(
+        string Description,
+        string ScopePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(ScopePath);
+        this.ScopePath = ScopePath;
+    }
+
+    public void Deconstruct(out string Description, out string ScopePath)
+    {
+        Description = this.Description;
+        ScopePath = this.ScopePath;
+    }
+
+    /// <summary>
+    /// The resources scope description.
+    /// </summary>
+    [CliOption("--description")]
+    public string Description { get; private init; }
+
+    /// <summary>
+    /// The resources scope path. Can be the subscription on which the automation is defined on or a resource group under that subscription (fully qualified Azure resource IDs).
+    /// </summary>
+    [CliOption("--scope-path")]
+    public string ScopePath { get; private init; }
+
 }

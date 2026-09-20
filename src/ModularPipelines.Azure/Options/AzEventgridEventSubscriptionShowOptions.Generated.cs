@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the details of an event subscription.
 /// </summary>
-/// <param name="Name">Name of the event subscription.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "event-subscription", "show")]
-public record AzEventgridEventSubscriptionShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzEventgridEventSubscriptionShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get the details of an event subscription.
+    /// </summary>
+    /// <param name="Name">Name of the event subscription.</param>
+    public AzEventgridEventSubscriptionShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the event subscription.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Indicate whether any static delivery attribute secrets should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>

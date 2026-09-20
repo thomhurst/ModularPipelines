@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a PTR record.
 /// </summary>
-/// <param name="Ptrdname">PTR target domain name.</param>
-/// <param name="RecordSetName">The name of the record set relative to the zone. Creates a new record set if one does not exist.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ZoneName">The name of the Private DNS zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "ptr", "add-record")]
-public record AzNetworkPrivateDnsRecordSetPtrAddRecordOptions(
-    [property: CliOption("--ptrdname", ShortForm = "-d")] string Ptrdname,
-    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkPrivateDnsRecordSetPtrAddRecordOptions : AzOptions
 {
+    /// <summary>
+    /// Add a PTR record.
+    /// </summary>
+    /// <param name="Ptrdname">PTR target domain name.</param>
+    /// <param name="RecordSetName">The name of the record set relative to the zone. Creates a new record set if one does not exist.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ZoneName">The name of the Private DNS zone.</param>
+    public AzNetworkPrivateDnsRecordSetPtrAddRecordOptions(
+        string Ptrdname,
+        string RecordSetName,
+        string ResourceGroup,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ptrdname);
+        this.Ptrdname = Ptrdname;
+        global::System.ArgumentNullException.ThrowIfNull(RecordSetName);
+        this.RecordSetName = RecordSetName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string Ptrdname, out string RecordSetName, out string ResourceGroup, out string ZoneName)
+    {
+        Ptrdname = this.Ptrdname;
+        RecordSetName = this.RecordSetName;
+        ResourceGroup = this.ResourceGroup;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// PTR target domain name.
+    /// </summary>
+    [CliOption("--ptrdname", ShortForm = "-d")]
+    public string Ptrdname { get; private init; }
+
+    /// <summary>
+    /// The name of the record set relative to the zone. Creates a new record set if one does not exist.
+    /// </summary>
+    [CliOption("--record-set-name", ShortForm = "-n")]
+    public string RecordSetName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Private DNS zone.
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
 }

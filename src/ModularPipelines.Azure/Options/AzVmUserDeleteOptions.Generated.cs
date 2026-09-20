@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a user account from a VM.
 /// </summary>
-/// <param name="Username">The user name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "user", "delete")]
-public record AzVmUserDeleteOptions(
-    [property: CliOption("--username", ShortForm = "-u")] string Username
-) : AzOptions
+public record AzVmUserDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a user account from a VM.
+    /// </summary>
+    /// <param name="Username">The user name.</param>
+    public AzVmUserDeleteOptions(
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    public void Deconstruct(out string Username)
+    {
+        Username = this.Username;
+    }
+
+    /// <summary>
+    /// The user name.
+    /// </summary>
+    [CliOption("--username", ShortForm = "-u")]
+    public string Username { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

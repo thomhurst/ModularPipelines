@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Migrate the throughput of the Cassandra table
 /// </summary>
-/// <param name="AccountName">Cosmosdb account name.</param>
-/// <param name="KeyspaceName">Keyspace name.</param>
-/// <param name="Name">Table name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ThroughputType">The type of throughput to migrate to.  Allowed values: autoscale, manual.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "cassandra", "table", "throughput", "migrate")]
-public record AzCosmosdbCassandraTableThroughputMigrateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--keyspace-name", ShortForm = "-k")] string KeyspaceName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--throughput-type", ShortForm = "-t")] string ThroughputType
-) : AzOptions
+public record AzCosmosdbCassandraTableThroughputMigrateOptions : AzOptions
 {
+    /// <summary>
+    /// Migrate the throughput of the Cassandra table
+    /// </summary>
+    /// <param name="AccountName">Cosmosdb account name.</param>
+    /// <param name="KeyspaceName">Keyspace name.</param>
+    /// <param name="Name">Table name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ThroughputType">The type of throughput to migrate to.  Allowed values: autoscale, manual.</param>
+    public AzCosmosdbCassandraTableThroughputMigrateOptions(
+        string AccountName,
+        string KeyspaceName,
+        string Name,
+        string ResourceGroup,
+        string ThroughputType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(KeyspaceName);
+        this.KeyspaceName = KeyspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ThroughputType);
+        this.ThroughputType = ThroughputType;
+    }
+
+    public void Deconstruct(out string AccountName, out string KeyspaceName, out string Name, out string ResourceGroup, out string ThroughputType)
+    {
+        AccountName = this.AccountName;
+        KeyspaceName = this.KeyspaceName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ThroughputType = this.ThroughputType;
+    }
+
+    /// <summary>
+    /// Cosmosdb account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Keyspace name.
+    /// </summary>
+    [CliOption("--keyspace-name", ShortForm = "-k")]
+    public string KeyspaceName { get; private init; }
+
+    /// <summary>
+    /// Table name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The type of throughput to migrate to.  Allowed values: autoscale, manual.
+    /// </summary>
+    [CliOption("--throughput-type", ShortForm = "-t")]
+    public string ThroughputType { get; private init; }
+
 }

@@ -16,20 +16,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new import workflow for flexible server.
 /// </summary>
-/// <param name="DataSource">Data source for importing to Flexible Server. Based on the data source type provide the data source as mentioned below. e.g., mysql_single: The name or resource ID of the Azure MySQL single server. azure_blob: The name or resource ID of the Azure blob container. The storage uri of the azure blob container. Example: https://{blob_name}.blob.core.windows.net/{container_name}. The storage uri should not contain the sas token. If required, sas token can be provided in "data-source-sas-token" parameter.</param>
-/// <param name="DataSourceType">Data source type. e.g., mysql_single: Azure Database for MySQL Servers. azure_blob: Source backup provided in Azure blob container.  Allowed values: azure_blob, mysql_single.</param>
-/// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "import", "create")]
-public record AzMysqlFlexibleServerImportCreateOptions(
-    [property: CliOption("--data-source")] string DataSource,
-    [property: CliOption("--data-source-type")] string DataSourceType,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new import workflow for flexible server.
+    /// </summary>
+    /// <param name="DataSource">Data source for importing to Flexible Server. Based on the data source type provide the data source as mentioned below. e.g., mysql_single: The name or resource ID of the Azure MySQL single server. azure_blob: The name or resource ID of the Azure blob container. The storage uri of the azure blob container. Example: https://{blob_name}.blob.core.windows.net/{container_name}. The storage uri should not contain the sas token. If required, sas token can be provided in "data-source-sas-token" parameter.</param>
+    /// <param name="DataSourceType">Data source type. e.g., mysql_single: Azure Database for MySQL Servers. azure_blob: Source backup provided in Azure blob container.  Allowed values: azure_blob, mysql_single.</param>
+    /// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMysqlFlexibleServerImportCreateOptions(
+        string DataSource,
+        string DataSourceType,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceType);
+        this.DataSourceType = DataSourceType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DataSource, out string DataSourceType, out string Name, out string ResourceGroup)
+    {
+        DataSource = this.DataSource;
+        DataSourceType = this.DataSourceType;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Data source for importing to Flexible Server. Based on the data source type provide the data source as mentioned below. e.g., mysql_single: The name or resource ID of the Azure MySQL single server. azure_blob: The name or resource ID of the Azure blob container. The storage uri of the azure blob container. Example: https://{blob_name}.blob.core.windows.net/{container_name}. The storage uri should not contain the sas token. If required, sas token can be provided in "data-source-sas-token" parameter.
+    /// </summary>
+    [CliOption("--data-source")]
+    public string DataSource { get; private init; }
+
+    /// <summary>
+    /// Data source type. e.g., mysql_single: Azure Database for MySQL Servers. azure_blob: Source backup provided in Azure blob container.  Allowed values: azure_blob, mysql_single.
+    /// </summary>
+    [CliOption("--data-source-type")]
+    public string DataSourceType { get; private init; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The IP address prefix to use when creating a new virtual network in CIDR format. Default value is 10.0.0.0/16.
     /// </summary>

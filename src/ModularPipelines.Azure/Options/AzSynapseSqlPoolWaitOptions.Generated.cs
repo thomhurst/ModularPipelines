@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition of a SQL pool is
 /// </summary>
-/// <param name="SqlPoolName">SQL pool name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "wait")]
-public record AzSynapseSqlPoolWaitOptions(
-    [property: CliOption("--sql-pool-name")] string SqlPoolName
-) : AzOptions
+public record AzSynapseSqlPoolWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition of a SQL pool is
+    /// </summary>
+    /// <param name="SqlPoolName">SQL pool name.</param>
+    public AzSynapseSqlPoolWaitOptions(
+        string SqlPoolName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SqlPoolName);
+        this.SqlPoolName = SqlPoolName;
+    }
+
+    public void Deconstruct(out string SqlPoolName)
+    {
+        SqlPoolName = this.SqlPoolName;
+    }
+
+    /// <summary>
+    /// SQL pool name.
+    /// </summary>
+    [CliOption("--sql-pool-name")]
+    public string SqlPoolName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add Encryption properties to a namespace.
 /// </summary>
-/// <param name="EncryptionConfig">List of KeyVaultProperties objects.</param>
-/// <param name="NamespaceName">Name of the Namespace.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "encryption", "add")]
-public record AzEventhubsNamespaceEncryptionAddOptions(
-    [property: CliOption("--encryption-config", GroupValues = true)] IEnumerable<string> EncryptionConfig,
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventhubsNamespaceEncryptionAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add Encryption properties to a namespace.
+    /// </summary>
+    /// <param name="EncryptionConfig">List of KeyVaultProperties objects.</param>
+    /// <param name="NamespaceName">Name of the Namespace.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventhubsNamespaceEncryptionAddOptions(
+        IEnumerable<string> EncryptionConfig,
+        string NamespaceName,
+        string ResourceGroup
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EncryptionConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EncryptionConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EncryptionConfig));
+            }
+
+            EncryptionConfig = materialized;
+        }
+        this.EncryptionConfig = EncryptionConfig;
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out IEnumerable<string> EncryptionConfig, out string NamespaceName, out string ResourceGroup)
+    {
+        EncryptionConfig = this.EncryptionConfig;
+        NamespaceName = this.NamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// List of KeyVaultProperties objects.
+    /// </summary>
+    [CliOption("--encryption-config", GroupValues = true)]
+    public IEnumerable<string> EncryptionConfig { get; private init; }
+
+    /// <summary>
+    /// Name of the Namespace.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// A boolean value that indicates whether Infrastructure Encryption (Double Encryption) is enabled/disabled.  Allowed values: false, true.
     /// </summary>

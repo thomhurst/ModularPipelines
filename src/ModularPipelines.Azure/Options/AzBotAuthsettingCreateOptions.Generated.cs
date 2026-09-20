@@ -16,26 +16,101 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an OAuth connection setting on a bot.
 /// </summary>
-/// <param name="ClientId">Client ID associated with the service provider setting.</param>
-/// <param name="ClientSecret">Client secret associated with the service provider setting.</param>
-/// <param name="Name">The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.</param>
-/// <param name="ProviderScopeString">The scope string associated with the service provider setting.The string should be delimited as needed for the service provider.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Service">Name of the service provider. For a list of all service providers, use `az bot connection listserviceproviders`.</param>
-/// <param name="SettingName">Name of the oauth connection setting.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "authsetting", "create")]
-public record AzBotAuthsettingCreateOptions(
-    [property: CliOption("--client-id")] string ClientId,
-    [property: SecretValue, CliOption("--client-secret")] string ClientSecret,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--provider-scope-string")] string ProviderScopeString,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service")] string Service,
-    [property: CliOption("--setting-name", ShortForm = "-c")] string SettingName
-) : AzOptions
+public record AzBotAuthsettingCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an OAuth connection setting on a bot.
+    /// </summary>
+    /// <param name="ClientId">Client ID associated with the service provider setting.</param>
+    /// <param name="ClientSecret">Client secret associated with the service provider setting.</param>
+    /// <param name="Name">The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.</param>
+    /// <param name="ProviderScopeString">The scope string associated with the service provider setting.The string should be delimited as needed for the service provider.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Service">Name of the service provider. For a list of all service providers, use `az bot connection listserviceproviders`.</param>
+    /// <param name="SettingName">Name of the oauth connection setting.</param>
+    public AzBotAuthsettingCreateOptions(
+        string ClientId,
+        string ClientSecret,
+        string Name,
+        string ProviderScopeString,
+        string ResourceGroup,
+        string Service,
+        string SettingName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientSecret);
+        this.ClientSecret = ClientSecret;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderScopeString);
+        this.ProviderScopeString = ProviderScopeString;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(SettingName);
+        this.SettingName = SettingName;
+    }
+
+    public void Deconstruct(out string ClientId, out string ClientSecret, out string Name, out string ProviderScopeString, out string ResourceGroup, out string Service, out string SettingName)
+    {
+        ClientId = this.ClientId;
+        ClientSecret = this.ClientSecret;
+        Name = this.Name;
+        ProviderScopeString = this.ProviderScopeString;
+        ResourceGroup = this.ResourceGroup;
+        Service = this.Service;
+        SettingName = this.SettingName;
+    }
+
+    /// <summary>
+    /// Client ID associated with the service provider setting.
+    /// </summary>
+    [CliOption("--client-id")]
+    public string ClientId { get; private init; }
+
+    /// <summary>
+    /// Client secret associated with the service provider setting.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--client-secret")]
+    public string ClientSecret { get; private init; }
+
+    /// <summary>
+    /// The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The scope string associated with the service provider setting.The string should be delimited as needed for the service provider.
+    /// </summary>
+    [CliOption("--provider-scope-string")]
+    public string ProviderScopeString { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the service provider. For a list of all service providers, use `az bot connection listserviceproviders`.
+    /// </summary>
+    [CliOption("--service")]
+    public string Service { get; private init; }
+
+    /// <summary>
+    /// Name of the oauth connection setting.
+    /// </summary>
+    [CliOption("--setting-name", ShortForm = "-c")]
+    public string SettingName { get; private init; }
+
     /// <summary>
     /// Parameter values for service provider parameters. Usage: --parameters key=value key1=value1.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Construct the recovery configuration of an Azure workload backed
 /// </summary>
-/// <param name="RestoreMode">Specify the restore mode.  Allowed values: AlternateWorkloadRestore, OriginalWorkloadRestore, RestoreAsFiles.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "recoveryconfig", "show")]
-public record AzBackupRecoveryConfigShowOptions(
-    [property: CliOption("--restore-mode")] string RestoreMode
-) : AzOptions
+public record AzBackupRecoveryConfigShowOptions : AzOptions
 {
+    /// <summary>
+    /// Construct the recovery configuration of an Azure workload backed
+    /// </summary>
+    /// <param name="RestoreMode">Specify the restore mode.  Allowed values: AlternateWorkloadRestore, OriginalWorkloadRestore, RestoreAsFiles.</param>
+    public AzBackupRecoveryConfigShowOptions(
+        string RestoreMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestoreMode);
+        this.RestoreMode = RestoreMode;
+    }
+
+    public void Deconstruct(out string RestoreMode)
+    {
+        RestoreMode = this.RestoreMode;
+    }
+
+    /// <summary>
+    /// Specify the restore mode.  Allowed values: AlternateWorkloadRestore, OriginalWorkloadRestore, RestoreAsFiles.
+    /// </summary>
+    [CliOption("--restore-mode")]
+    public string RestoreMode { get; private init; }
+
     /// <summary>
     /// Specify attach and mount value for HANA Snapshot restores.  Allowed values: false, true.
     /// </summary>

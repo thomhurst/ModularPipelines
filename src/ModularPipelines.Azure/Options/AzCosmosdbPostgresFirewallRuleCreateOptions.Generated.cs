@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new cluster firewall rule or updates an
 /// </summary>
-/// <param name="ClusterName">The name of the cluster.</param>
-/// <param name="FirewallRuleName">The name of the cluster firewall rule.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="EndIpAddress">The end IP address of the cluster firewall rule. Must be IPv4 format.</param>
-/// <param name="StartIpAddress">The start IP address of the cluster firewall rule. Must be IPv4 format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "firewall-rule", "create")]
-public record AzCosmosdbPostgresFirewallRuleCreateOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--firewall-rule-name", ShortForm = "-n")] string FirewallRuleName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--end-ip-address")] string EndIpAddress,
-    [property: CliOption("--start-ip-address")] string StartIpAddress
-) : AzOptions
+public record AzCosmosdbPostgresFirewallRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new cluster firewall rule or updates an
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster.</param>
+    /// <param name="FirewallRuleName">The name of the cluster firewall rule.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="EndIpAddress">The end IP address of the cluster firewall rule. Must be IPv4 format.</param>
+    /// <param name="StartIpAddress">The start IP address of the cluster firewall rule. Must be IPv4 format.</param>
+    public AzCosmosdbPostgresFirewallRuleCreateOptions(
+        string ClusterName,
+        string FirewallRuleName,
+        string ResourceGroup,
+        string EndIpAddress,
+        string StartIpAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(FirewallRuleName);
+        this.FirewallRuleName = FirewallRuleName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(EndIpAddress);
+        this.EndIpAddress = EndIpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(StartIpAddress);
+        this.StartIpAddress = StartIpAddress;
+    }
+
+    public void Deconstruct(out string ClusterName, out string FirewallRuleName, out string ResourceGroup, out string EndIpAddress, out string StartIpAddress)
+    {
+        ClusterName = this.ClusterName;
+        FirewallRuleName = this.FirewallRuleName;
+        ResourceGroup = this.ResourceGroup;
+        EndIpAddress = this.EndIpAddress;
+        StartIpAddress = this.StartIpAddress;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The name of the cluster firewall rule.
+    /// </summary>
+    [CliOption("--firewall-rule-name", ShortForm = "-n")]
+    public string FirewallRuleName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The end IP address of the cluster firewall rule. Must be IPv4 format.
+    /// </summary>
+    [CliOption("--end-ip-address")]
+    public string EndIpAddress { get; private init; }
+
+    /// <summary>
+    /// The start IP address of the cluster firewall rule. Must be IPv4 format.
+    /// </summary>
+    [CliOption("--start-ip-address")]
+    public string StartIpAddress { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

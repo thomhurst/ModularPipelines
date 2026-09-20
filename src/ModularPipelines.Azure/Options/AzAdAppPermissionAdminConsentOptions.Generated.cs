@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Grant Application &amp; Delegated permissions through admin-
 /// </summary>
-/// <param name="Id">Identifier uri, application id, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "permission", "admin-consent")]
-public record AzAdAppPermissionAdminConsentOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdAppPermissionAdminConsentOptions : AzOptions
 {
+    /// <summary>
+    /// Grant Application &amp; Delegated permissions through admin-
+    /// </summary>
+    /// <param name="Id">Identifier uri, application id, or object id.</param>
+    public AzAdAppPermissionAdminConsentOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Identifier uri, application id, or object id.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
 }

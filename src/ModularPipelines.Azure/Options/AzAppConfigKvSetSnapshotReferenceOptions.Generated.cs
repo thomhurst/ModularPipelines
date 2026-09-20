@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set a snapshot reference.
 /// </summary>
-/// <param name="Key">Key to be set. Key cannot be a '.' or '..', or contain the '%' character.</param>
-/// <param name="SnapshotName">Name of the snapshot to reference. This is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "set-snapshot-reference")]
-public record AzAppConfigKvSetSnapshotReferenceOptions(
-    [property: CliOption("--key")] string Key,
-    [property: CliOption("--snapshot-name")] string SnapshotName
-) : AzOptions
+public record AzAppConfigKvSetSnapshotReferenceOptions : AzOptions
 {
+    /// <summary>
+    /// Set a snapshot reference.
+    /// </summary>
+    /// <param name="Key">Key to be set. Key cannot be a '.' or '..', or contain the '%' character.</param>
+    /// <param name="SnapshotName">Name of the snapshot to reference. This is required.</param>
+    public AzAppConfigKvSetSnapshotReferenceOptions(
+        string Key,
+        string SnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    public void Deconstruct(out string Key, out string SnapshotName)
+    {
+        Key = this.Key;
+        SnapshotName = this.SnapshotName;
+    }
+
+    /// <summary>
+    /// Key to be set. Key cannot be a '.' or '..', or contain the '%' character.
+    /// </summary>
+    [CliOption("--key")]
+    public string Key { get; private init; }
+
+    /// <summary>
+    /// Name of the snapshot to reference. This is required.
+    /// </summary>
+    [CliOption("--snapshot-name")]
+    public string SnapshotName { get; private init; }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure- app-configuration/concept-enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>

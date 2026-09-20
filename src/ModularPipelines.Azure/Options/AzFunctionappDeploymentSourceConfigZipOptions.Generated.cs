@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Perform deployment using the kudu zip push
 /// </summary>
-/// <param name="Src">A zip file path for deployment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "source", "config-zip")]
-public record AzFunctionappDeploymentSourceConfigZipOptions(
-    [property: CliOption("--src")] string Src
-) : AzOptions
+public record AzFunctionappDeploymentSourceConfigZipOptions : AzOptions
 {
+    /// <summary>
+    /// Perform deployment using the kudu zip push
+    /// </summary>
+    /// <param name="Src">A zip file path for deployment.</param>
+    public AzFunctionappDeploymentSourceConfigZipOptions(
+        string Src
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Src);
+        this.Src = Src;
+    }
+
+    public void Deconstruct(out string Src)
+    {
+        Src = this.Src;
+    }
+
+    /// <summary>
+    /// A zip file path for deployment.
+    /// </summary>
+    [CliOption("--src")]
+    public string Src { get; private init; }
+
     /// <summary>
     /// Enable remote build during deployment.  Allowed values: false, true.
     /// </summary>

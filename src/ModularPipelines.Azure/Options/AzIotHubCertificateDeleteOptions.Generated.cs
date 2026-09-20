@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes an Azure IoT Hub certificate.
 /// </summary>
-/// <param name="Etag">Entity Tag (etag) of the object.</param>
-/// <param name="Name">A friendly name for the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "certificate", "delete")]
-public record AzIotHubCertificateDeleteOptions(
-    [property: CliOption("--etag", ShortForm = "-e")] string Etag,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzIotHubCertificateDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes an Azure IoT Hub certificate.
+    /// </summary>
+    /// <param name="Etag">Entity Tag (etag) of the object.</param>
+    /// <param name="Name">A friendly name for the certificate.</param>
+    public AzIotHubCertificateDeleteOptions(
+        string Etag,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Etag);
+        this.Etag = Etag;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Etag, out string Name)
+    {
+        Etag = this.Etag;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Entity Tag (etag) of the object.
+    /// </summary>
+    [CliOption("--etag", ShortForm = "-e")]
+    public string Etag { get; private init; }
+
+    /// <summary>
+    /// A friendly name for the certificate.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// IoT Hub name.
     /// </summary>

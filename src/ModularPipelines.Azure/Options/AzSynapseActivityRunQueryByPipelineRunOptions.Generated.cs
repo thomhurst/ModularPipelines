@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Query activity runs based on input filter
 /// </summary>
-/// <param name="LastUpdatedAfter">The time at or after which the run event was updated in 'ISO 8601' format.</param>
-/// <param name="LastUpdatedBefore">The time at or before which the run event was updated in 'ISO 8601' format.</param>
-/// <param name="Name">The pipeline name.</param>
-/// <param name="RunId">The pipeline run identifier.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "activity-run", "query-by-pipeline-run")]
-public record AzSynapseActivityRunQueryByPipelineRunOptions(
-    [property: CliOption("--last-updated-after")] string LastUpdatedAfter,
-    [property: CliOption("--last-updated-before")] string LastUpdatedBefore,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--run-id")] string RunId,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseActivityRunQueryByPipelineRunOptions : AzOptions
 {
+    /// <summary>
+    /// Query activity runs based on input filter
+    /// </summary>
+    /// <param name="LastUpdatedAfter">The time at or after which the run event was updated in 'ISO 8601' format.</param>
+    /// <param name="LastUpdatedBefore">The time at or before which the run event was updated in 'ISO 8601' format.</param>
+    /// <param name="Name">The pipeline name.</param>
+    /// <param name="RunId">The pipeline run identifier.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseActivityRunQueryByPipelineRunOptions(
+        string LastUpdatedAfter,
+        string LastUpdatedBefore,
+        string Name,
+        string RunId,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LastUpdatedAfter);
+        this.LastUpdatedAfter = LastUpdatedAfter;
+        global::System.ArgumentNullException.ThrowIfNull(LastUpdatedBefore);
+        this.LastUpdatedBefore = LastUpdatedBefore;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RunId);
+        this.RunId = RunId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string LastUpdatedAfter, out string LastUpdatedBefore, out string Name, out string RunId, out string WorkspaceName)
+    {
+        LastUpdatedAfter = this.LastUpdatedAfter;
+        LastUpdatedBefore = this.LastUpdatedBefore;
+        Name = this.Name;
+        RunId = this.RunId;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The time at or after which the run event was updated in 'ISO 8601' format.
+    /// </summary>
+    [CliOption("--last-updated-after")]
+    public string LastUpdatedAfter { get; private init; }
+
+    /// <summary>
+    /// The time at or before which the run event was updated in 'ISO 8601' format.
+    /// </summary>
+    [CliOption("--last-updated-before")]
+    public string LastUpdatedBefore { get; private init; }
+
+    /// <summary>
+    /// The pipeline name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The pipeline run identifier.
+    /// </summary>
+    [CliOption("--run-id")]
+    public string RunId { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// The continuation token for getting the next page of results. Null for first page.
     /// </summary>

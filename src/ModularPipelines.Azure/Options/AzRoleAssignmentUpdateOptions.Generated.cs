@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing role assignment for a user, group, or service
 /// </summary>
-/// <param name="RoleAssignment">Description of an existing role assignment as JSON, or a path to a file containing a JSON description.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("role", "assignment", "update")]
-public record AzRoleAssignmentUpdateOptions(
-    [property: CliOption("--role-assignment")] string RoleAssignment
-) : AzOptions
+public record AzRoleAssignmentUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing role assignment for a user, group, or service
+    /// </summary>
+    /// <param name="RoleAssignment">Description of an existing role assignment as JSON, or a path to a file containing a JSON description.</param>
+    public AzRoleAssignmentUpdateOptions(
+        string RoleAssignment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleAssignment);
+        this.RoleAssignment = RoleAssignment;
+    }
+
+    public void Deconstruct(out string RoleAssignment)
+    {
+        RoleAssignment = this.RoleAssignment;
+    }
+
+    /// <summary>
+    /// Description of an existing role assignment as JSON, or a path to a file containing a JSON description.
+    /// </summary>
+    [CliOption("--role-assignment")]
+    public string RoleAssignment { get; private init; }
+
 }

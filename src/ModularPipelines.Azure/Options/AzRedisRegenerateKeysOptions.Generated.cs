@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate Redis cache's access keys.
 /// </summary>
-/// <param name="KeyType">The Redis access key to regenerate.  Allowed values: Primary, Secondary.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "regenerate-keys")]
-public record AzRedisRegenerateKeysOptions(
-    [property: CliOption("--key-type")] string KeyType
-) : AzOptions
+public record AzRedisRegenerateKeysOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerate Redis cache's access keys.
+    /// </summary>
+    /// <param name="KeyType">The Redis access key to regenerate.  Allowed values: Primary, Secondary.</param>
+    public AzRedisRegenerateKeysOptions(
+        string KeyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyType);
+        this.KeyType = KeyType;
+    }
+
+    public void Deconstruct(out string KeyType)
+    {
+        KeyType = this.KeyType;
+    }
+
+    /// <summary>
+    /// The Redis access key to regenerate.  Allowed values: Primary, Secondary.
+    /// </summary>
+    [CliOption("--key-type")]
+    public string KeyType { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Appends an application group policy to the
 /// </summary>
-/// <param name="PolicyConfig">List of Throttling Policy Objects.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "application-group", "policy", "add")]
-public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions(
-    [property: CliOption("--policy-config", ShortForm = "--throttling-policy-config", GroupValues = true)] IEnumerable<string> PolicyConfig
-) : AzOptions
+public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions : AzOptions
 {
+    /// <summary>
+    /// Appends an application group policy to the
+    /// </summary>
+    /// <param name="PolicyConfig">List of Throttling Policy Objects.</param>
+    public AzEventhubsNamespaceApplicationGroupPolicyAddOptions(
+        IEnumerable<string> PolicyConfig
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PolicyConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PolicyConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PolicyConfig));
+            }
+
+            PolicyConfig = materialized;
+        }
+        this.PolicyConfig = PolicyConfig;
+    }
+
+    public void Deconstruct(out IEnumerable<string> PolicyConfig)
+    {
+        PolicyConfig = this.PolicyConfig;
+    }
+
+    /// <summary>
+    /// List of Throttling Policy Objects.
+    /// </summary>
+    [CliOption("--policy-config", ShortForm = "--throttling-policy-config", GroupValues = true)]
+    public IEnumerable<string> PolicyConfig { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

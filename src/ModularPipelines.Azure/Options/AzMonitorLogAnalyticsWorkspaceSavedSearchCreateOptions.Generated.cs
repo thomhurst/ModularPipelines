@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a saved search for a given
 /// </summary>
-/// <param name="Category">The category of the saved search. This helps the user to find a saved search faster.</param>
-/// <param name="DisplayName">Display name of the saved search.</param>
-/// <param name="Name">Name of the saved search and it's unique in a given workspace.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SavedQuery">The query expression for the saved search.</param>
-/// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "saved-search", "create")]
-public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions(
-    [property: CliOption("--category")] string Category,
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--saved-query", ShortForm = "-q")] string SavedQuery,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a saved search for a given
+    /// </summary>
+    /// <param name="Category">The category of the saved search. This helps the user to find a saved search faster.</param>
+    /// <param name="DisplayName">Display name of the saved search.</param>
+    /// <param name="Name">Name of the saved search and it's unique in a given workspace.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SavedQuery">The query expression for the saved search.</param>
+    /// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
+    public AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions(
+        string Category,
+        string DisplayName,
+        string Name,
+        string ResourceGroup,
+        string SavedQuery,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Category);
+        this.Category = Category;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SavedQuery);
+        this.SavedQuery = SavedQuery;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Category, out string DisplayName, out string Name, out string ResourceGroup, out string SavedQuery, out string WorkspaceName)
+    {
+        Category = this.Category;
+        DisplayName = this.DisplayName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SavedQuery = this.SavedQuery;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The category of the saved search. This helps the user to find a saved search faster.
+    /// </summary>
+    [CliOption("--category")]
+    public string Category { get; private init; }
+
+    /// <summary>
+    /// Display name of the saved search.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Name of the saved search and it's unique in a given workspace.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The query expression for the saved search.
+    /// </summary>
+    [CliOption("--saved-query", ShortForm = "-q")]
+    public string SavedQuery { get; private init; }
+
+    /// <summary>
+    /// Name of the Log Analytics Workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Function Aliases are short names given to Saved Searches so they can be easily referenced in query. They are required for Computer Groups.
     /// </summary>

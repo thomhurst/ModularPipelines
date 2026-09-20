@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new cluster.
 /// </summary>
-/// <param name="Name">The name of the cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Type">Type of HDInsight cluster, like: hadoop, interactivehive, hbase, kafka, storm, spark, rserver, mlservices. See also: https://lea rn.microsoft.com/azure/hdinsight/ hdinsight-hadoop-provision-linux- clusters#cluster-types.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "create")]
-public record AzHdinsightCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--type", ShortForm = "-t")] string Type
-) : AzOptions
+public record AzHdinsightCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new cluster.
+    /// </summary>
+    /// <param name="Name">The name of the cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Type">Type of HDInsight cluster, like: hadoop, interactivehive, hbase, kafka, storm, spark, rserver, mlservices. See also: https://lea rn.microsoft.com/azure/hdinsight/ hdinsight-hadoop-provision-linux- clusters#cluster-types.</param>
+    public AzHdinsightCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Type)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Type of HDInsight cluster, like: hadoop, interactivehive, hbase, kafka, storm, spark, rserver, mlservices. See also: https://lea rn.microsoft.com/azure/hdinsight/ hdinsight-hadoop-provision-linux- clusters#cluster-types.
+    /// </summary>
+    [CliOption("--type", ShortForm = "-t")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

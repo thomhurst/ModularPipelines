@@ -15,16 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Clear ransomware suspects for the given
 /// </summary>
-/// <param name="Extensions">List of file extensions resolved (PotentialThreat or FalsePositive) Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
-/// <param name="Resolution">ARP report suspect resolution.  Allowed values: FalsePositive, PotentialThreat.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "ransomware-report", "clear-suspect")]
-public record AzNetappfilesVolumeRansomwareReportClearSuspectOptions(
-    [property: CliOption("--extensions", GroupValues = true)] IEnumerable<string> Extensions,
-    [property: CliOption("--resolution")] string Resolution
-) : AzOptions
+public record AzNetappfilesVolumeRansomwareReportClearSuspectOptions : AzOptions
 {
+    /// <summary>
+    /// Clear ransomware suspects for the given
+    /// </summary>
+    /// <param name="Extensions">List of file extensions resolved (PotentialThreat or FalsePositive) Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="Resolution">ARP report suspect resolution.  Allowed values: FalsePositive, PotentialThreat.</param>
+    public AzNetappfilesVolumeRansomwareReportClearSuspectOptions(
+        IEnumerable<string> Extensions,
+        string Resolution
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Extensions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Extensions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Extensions));
+            }
+
+            Extensions = materialized;
+        }
+        this.Extensions = Extensions;
+        global::System.ArgumentNullException.ThrowIfNull(Resolution);
+        this.Resolution = Resolution;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Extensions, out string Resolution)
+    {
+        Extensions = this.Extensions;
+        Resolution = this.Resolution;
+    }
+
+    /// <summary>
+    /// List of file extensions resolved (PotentialThreat or FalsePositive) Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--extensions", GroupValues = true)]
+    public IEnumerable<string> Extensions { get; private init; }
+
+    /// <summary>
+    /// ARP report suspect resolution.  Allowed values: FalsePositive, PotentialThreat.
+    /// </summary>
+    [CliOption("--resolution")]
+    public string Resolution { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

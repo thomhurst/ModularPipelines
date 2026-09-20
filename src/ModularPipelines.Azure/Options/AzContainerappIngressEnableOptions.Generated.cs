@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable or update ingress for a container app.
 /// </summary>
-/// <param name="Type">The ingress type.  Allowed values: external, internal.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ingress", "enable")]
-public record AzContainerappIngressEnableOptions(
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzContainerappIngressEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Enable or update ingress for a container app.
+    /// </summary>
+    /// <param name="Type">The ingress type.  Allowed values: external, internal.</param>
+    public AzContainerappIngressEnableOptions(
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string Type)
+    {
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// The ingress type.  Allowed values: external, internal.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// Allow insecure connections for ingress traffic.  Allowed values: false, true.
     /// </summary>

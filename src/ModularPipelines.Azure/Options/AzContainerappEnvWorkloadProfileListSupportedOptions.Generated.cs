@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the supported workload profiles in a
 /// </summary>
-/// <param name="Location">Location of resource. Examples: eastus2, northeurope.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "workload-profile", "list-supported")]
-public record AzContainerappEnvWorkloadProfileListSupportedOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzContainerappEnvWorkloadProfileListSupportedOptions : AzOptions
 {
+    /// <summary>
+    /// List the supported workload profiles in a
+    /// </summary>
+    /// <param name="Location">Location of resource. Examples: eastus2, northeurope.</param>
+    public AzContainerappEnvWorkloadProfileListSupportedOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Location of resource. Examples: eastus2, northeurope.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
 }

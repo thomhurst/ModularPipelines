@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download the public portion of a Key Vault certificate.
 /// </summary>
-/// <param name="File">File to receive the binary certificate contents.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "download")]
-public record AzKeyvaultCertificateDownloadOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzKeyvaultCertificateDownloadOptions : AzOptions
 {
+    /// <summary>
+    /// Download the public portion of a Key Vault certificate.
+    /// </summary>
+    /// <param name="File">File to receive the binary certificate contents.</param>
+    public AzKeyvaultCertificateDownloadOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// File to receive the binary certificate contents.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Encoding of the certificate. DER will create a binary DER formatted x509 certificate, and PEM will create a base64 PEM x509 certificate. Allowed values: DER, PEM.  Default: PEM.
     /// </summary>

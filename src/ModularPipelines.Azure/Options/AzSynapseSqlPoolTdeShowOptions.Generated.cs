@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a SQL pool's transparent data encryption configuration.
 /// </summary>
-/// <param name="TransparentDataEncryptionName">Name of the transparent data encryption.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "tde", "show")]
-public record AzSynapseSqlPoolTdeShowOptions(
-    [property: CliOption("--transparent-data-encryption-name", ShortForm = "-d")] string TransparentDataEncryptionName
-) : AzOptions
+public record AzSynapseSqlPoolTdeShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a SQL pool's transparent data encryption configuration.
+    /// </summary>
+    /// <param name="TransparentDataEncryptionName">Name of the transparent data encryption.</param>
+    public AzSynapseSqlPoolTdeShowOptions(
+        string TransparentDataEncryptionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransparentDataEncryptionName);
+        this.TransparentDataEncryptionName = TransparentDataEncryptionName;
+    }
+
+    public void Deconstruct(out string TransparentDataEncryptionName)
+    {
+        TransparentDataEncryptionName = this.TransparentDataEncryptionName;
+    }
+
+    /// <summary>
+    /// Name of the transparent data encryption.
+    /// </summary>
+    [CliOption("--transparent-data-encryption-name", ShortForm = "-d")]
+    public string TransparentDataEncryptionName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

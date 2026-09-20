@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a fixed or recurring autoscale profile.
 /// </summary>
-/// <param name="AutoscaleName">Name of the autoscale settings.</param>
-/// <param name="Name">Name of the autoscale profile.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Count">The numer of instances to use. If used with --min/max-count, the default number of instances to use.</param>
-/// <param name="Timezone">Timezone name.  Values from: az monitor autoscale profile list- timezones.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "profile", "create")]
-public record AzMonitorAutoscaleProfileCreateOptions(
-    [property: CliOption("--autoscale-name")] string AutoscaleName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--count")] string Count,
-    [property: CliOption("--timezone")] string Timezone
-) : AzOptions
+public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a fixed or recurring autoscale profile.
+    /// </summary>
+    /// <param name="AutoscaleName">Name of the autoscale settings.</param>
+    /// <param name="Name">Name of the autoscale profile.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Count">The numer of instances to use. If used with --min/max-count, the default number of instances to use.</param>
+    /// <param name="Timezone">Timezone name.  Values from: az monitor autoscale profile list- timezones.</param>
+    public AzMonitorAutoscaleProfileCreateOptions(
+        string AutoscaleName,
+        string Name,
+        string ResourceGroup,
+        string Count,
+        string Timezone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoscaleName);
+        this.AutoscaleName = AutoscaleName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Count);
+        this.Count = Count;
+        global::System.ArgumentNullException.ThrowIfNull(Timezone);
+        this.Timezone = Timezone;
+    }
+
+    public void Deconstruct(out string AutoscaleName, out string Name, out string ResourceGroup, out string Count, out string Timezone)
+    {
+        AutoscaleName = this.AutoscaleName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Count = this.Count;
+        Timezone = this.Timezone;
+    }
+
+    /// <summary>
+    /// Name of the autoscale settings.
+    /// </summary>
+    [CliOption("--autoscale-name")]
+    public string AutoscaleName { get; private init; }
+
+    /// <summary>
+    /// Name of the autoscale profile.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The numer of instances to use. If used with --min/max-count, the default number of instances to use.
+    /// </summary>
+    [CliOption("--count")]
+    public string Count { get; private init; }
+
+    /// <summary>
+    /// Timezone name.  Values from: az monitor autoscale profile list- timezones.
+    /// </summary>
+    [CliOption("--timezone")]
+    public string Timezone { get; private init; }
+
     /// <summary>
     /// Name of an existing schedule from which to copy the scaling rules for the new schedule.
     /// </summary>

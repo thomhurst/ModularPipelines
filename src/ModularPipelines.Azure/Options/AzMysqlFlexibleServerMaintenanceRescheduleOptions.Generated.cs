@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reschedule the ongoing planned maintenance of
 /// </summary>
-/// <param name="MaintenanceName">The name of the maintenance.</param>
-/// <param name="StartTime">The new start time of the rescheduled maintenance.  Default: 2026-09-14T10:38:53+00:00.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "maintenance", "reschedule")]
-public record AzMysqlFlexibleServerMaintenanceRescheduleOptions(
-    [property: CliOption("--maintenance-name", ShortForm = "-m")] string MaintenanceName,
-    [property: CliOption("--start-time")] string StartTime
-) : AzOptions
+public record AzMysqlFlexibleServerMaintenanceRescheduleOptions : AzOptions
 {
+    /// <summary>
+    /// Reschedule the ongoing planned maintenance of
+    /// </summary>
+    /// <param name="MaintenanceName">The name of the maintenance.</param>
+    /// <param name="StartTime">The new start time of the rescheduled maintenance.  Default: 2026-09-20T12:27:38+00:00.</param>
+    public AzMysqlFlexibleServerMaintenanceRescheduleOptions(
+        string MaintenanceName,
+        string StartTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MaintenanceName);
+        this.MaintenanceName = MaintenanceName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+    }
+
+    public void Deconstruct(out string MaintenanceName, out string StartTime)
+    {
+        MaintenanceName = this.MaintenanceName;
+        StartTime = this.StartTime;
+    }
+
+    /// <summary>
+    /// The name of the maintenance.
+    /// </summary>
+    [CliOption("--maintenance-name", ShortForm = "-m")]
+    public string MaintenanceName { get; private init; }
+
+    /// <summary>
+    /// The new start time of the rescheduled maintenance.  Default: 2026-09-20T12:27:38+00:00.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string StartTime { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

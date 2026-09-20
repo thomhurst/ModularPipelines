@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable an intelligence pack for a given
 /// </summary>
-/// <param name="IntelligencePackName">The name of the intelligence pack to be enabled.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "pack", "enable")]
-public record AzMonitorLogAnalyticsWorkspacePackEnableOptions(
-    [property: CliOption("--intelligence-pack-name", ShortForm = "-n")] string IntelligencePackName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzMonitorLogAnalyticsWorkspacePackEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Enable an intelligence pack for a given
+    /// </summary>
+    /// <param name="IntelligencePackName">The name of the intelligence pack to be enabled.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzMonitorLogAnalyticsWorkspacePackEnableOptions(
+        string IntelligencePackName,
+        string ResourceGroup,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntelligencePackName);
+        this.IntelligencePackName = IntelligencePackName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string IntelligencePackName, out string ResourceGroup, out string WorkspaceName)
+    {
+        IntelligencePackName = this.IntelligencePackName;
+        ResourceGroup = this.ResourceGroup;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The name of the intelligence pack to be enabled.
+    /// </summary>
+    [CliOption("--intelligence-pack-name", ShortForm = "-n")]
+    public string IntelligencePackName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

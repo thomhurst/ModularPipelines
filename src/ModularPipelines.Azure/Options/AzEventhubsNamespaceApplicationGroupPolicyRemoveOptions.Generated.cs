@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Removes an application group policy
 /// </summary>
-/// <param name="Policy">List of Throttling Policy Objects.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "application-group", "policy", "remove")]
-public record AzEventhubsNamespaceApplicationGroupPolicyRemoveOptions(
-    [property: CliOption("--policy", GroupValues = true)] IEnumerable<string> Policy
-) : AzOptions
+public record AzEventhubsNamespaceApplicationGroupPolicyRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Removes an application group policy
+    /// </summary>
+    /// <param name="Policy">List of Throttling Policy Objects.</param>
+    public AzEventhubsNamespaceApplicationGroupPolicyRemoveOptions(
+        IEnumerable<string> Policy
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Policy);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Policy));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Policy));
+            }
+
+            Policy = materialized;
+        }
+        this.Policy = Policy;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Policy)
+    {
+        Policy = this.Policy;
+    }
+
+    /// <summary>
+    /// List of Throttling Policy Objects.
+    /// </summary>
+    [CliOption("--policy", GroupValues = true)]
+    public IEnumerable<string> Policy { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

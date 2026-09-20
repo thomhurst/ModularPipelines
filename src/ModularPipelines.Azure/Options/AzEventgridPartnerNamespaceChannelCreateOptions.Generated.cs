@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new channel for a partner namespace.
 /// </summary>
-/// <param name="ChannelType">The type of the event channel which represents the  direction flow of events.  Allowed values: PartnerDestination, PartnerTopic.</param>
-/// <param name="DestinationRg">Azure Resource Group of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this resource group.</param>
-/// <param name="DestinationSubId">Azure subscription Id of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this Azure subscription.</param>
-/// <param name="Name">Name of the channel.</param>
-/// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "channel", "create")]
-public record AzEventgridPartnerNamespaceChannelCreateOptions(
-    [property: CliOption("--channel-type")] string ChannelType,
-    [property: CliOption("--destination-rg")] string DestinationRg,
-    [property: CliOption("--destination-sub-id")] string DestinationSubId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--partner-namespace-name")] string PartnerNamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new channel for a partner namespace.
+    /// </summary>
+    /// <param name="ChannelType">The type of the event channel which represents the  direction flow of events.  Allowed values: PartnerDestination, PartnerTopic.</param>
+    /// <param name="DestinationRg">Azure Resource Group of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this resource group.</param>
+    /// <param name="DestinationSubId">Azure subscription Id of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this Azure subscription.</param>
+    /// <param name="Name">Name of the channel.</param>
+    /// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridPartnerNamespaceChannelCreateOptions(
+        string ChannelType,
+        string DestinationRg,
+        string DestinationSubId,
+        string Name,
+        string PartnerNamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelType);
+        this.ChannelType = ChannelType;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationRg);
+        this.DestinationRg = DestinationRg;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationSubId);
+        this.DestinationSubId = DestinationSubId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerNamespaceName);
+        this.PartnerNamespaceName = PartnerNamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ChannelType, out string DestinationRg, out string DestinationSubId, out string Name, out string PartnerNamespaceName, out string ResourceGroup)
+    {
+        ChannelType = this.ChannelType;
+        DestinationRg = this.DestinationRg;
+        DestinationSubId = this.DestinationSubId;
+        Name = this.Name;
+        PartnerNamespaceName = this.PartnerNamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The type of the event channel which represents the  direction flow of events.  Allowed values: PartnerDestination, PartnerTopic.
+    /// </summary>
+    [CliOption("--channel-type")]
+    public string ChannelType { get; private init; }
+
+    /// <summary>
+    /// Azure Resource Group of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this resource group.
+    /// </summary>
+    [CliOption("--destination-rg")]
+    public string DestinationRg { get; private init; }
+
+    /// <summary>
+    /// Azure subscription Id of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this Azure subscription.
+    /// </summary>
+    [CliOption("--destination-sub-id")]
+    public string DestinationSubId { get; private init; }
+
+    /// <summary>
+    /// Name of the channel.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the partner namespace.
+    /// </summary>
+    [CliOption("--partner-namespace-name")]
+    public string PartnerNamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.
     /// </summary>

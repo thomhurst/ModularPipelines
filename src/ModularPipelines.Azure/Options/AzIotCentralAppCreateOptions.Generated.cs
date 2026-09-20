@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an IoT Central application.
 /// </summary>
-/// <param name="Name">Give your IoT Central app a unique name so you can find it later.This will be used as the resource name in the Azure portal and CLI.Avoid special characters `-` instead, use lower case letters (a-z), numbers (0-9), and dashes (-).</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Subdomain">Enter a unique URL. Your app will be accessible via https://{subdomain}.azureiotcentral.com/. Avoid special characters `-` instead, use lower case letters (a-z), numbers (0-9), and dashes (-).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "central", "app", "create")]
-public record AzIotCentralAppCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--subdomain", ShortForm = "-s")] string Subdomain
-) : AzOptions
+public record AzIotCentralAppCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an IoT Central application.
+    /// </summary>
+    /// <param name="Name">Give your IoT Central app a unique name so you can find it later.This will be used as the resource name in the Azure portal and CLI.Avoid special characters `-` instead, use lower case letters (a-z), numbers (0-9), and dashes (-).</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Subdomain">Enter a unique URL. Your app will be accessible via https://{subdomain}.azureiotcentral.com/. Avoid special characters `-` instead, use lower case letters (a-z), numbers (0-9), and dashes (-).</param>
+    public AzIotCentralAppCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Subdomain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Subdomain);
+        this.Subdomain = Subdomain;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Subdomain)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Subdomain = this.Subdomain;
+    }
+
+    /// <summary>
+    /// Give your IoT Central app a unique name so you can find it later.This will be used as the resource name in the Azure portal and CLI.Avoid special characters `-` instead, use lower case letters (a-z), numbers (0-9), and dashes (-).
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Enter a unique URL. Your app will be accessible via https://{subdomain}.azureiotcentral.com/. Avoid special characters `-` instead, use lower case letters (a-z), numbers (0-9), and dashes (-).
+    /// </summary>
+    [CliOption("--subdomain", ShortForm = "-s")]
+    public string Subdomain { get; private init; }
+
     /// <summary>
     /// Custom display name for the IoT Central app. This will be used in the IoT Central application manager to help you identify your app. Default value is the resource name.
     /// </summary>

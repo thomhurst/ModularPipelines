@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieves latest restorable timestamp for the
 /// </summary>
-/// <param name="AccountName">Name of the CosmosDB database account.</param>
-/// <param name="CollectionName">Name of the CosmosDB MongoDB collection name.</param>
-/// <param name="DatabaseName">Name of the CosmosDB MongoDB database name.</param>
-/// <param name="Location">Location of the account.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "mongodb", "retrieve-latest-backup-time")]
-public record AzCosmosdbMongodbRetrieveLatestBackupTimeOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--collection-name", ShortForm = "-c")] string CollectionName,
-    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbMongodbRetrieveLatestBackupTimeOptions : AzOptions
 {
+    /// <summary>
+    /// Retrieves latest restorable timestamp for the
+    /// </summary>
+    /// <param name="AccountName">Name of the CosmosDB database account.</param>
+    /// <param name="CollectionName">Name of the CosmosDB MongoDB collection name.</param>
+    /// <param name="DatabaseName">Name of the CosmosDB MongoDB database name.</param>
+    /// <param name="Location">Location of the account.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbMongodbRetrieveLatestBackupTimeOptions(
+        string AccountName,
+        string CollectionName,
+        string DatabaseName,
+        string Location,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(CollectionName);
+        this.CollectionName = CollectionName;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string CollectionName, out string DatabaseName, out string Location, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        CollectionName = this.CollectionName;
+        DatabaseName = this.DatabaseName;
+        Location = this.Location;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the CosmosDB database account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Name of the CosmosDB MongoDB collection name.
+    /// </summary>
+    [CliOption("--collection-name", ShortForm = "-c")]
+    public string CollectionName { get; private init; }
+
+    /// <summary>
+    /// Name of the CosmosDB MongoDB database name.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string DatabaseName { get; private init; }
+
+    /// <summary>
+    /// Location of the account.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

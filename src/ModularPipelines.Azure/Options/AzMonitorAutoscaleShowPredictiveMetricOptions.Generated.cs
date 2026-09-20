@@ -15,22 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show predictive autoscale metric future data.
 /// </summary>
-/// <param name="Aggregation">The list of aggregation types (comma separated) to retrieve.</param>
-/// <param name="Interval">The interval (i.e. timegrain) of the query.</param>
-/// <param name="MetricName">The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'**.</param>
-/// <param name="MetricNamespace">Metric namespace to query metric definitions for.</param>
-/// <param name="Timespan">The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "show-predictive-metric")]
-public record AzMonitorAutoscaleShowPredictiveMetricOptions(
-    [property: CliOption("--aggregation", GroupValues = true)] IEnumerable<string> Aggregation,
-    [property: CliOption("--interval")] string Interval,
-    [property: CliOption("--metric-name")] string MetricName,
-    [property: CliOption("--metric-namespace")] string MetricNamespace,
-    [property: CliOption("--timespan")] string Timespan
-) : AzOptions
+public record AzMonitorAutoscaleShowPredictiveMetricOptions : AzOptions
 {
+    /// <summary>
+    /// Show predictive autoscale metric future data.
+    /// </summary>
+    /// <param name="Aggregation">The list of aggregation types (comma separated) to retrieve.</param>
+    /// <param name="Interval">The interval (i.e. timegrain) of the query.</param>
+    /// <param name="MetricName">The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'**.</param>
+    /// <param name="MetricNamespace">Metric namespace to query metric definitions for.</param>
+    /// <param name="Timespan">The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.</param>
+    public AzMonitorAutoscaleShowPredictiveMetricOptions(
+        IEnumerable<string> Aggregation,
+        string Interval,
+        string MetricName,
+        string MetricNamespace,
+        string Timespan
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Aggregation);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Aggregation));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Aggregation));
+            }
+
+            Aggregation = materialized;
+        }
+        this.Aggregation = Aggregation;
+        global::System.ArgumentNullException.ThrowIfNull(Interval);
+        this.Interval = Interval;
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+        global::System.ArgumentNullException.ThrowIfNull(MetricNamespace);
+        this.MetricNamespace = MetricNamespace;
+        global::System.ArgumentNullException.ThrowIfNull(Timespan);
+        this.Timespan = Timespan;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Aggregation, out string Interval, out string MetricName, out string MetricNamespace, out string Timespan)
+    {
+        Aggregation = this.Aggregation;
+        Interval = this.Interval;
+        MetricName = this.MetricName;
+        MetricNamespace = this.MetricNamespace;
+        Timespan = this.Timespan;
+    }
+
+    /// <summary>
+    /// The list of aggregation types (comma separated) to retrieve.
+    /// </summary>
+    [CliOption("--aggregation", GroupValues = true)]
+    public IEnumerable<string> Aggregation { get; private init; }
+
+    /// <summary>
+    /// The interval (i.e. timegrain) of the query.
+    /// </summary>
+    [CliOption("--interval")]
+    public string Interval { get; private init; }
+
+    /// <summary>
+    /// The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'**.
+    /// </summary>
+    [CliOption("--metric-name")]
+    public string MetricName { get; private init; }
+
+    /// <summary>
+    /// Metric namespace to query metric definitions for.
+    /// </summary>
+    [CliOption("--metric-namespace")]
+    public string MetricNamespace { get; private init; }
+
+    /// <summary>
+    /// The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.
+    /// </summary>
+    [CliOption("--timespan")]
+    public string Timespan { get; private init; }
+
     /// <summary>
     /// The autoscale setting name.
     /// </summary>

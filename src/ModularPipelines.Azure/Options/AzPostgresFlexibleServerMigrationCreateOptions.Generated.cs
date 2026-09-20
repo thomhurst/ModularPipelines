@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new migration workflow for a flexible
 /// </summary>
-/// <param name="Properties">Request properties. Use double or no quotes to pass in json filepath as argument.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServerName">Migration target server name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "migration", "create")]
-public record AzPostgresFlexibleServerMigrationCreateOptions(
-    [property: CliOption("--properties", ShortForm = "-b")] string Properties,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
-) : AzOptions
+public record AzPostgresFlexibleServerMigrationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new migration workflow for a flexible
+    /// </summary>
+    /// <param name="Properties">Request properties. Use double or no quotes to pass in json filepath as argument.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServerName">Migration target server name.</param>
+    public AzPostgresFlexibleServerMigrationCreateOptions(
+        string Properties,
+        string ResourceGroup,
+        string ServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Properties);
+        this.Properties = Properties;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+    }
+
+    public void Deconstruct(out string Properties, out string ResourceGroup, out string ServerName)
+    {
+        Properties = this.Properties;
+        ResourceGroup = this.ResourceGroup;
+        ServerName = this.ServerName;
+    }
+
+    /// <summary>
+    /// Request properties. Use double or no quotes to pass in json filepath as argument.
+    /// </summary>
+    [CliOption("--properties", ShortForm = "-b")]
+    public string Properties { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Migration target server name.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string ServerName { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

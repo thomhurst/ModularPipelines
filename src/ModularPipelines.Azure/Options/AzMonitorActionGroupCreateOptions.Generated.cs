@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new action group.
 /// </summary>
-/// <param name="ActionGroupName">The name of the action group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "action-group", "create")]
-public record AzMonitorActionGroupCreateOptions(
-    [property: CliOption("--action-group-name", ShortForm = "-n")] string ActionGroupName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMonitorActionGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new action group.
+    /// </summary>
+    /// <param name="ActionGroupName">The name of the action group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMonitorActionGroupCreateOptions(
+        string ActionGroupName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionGroupName);
+        this.ActionGroupName = ActionGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ActionGroupName, out string ResourceGroup)
+    {
+        ActionGroupName = this.ActionGroupName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the action group.
+    /// </summary>
+    [CliOption("--action-group-name", ShortForm = "-n")]
+    public string ActionGroupName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The short name of the action group. This will be used in SMS messages.
     /// </summary>

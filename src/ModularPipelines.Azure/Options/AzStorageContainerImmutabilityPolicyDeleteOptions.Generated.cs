@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Aborts an unlocked immutability policy.
 /// </summary>
-/// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
-/// <param name="ContainerName">The container name.</param>
-/// <param name="IfMatch">An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "immutability-policy", "delete")]
-public record AzStorageContainerImmutabilityPolicyDeleteOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
-    [property: CliOption("--if-match")] string IfMatch
-) : AzOptions
+public record AzStorageContainerImmutabilityPolicyDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Aborts an unlocked immutability policy.
+    /// </summary>
+    /// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
+    /// <param name="ContainerName">The container name.</param>
+    /// <param name="IfMatch">An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.</param>
+    public AzStorageContainerImmutabilityPolicyDeleteOptions(
+        string AccountName,
+        string ContainerName,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    public void Deconstruct(out string AccountName, out string ContainerName, out string IfMatch)
+    {
+        AccountName = this.AccountName;
+        ContainerName = this.ContainerName;
+        IfMatch = this.IfMatch;
+    }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.
+    /// </summary>
+    [CliOption("--if-match")]
+    public string IfMatch { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get information about all network interfaces in a virtual machine in
 /// </summary>
-/// <param name="InstanceId">The virtual machine index.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VirtualMachineScaleSetName">Scale set name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "nic", "list-vm-nics")]
-public record AzVmssNicListVmNicsOptions(
-    [property: CliOption("--instance-id", ShortForm = "--virtualmachine-index")] string InstanceId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--virtual-machine-scale-set-name", ShortForm = "--vmss-name")] string VirtualMachineScaleSetName
-) : AzOptions
+public record AzVmssNicListVmNicsOptions : AzOptions
 {
+    /// <summary>
+    /// Get information about all network interfaces in a virtual machine in
+    /// </summary>
+    /// <param name="InstanceId">The virtual machine index.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VirtualMachineScaleSetName">Scale set name.</param>
+    public AzVmssNicListVmNicsOptions(
+        string InstanceId,
+        string ResourceGroup,
+        string VirtualMachineScaleSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VirtualMachineScaleSetName);
+        this.VirtualMachineScaleSetName = VirtualMachineScaleSetName;
+    }
+
+    public void Deconstruct(out string InstanceId, out string ResourceGroup, out string VirtualMachineScaleSetName)
+    {
+        InstanceId = this.InstanceId;
+        ResourceGroup = this.ResourceGroup;
+        VirtualMachineScaleSetName = this.VirtualMachineScaleSetName;
+    }
+
+    /// <summary>
+    /// The virtual machine index.
+    /// </summary>
+    [CliOption("--instance-id", ShortForm = "--virtualmachine-index")]
+    public string InstanceId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Scale set name.
+    /// </summary>
+    [CliOption("--virtual-machine-scale-set-name", ShortForm = "--vmss-name")]
+    public string VirtualMachineScaleSetName { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

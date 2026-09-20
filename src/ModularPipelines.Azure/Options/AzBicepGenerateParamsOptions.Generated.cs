@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate parameters file for a Bicep file.
 /// </summary>
-/// <param name="File">The path to the Bicep file to generate the parameters file from in the file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "generate-params")]
-public record AzBicepGenerateParamsOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzBicepGenerateParamsOptions : AzOptions
 {
+    /// <summary>
+    /// Generate parameters file for a Bicep file.
+    /// </summary>
+    /// <param name="File">The path to the Bicep file to generate the parameters file from in the file system.</param>
+    public AzBicepGenerateParamsOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// The path to the Bicep file to generate the parameters file from in the file system.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Set include params. Valid values are ( all | RequiredOnly ).
     /// </summary>

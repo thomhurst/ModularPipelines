@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set a subscription to be the current active subscription.
 /// </summary>
-/// <param name="Name">Name or ID of subscription.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "set")]
-public record AzAccountSetOptions(
-    [property: CliOption("--name", ShortForm = "-s")] string Name
-) : AzOptions
+public record AzAccountSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set a subscription to be the current active subscription.
+    /// </summary>
+    /// <param name="Name">Name or ID of subscription.</param>
+    public AzAccountSetOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name or ID of subscription.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-s")]
+    public string Name { get; private init; }
+
 }

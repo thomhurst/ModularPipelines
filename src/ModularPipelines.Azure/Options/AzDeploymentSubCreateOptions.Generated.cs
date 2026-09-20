@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start a deployment at subscription scope.
 /// </summary>
-/// <param name="Location">The location to store the deployment metadata.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "sub", "create")]
-public record AzDeploymentSubCreateOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzDeploymentSubCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Start a deployment at subscription scope.
+    /// </summary>
+    /// <param name="Location">The location to store the deployment metadata.</param>
+    public AzDeploymentSubCreateOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The location to store the deployment metadata.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
     /// <summary>
     /// Instruct the command to run deployment What-If before executing the deployment. It then prompts you to acknowledge resource changes before it continues.
     /// </summary>

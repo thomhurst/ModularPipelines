@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a group.
 /// </summary>
-/// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "delete")]
-public record AzAdGroupDeleteOptions(
-    [property: CliOption("--group", ShortForm = "-g")] string Group
-) : AzOptions
+public record AzAdGroupDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a group.
+    /// </summary>
+    /// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
+    public AzAdGroupDeleteOptions(
+        string Group
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Group);
+        this.Group = Group;
+    }
+
+    public void Deconstruct(out string Group)
+    {
+        Group = this.Group;
+    }
+
+    /// <summary>
+    /// Group's object id or display name(prefix also works if there is a unique match).
+    /// </summary>
+    [CliOption("--group", ShortForm = "-g")]
+    public string Group { get; private init; }
+
 }

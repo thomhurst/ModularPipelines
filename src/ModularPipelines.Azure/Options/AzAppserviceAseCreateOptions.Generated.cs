@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create App Service Environment.
 /// </summary>
-/// <param name="Name">Name of the app service environment.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Subnet">Name or ID of existing subnet. To create vnet and/or subnet use `az network vnet [subnet] create`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "ase", "create")]
-public record AzAppserviceAseCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--subnet")] string Subnet
-) : AzOptions
+public record AzAppserviceAseCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create App Service Environment.
+    /// </summary>
+    /// <param name="Name">Name of the app service environment.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Subnet">Name or ID of existing subnet. To create vnet and/or subnet use `az network vnet [subnet] create`.</param>
+    public AzAppserviceAseCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Subnet)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// Name of the app service environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name or ID of existing subnet. To create vnet and/or subnet use `az network vnet [subnet] create`.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string Subnet { get; private init; }
+
     /// <summary>
     /// Do not check if subnet is sized according to recommendations. Allowed values: false, true.
     /// </summary>

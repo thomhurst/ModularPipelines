@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an alerts suppression rule.
 /// </summary>
-/// <param name="RuleName">The unique name of the alerts suppression rule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alerts-suppression-rule", "delete")]
-public record AzSecurityAlertsSuppressionRuleDeleteOptions(
-    [property: CliOption("--rule-name")] string RuleName
-) : AzOptions
+public record AzSecurityAlertsSuppressionRuleDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete an alerts suppression rule.
+    /// </summary>
+    /// <param name="RuleName">The unique name of the alerts suppression rule.</param>
+    public AzSecurityAlertsSuppressionRuleDeleteOptions(
+        string RuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+    }
+
+    public void Deconstruct(out string RuleName)
+    {
+        RuleName = this.RuleName;
+    }
+
+    /// <summary>
+    /// The unique name of the alerts suppression rule.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
 }

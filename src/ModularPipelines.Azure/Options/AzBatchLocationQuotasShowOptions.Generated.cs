@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the Batch service quotas for the specified subscription at
 /// </summary>
-/// <param name="Location">The region for which to display the Batch service quotas.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "location", "quotas", "show")]
-public record AzBatchLocationQuotasShowOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzBatchLocationQuotasShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the Batch service quotas for the specified subscription at
+    /// </summary>
+    /// <param name="Location">The region for which to display the Batch service quotas.</param>
+    public AzBatchLocationQuotasShowOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The region for which to display the Batch service quotas.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
 }

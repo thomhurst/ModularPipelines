@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the registration definition details.
 /// </summary>
-/// <param name="Definition">Guid of the registration definition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "definition", "show")]
-public record AzManagedservicesDefinitionShowOptions(
-    [property: CliOption("--definition")] string Definition
-) : AzOptions
+public record AzManagedservicesDefinitionShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the registration definition details.
+    /// </summary>
+    /// <param name="Definition">Guid of the registration definition.</param>
+    public AzManagedservicesDefinitionShowOptions(
+        string Definition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Definition);
+        this.Definition = Definition;
+    }
+
+    public void Deconstruct(out string Definition)
+    {
+        Definition = this.Definition;
+    }
+
+    /// <summary>
+    /// Guid of the registration definition.
+    /// </summary>
+    [CliOption("--definition")]
+    public string Definition { get; private init; }
+
 }

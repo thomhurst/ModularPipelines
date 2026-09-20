@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all deployment stacks in resource group.
 /// </summary>
-/// <param name="ResourceGroup">The resource group where the deployment stack exists.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "group", "list")]
-public record AzStackGroupListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzStackGroupListOptions : AzOptions
 {
+    /// <summary>
+    /// List all deployment stacks in resource group.
+    /// </summary>
+    /// <param name="ResourceGroup">The resource group where the deployment stack exists.</param>
+    public AzStackGroupListOptions(
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The resource group where the deployment stack exists.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

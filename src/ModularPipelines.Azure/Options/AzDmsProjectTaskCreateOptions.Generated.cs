@@ -15,26 +15,100 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create and start a migration task.
 /// </summary>
-/// <param name="DatabaseOptionsJson">Database and table information. This can be either a JSON- formatted string or the location to a file containing the JSON object. See example below for the format. For SQL we support per table migrations. To use this, specify the tables names in the 'table_map' as below. You can also set the source as read only. [ { "name": "source database", "target_database_name": "target database", "make_source_db_read_only": false|true, "table_map": { "schema.SourceTableName1": "schema.TargetTableName1", "schema.SourceTableName2": "schema.TargetTableName2", ...n } }, ...n ]</param>
-/// <param name="Name">The name of the Task.</param>
-/// <param name="ProjectName">The name of the Project.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the Service.</param>
-/// <param name="SourceConnectionJson">The connection information to the source server. This can be either a JSON-formatted string or the location to a file containing the JSON object. See examples below for the format. The format of the connection JSON object for SQL connections. { "userName": "user name",    // if this is missing or null, you will be prompted "password": null,           // if this is missing or null (highly recommended) you will be prompted "dataSource": "server name[,port]", "authentication": "SqlAuthentication|WindowsAuthentication", "encryptConnection": true,      // highly recommended to leave as true "trustServerCertificate": false  // highly recommended to leave as false }</param>
-/// <param name="TargetConnectionJson">The connection information to the target server. This can be either a JSON-formatted string or the location to a file containing the JSON object. See 'source-connection- json' for examples of connection formats.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "task", "create")]
-public record AzDmsProjectTaskCreateOptions(
-    [property: CliOption("--database-options-json")] string DatabaseOptionsJson,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--project-name")] string ProjectName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name")] string ServiceName,
-    [property: CliOption("--source-connection-json")] string SourceConnectionJson,
-    [property: CliOption("--target-connection-json")] string TargetConnectionJson
-) : AzOptions
+public record AzDmsProjectTaskCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create and start a migration task.
+    /// </summary>
+    /// <param name="DatabaseOptionsJson">Database and table information. This can be either a JSON- formatted string or the location to a file containing the JSON object. See example below for the format. For SQL we support per table migrations. To use this, specify the tables names in the 'table_map' as below. You can also set the source as read only. [ { "name": "source database", "target_database_name": "target database", "make_source_db_read_only": false|true, "table_map": { "schema.SourceTableName1": "schema.TargetTableName1", "schema.SourceTableName2": "schema.TargetTableName2", ...n } }, ...n ]</param>
+    /// <param name="Name">The name of the Task.</param>
+    /// <param name="ProjectName">The name of the Project.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the Service.</param>
+    /// <param name="SourceConnectionJson">The connection information to the source server. This can be either a JSON-formatted string or the location to a file containing the JSON object. See examples below for the format. The format of the connection JSON object for SQL connections. { "userName": "user name",    // if this is missing or null, you will be prompted "password": null,           // if this is missing or null (highly recommended) you will be prompted "dataSource": "server name[,port]", "authentication": "SqlAuthentication|WindowsAuthentication", "encryptConnection": true,      // highly recommended to leave as true "trustServerCertificate": false  // highly recommended to leave as false }</param>
+    /// <param name="TargetConnectionJson">The connection information to the target server. This can be either a JSON-formatted string or the location to a file containing the JSON object. See 'source-connection- json' for examples of connection formats.</param>
+    public AzDmsProjectTaskCreateOptions(
+        string DatabaseOptionsJson,
+        string Name,
+        string ProjectName,
+        string ResourceGroup,
+        string ServiceName,
+        string SourceConnectionJson,
+        string TargetConnectionJson
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseOptionsJson);
+        this.DatabaseOptionsJson = DatabaseOptionsJson;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceConnectionJson);
+        this.SourceConnectionJson = SourceConnectionJson;
+        global::System.ArgumentNullException.ThrowIfNull(TargetConnectionJson);
+        this.TargetConnectionJson = TargetConnectionJson;
+    }
+
+    public void Deconstruct(out string DatabaseOptionsJson, out string Name, out string ProjectName, out string ResourceGroup, out string ServiceName, out string SourceConnectionJson, out string TargetConnectionJson)
+    {
+        DatabaseOptionsJson = this.DatabaseOptionsJson;
+        Name = this.Name;
+        ProjectName = this.ProjectName;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        SourceConnectionJson = this.SourceConnectionJson;
+        TargetConnectionJson = this.TargetConnectionJson;
+    }
+
+    /// <summary>
+    /// Database and table information. This can be either a JSON- formatted string or the location to a file containing the JSON object. See example below for the format. For SQL we support per table migrations. To use this, specify the tables names in the 'table_map' as below. You can also set the source as read only. [ { "name": "source database", "target_database_name": "target database", "make_source_db_read_only": false|true, "table_map": { "schema.SourceTableName1": "schema.TargetTableName1", "schema.SourceTableName2": "schema.TargetTableName2", ...n } }, ...n ]
+    /// </summary>
+    [CliOption("--database-options-json")]
+    public string DatabaseOptionsJson { get; private init; }
+
+    /// <summary>
+    /// The name of the Task.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the Project.
+    /// </summary>
+    [CliOption("--project-name")]
+    public string ProjectName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Service.
+    /// </summary>
+    [CliOption("--service-name")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// The connection information to the source server. This can be either a JSON-formatted string or the location to a file containing the JSON object. See examples below for the format. The format of the connection JSON object for SQL connections. { "userName": "user name",    // if this is missing or null, you will be prompted "password": null,           // if this is missing or null (highly recommended) you will be prompted "dataSource": "server name[,port]", "authentication": "SqlAuthentication|WindowsAuthentication", "encryptConnection": true,      // highly recommended to leave as true "trustServerCertificate": false  // highly recommended to leave as false }
+    /// </summary>
+    [CliOption("--source-connection-json")]
+    public string SourceConnectionJson { get; private init; }
+
+    /// <summary>
+    /// The connection information to the target server. This can be either a JSON-formatted string or the location to a file containing the JSON object. See 'source-connection- json' for examples of connection formats.
+    /// </summary>
+    [CliOption("--target-connection-json")]
+    public string TargetConnectionJson { get; private init; }
+
     /// <summary>
     /// For SQL only. Whether to perform a checksum based data integrity validation between source and target for the selected database and tables.
     /// </summary>

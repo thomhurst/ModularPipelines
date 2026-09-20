@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a hybrid-connection from a functionapp.
 /// </summary>
-/// <param name="HybridConnection">Hybrid connection name.</param>
-/// <param name="Name">Name of the function app.</param>
-/// <param name="Namespace">Hybrid connection namespace.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "hybrid-connection", "remove")]
-public record AzFunctionappHybridConnectionRemoveOptions(
-    [property: CliOption("--hybrid-connection")] string HybridConnection,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--namespace")] string Namespace,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzFunctionappHybridConnectionRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a hybrid-connection from a functionapp.
+    /// </summary>
+    /// <param name="HybridConnection">Hybrid connection name.</param>
+    /// <param name="Name">Name of the function app.</param>
+    /// <param name="Namespace">Hybrid connection namespace.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzFunctionappHybridConnectionRemoveOptions(
+        string HybridConnection,
+        string Name,
+        string Namespace,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HybridConnection);
+        this.HybridConnection = HybridConnection;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string HybridConnection, out string Name, out string Namespace, out string ResourceGroup)
+    {
+        HybridConnection = this.HybridConnection;
+        Name = this.Name;
+        Namespace = this.Namespace;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Hybrid connection name.
+    /// </summary>
+    [CliOption("--hybrid-connection")]
+    public string HybridConnection { get; private init; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Hybrid connection namespace.
+    /// </summary>
+    [CliOption("--namespace")]
+    public string Namespace { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reject the specified private
 /// </summary>
-/// <param name="Description">Comments for reject operation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "private-endpoint-connection", "reject")]
-public record AzPostgresFlexibleServerPrivateEndpointConnectionRejectOptions(
-    [property: CliOption("--description")] string Description
-) : AzOptions
+public record AzPostgresFlexibleServerPrivateEndpointConnectionRejectOptions : AzOptions
 {
+    /// <summary>
+    /// Reject the specified private
+    /// </summary>
+    /// <param name="Description">Comments for reject operation.</param>
+    public AzPostgresFlexibleServerPrivateEndpointConnectionRejectOptions(
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    public void Deconstruct(out string Description)
+    {
+        Description = this.Description;
+    }
+
+    /// <summary>
+    /// Comments for reject operation.
+    /// </summary>
+    [CliOption("--description")]
+    public string Description { get; private init; }
+
     /// <summary>
     /// The identifier of the private endpoint connection associated with the Server. If specified --server-name/-s and --name/-n, this should be omitted.
     /// </summary>

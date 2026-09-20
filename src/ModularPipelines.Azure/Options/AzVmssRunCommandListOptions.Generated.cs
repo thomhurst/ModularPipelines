@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List operation to get all run commands of an instance in Virtual
 /// </summary>
-/// <param name="InstanceId">The instance of the VM.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VmssName">The name of the VirtualMachineScaleSet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "list")]
-public record AzVmssRunCommandListOptions(
-    [property: CliOption("--instance-id")] string InstanceId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vmss-name")] string VmssName
-) : AzOptions
+public record AzVmssRunCommandListOptions : AzOptions
 {
+    /// <summary>
+    /// List operation to get all run commands of an instance in Virtual
+    /// </summary>
+    /// <param name="InstanceId">The instance of the VM.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VmssName">The name of the VirtualMachineScaleSet.</param>
+    public AzVmssRunCommandListOptions(
+        string InstanceId,
+        string ResourceGroup,
+        string VmssName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VmssName);
+        this.VmssName = VmssName;
+    }
+
+    public void Deconstruct(out string InstanceId, out string ResourceGroup, out string VmssName)
+    {
+        InstanceId = this.InstanceId;
+        ResourceGroup = this.ResourceGroup;
+        VmssName = this.VmssName;
+    }
+
+    /// <summary>
+    /// The instance of the VM.
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string InstanceId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the VirtualMachineScaleSet.
+    /// </summary>
+    [CliOption("--vmss-name")]
+    public string VmssName { get; private init; }
+
     /// <summary>
     /// The expand expression to apply on the operation.
     /// </summary>

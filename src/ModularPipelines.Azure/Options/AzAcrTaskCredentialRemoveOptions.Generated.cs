@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove credential for a task.
 /// </summary>
-/// <param name="LoginServer">The login server of the custom registry. For instance, 'myregistry.azurecr.io'.</param>
-/// <param name="Name">The name of the task.</param>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "credential", "remove")]
-public record AzAcrTaskCredentialRemoveOptions(
-    [property: CliOption("--login-server")] string LoginServer,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry
-) : AzOptions
+public record AzAcrTaskCredentialRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove credential for a task.
+    /// </summary>
+    /// <param name="LoginServer">The login server of the custom registry. For instance, 'myregistry.azurecr.io'.</param>
+    /// <param name="Name">The name of the task.</param>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrTaskCredentialRemoveOptions(
+        string LoginServer,
+        string Name,
+        string Registry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoginServer);
+        this.LoginServer = LoginServer;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+    }
+
+    public void Deconstruct(out string LoginServer, out string Name, out string Registry)
+    {
+        LoginServer = this.LoginServer;
+        Name = this.Name;
+        Registry = this.Registry;
+    }
+
+    /// <summary>
+    /// The login server of the custom registry. For instance, 'myregistry.azurecr.io'.
+    /// </summary>
+    [CliOption("--login-server")]
+    public string LoginServer { get; private init; }
+
+    /// <summary>
+    /// The name of the task.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

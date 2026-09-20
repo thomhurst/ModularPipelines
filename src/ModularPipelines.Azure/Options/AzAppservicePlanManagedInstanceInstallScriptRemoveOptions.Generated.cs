@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an install script from a
 /// </summary>
-/// <param name="InstallScriptName">Name of the install script to remove.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "install-script", "remove")]
-public record AzAppservicePlanManagedInstanceInstallScriptRemoveOptions(
-    [property: CliOption("--install-script-name")] string InstallScriptName
-) : AzOptions
+public record AzAppservicePlanManagedInstanceInstallScriptRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an install script from a
+    /// </summary>
+    /// <param name="InstallScriptName">Name of the install script to remove.</param>
+    public AzAppservicePlanManagedInstanceInstallScriptRemoveOptions(
+        string InstallScriptName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstallScriptName);
+        this.InstallScriptName = InstallScriptName;
+    }
+
+    public void Deconstruct(out string InstallScriptName)
+    {
+        InstallScriptName = this.InstallScriptName;
+    }
+
+    /// <summary>
+    /// Name of the install script to remove.
+    /// </summary>
+    [CliOption("--install-script-name")]
+    public string InstallScriptName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

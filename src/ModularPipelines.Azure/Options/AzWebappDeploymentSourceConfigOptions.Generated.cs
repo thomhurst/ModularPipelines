@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manage deployment from git or Mercurial repositories.
 /// </summary>
-/// <param name="RepoUrl">Repository url to pull the latest source from, e.g. https://github.com/foo/foo-web.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "source", "config")]
-public record AzWebappDeploymentSourceConfigOptions(
-    [property: CliOption("--repo-url", ShortForm = "-u")] string RepoUrl
-) : AzOptions
+public record AzWebappDeploymentSourceConfigOptions : AzOptions
 {
+    /// <summary>
+    /// Manage deployment from git or Mercurial repositories.
+    /// </summary>
+    /// <param name="RepoUrl">Repository url to pull the latest source from, e.g. https://github.com/foo/foo-web.</param>
+    public AzWebappDeploymentSourceConfigOptions(
+        string RepoUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepoUrl);
+        this.RepoUrl = RepoUrl;
+    }
+
+    public void Deconstruct(out string RepoUrl)
+    {
+        RepoUrl = this.RepoUrl;
+    }
+
+    /// <summary>
+    /// Repository url to pull the latest source from, e.g. https://github.com/foo/foo-web.
+    /// </summary>
+    [CliOption("--repo-url", ShortForm = "-u")]
+    public string RepoUrl { get; private init; }
+
     /// <summary>
     /// The branch name of the repository.
     /// </summary>

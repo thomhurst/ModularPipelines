@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Verify a certificate in an Azure IoT Hub Device Provisioning
 /// </summary>
-/// <param name="CertificateName">A friendly name for the certificate.</param>
-/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
-/// <param name="Etag">Entity Tag (etag) of the object.</param>
-/// <param name="Path">The path to the file containing the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "certificate", "verify")]
-public record AzIotDpsCertificateVerifyOptions(
-    [property: CliOption("--certificate-name", ShortForm = "-n")] string CertificateName,
-    [property: CliOption("--dps-name")] string DpsName,
-    [property: CliOption("--etag", ShortForm = "-e")] string Etag,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzIotDpsCertificateVerifyOptions : AzOptions
 {
+    /// <summary>
+    /// Verify a certificate in an Azure IoT Hub Device Provisioning
+    /// </summary>
+    /// <param name="CertificateName">A friendly name for the certificate.</param>
+    /// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+    /// <param name="Etag">Entity Tag (etag) of the object.</param>
+    /// <param name="Path">The path to the file containing the certificate.</param>
+    public AzIotDpsCertificateVerifyOptions(
+        string CertificateName,
+        string DpsName,
+        string Etag,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateName);
+        this.CertificateName = CertificateName;
+        global::System.ArgumentNullException.ThrowIfNull(DpsName);
+        this.DpsName = DpsName;
+        global::System.ArgumentNullException.ThrowIfNull(Etag);
+        this.Etag = Etag;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string CertificateName, out string DpsName, out string Etag, out string Path)
+    {
+        CertificateName = this.CertificateName;
+        DpsName = this.DpsName;
+        Etag = this.Etag;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// A friendly name for the certificate.
+    /// </summary>
+    [CliOption("--certificate-name", ShortForm = "-n")]
+    public string CertificateName { get; private init; }
+
+    /// <summary>
+    /// IoT Hub Device Provisioning Service name.
+    /// </summary>
+    [CliOption("--dps-name")]
+    public string DpsName { get; private init; }
+
+    /// <summary>
+    /// Entity Tag (etag) of the object.
+    /// </summary>
+    [CliOption("--etag", ShortForm = "-e")]
+    public string Etag { get; private init; }
+
+    /// <summary>
+    /// The path to the file containing the certificate.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

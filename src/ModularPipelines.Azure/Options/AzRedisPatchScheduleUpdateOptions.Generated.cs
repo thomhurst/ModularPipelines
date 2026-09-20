@@ -15,16 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the patching schedule for Redis cache.
 /// </summary>
-/// <param name="Name">Name of the Redis cache.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ScheduleEntries">List of Patch schedule entries. Example Value:[{"dayOfWeek":"Monday","startHourUtc":"00","maintenanceWi ndow":"PT5H"}].</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "patch-schedule", "update")]
-public record AzRedisPatchScheduleUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--schedule-entries", GroupValues = true)] IEnumerable<string> ScheduleEntries
-) : AzOptions
+public record AzRedisPatchScheduleUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update the patching schedule for Redis cache.
+    /// </summary>
+    /// <param name="Name">Name of the Redis cache.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ScheduleEntries">List of Patch schedule entries. Example Value:[{"dayOfWeek":"Monday","startHourUtc":"00","maintenanceWi ndow":"PT5H"}].</param>
+    public AzRedisPatchScheduleUpdateOptions(
+        string Name,
+        string ResourceGroup,
+        IEnumerable<string> ScheduleEntries
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ScheduleEntries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ScheduleEntries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ScheduleEntries));
+            }
+
+            ScheduleEntries = materialized;
+        }
+        this.ScheduleEntries = ScheduleEntries;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out IEnumerable<string> ScheduleEntries)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ScheduleEntries = this.ScheduleEntries;
+    }
+
+    /// <summary>
+    /// Name of the Redis cache.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// List of Patch schedule entries. Example Value:[{"dayOfWeek":"Monday","startHourUtc":"00","maintenanceWi ndow":"PT5H"}].
+    /// </summary>
+    [CliOption("--schedule-entries", GroupValues = true)]
+    public IEnumerable<string> ScheduleEntries { get; private init; }
+
 }

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the authentication of a storage account attached
 /// </summary>
-/// <param name="StorageAuth">The type of authentication for the storage account associated with the media services account.  Allowed values: ManagedIdentity, System.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "storage", "set-authentication")]
-public record AzAmsAccountStorageSetAuthenticationOptions(
-    [property: CliOption("--storage-auth")] string StorageAuth
-) : AzOptions
+public record AzAmsAccountStorageSetAuthenticationOptions : AzOptions
 {
+    /// <summary>
+    /// Set the authentication of a storage account attached
+    /// </summary>
+    /// <param name="StorageAuth">The type of authentication for the storage account associated with the media services account.  Allowed values: ManagedIdentity, System.</param>
+    public AzAmsAccountStorageSetAuthenticationOptions(
+        string StorageAuth
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StorageAuth);
+        this.StorageAuth = StorageAuth;
+    }
+
+    public void Deconstruct(out string StorageAuth)
+    {
+        StorageAuth = this.StorageAuth;
+    }
+
+    /// <summary>
+    /// The type of authentication for the storage account associated with the media services account.  Allowed values: ManagedIdentity, System.
+    /// </summary>
+    [CliOption("--storage-auth")]
+    public string StorageAuth { get; private init; }
+
     /// <summary>
     /// The storage account Id.
     /// </summary>

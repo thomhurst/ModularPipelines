@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the invoices for a subscription.
 /// </summary>
-/// <param name="PeriodEndDate">The end date to fetch the invoices. The date should be specified in YYYY-MM-DD format.</param>
-/// <param name="PeriodStartDate">The start date to fetch the invoices. The date should be specified in YYYY-MM-DD format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "invoice", "list")]
-public record AzBillingInvoiceListOptions(
-    [property: CliOption("--period-end-date")] string PeriodEndDate,
-    [property: CliOption("--period-start-date")] string PeriodStartDate
-) : AzOptions
+public record AzBillingInvoiceListOptions : AzOptions
 {
+    /// <summary>
+    /// List the invoices for a subscription.
+    /// </summary>
+    /// <param name="PeriodEndDate">The end date to fetch the invoices. The date should be specified in YYYY-MM-DD format.</param>
+    /// <param name="PeriodStartDate">The start date to fetch the invoices. The date should be specified in YYYY-MM-DD format.</param>
+    public AzBillingInvoiceListOptions(
+        string PeriodEndDate,
+        string PeriodStartDate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PeriodEndDate);
+        this.PeriodEndDate = PeriodEndDate;
+        global::System.ArgumentNullException.ThrowIfNull(PeriodStartDate);
+        this.PeriodStartDate = PeriodStartDate;
+    }
+
+    public void Deconstruct(out string PeriodEndDate, out string PeriodStartDate)
+    {
+        PeriodEndDate = this.PeriodEndDate;
+        PeriodStartDate = this.PeriodStartDate;
+    }
+
+    /// <summary>
+    /// The end date to fetch the invoices. The date should be specified in YYYY-MM-DD format.
+    /// </summary>
+    [CliOption("--period-end-date")]
+    public string PeriodEndDate { get; private init; }
+
+    /// <summary>
+    /// The start date to fetch the invoices. The date should be specified in YYYY-MM-DD format.
+    /// </summary>
+    [CliOption("--period-start-date")]
+    public string PeriodStartDate { get; private init; }
+
     /// <summary>
     /// The ID that uniquely identifies a billing account.
     /// </summary>

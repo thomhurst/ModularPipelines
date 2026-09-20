@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set a SQL pool's transparent data encryption configuration.
 /// </summary>
-/// <param name="Status">Status of the transparent data encryption. Allowed values: Disabled, Enabled.</param>
-/// <param name="TransparentDataEncryptionName">Name of the transparent data encryption.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "tde", "set")]
-public record AzSynapseSqlPoolTdeSetOptions(
-    [property: CliOption("--status")] string Status,
-    [property: CliOption("--transparent-data-encryption-name", ShortForm = "-d")] string TransparentDataEncryptionName
-) : AzOptions
+public record AzSynapseSqlPoolTdeSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set a SQL pool's transparent data encryption configuration.
+    /// </summary>
+    /// <param name="Status">Status of the transparent data encryption. Allowed values: Disabled, Enabled.</param>
+    /// <param name="TransparentDataEncryptionName">Name of the transparent data encryption.</param>
+    public AzSynapseSqlPoolTdeSetOptions(
+        string Status,
+        string TransparentDataEncryptionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+        global::System.ArgumentNullException.ThrowIfNull(TransparentDataEncryptionName);
+        this.TransparentDataEncryptionName = TransparentDataEncryptionName;
+    }
+
+    public void Deconstruct(out string Status, out string TransparentDataEncryptionName)
+    {
+        Status = this.Status;
+        TransparentDataEncryptionName = this.TransparentDataEncryptionName;
+    }
+
+    /// <summary>
+    /// Status of the transparent data encryption. Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--status")]
+    public string Status { get; private init; }
+
+    /// <summary>
+    /// Name of the transparent data encryption.
+    /// </summary>
+    [CliOption("--transparent-data-encryption-name", ShortForm = "-d")]
+    public string TransparentDataEncryptionName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

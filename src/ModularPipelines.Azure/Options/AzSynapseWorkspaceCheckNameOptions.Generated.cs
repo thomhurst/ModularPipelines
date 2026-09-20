@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check if a Synapse workspace name is available or not.
 /// </summary>
-/// <param name="Name">The name you wanted to check.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "check-name")]
-public record AzSynapseWorkspaceCheckNameOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSynapseWorkspaceCheckNameOptions : AzOptions
 {
+    /// <summary>
+    /// Check if a Synapse workspace name is available or not.
+    /// </summary>
+    /// <param name="Name">The name you wanted to check.</param>
+    public AzSynapseWorkspaceCheckNameOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name you wanted to check.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

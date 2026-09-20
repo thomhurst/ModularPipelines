@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a rewrite rule condition.
 /// </summary>
-/// <param name="GatewayName">Name of the application gateway.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="RuleName">Name of the rewrite rule.</param>
-/// <param name="RuleSetName">Name of the rewrite rule set.</param>
-/// <param name="Variable">Variable whose value is being evaluated. Values from: `az network application-gateway rewrite-rule condition list-server- variables` (prefix headers needed).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "rewrite-rule", "condition", "delete")]
-public record AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--rule-name")] string RuleName,
-    [property: CliOption("--rule-set-name")] string RuleSetName,
-    [property: CliOption("--variable")] string Variable
-) : AzOptions
+public record AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a rewrite rule condition.
+    /// </summary>
+    /// <param name="GatewayName">Name of the application gateway.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="RuleName">Name of the rewrite rule.</param>
+    /// <param name="RuleSetName">Name of the rewrite rule set.</param>
+    /// <param name="Variable">Variable whose value is being evaluated. Values from: `az network application-gateway rewrite-rule condition list-server- variables` (prefix headers needed).</param>
+    public AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions(
+        string GatewayName,
+        string ResourceGroup,
+        string RuleName,
+        string RuleSetName,
+        string Variable
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+        global::System.ArgumentNullException.ThrowIfNull(RuleSetName);
+        this.RuleSetName = RuleSetName;
+        global::System.ArgumentNullException.ThrowIfNull(Variable);
+        this.Variable = Variable;
+    }
+
+    public void Deconstruct(out string GatewayName, out string ResourceGroup, out string RuleName, out string RuleSetName, out string Variable)
+    {
+        GatewayName = this.GatewayName;
+        ResourceGroup = this.ResourceGroup;
+        RuleName = this.RuleName;
+        RuleSetName = this.RuleSetName;
+        Variable = this.Variable;
+    }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the rewrite rule.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
+    /// <summary>
+    /// Name of the rewrite rule set.
+    /// </summary>
+    [CliOption("--rule-set-name")]
+    public string RuleSetName { get; private init; }
+
+    /// <summary>
+    /// Variable whose value is being evaluated. Values from: `az network application-gateway rewrite-rule condition list-server- variables` (prefix headers needed).
+    /// </summary>
+    [CliOption("--variable")]
+    public string Variable { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,22 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a rule for a URL path map.
 /// </summary>
-/// <param name="GatewayName">Name of the application gateway.</param>
-/// <param name="Name">Name of the rule for a URL path map.</param>
-/// <param name="PathMapName">Name of the URL path map.</param>
-/// <param name="Paths">Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "url-path-map", "rule", "create")]
-public record AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--path-map-name")] string PathMapName,
-    [property: CliOption("--paths", GroupValues = true)] IEnumerable<string> Paths,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a rule for a URL path map.
+    /// </summary>
+    /// <param name="GatewayName">Name of the application gateway.</param>
+    /// <param name="Name">Name of the rule for a URL path map.</param>
+    /// <param name="PathMapName">Name of the URL path map.</param>
+    /// <param name="Paths">Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions(
+        string GatewayName,
+        string Name,
+        string PathMapName,
+        IEnumerable<string> Paths,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PathMapName);
+        this.PathMapName = PathMapName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Paths);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Paths));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Paths));
+            }
+
+            Paths = materialized;
+        }
+        this.Paths = Paths;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GatewayName, out string Name, out string PathMapName, out IEnumerable<string> Paths, out string ResourceGroup)
+    {
+        GatewayName = this.GatewayName;
+        Name = this.Name;
+        PathMapName = this.PathMapName;
+        Paths = this.Paths;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Name of the rule for a URL path map.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the URL path map.
+    /// </summary>
+    [CliOption("--path-map-name")]
+    public string PathMapName { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--paths", GroupValues = true)]
+    public IEnumerable<string> Paths { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Approve the specified private
 /// </summary>
-/// <param name="Description">Comments for approve operation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "private-endpoint-connection", "approve")]
-public record AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions(
-    [property: CliOption("--description")] string Description
-) : AzOptions
+public record AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions : AzOptions
 {
+    /// <summary>
+    /// Approve the specified private
+    /// </summary>
+    /// <param name="Description">Comments for approve operation.</param>
+    public AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions(
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    public void Deconstruct(out string Description)
+    {
+        Description = this.Description;
+    }
+
+    /// <summary>
+    /// Comments for approve operation.
+    /// </summary>
+    [CliOption("--description")]
+    public string Description { get; private init; }
+
     /// <summary>
     /// The identifier of the private endpoint connection associated with the Server. If specified --server-name/-s and --name/-n, this should be omitted.
     /// </summary>

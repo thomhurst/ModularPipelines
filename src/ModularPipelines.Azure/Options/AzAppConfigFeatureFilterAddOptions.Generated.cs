@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a filter to a feature flag.
 /// </summary>
-/// <param name="FilterName">Name of the filter to be added.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "feature", "filter", "add")]
-public record AzAppConfigFeatureFilterAddOptions(
-    [property: CliOption("--filter-name")] string FilterName
-) : AzOptions
+public record AzAppConfigFeatureFilterAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a filter to a feature flag.
+    /// </summary>
+    /// <param name="FilterName">Name of the filter to be added.</param>
+    public AzAppConfigFeatureFilterAddOptions(
+        string FilterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FilterName);
+        this.FilterName = FilterName;
+    }
+
+    public void Deconstruct(out string FilterName)
+    {
+        FilterName = this.FilterName;
+    }
+
+    /// <summary>
+    /// Name of the filter to be added.
+    /// </summary>
+    [CliOption("--filter-name")]
+    public string FilterName { get; private init; }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app- configuration/concept-enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>

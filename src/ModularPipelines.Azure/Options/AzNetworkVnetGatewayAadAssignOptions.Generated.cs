@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Assign/Update AAD(Azure Active Directory) authentication to
 /// </summary>
-/// <param name="GatewayName">Virtual network gateway name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Audience">The AADAudience ID of the VirtualNetworkGateway.</param>
-/// <param name="Issuer">The AADIssuer URI of the VirtualNetworkGateway.</param>
-/// <param name="Tenant">The AADTenant URI of the VirtualNetworkGateway.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "aad", "assign")]
-public record AzNetworkVnetGatewayAadAssignOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--audience")] string Audience,
-    [property: CliOption("--issuer")] string Issuer,
-    [property: CliOption("--tenant")] string Tenant
-) : AzOptions
+public record AzNetworkVnetGatewayAadAssignOptions : AzOptions
 {
+    /// <summary>
+    /// Assign/Update AAD(Azure Active Directory) authentication to
+    /// </summary>
+    /// <param name="GatewayName">Virtual network gateway name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Audience">The AADAudience ID of the VirtualNetworkGateway.</param>
+    /// <param name="Issuer">The AADIssuer URI of the VirtualNetworkGateway.</param>
+    /// <param name="Tenant">The AADTenant URI of the VirtualNetworkGateway.</param>
+    public AzNetworkVnetGatewayAadAssignOptions(
+        string GatewayName,
+        string ResourceGroup,
+        string Audience,
+        string Issuer,
+        string Tenant
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Audience);
+        this.Audience = Audience;
+        global::System.ArgumentNullException.ThrowIfNull(Issuer);
+        this.Issuer = Issuer;
+        global::System.ArgumentNullException.ThrowIfNull(Tenant);
+        this.Tenant = Tenant;
+    }
+
+    public void Deconstruct(out string GatewayName, out string ResourceGroup, out string Audience, out string Issuer, out string Tenant)
+    {
+        GatewayName = this.GatewayName;
+        ResourceGroup = this.ResourceGroup;
+        Audience = this.Audience;
+        Issuer = this.Issuer;
+        Tenant = this.Tenant;
+    }
+
+    /// <summary>
+    /// Virtual network gateway name.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The AADAudience ID of the VirtualNetworkGateway.
+    /// </summary>
+    [CliOption("--audience")]
+    public string Audience { get; private init; }
+
+    /// <summary>
+    /// The AADIssuer URI of the VirtualNetworkGateway.
+    /// </summary>
+    [CliOption("--issuer")]
+    public string Issuer { get; private init; }
+
+    /// <summary>
+    /// The AADTenant URI of the VirtualNetworkGateway.
+    /// </summary>
+    [CliOption("--tenant")]
+    public string Tenant { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the databases and its graphs that can be
 /// </summary>
-/// <param name="InstanceId">InstanceId of the Account.</param>
-/// <param name="Location">Azure Location of the account.</param>
-/// <param name="RestoreLocation">The region of the restore.</param>
-/// <param name="RestoreTimestamp">The timestamp of the restore.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "restorable-resource", "list")]
-public record AzCosmosdbGremlinRestorableResourceListOptions(
-    [property: CliOption("--instance-id", ShortForm = "-i")] string InstanceId,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--restore-location", ShortForm = "-r")] string RestoreLocation,
-    [property: CliOption("--restore-timestamp", ShortForm = "-t")] string RestoreTimestamp
-) : AzOptions
+public record AzCosmosdbGremlinRestorableResourceListOptions : AzOptions
 {
+    /// <summary>
+    /// List all the databases and its graphs that can be
+    /// </summary>
+    /// <param name="InstanceId">InstanceId of the Account.</param>
+    /// <param name="Location">Azure Location of the account.</param>
+    /// <param name="RestoreLocation">The region of the restore.</param>
+    /// <param name="RestoreTimestamp">The timestamp of the restore.</param>
+    public AzCosmosdbGremlinRestorableResourceListOptions(
+        string InstanceId,
+        string Location,
+        string RestoreLocation,
+        string RestoreTimestamp
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(RestoreLocation);
+        this.RestoreLocation = RestoreLocation;
+        global::System.ArgumentNullException.ThrowIfNull(RestoreTimestamp);
+        this.RestoreTimestamp = RestoreTimestamp;
+    }
+
+    public void Deconstruct(out string InstanceId, out string Location, out string RestoreLocation, out string RestoreTimestamp)
+    {
+        InstanceId = this.InstanceId;
+        Location = this.Location;
+        RestoreLocation = this.RestoreLocation;
+        RestoreTimestamp = this.RestoreTimestamp;
+    }
+
+    /// <summary>
+    /// InstanceId of the Account.
+    /// </summary>
+    [CliOption("--instance-id", ShortForm = "-i")]
+    public string InstanceId { get; private init; }
+
+    /// <summary>
+    /// Azure Location of the account.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The region of the restore.
+    /// </summary>
+    [CliOption("--restore-location", ShortForm = "-r")]
+    public string RestoreLocation { get; private init; }
+
+    /// <summary>
+    /// The timestamp of the restore.
+    /// </summary>
+    [CliOption("--restore-timestamp", ShortForm = "-t")]
+    public string RestoreTimestamp { get; private init; }
+
 }

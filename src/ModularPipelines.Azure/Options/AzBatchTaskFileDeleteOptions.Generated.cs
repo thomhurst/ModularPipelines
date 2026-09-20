@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes the specified Task file from the Compute Node where the Task
 /// </summary>
-/// <param name="FilePath">The path to the Task file that you want to get the content of. Required.</param>
-/// <param name="JobId">The ID of the Job that contains the Task. Required.</param>
-/// <param name="TaskId">The ID of the Task whose file you want to retrieve. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "file", "delete")]
-public record AzBatchTaskFileDeleteOptions(
-    [property: CliOption("--file-path")] string FilePath,
-    [property: CliOption("--job-id")] string JobId,
-    [property: CliOption("--task-id")] string TaskId
-) : AzOptions
+public record AzBatchTaskFileDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes the specified Task file from the Compute Node where the Task
+    /// </summary>
+    /// <param name="FilePath">The path to the Task file that you want to get the content of. Required.</param>
+    /// <param name="JobId">The ID of the Job that contains the Task. Required.</param>
+    /// <param name="TaskId">The ID of the Task whose file you want to retrieve. Required.</param>
+    public AzBatchTaskFileDeleteOptions(
+        string FilePath,
+        string JobId,
+        string TaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+    }
+
+    public void Deconstruct(out string FilePath, out string JobId, out string TaskId)
+    {
+        FilePath = this.FilePath;
+        JobId = this.JobId;
+        TaskId = this.TaskId;
+    }
+
+    /// <summary>
+    /// The path to the Task file that you want to get the content of. Required.
+    /// </summary>
+    [CliOption("--file-path")]
+    public string FilePath { get; private init; }
+
+    /// <summary>
+    /// The ID of the Job that contains the Task. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Task whose file you want to retrieve. Required.
+    /// </summary>
+    [CliOption("--task-id")]
+    public string TaskId { get; private init; }
+
     /// <summary>
     /// Whether to delete children of a directory. If the filePath parameter represents a directory instead of a file, you can set recursive to true to delete the directory and all of the files and subdirectories in it. If recursive is false then the directory must be empty or deletion will fail. Default value is None.  Allowed values: false, true.
     /// </summary>

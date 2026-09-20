@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List encryption scopes within storage account.
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "encryption-scope", "list")]
-public record AzStorageAccountEncryptionScopeListOptions(
-    [property: CliOption("--account-name")] string AccountName
-) : AzOptions
+public record AzStorageAccountEncryptionScopeListOptions : AzOptions
 {
+    /// <summary>
+    /// List encryption scopes within storage account.
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    public AzStorageAccountEncryptionScopeListOptions(
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    public void Deconstruct(out string AccountName)
+    {
+        AccountName = this.AccountName;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
     /// <summary>
     /// When specified, only encryption scope names starting with the filter will be listed.
     /// </summary>

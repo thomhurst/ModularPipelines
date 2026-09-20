@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the authentication settings for the custom
 /// </summary>
-/// <param name="ProviderName">The name of the custom OpenID Connect provider.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "auth", "openid-connect", "show")]
-public record AzContainerappAuthOpenidConnectShowOptions(
-    [property: CliOption("--provider-name")] string ProviderName
-) : AzOptions
+public record AzContainerappAuthOpenidConnectShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the authentication settings for the custom
+    /// </summary>
+    /// <param name="ProviderName">The name of the custom OpenID Connect provider.</param>
+    public AzContainerappAuthOpenidConnectShowOptions(
+        string ProviderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProviderName);
+        this.ProviderName = ProviderName;
+    }
+
+    public void Deconstruct(out string ProviderName)
+    {
+        ProviderName = this.ProviderName;
+    }
+
+    /// <summary>
+    /// The name of the custom OpenID Connect provider.
+    /// </summary>
+    [CliOption("--provider-name")]
+    public string ProviderName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

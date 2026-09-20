@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a private endpoint application security group.
 /// </summary>
-/// <param name="AsgId">ID of application security group in which the private endpoint IP configuration is included.</param>
-/// <param name="EndpointName">Name of the private endpoint.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "asg", "remove")]
-public record AzNetworkPrivateEndpointAsgRemoveOptions(
-    [property: CliOption("--asg-id")] string AsgId,
-    [property: CliOption("--endpoint-name")] string EndpointName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkPrivateEndpointAsgRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a private endpoint application security group.
+    /// </summary>
+    /// <param name="AsgId">ID of application security group in which the private endpoint IP configuration is included.</param>
+    /// <param name="EndpointName">Name of the private endpoint.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkPrivateEndpointAsgRemoveOptions(
+        string AsgId,
+        string EndpointName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AsgId);
+        this.AsgId = AsgId;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AsgId, out string EndpointName, out string ResourceGroup)
+    {
+        AsgId = this.AsgId;
+        EndpointName = this.EndpointName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// ID of application security group in which the private endpoint IP configuration is included.
+    /// </summary>
+    [CliOption("--asg-id")]
+    public string AsgId { get; private init; }
+
+    /// <summary>
+    /// Name of the private endpoint.
+    /// </summary>
+    [CliOption("--endpoint-name")]
+    public string EndpointName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

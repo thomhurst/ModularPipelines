@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset a VPN connection shared key.
 /// </summary>
-/// <param name="KeyLength">The virtual network connection reset shared key length, should between 1 and 128.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "shared-key", "reset")]
-public record AzNetworkVpnConnectionSharedKeyResetOptions(
-    [property: CliOption("--key-length")] string KeyLength
-) : AzOptions
+public record AzNetworkVpnConnectionSharedKeyResetOptions : AzOptions
 {
+    /// <summary>
+    /// Reset a VPN connection shared key.
+    /// </summary>
+    /// <param name="KeyLength">The virtual network connection reset shared key length, should between 1 and 128.</param>
+    public AzNetworkVpnConnectionSharedKeyResetOptions(
+        string KeyLength
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyLength);
+        this.KeyLength = KeyLength;
+    }
+
+    public void Deconstruct(out string KeyLength)
+    {
+        KeyLength = this.KeyLength;
+    }
+
+    /// <summary>
+    /// The virtual network connection reset shared key length, should between 1 and 128.
+    /// </summary>
+    [CliOption("--key-length")]
+    public string KeyLength { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

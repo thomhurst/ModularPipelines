@@ -15,22 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a data export rule for a given
 /// </summary>
-/// <param name="DataExportName">The data export rule name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
-/// <param name="Destination">The destination resource ID. It should be a storage account, an event hub namespace. If event hub namespace is provided without --event-hub-name, event hub would be created for each table automatically.</param>
-/// <param name="Tables">An array of tables to export.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "data-export", "create")]
-public record AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions(
-    [property: CliOption("--data-export-name", ShortForm = "-n")] string DataExportName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace-name")] string WorkspaceName,
-    [property: CliOption("--destination")] string Destination,
-    [property: CliOption("--tables", ShortForm = "-t")] IEnumerable<string> Tables
-) : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a data export rule for a given
+    /// </summary>
+    /// <param name="DataExportName">The data export rule name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    /// <param name="Destination">The destination resource ID. It should be a storage account, an event hub namespace. If event hub namespace is provided without --event-hub-name, event hub would be created for each table automatically.</param>
+    /// <param name="Tables">An array of tables to export.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions(
+        string DataExportName,
+        string ResourceGroup,
+        string WorkspaceName,
+        string Destination,
+        IEnumerable<string> Tables
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataExportName);
+        this.DataExportName = DataExportName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tables);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tables));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tables));
+            }
+
+            Tables = materialized;
+        }
+        this.Tables = Tables;
+    }
+
+    public void Deconstruct(out string DataExportName, out string ResourceGroup, out string WorkspaceName, out string Destination, out IEnumerable<string> Tables)
+    {
+        DataExportName = this.DataExportName;
+        ResourceGroup = this.ResourceGroup;
+        WorkspaceName = this.WorkspaceName;
+        Destination = this.Destination;
+        Tables = this.Tables;
+    }
+
+    /// <summary>
+    /// The data export rule name.
+    /// </summary>
+    [CliOption("--data-export-name", ShortForm = "-n")]
+    public string DataExportName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The destination resource ID. It should be a storage account, an event hub namespace. If event hub namespace is provided without --event-hub-name, event hub would be created for each table automatically.
+    /// </summary>
+    [CliOption("--destination")]
+    public string Destination { get; private init; }
+
+    /// <summary>
+    /// An array of tables to export.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tables", ShortForm = "-t")]
+    public IEnumerable<string> Tables { get; private init; }
+
     /// <summary>
     /// Optional. Allows to define an Event Hub name. Not applicable when destination is Storage Account.
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload certificate to a managed environment, add hostname to an app
 /// </summary>
-/// <param name="CertificateFile">The filepath of the .pfx or .pem file.</param>
-/// <param name="Environment">Name or resource id of the Container App environment.</param>
-/// <param name="Hostname">The custom domain name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ssl", "upload")]
-public record AzContainerappSslUploadOptions(
-    [property: CliOption("--certificate-file", ShortForm = "-f")] string CertificateFile,
-    [property: CliOption("--environment", ShortForm = "-e")] string Environment,
-    [property: CliOption("--hostname")] string Hostname
-) : AzOptions
+public record AzContainerappSslUploadOptions : AzOptions
 {
+    /// <summary>
+    /// Upload certificate to a managed environment, add hostname to an app
+    /// </summary>
+    /// <param name="CertificateFile">The filepath of the .pfx or .pem file.</param>
+    /// <param name="Environment">Name or resource id of the Container App environment.</param>
+    /// <param name="Hostname">The custom domain name.</param>
+    public AzContainerappSslUploadOptions(
+        string CertificateFile,
+        string Environment,
+        string Hostname
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateFile);
+        this.CertificateFile = CertificateFile;
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+    }
+
+    public void Deconstruct(out string CertificateFile, out string Environment, out string Hostname)
+    {
+        CertificateFile = this.CertificateFile;
+        Environment = this.Environment;
+        Hostname = this.Hostname;
+    }
+
+    /// <summary>
+    /// The filepath of the .pfx or .pem file.
+    /// </summary>
+    [CliOption("--certificate-file", ShortForm = "-f")]
+    public string CertificateFile { get; private init; }
+
+    /// <summary>
+    /// Name or resource id of the Container App environment.
+    /// </summary>
+    [CliOption("--environment", ShortForm = "-e")]
+    public string Environment { get; private init; }
+
+    /// <summary>
+    /// The custom domain name.
+    /// </summary>
+    [CliOption("--hostname")]
+    public string Hostname { get; private init; }
+
     /// <summary>
     /// Name of the certificate which should be unique within the Container Apps environment.
     /// </summary>

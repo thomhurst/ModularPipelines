@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete application federated identity credential.
 /// </summary>
-/// <param name="FederatedCredentialId">ID or name of the federated identity credential.</param>
-/// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "federated-credential", "delete")]
-public record AzAdAppFederatedCredentialDeleteOptions(
-    [property: CliOption("--federated-credential-id")] string FederatedCredentialId,
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdAppFederatedCredentialDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete application federated identity credential.
+    /// </summary>
+    /// <param name="FederatedCredentialId">ID or name of the federated identity credential.</param>
+    /// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
+    public AzAdAppFederatedCredentialDeleteOptions(
+        string FederatedCredentialId,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FederatedCredentialId);
+        this.FederatedCredentialId = FederatedCredentialId;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string FederatedCredentialId, out string Id)
+    {
+        FederatedCredentialId = this.FederatedCredentialId;
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// ID or name of the federated identity credential.
+    /// </summary>
+    [CliOption("--federated-credential-id")]
+    public string FederatedCredentialId { get; private init; }
+
+    /// <summary>
+    /// Application's appId, identifierUri, or id (formerly known as objectId).
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
 }

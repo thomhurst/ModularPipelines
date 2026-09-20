@@ -15,16 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a managed identity from a container registry.
 /// </summary>
-/// <param name="Identities">Space-separated identities. Use '[system]' to refer to the system assigned identity.</param>
-/// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "identity", "remove")]
-public record AzAcrIdentityRemoveOptions(
-    [property: CliOption("--identities", GroupValues = true)] IEnumerable<string> Identities,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAcrIdentityRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a managed identity from a container registry.
+    /// </summary>
+    /// <param name="Identities">Space-separated identities. Use '[system]' to refer to the system assigned identity.</param>
+    /// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrIdentityRemoveOptions(
+        IEnumerable<string> Identities,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Identities);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Identities));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Identities));
+            }
+
+            Identities = materialized;
+        }
+        this.Identities = Identities;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Identities, out string Name)
+    {
+        Identities = this.Identities;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Space-separated identities. Use '[system]' to refer to the system assigned identity.
+    /// </summary>
+    [CliOption("--identities", GroupValues = true)]
+    public IEnumerable<string> Identities { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

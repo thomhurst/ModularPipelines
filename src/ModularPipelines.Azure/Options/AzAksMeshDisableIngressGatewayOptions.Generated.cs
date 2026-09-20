@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disable an Azure Service Mesh ingress gateway.
 /// </summary>
-/// <param name="IngressGatewayType">Specify the type of ingress gateway.  Allowed values: External, Internal. Allowed values are "External" which is backed by a load balancer with an external IP address, "Internal" which is backed by a load balancer with an internal IP address.</param>
-/// <param name="Name">Name of the managed cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "mesh", "disable-ingress-gateway")]
-public record AzAksMeshDisableIngressGatewayOptions(
-    [property: CliOption("--ingress-gateway-type")] string IngressGatewayType,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksMeshDisableIngressGatewayOptions : AzOptions
 {
+    /// <summary>
+    /// Disable an Azure Service Mesh ingress gateway.
+    /// </summary>
+    /// <param name="IngressGatewayType">Specify the type of ingress gateway.  Allowed values: External, Internal. Allowed values are "External" which is backed by a load balancer with an external IP address, "Internal" which is backed by a load balancer with an internal IP address.</param>
+    /// <param name="Name">Name of the managed cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksMeshDisableIngressGatewayOptions(
+        string IngressGatewayType,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IngressGatewayType);
+        this.IngressGatewayType = IngressGatewayType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string IngressGatewayType, out string Name, out string ResourceGroup)
+    {
+        IngressGatewayType = this.IngressGatewayType;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Specify the type of ingress gateway.  Allowed values: External, Internal. Allowed values are "External" which is backed by a load balancer with an external IP address, "Internal" which is backed by a load balancer with an internal IP address.
+    /// </summary>
+    [CliOption("--ingress-gateway-type")]
+    public string IngressGatewayType { get; private init; }
+
+    /// <summary>
+    /// Name of the managed cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

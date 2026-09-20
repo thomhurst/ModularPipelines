@@ -15,26 +15,100 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery image definition.
 /// </summary>
-/// <param name="GalleryImageDefinition">Gallery image definition.</param>
-/// <param name="GalleryName">Gallery name.</param>
-/// <param name="Offer">Image offer.</param>
-/// <param name="OsType">The type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Allowed values: Linux, Windows.</param>
-/// <param name="Publisher">Image publisher.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Sku">Image sku.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-definition", "create")]
-public record AzSigImageDefinitionCreateOptions(
-    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
-    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
-    [property: CliOption("--offer", ShortForm = "-f")] string Offer,
-    [property: CliOption("--os-type")] string OsType,
-    [property: CliOption("--publisher", ShortForm = "-p")] string Publisher,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--sku", ShortForm = "-s")] string Sku
-) : AzOptions
+public record AzSigImageDefinitionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a gallery image definition.
+    /// </summary>
+    /// <param name="GalleryImageDefinition">Gallery image definition.</param>
+    /// <param name="GalleryName">Gallery name.</param>
+    /// <param name="Offer">Image offer.</param>
+    /// <param name="OsType">The type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Allowed values: Linux, Windows.</param>
+    /// <param name="Publisher">Image publisher.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Sku">Image sku.</param>
+    public AzSigImageDefinitionCreateOptions(
+        string GalleryImageDefinition,
+        string GalleryName,
+        string Offer,
+        string OsType,
+        string Publisher,
+        string ResourceGroup,
+        string Sku
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GalleryImageDefinition);
+        this.GalleryImageDefinition = GalleryImageDefinition;
+        global::System.ArgumentNullException.ThrowIfNull(GalleryName);
+        this.GalleryName = GalleryName;
+        global::System.ArgumentNullException.ThrowIfNull(Offer);
+        this.Offer = Offer;
+        global::System.ArgumentNullException.ThrowIfNull(OsType);
+        this.OsType = OsType;
+        global::System.ArgumentNullException.ThrowIfNull(Publisher);
+        this.Publisher = Publisher;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        this.Sku = Sku;
+    }
+
+    public void Deconstruct(out string GalleryImageDefinition, out string GalleryName, out string Offer, out string OsType, out string Publisher, out string ResourceGroup, out string Sku)
+    {
+        GalleryImageDefinition = this.GalleryImageDefinition;
+        GalleryName = this.GalleryName;
+        Offer = this.Offer;
+        OsType = this.OsType;
+        Publisher = this.Publisher;
+        ResourceGroup = this.ResourceGroup;
+        Sku = this.Sku;
+    }
+
+    /// <summary>
+    /// Gallery image definition.
+    /// </summary>
+    [CliOption("--gallery-image-definition", ShortForm = "-i")]
+    public string GalleryImageDefinition { get; private init; }
+
+    /// <summary>
+    /// Gallery name.
+    /// </summary>
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string GalleryName { get; private init; }
+
+    /// <summary>
+    /// Image offer.
+    /// </summary>
+    [CliOption("--offer", ShortForm = "-f")]
+    public string Offer { get; private init; }
+
+    /// <summary>
+    /// The type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Allowed values: Linux, Windows.
+    /// </summary>
+    [CliOption("--os-type")]
+    public string OsType { get; private init; }
+
+    /// <summary>
+    /// Image publisher.
+    /// </summary>
+    [CliOption("--publisher", ShortForm = "-p")]
+    public string Publisher { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Image sku.
+    /// </summary>
+    [CliOption("--sku", ShortForm = "-s")]
+    public string Sku { get; private init; }
+
     /// <summary>
     /// CPU architecture.  Allowed values: Arm64, x64.
     /// </summary>

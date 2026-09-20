@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates the Azure defender plan for the subscription.
 /// </summary>
-/// <param name="Name">Name of the resource to be fetched.</param>
-/// <param name="Tier">Pricing tier type.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "pricing", "create")]
-public record AzSecurityPricingCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--tier")] string Tier
-) : AzOptions
+public record AzSecurityPricingCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates the Azure defender plan for the subscription.
+    /// </summary>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    /// <param name="Tier">Pricing tier type.</param>
+    public AzSecurityPricingCreateOptions(
+        string Name,
+        string Tier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Tier);
+        this.Tier = Tier;
+    }
+
+    public void Deconstruct(out string Name, out string Tier)
+    {
+        Name = this.Name;
+        Tier = this.Tier;
+    }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Pricing tier type.
+    /// </summary>
+    [CliOption("--tier")]
+    public string Tier { get; private init; }
+
     /// <summary>
     /// Pricing extensions.
     /// </summary>

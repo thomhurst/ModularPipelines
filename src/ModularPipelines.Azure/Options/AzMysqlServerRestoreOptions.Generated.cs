@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a server from backup.
 /// </summary>
-/// <param name="PitrTime">The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+08:00.</param>
-/// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "restore")]
-public record AzMysqlServerRestoreOptions(
-    [property: CliOption("--pitr-time", ShortForm = "--restore-point-in-time")] string PitrTime,
-    [property: CliOption("--source-server", ShortForm = "-s")] string SourceServer
-) : AzOptions
+public record AzMysqlServerRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restore a server from backup.
+    /// </summary>
+    /// <param name="PitrTime">The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+08:00.</param>
+    /// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
+    public AzMysqlServerRestoreOptions(
+        string PitrTime,
+        string SourceServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PitrTime);
+        this.PitrTime = PitrTime;
+        global::System.ArgumentNullException.ThrowIfNull(SourceServer);
+        this.SourceServer = SourceServer;
+    }
+
+    public void Deconstruct(out string PitrTime, out string SourceServer)
+    {
+        PitrTime = this.PitrTime;
+        SourceServer = this.SourceServer;
+    }
+
+    /// <summary>
+    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+08:00.
+    /// </summary>
+    [CliOption("--pitr-time", ShortForm = "--restore-point-in-time")]
+    public string PitrTime { get; private init; }
+
+    /// <summary>
+    /// The name or resource ID of the source server to restore from.
+    /// </summary>
+    [CliOption("--source-server", ShortForm = "-s")]
+    public string SourceServer { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

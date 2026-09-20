@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List replicas of an App Configuration store.
 /// </summary>
-/// <param name="StoreName">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "replica", "list")]
-public record AzAppConfigReplicaListOptions(
-    [property: CliOption("--store-name", ShortForm = "-s")] string StoreName
-) : AzOptions
+public record AzAppConfigReplicaListOptions : AzOptions
 {
+    /// <summary>
+    /// List replicas of an App Configuration store.
+    /// </summary>
+    /// <param name="StoreName">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
+    public AzAppConfigReplicaListOptions(
+        string StoreName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StoreName);
+        this.StoreName = StoreName;
+    }
+
+    public void Deconstruct(out string StoreName)
+    {
+        StoreName = this.StoreName;
+    }
+
+    /// <summary>
+    /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--store-name", ShortForm = "-s")]
+    public string StoreName { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

@@ -15,20 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a metric-based alert rule.
 /// </summary>
-/// <param name="Condition">The condition which triggers the rule. It can be created by 'az monitor metrics alert condition create' command. Usage:  --condition {avg,min,max,total,count} [NAMESPACE.]METRIC [{=,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD] [{&gt;,&gt;&lt;,&lt;} dynamic SENSITIVITY VIOLATIONS of EVALUATIONS [since DATETIME]] [where DIMENSION {includes,excludes} VALUE [or VALUE ...] [and   DIMENSION {includes,excludes} VALUE [or VALUE ...] ...]] [with skipmetricvalidation]</param>
-/// <param name="Name">Name of the alert rule.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Scopes">Space-separated list of scopes the rule applies to. The resources specified in this parameter must be of the same type and exist in the same location.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "alert", "create")]
-public record AzMonitorMetricsAlertCreateOptions(
-    [property: CliOption("--condition")] string Condition,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--scopes", GroupValues = true)] IEnumerable<string> Scopes
-) : AzOptions
+public record AzMonitorMetricsAlertCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a metric-based alert rule.
+    /// </summary>
+    /// <param name="Condition">The condition which triggers the rule. It can be created by 'az monitor metrics alert condition create' command. Usage:  --condition {avg,min,max,total,count} [NAMESPACE.]METRIC [{=,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD] [{&gt;,&gt;&lt;,&lt;} dynamic SENSITIVITY VIOLATIONS of EVALUATIONS [since DATETIME]] [where DIMENSION {includes,excludes} VALUE [or VALUE ...] [and   DIMENSION {includes,excludes} VALUE [or VALUE ...] ...]] [with skipmetricvalidation]</param>
+    /// <param name="Name">Name of the alert rule.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Scopes">Space-separated list of scopes the rule applies to. The resources specified in this parameter must be of the same type and exist in the same location.</param>
+    public AzMonitorMetricsAlertCreateOptions(
+        string Condition,
+        string Name,
+        string ResourceGroup,
+        IEnumerable<string> Scopes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Condition);
+        this.Condition = Condition;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Scopes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Scopes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Scopes));
+            }
+
+            Scopes = materialized;
+        }
+        this.Scopes = Scopes;
+    }
+
+    public void Deconstruct(out string Condition, out string Name, out string ResourceGroup, out IEnumerable<string> Scopes)
+    {
+        Condition = this.Condition;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Scopes = this.Scopes;
+    }
+
+    /// <summary>
+    /// The condition which triggers the rule. It can be created by 'az monitor metrics alert condition create' command. Usage:  --condition {avg,min,max,total,count} [NAMESPACE.]METRIC [{=,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD] [{&gt;,&gt;&lt;,&lt;} dynamic SENSITIVITY VIOLATIONS of EVALUATIONS [since DATETIME]] [where DIMENSION {includes,excludes} VALUE [or VALUE ...] [and   DIMENSION {includes,excludes} VALUE [or VALUE ...] ...]] [with skipmetricvalidation]
+    /// </summary>
+    [CliOption("--condition")]
+    public string Condition { get; private init; }
+
+    /// <summary>
+    /// Name of the alert rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of scopes the rule applies to. The resources specified in this parameter must be of the same type and exist in the same location.
+    /// </summary>
+    [CliOption("--scopes", GroupValues = true)]
+    public IEnumerable<string> Scopes { get; private init; }
+
     /// <summary>
     /// Add an action group and optional webhook properties to fire when the alert is triggered. Usage:   --action ACTION_GROUP_NAME_OR_ID [KEY=VAL [KEY=VAL ...]]
     /// </summary>

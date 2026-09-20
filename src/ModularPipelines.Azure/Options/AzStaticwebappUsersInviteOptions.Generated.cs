@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create invitation link for specified user to the static app.
 /// </summary>
-/// <param name="AuthenticationProvider">Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.</param>
-/// <param name="Domain">A domain added to the static app in quotes.</param>
-/// <param name="InvitationExpirationInHours">This value sets when the link will expire in hours. The maximum is 168 (7 days).</param>
-/// <param name="Name">Name of the static site.</param>
-/// <param name="Roles">Comma-separated default or user-defined role names. Roles that can be assigned to a user are comma separated and case-insensitive (at most 50 roles up to 25 characters each and restricted to 0-9,A-Z,a-z, and _). Define roles in routes.json during root directory of your GitHub repo.</param>
-/// <param name="UserDetails">Email for AAD, Facebook, and Google. Account name (handle) for GitHub and Twitter.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "users", "invite")]
-public record AzStaticwebappUsersInviteOptions(
-    [property: CliOption("--authentication-provider")] string AuthenticationProvider,
-    [property: CliOption("--domain")] string Domain,
-    [property: CliOption("--invitation-expiration-in-hours")] string InvitationExpirationInHours,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--roles")] string Roles,
-    [property: CliOption("--user-details")] string UserDetails
-) : AzOptions
+public record AzStaticwebappUsersInviteOptions : AzOptions
 {
+    /// <summary>
+    /// Create invitation link for specified user to the static app.
+    /// </summary>
+    /// <param name="AuthenticationProvider">Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.</param>
+    /// <param name="Domain">A domain added to the static app in quotes.</param>
+    /// <param name="InvitationExpirationInHours">This value sets when the link will expire in hours. The maximum is 168 (7 days).</param>
+    /// <param name="Name">Name of the static site.</param>
+    /// <param name="Roles">Comma-separated default or user-defined role names. Roles that can be assigned to a user are comma separated and case-insensitive (at most 50 roles up to 25 characters each and restricted to 0-9,A-Z,a-z, and _). Define roles in routes.json during root directory of your GitHub repo.</param>
+    /// <param name="UserDetails">Email for AAD, Facebook, and Google. Account name (handle) for GitHub and Twitter.</param>
+    public AzStaticwebappUsersInviteOptions(
+        string AuthenticationProvider,
+        string Domain,
+        string InvitationExpirationInHours,
+        string Name,
+        string Roles,
+        string UserDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationProvider);
+        this.AuthenticationProvider = AuthenticationProvider;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(InvitationExpirationInHours);
+        this.InvitationExpirationInHours = InvitationExpirationInHours;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Roles);
+        this.Roles = Roles;
+        global::System.ArgumentNullException.ThrowIfNull(UserDetails);
+        this.UserDetails = UserDetails;
+    }
+
+    public void Deconstruct(out string AuthenticationProvider, out string Domain, out string InvitationExpirationInHours, out string Name, out string Roles, out string UserDetails)
+    {
+        AuthenticationProvider = this.AuthenticationProvider;
+        Domain = this.Domain;
+        InvitationExpirationInHours = this.InvitationExpirationInHours;
+        Name = this.Name;
+        Roles = this.Roles;
+        UserDetails = this.UserDetails;
+    }
+
+    /// <summary>
+    /// Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.
+    /// </summary>
+    [CliOption("--authentication-provider")]
+    public string AuthenticationProvider { get; private init; }
+
+    /// <summary>
+    /// A domain added to the static app in quotes.
+    /// </summary>
+    [CliOption("--domain")]
+    public string Domain { get; private init; }
+
+    /// <summary>
+    /// This value sets when the link will expire in hours. The maximum is 168 (7 days).
+    /// </summary>
+    [CliOption("--invitation-expiration-in-hours")]
+    public string InvitationExpirationInHours { get; private init; }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Comma-separated default or user-defined role names. Roles that can be assigned to a user are comma separated and case-insensitive (at most 50 roles up to 25 characters each and restricted to 0-9,A-Z,a-z, and _). Define roles in routes.json during root directory of your GitHub repo.
+    /// </summary>
+    [CliOption("--roles")]
+    public string Roles { get; private init; }
+
+    /// <summary>
+    /// Email for AAD, Facebook, and Google. Account name (handle) for GitHub and Twitter.
+    /// </summary>
+    [CliOption("--user-details")]
+    public string UserDetails { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

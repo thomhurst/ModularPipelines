@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieves latest restorable timestamp for the
 /// </summary>
-/// <param name="AccountName">Name of the CosmosDB database account.</param>
-/// <param name="DatabaseName">Name of the CosmosDB Gremlin database name.</param>
-/// <param name="GraphName">Name of the CosmosDB Gremlin graph name.</param>
-/// <param name="Location">Location of the account.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "retrieve-latest-backup-time")]
-public record AzCosmosdbGremlinRetrieveLatestBackupTimeOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
-    [property: CliOption("--graph-name", ShortForm = "-n")] string GraphName,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbGremlinRetrieveLatestBackupTimeOptions : AzOptions
 {
+    /// <summary>
+    /// Retrieves latest restorable timestamp for the
+    /// </summary>
+    /// <param name="AccountName">Name of the CosmosDB database account.</param>
+    /// <param name="DatabaseName">Name of the CosmosDB Gremlin database name.</param>
+    /// <param name="GraphName">Name of the CosmosDB Gremlin graph name.</param>
+    /// <param name="Location">Location of the account.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbGremlinRetrieveLatestBackupTimeOptions(
+        string AccountName,
+        string DatabaseName,
+        string GraphName,
+        string Location,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(GraphName);
+        this.GraphName = GraphName;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string DatabaseName, out string GraphName, out string Location, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        DatabaseName = this.DatabaseName;
+        GraphName = this.GraphName;
+        Location = this.Location;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the CosmosDB database account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Name of the CosmosDB Gremlin database name.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string DatabaseName { get; private init; }
+
+    /// <summary>
+    /// Name of the CosmosDB Gremlin graph name.
+    /// </summary>
+    [CliOption("--graph-name", ShortForm = "-n")]
+    public string GraphName { get; private init; }
+
+    /// <summary>
+    /// Location of the account.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

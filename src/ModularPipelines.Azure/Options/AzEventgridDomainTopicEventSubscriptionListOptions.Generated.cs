@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List event subscriptions of a specific
 /// </summary>
-/// <param name="DomainName">Name of the domain.</param>
-/// <param name="DomainTopicName">Name of the domain topic.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "domain", "topic", "event-subscription", "list")]
-public record AzEventgridDomainTopicEventSubscriptionListOptions(
-    [property: CliOption("--domain-name")] string DomainName,
-    [property: CliOption("--domain-topic-name")] string DomainTopicName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridDomainTopicEventSubscriptionListOptions : AzOptions
 {
+    /// <summary>
+    /// List event subscriptions of a specific
+    /// </summary>
+    /// <param name="DomainName">Name of the domain.</param>
+    /// <param name="DomainTopicName">Name of the domain topic.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridDomainTopicEventSubscriptionListOptions(
+        string DomainName,
+        string DomainTopicName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(DomainTopicName);
+        this.DomainTopicName = DomainTopicName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DomainName, out string DomainTopicName, out string ResourceGroup)
+    {
+        DomainName = this.DomainName;
+        DomainTopicName = this.DomainTopicName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the domain.
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string DomainName { get; private init; }
+
+    /// <summary>
+    /// Name of the domain topic.
+    /// </summary>
+    [CliOption("--domain-topic-name")]
+    public string DomainTopicName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The OData query used for filtering the list results. Filtering is currently allowed on the Name property only. The supported operations include: CONTAINS, eq (for equal), ne (for not equal), AND, OR and NOT.
     /// </summary>

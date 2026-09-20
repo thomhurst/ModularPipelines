@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show details of a linked IoT hub in an Azure IoT Hub Device
 /// </summary>
-/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
-/// <param name="LinkedHub">Host name of linked IoT Hub.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "show")]
-public record AzIotDpsLinkedHubShowOptions(
-    [property: CliOption("--dps-name")] string DpsName,
-    [property: CliOption("--linked-hub")] string LinkedHub
-) : AzOptions
+public record AzIotDpsLinkedHubShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show details of a linked IoT hub in an Azure IoT Hub Device
+    /// </summary>
+    /// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+    /// <param name="LinkedHub">Host name of linked IoT Hub.</param>
+    public AzIotDpsLinkedHubShowOptions(
+        string DpsName,
+        string LinkedHub
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DpsName);
+        this.DpsName = DpsName;
+        global::System.ArgumentNullException.ThrowIfNull(LinkedHub);
+        this.LinkedHub = LinkedHub;
+    }
+
+    public void Deconstruct(out string DpsName, out string LinkedHub)
+    {
+        DpsName = this.DpsName;
+        LinkedHub = this.LinkedHub;
+    }
+
+    /// <summary>
+    /// IoT Hub Device Provisioning Service name.
+    /// </summary>
+    [CliOption("--dps-name")]
+    public string DpsName { get; private init; }
+
+    /// <summary>
+    /// Host name of linked IoT Hub.
+    /// </summary>
+    [CliOption("--linked-hub")]
+    public string LinkedHub { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

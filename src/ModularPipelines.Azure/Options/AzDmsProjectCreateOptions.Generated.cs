@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a migration project which can contain multiple tasks.
 /// </summary>
-/// <param name="Name">The name of the Project.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the Service.</param>
-/// <param name="SourcePlatform">The type of server for the source database. The supported types are: SQL, PostgreSQL, MySQL.</param>
-/// <param name="TargetPlatform">The type of service for the target database. The supported types are: SQLDB, AzureDbForPostgreSQL, AzureDbForMySQL.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "create")]
-public record AzDmsProjectCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name")] string ServiceName,
-    [property: CliOption("--source-platform")] string SourcePlatform,
-    [property: CliOption("--target-platform")] string TargetPlatform
-) : AzOptions
+public record AzDmsProjectCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a migration project which can contain multiple tasks.
+    /// </summary>
+    /// <param name="Name">The name of the Project.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the Service.</param>
+    /// <param name="SourcePlatform">The type of server for the source database. The supported types are: SQL, PostgreSQL, MySQL.</param>
+    /// <param name="TargetPlatform">The type of service for the target database. The supported types are: SQLDB, AzureDbForPostgreSQL, AzureDbForMySQL.</param>
+    public AzDmsProjectCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string ServiceName,
+        string SourcePlatform,
+        string TargetPlatform
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(SourcePlatform);
+        this.SourcePlatform = SourcePlatform;
+        global::System.ArgumentNullException.ThrowIfNull(TargetPlatform);
+        this.TargetPlatform = TargetPlatform;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string ServiceName, out string SourcePlatform, out string TargetPlatform)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        SourcePlatform = this.SourcePlatform;
+        TargetPlatform = this.TargetPlatform;
+    }
+
+    /// <summary>
+    /// The name of the Project.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Service.
+    /// </summary>
+    [CliOption("--service-name")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// The type of server for the source database. The supported types are: SQL, PostgreSQL, MySQL.
+    /// </summary>
+    [CliOption("--source-platform")]
+    public string SourcePlatform { get; private init; }
+
+    /// <summary>
+    /// The type of service for the target database. The supported types are: SQLDB, AzureDbForPostgreSQL, AzureDbForMySQL.
+    /// </summary>
+    [CliOption("--target-platform")]
+    public string TargetPlatform { get; private init; }
+
     /// <summary>
     /// A space-delimited list of tags in "tag1[=value1]" format.
     /// </summary>

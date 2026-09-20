@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add or update alerts in the issue.
 /// </summary>
-/// <param name="Value">A list of related alerts  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "issue", "add-or-update-alert")]
-public record AzMonitorAccountIssueAddOrUpdateAlertOptions(
-    [property: CliOption("--value", GroupValues = true)] IEnumerable<string> Value
-) : AzOptions
+public record AzMonitorAccountIssueAddOrUpdateAlertOptions : AzOptions
 {
+    /// <summary>
+    /// Add or update alerts in the issue.
+    /// </summary>
+    /// <param name="Value">A list of related alerts  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.</param>
+    public AzMonitorAccountIssueAddOrUpdateAlertOptions(
+        IEnumerable<string> Value
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Value);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Value));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Value));
+            }
+
+            Value = materialized;
+        }
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Value)
+    {
+        Value = this.Value;
+    }
+
+    /// <summary>
+    /// A list of related alerts  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--value", GroupValues = true)]
+    public IEnumerable<string> Value { get; private init; }
+
     /// <summary>
     /// The name of the Azure Monitor Workspace. The name is case insensitive.
     /// </summary>

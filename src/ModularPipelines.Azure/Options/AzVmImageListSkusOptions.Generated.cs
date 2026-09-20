@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the VM image SKUs available in the Azure Marketplace.
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="Offer">Image offer.</param>
-/// <param name="Publisher">Image publisher.  Values from: az vm image list-publishers.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "image", "list-skus")]
-public record AzVmImageListSkusOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--offer", ShortForm = "-f")] string Offer,
-    [property: CliOption("--publisher", ShortForm = "-p")] string Publisher
-) : AzOptions
+public record AzVmImageListSkusOptions : AzOptions
 {
+    /// <summary>
+    /// List the VM image SKUs available in the Azure Marketplace.
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Offer">Image offer.</param>
+    /// <param name="Publisher">Image publisher.  Values from: az vm image list-publishers.</param>
+    public AzVmImageListSkusOptions(
+        string Location,
+        string Offer,
+        string Publisher
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Offer);
+        this.Offer = Offer;
+        global::System.ArgumentNullException.ThrowIfNull(Publisher);
+        this.Publisher = Publisher;
+    }
+
+    public void Deconstruct(out string Location, out string Offer, out string Publisher)
+    {
+        Location = this.Location;
+        Offer = this.Offer;
+        Publisher = this.Publisher;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Image offer.
+    /// </summary>
+    [CliOption("--offer", ShortForm = "-f")]
+    public string Offer { get; private init; }
+
+    /// <summary>
+    /// Image publisher.  Values from: az vm image list-publishers.
+    /// </summary>
+    [CliOption("--publisher", ShortForm = "-p")]
+    public string Publisher { get; private init; }
+
     /// <summary>
     /// The name of edge zone.
     /// </summary>

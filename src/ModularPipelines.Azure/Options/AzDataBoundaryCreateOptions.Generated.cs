@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create tenant to data boundary.
 /// </summary>
-/// <param name="Default">Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-boundary", "create")]
-public record AzDataBoundaryCreateOptions(
-    [property: CliOption("--default")] string Default
-) : AzOptions
+public record AzDataBoundaryCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create tenant to data boundary.
+    /// </summary>
+    /// <param name="Default">Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.</param>
+    public AzDataBoundaryCreateOptions(
+        string Default
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Default);
+        this.Default = Default;
+    }
+
+    public void Deconstruct(out string Default)
+    {
+        Default = this.Default;
+    }
+
+    /// <summary>
+    /// Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.
+    /// </summary>
+    [CliOption("--default")]
+    public string Default { get; private init; }
+
     /// <summary>
     /// The data boundary definition.  Allowed values: EU, Global, NotDefined.
     /// </summary>

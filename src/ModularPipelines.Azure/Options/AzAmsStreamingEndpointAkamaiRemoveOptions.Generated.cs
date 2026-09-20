@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an AkamaiAccessControl from an existing
 /// </summary>
-/// <param name="Identifier">The identifier for the authentication key. This is the nonce provided by Akamai.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-endpoint", "akamai", "remove")]
-public record AzAmsStreamingEndpointAkamaiRemoveOptions(
-    [property: CliOption("--identifier")] string Identifier
-) : AzOptions
+public record AzAmsStreamingEndpointAkamaiRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an AkamaiAccessControl from an existing
+    /// </summary>
+    /// <param name="Identifier">The identifier for the authentication key. This is the nonce provided by Akamai.</param>
+    public AzAmsStreamingEndpointAkamaiRemoveOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    public void Deconstruct(out string Identifier)
+    {
+        Identifier = this.Identifier;
+    }
+
+    /// <summary>
+    /// The identifier for the authentication key. This is the nonce provided by Akamai.
+    /// </summary>
+    [CliOption("--identifier")]
+    public string Identifier { get; private init; }
+
     /// <summary>
     /// The name of the Azure Media Services account.
     /// </summary>

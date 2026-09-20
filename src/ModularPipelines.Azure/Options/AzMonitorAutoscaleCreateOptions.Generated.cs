@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create new autoscale settings.
 /// </summary>
-/// <param name="Count">The numer of instances to use. If used with --min/max-count, the default number of instances to use.</param>
-/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "create")]
-public record AzMonitorAutoscaleCreateOptions(
-    [property: CliOption("--count")] string Count,
-    [property: CliOption("--resource")] string Resource
-) : AzOptions
+public record AzMonitorAutoscaleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create new autoscale settings.
+    /// </summary>
+    /// <param name="Count">The numer of instances to use. If used with --min/max-count, the default number of instances to use.</param>
+    /// <param name="Resource">Name or ID of the target resource.</param>
+    public AzMonitorAutoscaleCreateOptions(
+        string Count,
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Count);
+        this.Count = Count;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Count, out string Resource)
+    {
+        Count = this.Count;
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// The numer of instances to use. If used with --min/max-count, the default number of instances to use.
+    /// </summary>
+    [CliOption("--count")]
+    public string Count { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the target resource.
+    /// </summary>
+    [CliOption("--resource")]
+    public string Resource { get; private init; }
+
     /// <summary>
     /// Create the autoscale settings in a disabled state.  Allowed values: false, true.
     /// </summary>

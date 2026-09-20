@@ -15,16 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add to or change the app settings of the static app.
 /// </summary>
-/// <param name="Name">Name of the static site.</param>
-/// <param name="SettingNames">Space-separated app settings in 'key=value' format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "appsettings", "set")]
-public record AzStaticwebappAppSettingsSetOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--setting-names", GroupValues = true)] IEnumerable<string> SettingNames
-) : AzOptions
+public record AzStaticwebappAppSettingsSetOptions : AzOptions
 {
+    /// <summary>
+    /// Add to or change the app settings of the static app.
+    /// </summary>
+    /// <param name="Name">Name of the static site.</param>
+    /// <param name="SettingNames">Space-separated app settings in 'key=value' format.</param>
+    public AzStaticwebappAppSettingsSetOptions(
+        string Name,
+        IEnumerable<string> SettingNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SettingNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SettingNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SettingNames));
+            }
+
+            SettingNames = materialized;
+        }
+        this.SettingNames = SettingNames;
+    }
+
+    public void Deconstruct(out string Name, out IEnumerable<string> SettingNames)
+    {
+        Name = this.Name;
+        SettingNames = this.SettingNames;
+    }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Space-separated app settings in 'key=value' format.
+    /// </summary>
+    [CliOption("--setting-names", GroupValues = true)]
+    public IEnumerable<string> SettingNames { get; private init; }
+
     /// <summary>
     /// Name of the environment of static site.
     /// </summary>

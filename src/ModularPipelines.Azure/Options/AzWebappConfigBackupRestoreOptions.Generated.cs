@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a web app from a backup.
 /// </summary>
-/// <param name="BackupName">Name of the backup to restore.</param>
-/// <param name="ContainerUrl">URL with SAS token to the blob storage container.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WebappName">The name of the web app.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "restore")]
-public record AzWebappConfigBackupRestoreOptions(
-    [property: CliOption("--backup-name")] string BackupName,
-    [property: CliOption("--container-url")] string ContainerUrl,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--webapp-name", ShortForm = "-n")] string WebappName
-) : AzOptions
+public record AzWebappConfigBackupRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restore a web app from a backup.
+    /// </summary>
+    /// <param name="BackupName">Name of the backup to restore.</param>
+    /// <param name="ContainerUrl">URL with SAS token to the blob storage container.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WebappName">The name of the web app.</param>
+    public AzWebappConfigBackupRestoreOptions(
+        string BackupName,
+        string ContainerUrl,
+        string ResourceGroup,
+        string WebappName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupName);
+        this.BackupName = BackupName;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerUrl);
+        this.ContainerUrl = ContainerUrl;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WebappName);
+        this.WebappName = WebappName;
+    }
+
+    public void Deconstruct(out string BackupName, out string ContainerUrl, out string ResourceGroup, out string WebappName)
+    {
+        BackupName = this.BackupName;
+        ContainerUrl = this.ContainerUrl;
+        ResourceGroup = this.ResourceGroup;
+        WebappName = this.WebappName;
+    }
+
+    /// <summary>
+    /// Name of the backup to restore.
+    /// </summary>
+    [CliOption("--backup-name")]
+    public string BackupName { get; private init; }
+
+    /// <summary>
+    /// URL with SAS token to the blob storage container.
+    /// </summary>
+    [CliOption("--container-url")]
+    public string ContainerUrl { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the web app.
+    /// </summary>
+    [CliOption("--webapp-name", ShortForm = "-n")]
+    public string WebappName { get; private init; }
+
     /// <summary>
     /// Ignores custom hostnames stored in the backup.
     /// </summary>

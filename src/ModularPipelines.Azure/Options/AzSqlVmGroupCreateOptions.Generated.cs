@@ -15,28 +15,111 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a SQL virtual machine group.
 /// </summary>
-/// <param name="Name">Name of the SQL virtual machine group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ImageOffer">SQL image offer. Examples may include SQL2016-WS2016, SQL2017-WS2016.</param>
-/// <param name="ImageSku">SQL image sku.  Allowed values: Developer, Enterprise.</param>
-/// <param name="DomainFqdn">Fully qualified name of the domain.</param>
-/// <param name="OperatorAcc">Account name used for operating cluster i.e. will be part of administrators group on all the participating virtual machines in the cluster.</param>
-/// <param name="ServiceAcc">Account name under which SQL service will run on all participating SQL virtual machines in the cluster.</param>
-/// <param name="StorageAccount">Storage account url of the witness storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "group", "create")]
-public record AzSqlVmGroupCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--image-offer", ShortForm = "-i")] string ImageOffer,
-    [property: CliOption("--image-sku", ShortForm = "-s")] string ImageSku,
-    [property: CliOption("--domain-fqdn", ShortForm = "-f")] string DomainFqdn,
-    [property: CliOption("--operator-acc", ShortForm = "-p")] string OperatorAcc,
-    [property: CliOption("--service-acc", ShortForm = "-e")] string ServiceAcc,
-    [property: CliOption("--storage-account", ShortForm = "-u")] string StorageAccount
-) : AzOptions
+public record AzSqlVmGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a SQL virtual machine group.
+    /// </summary>
+    /// <param name="Name">Name of the SQL virtual machine group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ImageOffer">SQL image offer. Examples may include SQL2016-WS2016, SQL2017-WS2016.</param>
+    /// <param name="ImageSku">SQL image sku.  Allowed values: Developer, Enterprise.</param>
+    /// <param name="DomainFqdn">Fully qualified name of the domain.</param>
+    /// <param name="OperatorAcc">Account name used for operating cluster i.e. will be part of administrators group on all the participating virtual machines in the cluster.</param>
+    /// <param name="ServiceAcc">Account name under which SQL service will run on all participating SQL virtual machines in the cluster.</param>
+    /// <param name="StorageAccount">Storage account url of the witness storage account.</param>
+    public AzSqlVmGroupCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string ImageOffer,
+        string ImageSku,
+        string DomainFqdn,
+        string OperatorAcc,
+        string ServiceAcc,
+        string StorageAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ImageOffer);
+        this.ImageOffer = ImageOffer;
+        global::System.ArgumentNullException.ThrowIfNull(ImageSku);
+        this.ImageSku = ImageSku;
+        global::System.ArgumentNullException.ThrowIfNull(DomainFqdn);
+        this.DomainFqdn = DomainFqdn;
+        global::System.ArgumentNullException.ThrowIfNull(OperatorAcc);
+        this.OperatorAcc = OperatorAcc;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAcc);
+        this.ServiceAcc = ServiceAcc;
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccount);
+        this.StorageAccount = StorageAccount;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string ImageOffer, out string ImageSku, out string DomainFqdn, out string OperatorAcc, out string ServiceAcc, out string StorageAccount)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ImageOffer = this.ImageOffer;
+        ImageSku = this.ImageSku;
+        DomainFqdn = this.DomainFqdn;
+        OperatorAcc = this.OperatorAcc;
+        ServiceAcc = this.ServiceAcc;
+        StorageAccount = this.StorageAccount;
+    }
+
+    /// <summary>
+    /// Name of the SQL virtual machine group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// SQL image offer. Examples may include SQL2016-WS2016, SQL2017-WS2016.
+    /// </summary>
+    [CliOption("--image-offer", ShortForm = "-i")]
+    public string ImageOffer { get; private init; }
+
+    /// <summary>
+    /// SQL image sku.  Allowed values: Developer, Enterprise.
+    /// </summary>
+    [CliOption("--image-sku", ShortForm = "-s")]
+    public string ImageSku { get; private init; }
+
+    /// <summary>
+    /// Fully qualified name of the domain.
+    /// </summary>
+    [CliOption("--domain-fqdn", ShortForm = "-f")]
+    public string DomainFqdn { get; private init; }
+
+    /// <summary>
+    /// Account name used for operating cluster i.e. will be part of administrators group on all the participating virtual machines in the cluster.
+    /// </summary>
+    [CliOption("--operator-acc", ShortForm = "-p")]
+    public string OperatorAcc { get; private init; }
+
+    /// <summary>
+    /// Account name under which SQL service will run on all participating SQL virtual machines in the cluster.
+    /// </summary>
+    [CliOption("--service-acc", ShortForm = "-e")]
+    public string ServiceAcc { get; private init; }
+
+    /// <summary>
+    /// Storage account url of the witness storage account.
+    /// </summary>
+    [CliOption("--storage-account", ShortForm = "-u")]
+    public string StorageAccount { get; private init; }
+
     /// <summary>
     /// Location. If not provided, group will be created in the same reosurce group location.You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

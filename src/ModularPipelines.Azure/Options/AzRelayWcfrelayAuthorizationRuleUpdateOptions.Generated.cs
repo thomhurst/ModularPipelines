@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update Authorization Rule for the given Relay
 /// </summary>
-/// <param name="Rights">The rights associated with the rule.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "wcfrelay", "authorization-rule", "update")]
-public record AzRelayWcfrelayAuthorizationRuleUpdateOptions(
-    [property: CliOption("--rights")] string Rights
-) : AzOptions
+public record AzRelayWcfrelayAuthorizationRuleUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update Authorization Rule for the given Relay
+    /// </summary>
+    /// <param name="Rights">The rights associated with the rule.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.</param>
+    public AzRelayWcfrelayAuthorizationRuleUpdateOptions(
+        string Rights
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rights);
+        this.Rights = Rights;
+    }
+
+    public void Deconstruct(out string Rights)
+    {
+        Rights = this.Rights;
+    }
+
+    /// <summary>
+    /// The rights associated with the rule.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--rights")]
+    public string Rights { get; private init; }
+
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>

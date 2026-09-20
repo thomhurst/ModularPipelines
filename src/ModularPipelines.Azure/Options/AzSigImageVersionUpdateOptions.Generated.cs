@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a share image version.
 /// </summary>
-/// <param name="GalleryImageDefinition">Gallery image definition.</param>
-/// <param name="GalleryImageVersion">Gallery image version in semantic version pattern. The allowed characters are digit and period. Digits must be within the range of a 32-bit integer, e.g. `&lt;MajorVersio n&gt;.&lt;MinorVers ion&gt;.&lt;Patch&gt;` .</param>
-/// <param name="GalleryName">Gallery name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults gr oup=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "update")]
-public record AzSigImageVersionUpdateOptions(
-    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
-    [property: CliOption("--gallery-image-version", ShortForm = "-e")] string GalleryImageVersion,
-    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSigImageVersionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a share image version.
+    /// </summary>
+    /// <param name="GalleryImageDefinition">Gallery image definition.</param>
+    /// <param name="GalleryImageVersion">Gallery image version in semantic version pattern. The allowed characters are digit and period. Digits must be within the range of a 32-bit integer, e.g. `&lt;MajorVersio n&gt;.&lt;MinorVers ion&gt;.&lt;Patch&gt;` .</param>
+    /// <param name="GalleryName">Gallery name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults gr oup=&lt;name&gt;`.</param>
+    public AzSigImageVersionUpdateOptions(
+        string GalleryImageDefinition,
+        string GalleryImageVersion,
+        string GalleryName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GalleryImageDefinition);
+        this.GalleryImageDefinition = GalleryImageDefinition;
+        global::System.ArgumentNullException.ThrowIfNull(GalleryImageVersion);
+        this.GalleryImageVersion = GalleryImageVersion;
+        global::System.ArgumentNullException.ThrowIfNull(GalleryName);
+        this.GalleryName = GalleryName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GalleryImageDefinition, out string GalleryImageVersion, out string GalleryName, out string ResourceGroup)
+    {
+        GalleryImageDefinition = this.GalleryImageDefinition;
+        GalleryImageVersion = this.GalleryImageVersion;
+        GalleryName = this.GalleryName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Gallery image definition.
+    /// </summary>
+    [CliOption("--gallery-image-definition", ShortForm = "-i")]
+    public string GalleryImageDefinition { get; private init; }
+
+    /// <summary>
+    /// Gallery image version in semantic version pattern. The allowed characters are digit and period. Digits must be within the range of a 32-bit integer, e.g. `&lt;MajorVersio n&gt;.&lt;MinorVers ion&gt;.&lt;Patch&gt;` .
+    /// </summary>
+    [CliOption("--gallery-image-version", ShortForm = "-e")]
+    public string GalleryImageVersion { get; private init; }
+
+    /// <summary>
+    /// Gallery name.
+    /// </summary>
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string GalleryName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults gr oup=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Indicate whether or not removing this gallery image version from replicated regions is allowed. Allowed values: false, true.
     /// </summary>

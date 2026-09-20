@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a user.
 /// </summary>
-/// <param name="Id">The object ID or principal name of the user for which to get information.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "user", "update")]
-public record AzAdUserUpdateOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdUserUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a user.
+    /// </summary>
+    /// <param name="Id">The object ID or principal name of the user for which to get information.</param>
+    public AzAdUserUpdateOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// The object ID or principal name of the user for which to get information.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
     /// <summary>
     /// Enable the user account.  Allowed values: false, true.
     /// </summary>

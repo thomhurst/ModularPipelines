@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an inbound NAT rule of an IP
 /// </summary>
-/// <param name="InboundNatRule">Name or ID of an existing inbound NAT rule. If name is used, `--lb-name` must be specified.</param>
-/// <param name="IpConfigName">Name of the IP configuration.</param>
-/// <param name="NicName">Name of the network interface (NIC).</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "inbound-nat-rule", "remove")]
-public record AzNetworkNicIpConfigInboundNatRuleRemoveOptions(
-    [property: CliOption("--inbound-nat-rule")] string InboundNatRule,
-    [property: CliOption("--ip-config-name", ShortForm = "-n")] string IpConfigName,
-    [property: CliOption("--nic-name")] string NicName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkNicIpConfigInboundNatRuleRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an inbound NAT rule of an IP
+    /// </summary>
+    /// <param name="InboundNatRule">Name or ID of an existing inbound NAT rule. If name is used, `--lb-name` must be specified.</param>
+    /// <param name="IpConfigName">Name of the IP configuration.</param>
+    /// <param name="NicName">Name of the network interface (NIC).</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkNicIpConfigInboundNatRuleRemoveOptions(
+        string InboundNatRule,
+        string IpConfigName,
+        string NicName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InboundNatRule);
+        this.InboundNatRule = InboundNatRule;
+        global::System.ArgumentNullException.ThrowIfNull(IpConfigName);
+        this.IpConfigName = IpConfigName;
+        global::System.ArgumentNullException.ThrowIfNull(NicName);
+        this.NicName = NicName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string InboundNatRule, out string IpConfigName, out string NicName, out string ResourceGroup)
+    {
+        InboundNatRule = this.InboundNatRule;
+        IpConfigName = this.IpConfigName;
+        NicName = this.NicName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name or ID of an existing inbound NAT rule. If name is used, `--lb-name` must be specified.
+    /// </summary>
+    [CliOption("--inbound-nat-rule")]
+    public string InboundNatRule { get; private init; }
+
+    /// <summary>
+    /// Name of the IP configuration.
+    /// </summary>
+    [CliOption("--ip-config-name", ShortForm = "-n")]
+    public string IpConfigName { get; private init; }
+
+    /// <summary>
+    /// Name of the network interface (NIC).
+    /// </summary>
+    [CliOption("--nic-name")]
+    public string NicName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Name of the load balancer.
     /// </summary>

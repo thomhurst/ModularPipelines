@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details of a storage.
 /// </summary>
-/// <param name="Name">Name of the Container Apps environment.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StorageName">Name of the storage.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "storage", "show")]
-public record AzContainerappEnvStorageShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--storage-name")] string StorageName
-) : AzOptions
+public record AzContainerappEnvStorageShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the details of a storage.
+    /// </summary>
+    /// <param name="Name">Name of the Container Apps environment.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StorageName">Name of the storage.</param>
+    public AzContainerappEnvStorageShowOptions(
+        string Name,
+        string ResourceGroup,
+        string StorageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StorageName);
+        this.StorageName = StorageName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string StorageName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        StorageName = this.StorageName;
+    }
+
+    /// <summary>
+    /// Name of the Container Apps environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the storage.
+    /// </summary>
+    [CliOption("--storage-name")]
+    public string StorageName { get; private init; }
+
 }

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download files from an Azure Storage File Share to a local
 /// </summary>
-/// <param name="Destination">The local directory where the files are downloaded to. This directory must already exist.</param>
-/// <param name="Source">The source of the file download operation. The source can be the file share URL or the share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "download-batch")]
-public record AzStorageFileDownloadBatchOptions(
-    [property: CliOption("--destination", ShortForm = "-d")] string Destination,
-    [property: CliOption("--source", ShortForm = "-s")] string Source
-) : AzOptions
+public record AzStorageFileDownloadBatchOptions : AzOptions
 {
+    /// <summary>
+    /// Download files from an Azure Storage File Share to a local
+    /// </summary>
+    /// <param name="Destination">The local directory where the files are downloaded to. This directory must already exist.</param>
+    /// <param name="Source">The source of the file download operation. The source can be the file share URL or the share name.</param>
+    public AzStorageFileDownloadBatchOptions(
+        string Destination,
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Destination, out string Source)
+    {
+        Destination = this.Destination;
+        Source = this.Source;
+    }
+
+    /// <summary>
+    /// The local directory where the files are downloaded to. This directory must already exist.
+    /// </summary>
+    [CliOption("--destination", ShortForm = "-d")]
+    public string Destination { get; private init; }
+
+    /// <summary>
+    /// The source of the file download operation. The source can be the file share URL or the share name.
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string Source { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

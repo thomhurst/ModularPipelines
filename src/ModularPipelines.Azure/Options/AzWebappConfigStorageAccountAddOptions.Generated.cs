@@ -16,22 +16,79 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an Azure storage account configuration to a web app.
 /// </summary>
-/// <param name="AccessKey">Storage account access key.</param>
-/// <param name="AccountName">Storage account name.</param>
-/// <param name="CustomId">Name of the share configured within the web app.</param>
-/// <param name="ShareName">Name of the file share as given in the storage account.</param>
-/// <param name="StorageType">Storage type.  Allowed values: AzureBlob, AzureFiles.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "storage-account", "add")]
-public record AzWebappConfigStorageAccountAddOptions(
-    [property: SecretValue, CliOption("--access-key", ShortForm = "-k")] string AccessKey,
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--custom-id", ShortForm = "-i")] string CustomId,
-    [property: CliOption("--share-name", ShortForm = "--sn")] string ShareName,
-    [property: CliOption("--storage-type", ShortForm = "-t")] string StorageType
-) : AzOptions
+public record AzWebappConfigStorageAccountAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add an Azure storage account configuration to a web app.
+    /// </summary>
+    /// <param name="AccessKey">Storage account access key.</param>
+    /// <param name="AccountName">Storage account name.</param>
+    /// <param name="CustomId">Name of the share configured within the web app.</param>
+    /// <param name="ShareName">Name of the file share as given in the storage account.</param>
+    /// <param name="StorageType">Storage type.  Allowed values: AzureBlob, AzureFiles.</param>
+    public AzWebappConfigStorageAccountAddOptions(
+        string AccessKey,
+        string AccountName,
+        string CustomId,
+        string ShareName,
+        string StorageType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessKey);
+        this.AccessKey = AccessKey;
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(CustomId);
+        this.CustomId = CustomId;
+        global::System.ArgumentNullException.ThrowIfNull(ShareName);
+        this.ShareName = ShareName;
+        global::System.ArgumentNullException.ThrowIfNull(StorageType);
+        this.StorageType = StorageType;
+    }
+
+    public void Deconstruct(out string AccessKey, out string AccountName, out string CustomId, out string ShareName, out string StorageType)
+    {
+        AccessKey = this.AccessKey;
+        AccountName = this.AccountName;
+        CustomId = this.CustomId;
+        ShareName = this.ShareName;
+        StorageType = this.StorageType;
+    }
+
+    /// <summary>
+    /// Storage account access key.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--access-key", ShortForm = "-k")]
+    public string AccessKey { get; private init; }
+
+    /// <summary>
+    /// Storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Name of the share configured within the web app.
+    /// </summary>
+    [CliOption("--custom-id", ShortForm = "-i")]
+    public string CustomId { get; private init; }
+
+    /// <summary>
+    /// Name of the file share as given in the storage account.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "--sn")]
+    public string ShareName { get; private init; }
+
+    /// <summary>
+    /// Storage type.  Allowed values: AzureBlob, AzureFiles.
+    /// </summary>
+    [CliOption("--storage-type", ShortForm = "-t")]
+    public string StorageType { get; private init; }
+
     /// <summary>
     /// The path which the web app uses to read-write data ex: /share1 or /share2.
     /// </summary>

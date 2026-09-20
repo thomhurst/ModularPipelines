@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the details of a verified partner.
 /// </summary>
-/// <param name="VerifiedPartnerName">Name of the verified partner.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "verified-partner", "show")]
-public record AzEventgridPartnerVerifiedPartnerShowOptions(
-    [property: CliOption("--verified-partner-name")] string VerifiedPartnerName
-) : AzOptions
+public record AzEventgridPartnerVerifiedPartnerShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get the details of a verified partner.
+    /// </summary>
+    /// <param name="VerifiedPartnerName">Name of the verified partner.</param>
+    public AzEventgridPartnerVerifiedPartnerShowOptions(
+        string VerifiedPartnerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VerifiedPartnerName);
+        this.VerifiedPartnerName = VerifiedPartnerName;
+    }
+
+    public void Deconstruct(out string VerifiedPartnerName)
+    {
+        VerifiedPartnerName = this.VerifiedPartnerName;
+    }
+
+    /// <summary>
+    /// Name of the verified partner.
+    /// </summary>
+    [CliOption("--verified-partner-name")]
+    public string VerifiedPartnerName { get; private init; }
+
 }

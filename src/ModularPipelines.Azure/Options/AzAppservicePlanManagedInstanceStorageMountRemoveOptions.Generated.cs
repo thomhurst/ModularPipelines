@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a storage mount from a managed
 /// </summary>
-/// <param name="MountName">Name of the storage mount to remove.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "storage-mount", "remove")]
-public record AzAppservicePlanManagedInstanceStorageMountRemoveOptions(
-    [property: CliOption("--mount-name")] string MountName
-) : AzOptions
+public record AzAppservicePlanManagedInstanceStorageMountRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a storage mount from a managed
+    /// </summary>
+    /// <param name="MountName">Name of the storage mount to remove.</param>
+    public AzAppservicePlanManagedInstanceStorageMountRemoveOptions(
+        string MountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MountName);
+        this.MountName = MountName;
+    }
+
+    public void Deconstruct(out string MountName)
+    {
+        MountName = this.MountName;
+    }
+
+    /// <summary>
+    /// Name of the storage mount to remove.
+    /// </summary>
+    [CliOption("--mount-name")]
+    public string MountName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

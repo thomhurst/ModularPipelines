@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Renew the lease.
 /// </summary>
-/// <param name="BlobName">The blob name.</param>
-/// <param name="ContainerName">The container name.</param>
-/// <param name="LeaseId">Required if the blob has an active lease.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "blob", "lease", "renew")]
-public record AzStorageBlobLeaseRenewOptions(
-    [property: CliOption("--blob-name", ShortForm = "-b")] string BlobName,
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
-    [property: CliOption("--lease-id")] string LeaseId
-) : AzOptions
+public record AzStorageBlobLeaseRenewOptions : AzOptions
 {
+    /// <summary>
+    /// Renew the lease.
+    /// </summary>
+    /// <param name="BlobName">The blob name.</param>
+    /// <param name="ContainerName">The container name.</param>
+    /// <param name="LeaseId">Required if the blob has an active lease.</param>
+    public AzStorageBlobLeaseRenewOptions(
+        string BlobName,
+        string ContainerName,
+        string LeaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlobName);
+        this.BlobName = BlobName;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(LeaseId);
+        this.LeaseId = LeaseId;
+    }
+
+    public void Deconstruct(out string BlobName, out string ContainerName, out string LeaseId)
+    {
+        BlobName = this.BlobName;
+        ContainerName = this.ContainerName;
+        LeaseId = this.LeaseId;
+    }
+
+    /// <summary>
+    /// The blob name.
+    /// </summary>
+    [CliOption("--blob-name", ShortForm = "-b")]
+    public string BlobName { get; private init; }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// Required if the blob has an active lease.
+    /// </summary>
+    [CliOption("--lease-id")]
+    public string LeaseId { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

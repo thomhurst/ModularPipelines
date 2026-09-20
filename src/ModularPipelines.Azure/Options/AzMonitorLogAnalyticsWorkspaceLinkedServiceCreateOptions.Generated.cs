@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a linked service.
 /// </summary>
-/// <param name="LinkedServiceName">Name of the linkedServices resource. Supported values: cluster, automation.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "linked-service", "create")]
-public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions(
-    [property: CliOption("--linked-service-name", ShortForm = "-n")] string LinkedServiceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a linked service.
+    /// </summary>
+    /// <param name="LinkedServiceName">Name of the linkedServices resource. Supported values: cluster, automation.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions(
+        string LinkedServiceName,
+        string ResourceGroup,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LinkedServiceName);
+        this.LinkedServiceName = LinkedServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string LinkedServiceName, out string ResourceGroup, out string WorkspaceName)
+    {
+        LinkedServiceName = this.LinkedServiceName;
+        ResourceGroup = this.ResourceGroup;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// Name of the linkedServices resource. Supported values: cluster, automation.
+    /// </summary>
+    [CliOption("--linked-service-name", ShortForm = "-n")]
+    public string LinkedServiceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

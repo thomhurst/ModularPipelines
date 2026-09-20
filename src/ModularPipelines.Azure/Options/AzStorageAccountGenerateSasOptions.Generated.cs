@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate a shared access signature for the storage account.
 /// </summary>
-/// <param name="Expiry">Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes invalid.</param>
-/// <param name="Permissions">The permissions the SAS grants. Allowed values: (a)dd (c)reate (d)elete (f)ilter_by_tags (i)set_immutability_policy (l)ist (p)rocess (r)ead (t)ag (u)pdate (w)rite (x)delete_previous_version (y)permanent_delete. Can be combined.</param>
-/// <param name="ResourceTypes">The resource types the SAS is applicable for. Allowed values: (s)ervice (c)ontainer (o)bject. Can be combined.</param>
-/// <param name="Services">The storage services the SAS is applicable for. Allowed values: (b)lob (f)ile (q)ueue (t)able. Can be combined.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "generate-sas")]
-public record AzStorageAccountGenerateSasOptions(
-    [property: CliOption("--expiry")] string Expiry,
-    [property: CliOption("--permissions")] string Permissions,
-    [property: CliOption("--resource-types")] string ResourceTypes,
-    [property: CliOption("--services")] string Services
-) : AzOptions
+public record AzStorageAccountGenerateSasOptions : AzOptions
 {
+    /// <summary>
+    /// Generate a shared access signature for the storage account.
+    /// </summary>
+    /// <param name="Expiry">Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes invalid.</param>
+    /// <param name="Permissions">The permissions the SAS grants. Allowed values: (a)dd (c)reate (d)elete (f)ilter_by_tags (i)set_immutability_policy (l)ist (p)rocess (r)ead (t)ag (u)pdate (w)rite (x)delete_previous_version (y)permanent_delete. Can be combined.</param>
+    /// <param name="ResourceTypes">The resource types the SAS is applicable for. Allowed values: (s)ervice (c)ontainer (o)bject. Can be combined.</param>
+    /// <param name="Services">The storage services the SAS is applicable for. Allowed values: (b)lob (f)ile (q)ueue (t)able. Can be combined.</param>
+    public AzStorageAccountGenerateSasOptions(
+        string Expiry,
+        string Permissions,
+        string ResourceTypes,
+        string Services
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Expiry);
+        this.Expiry = Expiry;
+        global::System.ArgumentNullException.ThrowIfNull(Permissions);
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceTypes);
+        this.ResourceTypes = ResourceTypes;
+        global::System.ArgumentNullException.ThrowIfNull(Services);
+        this.Services = Services;
+    }
+
+    public void Deconstruct(out string Expiry, out string Permissions, out string ResourceTypes, out string Services)
+    {
+        Expiry = this.Expiry;
+        Permissions = this.Permissions;
+        ResourceTypes = this.ResourceTypes;
+        Services = this.Services;
+    }
+
+    /// <summary>
+    /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes invalid.
+    /// </summary>
+    [CliOption("--expiry")]
+    public string Expiry { get; private init; }
+
+    /// <summary>
+    /// The permissions the SAS grants. Allowed values: (a)dd (c)reate (d)elete (f)ilter_by_tags (i)set_immutability_policy (l)ist (p)rocess (r)ead (t)ag (u)pdate (w)rite (x)delete_previous_version (y)permanent_delete. Can be combined.
+    /// </summary>
+    [CliOption("--permissions")]
+    public string Permissions { get; private init; }
+
+    /// <summary>
+    /// The resource types the SAS is applicable for. Allowed values: (s)ervice (c)ontainer (o)bject. Can be combined.
+    /// </summary>
+    [CliOption("--resource-types")]
+    public string ResourceTypes { get; private init; }
+
+    /// <summary>
+    /// The storage services the SAS is applicable for. Allowed values: (b)lob (f)ile (q)ueue (t)able. Can be combined.
+    /// </summary>
+    [CliOption("--services")]
+    public string Services { get; private init; }
+
     /// <summary>
     /// A predefined encryption scope used to encrypt the data on the service.
     /// </summary>

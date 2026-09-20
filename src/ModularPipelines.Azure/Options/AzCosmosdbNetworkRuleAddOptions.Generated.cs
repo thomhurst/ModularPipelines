@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds a virtual network rule to an existing Cosmos DB database
 /// </summary>
-/// <param name="Subnet">Name or ID of the subnet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "network-rule", "add")]
-public record AzCosmosdbNetworkRuleAddOptions(
-    [property: CliOption("--subnet")] string Subnet
-) : AzOptions
+public record AzCosmosdbNetworkRuleAddOptions : AzOptions
 {
+    /// <summary>
+    /// Adds a virtual network rule to an existing Cosmos DB database
+    /// </summary>
+    /// <param name="Subnet">Name or ID of the subnet.</param>
+    public AzCosmosdbNetworkRuleAddOptions(
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string Subnet)
+    {
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// Name or ID of the subnet.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string Subnet { get; private init; }
+
     /// <summary>
     /// Create firewall rule before the virtual network has vnet service endpoint enabled. Allowed values: false, true.
     /// </summary>

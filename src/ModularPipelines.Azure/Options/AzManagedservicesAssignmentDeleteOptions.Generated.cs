@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a registration assignment.
 /// </summary>
-/// <param name="Assignment">The identifier (guid) or the fully qualified resource id of the registration assignment. When resource id is used, subscription id and resource group parameters are ignored.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "assignment", "delete")]
-public record AzManagedservicesAssignmentDeleteOptions(
-    [property: CliOption("--assignment")] string Assignment
-) : AzOptions
+public record AzManagedservicesAssignmentDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a registration assignment.
+    /// </summary>
+    /// <param name="Assignment">The identifier (guid) or the fully qualified resource id of the registration assignment. When resource id is used, subscription id and resource group parameters are ignored.</param>
+    public AzManagedservicesAssignmentDeleteOptions(
+        string Assignment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Assignment);
+        this.Assignment = Assignment;
+    }
+
+    public void Deconstruct(out string Assignment)
+    {
+        Assignment = this.Assignment;
+    }
+
+    /// <summary>
+    /// The identifier (guid) or the fully qualified resource id of the registration assignment. When resource id is used, subscription id and resource group parameters are ignored.
+    /// </summary>
+    [CliOption("--assignment")]
+    public string Assignment { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

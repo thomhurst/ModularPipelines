@@ -16,16 +16,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create one or more Container Apps in a new or existing
 /// </summary>
-/// <param name="Environment">Name or resource ID of the container app's environment.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "compose", "create")]
-public record AzContainerappComposeCreateOptions(
-    [property: CliOption("--environment")] string Environment,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzContainerappComposeCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create one or more Container Apps in a new or existing
+    /// </summary>
+    /// <param name="Environment">Name or resource ID of the container app's environment.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzContainerappComposeCreateOptions(
+        string Environment,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Environment, out string ResourceGroup)
+    {
+        Environment = this.Environment;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name or resource ID of the container app's environment.
+    /// </summary>
+    [CliOption("--environment")]
+    public string Environment { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Path to a Docker Compose file with the configuration to import to Azure Container Apps.  Default: ./docker-compose.yml.
     /// </summary>

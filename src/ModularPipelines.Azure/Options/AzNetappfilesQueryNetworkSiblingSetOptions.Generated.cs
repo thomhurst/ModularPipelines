@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Describe a network sibling set.
 /// </summary>
-/// <param name="NetworkSiblingSetId">Network Sibling Set ID for a group of volumes sharing networking resources in a subnet.</param>
-/// <param name="SubnetId">The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscrip tions/subscriptionId/resourceGroups/resourceGroup/provider s/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySu bnet}.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "query-network-sibling-set")]
-public record AzNetappfilesQueryNetworkSiblingSetOptions(
-    [property: CliOption("--network-sibling-set-id")] string NetworkSiblingSetId,
-    [property: CliOption("--subnet-id")] string SubnetId
-) : AzOptions
+public record AzNetappfilesQueryNetworkSiblingSetOptions : AzOptions
 {
+    /// <summary>
+    /// Describe a network sibling set.
+    /// </summary>
+    /// <param name="NetworkSiblingSetId">Network Sibling Set ID for a group of volumes sharing networking resources in a subnet.</param>
+    /// <param name="SubnetId">The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscrip tions/subscriptionId/resourceGroups/resourceGroup/provider s/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySu bnet}.</param>
+    public AzNetappfilesQueryNetworkSiblingSetOptions(
+        string NetworkSiblingSetId,
+        string SubnetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkSiblingSetId);
+        this.NetworkSiblingSetId = NetworkSiblingSetId;
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+    }
+
+    public void Deconstruct(out string NetworkSiblingSetId, out string SubnetId)
+    {
+        NetworkSiblingSetId = this.NetworkSiblingSetId;
+        SubnetId = this.SubnetId;
+    }
+
+    /// <summary>
+    /// Network Sibling Set ID for a group of volumes sharing networking resources in a subnet.
+    /// </summary>
+    [CliOption("--network-sibling-set-id")]
+    public string NetworkSiblingSetId { get; private init; }
+
+    /// <summary>
+    /// The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscrip tions/subscriptionId/resourceGroups/resourceGroup/provider s/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySu bnet}.
+    /// </summary>
+    [CliOption("--subnet-id")]
+    public string SubnetId { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

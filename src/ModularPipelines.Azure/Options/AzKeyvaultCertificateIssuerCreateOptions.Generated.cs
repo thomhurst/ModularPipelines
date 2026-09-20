@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a certificate issuer record.
 /// </summary>
-/// <param name="IssuerName">Certificate issuer name.</param>
-/// <param name="ProviderName">The certificate provider name. Must be registered with your tenant ID and in your region.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "create")]
-public record AzKeyvaultCertificateIssuerCreateOptions(
-    [property: CliOption("--issuer-name")] string IssuerName,
-    [property: CliOption("--provider-name")] string ProviderName,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificateIssuerCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a certificate issuer record.
+    /// </summary>
+    /// <param name="IssuerName">Certificate issuer name.</param>
+    /// <param name="ProviderName">The certificate provider name. Must be registered with your tenant ID and in your region.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificateIssuerCreateOptions(
+        string IssuerName,
+        string ProviderName,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IssuerName);
+        this.IssuerName = IssuerName;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderName);
+        this.ProviderName = ProviderName;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string IssuerName, out string ProviderName, out string VaultName)
+    {
+        IssuerName = this.IssuerName;
+        ProviderName = this.ProviderName;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Certificate issuer name.
+    /// </summary>
+    [CliOption("--issuer-name")]
+    public string IssuerName { get; private init; }
+
+    /// <summary>
+    /// The certificate provider name. Must be registered with your tenant ID and in your region.
+    /// </summary>
+    [CliOption("--provider-name")]
+    public string ProviderName { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Set issuer to disabled state.  Allowed values: false, true.
     /// </summary>

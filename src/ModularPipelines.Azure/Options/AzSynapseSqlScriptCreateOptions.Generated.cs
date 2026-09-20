@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a SQL script.
 /// </summary>
-/// <param name="File">The SQL query file path.</param>
-/// <param name="Name">The SQL script name.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql-script", "create")]
-public record AzSynapseSqlScriptCreateOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseSqlScriptCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create or update a SQL script.
+    /// </summary>
+    /// <param name="File">The SQL query file path.</param>
+    /// <param name="Name">The SQL script name.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseSqlScriptCreateOptions(
+        string File,
+        string Name,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string File, out string Name, out string WorkspaceName)
+    {
+        File = this.File;
+        Name = this.Name;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The SQL query file path.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// The SQL script name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// The SQL script additional properties.
     /// </summary>

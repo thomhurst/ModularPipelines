@@ -15,24 +15,88 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Spark pool.
 /// </summary>
-/// <param name="Name">The name of the Spark pool.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
-/// <param name="SparkVersion">The supported Spark version is 2.4 now.</param>
-/// <param name="NodeCount">The number of node.</param>
-/// <param name="NodeSize">The level of compute power that each node in the Big Data pool has..  Allowed values: Large, Medium, None, Small, XLarge, XXLarge, XXXLarge.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "pool", "create")]
-public record AzSynapseSparkPoolCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace-name")] string WorkspaceName,
-    [property: CliOption("--spark-version")] string SparkVersion,
-    [property: CliOption("--node-count")] int NodeCount,
-    [property: CliOption("--node-size")] string NodeSize
-) : AzOptions
+public record AzSynapseSparkPoolCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Spark pool.
+    /// </summary>
+    /// <param name="Name">The name of the Spark pool.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    /// <param name="SparkVersion">The supported Spark version is 2.4 now.</param>
+    /// <param name="NodeCount">The number of node.</param>
+    /// <param name="NodeSize">The level of compute power that each node in the Big Data pool has..  Allowed values: Large, Medium, None, Small, XLarge, XXLarge, XXXLarge.</param>
+    public AzSynapseSparkPoolCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string WorkspaceName,
+        string SparkVersion,
+        int NodeCount,
+        string NodeSize
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(SparkVersion);
+        this.SparkVersion = SparkVersion;
+        this.NodeCount = NodeCount;
+        global::System.ArgumentNullException.ThrowIfNull(NodeSize);
+        this.NodeSize = NodeSize;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string WorkspaceName, out string SparkVersion, out int NodeCount, out string NodeSize)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        WorkspaceName = this.WorkspaceName;
+        SparkVersion = this.SparkVersion;
+        NodeCount = this.NodeCount;
+        NodeSize = this.NodeSize;
+    }
+
+    /// <summary>
+    /// The name of the Spark pool.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The supported Spark version is 2.4 now.
+    /// </summary>
+    [CliOption("--spark-version")]
+    public string SparkVersion { get; private init; }
+
+    /// <summary>
+    /// The number of node.
+    /// </summary>
+    [CliOption("--node-count")]
+    public int NodeCount { get; private init; }
+
+    /// <summary>
+    /// The level of compute power that each node in the Big Data pool has..  Allowed values: Large, Medium, None, Small, XLarge, XXLarge, XXXLarge.
+    /// </summary>
+    [CliOption("--node-size")]
+    public string NodeSize { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

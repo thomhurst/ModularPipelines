@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add or update the hostname and binding with a certificate.
 /// </summary>
-/// <param name="Hostname">The custom domain name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "hostname", "bind")]
-public record AzContainerappHostnameBindOptions(
-    [property: CliOption("--hostname")] string Hostname
-) : AzOptions
+public record AzContainerappHostnameBindOptions : AzOptions
 {
+    /// <summary>
+    /// Add or update the hostname and binding with a certificate.
+    /// </summary>
+    /// <param name="Hostname">The custom domain name.</param>
+    public AzContainerappHostnameBindOptions(
+        string Hostname
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+    }
+
+    public void Deconstruct(out string Hostname)
+    {
+        Hostname = this.Hostname;
+    }
+
+    /// <summary>
+    /// The custom domain name.
+    /// </summary>
+    [CliOption("--hostname")]
+    public string Hostname { get; private init; }
+
     /// <summary>
     /// Name or resource id of the certificate.
     /// </summary>

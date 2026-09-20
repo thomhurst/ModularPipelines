@@ -15,20 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete specific machines in an agentpool for a managed
 /// </summary>
-/// <param name="ClusterName">The cluster name.</param>
-/// <param name="MachineNames">Space-separated list of machine names from the agent pool to be deleted.</param>
-/// <param name="Name">The node pool name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "delete-machines")]
-public record AzAksNodepoolDeleteMachinesOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--machine-names", GroupValues = true)] IEnumerable<string> MachineNames,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksNodepoolDeleteMachinesOptions : AzOptions
 {
+    /// <summary>
+    /// Delete specific machines in an agentpool for a managed
+    /// </summary>
+    /// <param name="ClusterName">The cluster name.</param>
+    /// <param name="MachineNames">Space-separated list of machine names from the agent pool to be deleted.</param>
+    /// <param name="Name">The node pool name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksNodepoolDeleteMachinesOptions(
+        string ClusterName,
+        IEnumerable<string> MachineNames,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MachineNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MachineNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MachineNames));
+            }
+
+            MachineNames = materialized;
+        }
+        this.MachineNames = MachineNames;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out IEnumerable<string> MachineNames, out string Name, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        MachineNames = this.MachineNames;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The cluster name.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of machine names from the agent pool to be deleted.
+    /// </summary>
+    [CliOption("--machine-names", GroupValues = true)]
+    public IEnumerable<string> MachineNames { get; private init; }
+
+    /// <summary>
+    /// The node pool name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

@@ -15,16 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an API permission.
 /// </summary>
-/// <param name="Api">RequiredResourceAccess.resourceAppId - The unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.</param>
-/// <param name="ApiPermissions">Space-separated list of {id}={type}. {id} is resourceAccess.id - The unique identifier for one of the oauth2PermissionScopes or appRole instances that the resource application exposes. {type} is resourceAccess.type - Specifies whether the id property references an oauth2PermissionScopes or an appRole. The possible values are: Scope (for OAuth 2.0 permission scopes) or Role (for app roles).</param>
-/// <param name="Id">Identifier uri, application id, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "permission", "add")]
-public record AzAdAppPermissionAddOptions(
-    [property: CliOption("--api")] string Api,
-    [property: CliOption("--api-permissions", GroupValues = true)] IEnumerable<string> ApiPermissions,
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdAppPermissionAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add an API permission.
+    /// </summary>
+    /// <param name="Api">RequiredResourceAccess.resourceAppId - The unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.</param>
+    /// <param name="ApiPermissions">Space-separated list of {id}={type}. {id} is resourceAccess.id - The unique identifier for one of the oauth2PermissionScopes or appRole instances that the resource application exposes. {type} is resourceAccess.type - Specifies whether the id property references an oauth2PermissionScopes or an appRole. The possible values are: Scope (for OAuth 2.0 permission scopes) or Role (for app roles).</param>
+    /// <param name="Id">Identifier uri, application id, or object id.</param>
+    public AzAdAppPermissionAddOptions(
+        string Api,
+        IEnumerable<string> ApiPermissions,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Api);
+        this.Api = Api;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ApiPermissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ApiPermissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ApiPermissions));
+            }
+
+            ApiPermissions = materialized;
+        }
+        this.ApiPermissions = ApiPermissions;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Api, out IEnumerable<string> ApiPermissions, out string Id)
+    {
+        Api = this.Api;
+        ApiPermissions = this.ApiPermissions;
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// RequiredResourceAccess.resourceAppId - The unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.
+    /// </summary>
+    [CliOption("--api")]
+    public string Api { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of {id}={type}. {id} is resourceAccess.id - The unique identifier for one of the oauth2PermissionScopes or appRole instances that the resource application exposes. {type} is resourceAccess.type - Specifies whether the id property references an oauth2PermissionScopes or an appRole. The possible values are: Scope (for OAuth 2.0 permission scopes) or Role (for app roles).
+    /// </summary>
+    [CliOption("--api-permissions", GroupValues = true)]
+    public IEnumerable<string> ApiPermissions { get; private init; }
+
+    /// <summary>
+    /// Identifier uri, application id, or object id.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
 }

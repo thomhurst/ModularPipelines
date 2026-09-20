@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a message enrichment in your IoT hub (by key).
 /// </summary>
-/// <param name="Key">The enrichment's key.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "message-enrichment", "delete")]
-public record AzIotHubMessageEnrichmentDeleteOptions(
-    [property: CliOption("--key", ShortForm = "-k")] string Key
-) : AzOptions
+public record AzIotHubMessageEnrichmentDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a message enrichment in your IoT hub (by key).
+    /// </summary>
+    /// <param name="Key">The enrichment's key.</param>
+    public AzIotHubMessageEnrichmentDeleteOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// The enrichment's key.
+    /// </summary>
+    [CliOption("--key", ShortForm = "-k")]
+    public string Key { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

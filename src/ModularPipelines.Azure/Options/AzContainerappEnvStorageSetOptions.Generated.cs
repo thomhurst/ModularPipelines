@@ -15,26 +15,100 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a storage.
 /// </summary>
-/// <param name="AccessMode">Access mode for the AzureFile storage.  Allowed values: ReadOnly, ReadWrite.</param>
-/// <param name="AccountName">Name of the AzureFile storage account.</param>
-/// <param name="AzureFileAccountKey">Key of the AzureFile storage account.</param>
-/// <param name="AzureFileShareName">Name of the share on the AzureFile storage.</param>
-/// <param name="Name">Name of the Container Apps environment.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StorageName">Name of the storage.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "storage", "set")]
-public record AzContainerappEnvStorageSetOptions(
-    [property: CliOption("--access-mode")] string AccessMode,
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--azure-file-account-key", ShortForm = "-k")] string AzureFileAccountKey,
-    [property: CliOption("--azure-file-share-name", ShortForm = "-f")] string AzureFileShareName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--storage-name")] string StorageName
-) : AzOptions
+public record AzContainerappEnvStorageSetOptions : AzOptions
 {
+    /// <summary>
+    /// Create or update a storage.
+    /// </summary>
+    /// <param name="AccessMode">Access mode for the AzureFile storage.  Allowed values: ReadOnly, ReadWrite.</param>
+    /// <param name="AccountName">Name of the AzureFile storage account.</param>
+    /// <param name="AzureFileAccountKey">Key of the AzureFile storage account.</param>
+    /// <param name="AzureFileShareName">Name of the share on the AzureFile storage.</param>
+    /// <param name="Name">Name of the Container Apps environment.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StorageName">Name of the storage.</param>
+    public AzContainerappEnvStorageSetOptions(
+        string AccessMode,
+        string AccountName,
+        string AzureFileAccountKey,
+        string AzureFileShareName,
+        string Name,
+        string ResourceGroup,
+        string StorageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessMode);
+        this.AccessMode = AccessMode;
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(AzureFileAccountKey);
+        this.AzureFileAccountKey = AzureFileAccountKey;
+        global::System.ArgumentNullException.ThrowIfNull(AzureFileShareName);
+        this.AzureFileShareName = AzureFileShareName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StorageName);
+        this.StorageName = StorageName;
+    }
+
+    public void Deconstruct(out string AccessMode, out string AccountName, out string AzureFileAccountKey, out string AzureFileShareName, out string Name, out string ResourceGroup, out string StorageName)
+    {
+        AccessMode = this.AccessMode;
+        AccountName = this.AccountName;
+        AzureFileAccountKey = this.AzureFileAccountKey;
+        AzureFileShareName = this.AzureFileShareName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        StorageName = this.StorageName;
+    }
+
+    /// <summary>
+    /// Access mode for the AzureFile storage.  Allowed values: ReadOnly, ReadWrite.
+    /// </summary>
+    [CliOption("--access-mode")]
+    public string AccessMode { get; private init; }
+
+    /// <summary>
+    /// Name of the AzureFile storage account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Key of the AzureFile storage account.
+    /// </summary>
+    [CliOption("--azure-file-account-key", ShortForm = "-k")]
+    public string AzureFileAccountKey { get; private init; }
+
+    /// <summary>
+    /// Name of the share on the AzureFile storage.
+    /// </summary>
+    [CliOption("--azure-file-share-name", ShortForm = "-f")]
+    public string AzureFileShareName { get; private init; }
+
+    /// <summary>
+    /// Name of the Container Apps environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the storage.
+    /// </summary>
+    [CliOption("--storage-name")]
+    public string StorageName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

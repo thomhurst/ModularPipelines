@@ -15,20 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a webhook for an Azure Container Registry.
 /// </summary>
-/// <param name="Actions">Space-separated list of actions that trigger the webhook to post notifications.  Allowed values: chart_delete, chart_push, delete, push, quarantine.</param>
-/// <param name="Name">The name of the webhook.</param>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
-/// <param name="Uri">The service URI for the webhook to post notifications.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "webhook", "create")]
-public record AzAcrWebhookCreateOptions(
-    [property: CliOption("--actions", GroupValues = true)] IEnumerable<string> Actions,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
-    [property: CliOption("--uri")] string Uri
-) : AzOptions
+public record AzAcrWebhookCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a webhook for an Azure Container Registry.
+    /// </summary>
+    /// <param name="Actions">Space-separated list of actions that trigger the webhook to post notifications.  Allowed values: chart_delete, chart_push, delete, push, quarantine.</param>
+    /// <param name="Name">The name of the webhook.</param>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    /// <param name="Uri">The service URI for the webhook to post notifications.</param>
+    public AzAcrWebhookCreateOptions(
+        IEnumerable<string> Actions,
+        string Name,
+        string Registry,
+        string Uri
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+        global::System.ArgumentNullException.ThrowIfNull(Uri);
+        this.Uri = Uri;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Actions, out string Name, out string Registry, out string Uri)
+    {
+        Actions = this.Actions;
+        Name = this.Name;
+        Registry = this.Registry;
+        Uri = this.Uri;
+    }
+
+    /// <summary>
+    /// Space-separated list of actions that trigger the webhook to post notifications.  Allowed values: chart_delete, chart_push, delete, push, quarantine.
+    /// </summary>
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string> Actions { get; private init; }
+
+    /// <summary>
+    /// The name of the webhook.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
+    /// <summary>
+    /// The service URI for the webhook to post notifications.
+    /// </summary>
+    [CliOption("--uri")]
+    public string Uri { get; private init; }
+
     /// <summary>
     /// Space-separated custom headers in 'key[=value]' format that will be added to the webhook notifications. Use '' to clear existing headers.
     /// </summary>

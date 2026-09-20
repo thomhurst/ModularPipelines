@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Assign managed identity for SignalR Service.
 /// </summary>
-/// <param name="Identity">Assigns managed identities to the service. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user- assigned identity. You can only assign either on of them.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "identity", "assign")]
-public record AzSignalrIdentityAssignOptions(
-    [property: CliOption("--identity")] string Identity
-) : AzOptions
+public record AzSignalrIdentityAssignOptions : AzOptions
 {
+    /// <summary>
+    /// Assign managed identity for SignalR Service.
+    /// </summary>
+    /// <param name="Identity">Assigns managed identities to the service. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user- assigned identity. You can only assign either on of them.</param>
+    public AzSignalrIdentityAssignOptions(
+        string Identity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identity);
+        this.Identity = Identity;
+    }
+
+    public void Deconstruct(out string Identity)
+    {
+        Identity = this.Identity;
+    }
+
+    /// <summary>
+    /// Assigns managed identities to the service. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user- assigned identity. You can only assign either on of them.
+    /// </summary>
+    [CliOption("--identity")]
+    public string Identity { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

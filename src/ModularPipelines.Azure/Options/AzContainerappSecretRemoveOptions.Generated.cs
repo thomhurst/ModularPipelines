@@ -16,14 +16,46 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove secrets from a container app.
 /// </summary>
-/// <param name="SecretNames">A list of secret(s) for the container app. Space-separated secret values names.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "secret", "remove")]
-public record AzContainerappSecretRemoveOptions(
-    [property: SecretValue, CliOption("--secret-names", GroupValues = true)] IEnumerable<string> SecretNames
-) : AzOptions
+public record AzContainerappSecretRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove secrets from a container app.
+    /// </summary>
+    /// <param name="SecretNames">A list of secret(s) for the container app. Space-separated secret values names.</param>
+    public AzContainerappSecretRemoveOptions(
+        IEnumerable<string> SecretNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecretNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecretNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecretNames));
+            }
+
+            SecretNames = materialized;
+        }
+        this.SecretNames = SecretNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> SecretNames)
+    {
+        SecretNames = this.SecretNames;
+    }
+
+    /// <summary>
+    /// A list of secret(s) for the container app. Space-separated secret values names.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret-names", GroupValues = true)]
+    public IEnumerable<string> SecretNames { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

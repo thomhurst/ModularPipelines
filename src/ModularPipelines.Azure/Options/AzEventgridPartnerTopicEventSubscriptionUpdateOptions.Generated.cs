@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an event subscription of a partner
 /// </summary>
-/// <param name="Name">Name of the event subscription.</param>
-/// <param name="PartnerTopicName">Name of the partner topic.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "topic", "event-subscription", "update")]
-public record AzEventgridPartnerTopicEventSubscriptionUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--partner-topic-name")] string PartnerTopicName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridPartnerTopicEventSubscriptionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an event subscription of a partner
+    /// </summary>
+    /// <param name="Name">Name of the event subscription.</param>
+    /// <param name="PartnerTopicName">Name of the partner topic.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridPartnerTopicEventSubscriptionUpdateOptions(
+        string Name,
+        string PartnerTopicName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerTopicName);
+        this.PartnerTopicName = PartnerTopicName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string PartnerTopicName, out string ResourceGroup)
+    {
+        Name = this.Name;
+        PartnerTopicName = this.PartnerTopicName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the event subscription.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the partner topic.
+    /// </summary>
+    [CliOption("--partner-topic-name")]
+    public string PartnerTopicName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination where EventGrid should deadletter undeliverable events for this event subscription.
     /// </summary>

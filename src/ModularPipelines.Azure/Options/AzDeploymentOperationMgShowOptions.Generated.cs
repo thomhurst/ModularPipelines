@@ -15,16 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a deployment operation at management group.
 /// </summary>
-/// <param name="ManagementGroupId">The management group id.</param>
-/// <param name="Name">The deployment name.</param>
-/// <param name="OperationIds">A list of operation ids to show.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "operation", "mg", "show")]
-public record AzDeploymentOperationMgShowOptions(
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--operation-ids", GroupValues = true)] IEnumerable<string> OperationIds
-) : AzOptions
+public record AzDeploymentOperationMgShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show a deployment operation at management group.
+    /// </summary>
+    /// <param name="ManagementGroupId">The management group id.</param>
+    /// <param name="Name">The deployment name.</param>
+    /// <param name="OperationIds">A list of operation ids to show.</param>
+    public AzDeploymentOperationMgShowOptions(
+        string ManagementGroupId,
+        string Name,
+        IEnumerable<string> OperationIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OperationIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OperationIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OperationIds));
+            }
+
+            OperationIds = materialized;
+        }
+        this.OperationIds = OperationIds;
+    }
+
+    public void Deconstruct(out string ManagementGroupId, out string Name, out IEnumerable<string> OperationIds)
+    {
+        ManagementGroupId = this.ManagementGroupId;
+        Name = this.Name;
+        OperationIds = this.OperationIds;
+    }
+
+    /// <summary>
+    /// The management group id.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
+    /// <summary>
+    /// The deployment name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// A list of operation ids to show.
+    /// </summary>
+    [CliOption("--operation-ids", GroupValues = true)]
+    public IEnumerable<string> OperationIds { get; private init; }
+
 }

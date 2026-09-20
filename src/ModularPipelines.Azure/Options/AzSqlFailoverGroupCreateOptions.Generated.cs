@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a failover group.
 /// </summary>
-/// <param name="Name">The name of the Failover Group.</param>
-/// <param name="PartnerServer">The name of the partner server of a Failover Group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "failover-group", "create")]
-public record AzSqlFailoverGroupCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--partner-server")] string PartnerServer,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server", ShortForm = "-s")] string Server
-) : AzOptions
+public record AzSqlFailoverGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a failover group.
+    /// </summary>
+    /// <param name="Name">The name of the Failover Group.</param>
+    /// <param name="PartnerServer">The name of the partner server of a Failover Group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
+    public AzSqlFailoverGroupCreateOptions(
+        string Name,
+        string PartnerServer,
+        string ResourceGroup,
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerServer);
+        this.PartnerServer = PartnerServer;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string Name, out string PartnerServer, out string ResourceGroup, out string Server)
+    {
+        Name = this.Name;
+        PartnerServer = this.PartnerServer;
+        ResourceGroup = this.ResourceGroup;
+        Server = this.Server;
+    }
+
+    /// <summary>
+    /// The name of the Failover Group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the partner server of a Failover Group.
+    /// </summary>
+    [CliOption("--partner-server")]
+    public string PartnerServer { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string Server { get; private init; }
+
     /// <summary>
     /// List of databases to add to Failover Group.
     /// </summary>

@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a role assignment by id.
 /// </summary>
-/// <param name="Id">Id of the role that is assigned to the principal.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "role", "assignment", "show")]
-public record AzSynapseRoleAssignmentShowOptions(
-    [property: CliOption("--id")] string Id,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseRoleAssignmentShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a role assignment by id.
+    /// </summary>
+    /// <param name="Id">Id of the role that is assigned to the principal.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseRoleAssignmentShowOptions(
+        string Id,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Id, out string WorkspaceName)
+    {
+        Id = this.Id;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// Id of the role that is assigned to the principal.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

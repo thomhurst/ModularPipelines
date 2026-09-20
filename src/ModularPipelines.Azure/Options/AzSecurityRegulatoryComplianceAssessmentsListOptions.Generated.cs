@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get details and state of assessments mapped
 /// </summary>
-/// <param name="ControlName">The compliance control name.</param>
-/// <param name="StandardName">The compliance standard name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "regulatory-compliance-assessments", "list")]
-public record AzSecurityRegulatoryComplianceAssessmentsListOptions(
-    [property: CliOption("--control-name")] string ControlName,
-    [property: CliOption("--standard-name")] string StandardName
-) : AzOptions
+public record AzSecurityRegulatoryComplianceAssessmentsListOptions : AzOptions
 {
+    /// <summary>
+    /// Get details and state of assessments mapped
+    /// </summary>
+    /// <param name="ControlName">The compliance control name.</param>
+    /// <param name="StandardName">The compliance standard name.</param>
+    public AzSecurityRegulatoryComplianceAssessmentsListOptions(
+        string ControlName,
+        string StandardName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ControlName);
+        this.ControlName = ControlName;
+        global::System.ArgumentNullException.ThrowIfNull(StandardName);
+        this.StandardName = StandardName;
+    }
+
+    public void Deconstruct(out string ControlName, out string StandardName)
+    {
+        ControlName = this.ControlName;
+        StandardName = this.StandardName;
+    }
+
+    /// <summary>
+    /// The compliance control name.
+    /// </summary>
+    [CliOption("--control-name")]
+    public string ControlName { get; private init; }
+
+    /// <summary>
+    /// The compliance standard name.
+    /// </summary>
+    [CliOption("--standard-name")]
+    public string StandardName { get; private init; }
+
 }

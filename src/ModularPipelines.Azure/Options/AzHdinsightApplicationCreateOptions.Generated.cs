@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an application for a HDInsight cluster.
 /// </summary>
-/// <param name="ClusterName">The name of the cluster.</param>
-/// <param name="Name">The constant value for the application name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ScriptActionName">The name of the script action.</param>
-/// <param name="ScriptUri">The URI to the script.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "application", "create")]
-public record AzHdinsightApplicationCreateOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--script-action-name")] string ScriptActionName,
-    [property: CliOption("--script-uri")] string ScriptUri
-) : AzOptions
+public record AzHdinsightApplicationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an application for a HDInsight cluster.
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster.</param>
+    /// <param name="Name">The constant value for the application name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ScriptActionName">The name of the script action.</param>
+    /// <param name="ScriptUri">The URI to the script.</param>
+    public AzHdinsightApplicationCreateOptions(
+        string ClusterName,
+        string Name,
+        string ResourceGroup,
+        string ScriptActionName,
+        string ScriptUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ScriptActionName);
+        this.ScriptActionName = ScriptActionName;
+        global::System.ArgumentNullException.ThrowIfNull(ScriptUri);
+        this.ScriptUri = ScriptUri;
+    }
+
+    public void Deconstruct(out string ClusterName, out string Name, out string ResourceGroup, out string ScriptActionName, out string ScriptUri)
+    {
+        ClusterName = this.ClusterName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ScriptActionName = this.ScriptActionName;
+        ScriptUri = this.ScriptUri;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The constant value for the application name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the script action.
+    /// </summary>
+    [CliOption("--script-action-name")]
+    public string ScriptActionName { get; private init; }
+
+    /// <summary>
+    /// The URI to the script.
+    /// </summary>
+    [CliOption("--script-uri")]
+    public string ScriptUri { get; private init; }
+
     /// <summary>
     /// The marketplace identifier.
     /// </summary>

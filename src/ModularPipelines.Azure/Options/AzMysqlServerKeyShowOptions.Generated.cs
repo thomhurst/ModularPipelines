@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show server key.
 /// </summary>
-/// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.net/keys/YourKeyName/0123 4567890123456789012345678901".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "key", "show")]
-public record AzMysqlServerKeyShowOptions(
-    [property: CliOption("--kid", ShortForm = "-k")] string Kid
-) : AzOptions
+public record AzMysqlServerKeyShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show server key.
+    /// </summary>
+    /// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.net/keys/YourKeyName/0123 4567890123456789012345678901".</param>
+    public AzMysqlServerKeyShowOptions(
+        string Kid
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Kid);
+        this.Kid = Kid;
+    }
+
+    public void Deconstruct(out string Kid)
+    {
+        Kid = this.Kid;
+    }
+
+    /// <summary>
+    /// The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.net/keys/YourKeyName/0123 4567890123456789012345678901".
+    /// </summary>
+    [CliOption("--kid", ShortForm = "-k")]
+    public string Kid { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

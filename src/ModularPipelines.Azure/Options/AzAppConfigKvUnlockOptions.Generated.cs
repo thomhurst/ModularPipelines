@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Unlock a key-value to gain write operations.
 /// </summary>
-/// <param name="Key">Key to be unlocked.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "unlock")]
-public record AzAppConfigKvUnlockOptions(
-    [property: CliOption("--key")] string Key
-) : AzOptions
+public record AzAppConfigKvUnlockOptions : AzOptions
 {
+    /// <summary>
+    /// Unlock a key-value to gain write operations.
+    /// </summary>
+    /// <param name="Key">Key to be unlocked.</param>
+    public AzAppConfigKvUnlockOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// Key to be unlocked.
+    /// </summary>
+    [CliOption("--key")]
+    public string Key { get; private init; }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app-configuration/concept- enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>

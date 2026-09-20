@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates an availability group listener.
 /// </summary>
-/// <param name="GroupName">Name of the SQL virtual machine group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "group", "ag-listener", "update")]
-public record AzSqlVmGroupAgListenerUpdateOptions(
-    [property: CliOption("--group-name", ShortForm = "-r")] string GroupName
-) : AzOptions
+public record AzSqlVmGroupAgListenerUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates an availability group listener.
+    /// </summary>
+    /// <param name="GroupName">Name of the SQL virtual machine group.</param>
+    public AzSqlVmGroupAgListenerUpdateOptions(
+        string GroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+    }
+
+    public void Deconstruct(out string GroupName)
+    {
+        GroupName = this.GroupName;
+    }
+
+    /// <summary>
+    /// Name of the SQL virtual machine group.
+    /// </summary>
+    [CliOption("--group-name", ShortForm = "-r")]
+    public string GroupName { get; private init; }
+
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>

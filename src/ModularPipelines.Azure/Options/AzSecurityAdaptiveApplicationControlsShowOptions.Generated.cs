@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adaptive Application Controls - Get.
 /// </summary>
-/// <param name="GroupName">Name of an application control VM/server group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "adaptive-application-controls", "show")]
-public record AzSecurityAdaptiveApplicationControlsShowOptions(
-    [property: CliOption("--group-name")] string GroupName
-) : AzOptions
+public record AzSecurityAdaptiveApplicationControlsShowOptions : AzOptions
 {
+    /// <summary>
+    /// Adaptive Application Controls - Get.
+    /// </summary>
+    /// <param name="GroupName">Name of an application control VM/server group.</param>
+    public AzSecurityAdaptiveApplicationControlsShowOptions(
+        string GroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+    }
+
+    public void Deconstruct(out string GroupName)
+    {
+        GroupName = this.GroupName;
+    }
+
+    /// <summary>
+    /// Name of an application control VM/server group.
+    /// </summary>
+    [CliOption("--group-name")]
+    public string GroupName { get; private init; }
+
     /// <summary>
     /// Location of the resource. Possible values are "centralsus", "westeurope". Please use "list" operation to get all resources and locations.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition of a
 /// </summary>
-/// <param name="KeyName">The name of the workspace key.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "key", "wait")]
-public record AzSynapseWorkspaceKeyWaitOptions(
-    [property: CliOption("--key-name")] string KeyName
-) : AzOptions
+public record AzSynapseWorkspaceKeyWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition of a
+    /// </summary>
+    /// <param name="KeyName">The name of the workspace key.</param>
+    public AzSynapseWorkspaceKeyWaitOptions(
+        string KeyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+    }
+
+    public void Deconstruct(out string KeyName)
+    {
+        KeyName = this.KeyName;
+    }
+
+    /// <summary>
+    /// The name of the workspace key.
+    /// </summary>
+    [CliOption("--key-name")]
+    public string KeyName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

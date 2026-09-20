@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or Update an API Management Backend.
 /// </summary>
-/// <param name="Protocol">The protocol used to communicate with the backend service. Allowed values: http, soap.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
-/// <param name="Url">The URL of the backend service.</param>
-/// <param name="BackendId">Unique name for the Backend to be created or updated. Must be unique in the current API Management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "backend", "create")]
-public record AzApimBackendCreateOptions(
-    [property: CliOption("--protocol")] string Protocol,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
-    [property: CliOption("--url")] string Url,
-    [property: CliOption("--backend-id")] string BackendId
-) : AzOptions
+public record AzApimBackendCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create or Update an API Management Backend.
+    /// </summary>
+    /// <param name="Protocol">The protocol used to communicate with the backend service. Allowed values: http, soap.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    /// <param name="Url">The URL of the backend service.</param>
+    /// <param name="BackendId">Unique name for the Backend to be created or updated. Must be unique in the current API Management service instance.</param>
+    public AzApimBackendCreateOptions(
+        string Protocol,
+        string ResourceGroup,
+        string ServiceName,
+        string Url,
+        string BackendId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+        global::System.ArgumentNullException.ThrowIfNull(BackendId);
+        this.BackendId = BackendId;
+    }
+
+    public void Deconstruct(out string Protocol, out string ResourceGroup, out string ServiceName, out string Url, out string BackendId)
+    {
+        Protocol = this.Protocol;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        Url = this.Url;
+        BackendId = this.BackendId;
+    }
+
+    /// <summary>
+    /// The protocol used to communicate with the backend service. Allowed values: http, soap.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string Protocol { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// The URL of the backend service.
+    /// </summary>
+    [CliOption("--url")]
+    public string Url { get; private init; }
+
+    /// <summary>
+    /// Unique name for the Backend to be created or updated. Must be unique in the current API Management service instance.
+    /// </summary>
+    [CliOption("--backend-id")]
+    public string BackendId { get; private init; }
+
     /// <summary>
     /// Description of the Backend. May include HTML formatting tags.
     /// </summary>

@@ -15,26 +15,109 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a column's sensitivity classification.
 /// </summary>
-/// <param name="Column">The name of column.</param>
-/// <param name="InformationType">The information type.</param>
-/// <param name="Label">The label name.</param>
-/// <param name="Name">The SQL pool name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Schema">The name of schema.</param>
-/// <param name="Table">The name of table.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "classification", "create")]
-public record AzSynapseSqlPoolClassificationCreateOptions(
-    [property: CliOption("--column")] string Column,
-    [property: CliOption("--information-type")] string InformationType,
-    [property: CliOption("--label")] string Label,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--schema")] string Schema,
-    [property: CliOption("--table")] string Table,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseSqlPoolClassificationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a column's sensitivity classification.
+    /// </summary>
+    /// <param name="Column">The name of column.</param>
+    /// <param name="InformationType">The information type.</param>
+    /// <param name="Label">The label name.</param>
+    /// <param name="Name">The SQL pool name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Schema">The name of schema.</param>
+    /// <param name="Table">The name of table.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseSqlPoolClassificationCreateOptions(
+        string Column,
+        string InformationType,
+        string Label,
+        string Name,
+        string ResourceGroup,
+        string Schema,
+        string Table,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Column);
+        this.Column = Column;
+        global::System.ArgumentNullException.ThrowIfNull(InformationType);
+        this.InformationType = InformationType;
+        global::System.ArgumentNullException.ThrowIfNull(Label);
+        this.Label = Label;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Column, out string InformationType, out string Label, out string Name, out string ResourceGroup, out string Schema, out string Table, out string WorkspaceName)
+    {
+        Column = this.Column;
+        InformationType = this.InformationType;
+        Label = this.Label;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Schema = this.Schema;
+        Table = this.Table;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The name of column.
+    /// </summary>
+    [CliOption("--column")]
+    public string Column { get; private init; }
+
+    /// <summary>
+    /// The information type.
+    /// </summary>
+    [CliOption("--information-type")]
+    public string InformationType { get; private init; }
+
+    /// <summary>
+    /// The label name.
+    /// </summary>
+    [CliOption("--label")]
+    public string Label { get; private init; }
+
+    /// <summary>
+    /// The SQL pool name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of schema.
+    /// </summary>
+    [CliOption("--schema")]
+    public string Schema { get; private init; }
+
+    /// <summary>
+    /// The name of table.
+    /// </summary>
+    [CliOption("--table")]
+    public string Table { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

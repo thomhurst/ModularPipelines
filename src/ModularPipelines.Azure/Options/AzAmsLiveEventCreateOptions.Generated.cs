@@ -15,22 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a live event.
 /// </summary>
-/// <param name="AccountName">The name of the Azure Media Services account.</param>
-/// <param name="Name">The name of the live event.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Ips">Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. Use "AllowAll" to allow all IP addresses. Allowing all IPs is not recommended for production environments.</param>
-/// <param name="StreamingProtocol">The streaming protocol for the live event. This value is specified at creation time and cannot be updated.  Allowed values: FragmentedMP4, RTMP.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "live-event", "create")]
-public record AzAmsLiveEventCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--ips", GroupValues = true)] IEnumerable<string> Ips,
-    [property: CliOption("--streaming-protocol")] string StreamingProtocol
-) : AzOptions
+public record AzAmsLiveEventCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a live event.
+    /// </summary>
+    /// <param name="AccountName">The name of the Azure Media Services account.</param>
+    /// <param name="Name">The name of the live event.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Ips">Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. Use "AllowAll" to allow all IP addresses. Allowing all IPs is not recommended for production environments.</param>
+    /// <param name="StreamingProtocol">The streaming protocol for the live event. This value is specified at creation time and cannot be updated.  Allowed values: FragmentedMP4, RTMP.</param>
+    public AzAmsLiveEventCreateOptions(
+        string AccountName,
+        string Name,
+        string ResourceGroup,
+        IEnumerable<string> Ips,
+        string StreamingProtocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Ips);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Ips));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Ips));
+            }
+
+            Ips = materialized;
+        }
+        this.Ips = Ips;
+        global::System.ArgumentNullException.ThrowIfNull(StreamingProtocol);
+        this.StreamingProtocol = StreamingProtocol;
+    }
+
+    public void Deconstruct(out string AccountName, out string Name, out string ResourceGroup, out IEnumerable<string> Ips, out string StreamingProtocol)
+    {
+        AccountName = this.AccountName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Ips = this.Ips;
+        StreamingProtocol = this.StreamingProtocol;
+    }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the live event.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. Use "AllowAll" to allow all IP addresses. Allowing all IPs is not recommended for production environments.
+    /// </summary>
+    [CliOption("--ips", GroupValues = true)]
+    public IEnumerable<string> Ips { get; private init; }
+
+    /// <summary>
+    /// The streaming protocol for the live event. This value is specified at creation time and cannot be updated.  Allowed values: FragmentedMP4, RTMP.
+    /// </summary>
+    [CliOption("--streaming-protocol")]
+    public string StreamingProtocol { get; private init; }
+
     /// <summary>
     /// The flag indicates if the resource should be automatically started on creation.
     /// </summary>

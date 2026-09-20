@@ -15,24 +15,109 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a log profile in Azure Monitoring REST API.
 /// </summary>
-/// <param name="Categories">Space-separated categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="Locations">Space-separated list of regions for which Activity Log events should be stored.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
-/// <param name="Name">The name of the log profile.</param>
-/// <param name="Days">The number of days for the retention in days. A value of 0 will retain the events indefinitely.</param>
-/// <param name="Enabled">Whether the retention policy is enabled.  Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-profiles", "create")]
-public record AzMonitorLogProfilesCreateOptions(
-    [property: CliOption("--categories", GroupValues = true)] IEnumerable<string> Categories,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--locations", GroupValues = true)] IEnumerable<string> Locations,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--days")] int Days,
-    [property: CliOption("--enabled")] bool Enabled
-) : AzOptions
+public record AzMonitorLogProfilesCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a log profile in Azure Monitoring REST API.
+    /// </summary>
+    /// <param name="Categories">Space-separated categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Locations">Space-separated list of regions for which Activity Log events should be stored.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="Name">The name of the log profile.</param>
+    /// <param name="Days">The number of days for the retention in days. A value of 0 will retain the events indefinitely.</param>
+    /// <param name="Enabled">Whether the retention policy is enabled.  Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+    public AzMonitorLogProfilesCreateOptions(
+        IEnumerable<string> Categories,
+        string Location,
+        IEnumerable<string> Locations,
+        string Name,
+        int Days,
+        bool Enabled
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Categories);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Categories));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Categories));
+            }
+
+            Categories = materialized;
+        }
+        this.Categories = Categories;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Locations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Locations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Locations));
+            }
+
+            Locations = materialized;
+        }
+        this.Locations = Locations;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.Days = Days;
+        this.Enabled = Enabled;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Categories, out string Location, out IEnumerable<string> Locations, out string Name, out int Days, out bool Enabled)
+    {
+        Categories = this.Categories;
+        Location = this.Location;
+        Locations = this.Locations;
+        Name = this.Name;
+        Days = this.Days;
+        Enabled = this.Enabled;
+    }
+
+    /// <summary>
+    /// Space-separated categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--categories", GroupValues = true)]
+    public IEnumerable<string> Categories { get; private init; }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of regions for which Activity Log events should be stored.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--locations", GroupValues = true)]
+    public IEnumerable<string> Locations { get; private init; }
+
+    /// <summary>
+    /// The name of the log profile.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The number of days for the retention in days. A value of 0 will retain the events indefinitely.
+    /// </summary>
+    [CliOption("--days")]
+    public int Days { get; private init; }
+
+    /// <summary>
+    /// Whether the retention policy is enabled.  Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enabled")]
+    public bool Enabled { get; private init; }
+
     /// <summary>
     /// The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'.
     /// </summary>

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check if a file path is available.
 /// </summary>
-/// <param name="Name">File path to verify.</param>
-/// <param name="SubnetId">The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "check-file-path-availability")]
-public record AzNetappfilesCheckFilePathAvailabilityOptions(
-    [property: CliOption("--name")] string Name,
-    [property: CliOption("--subnet-id")] string SubnetId
-) : AzOptions
+public record AzNetappfilesCheckFilePathAvailabilityOptions : AzOptions
 {
+    /// <summary>
+    /// Check if a file path is available.
+    /// </summary>
+    /// <param name="Name">File path to verify.</param>
+    /// <param name="SubnetId">The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes.</param>
+    public AzNetappfilesCheckFilePathAvailabilityOptions(
+        string Name,
+        string SubnetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+    }
+
+    public void Deconstruct(out string Name, out string SubnetId)
+    {
+        Name = this.Name;
+        SubnetId = this.SubnetId;
+    }
+
+    /// <summary>
+    /// File path to verify.
+    /// </summary>
+    [CliOption("--name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes.
+    /// </summary>
+    [CliOption("--subnet-id")]
+    public string SubnetId { get; private init; }
+
     /// <summary>
     /// The Azure Resource logical availability zone which is used within zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone where volume is placed.
     /// </summary>

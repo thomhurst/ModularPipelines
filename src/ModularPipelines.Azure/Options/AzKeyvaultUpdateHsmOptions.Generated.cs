@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a HSM.
 /// </summary>
-/// <param name="HsmName">Name of the HSM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "update-hsm")]
-public record AzKeyvaultUpdateHsmOptions(
-    [property: CliOption("--hsm-name")] string HsmName
-) : AzOptions
+public record AzKeyvaultUpdateHsmOptions : AzOptions
 {
+    /// <summary>
+    /// Update the properties of a HSM.
+    /// </summary>
+    /// <param name="HsmName">Name of the HSM.</param>
+    public AzKeyvaultUpdateHsmOptions(
+        string HsmName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HsmName);
+        this.HsmName = HsmName;
+    }
+
+    public void Deconstruct(out string HsmName)
+    {
+        HsmName = this.HsmName;
+    }
+
+    /// <summary>
+    /// Name of the HSM.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string HsmName { get; private init; }
+
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this vault/managed HSM pool. Setting this property to true activates protection against purge for this vault/managed HSM pool and its content - only the Key Vault/Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible.  Allowed values: false, true.
     /// </summary>

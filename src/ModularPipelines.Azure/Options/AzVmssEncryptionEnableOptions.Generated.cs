@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Encrypt a VMSS with managed disks.
 /// </summary>
-/// <param name="DiskEncryptionKeyvault">Name or ID of the key vault where the generated encryption key will be placed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "encryption", "enable")]
-public record AzVmssEncryptionEnableOptions(
-    [property: CliOption("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
-) : AzOptions
+public record AzVmssEncryptionEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Encrypt a VMSS with managed disks.
+    /// </summary>
+    /// <param name="DiskEncryptionKeyvault">Name or ID of the key vault where the generated encryption key will be placed.</param>
+    public AzVmssEncryptionEnableOptions(
+        string DiskEncryptionKeyvault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskEncryptionKeyvault);
+        this.DiskEncryptionKeyvault = DiskEncryptionKeyvault;
+    }
+
+    public void Deconstruct(out string DiskEncryptionKeyvault)
+    {
+        DiskEncryptionKeyvault = this.DiskEncryptionKeyvault;
+    }
+
+    /// <summary>
+    /// Name or ID of the key vault where the generated encryption key will be placed.
+    /// </summary>
+    [CliOption("--disk-encryption-keyvault")]
+    public string DiskEncryptionKeyvault { get; private init; }
+
     /// <summary>
     /// Resource Id of the user managed identity which can be used for Azure disk encryption.
     /// </summary>

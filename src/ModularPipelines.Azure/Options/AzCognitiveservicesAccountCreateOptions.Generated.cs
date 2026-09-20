@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manage Azure Cognitive Services accounts.
 /// </summary>
-/// <param name="Kind">The API name of cognitive services account. Values from: az cognitiveservices account list- kinds.</param>
-/// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="Name">Cognitive service account name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Sku">Name of the Sku of Cognitive Services account/deployment.  Values from: az cognitiveservices account list-skus.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "create")]
-public record AzCognitiveservicesAccountCreateOptions(
-    [property: CliOption("--kind")] string Kind,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--sku", ShortForm = "--sku-name")] string Sku
-) : AzOptions
+public record AzCognitiveservicesAccountCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Manage Azure Cognitive Services accounts.
+    /// </summary>
+    /// <param name="Kind">The API name of cognitive services account. Values from: az cognitiveservices account list- kinds.</param>
+    /// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Name">Cognitive service account name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Sku">Name of the Sku of Cognitive Services account/deployment.  Values from: az cognitiveservices account list-skus.</param>
+    public AzCognitiveservicesAccountCreateOptions(
+        string Kind,
+        string Location,
+        string Name,
+        string ResourceGroup,
+        string Sku
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Kind);
+        this.Kind = Kind;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        this.Sku = Sku;
+    }
+
+    public void Deconstruct(out string Kind, out string Location, out string Name, out string ResourceGroup, out string Sku)
+    {
+        Kind = this.Kind;
+        Location = this.Location;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Sku = this.Sku;
+    }
+
+    /// <summary>
+    /// The API name of cognitive services account. Values from: az cognitiveservices account list- kinds.
+    /// </summary>
+    [CliOption("--kind")]
+    public string Kind { get; private init; }
+
+    /// <summary>
+    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Cognitive service account name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Sku of Cognitive Services account/deployment.  Values from: az cognitiveservices account list-skus.
+    /// </summary>
+    [CliOption("--sku", ShortForm = "--sku-name")]
+    public string Sku { get; private init; }
+
     /// <summary>
     /// Api properties in JSON format or a=b c=d format. Some cognitive services (i.e. QnA Maker) require extra api properties to create the account.
     /// </summary>

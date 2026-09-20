@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start a deployment at management group.
 /// </summary>
-/// <param name="Location">The location to store the deployment metadata.</param>
-/// <param name="ManagementGroupId">The management group id to create deployment at.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "mg", "create")]
-public record AzDeploymentMgCreateOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
-) : AzOptions
+public record AzDeploymentMgCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Start a deployment at management group.
+    /// </summary>
+    /// <param name="Location">The location to store the deployment metadata.</param>
+    /// <param name="ManagementGroupId">The management group id to create deployment at.</param>
+    public AzDeploymentMgCreateOptions(
+        string Location,
+        string ManagementGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+    }
+
+    public void Deconstruct(out string Location, out string ManagementGroupId)
+    {
+        Location = this.Location;
+        ManagementGroupId = this.ManagementGroupId;
+    }
+
+    /// <summary>
+    /// The location to store the deployment metadata.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The management group id to create deployment at.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
     /// <summary>
     /// Instruct the command to run deployment What-If before executing the deployment. It then prompts you to acknowledge resource changes before it continues.
     /// </summary>

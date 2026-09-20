@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start managed database copy operation.
 /// </summary>
-/// <param name="DestMi">Name of the managed instance to copy the managed database to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "copy", "start")]
-public record AzSqlMidbCopyStartOptions(
-    [property: CliOption("--dest-mi")] string DestMi
-) : AzOptions
+public record AzSqlMidbCopyStartOptions : AzOptions
 {
+    /// <summary>
+    /// Start managed database copy operation.
+    /// </summary>
+    /// <param name="DestMi">Name of the managed instance to copy the managed database to.</param>
+    public AzSqlMidbCopyStartOptions(
+        string DestMi
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestMi);
+        this.DestMi = DestMi;
+    }
+
+    public void Deconstruct(out string DestMi)
+    {
+        DestMi = this.DestMi;
+    }
+
+    /// <summary>
+    /// Name of the managed instance to copy the managed database to.
+    /// </summary>
+    [CliOption("--dest-mi")]
+    public string DestMi { get; private init; }
+
     /// <summary>
     /// Name of the resource group to copy the managed database to. If unspecified, defaults to the origin resource group.
     /// </summary>

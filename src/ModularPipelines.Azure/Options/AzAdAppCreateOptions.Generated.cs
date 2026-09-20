@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an application.
 /// </summary>
-/// <param name="DisplayName">The display name of the application.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "create")]
-public record AzAdAppCreateOptions(
-    [property: CliOption("--display-name")] string DisplayName
-) : AzOptions
+public record AzAdAppCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an application.
+    /// </summary>
+    /// <param name="DisplayName">The display name of the application.</param>
+    public AzAdAppCreateOptions(
+        string DisplayName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+    }
+
+    public void Deconstruct(out string DisplayName)
+    {
+        DisplayName = this.DisplayName;
+    }
+
+    /// <summary>
+    /// The display name of the application.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
     /// <summary>
     /// Space-separated values. Also known as App ID URI, this value is set when an application is used as a resource app. The identifierUris acts as the prefix for the scopes you'll reference in your API's code, and it must be globally unique. You can use the default value provided, which is in the form `api://&lt;application-client-id&gt;`, or specify a more readable URI like https://contoso.com/api.
     /// </summary>

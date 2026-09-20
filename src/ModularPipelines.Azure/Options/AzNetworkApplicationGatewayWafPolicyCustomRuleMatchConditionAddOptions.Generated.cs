@@ -15,22 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a match
 /// </summary>
-/// <param name="MatchVariables">Space-separated list of variables to use when matching. Variable values: RemoteAddr, RequestMethod, QueryString, PostArgs, RequestUri, RequestHeaders, RequestBody, RequestCookies.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
-/// <param name="Name">Name of the WAF policy rule.</param>
-/// <param name="Operator">Operator for matching.  Allowed values: Any, BeginsWith, Contains, EndsWith, Equal, GeoMatch, GreaterThan, GreaterThanOrEqual, IPMatch, LessThan, LessThanOrEqual, Regex.</param>
-/// <param name="PolicyName">Name of the application gateway WAF policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "match-condition", "add")]
-public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions(
-    [property: CliOption("--match-variables", GroupValues = true)] IEnumerable<string> MatchVariables,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--operator")] string Operator,
-    [property: CliOption("--policy-name")] string PolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a match
+    /// </summary>
+    /// <param name="MatchVariables">Space-separated list of variables to use when matching. Variable values: RemoteAddr, RequestMethod, QueryString, PostArgs, RequestUri, RequestHeaders, RequestBody, RequestCookies.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+    /// <param name="Name">Name of the WAF policy rule.</param>
+    /// <param name="Operator">Operator for matching.  Allowed values: Any, BeginsWith, Contains, EndsWith, Equal, GeoMatch, GreaterThan, GreaterThanOrEqual, IPMatch, LessThan, LessThanOrEqual, Regex.</param>
+    /// <param name="PolicyName">Name of the application gateway WAF policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions(
+        IEnumerable<string> MatchVariables,
+        string Name,
+        string Operator,
+        string PolicyName,
+        string ResourceGroup
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MatchVariables);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MatchVariables));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MatchVariables));
+            }
+
+            MatchVariables = materialized;
+        }
+        this.MatchVariables = MatchVariables;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Operator);
+        this.Operator = Operator;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out IEnumerable<string> MatchVariables, out string Name, out string Operator, out string PolicyName, out string ResourceGroup)
+    {
+        MatchVariables = this.MatchVariables;
+        Name = this.Name;
+        Operator = this.Operator;
+        PolicyName = this.PolicyName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Space-separated list of variables to use when matching. Variable values: RemoteAddr, RequestMethod, QueryString, PostArgs, RequestUri, RequestHeaders, RequestBody, RequestCookies.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--match-variables", GroupValues = true)]
+    public IEnumerable<string> MatchVariables { get; private init; }
+
+    /// <summary>
+    /// Name of the WAF policy rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Operator for matching.  Allowed values: Any, BeginsWith, Contains, EndsWith, Equal, GeoMatch, GreaterThan, GreaterThanOrEqual, IPMatch, LessThan, LessThanOrEqual, Regex.
+    /// </summary>
+    [CliOption("--operator")]
+    public string Operator { get; private init; }
+
+    /// <summary>
+    /// Name of the application gateway WAF policy.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Index of match condition. If no index is provided, the default behavior is `append`.
     /// </summary>

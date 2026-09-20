@@ -15,18 +15,55 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a dedicated host group.
 /// </summary>
-/// <param name="Name">Name of the Dedicated Host Group.</param>
-/// <param name="PlatformFaultDomainCount">Number of fault domains that the host group can span.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "host", "group", "create")]
-public record AzVmHostGroupCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--platform-fault-domain-count", ShortForm = "-c")] int PlatformFaultDomainCount,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzVmHostGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a dedicated host group.
+    /// </summary>
+    /// <param name="Name">Name of the Dedicated Host Group.</param>
+    /// <param name="PlatformFaultDomainCount">Number of fault domains that the host group can span.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzVmHostGroupCreateOptions(
+        string Name,
+        int PlatformFaultDomainCount,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.PlatformFaultDomainCount = PlatformFaultDomainCount;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out int PlatformFaultDomainCount, out string ResourceGroup)
+    {
+        Name = this.Name;
+        PlatformFaultDomainCount = this.PlatformFaultDomainCount;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the Dedicated Host Group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Number of fault domains that the host group can span.
+    /// </summary>
+    [CliOption("--platform-fault-domain-count", ShortForm = "-c")]
+    public int PlatformFaultDomainCount { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Specify whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to false when not provided.  Allowed values: false, true.
     /// </summary>

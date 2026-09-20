@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerates either the primary or secondary admin API key.
 /// </summary>
-/// <param name="KeyKind">The type (primary or secondary) of the admin key.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the search service.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "admin-key", "renew")]
-public record AzSearchAdminKeyRenewOptions(
-    [property: CliOption("--key-kind")] string KeyKind,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name")] string ServiceName
-) : AzOptions
+public record AzSearchAdminKeyRenewOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerates either the primary or secondary admin API key.
+    /// </summary>
+    /// <param name="KeyKind">The type (primary or secondary) of the admin key.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the search service.</param>
+    public AzSearchAdminKeyRenewOptions(
+        string KeyKind,
+        string ResourceGroup,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyKind);
+        this.KeyKind = KeyKind;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string KeyKind, out string ResourceGroup, out string ServiceName)
+    {
+        KeyKind = this.KeyKind;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// The type (primary or secondary) of the admin key.
+    /// </summary>
+    [CliOption("--key-kind")]
+    public string KeyKind { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the search service.
+    /// </summary>
+    [CliOption("--service-name")]
+    public string ServiceName { get; private init; }
+
 }

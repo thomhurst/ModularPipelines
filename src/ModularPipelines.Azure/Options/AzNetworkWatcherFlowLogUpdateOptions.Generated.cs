@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the flow log configuration of a network security
 /// </summary>
-/// <param name="Location">Location to identify the exclusive Network Watcher under a region. Only one Network Watcher can be existed per subscription and region.</param>
-/// <param name="Name">The name of the flow logger.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "flow-log", "update")]
-public record AzNetworkWatcherFlowLogUpdateOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzNetworkWatcherFlowLogUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update the flow log configuration of a network security
+    /// </summary>
+    /// <param name="Location">Location to identify the exclusive Network Watcher under a region. Only one Network Watcher can be existed per subscription and region.</param>
+    /// <param name="Name">The name of the flow logger.</param>
+    public AzNetworkWatcherFlowLogUpdateOptions(
+        string Location,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Location, out string Name)
+    {
+        Location = this.Location;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Location to identify the exclusive Network Watcher under a region. Only one Network Watcher can be existed per subscription and region.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name of the flow logger.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Enable logging.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

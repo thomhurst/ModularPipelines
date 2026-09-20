@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a secret to a VM.
 /// </summary>
-/// <param name="Certificate">Key vault certificate name or its full secret URL.</param>
-/// <param name="Keyvault">Name or ID of the key vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "secret", "add")]
-public record AzVmSecretAddOptions(
-    [property: CliOption("--certificate")] string Certificate,
-    [property: CliOption("--keyvault")] string Keyvault
-) : AzOptions
+public record AzVmSecretAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a secret to a VM.
+    /// </summary>
+    /// <param name="Certificate">Key vault certificate name or its full secret URL.</param>
+    /// <param name="Keyvault">Name or ID of the key vault.</param>
+    public AzVmSecretAddOptions(
+        string Certificate,
+        string Keyvault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+        global::System.ArgumentNullException.ThrowIfNull(Keyvault);
+        this.Keyvault = Keyvault;
+    }
+
+    public void Deconstruct(out string Certificate, out string Keyvault)
+    {
+        Certificate = this.Certificate;
+        Keyvault = this.Keyvault;
+    }
+
+    /// <summary>
+    /// Key vault certificate name or its full secret URL.
+    /// </summary>
+    [CliOption("--certificate")]
+    public string Certificate { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the key vault.
+    /// </summary>
+    [CliOption("--keyvault")]
+    public string Keyvault { get; private init; }
+
     /// <summary>
     /// Windows certificate store names. Default: My.
     /// </summary>

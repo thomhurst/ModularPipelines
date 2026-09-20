@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show details of a secret.
 /// </summary>
-/// <param name="Name">The name of the container app job for which the secret needs to be retrieved.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SecretName">The name of the secret to show.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "job", "secret", "show")]
-public record AzContainerappJobSecretShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--secret-name")] string SecretName
-) : AzOptions
+public record AzContainerappJobSecretShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show details of a secret.
+    /// </summary>
+    /// <param name="Name">The name of the container app job for which the secret needs to be retrieved.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SecretName">The name of the secret to show.</param>
+    public AzContainerappJobSecretShowOptions(
+        string Name,
+        string ResourceGroup,
+        string SecretName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SecretName);
+        this.SecretName = SecretName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string SecretName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SecretName = this.SecretName;
+    }
+
+    /// <summary>
+    /// The name of the container app job for which the secret needs to be retrieved.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the secret to show.
+    /// </summary>
+    [CliOption("--secret-name")]
+    public string SecretName { get; private init; }
+
 }

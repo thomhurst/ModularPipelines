@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check the give Namespace name availability.
 /// </summary>
-/// <param name="Name">Name to check the namespace name availability.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "exists")]
-public record AzEventhubsNamespaceExistsOptions(
-    [property: CliOption("--name")] string Name
-) : AzOptions
+public record AzEventhubsNamespaceExistsOptions : AzOptions
 {
+    /// <summary>
+    /// Check the give Namespace name availability.
+    /// </summary>
+    /// <param name="Name">Name to check the namespace name availability.</param>
+    public AzEventhubsNamespaceExistsOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name to check the namespace name availability.
+    /// </summary>
+    [CliOption("--name")]
+    public string Name { get; private init; }
+
 }

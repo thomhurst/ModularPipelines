@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove autoscale rules from a profile.
 /// </summary>
-/// <param name="AutoscaleName">Name of the autoscale settings.</param>
-/// <param name="Index">Space-separated list of rule indices to remove, or '*' to clear all rules.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "delete")]
-public record AzMonitorAutoscaleRuleDeleteOptions(
-    [property: CliOption("--autoscale-name")] string AutoscaleName,
-    [property: CliOption("--index", GroupValues = true)] IEnumerable<string> Index,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMonitorAutoscaleRuleDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Remove autoscale rules from a profile.
+    /// </summary>
+    /// <param name="AutoscaleName">Name of the autoscale settings.</param>
+    /// <param name="Index">Space-separated list of rule indices to remove, or '*' to clear all rules.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMonitorAutoscaleRuleDeleteOptions(
+        string AutoscaleName,
+        IEnumerable<string> Index,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoscaleName);
+        this.AutoscaleName = AutoscaleName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Index);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Index));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Index));
+            }
+
+            Index = materialized;
+        }
+        this.Index = Index;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AutoscaleName, out IEnumerable<string> Index, out string ResourceGroup)
+    {
+        AutoscaleName = this.AutoscaleName;
+        Index = this.Index;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the autoscale settings.
+    /// </summary>
+    [CliOption("--autoscale-name")]
+    public string AutoscaleName { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of rule indices to remove, or '*' to clear all rules.
+    /// </summary>
+    [CliOption("--index", GroupValues = true)]
+    public IEnumerable<string> Index { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Name of the autoscale profile.  Default: default.
     /// </summary>

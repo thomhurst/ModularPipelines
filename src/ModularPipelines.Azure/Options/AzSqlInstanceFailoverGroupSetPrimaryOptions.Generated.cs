@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the primary of the instance failover group by
 /// </summary>
-/// <param name="Location">Location of the secondary instance in the Instance Failover Group. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="Name">The name of the Instance Failover Group.</param>
-/// <param name="ResourceGroup">Name of resource group of the secondary instance in the Instance Failover Group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instance-failover-group", "set-primary")]
-public record AzSqlInstanceFailoverGroupSetPrimaryOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlInstanceFailoverGroupSetPrimaryOptions : AzOptions
 {
+    /// <summary>
+    /// Set the primary of the instance failover group by
+    /// </summary>
+    /// <param name="Location">Location of the secondary instance in the Instance Failover Group. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Name">The name of the Instance Failover Group.</param>
+    /// <param name="ResourceGroup">Name of resource group of the secondary instance in the Instance Failover Group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSqlInstanceFailoverGroupSetPrimaryOptions(
+        string Location,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Location, out string Name, out string ResourceGroup)
+    {
+        Location = this.Location;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Location of the secondary instance in the Instance Failover Group. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name of the Instance Failover Group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group of the secondary instance in the Instance Failover Group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Complete the failover even if doing so may result in data loss. This will allow the failover to proceed even if a primary database is unavailable.
     /// </summary>

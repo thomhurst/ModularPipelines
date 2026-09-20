@@ -15,24 +15,98 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start protecting a previously unprotected workload
 /// </summary>
-/// <param name="PolicyName">Name of the backup policy.</param>
-/// <param name="ProtectableItemName">Specify the resource name to be protected by Azure Backup service.</param>
-/// <param name="ProtectableItemType">Specify the type of items within the Resource which should be discovered and protected by Azure Backup. 'HANAInstance' and 'SAPHanaSystem' can be used interchangeably.  Allowed values: HANAInstance, SAPAseDatabase, SAPHanaDBInstance, SAPHanaDatabase, SAPHanaSystem, SQLAG, SQLDatabase, SQLInstance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServerName">Parent Server name of the item.</param>
-/// <param name="VaultName">Name of the Recovery services vault.</param>
-/// <param name="WorkloadType">Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase, VM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protection", "enable-for-azurewl")]
-public record AzBackupProtectionEnableForAzurewlOptions(
-    [property: CliOption("--policy-name", ShortForm = "-p")] string PolicyName,
-    [property: CliOption("--protectable-item-name")] string ProtectableItemName,
-    [property: CliOption("--protectable-item-type")] string ProtectableItemType,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-name")] string ServerName,
-    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName,
-    [property: CliOption("--workload-type")] string WorkloadType
-) : AzOptions
+public record AzBackupProtectionEnableForAzurewlOptions : AzOptions
 {
+    /// <summary>
+    /// Start protecting a previously unprotected workload
+    /// </summary>
+    /// <param name="PolicyName">Name of the backup policy.</param>
+    /// <param name="ProtectableItemName">Specify the resource name to be protected by Azure Backup service.</param>
+    /// <param name="ProtectableItemType">Specify the type of items within the Resource which should be discovered and protected by Azure Backup. 'HANAInstance' and 'SAPHanaSystem' can be used interchangeably.  Allowed values: HANAInstance, SAPAseDatabase, SAPHanaDBInstance, SAPHanaDatabase, SAPHanaSystem, SQLAG, SQLDatabase, SQLInstance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServerName">Parent Server name of the item.</param>
+    /// <param name="VaultName">Name of the Recovery services vault.</param>
+    /// <param name="WorkloadType">Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase, VM.</param>
+    public AzBackupProtectionEnableForAzurewlOptions(
+        string PolicyName,
+        string ProtectableItemName,
+        string ProtectableItemType,
+        string ResourceGroup,
+        string ServerName,
+        string VaultName,
+        string WorkloadType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ProtectableItemName);
+        this.ProtectableItemName = ProtectableItemName;
+        global::System.ArgumentNullException.ThrowIfNull(ProtectableItemType);
+        this.ProtectableItemType = ProtectableItemType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadType);
+        this.WorkloadType = WorkloadType;
+    }
+
+    public void Deconstruct(out string PolicyName, out string ProtectableItemName, out string ProtectableItemType, out string ResourceGroup, out string ServerName, out string VaultName, out string WorkloadType)
+    {
+        PolicyName = this.PolicyName;
+        ProtectableItemName = this.ProtectableItemName;
+        ProtectableItemType = this.ProtectableItemType;
+        ResourceGroup = this.ResourceGroup;
+        ServerName = this.ServerName;
+        VaultName = this.VaultName;
+        WorkloadType = this.WorkloadType;
+    }
+
+    /// <summary>
+    /// Name of the backup policy.
+    /// </summary>
+    [CliOption("--policy-name", ShortForm = "-p")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Specify the resource name to be protected by Azure Backup service.
+    /// </summary>
+    [CliOption("--protectable-item-name")]
+    public string ProtectableItemName { get; private init; }
+
+    /// <summary>
+    /// Specify the type of items within the Resource which should be discovered and protected by Azure Backup. 'HANAInstance' and 'SAPHanaSystem' can be used interchangeably.  Allowed values: HANAInstance, SAPAseDatabase, SAPHanaDBInstance, SAPHanaDatabase, SAPHanaSystem, SQLAG, SQLDatabase, SQLInstance.
+    /// </summary>
+    [CliOption("--protectable-item-type")]
+    public string ProtectableItemType { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Parent Server name of the item.
+    /// </summary>
+    [CliOption("--server-name")]
+    public string ServerName { get; private init; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string VaultName { get; private init; }
+
+    /// <summary>
+    /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase, VM.
+    /// </summary>
+    [CliOption("--workload-type")]
+    public string WorkloadType { get; private init; }
+
 }

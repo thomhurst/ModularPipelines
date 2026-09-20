@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the specified Network Virtual
 /// </summary>
-/// <param name="Name">The name of security rule collection.</param>
-/// <param name="NvaName">The name of the Network Virtual Appliance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "inbound-security-rule", "create")]
-public record AzNetworkVirtualApplianceInboundSecurityRuleCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--nva-name")] string NvaName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkVirtualApplianceInboundSecurityRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create the specified Network Virtual
+    /// </summary>
+    /// <param name="Name">The name of security rule collection.</param>
+    /// <param name="NvaName">The name of the Network Virtual Appliance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkVirtualApplianceInboundSecurityRuleCreateOptions(
+        string Name,
+        string NvaName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NvaName);
+        this.NvaName = NvaName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string NvaName, out string ResourceGroup)
+    {
+        Name = this.Name;
+        NvaName = this.NvaName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of security rule collection.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the Network Virtual Appliance.
+    /// </summary>
+    [CliOption("--nva-name")]
+    public string NvaName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

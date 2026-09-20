@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates or create an alerts suppression rule.
 /// </summary>
-/// <param name="AlertType">Type of the alert to automatically suppress. For all alert types, use "*".</param>
-/// <param name="Reason">The reason for dismissing the alert.</param>
-/// <param name="RuleName">The unique name of the alerts suppression rule.</param>
-/// <param name="State">Possible states of the rule. Possible values are "Enabled" and "Disabled".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alerts-suppression-rule", "update")]
-public record AzSecurityAlertsSuppressionRuleUpdateOptions(
-    [property: CliOption("--alert-type")] string AlertType,
-    [property: CliOption("--reason")] string Reason,
-    [property: CliOption("--rule-name")] string RuleName,
-    [property: CliOption("--state")] string State
-) : AzOptions
+public record AzSecurityAlertsSuppressionRuleUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates or create an alerts suppression rule.
+    /// </summary>
+    /// <param name="AlertType">Type of the alert to automatically suppress. For all alert types, use "*".</param>
+    /// <param name="Reason">The reason for dismissing the alert.</param>
+    /// <param name="RuleName">The unique name of the alerts suppression rule.</param>
+    /// <param name="State">Possible states of the rule. Possible values are "Enabled" and "Disabled".</param>
+    public AzSecurityAlertsSuppressionRuleUpdateOptions(
+        string AlertType,
+        string Reason,
+        string RuleName,
+        string State
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlertType);
+        this.AlertType = AlertType;
+        global::System.ArgumentNullException.ThrowIfNull(Reason);
+        this.Reason = Reason;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+    }
+
+    public void Deconstruct(out string AlertType, out string Reason, out string RuleName, out string State)
+    {
+        AlertType = this.AlertType;
+        Reason = this.Reason;
+        RuleName = this.RuleName;
+        State = this.State;
+    }
+
+    /// <summary>
+    /// Type of the alert to automatically suppress. For all alert types, use "*".
+    /// </summary>
+    [CliOption("--alert-type")]
+    public string AlertType { get; private init; }
+
+    /// <summary>
+    /// The reason for dismissing the alert.
+    /// </summary>
+    [CliOption("--reason")]
+    public string Reason { get; private init; }
+
+    /// <summary>
+    /// The unique name of the alerts suppression rule.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
+    /// <summary>
+    /// Possible states of the rule. Possible values are "Enabled" and "Disabled".
+    /// </summary>
+    [CliOption("--state")]
+    public string State { get; private init; }
+
     /// <summary>
     /// Any comment regarding the rule.
     /// </summary>

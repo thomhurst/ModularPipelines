@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a topic subscription.
 /// </summary>
-/// <param name="Name">The subscription name.</param>
-/// <param name="NamespaceName">The namespace name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="TopicName">The topic name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "topic", "subscription", "create")]
-public record AzServicebusTopicSubscriptionCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--topic-name")] string TopicName
-) : AzOptions
+public record AzServicebusTopicSubscriptionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a topic subscription.
+    /// </summary>
+    /// <param name="Name">The subscription name.</param>
+    /// <param name="NamespaceName">The namespace name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="TopicName">The topic name.</param>
+    public AzServicebusTopicSubscriptionCreateOptions(
+        string Name,
+        string NamespaceName,
+        string ResourceGroup,
+        string TopicName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(TopicName);
+        this.TopicName = TopicName;
+    }
+
+    public void Deconstruct(out string Name, out string NamespaceName, out string ResourceGroup, out string TopicName)
+    {
+        Name = this.Name;
+        NamespaceName = this.NamespaceName;
+        ResourceGroup = this.ResourceGroup;
+        TopicName = this.TopicName;
+    }
+
+    /// <summary>
+    /// The subscription name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The namespace name.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The topic name.
+    /// </summary>
+    [CliOption("--topic-name")]
+    public string TopicName { get; private init; }
+
     /// <summary>
     /// Indicates the Client ID of the application that created the client-affine subscription.
     /// </summary>

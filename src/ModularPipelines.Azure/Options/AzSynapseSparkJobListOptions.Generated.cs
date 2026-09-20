@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all Spark jobs.
 /// </summary>
-/// <param name="SparkPoolName">The name of the Spark pool.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "job", "list")]
-public record AzSynapseSparkJobListOptions(
-    [property: CliOption("--spark-pool-name")] string SparkPoolName,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseSparkJobListOptions : AzOptions
 {
+    /// <summary>
+    /// List all Spark jobs.
+    /// </summary>
+    /// <param name="SparkPoolName">The name of the Spark pool.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzSynapseSparkJobListOptions(
+        string SparkPoolName,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SparkPoolName);
+        this.SparkPoolName = SparkPoolName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string SparkPoolName, out string WorkspaceName)
+    {
+        SparkPoolName = this.SparkPoolName;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The name of the Spark pool.
+    /// </summary>
+    [CliOption("--spark-pool-name")]
+    public string SparkPoolName { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Optional parameter specifying which index the list should begin from.
     /// </summary>

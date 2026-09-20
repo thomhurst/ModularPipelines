@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute a query against the Log Analytics workspace linked with a VM.
 /// </summary>
-/// <param name="AnalyticsQuery">Query to execute over Log Analytics data.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "monitor", "log", "show")]
-public record AzVmMonitorLogShowOptions(
-    [property: CliOption("--analytics-query", ShortForm = "-q")] string AnalyticsQuery
-) : AzOptions
+public record AzVmMonitorLogShowOptions : AzOptions
 {
+    /// <summary>
+    /// Execute a query against the Log Analytics workspace linked with a VM.
+    /// </summary>
+    /// <param name="AnalyticsQuery">Query to execute over Log Analytics data.</param>
+    public AzVmMonitorLogShowOptions(
+        string AnalyticsQuery
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnalyticsQuery);
+        this.AnalyticsQuery = AnalyticsQuery;
+    }
+
+    public void Deconstruct(out string AnalyticsQuery)
+    {
+        AnalyticsQuery = this.AnalyticsQuery;
+    }
+
+    /// <summary>
+    /// Query to execute over Log Analytics data.
+    /// </summary>
+    [CliOption("--analytics-query", ShortForm = "-q")]
+    public string AnalyticsQuery { get; private init; }
+
     /// <summary>
     /// Timespan over which to query. Defaults to querying all available data.
     /// </summary>

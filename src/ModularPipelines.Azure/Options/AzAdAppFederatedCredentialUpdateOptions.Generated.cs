@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update application federated identity credential.
 /// </summary>
-/// <param name="FederatedCredentialId">ID or name of the federated identity credential.</param>
-/// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
-/// <param name="Parameters">Parameters for creating federated identity credential. Should be JSON file path or in-line JSON string. See examples for details.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "federated-credential", "update")]
-public record AzAdAppFederatedCredentialUpdateOptions(
-    [property: CliOption("--federated-credential-id")] string FederatedCredentialId,
-    [property: CliOption("--id")] string Id,
-    [property: CliOption("--parameters")] string Parameters
-) : AzOptions
+public record AzAdAppFederatedCredentialUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update application federated identity credential.
+    /// </summary>
+    /// <param name="FederatedCredentialId">ID or name of the federated identity credential.</param>
+    /// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
+    /// <param name="Parameters">Parameters for creating federated identity credential. Should be JSON file path or in-line JSON string. See examples for details.</param>
+    public AzAdAppFederatedCredentialUpdateOptions(
+        string FederatedCredentialId,
+        string Id,
+        string Parameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FederatedCredentialId);
+        this.FederatedCredentialId = FederatedCredentialId;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(Parameters);
+        this.Parameters = Parameters;
+    }
+
+    public void Deconstruct(out string FederatedCredentialId, out string Id, out string Parameters)
+    {
+        FederatedCredentialId = this.FederatedCredentialId;
+        Id = this.Id;
+        Parameters = this.Parameters;
+    }
+
+    /// <summary>
+    /// ID or name of the federated identity credential.
+    /// </summary>
+    [CliOption("--federated-credential-id")]
+    public string FederatedCredentialId { get; private init; }
+
+    /// <summary>
+    /// Application's appId, identifierUri, or id (formerly known as objectId).
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// Parameters for creating federated identity credential. Should be JSON file path or in-line JSON string. See examples for details.
+    /// </summary>
+    [CliOption("--parameters")]
+    public string Parameters { get; private init; }
+
 }

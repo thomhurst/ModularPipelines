@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a dedicated host.
 /// </summary>
-/// <param name="HostGroup">Name of the Dedicated Host Group.</param>
-/// <param name="Name">Name of the Dedicated Host.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Sku">SKU of the dedicated host. Available SKUs: https://azure.microsoft.com/pricing/details/virtual- machines/dedicated-host/.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "host", "create")]
-public record AzVmHostCreateOptions(
-    [property: CliOption("--host-group")] string HostGroup,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--sku")] string Sku
-) : AzOptions
+public record AzVmHostCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a dedicated host.
+    /// </summary>
+    /// <param name="HostGroup">Name of the Dedicated Host Group.</param>
+    /// <param name="Name">Name of the Dedicated Host.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Sku">SKU of the dedicated host. Available SKUs: https://azure.microsoft.com/pricing/details/virtual- machines/dedicated-host/.</param>
+    public AzVmHostCreateOptions(
+        string HostGroup,
+        string Name,
+        string ResourceGroup,
+        string Sku
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostGroup);
+        this.HostGroup = HostGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        this.Sku = Sku;
+    }
+
+    public void Deconstruct(out string HostGroup, out string Name, out string ResourceGroup, out string Sku)
+    {
+        HostGroup = this.HostGroup;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Sku = this.Sku;
+    }
+
+    /// <summary>
+    /// Name of the Dedicated Host Group.
+    /// </summary>
+    [CliOption("--host-group")]
+    public string HostGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Dedicated Host.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// SKU of the dedicated host. Available SKUs: https://azure.microsoft.com/pricing/details/virtual- machines/dedicated-host/.
+    /// </summary>
+    [CliOption("--sku")]
+    public string Sku { get; private init; }
+
     /// <summary>
     /// Replace the host automatically if a failure occurs.  Allowed values: false, true.
     /// </summary>

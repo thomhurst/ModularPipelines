@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Cancel a Spark statement.
 /// </summary>
-/// <param name="SessionId">The id of Spark session.</param>
-/// <param name="SparkPoolName">The name of the Spark pool.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
-/// <param name="LivyId">The id of the statement.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "statement", "cancel")]
-public record AzSynapseSparkStatementCancelOptions(
-    [property: CliOption("--session-id")] string SessionId,
-    [property: CliOption("--spark-pool-name")] string SparkPoolName,
-    [property: CliOption("--workspace-name")] string WorkspaceName,
-    [property: CliOption("--livy-id")] string LivyId
-) : AzOptions
+public record AzSynapseSparkStatementCancelOptions : AzOptions
 {
+    /// <summary>
+    /// Cancel a Spark statement.
+    /// </summary>
+    /// <param name="SessionId">The id of Spark session.</param>
+    /// <param name="SparkPoolName">The name of the Spark pool.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    /// <param name="LivyId">The id of the statement.</param>
+    public AzSynapseSparkStatementCancelOptions(
+        string SessionId,
+        string SparkPoolName,
+        string WorkspaceName,
+        string LivyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(SparkPoolName);
+        this.SparkPoolName = SparkPoolName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(LivyId);
+        this.LivyId = LivyId;
+    }
+
+    public void Deconstruct(out string SessionId, out string SparkPoolName, out string WorkspaceName, out string LivyId)
+    {
+        SessionId = this.SessionId;
+        SparkPoolName = this.SparkPoolName;
+        WorkspaceName = this.WorkspaceName;
+        LivyId = this.LivyId;
+    }
+
+    /// <summary>
+    /// The id of Spark session.
+    /// </summary>
+    [CliOption("--session-id")]
+    public string SessionId { get; private init; }
+
+    /// <summary>
+    /// The name of the Spark pool.
+    /// </summary>
+    [CliOption("--spark-pool-name")]
+    public string SparkPoolName { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The id of the statement.
+    /// </summary>
+    [CliOption("--livy-id")]
+    public string LivyId { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

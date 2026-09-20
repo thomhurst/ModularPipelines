@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a VPN connection shared key.
 /// </summary>
-/// <param name="Value">The virtual network connection shared key value.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "shared-key", "update")]
-public record AzNetworkVpnConnectionSharedKeyUpdateOptions(
-    [property: CliOption("--value")] string Value
-) : AzOptions
+public record AzNetworkVpnConnectionSharedKeyUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a VPN connection shared key.
+    /// </summary>
+    /// <param name="Value">The virtual network connection shared key value.</param>
+    public AzNetworkVpnConnectionSharedKeyUpdateOptions(
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string Value)
+    {
+        Value = this.Value;
+    }
+
+    /// <summary>
+    /// The virtual network connection shared key value.
+    /// </summary>
+    [CliOption("--value")]
+    public string Value { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

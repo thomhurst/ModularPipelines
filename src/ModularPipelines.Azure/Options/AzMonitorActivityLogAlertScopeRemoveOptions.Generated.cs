@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Removes scopes from this activity log alert rule.
 /// </summary>
-/// <param name="Scope">The scopes to remove.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "activity-log", "alert", "scope", "remove")]
-public record AzMonitorActivityLogAlertScopeRemoveOptions(
-    [property: CliOption("--scope", ShortForm = "-s")] string Scope
-) : AzOptions
+public record AzMonitorActivityLogAlertScopeRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Removes scopes from this activity log alert rule.
+    /// </summary>
+    /// <param name="Scope">The scopes to remove.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzMonitorActivityLogAlertScopeRemoveOptions(
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Scope)
+    {
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// The scopes to remove.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--scope", ShortForm = "-s")]
+    public string Scope { get; private init; }
+
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>

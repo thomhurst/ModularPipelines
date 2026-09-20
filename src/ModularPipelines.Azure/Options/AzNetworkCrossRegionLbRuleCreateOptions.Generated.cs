@@ -15,24 +15,87 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a load balancing rule.
 /// </summary>
-/// <param name="LbName">The load balancer name.</param>
-/// <param name="Name">The name of the load balancing rule.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="BackendPort">The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port".</param>
-/// <param name="FrontendPort">The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".</param>
-/// <param name="Protocol">The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "rule", "create")]
-public record AzNetworkCrossRegionLbRuleCreateOptions(
-    [property: CliOption("--lb-name")] string LbName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--backend-port")] int BackendPort,
-    [property: CliOption("--frontend-port")] int FrontendPort,
-    [property: CliOption("--protocol")] string Protocol
-) : AzOptions
+public record AzNetworkCrossRegionLbRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a load balancing rule.
+    /// </summary>
+    /// <param name="LbName">The load balancer name.</param>
+    /// <param name="Name">The name of the load balancing rule.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="BackendPort">The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port".</param>
+    /// <param name="FrontendPort">The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".</param>
+    /// <param name="Protocol">The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.</param>
+    public AzNetworkCrossRegionLbRuleCreateOptions(
+        string LbName,
+        string Name,
+        string ResourceGroup,
+        int BackendPort,
+        int FrontendPort,
+        string Protocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbName);
+        this.LbName = LbName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        this.BackendPort = BackendPort;
+        this.FrontendPort = FrontendPort;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+    }
+
+    public void Deconstruct(out string LbName, out string Name, out string ResourceGroup, out int BackendPort, out int FrontendPort, out string Protocol)
+    {
+        LbName = this.LbName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        BackendPort = this.BackendPort;
+        FrontendPort = this.FrontendPort;
+        Protocol = this.Protocol;
+    }
+
+    /// <summary>
+    /// The load balancer name.
+    /// </summary>
+    [CliOption("--lb-name")]
+    public string LbName { get; private init; }
+
+    /// <summary>
+    /// The name of the load balancing rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port".
+    /// </summary>
+    [CliOption("--backend-port")]
+    public int BackendPort { get; private init; }
+
+    /// <summary>
+    /// The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
+    /// </summary>
+    [CliOption("--frontend-port")]
+    public int FrontendPort { get; private init; }
+
+    /// <summary>
+    /// The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string Protocol { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

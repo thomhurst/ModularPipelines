@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update link between resources.
 /// </summary>
-/// <param name="Link">Fully-qualified resource ID of the resource link. Format: /subscriptions/{SubID}/resourceGroups/{ResourceGroupID}/providers/{ProviderNamespace }/{ResourceType}/{ResourceName}/providers/Microsoft.Resources/links/{LinkName}.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "link", "update")]
-public record AzResourceLinkUpdateOptions(
-    [property: CliOption("--link")] string Link
-) : AzOptions
+public record AzResourceLinkUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update link between resources.
+    /// </summary>
+    /// <param name="Link">Fully-qualified resource ID of the resource link. Format: /subscriptions/{SubID}/resourceGroups/{ResourceGroupID}/providers/{ProviderNamespace }/{ResourceType}/{ResourceName}/providers/Microsoft.Resources/links/{LinkName}.</param>
+    public AzResourceLinkUpdateOptions(
+        string Link
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Link);
+        this.Link = Link;
+    }
+
+    public void Deconstruct(out string Link)
+    {
+        Link = this.Link;
+    }
+
+    /// <summary>
+    /// Fully-qualified resource ID of the resource link. Format: /subscriptions/{SubID}/resourceGroups/{ResourceGroupID}/providers/{ProviderNamespace }/{ResourceType}/{ResourceName}/providers/Microsoft.Resources/links/{LinkName}.
+    /// </summary>
+    [CliOption("--link")]
+    public string Link { get; private init; }
+
     /// <summary>
     /// Notes for the link.
     /// </summary>
