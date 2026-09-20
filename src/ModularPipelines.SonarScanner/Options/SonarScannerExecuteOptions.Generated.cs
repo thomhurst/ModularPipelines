@@ -30,12 +30,6 @@ public record SonarScannerExecuteOptions : SonarScannerOptions
     public IReadOnlyList<KeyValue>? Define { get; set; }
 
     /// <summary>
-    /// Display help information
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Display version information
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
