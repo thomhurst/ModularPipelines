@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "patch-resource")]
-public record ArgoCdAppPatchResourceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppPatchResourceOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Patch resource in an application
+    /// </summary>
+    /// <param name="ApplicationName">The APPNAME operand.</param>
+    public ArgoCdAppPatchResourceOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    public void Deconstruct(out string ApplicationName)
+    {
+        ApplicationName = this.ApplicationName;
+    }
+
     /// <summary>
     /// Indicates whether to patch multiple matching of resources
     /// </summary>
@@ -41,12 +56,6 @@ public record ArgoCdAppPatchResourceOptions(
     /// </summary>
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public string? Group { get; set; }
-
-    /// <summary>
-    /// help for patch-resource
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Kind
@@ -240,5 +249,11 @@ public record ArgoCdAppPatchResourceOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The APPNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationName { get; private init; }
 
 }

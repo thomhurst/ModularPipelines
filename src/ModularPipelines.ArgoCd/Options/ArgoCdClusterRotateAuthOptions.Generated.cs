@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "rotate-auth")]
-public record ArgoCdClusterRotateAuthOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServerOrName
-) : ArgoCdOptions
+public record ArgoCdClusterRotateAuthOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for rotate-auth
+    /// argocd cluster rotate-auth SERVER/NAME
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="ServerOrName">Cluster server address or configured name.</param>
+    public ArgoCdClusterRotateAuthOptions(
+        string ServerOrName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerOrName);
+        this.ServerOrName = ServerOrName;
+    }
+
+    public void Deconstruct(out string ServerOrName)
+    {
+        ServerOrName = this.ServerOrName;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -186,5 +195,11 @@ public record ArgoCdClusterRotateAuthOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// Cluster server address or configured name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServerOrName { get; private init; }
 
 }

@@ -23,12 +23,6 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdAccountSessionTokenOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for session-token
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Output format (json)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

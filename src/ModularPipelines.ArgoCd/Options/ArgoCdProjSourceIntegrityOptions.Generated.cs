@@ -23,12 +23,6 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdProjSourceIntegrityOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for source-integrity
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The name of the Argo-CD server context to use
     /// </summary>
     [CliOption("--argocd-context", Format = OptionFormat.EqualsSeparated)]

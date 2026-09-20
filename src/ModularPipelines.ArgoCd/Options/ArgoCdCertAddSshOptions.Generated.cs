@@ -35,12 +35,6 @@ public record ArgoCdCertAddSshOptions : ArgoCdOptions
     public string? From { get; set; }
 
     /// <summary>
-    /// help for add-ssh
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Replace existing SSH server public host keys if key is different in input
     /// </summary>
     [CliFlag("--upsert")]

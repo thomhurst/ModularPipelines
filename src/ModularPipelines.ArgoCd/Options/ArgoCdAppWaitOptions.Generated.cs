@@ -47,12 +47,6 @@ public record ArgoCdAppWaitOptions : ArgoCdOptions
     public bool? Health { get; set; }
 
     /// <summary>
-    /// help for wait
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Wait for hydration operations
     /// </summary>
     [CliFlag("--hydrated")]

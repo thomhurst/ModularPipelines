@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "add-source")]
-public record ArgoCdAppAddSourceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppAddSourceOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Adds a source to the list of sources in the application
+    /// </summary>
+    /// <param name="ApplicationName">The APPNAME operand.</param>
+    public ArgoCdAppAddSourceOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    public void Deconstruct(out string ApplicationName)
+    {
+        ApplicationName = this.ApplicationName;
+    }
+
     /// <summary>
     /// Set allow zero live resources for automated sync policy
     /// </summary>
@@ -179,12 +194,6 @@ public record ArgoCdAppAddSourceOptions(
     /// </summary>
     [CliOption("--helm-version", Format = OptionFormat.EqualsSeparated)]
     public string? HelmVersion { get; set; }
-
-    /// <summary>
-    /// help for add-source
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The branch to hydrate the app to
@@ -618,5 +627,11 @@ public record ArgoCdAppAddSourceOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The APPNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationName { get; private init; }
 
 }

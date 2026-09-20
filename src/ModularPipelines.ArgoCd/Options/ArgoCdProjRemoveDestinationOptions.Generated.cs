@@ -20,17 +20,34 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "remove-destination")]
-public record ArgoCdProjRemoveDestinationOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DestinationServer,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Namespace
-) : ArgoCdOptions
+public record ArgoCdProjRemoveDestinationOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for remove-destination
+    /// Remove project destination
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="DestinationServer">The SERVER operand.</param>
+    /// <param name="Namespace">The NAMESPACE operand.</param>
+    public ArgoCdProjRemoveDestinationOptions(
+        string Project,
+        string DestinationServer,
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationServer);
+        this.DestinationServer = DestinationServer;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Project, out string DestinationServer, out string Namespace)
+    {
+        Project = this.Project;
+        DestinationServer = this.DestinationServer;
+        Namespace = this.Namespace;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -188,5 +205,23 @@ public record ArgoCdProjRemoveDestinationOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The SERVER operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DestinationServer { get; private init; }
+
+    /// <summary>
+    /// The NAMESPACE operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Namespace { get; private init; }
 
 }

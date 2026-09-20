@@ -20,17 +20,34 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "allow-namespace-resource")]
-public record ArgoCdProjAllowNamespaceResourceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Group,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Kind
-) : ArgoCdOptions
+public record ArgoCdProjAllowNamespaceResourceOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for allow-namespace-resource
+    /// Removes a namespaced API resource from the deny list or add a namespaced API resource to the allow list
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    /// <param name="Group">The GROUP operand.</param>
+    /// <param name="Kind">The KIND operand.</param>
+    public ArgoCdProjAllowNamespaceResourceOptions(
+        string Project,
+        string Group,
+        string Kind
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(Group);
+        this.Group = Group;
+        global::System.ArgumentNullException.ThrowIfNull(Kind);
+        this.Kind = Kind;
+    }
+
+    public void Deconstruct(out string Project, out string Group, out string Kind)
+    {
+        Project = this.Project;
+        Group = this.Group;
+        Kind = this.Kind;
+    }
 
     /// <summary>
     /// Use deny list or allow list. This can only be 'allow' or 'deny' (default "deny")
@@ -194,5 +211,23 @@ public record ArgoCdProjAllowNamespaceResourceOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// The GROUP operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Group { get; private init; }
+
+    /// <summary>
+    /// The KIND operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Kind { get; private init; }
 
 }

@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repocreds", "add")]
-public record ArgoCdRepocredsAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryUrl
-) : ArgoCdOptions
+public record ArgoCdRepocredsAddOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Add git repository connection parameters
+    /// </summary>
+    /// <param name="RepositoryUrl">The REPOURL operand.</param>
+    public ArgoCdRepocredsAddOptions(
+        string RepositoryUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryUrl);
+        this.RepositoryUrl = RepositoryUrl;
+    }
+
+    public void Deconstruct(out string RepositoryUrl)
+    {
+        RepositoryUrl = this.RepositoryUrl;
+    }
+
     /// <summary>
     /// Active Directory endpoint when not using default Azure public cloud (e.g. https://login.microsoftonline.de)
     /// </summary>
@@ -97,12 +112,6 @@ public record ArgoCdRepocredsAddOptions(
     /// </summary>
     [CliOption("--github-app-private-key-path", Format = OptionFormat.EqualsSeparated)]
     public string? GithubAppPrivateKeyPath { get; set; }
-
-    /// <summary>
-    /// help for add
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Use http when accessing an OCI repository
@@ -321,5 +330,11 @@ public record ArgoCdRepocredsAddOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The REPOURL operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryUrl { get; private init; }
 
 }

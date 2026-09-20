@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "role", "list")]
-public record ArgoCdProjRoleListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project
-) : ArgoCdOptions
+public record ArgoCdProjRoleListOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for list
+    /// List all the roles in a project
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    public ArgoCdProjRoleListOptions(
+        string Project
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+    }
+
+    public void Deconstruct(out string Project)
+    {
+        Project = this.Project;
+    }
 
     /// <summary>
     /// Output format. One of: json|yaml|wide|name (default "wide")
@@ -192,5 +201,11 @@ public record ArgoCdProjRoleListOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
 
 }

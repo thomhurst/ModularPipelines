@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.ArgoCd.Enums;
 
 /// <summary>
-/// Allowed values for the --gpgmode option.
+/// Allowed values for --gpg-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdProjSourceIntegrityGitPoliciesUpdateGpgMode

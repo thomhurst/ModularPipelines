@@ -20,11 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "actions", "run")]
-public record ArgoCdAppActionsRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Action
-) : ArgoCdOptions
+public record ArgoCdAppActionsRunOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// All filters except --kind are optional. Use --all to run the action on all matching resources if more than one resource matches the filters. Actions may only be run on resources that are represented in git and cannot be run on child resources.
+    /// </summary>
+    /// <param name="ApplicationName">The APPNAME operand.</param>
+    /// <param name="Action">The ACTION operand.</param>
+    public ArgoCdAppActionsRunOptions(
+        string ApplicationName,
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    public void Deconstruct(out string ApplicationName, out string Action)
+    {
+        ApplicationName = this.ApplicationName;
+        Action = this.Action;
+    }
+
     /// <summary>
     /// Indicates whether to run the action on multiple matching resources
     /// </summary>
@@ -42,12 +61,6 @@ public record ArgoCdAppActionsRunOptions(
     /// </summary>
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public string? Group { get; set; }
-
-    /// <summary>
-    /// help for run
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Kind of the resource on which the action should be run
@@ -223,5 +236,17 @@ public record ArgoCdAppActionsRunOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The APPNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationName { get; private init; }
+
+    /// <summary>
+    /// The ACTION operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Action { get; private init; }
 
 }

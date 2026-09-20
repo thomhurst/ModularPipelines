@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "windows", "add")]
-public record ArgoCdProjWindowsAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project
-) : ArgoCdOptions
+public record ArgoCdProjWindowsAddOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Add a sync window to a project
+    /// </summary>
+    /// <param name="Project">The PROJECT operand.</param>
+    public ArgoCdProjWindowsAddOptions(
+        string Project
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+    }
+
+    public void Deconstruct(out string Project)
+    {
+        Project = this.Project;
+    }
+
     /// <summary>
     /// Applications that the schedule will be applied to. Comma separated, wildcards supported (e.g. --applications prod-\*,website)
     /// </summary>
@@ -47,12 +62,6 @@ public record ArgoCdProjWindowsAddOptions(
     /// </summary>
     [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
     public string? Duration { get; set; }
-
-    /// <summary>
-    /// help for add
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Sync window kind, either allow or deny
@@ -252,5 +261,11 @@ public record ArgoCdProjWindowsAddOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
 
 }

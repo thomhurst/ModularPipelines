@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "create")]
-public record ArgoCdAppCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppCreateOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Create an application
+    /// </summary>
+    /// <param name="ApplicationName">The APPNAME operand.</param>
+    public ArgoCdAppCreateOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    public void Deconstruct(out string ApplicationName)
+    {
+        ApplicationName = this.ApplicationName;
+    }
+
     /// <summary>
     /// Set allow zero live resources for automated sync policy
     /// </summary>
@@ -191,12 +206,6 @@ public record ArgoCdAppCreateOptions(
     /// </summary>
     [CliOption("--helm-version", Format = OptionFormat.EqualsSeparated)]
     public string? HelmVersion { get; set; }
-
-    /// <summary>
-    /// help for create
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The branch to hydrate the app to
@@ -654,5 +663,11 @@ public record ArgoCdAppCreateOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The APPNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationName { get; private init; }
 
 }

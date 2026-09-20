@@ -20,11 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "proj", "generate-allow-list")]
-public record ArgoCdAdminProjGenerateAllowListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ClusterrolePath,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjName
-) : ArgoCdOptions
+public record ArgoCdAdminProjGenerateAllowListOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Generates project allow list from the specified clusterRole file
+    /// </summary>
+    /// <param name="ClusterrolePath">The CLUSTERROLE_PATH operand.</param>
+    /// <param name="ProjName">The PROJ_NAME operand.</param>
+    public ArgoCdAdminProjGenerateAllowListOptions(
+        string ClusterrolePath,
+        string ProjName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterrolePath);
+        this.ClusterrolePath = ClusterrolePath;
+        global::System.ArgumentNullException.ThrowIfNull(ProjName);
+        this.ProjName = ProjName;
+    }
+
+    public void Deconstruct(out string ClusterrolePath, out string ProjName)
+    {
+        ClusterrolePath = this.ClusterrolePath;
+        ProjName = this.ProjName;
+    }
+
     /// <summary>
     /// Username to impersonate for the operation
     /// </summary>
@@ -78,12 +97,6 @@ public record ArgoCdAdminProjGenerateAllowListOptions(
     /// </summary>
     [CliFlag("--disable-compression")]
     public bool? DisableCompression { get; set; }
-
-    /// <summary>
-    /// help for generate-allow-list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure
@@ -309,5 +322,17 @@ public record ArgoCdAdminProjGenerateAllowListOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The CLUSTERROLE_PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ClusterrolePath { get; private init; }
+
+    /// <summary>
+    /// The PROJ_NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjName { get; private init; }
 
 }

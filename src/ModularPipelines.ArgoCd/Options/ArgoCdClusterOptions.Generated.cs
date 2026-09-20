@@ -35,12 +35,6 @@ public record ArgoCdClusterOptions : ArgoCdOptions
     public string? Context { get; set; }
 
     /// <summary>
-    /// help for cluster
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure
     /// </summary>
     [CliFlag("--insecure-skip-tls-verify")]

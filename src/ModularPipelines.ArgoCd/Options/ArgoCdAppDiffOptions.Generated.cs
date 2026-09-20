@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "diff")]
-public record ArgoCdAppDiffOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppDiffOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Perform a diff against the target and live state.
+    /// </summary>
+    /// <param name="ApplicationName">The APPNAME operand.</param>
+    public ArgoCdAppDiffOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    public void Deconstruct(out string ApplicationName)
+    {
+        ApplicationName = this.ApplicationName;
+    }
+
     /// <summary>
     /// Only render the difference in namespace
     /// </summary>
@@ -47,12 +62,6 @@ public record ArgoCdAppDiffOptions(
     /// </summary>
     [CliFlag("--hard-refresh")]
     public bool? HardRefresh { get; set; }
-
-    /// <summary>
-    /// help for diff
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Set ignore normalizer JQ execution timeout (default 1s)
@@ -288,5 +297,11 @@ public record ArgoCdAppDiffOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The APPNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationName { get; private init; }
 
 }

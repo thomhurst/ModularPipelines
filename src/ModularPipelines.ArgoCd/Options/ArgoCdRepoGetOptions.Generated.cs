@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "get")]
-public record ArgoCdRepoGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Repo
-) : ArgoCdOptions
+public record ArgoCdRepoGetOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for get
+    /// Get a configured repository by URL
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Repo">The REPO operand.</param>
+    public ArgoCdRepoGetOptions(
+        string Repo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repo);
+        this.Repo = Repo;
+    }
+
+    public void Deconstruct(out string Repo)
+    {
+        Repo = this.Repo;
+    }
 
     /// <summary>
     /// Output format. One of: json|yaml|wide|url (default "wide")
@@ -204,5 +213,11 @@ public record ArgoCdRepoGetOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The REPO operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Repo { get; private init; }
 
 }

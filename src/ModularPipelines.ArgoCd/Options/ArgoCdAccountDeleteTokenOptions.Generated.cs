@@ -20,21 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "delete-token")]
-public record ArgoCdAccountDeleteTokenOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : ArgoCdOptions
+public record ArgoCdAccountDeleteTokenOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Deletes account token
+    /// </summary>
+    /// <param name="Id">Token identifier.</param>
+    public ArgoCdAccountDeleteTokenOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// Account name. Defaults to the current account.
     /// </summary>
     [CliOption("--account", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public string? Account { get; set; }
-
-    /// <summary>
-    /// help for delete-token
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -192,5 +201,11 @@ public record ArgoCdAccountDeleteTokenOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// Token identifier.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

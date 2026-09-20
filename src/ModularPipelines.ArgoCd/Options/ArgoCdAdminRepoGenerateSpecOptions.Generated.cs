@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "repo", "generate-spec")]
-public record ArgoCdAdminRepoGenerateSpecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryUrl
-) : ArgoCdOptions
+public record ArgoCdAdminRepoGenerateSpecOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Generate declarative config for a repo
+    /// </summary>
+    /// <param name="RepositoryUrl">The REPOURL operand.</param>
+    public ArgoCdAdminRepoGenerateSpecOptions(
+        string RepositoryUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryUrl);
+        this.RepositoryUrl = RepositoryUrl;
+    }
+
+    public void Deconstruct(out string RepositoryUrl)
+    {
+        RepositoryUrl = this.RepositoryUrl;
+    }
+
     /// <summary>
     /// Active Directory endpoint when not using default Azure public cloud (e.g. https://login.microsoftonline.de)
     /// </summary>
@@ -109,12 +124,6 @@ public record ArgoCdAdminRepoGenerateSpecOptions(
     /// </summary>
     [CliOption("--github-app-private-key-path", Format = OptionFormat.EqualsSeparated)]
     public string? GithubAppPrivateKeyPath { get; set; }
-
-    /// <summary>
-    /// help for generate-spec
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// disables SSH strict host key checking (deprecated, use --insecure-skip-server-verification instead)
@@ -369,5 +378,11 @@ public record ArgoCdAdminRepoGenerateSpecOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The REPOURL operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryUrl { get; private init; }
 
 }

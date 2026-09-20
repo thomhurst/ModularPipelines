@@ -35,12 +35,6 @@ public record ArgoCdAppListOptions : ArgoCdOptions
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Output format. One of: wide|name|json|yaml (default "wide")
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "source-integrity", "git", "policies", "add")]
-public record ArgoCdProjSourceIntegrityGitPoliciesAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project
-) : ArgoCdOptions
+public record ArgoCdProjSourceIntegrityGitPoliciesAddOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Add a git source integrity policy
+    /// </summary>
+    /// <param name="Project">The PROJECT operand.</param>
+    public ArgoCdProjSourceIntegrityGitPoliciesAddOptions(
+        string Project
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+    }
+
+    public void Deconstruct(out string Project)
+    {
+        Project = this.Project;
+    }
+
     /// <summary>
     /// GPG key ID (can be repeated)
     /// </summary>
@@ -35,12 +50,6 @@ public record ArgoCdProjSourceIntegrityGitPoliciesAddOptions(
     /// </summary>
     [CliOption("--gpg-mode", Format = OptionFormat.EqualsSeparated)]
     public ArgoCdProjSourceIntegrityGitPoliciesAddGpgMode? GpgMode { get; set; }
-
-    /// <summary>
-    /// help for add
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Repository URL pattern (can be repeated)
@@ -204,5 +213,11 @@ public record ArgoCdProjSourceIntegrityGitPoliciesAddOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
 
 }

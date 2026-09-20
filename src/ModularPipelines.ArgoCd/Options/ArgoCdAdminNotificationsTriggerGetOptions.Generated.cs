@@ -23,12 +23,6 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdAdminNotificationsTriggerGetOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for get
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Output format. One of:json|yaml|wide|name (default "wide")
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "resource-overrides", "ignore-differences")]
-public record ArgoCdAdminSettingsResourceOverridesIgnoreDifferencesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceYamlPath
-) : ArgoCdOptions
+public record ArgoCdAdminSettingsResourceOverridesIgnoreDifferencesOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for ignore-differences
+    /// Renders ignored fields using the 'ignoreDifferences' setting specified in the 'resource.customizations' field of 'argocd-cm' ConfigMap
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="ResourceYamlPath">The RESOURCE_YAML_PATH operand.</param>
+    public ArgoCdAdminSettingsResourceOverridesIgnoreDifferencesOptions(
+        string ResourceYamlPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceYamlPath);
+        this.ResourceYamlPath = ResourceYamlPath;
+    }
+
+    public void Deconstruct(out string ResourceYamlPath)
+    {
+        ResourceYamlPath = this.ResourceYamlPath;
+    }
 
     /// <summary>
     /// Path to local argocd-cm.yaml file
@@ -320,5 +329,11 @@ public record ArgoCdAdminSettingsResourceOverridesIgnoreDifferencesOptions(
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    /// <summary>
+    /// The RESOURCE_YAML_PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceYamlPath { get; private init; }
 
 }

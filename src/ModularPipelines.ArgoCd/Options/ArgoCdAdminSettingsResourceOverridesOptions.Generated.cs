@@ -23,12 +23,6 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdAdminSettingsResourceOverridesOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for resource-overrides
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Path to local argocd-cm.yaml file
     /// </summary>
     [CliOption("--argocd-cm-path", Format = OptionFormat.EqualsSeparated)]

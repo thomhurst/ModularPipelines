@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "get")]
-public record ArgoCdProjGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project
-) : ArgoCdOptions
+public record ArgoCdProjGetOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for get
+    /// Get project details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    public ArgoCdProjGetOptions(
+        string Project
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+    }
+
+    public void Deconstruct(out string Project)
+    {
+        Project = this.Project;
+    }
 
     /// <summary>
     /// Output format. One of: json|yaml|wide (default "wide")
@@ -192,5 +201,11 @@ public record ArgoCdProjGetOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
 
 }

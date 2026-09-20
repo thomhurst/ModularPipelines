@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "get")]
-public record ArgoCdAppGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ApplicationName
-) : ArgoCdOptions
+public record ArgoCdAppGetOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Get application details
+    /// </summary>
+    /// <param name="ApplicationName">The APPNAME operand.</param>
+    public ArgoCdAppGetOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    public void Deconstruct(out string ApplicationName)
+    {
+        ApplicationName = this.ApplicationName;
+    }
+
     /// <summary>
     /// Only get application from namespace
     /// </summary>
@@ -35,12 +50,6 @@ public record ArgoCdAppGetOptions(
     /// </summary>
     [CliFlag("--hard-refresh")]
     public bool? HardRefresh { get; set; }
-
-    /// <summary>
-    /// help for get
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Output format. One of: json|yaml|wide|tree (default "wide")
@@ -240,5 +249,11 @@ public record ArgoCdAppGetOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The APPNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationName { get; private init; }
 
 }

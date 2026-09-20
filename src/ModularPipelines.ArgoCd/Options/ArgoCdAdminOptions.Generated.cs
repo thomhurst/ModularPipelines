@@ -23,12 +23,6 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdAdminOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for admin
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]

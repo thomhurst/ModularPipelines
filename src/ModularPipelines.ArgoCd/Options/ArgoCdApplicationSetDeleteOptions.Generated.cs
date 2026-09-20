@@ -20,21 +20,41 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appset", "delete")]
-public record ArgoCdApplicationSetDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ApplicationSetNames
-) : ArgoCdOptions
+public record ArgoCdApplicationSetDeleteOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Delete one or more ApplicationSets
+    /// </summary>
+    /// <param name="ApplicationSetNames">One or more ApplicationSet names.</param>
+    public ArgoCdApplicationSetDeleteOptions(
+        IEnumerable<string> ApplicationSetNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ApplicationSetNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ApplicationSetNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ApplicationSetNames));
+            }
+
+            ApplicationSetNames = materialized;
+        }
+        this.ApplicationSetNames = ApplicationSetNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ApplicationSetNames)
+    {
+        ApplicationSetNames = this.ApplicationSetNames;
+    }
+
     /// <summary>
     /// Namespace where the ApplicationSet will be deleted from (ignored when qualified name is provided)
     /// </summary>
     [CliOption("--appset-namespace", ShortForm = "-N", Format = OptionFormat.EqualsSeparated)]
     public string? AppsetNamespace { get; set; }
-
-    /// <summary>
-    /// help for delete
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Wait until deletion of the applicationset(s) completes
@@ -204,5 +224,11 @@ public record ArgoCdApplicationSetDeleteOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// One or more ApplicationSet names.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ApplicationSetNames { get; private init; }
 
 }

@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.ArgoCd.Enums;
 
 /// <summary>
-/// Allowed values for the --logformat option.
+/// Allowed values for --logformat.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesLogformat

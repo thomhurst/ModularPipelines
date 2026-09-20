@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.ArgoCd.Enums;
 
 /// <summary>
-/// Allowed values for the --certtype option.
+/// Allowed values for --cert-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdCertRmCertType

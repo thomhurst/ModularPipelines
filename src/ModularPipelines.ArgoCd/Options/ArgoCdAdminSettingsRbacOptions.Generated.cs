@@ -23,12 +23,6 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdAdminSettingsRbacOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for rbac
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Path to local argocd-cm.yaml file
     /// </summary>
     [CliOption("--argocd-cm-path", Format = OptionFormat.EqualsSeparated)]

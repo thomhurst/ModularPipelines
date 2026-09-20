@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "delete")]
-public record ArgoCdProjDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project
-) : ArgoCdOptions
+public record ArgoCdProjDeleteOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for delete
+    /// Delete project
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Project">The PROJECT operand.</param>
+    public ArgoCdProjDeleteOptions(
+        string Project
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+    }
+
+    public void Deconstruct(out string Project)
+    {
+        Project = this.Project;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -186,5 +195,11 @@ public record ArgoCdProjDeleteOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
 
 }

@@ -29,12 +29,6 @@ public record ArgoCdCertListOptions : ArgoCdOptions
     public string? CertType { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Only list certificates for hosts matching given glob-pattern
     /// </summary>
     [CliOption("--hostname-pattern", Format = OptionFormat.EqualsSeparated)]

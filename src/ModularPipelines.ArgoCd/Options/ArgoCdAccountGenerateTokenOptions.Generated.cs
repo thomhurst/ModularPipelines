@@ -35,12 +35,6 @@ public record ArgoCdAccountGenerateTokenOptions : ArgoCdOptions
     public string? ExpiresIn { get; set; }
 
     /// <summary>
-    /// help for generate-token
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Optional token id. Fall back to uuid if not value specified.
     /// </summary>
     [CliOption("--id", Format = OptionFormat.EqualsSeparated)]

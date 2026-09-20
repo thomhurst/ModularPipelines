@@ -23,12 +23,6 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdAccountBcryptOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for bcrypt
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Password for which bcrypt hash is generated
     /// </summary>
     [SecretValue]

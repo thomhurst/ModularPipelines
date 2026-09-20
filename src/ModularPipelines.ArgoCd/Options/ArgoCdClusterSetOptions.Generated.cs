@@ -20,21 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "set")]
-public record ArgoCdClusterSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ClusterName
-) : ArgoCdOptions
+public record ArgoCdClusterSetOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Set cluster information
+    /// </summary>
+    /// <param name="ClusterName">The NAME operand.</param>
+    public ArgoCdClusterSetOptions(
+        string ClusterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+    }
+
+    public void Deconstruct(out string ClusterName)
+    {
+        ClusterName = this.ClusterName;
+    }
+
     /// <summary>
     /// Set metadata annotations (e.g. --annotation key=value)
     /// </summary>
     [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
-
-    /// <summary>
-    /// help for set
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Set metadata labels (e.g. --label key=value)
@@ -210,5 +219,11 @@ public record ArgoCdClusterSetOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ClusterName { get; private init; }
 
 }

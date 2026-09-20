@@ -20,21 +20,30 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cert", "add-tls")]
-public record ArgoCdCertAddTlsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryServerName
-) : ArgoCdOptions
+public record ArgoCdCertAddTlsOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Add TLS certificate data for connecting to repository server SERVERNAME
+    /// </summary>
+    /// <param name="RepositoryServerName">The SERVERNAME operand.</param>
+    public ArgoCdCertAddTlsOptions(
+        string RepositoryServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryServerName);
+        this.RepositoryServerName = RepositoryServerName;
+    }
+
+    public void Deconstruct(out string RepositoryServerName)
+    {
+        RepositoryServerName = this.RepositoryServerName;
+    }
+
     /// <summary>
     /// Read TLS certificate data from file (default is to read from stdin)
     /// </summary>
     [CliOption("--from", Format = OptionFormat.EqualsSeparated)]
     public string? From { get; set; }
-
-    /// <summary>
-    /// help for add-tls
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Replace existing TLS certificate if certificate is different in input
@@ -198,5 +207,11 @@ public record ArgoCdCertAddTlsOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The SERVERNAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryServerName { get; private init; }
 
 }

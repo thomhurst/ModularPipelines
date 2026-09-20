@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gpg", "rm")]
-public record ArgoCdGpgRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyId
-) : ArgoCdOptions
+public record ArgoCdGpgRmOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for rm
+    /// Removes a GPG public key from the server's keyring
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="KeyId">The KEYID operand.</param>
+    public ArgoCdGpgRmOptions(
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    public void Deconstruct(out string KeyId)
+    {
+        KeyId = this.KeyId;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -186,5 +195,11 @@ public record ArgoCdGpgRmOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The KEYID operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyId { get; private init; }
 
 }

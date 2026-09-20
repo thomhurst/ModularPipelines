@@ -20,15 +20,24 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repocreds", "rm")]
-public record ArgoCdRepocredsRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CredentialsUrl
-) : ArgoCdOptions
+public record ArgoCdRepocredsRmOptions : ArgoCdOptions
 {
     /// <summary>
-    /// help for rm
+    /// Remove repository credentials
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="CredentialsUrl">The CREDSURL operand.</param>
+    public ArgoCdRepocredsRmOptions(
+        string CredentialsUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CredentialsUrl);
+        this.CredentialsUrl = CredentialsUrl;
+    }
+
+    public void Deconstruct(out string CredentialsUrl)
+    {
+        CredentialsUrl = this.CredentialsUrl;
+    }
 
     /// <summary>
     /// The name of the Argo-CD server context to use
@@ -186,5 +195,11 @@ public record ArgoCdRepocredsRmOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The CREDSURL operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CredentialsUrl { get; private init; }
 
 }

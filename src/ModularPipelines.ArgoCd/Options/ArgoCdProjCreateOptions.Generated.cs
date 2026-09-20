@@ -20,10 +20,25 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "create")]
-public record ArgoCdProjCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project
-) : ArgoCdOptions
+public record ArgoCdProjCreateOptions : ArgoCdOptions
 {
+    /// <summary>
+    /// Create a project
+    /// </summary>
+    /// <param name="Project">The PROJECT operand.</param>
+    public ArgoCdProjCreateOptions(
+        string Project
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+    }
+
+    public void Deconstruct(out string Project)
+    {
+        Project = this.Project;
+    }
+
     /// <summary>
     /// List of allowed cluster level resources, optionally with group and name (e.g. ClusterRole, apiextensions.k8s.io/CustomResourceDefinition, /Namespace/team1-*)
     /// </summary>
@@ -71,12 +86,6 @@ public record ArgoCdProjCreateOptions(
     /// </summary>
     [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
-
-    /// <summary>
-    /// help for create
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Enables orphaned resources monitoring
@@ -270,5 +279,11 @@ public record ArgoCdProjCreateOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The PROJECT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Project { get; private init; }
 
 }
