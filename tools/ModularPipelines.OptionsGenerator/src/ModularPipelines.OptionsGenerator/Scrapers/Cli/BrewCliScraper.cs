@@ -184,6 +184,14 @@ public partial class BrewCliScraper : CliScraperBase
         string[] commandPath,
         string helpText)
     {
+        // A complete Usage line owns this command's operands. An operand-less
+        // group alternative can still need its standalone child synopsis.
+        var usage = UsageSynopsisParser.Parse(helpText, commandPath, acceptedHeadings: UsageSynopsisHeadings);
+        if (usage.MatchedCommandPartCount == commandPath.Length && usage.HasOperandTokens)
+        {
+            yield break;
+        }
+
         var command = string.Join(' ', commandPath);
         var lines = NormalizeLines(helpText);
 
@@ -195,7 +203,13 @@ public partial class BrewCliScraper : CliScraperBase
                 continue;
             }
 
-            yield return ReadStandaloneSynopsis(lines, ref index, synopsis);
+            synopsis = ReadStandaloneSynopsis(lines, ref index, synopsis);
+            // Homebrew marks standalone command headings with a colon. Wrapped prose
+            // can also begin with the command name, but does not declare operands.
+            if (synopsis.EndsWith(':'))
+            {
+                yield return synopsis;
+            }
         }
     }
 
