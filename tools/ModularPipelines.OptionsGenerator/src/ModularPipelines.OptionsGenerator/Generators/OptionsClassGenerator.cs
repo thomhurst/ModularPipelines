@@ -49,8 +49,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var supportsAlternateInputModes = SupportsAlternateInputModes(command, positionalArguments);
         var requiresValueValidation = constructorParameters.Any(parameter =>
             IsCollectionParameter(parameter)
-            || (RequiresConstructorValue(parameter)
-                && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType)));
+            || RequiresNullGuard(parameter));
         var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresValueValidation
             || command.RequiredOptions.Any(static option => option.IsFlag);
 
@@ -301,8 +300,7 @@ public class OptionsClassGenerator : ICodeGenerator
             {
                 GenerateCollectionSnapshot(sb, parameter);
             }
-            else if (RequiresConstructorValue(parameter)
-                     && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType))
+            else if (RequiresNullGuard(parameter))
             {
                 sb.AppendLine($"        global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
             }
@@ -384,6 +382,12 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static bool RequiresConstructorValue(GeneratorUtils.RequiredConstructorParameter parameter) =>
         parameter.PositionalArgument?.IsValidationRequired != false;
+
+    // Optional-value options retain enum metadata while exposing a CliOptionValue wrapper.
+    private static bool RequiresNullGuard(GeneratorUtils.RequiredConstructorParameter parameter) =>
+        RequiresConstructorValue(parameter)
+        && parameter.CSharpType.TrimEnd('?') != parameter.Option?.EnumDefinition?.EnumName
+        && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType);
 
     private static string GetConstructorParameterType(GeneratorUtils.RequiredConstructorParameter parameter) =>
         parameter.CSharpType.TrimEnd('?') + (RequiresConstructorValue(parameter) ? "" : "?");

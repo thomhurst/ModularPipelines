@@ -2374,6 +2374,7 @@ public abstract partial class CliScraperBase : ICliScraper
         \bfor\s+example\b (?: "(?:\\.|[^"\\])*" | (?<!\w)'(?:\\.|[^'\\])*' | `[^`]*` | [^.!?\r\n] )*
         | "(?:\\.|[^"\\])*" | (?<!\w)'(?:\\.|[^'\\])*' | `[^`]*`
         | (?<required>\(required\)(?=\s|[.!?]|$))
+        | (?:^|[.!?]\s+)(?<required>required[.:](?=\s|$)(?!\s*(?:only\s+)?(?:if|when|unless|conditional(?:ly)?|optional|no|false)\b))
         """,
         RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
     private static partial Regex ExplicitRequiredOptionPattern();

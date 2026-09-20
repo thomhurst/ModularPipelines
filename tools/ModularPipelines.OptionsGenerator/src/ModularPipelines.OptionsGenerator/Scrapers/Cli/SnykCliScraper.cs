@@ -164,7 +164,7 @@ public partial class SnykCliScraper : CliScraperBase
 
         usage = NormalizeCommandGroupUsage(commandParts, usage);
 
-        var description = ExtractDescription(helpText);
+        var description = ExtractDescription(helpText, string.Join(' ', commandParts));
         var options = ParseOptions(helpText, commandParts);
         AddDocumentedOptions(commandParts, options);
         var positionalArguments = CliPositionalArgument.MergeDuplicates(
@@ -223,39 +223,60 @@ public partial class SnykCliScraper : CliScraperBase
     /// <summary>
     /// Extracts description from help text.
     /// </summary>
-    private static string? ExtractDescription(string helpText)
+    private static string? ExtractDescription(string helpText, string commandTitle)
     {
-        var lines = helpText.Split('\n');
-
-        foreach (var line in lines)
+        var lines = helpText.ReplaceLineEndings("\n").Split('\n');
+        var descriptionHeading = Array.FindIndex(lines, line => line.Trim().TrimEnd(':').Equals("Description", StringComparison.OrdinalIgnoreCase));
+        var combinedHeading = Array.FindIndex(lines, line => line.Trim().TrimEnd(':').Equals("Usage and description", StringComparison.OrdinalIgnoreCase));
+        var start = descriptionHeading >= 0 ? descriptionHeading + 1 : combinedHeading + 1;
+        var summary = new List<string>();
+        var awaitingSynopsis = descriptionHeading < 0 && combinedHeading >= 0;
+        var inSynopsis = false;
+        for (var index = start; index < lines.Length; index++)
         {
-            var trimmed = line.Trim();
-
-            if (string.IsNullOrWhiteSpace(trimmed))
+            var trimmed = lines[index].Trim();
+            if (awaitingSynopsis && trimmed.TrimEnd(':').Equals("Usage", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
 
-            // Skip section headers
-            if (trimmed.EndsWith(':') || trimmed.StartsWith("Usage:"))
+            if (DescriptionBoundaryPattern().IsMatch(trimmed))
+            {
+                break;
+            }
+
+            if (trimmed.Length == 0)
+            {
+                if (summary.Count > 0)
+                {
+                    break;
+                }
+
+                inSynopsis = false;
+                continue;
+            }
+
+            if (trimmed.StartsWith("snyk ", StringComparison.OrdinalIgnoreCase)
+                || trimmed.StartsWith("$ snyk ", StringComparison.OrdinalIgnoreCase))
+            {
+                awaitingSynopsis = false;
+                inSynopsis = true;
+            }
+
+            if (awaitingSynopsis || inSynopsis || (descriptionHeading < 0 && combinedHeading < 0 && summary.Count == 0
+                && (trimmed.Equals(commandTitle, StringComparison.OrdinalIgnoreCase) || trimmed.EndsWith(':'))))
             {
                 continue;
             }
 
-            // Skip command lines
-            if (trimmed.StartsWith("snyk"))
-            {
-                continue;
-            }
-
-            if (trimmed.Length > 20)
-            {
-                return trimmed;
-            }
+            summary.Add(trimmed);
         }
 
-        return null;
+        return summary.Count > 0 ? string.Join(' ', summary) : null;
     }
+
+    [GeneratedRegex(@"^(?:(?:Options|Usage|Examples|Prerequisites|Debug|Exit codes|Environment variables):?|Usage:\s+(?:\$\s+)?snyk\b.*)$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex DescriptionBoundaryPattern();
 
     /// <summary>
     /// Parses options from Snyk help text.
@@ -372,7 +393,7 @@ public partial class SnykCliScraper : CliScraperBase
             CSharpType = AsCSharpType(scalarType, acceptsMultipleValues),
             Description = description,
             IsFlag = isFlag,
-            IsRequired = description?.Contains("Required.", StringComparison.OrdinalIgnoreCase) == true,
+            IsRequired = description is not null && DescriptionDeclaresRequiredOption(description),
             AcceptsMultipleValues = acceptsMultipleValues,
             IsKeyValue = false,
             IsNumeric = isNumeric,

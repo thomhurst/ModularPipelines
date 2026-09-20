@@ -8,6 +8,179 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class SnykCliScraperTests
 {
     [Test]
+    [Arguments("Required. Specify the identifier.", true)]
+    [Arguments("Required: specify the identifier.", true)]
+    [Arguments("The identifier is otherwise required.", false)]
+    [Arguments("Not required.", false)]
+    [Arguments("Required when no file path is provided.", false)]
+    [Arguments("Required: when no file path is supplied.", false)]
+    [Arguments("Required. Only if no file path is supplied.", false)]
+    [Arguments("Required: unless a file path is supplied.", false)]
+    [Arguments("Required: Conditional.", false)]
+    [Arguments("Required: No.", false)]
+    [Arguments("Required: false.", false)]
+    [Arguments("Required: optional.", false)]
+    [Arguments("Required. Conditional.", false)]
+    [Arguments("Required. No.", false)]
+    [Arguments("Required. false.", false)]
+    [Arguments("Required. optional.", false)]
+    [Arguments("Required: Yes.", true)]
+    [Arguments("Required: true.", true)]
+    public async Task Only_Unconditional_Required_Markers_Require_Options(string description, bool required)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "ignore"], $"Options\n  --id=<ISSUE_ID>\n    {description}"))!;
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--id").IsRequired).IsEqualTo(required);
+    }
+
+    [Test]
+    public async Task Short_Explicit_Description_Is_Preserved()
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"], "Description\n  Scan the project.\n\nOptions\n  --json\n    Emit JSON."))!;
+        await Assert.That(command.Description).IsEqualTo("Scan the project.");
+    }
+
+    [Test]
+    [Arguments("Test a project.\n\n", "Test a project.")]
+    [Arguments("", null)]
+    [Arguments("Test\n", null)]
+    public async Task Fallback_Description_Stops_Before_Options(string introduction, string? expected)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            introduction + "Options\n  --severity-threshold=<low|medium|high|critical>\n    Choose the minimum severity."))!;
+        await Assert.That(command.Description).IsEqualTo(expected);
+    }
+
+    [Test]
+    [Arguments("", null)]
+    [Arguments("Test a project.\n", "Test a project.")]
+    public async Task Colon_Options_Heading_Stops_Fallback_Description(string introduction, string? expected)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            introduction + "Options:\n  --json\n    Emit JSON."))!;
+        await Assert.That(command.Description).IsEqualTo(expected);
+    }
+
+    [Test]
+    [Arguments("Options:")]
+    [Arguments("Usage:")]
+    [Arguments("Examples:")]
+    [Arguments("Prerequisites:")]
+    [Arguments("Debug:")]
+    [Arguments("Exit codes:")]
+    [Arguments("Environment variables:")]
+    public async Task Colon_Section_Headings_End_Description(string heading)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            $"Description\nTest a project.\n{heading}\nUnrelated section content."))!;
+        await Assert.That(command.Description).IsEqualTo("Test a project.");
+    }
+
+    [Test]
+    [Arguments("Options for authentication include OAuth and API tokens.")]
+    [Arguments("Usage of this flag disables auto-detection.")]
+    [Arguments("Examples below show how to scan a project.")]
+    public async Task Heading_Words_In_Description_Prose_Are_Preserved(string prose)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            $"Description\n{prose}\nAdditional details remain in the summary.\nOptions:\n  --json\n    Emit JSON."))!;
+        await Assert.That(command.Description).IsEqualTo(prose + " Additional details remain in the summary.");
+    }
+
+    [Test]
+    [Arguments("Usage: snyk test [<OPTIONS>]")]
+    [Arguments("Usage: $ snyk test [<OPTIONS>]")]
+    public async Task Inline_Usage_Is_Not_A_Description(string usage)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"], usage))!;
+        await Assert.That(command.Description).IsNull();
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments(":")]
+    public async Task Ignore_Uses_The_Complete_Description_And_Conditional_Id(string headingSuffix)
+    {
+        var help = $"""
+            Ignore
+            Usage and description{headingSuffix}
+              Ignore
+                snyk ignore --id=<ISSUE_ID> [OPTIONS]
+
+                The snyk ignore command modifies the .snyk policy file to ignore a specified issue according to
+                its Snyk ID for all occurrences, its expiry date, a reason, or according to paths in the
+                filesystem for the policy, the issue, or both.
+
+              Exclude
+                snyk ignore [--file-path=<PATH_TO_RESOURCE>] [OPTIONS]
+
+                You can exclude directories or files from scanning using the --file-path option.
+
+            Options
+              --id=<ISSUE_ID>
+                Snyk ID for the issue to ignore, omitted if the ignore command used with --file-path, otherwise required.
+              --file-path=<PATH_TO_RESOURCE>
+                Filesystem for which to exclude directories or files from scanning.
+            """;
+
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "ignore"], help))!;
+        await Assert.That(command.Description).IsEqualTo("The snyk ignore command modifies the .snyk policy file to ignore a specified issue according to its Snyk ID for all occurrences, its expiry date, a reason, or according to paths in the filesystem for the policy, the issue, or both.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--id").IsRequired).IsFalse();
+    }
+
+    [Test]
+    [Arguments("Monitor")]
+    [Arguments("Container monitor")]
+    [Arguments("Usage:")]
+    [Arguments("Monitor a container image")]
+    public async Task Combined_Description_Skips_Headings_Before_Synopsis(string heading)
+    {
+        var help = $"""
+            Container monitor
+            Usage and description
+              {heading}
+                snyk container monitor [<OPTIONS>]
+                  [<IMAGE>]
+
+                The snyk container monitor command captures image dependencies
+                and monitors the snapshot for vulnerabilities.
+
+            Options
+              --json
+                Emit JSON.
+            """;
+
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "container", "monitor"], help))!;
+        await Assert.That(command.Description).IsEqualTo("The snyk container monitor command captures image dependencies and monitors the snapshot for vulnerabilities.");
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments(":")]
+    public async Task Explicit_Description_Takes_Precedence_Over_Prerequisites(string headingSuffix)
+    {
+        var help = $"""
+            SBOM
+            Prerequisites
+              Feature availability: This feature is available only to customers on Snyk Enterprise plans.
+
+            Usage
+              $ snyk sbom --format=<cyclonedx1.4+json|spdx2.3+json> [OPTIONS]
+
+            Description{headingSuffix}
+              The snyk sbom command generates an SBOM for a local software project in an ecosystem supported by
+              Snyk.
+
+            Options
+              --format=<cyclonedx1.4+json|spdx2.3+json>
+                Required. Specify the output format.
+            """;
+
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "sbom"], help))!;
+        await Assert.That(command.Description).IsEqualTo("The snyk sbom command generates an SBOM for a local software project in an ecosystem supported by Snyk.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--format").IsRequired).IsTrue();
+    }
+
+    [Test]
     public async Task Root_Help_Extracts_Only_Top_Level_Commands()
     {
         const string helpText = """
