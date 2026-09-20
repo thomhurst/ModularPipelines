@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Kevlar;
 using Microsoft.Extensions.Logging;
@@ -58,6 +59,12 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             .GetFiles(file => file.Name.Equals(TestProjectFileName, StringComparison.OrdinalIgnoreCase))
             .Single();
         var trxFile = GetTrxFile(testProject);
+        // Static instrumentation of large generated assemblies can outlast MTP's startup
+        // handshake timeout. Dynamic instrumentation is supported on our Linux x64 runners;
+        // other architectures retain the collector's default instrumentation settings.
+        string[] coverageSettingsArguments = RuntimeInformation.ProcessArchitecture == Architecture.X64
+            ? ["--coverage-settings", repositoryInfo.Root.GetFile("test/coverage-linux-x64.config").Path]
+            : [];
 
         if (trxFile.Exists)
         {
@@ -75,6 +82,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
                 [
                     "--coverage",
                     "--coverage-output-format", "cobertura",
+                    .. coverageSettingsArguments,
                     "--hangdump",
                     "--hangdump-filename", HangDumpFileName,
                     "--hangdump-timeout", "20m",
