@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -34,10 +35,16 @@ public record CargoBenchOptions : CargoOptions
     public bool? NoFailFast { get; set; }
 
     /// <summary>
-    /// Error format [possible values: human, short, json, json-diagnostic-short, json-diagnostic-rendered-ansi, json-render-diagnostics]
+    /// Error format
     /// </summary>
     [CliOption("--message-format")]
-    public string? MessageFormat { get; set; }
+    public IEnumerable<CargoBenchMessageFormat>? MessageFormat { get; set; }
+
+    /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
 
     /// <summary>
     /// Do not print cargo log messages
@@ -46,22 +53,28 @@ public record CargoBenchOptions : CargoOptions
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Coloring [possible values: auto, always, never]
+    /// Coloring
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public CargoBenchColor? Color { get; set; }
 
     /// <summary>
     /// Override a configuration value
     /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
-    /// Print help
+    /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliOption("-Z")]
+    public string? Z { get; set; }
+
+    /// <summary>
+    /// Package to run benchmarks for
+    /// </summary>
+    [CliOption("--package", ShortForm = "-p")]
+    public IEnumerable<string>? Package { get; set; }
 
     /// <summary>
     /// Benchmark all packages in the workspace
@@ -94,10 +107,22 @@ public record CargoBenchOptions : CargoOptions
     public bool? Bins { get; set; }
 
     /// <summary>
+    /// Benchmark only the specified binary
+    /// </summary>
+    [CliOption("--bin")]
+    public IEnumerable<string>? Bin { get; set; }
+
+    /// <summary>
     /// Benchmark all examples
     /// </summary>
     [CliFlag("--examples")]
     public bool? Examples { get; set; }
+
+    /// <summary>
+    /// Benchmark only the specified example
+    /// </summary>
+    [CliOption("--example")]
+    public IEnumerable<string>? Example { get; set; }
 
     /// <summary>
     /// Benchmark all targets that have `test = true` set
@@ -106,10 +131,22 @@ public record CargoBenchOptions : CargoOptions
     public bool? Tests { get; set; }
 
     /// <summary>
+    /// Benchmark only the specified test target
+    /// </summary>
+    [CliOption("--test")]
+    public IEnumerable<string>? Test { get; set; }
+
+    /// <summary>
     /// Benchmark all targets that have `bench = true` set
     /// </summary>
     [CliFlag("--benches")]
     public bool? Benches { get; set; }
+
+    /// <summary>
+    /// Benchmark only the specified bench target
+    /// </summary>
+    [CliOption("--bench")]
+    public IEnumerable<string>? Bench { get; set; }
 
     /// <summary>
     /// Benchmark all targets
@@ -146,6 +183,12 @@ public record CargoBenchOptions : CargoOptions
     /// </summary>
     [CliOption("--profile")]
     public string? Profile { get; set; }
+
+    /// <summary>
+    /// Build for the target triple
+    /// </summary>
+    [CliOption("--target")]
+    public IEnumerable<string>? Target { get; set; }
 
     /// <summary>
     /// Directory for all generated artifacts
