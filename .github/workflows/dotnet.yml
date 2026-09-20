@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     outputs:
+      run_full_pipeline: ${{ steps.full_pipeline.outputs.run_full_pipeline }}
       is_generated_integration: ${{ steps.generated_integration.outputs.is_generated_integration }}
       integration_tool: ${{ steps.generated_integration.outputs.tool }}
       integration_namespace_prefix: ${{ steps.generated_integration.outputs.namespace_prefix }}
@@ -44,6 +45,19 @@ jobs:
       - name: Detect generated integration pull request
         id: generated_integration
         uses: ./.github/actions/detect-generated-integration
+      - name: Detect core changes
+        id: full_pipeline
+        shell: pwsh
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          ./scripts/Resolve-FullPipelineValidation.ps1 `
+            -EventName $env:EVENT_NAME `
+            -BaseSha $env:BASE_SHA `
+            -HeadSha $env:HEAD_SHA `
+            -GitHubOutput $env:GITHUB_OUTPUT
       - name: Reject stale generated snapshots
         if: steps.generated_integration.outputs.is_generated_integration == 'true'
         shell: pwsh
@@ -66,7 +80,9 @@ jobs:
       - name: Test required pipeline context routing
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
-        run: ./scripts/Test-RequiredPipelineContext.ps1
+        run: |
+          ./scripts/Test-FullPipelineValidation.ps1
+          ./scripts/Test-RequiredPipelineContext.ps1
       - name: Test generated options provenance
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
@@ -235,7 +251,7 @@ jobs:
   analyzers:
     name: analyzers
     needs: fast-fail
-    if: ${{ always() && (github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true') }}
+    if: ${{ always() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -367,9 +383,9 @@ jobs:
   pipeline:
     name: full pipeline (${{ matrix.os }})
     needs: fast-fail
-    # Generated-options PRs use the one-tool validation job below. Main pushes and
-    # every other PR retain the complete repository pipeline.
-    if: ${{ always() && (github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true') }}
+    # Only core-related changes need the full suite, on both PRs and main pushes.
+    # Manual dispatch always runs the suite, including package publishing.
+    if: ${{ always() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
       # Single standalone (non-distributed) Linux job. Distributed mode relied on Redis
@@ -552,9 +568,8 @@ jobs:
   cross-platform-build:
     name: build (${{ matrix.os }})
     needs: fast-fail
-    # Avoid compiling every integration on Windows and macOS for generated one-tool PRs.
-    # Main pushes still exercise the full cross-platform solution list.
-    if: ${{ always() && (github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true') }}
+    # Compile every integration on Windows and macOS only for core-related changes.
+    if: ${{ always() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
     permissions:
       contents: read
     strategy:
@@ -678,7 +693,7 @@ jobs:
           fi
 
   required-pipeline:
-    # Stable branch-protection check for either validation route; runs after that route finishes.
+    # Stable branch-protection check for full, generated, or fast-fail-only validation.
     name: pipeline (ubuntu-latest)
     needs: [fast-fail, pipeline, generated-integration]
     if: always()
@@ -696,6 +711,7 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/Assert-RequiredPipelineContext.ps1 `
+            -RunFullPipeline '${{ needs.fast-fail.outputs.run_full_pipeline }}' `
             -IsGeneratedIntegration '${{ needs.fast-fail.outputs.is_generated_integration }}' `
             -FastFailResult '${{ needs.fast-fail.result }}' `
             -FullPipelineResult '${{ needs.pipeline.result }}' `
@@ -704,7 +720,7 @@ jobs:
   trim-aot:
     name: trim and Native AOT
     needs: fast-fail
-    if: ${{ always() && (github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true') }}
+    if: ${{ always() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:

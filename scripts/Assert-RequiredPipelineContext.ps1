@@ -2,6 +2,10 @@
 param(
     [Parameter(Mandatory)]
     [AllowEmptyString()]
+    [string]$RunFullPipeline,
+
+    [Parameter(Mandatory)]
+    [AllowEmptyString()]
     [string]$IsGeneratedIntegration,
 
     [Parameter(Mandatory)]
@@ -27,7 +31,15 @@ if ($IsGeneratedIntegration -notin @('true', 'false')) {
     throw "Generated integration routing value was '$IsGeneratedIntegration'; required context cannot pass."
 }
 
+if ($RunFullPipeline -notin @('true', 'false')) {
+    throw "Full pipeline routing value was '$RunFullPipeline'; required context cannot pass."
+}
+
 if ($IsGeneratedIntegration -eq 'true') {
+    if ($RunFullPipeline -ne 'false') {
+        throw 'Generated integration validation cannot also select the full pipeline.'
+    }
+
     if ($FullPipelineResult -ne 'skipped') {
         throw "Generated validation expected the full pipeline to be skipped, received '$FullPipelineResult'."
     }
@@ -40,12 +52,13 @@ if ($IsGeneratedIntegration -eq 'true') {
     return
 }
 
-if ($FullPipelineResult -ne 'success') {
+$expectedFullPipelineResult = if ($RunFullPipeline -eq 'true') { 'success' } else { 'skipped' }
+if ($FullPipelineResult -ne $expectedFullPipelineResult) {
     throw "Full pipeline result was '$FullPipelineResult'; required context cannot pass."
 }
 
 if ($GeneratedIntegrationResult -ne 'skipped') {
-    throw "Full validation expected generated integration to be skipped, received '$GeneratedIntegrationResult'."
+    throw "Non-generated validation expected generated integration to be skipped, received '$GeneratedIntegrationResult'."
 }
 
-Write-Host 'Required pipeline context passed through full validation.'
+Write-Host "Required pipeline context passed (full pipeline required: $RunFullPipeline)."
