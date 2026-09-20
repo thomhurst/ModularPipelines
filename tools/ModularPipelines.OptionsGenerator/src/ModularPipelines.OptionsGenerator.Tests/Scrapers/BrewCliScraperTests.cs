@@ -245,10 +245,12 @@ public class BrewCliScraperTests
     }
 
     [Test]
-    public async Task Partial_Command_Match_Does_Not_Hide_The_Child_Synopsis()
+    [Arguments("brew stop [options]")]
+    [Arguments("brew services [stop|restart]:")]
+    public async Task Incomplete_Usage_Does_Not_Hide_The_Child_Synopsis(string usage)
     {
-        const string helpText = """
-            Usage: brew stop [options]
+        var helpText = $"""
+            Usage: {usage}
 
             Help for a different command.
 

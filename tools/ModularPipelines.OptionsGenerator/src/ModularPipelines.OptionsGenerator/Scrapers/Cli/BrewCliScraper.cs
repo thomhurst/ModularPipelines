@@ -184,9 +184,10 @@ public partial class BrewCliScraper : CliScraperBase
         string[] commandPath,
         string helpText)
     {
-        // An explicit Usage line already describes this command. Child headings
-        // in group help must not add their command names as parent operands.
-        if (UsageSynopsisParser.Parse(helpText, commandPath).MatchedCommandPartCount == commandPath.Length)
+        // A complete Usage line owns this command's operands. An operand-less
+        // group alternative can still need its standalone child synopsis.
+        var usage = UsageSynopsisParser.Parse(helpText, commandPath, acceptedHeadings: UsageSynopsisHeadings);
+        if (usage.MatchedCommandPartCount == commandPath.Length && usage.HasOperandTokens)
         {
             yield break;
         }
