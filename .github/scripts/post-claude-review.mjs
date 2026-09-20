@@ -1,7 +1,8 @@
 import { spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
-export function buildReview(rawReview, headSha) {
+export function buildReview(rawReview, headSha, changedFiles) {
   if (!/^[a-f0-9]{40}$/.test(headSha ?? '')) {
     throw new Error('A captured pull request head SHA is required.');
   }
@@ -21,6 +22,16 @@ export function buildReview(rawReview, headSha) {
     throw new Error('A review needs a descriptive summary (40 characters), findings (20 characters each), and nonempty notes.');
   }
 
+  if (!Array.isArray(changedFiles) || !changedFiles.every(path => validText(path))) {
+    throw new Error('The workflow must supply the captured changed-file list.');
+  }
+  const evidence = review.evidence;
+  if (!Array.isArray(evidence) || (changedFiles.length > 0 && evidence.length === 0)
+    || !evidence.every(item => item && changedFiles.includes(item.path) && validText(item.assessment, 40))
+    || new Set(evidence.map(item => item.path)).size !== evidence.length) {
+    throw new Error('Review evidence must describe checks against distinct files in the captured diff.');
+  }
+
   // Reviews may discuss the verdict format. Render model-supplied HTML comments
   // literally so only the publisher's footer can act as a machine-readable verdict.
   const render = text => text.trim().replaceAll('<!--', '&lt;!--');
@@ -29,6 +40,9 @@ export function buildReview(rawReview, headSha) {
   const body = [
     '## Claude Review',
     render(review.summary),
+    '### Review evidence',
+    evidence.length === 0 ? 'The captured diff contains no changed files.'
+      : evidence.map(item => `${render(item.path)}: ${render(item.assessment)}`).join('\n\n'),
     review.findings.length === 0 ? 'No actionable findings.' : review.findings.map(render).join('\n\n'),
     ...(notes.length === 0 ? [] : ['### Optional follow-up notes', notes.map(render).join('\n\n')]),
     `<!-- REVIEW_VERDICT: ${verdict} HEAD: ${headSha} -->`,
@@ -48,12 +62,12 @@ export function runGitHub(args, input, spawn = spawnSync) {
   return result.stdout;
 }
 
-export function publishReview({ rawReview, headSha, prNumber, repository }, run = runGitHub) {
+export function publishReview({ rawReview, headSha, prNumber, repository, changedFiles }, run = runGitHub) {
   if (!/^[1-9]\d*$/.test(prNumber ?? '')
     || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repository ?? '')) {
     throw new Error('The workflow must supply a valid pull request and repository.');
   }
-  const body = buildReview(rawReview, headSha);
+  const body = buildReview(rawReview, headSha, changedFiles);
   const verifyHead = () => {
     const current = JSON.parse(run([
       'pr', 'view', prNumber, '--repo', repository, '--json', 'headRefOid,state',
@@ -78,6 +92,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       headSha: process.env.REVIEW_HEAD_SHA,
       prNumber: process.env.PR_NUMBER,
       repository: process.env.GH_REPO,
+      changedFiles: readFileSync(process.env.REVIEW_CHANGED_FILES, 'utf8').split('\0').filter(Boolean),
     });
   } catch (error) {
     console.error(error.message);
