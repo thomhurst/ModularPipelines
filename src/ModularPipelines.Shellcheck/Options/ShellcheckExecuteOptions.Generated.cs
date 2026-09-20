@@ -118,12 +118,6 @@ public record ShellcheckExecuteOptions : ShellcheckOptions
     public bool? ExternalSources { get; set; }
 
     /// <summary>
-    /// Show this usage summary and exit
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Shell script files to check
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
