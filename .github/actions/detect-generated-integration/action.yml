@@ -16,6 +16,9 @@ outputs:
   project:
     description: Integration library project to compile.
     value: ${{ steps.detect.outputs.project }}
+  test_project:
+    description: Matching executable test project, or empty when none exists.
+    value: ${{ steps.detect.outputs.test_project }}
 runs:
   using: composite
   steps:

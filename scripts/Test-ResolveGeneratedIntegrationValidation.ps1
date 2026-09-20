@@ -324,11 +324,21 @@ if ([string]::IsNullOrWhiteSpace($generatedJob)) {
     throw 'Generated integration validation job was not found.'
 }
 
-if ($generatedJob -match '\.slnx|dotnet (run|test)|TEST_PROJECT|INTEGRATION_SOLUTION') {
-    throw 'Generated integration validation must compile only the library project and its references.'
+if ($generatedJob -match '\.slnx|dotnet test|INTEGRATION_SOLUTION') {
+    throw 'Generated integration validation must stay scoped to the selected package and its executable tests.'
 }
 if (-not $generatedJob.Contains('dotnet build "$INTEGRATION_PROJECT" -c Release', [StringComparison]::Ordinal)) {
     throw 'Generated integration validation must compile the selected library project.'
+}
+foreach ($testCommand in @(
+             'TEST_PROJECT: ${{ needs.fast-fail.outputs.integration_test_project }}',
+             'if [[ -n "$TEST_PROJECT" ]]; then',
+             'dotnet build "$TEST_PROJECT" -c Release "${BUILD_ARGS[@]}"',
+             'dotnet run --project "$TEST_PROJECT" -c Release --framework net10.0 --no-build'
+         )) {
+    if (-not $generatedJob.Contains($testCommand, [StringComparison]::Ordinal)) {
+        throw "Generated integration validation omitted package test command '$testCommand'."
+    }
 }
 
 foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |\z)')) {
@@ -348,6 +358,10 @@ foreach ($jobName in @('pipeline', 'cross-platform-build', 'analyzers', 'trim-ao
 }
 
 $detectionAction = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/actions/detect-generated-integration/action.yml') -Raw
+if (-not $detectionAction.Contains('value: ${{ steps.detect.outputs.test_project }}', [StringComparison]::Ordinal) -or
+    -not $fastFailJob.Contains('integration_test_project: ${{ steps.generated_integration.outputs.test_project }}', [StringComparison]::Ordinal)) {
+    throw 'The resolver test-project output must reach generated integration validation.'
+}
 foreach ($requiredText in @('git diff --name-only --no-renames', 'Resolve-GeneratedIntegrationValidation.ps1', 'working-directory: ${{ github.workspace }}')) {
     if (-not $detectionAction.Contains($requiredText, [StringComparison]::Ordinal)) {
         throw "Shared generated-PR detection omitted '$requiredText'."

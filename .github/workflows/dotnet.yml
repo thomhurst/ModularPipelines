@@ -33,6 +33,7 @@ jobs:
       integration_namespace_prefix: ${{ steps.generated_integration.outputs.namespace_prefix }}
       integration_package: ${{ steps.generated_integration.outputs.package }}
       integration_project: ${{ steps.generated_integration.outputs.project }}
+      integration_test_project: ${{ steps.generated_integration.outputs.test_project }}
     permissions:
       contents: read
     steps:
@@ -544,6 +545,7 @@ jobs:
           name: unit-test-results-${{ matrix.os }}
           path: |
             **/TestResults/*.trx
+            **/TestResults/Diagnostics/*.diag
           if-no-files-found: ignore
           retention-days: 7
 
@@ -617,7 +619,7 @@ jobs:
     needs: fast-fail
     if: ${{ always() && needs.fast-fail.outputs.is_generated_integration == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     permissions:
       contents: read
     env:
@@ -656,11 +658,12 @@ jobs:
           sudo chmod 600 /mnt/swapfile
           sudo mkswap /mnt/swapfile
           sudo swapon /mnt/swapfile
-      - name: Build changed integration
+      - name: Build and test changed integration
         shell: bash
         env:
           INTEGRATION_PACKAGE: ${{ needs.fast-fail.outputs.integration_package }}
           INTEGRATION_PROJECT: ${{ needs.fast-fail.outputs.integration_project }}
+          TEST_PROJECT: ${{ needs.fast-fail.outputs.integration_test_project }}
         run: |
           BUILD_ARGS=()
           if [[ "$INTEGRATION_PACKAGE" == "ModularPipelines.Google" ]]; then
@@ -668,6 +671,11 @@ jobs:
           fi
           # Project references compile the shared core and source generators automatically.
           dotnet build "$INTEGRATION_PROJECT" -c Release "${BUILD_ARGS[@]}"
+
+          if [[ -n "$TEST_PROJECT" ]]; then
+            dotnet build "$TEST_PROJECT" -c Release "${BUILD_ARGS[@]}"
+            dotnet run --project "$TEST_PROJECT" -c Release --framework net10.0 --no-build
+          fi
 
   required-pipeline:
     # Stable branch-protection check for either validation route; runs after that route finishes.
