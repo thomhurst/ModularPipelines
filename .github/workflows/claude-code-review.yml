@@ -90,6 +90,7 @@ jobs:
           # The credential helper reads GH_TOKEN without persisting it in git config.
           git -C pr-head -c credential.helper= -c 'credential.helper=!gh auth git-credential' fetch --no-tags --filter=blob:none "${history_args[@]}" origin "$BASE_SHA" "$REVIEW_HEAD_SHA"
           git -C pr-head -c credential.helper= -c 'credential.helper=!gh auth git-credential' diff --no-ext-diff --no-textconv "$BASE_SHA...$REVIEW_HEAD_SHA" > review-context/diff.patch
+          git -C pr-head diff --no-ext-diff --no-textconv --name-only -z "$BASE_SHA...$REVIEW_HEAD_SHA" > review-context/changed-files.nul
           gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/reviews" | jq . > review-context/reviews.json
           gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/comments" | jq . > review-context/inline-comments.json
           gh api --paginate --slurp "repos/$GH_REPO/issues/$PR_NUMBER/comments" | jq . > review-context/conversation.json
@@ -154,6 +155,10 @@ jobs:
               and suggestions for separate follow-up work in notes, never in findings.
               Use an empty findings array only when no actionable finding remains; optional
               notes do not prevent that. Return an empty notes array when there are no notes.
+            - Return evidence naming representative changed files you inspected and the concrete
+              behavior or invariants checked in each. Each evidence item needs an exact repository-relative
+              path from the captured diff and an assessment of at least 40 characters. Do not list
+              unchanged files or duplicate paths. Evidence must be nonempty unless the captured diff is empty.
             - Do not post comments, invoke a review plugin, or include a REVIEW_VERDICT marker.
               A trusted workflow step validates and publishes your structured result.
             - When you find issues, ALWAYS suggest better approaches or architectural improvements, not just minor optimizations.
@@ -167,7 +172,7 @@ jobs:
 
           claude_args: |
             --add-dir pr-head --tools "Read,Glob,Grep" --allowedTools "Read,Glob,Grep"
-            --json-schema '{"type":"object","properties":{"summary":{"type":"string","minLength":40},"findings":{"type":"array","items":{"type":"string","minLength":20}},"notes":{"type":"array","items":{"type":"string","minLength":1}}},"required":["summary","findings","notes"],"additionalProperties":false}'
+            --json-schema '{"type":"object","properties":{"summary":{"type":"string","minLength":40},"findings":{"type":"array","items":{"type":"string","minLength":20}},"notes":{"type":"array","items":{"type":"string","minLength":1}},"evidence":{"type":"array","items":{"type":"object","properties":{"path":{"type":"string","minLength":1},"assessment":{"type":"string","minLength":40}},"required":["path","assessment"],"additionalProperties":false}}},"required":["summary","findings","notes","evidence"],"additionalProperties":false}'
           allowed_bots: 'dependabot[bot]'
 
       - name: Publish validated review
@@ -177,4 +182,5 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
           REVIEW_HEAD_SHA: ${{ steps.pull_request.outputs.head_sha }}
           REVIEW_JSON: ${{ steps.claude-review.outputs.structured_output }}
+          REVIEW_CHANGED_FILES: review-context/changed-files.nul
         run: node .github/scripts/post-claude-review.mjs
