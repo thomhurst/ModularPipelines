@@ -16,14 +16,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// The operation to update the run command.
 /// </summary>
-/// <param name="Name">The name of the virtual machine run command.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "run-command", "update")]
-public record AzVmRunCommandUpdateOptions(
-    [property: CliOption("--name", ShortForm = "--run-command-name")] string Name
-) : AzOptions
+public record AzVmRunCommandUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// The operation to update the run command.
+    /// </summary>
+    /// <param name="Name">The name of the virtual machine run command.</param>
+    public AzVmRunCommandUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the virtual machine run command.
+    /// </summary>
+    [CliOption("--name", ShortForm = "--run-command-name")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
     /// </summary>

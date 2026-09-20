@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set or update a function app's update strategy
 /// </summary>
-/// <param name="Type">The update strategy type. Allowed values: Recreate, RollingUpdate. Allowed values: Recreate, RollingUpdate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "update-strategy", "config", "set")]
-public record AzFunctionappUpdateStrategyConfigSetOptions(
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzFunctionappUpdateStrategyConfigSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set or update a function app's update strategy
+    /// </summary>
+    /// <param name="Type">The update strategy type. Allowed values: Recreate, RollingUpdate. Allowed values: Recreate, RollingUpdate.</param>
+    public AzFunctionappUpdateStrategyConfigSetOptions(
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string Type)
+    {
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// The update strategy type. Allowed values: Recreate, RollingUpdate. Allowed values: Recreate, RollingUpdate.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

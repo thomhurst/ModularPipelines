@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove admin details for the specified certificate
 /// </summary>
-/// <param name="Email">Admin e-mail address. Must be unique within the vault.</param>
-/// <param name="IssuerName">Certificate issuer name.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "admin", "delete")]
-public record AzKeyvaultCertificateIssuerAdminDeleteOptions(
-    [property: CliOption("--email")] string Email,
-    [property: CliOption("--issuer-name")] string IssuerName,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificateIssuerAdminDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Remove admin details for the specified certificate
+    /// </summary>
+    /// <param name="Email">Admin e-mail address. Must be unique within the vault.</param>
+    /// <param name="IssuerName">Certificate issuer name.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificateIssuerAdminDeleteOptions(
+        string Email,
+        string IssuerName,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+        global::System.ArgumentNullException.ThrowIfNull(IssuerName);
+        this.IssuerName = IssuerName;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string Email, out string IssuerName, out string VaultName)
+    {
+        Email = this.Email;
+        IssuerName = this.IssuerName;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Admin e-mail address. Must be unique within the vault.
+    /// </summary>
+    [CliOption("--email")]
+    public string Email { get; private init; }
+
+    /// <summary>
+    /// Certificate issuer name.
+    /// </summary>
+    [CliOption("--issuer-name")]
+    public string IssuerName { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
 }

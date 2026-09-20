@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Checks whether or not the given search service name
 /// </summary>
-/// <param name="Name">The search service name to validate. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.</param>
-/// <param name="Type">The type of the resource whose name is to be validated. This value must always be 'searchServices'.  Allowed values: searchServices.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "service", "check-name-availability")]
-public record AzSearchServiceCheckNameAvailabilityOptions(
-    [property: CliOption("--name")] string Name,
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzSearchServiceCheckNameAvailabilityOptions : AzOptions
 {
+    /// <summary>
+    /// Checks whether or not the given search service name
+    /// </summary>
+    /// <param name="Name">The search service name to validate. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.</param>
+    /// <param name="Type">The type of the resource whose name is to be validated. This value must always be 'searchServices'.  Allowed values: searchServices.</param>
+    public AzSearchServiceCheckNameAvailabilityOptions(
+        string Name,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string Name, out string Type)
+    {
+        Name = this.Name;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// The search service name to validate. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.
+    /// </summary>
+    [CliOption("--name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The type of the resource whose name is to be validated. This value must always be 'searchServices'.  Allowed values: searchServices.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
 }

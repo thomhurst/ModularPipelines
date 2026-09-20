@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows a security assessment.
 /// </summary>
-/// <param name="Name">Name of the resource to be fetched.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "assessment-metadata", "show")]
-public record AzSecurityAssessmentMetadataShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSecurityAssessmentMetadataShowOptions : AzOptions
 {
+    /// <summary>
+    /// Shows a security assessment.
+    /// </summary>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    public AzSecurityAssessmentMetadataShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

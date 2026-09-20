@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List VM Image definitions in a gallery shared directly to
 /// </summary>
-/// <param name="GalleryUniqueName">The unique name of the Shared Gallery.</param>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-definition", "list-shared")]
-public record AzSigImageDefinitionListSharedOptions(
-    [property: CliOption("--gallery-unique-name")] string GalleryUniqueName,
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzSigImageDefinitionListSharedOptions : AzOptions
 {
+    /// <summary>
+    /// List VM Image definitions in a gallery shared directly to
+    /// </summary>
+    /// <param name="GalleryUniqueName">The unique name of the Shared Gallery.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    public AzSigImageDefinitionListSharedOptions(
+        string GalleryUniqueName,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GalleryUniqueName);
+        this.GalleryUniqueName = GalleryUniqueName;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string GalleryUniqueName, out string Location)
+    {
+        GalleryUniqueName = this.GalleryUniqueName;
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The unique name of the Shared Gallery.
+    /// </summary>
+    [CliOption("--gallery-unique-name")]
+    public string GalleryUniqueName { get; private init; }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
     /// <summary>
     /// The query parameter to decide what shared galleries to fetch when doing listing operations. If not specified, list by subscription id.  Allowed values: tenant.
     /// </summary>

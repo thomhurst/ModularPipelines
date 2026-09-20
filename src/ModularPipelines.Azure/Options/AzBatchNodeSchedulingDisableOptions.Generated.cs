@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disable scheduling on a Batch compute node.
 /// </summary>
-/// <param name="NodeId">The ID of the Compute Node on which you want to disable Task scheduling. Required.</param>
-/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "scheduling", "disable")]
-public record AzBatchNodeSchedulingDisableOptions(
-    [property: CliOption("--node-id")] string NodeId,
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchNodeSchedulingDisableOptions : AzOptions
 {
+    /// <summary>
+    /// Disable scheduling on a Batch compute node.
+    /// </summary>
+    /// <param name="NodeId">The ID of the Compute Node on which you want to disable Task scheduling. Required.</param>
+    /// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
+    public AzBatchNodeSchedulingDisableOptions(
+        string NodeId,
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeId);
+        this.NodeId = NodeId;
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string NodeId, out string PoolId)
+    {
+        NodeId = this.NodeId;
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the Compute Node on which you want to disable Task scheduling. Required.
+    /// </summary>
+    [CliOption("--node-id")]
+    public string NodeId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Pool that contains the Compute Node. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// A file containing the parameters specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Parameters Arguments' are ignored.
     /// </summary>

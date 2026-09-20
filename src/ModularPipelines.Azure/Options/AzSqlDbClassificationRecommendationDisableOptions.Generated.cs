@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disable sensitivity recommendations for a
 /// </summary>
-/// <param name="Column">The name of the column.</param>
-/// <param name="Schema">The name of the schema.</param>
-/// <param name="Table">The name of the table.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "classification", "recommendation", "disable")]
-public record AzSqlDbClassificationRecommendationDisableOptions(
-    [property: CliOption("--column")] string Column,
-    [property: CliOption("--schema")] string Schema,
-    [property: CliOption("--table")] string Table
-) : AzOptions
+public record AzSqlDbClassificationRecommendationDisableOptions : AzOptions
 {
+    /// <summary>
+    /// Disable sensitivity recommendations for a
+    /// </summary>
+    /// <param name="Column">The name of the column.</param>
+    /// <param name="Schema">The name of the schema.</param>
+    /// <param name="Table">The name of the table.</param>
+    public AzSqlDbClassificationRecommendationDisableOptions(
+        string Column,
+        string Schema,
+        string Table
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Column);
+        this.Column = Column;
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+    }
+
+    public void Deconstruct(out string Column, out string Schema, out string Table)
+    {
+        Column = this.Column;
+        Schema = this.Schema;
+        Table = this.Table;
+    }
+
+    /// <summary>
+    /// The name of the column.
+    /// </summary>
+    [CliOption("--column")]
+    public string Column { get; private init; }
+
+    /// <summary>
+    /// The name of the schema.
+    /// </summary>
+    [CliOption("--schema")]
+    public string Schema { get; private init; }
+
+    /// <summary>
+    /// The name of the table.
+    /// </summary>
+    [CliOption("--table")]
+    public string Table { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

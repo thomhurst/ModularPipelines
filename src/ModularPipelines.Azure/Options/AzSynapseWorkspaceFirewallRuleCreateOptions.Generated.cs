@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a firewall rule.
 /// </summary>
-/// <param name="EndIpAddress">The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress.</param>
-/// <param name="Name">The IP firewall rule name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StartIpAddress">The start IP address of the firewall rule. Must be IPv4 format.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "firewall-rule", "create")]
-public record AzSynapseWorkspaceFirewallRuleCreateOptions(
-    [property: CliOption("--end-ip-address")] string EndIpAddress,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--start-ip-address")] string StartIpAddress,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseWorkspaceFirewallRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a firewall rule.
+    /// </summary>
+    /// <param name="EndIpAddress">The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress.</param>
+    /// <param name="Name">The IP firewall rule name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StartIpAddress">The start IP address of the firewall rule. Must be IPv4 format.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseWorkspaceFirewallRuleCreateOptions(
+        string EndIpAddress,
+        string Name,
+        string ResourceGroup,
+        string StartIpAddress,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndIpAddress);
+        this.EndIpAddress = EndIpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StartIpAddress);
+        this.StartIpAddress = StartIpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string EndIpAddress, out string Name, out string ResourceGroup, out string StartIpAddress, out string WorkspaceName)
+    {
+        EndIpAddress = this.EndIpAddress;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        StartIpAddress = this.StartIpAddress;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress.
+    /// </summary>
+    [CliOption("--end-ip-address")]
+    public string EndIpAddress { get; private init; }
+
+    /// <summary>
+    /// The IP firewall rule name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The start IP address of the firewall rule. Must be IPv4 format.
+    /// </summary>
+    [CliOption("--start-ip-address")]
+    public string StartIpAddress { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

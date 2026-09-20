@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows supported regulatory compliance
 /// </summary>
-/// <param name="ControlName">The compliance control name.</param>
-/// <param name="Name">Name of the resource to be fetched.</param>
-/// <param name="StandardName">The compliance standard name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "regulatory-compliance-assessments", "show")]
-public record AzSecurityRegulatoryComplianceAssessmentsShowOptions(
-    [property: CliOption("--control-name")] string ControlName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--standard-name")] string StandardName
-) : AzOptions
+public record AzSecurityRegulatoryComplianceAssessmentsShowOptions : AzOptions
 {
+    /// <summary>
+    /// Shows supported regulatory compliance
+    /// </summary>
+    /// <param name="ControlName">The compliance control name.</param>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    /// <param name="StandardName">The compliance standard name.</param>
+    public AzSecurityRegulatoryComplianceAssessmentsShowOptions(
+        string ControlName,
+        string Name,
+        string StandardName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ControlName);
+        this.ControlName = ControlName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(StandardName);
+        this.StandardName = StandardName;
+    }
+
+    public void Deconstruct(out string ControlName, out string Name, out string StandardName)
+    {
+        ControlName = this.ControlName;
+        Name = this.Name;
+        StandardName = this.StandardName;
+    }
+
+    /// <summary>
+    /// The compliance control name.
+    /// </summary>
+    [CliOption("--control-name")]
+    public string ControlName { get; private init; }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The compliance standard name.
+    /// </summary>
+    [CliOption("--standard-name")]
+    public string StandardName { get; private init; }
+
 }

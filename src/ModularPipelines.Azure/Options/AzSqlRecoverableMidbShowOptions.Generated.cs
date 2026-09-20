@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get recoverable managed database.
 /// </summary>
-/// <param name="DatabaseName">The id of recoverable database from geo-replicated instance.</param>
-/// <param name="InstanceName">The name of the managed instance. Required.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "recoverable-midb", "show")]
-public record AzSqlRecoverableMidbShowOptions(
-    [property: CliOption("--database-name", ShortForm = "-n")] string DatabaseName,
-    [property: CliOption("--instance-name", ShortForm = "--mi")] string InstanceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlRecoverableMidbShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get recoverable managed database.
+    /// </summary>
+    /// <param name="DatabaseName">The id of recoverable database from geo-replicated instance.</param>
+    /// <param name="InstanceName">The name of the managed instance. Required.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSqlRecoverableMidbShowOptions(
+        string DatabaseName,
+        string InstanceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DatabaseName, out string InstanceName, out string ResourceGroup)
+    {
+        DatabaseName = this.DatabaseName;
+        InstanceName = this.InstanceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The id of recoverable database from geo-replicated instance.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-n")]
+    public string DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the managed instance. Required.
+    /// </summary>
+    [CliOption("--instance-name", ShortForm = "--mi")]
+    public string InstanceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

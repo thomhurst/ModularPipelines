@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all hostname bindings for a web app.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WebappName">Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "hostname", "list")]
-public record AzWebappConfigHostnameListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--webapp-name")] string WebappName
-) : AzOptions
+public record AzWebappConfigHostnameListOptions : AzOptions
 {
+    /// <summary>
+    /// List all hostname bindings for a web app.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WebappName">Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.</param>
+    public AzWebappConfigHostnameListOptions(
+        string ResourceGroup,
+        string WebappName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WebappName);
+        this.WebappName = WebappName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string WebappName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        WebappName = this.WebappName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--webapp-name")]
+    public string WebappName { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

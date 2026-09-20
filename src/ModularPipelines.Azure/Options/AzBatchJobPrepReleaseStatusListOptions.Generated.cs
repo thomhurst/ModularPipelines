@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists the execution status of the Job Preparation and
 /// </summary>
-/// <param name="JobId">The ID of the Job. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job", "prep-release-status", "list")]
-public record AzBatchJobPrepReleaseStatusListOptions(
-    [property: CliOption("--job-id")] string JobId
-) : AzOptions
+public record AzBatchJobPrepReleaseStatusListOptions : AzOptions
 {
+    /// <summary>
+    /// Lists the execution status of the Job Preparation and
+    /// </summary>
+    /// <param name="JobId">The ID of the Job. Required.</param>
+    public AzBatchJobPrepReleaseStatusListOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out string JobId)
+    {
+        JobId = this.JobId;
+    }
+
+    /// <summary>
+    /// The ID of the Job. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

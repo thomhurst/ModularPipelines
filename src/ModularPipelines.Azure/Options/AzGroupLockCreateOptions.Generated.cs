@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a resource group lock.
 /// </summary>
-/// <param name="LockType">The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.</param>
-/// <param name="Name">Name of the lock.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("group", "lock", "create")]
-public record AzGroupLockCreateOptions(
-    [property: CliOption("--lock-type", ShortForm = "-t")] string LockType,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzGroupLockCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a resource group lock.
+    /// </summary>
+    /// <param name="LockType">The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.</param>
+    /// <param name="Name">Name of the lock.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzGroupLockCreateOptions(
+        string LockType,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LockType);
+        this.LockType = LockType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string LockType, out string Name, out string ResourceGroup)
+    {
+        LockType = this.LockType;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.
+    /// </summary>
+    [CliOption("--lock-type", ShortForm = "-t")]
+    public string LockType { get; private init; }
+
+    /// <summary>
+    /// Name of the lock.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Notes about this lock.
     /// </summary>

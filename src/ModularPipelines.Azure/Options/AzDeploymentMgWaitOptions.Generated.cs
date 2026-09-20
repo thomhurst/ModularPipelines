@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a deployment condition is met.
 /// </summary>
-/// <param name="ManagementGroupId">The management group id.</param>
-/// <param name="Name">The deployment name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "mg", "wait")]
-public record AzDeploymentMgWaitOptions(
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzDeploymentMgWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a deployment condition is met.
+    /// </summary>
+    /// <param name="ManagementGroupId">The management group id.</param>
+    /// <param name="Name">The deployment name.</param>
+    public AzDeploymentMgWaitOptions(
+        string ManagementGroupId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string ManagementGroupId, out string Name)
+    {
+        ManagementGroupId = this.ManagementGroupId;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The management group id.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
+    /// <summary>
+    /// The deployment name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Wait until created with 'provisioningState' at 'Succeeded'.
     /// </summary>

@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows a single aggregated alert of yours IoT Security solution.
 /// </summary>
-/// <param name="Name">Name of the resource to be fetched.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SolutionName">Name of the IoT Security solution.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "iot-alerts", "show")]
-public record AzSecurityIotAlertsShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--solution-name")] string SolutionName
-) : AzOptions
+public record AzSecurityIotAlertsShowOptions : AzOptions
 {
+    /// <summary>
+    /// Shows a single aggregated alert of yours IoT Security solution.
+    /// </summary>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SolutionName">Name of the IoT Security solution.</param>
+    public AzSecurityIotAlertsShowOptions(
+        string Name,
+        string ResourceGroup,
+        string SolutionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SolutionName);
+        this.SolutionName = SolutionName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string SolutionName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SolutionName = this.SolutionName;
+    }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the IoT Security solution.
+    /// </summary>
+    [CliOption("--solution-name")]
+    public string SolutionName { get; private init; }
+
 }

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a disk access resource.
 /// </summary>
-/// <param name="DiskAccessName">The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("disk-access", "create")]
-public record AzDiskAccessCreateOptions(
-    [property: CliOption("--disk-access-name", ShortForm = "-n")] string DiskAccessName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzDiskAccessCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a disk access resource.
+    /// </summary>
+    /// <param name="DiskAccessName">The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzDiskAccessCreateOptions(
+        string DiskAccessName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskAccessName);
+        this.DiskAccessName = DiskAccessName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DiskAccessName, out string ResourceGroup)
+    {
+        DiskAccessName = this.DiskAccessName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+    /// </summary>
+    [CliOption("--disk-access-name", ShortForm = "-n")]
+    public string DiskAccessName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

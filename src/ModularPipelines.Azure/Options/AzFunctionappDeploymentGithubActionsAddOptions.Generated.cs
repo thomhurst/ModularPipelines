@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a GitHub Actions workflow file to the
 /// </summary>
-/// <param name="Repo">The GitHub repository to which the workflow file will be added. In the format: `https://github.com/&lt;owner&gt;/&lt;repository-name&gt;` or `&lt;owner&gt;/&lt;repository-name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "github-actions", "add")]
-public record AzFunctionappDeploymentGithubActionsAddOptions(
-    [property: CliOption("--repo")] string Repo
-) : AzOptions
+public record AzFunctionappDeploymentGithubActionsAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a GitHub Actions workflow file to the
+    /// </summary>
+    /// <param name="Repo">The GitHub repository to which the workflow file will be added. In the format: `https://github.com/&lt;owner&gt;/&lt;repository-name&gt;` or `&lt;owner&gt;/&lt;repository-name&gt;`.</param>
+    public AzFunctionappDeploymentGithubActionsAddOptions(
+        string Repo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repo);
+        this.Repo = Repo;
+    }
+
+    public void Deconstruct(out string Repo)
+    {
+        Repo = this.Repo;
+    }
+
+    /// <summary>
+    /// The GitHub repository to which the workflow file will be added. In the format: `https://github.com/&lt;owner&gt;/&lt;repository-name&gt;` or `&lt;owner&gt;/&lt;repository-name&gt;`.
+    /// </summary>
+    [CliOption("--repo")]
+    public string Repo { get; private init; }
+
     /// <summary>
     /// The branch to which the workflow file will be added.  Default: master.
     /// </summary>

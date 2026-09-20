@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all scope maps for an Azure Container Registry.
 /// </summary>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "scope-map", "list")]
-public record AzAcrScopeMapListOptions(
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry
-) : AzOptions
+public record AzAcrScopeMapListOptions : AzOptions
 {
+    /// <summary>
+    /// List all scope maps for an Azure Container Registry.
+    /// </summary>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrScopeMapListOptions(
+        string Registry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+    }
+
+    public void Deconstruct(out string Registry)
+    {
+        Registry = this.Registry;
+    }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

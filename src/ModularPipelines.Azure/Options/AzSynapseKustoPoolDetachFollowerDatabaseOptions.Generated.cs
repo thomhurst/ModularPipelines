@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Detaches all followers of a database owned by
 /// </summary>
-/// <param name="Adcn">Resource name of the attached database configuration in the follower cluster.</param>
-/// <param name="KustoPoolResourceId">Resource id of the cluster that follows a database owned by this cluster.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kusto", "pool", "detach-follower-database")]
-public record AzSynapseKustoPoolDetachFollowerDatabaseOptions(
-    [property: CliOption("--adcn", ShortForm = "--attached-database-configuration-name")] string Adcn,
-    [property: CliOption("--kusto-pool-resource-id")] string KustoPoolResourceId
-) : AzOptions
+public record AzSynapseKustoPoolDetachFollowerDatabaseOptions : AzOptions
 {
+    /// <summary>
+    /// Detaches all followers of a database owned by
+    /// </summary>
+    /// <param name="Adcn">Resource name of the attached database configuration in the follower cluster.</param>
+    /// <param name="KustoPoolResourceId">Resource id of the cluster that follows a database owned by this cluster.</param>
+    public AzSynapseKustoPoolDetachFollowerDatabaseOptions(
+        string Adcn,
+        string KustoPoolResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Adcn);
+        this.Adcn = Adcn;
+        global::System.ArgumentNullException.ThrowIfNull(KustoPoolResourceId);
+        this.KustoPoolResourceId = KustoPoolResourceId;
+    }
+
+    public void Deconstruct(out string Adcn, out string KustoPoolResourceId)
+    {
+        Adcn = this.Adcn;
+        KustoPoolResourceId = this.KustoPoolResourceId;
+    }
+
+    /// <summary>
+    /// Resource name of the attached database configuration in the follower cluster.
+    /// </summary>
+    [CliOption("--adcn", ShortForm = "--attached-database-configuration-name")]
+    public string Adcn { get; private init; }
+
+    /// <summary>
+    /// Resource id of the cluster that follows a database owned by this cluster.
+    /// </summary>
+    [CliOption("--kusto-pool-resource-id")]
+    public string KustoPoolResourceId { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes the linked server from a redis cache (requires Premium
 /// </summary>
-/// <param name="LinkedServerName">Name of the linked redis cache.</param>
-/// <param name="Name">Name of the Redis cache.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "server-link", "delete")]
-public record AzRedisServerLinkDeleteOptions(
-    [property: CliOption("--linked-server-name")] string LinkedServerName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzRedisServerLinkDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes the linked server from a redis cache (requires Premium
+    /// </summary>
+    /// <param name="LinkedServerName">Name of the linked redis cache.</param>
+    /// <param name="Name">Name of the Redis cache.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzRedisServerLinkDeleteOptions(
+        string LinkedServerName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LinkedServerName);
+        this.LinkedServerName = LinkedServerName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string LinkedServerName, out string Name, out string ResourceGroup)
+    {
+        LinkedServerName = this.LinkedServerName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the linked redis cache.
+    /// </summary>
+    [CliOption("--linked-server-name")]
+    public string LinkedServerName { get; private init; }
+
+    /// <summary>
+    /// Name of the Redis cache.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

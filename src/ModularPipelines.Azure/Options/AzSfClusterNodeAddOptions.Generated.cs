@@ -15,18 +15,64 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add nodes to a node type in a cluster.
 /// </summary>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="NodeType">The Node type name.</param>
-/// <param name="NodesToAdd">Number of nodes to add.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "node", "add")]
-public record AzSfClusterNodeAddOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--node-type")] string NodeType,
-    [property: CliOption("--nodes-to-add", ShortForm = "--number-of-nodes-to-add")] int NodesToAdd,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSfClusterNodeAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add nodes to a node type in a cluster.
+    /// </summary>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="NodeType">The Node type name.</param>
+    /// <param name="NodesToAdd">Number of nodes to add.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSfClusterNodeAddOptions(
+        string ClusterName,
+        string NodeType,
+        int NodesToAdd,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(NodeType);
+        this.NodeType = NodeType;
+        this.NodesToAdd = NodesToAdd;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string NodeType, out int NodesToAdd, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        NodeType = this.NodeType;
+        NodesToAdd = this.NodesToAdd;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The Node type name.
+    /// </summary>
+    [CliOption("--node-type")]
+    public string NodeType { get; private init; }
+
+    /// <summary>
+    /// Number of nodes to add.
+    /// </summary>
+    [CliOption("--nodes-to-add", ShortForm = "--number-of-nodes-to-add")]
+    public int NodesToAdd { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

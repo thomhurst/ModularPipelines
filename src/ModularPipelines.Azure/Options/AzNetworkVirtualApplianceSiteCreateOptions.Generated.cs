@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an Azure network virtual appliance site.
 /// </summary>
-/// <param name="ApplianceName">The name of Network Virtual Appliance.</param>
-/// <param name="Name">The name of Network Virtual Appliance Site.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "site", "create")]
-public record AzNetworkVirtualApplianceSiteCreateOptions(
-    [property: CliOption("--appliance-name")] string ApplianceName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkVirtualApplianceSiteCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an Azure network virtual appliance site.
+    /// </summary>
+    /// <param name="ApplianceName">The name of Network Virtual Appliance.</param>
+    /// <param name="Name">The name of Network Virtual Appliance Site.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkVirtualApplianceSiteCreateOptions(
+        string ApplianceName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplianceName);
+        this.ApplianceName = ApplianceName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ApplianceName, out string Name, out string ResourceGroup)
+    {
+        ApplianceName = this.ApplianceName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of Network Virtual Appliance.
+    /// </summary>
+    [CliOption("--appliance-name")]
+    public string ApplianceName { get; private init; }
+
+    /// <summary>
+    /// The name of Network Virtual Appliance Site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Address Prefix of Network Virtual Appliance Site.
     /// </summary>

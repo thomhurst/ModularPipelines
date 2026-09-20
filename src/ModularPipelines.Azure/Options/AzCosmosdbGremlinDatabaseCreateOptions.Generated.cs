@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an Gremlin database under an Azure Cosmos DB
 /// </summary>
-/// <param name="AccountName">Cosmosdb account name.</param>
-/// <param name="Name">Database name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "database", "create")]
-public record AzCosmosdbGremlinDatabaseCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbGremlinDatabaseCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an Gremlin database under an Azure Cosmos DB
+    /// </summary>
+    /// <param name="AccountName">Cosmosdb account name.</param>
+    /// <param name="Name">Database name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbGremlinDatabaseCreateOptions(
+        string AccountName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string Name, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cosmosdb account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Database name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The maximum throughput resource can scale to (RU/s). Provided when the resource is autoscale enabled. The minimum value can be 4000 (RU/s).
     /// </summary>

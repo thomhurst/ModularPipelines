@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show capacity reservation group.
 /// </summary>
-/// <param name="CapacityReservationGroup">The name of the capacity reservation group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("capacity", "reservation", "group", "show")]
-public record AzCapacityReservationGroupShowOptions(
-    [property: CliOption("--capacity-reservation-group", ShortForm = "-n")] string CapacityReservationGroup,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCapacityReservationGroupShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show capacity reservation group.
+    /// </summary>
+    /// <param name="CapacityReservationGroup">The name of the capacity reservation group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCapacityReservationGroupShowOptions(
+        string CapacityReservationGroup,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationGroup);
+        this.CapacityReservationGroup = CapacityReservationGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string CapacityReservationGroup, out string ResourceGroup)
+    {
+        CapacityReservationGroup = this.CapacityReservationGroup;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the capacity reservation group.
+    /// </summary>
+    [CliOption("--capacity-reservation-group", ShortForm = "-n")]
+    public string CapacityReservationGroup { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Retrieve the list of instance views of the capacity reservations under the capacity reservation group which is a snapshot of the runtime properties of a capacity reservation that is managed by the platform and can change outside of control plane operations.
     /// </summary>

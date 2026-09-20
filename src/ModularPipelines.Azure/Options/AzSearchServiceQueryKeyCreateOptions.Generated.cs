@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new query key for the specified search service.
 /// </summary>
-/// <param name="Name">The name of the new query API key.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SearchServiceName">The name of the Azure AI Search service associated with the specified resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "service", "query-key", "create")]
-public record AzSearchServiceQueryKeyCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--search-service-name")] string SearchServiceName
-) : AzOptions
+public record AzSearchServiceQueryKeyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new query key for the specified search service.
+    /// </summary>
+    /// <param name="Name">The name of the new query API key.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SearchServiceName">The name of the Azure AI Search service associated with the specified resource group.</param>
+    public AzSearchServiceQueryKeyCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string SearchServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SearchServiceName);
+        this.SearchServiceName = SearchServiceName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string SearchServiceName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SearchServiceName = this.SearchServiceName;
+    }
+
+    /// <summary>
+    /// The name of the new query API key.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Azure AI Search service associated with the specified resource group.
+    /// </summary>
+    [CliOption("--search-service-name")]
+    public string SearchServiceName { get; private init; }
+
 }

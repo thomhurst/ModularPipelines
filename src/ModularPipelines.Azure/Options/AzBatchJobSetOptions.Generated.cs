@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a Batch job. Updating a property in a subgroup will
 /// </summary>
-/// <param name="JobId">The ID of the Job whose properties you want to update. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job", "set")]
-public record AzBatchJobSetOptions(
-    [property: CliOption("--job-id")] string JobId
-) : AzOptions
+public record AzBatchJobSetOptions : AzOptions
 {
+    /// <summary>
+    /// Update the properties of a Batch job. Updating a property in a subgroup will
+    /// </summary>
+    /// <param name="JobId">The ID of the Job whose properties you want to update. Required.</param>
+    public AzBatchJobSetOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out string JobId)
+    {
+        JobId = this.JobId;
+    }
+
+    /// <summary>
+    /// The ID of the Job whose properties you want to update. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
     /// <summary>
     /// A file containing the job specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Job Arguments' are ignored.
     /// </summary>

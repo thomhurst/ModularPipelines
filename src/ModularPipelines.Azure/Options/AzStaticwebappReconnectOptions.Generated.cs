@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Connect to a repo and branch following a disconnect command.
 /// </summary>
-/// <param name="Name">Name of the static site.</param>
-/// <param name="Branch">The target branch in the repository.</param>
-/// <param name="Source">URL for the repository of the static site.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "reconnect")]
-public record AzStaticwebappReconnectOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--branch", ShortForm = "-b")] string Branch,
-    [property: CliOption("--source", ShortForm = "-s")] string Source
-) : AzOptions
+public record AzStaticwebappReconnectOptions : AzOptions
 {
+    /// <summary>
+    /// Connect to a repo and branch following a disconnect command.
+    /// </summary>
+    /// <param name="Name">Name of the static site.</param>
+    /// <param name="Branch">The target branch in the repository.</param>
+    /// <param name="Source">URL for the repository of the static site.</param>
+    public AzStaticwebappReconnectOptions(
+        string Name,
+        string Branch,
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Branch);
+        this.Branch = Branch;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Name, out string Branch, out string Source)
+    {
+        Name = this.Name;
+        Branch = this.Branch;
+        Source = this.Source;
+    }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The target branch in the repository.
+    /// </summary>
+    [CliOption("--branch", ShortForm = "-b")]
+    public string Branch { get; private init; }
+
+    /// <summary>
+    /// URL for the repository of the static site.
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string Source { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

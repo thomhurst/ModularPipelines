@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a group.
 /// </summary>
-/// <param name="DisplayName">Object's display name or its prefix.</param>
-/// <param name="MailNickname">Mail nickname.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "create")]
-public record AzAdGroupCreateOptions(
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--mail-nickname")] string MailNickname
-) : AzOptions
+public record AzAdGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a group.
+    /// </summary>
+    /// <param name="DisplayName">Object's display name or its prefix.</param>
+    /// <param name="MailNickname">Mail nickname.</param>
+    public AzAdGroupCreateOptions(
+        string DisplayName,
+        string MailNickname
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(MailNickname);
+        this.MailNickname = MailNickname;
+    }
+
+    public void Deconstruct(out string DisplayName, out string MailNickname)
+    {
+        DisplayName = this.DisplayName;
+        MailNickname = this.MailNickname;
+    }
+
+    /// <summary>
+    /// Object's display name or its prefix.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Mail nickname.
+    /// </summary>
+    [CliOption("--mail-nickname")]
+    public string MailNickname { get; private init; }
+
     /// <summary>
     /// Group description.
     /// </summary>

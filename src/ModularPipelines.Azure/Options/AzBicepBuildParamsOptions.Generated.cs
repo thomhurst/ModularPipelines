@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Build .bicepparam file.
 /// </summary>
-/// <param name="File">The path to the .bicepparam file to build in the file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "build-params")]
-public record AzBicepBuildParamsOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzBicepBuildParamsOptions : AzOptions
 {
+    /// <summary>
+    /// Build .bicepparam file.
+    /// </summary>
+    /// <param name="File">The path to the .bicepparam file to build in the file system.</param>
+    public AzBicepBuildParamsOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// The path to the .bicepparam file to build in the file system.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// When set, builds the .bicepparam file without restoring external modules.
     /// </summary>

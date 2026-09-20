@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List shared access keys of a partner namespace.
 /// </summary>
-/// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "key", "list")]
-public record AzEventgridPartnerNamespaceKeyListOptions(
-    [property: CliOption("--partner-namespace-name")] string PartnerNamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridPartnerNamespaceKeyListOptions : AzOptions
 {
+    /// <summary>
+    /// List shared access keys of a partner namespace.
+    /// </summary>
+    /// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridPartnerNamespaceKeyListOptions(
+        string PartnerNamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PartnerNamespaceName);
+        this.PartnerNamespaceName = PartnerNamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string PartnerNamespaceName, out string ResourceGroup)
+    {
+        PartnerNamespaceName = this.PartnerNamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the partner namespace.
+    /// </summary>
+    [CliOption("--partner-namespace-name")]
+    public string PartnerNamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

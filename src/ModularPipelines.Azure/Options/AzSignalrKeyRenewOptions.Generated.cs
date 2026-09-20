@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate the access key for a SignalR Service.
 /// </summary>
-/// <param name="KeyType">The name of access key to regenerate.  Allowed values: primary, secondary.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "key", "renew")]
-public record AzSignalrKeyRenewOptions(
-    [property: CliOption("--key-type")] string KeyType
-) : AzOptions
+public record AzSignalrKeyRenewOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerate the access key for a SignalR Service.
+    /// </summary>
+    /// <param name="KeyType">The name of access key to regenerate.  Allowed values: primary, secondary.</param>
+    public AzSignalrKeyRenewOptions(
+        string KeyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyType);
+        this.KeyType = KeyType;
+    }
+
+    public void Deconstruct(out string KeyType)
+    {
+        KeyType = this.KeyType;
+    }
+
+    /// <summary>
+    /// The name of access key to regenerate.  Allowed values: primary, secondary.
+    /// </summary>
+    [CliOption("--key-type")]
+    public string KeyType { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

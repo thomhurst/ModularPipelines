@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List trusted root certificates.
 /// </summary>
-/// <param name="GatewayName">Name of the application gateway.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "root-cert", "list")]
-public record AzNetworkApplicationGatewayRootCertListOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewayRootCertListOptions : AzOptions
 {
+    /// <summary>
+    /// List trusted root certificates.
+    /// </summary>
+    /// <param name="GatewayName">Name of the application gateway.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkApplicationGatewayRootCertListOptions(
+        string GatewayName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GatewayName, out string ResourceGroup)
+    {
+        GatewayName = this.GatewayName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

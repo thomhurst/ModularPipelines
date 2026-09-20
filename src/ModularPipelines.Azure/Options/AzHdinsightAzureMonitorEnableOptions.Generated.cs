@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable the Azure Monitor logs integration on an HDInsight
 /// </summary>
-/// <param name="Name">The name of the cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Workspace">The name, resource ID or workspace ID of Log Analytics workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "azure-monitor", "enable")]
-public record AzHdinsightAzureMonitorEnableOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace")] string Workspace
-) : AzOptions
+public record AzHdinsightAzureMonitorEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Enable the Azure Monitor logs integration on an HDInsight
+    /// </summary>
+    /// <param name="Name">The name of the cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Workspace">The name, resource ID or workspace ID of Log Analytics workspace.</param>
+    public AzHdinsightAzureMonitorEnableOptions(
+        string Name,
+        string ResourceGroup,
+        string Workspace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Workspace);
+        this.Workspace = Workspace;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Workspace)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Workspace = this.Workspace;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name, resource ID or workspace ID of Log Analytics workspace.
+    /// </summary>
+    [CliOption("--workspace")]
+    public string Workspace { get; private init; }
+
     /// <summary>
     /// Permit timeout error during argument validation phase. If omitted, validation timeout error will be permitted.
     /// </summary>

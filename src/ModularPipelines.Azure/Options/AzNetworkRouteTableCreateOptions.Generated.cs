@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a route table.
 /// </summary>
-/// <param name="Name">Name of the route table.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "route-table", "create")]
-public record AzNetworkRouteTableCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkRouteTableCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a route table.
+    /// </summary>
+    /// <param name="Name">Name of the route table.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkRouteTableCreateOptions(
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the route table.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Disable routes learned by BGP.  Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

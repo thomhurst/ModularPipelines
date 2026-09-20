@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the virtual network integrations used in an
 /// </summary>
-/// <param name="Plan">AppService plan.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "vnet-integration", "list")]
-public record AzAppserviceVnetIntegrationListOptions(
-    [property: CliOption("--plan")] string Plan,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAppserviceVnetIntegrationListOptions : AzOptions
 {
+    /// <summary>
+    /// List the virtual network integrations used in an
+    /// </summary>
+    /// <param name="Plan">AppService plan.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAppserviceVnetIntegrationListOptions(
+        string Plan,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Plan);
+        this.Plan = Plan;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Plan, out string ResourceGroup)
+    {
+        Plan = this.Plan;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// AppService plan.
+    /// </summary>
+    [CliOption("--plan")]
+    public string Plan { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

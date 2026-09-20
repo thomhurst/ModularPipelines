@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a PrivateLinkAssociation.
 /// </summary>
-/// <param name="ManagementGroupId">The management group id.</param>
-/// <param name="Name">The name of the private link association.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("private-link", "association", "delete")]
-public record AzPrivateLinkAssociationDeleteOptions(
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzPrivateLinkAssociationDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a PrivateLinkAssociation.
+    /// </summary>
+    /// <param name="ManagementGroupId">The management group id.</param>
+    /// <param name="Name">The name of the private link association.</param>
+    public AzPrivateLinkAssociationDeleteOptions(
+        string ManagementGroupId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string ManagementGroupId, out string Name)
+    {
+        ManagementGroupId = this.ManagementGroupId;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The management group id.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
+    /// <summary>
+    /// The name of the private link association.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

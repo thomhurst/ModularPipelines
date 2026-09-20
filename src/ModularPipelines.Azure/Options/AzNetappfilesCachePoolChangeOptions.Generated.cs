@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Moves Cache  to another Capacity Pool.
 /// </summary>
-/// <param name="NewPoolResourceId">Resource id of the pool to move volume to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "cache", "pool-change")]
-public record AzNetappfilesCachePoolChangeOptions(
-    [property: CliOption("--new-pool-resource-id")] string NewPoolResourceId
-) : AzOptions
+public record AzNetappfilesCachePoolChangeOptions : AzOptions
 {
+    /// <summary>
+    /// Moves Cache  to another Capacity Pool.
+    /// </summary>
+    /// <param name="NewPoolResourceId">Resource id of the pool to move volume to.</param>
+    public AzNetappfilesCachePoolChangeOptions(
+        string NewPoolResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewPoolResourceId);
+        this.NewPoolResourceId = NewPoolResourceId;
+    }
+
+    public void Deconstruct(out string NewPoolResourceId)
+    {
+        NewPoolResourceId = this.NewPoolResourceId;
+    }
+
+    /// <summary>
+    /// Resource id of the pool to move volume to.
+    /// </summary>
+    [CliOption("--new-pool-resource-id")]
+    public string NewPoolResourceId { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

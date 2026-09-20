@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new management group.
 /// </summary>
-/// <param name="Name">Name of the management group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "create")]
-public record AzAccountManagementGroupCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAccountManagementGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new management group.
+    /// </summary>
+    /// <param name="Name">Name of the management group.</param>
+    public AzAccountManagementGroupCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the management group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Sets the display name of the management group. If null, the group name is set as the display name.
     /// </summary>

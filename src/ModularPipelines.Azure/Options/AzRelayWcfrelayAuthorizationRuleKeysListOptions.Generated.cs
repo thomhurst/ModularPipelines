@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the keys and connection strings of
 /// </summary>
-/// <param name="Name">Name of WCF Relay Authorization Rule.</param>
-/// <param name="NamespaceName">Name of Namespace.</param>
-/// <param name="RelayName">Name of WCF Relay.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "wcfrelay", "authorization-rule", "keys", "list")]
-public record AzRelayWcfrelayAuthorizationRuleKeysListOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--relay-name")] string RelayName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzRelayWcfrelayAuthorizationRuleKeysListOptions : AzOptions
 {
+    /// <summary>
+    /// List the keys and connection strings of
+    /// </summary>
+    /// <param name="Name">Name of WCF Relay Authorization Rule.</param>
+    /// <param name="NamespaceName">Name of Namespace.</param>
+    /// <param name="RelayName">Name of WCF Relay.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzRelayWcfrelayAuthorizationRuleKeysListOptions(
+        string Name,
+        string NamespaceName,
+        string RelayName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(RelayName);
+        this.RelayName = RelayName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string NamespaceName, out string RelayName, out string ResourceGroup)
+    {
+        Name = this.Name;
+        NamespaceName = this.NamespaceName;
+        RelayName = this.RelayName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of WCF Relay Authorization Rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of Namespace.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of WCF Relay.
+    /// </summary>
+    [CliOption("--relay-name")]
+    public string RelayName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

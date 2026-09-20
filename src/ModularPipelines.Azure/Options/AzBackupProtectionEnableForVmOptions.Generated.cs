@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start protecting a previously unprotected Azure VM as per
 /// </summary>
-/// <param name="PolicyName">Name of the backup policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VaultName">Name of the Recovery services vault.</param>
-/// <param name="Vm">Name or ID of the Virtual Machine to be protected.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protection", "enable-for-vm")]
-public record AzBackupProtectionEnableForVmOptions(
-    [property: CliOption("--policy-name", ShortForm = "-p")] string PolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName,
-    [property: CliOption("--vm")] string Vm
-) : AzOptions
+public record AzBackupProtectionEnableForVmOptions : AzOptions
 {
+    /// <summary>
+    /// Start protecting a previously unprotected Azure VM as per
+    /// </summary>
+    /// <param name="PolicyName">Name of the backup policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VaultName">Name of the Recovery services vault.</param>
+    /// <param name="Vm">Name or ID of the Virtual Machine to be protected.</param>
+    public AzBackupProtectionEnableForVmOptions(
+        string PolicyName,
+        string ResourceGroup,
+        string VaultName,
+        string Vm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+        global::System.ArgumentNullException.ThrowIfNull(Vm);
+        this.Vm = Vm;
+    }
+
+    public void Deconstruct(out string PolicyName, out string ResourceGroup, out string VaultName, out string Vm)
+    {
+        PolicyName = this.PolicyName;
+        ResourceGroup = this.ResourceGroup;
+        VaultName = this.VaultName;
+        Vm = this.Vm;
+    }
+
+    /// <summary>
+    /// Name of the backup policy.
+    /// </summary>
+    [CliOption("--policy-name", ShortForm = "-p")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string VaultName { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the Virtual Machine to be protected.
+    /// </summary>
+    [CliOption("--vm")]
+    public string Vm { get; private init; }
+
     /// <summary>
     /// Option to decide whether to include or exclude the disk or reset any previous settings to default behavior.  Allowed values: exclude, include.
     /// </summary>

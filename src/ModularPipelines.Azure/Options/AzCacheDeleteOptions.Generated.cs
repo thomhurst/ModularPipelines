@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an object from the cache.
 /// </summary>
-/// <param name="Name">The resource name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ResourceType">The resource type.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cache", "delete")]
-public record AzCacheDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--resource-type", ShortForm = "-t")] string ResourceType
-) : AzOptions
+public record AzCacheDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete an object from the cache.
+    /// </summary>
+    /// <param name="Name">The resource name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ResourceType">The resource type.</param>
+    public AzCacheDeleteOptions(
+        string Name,
+        string ResourceGroup,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string ResourceType)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ResourceType = this.ResourceType;
+    }
+
+    /// <summary>
+    /// The resource name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The resource type.
+    /// </summary>
+    [CliOption("--resource-type", ShortForm = "-t")]
+    public string ResourceType { get; private init; }
+
 }

@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show details of a registered database account in a
 /// </summary>
-/// <param name="FleetName">Name of the Cosmos DB Fleet.</param>
-/// <param name="FleetspaceAccountName">Name of the Fleetspace Account resource.</param>
-/// <param name="FleetspaceName">Name of the Fleetspace resource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "fleetspace", "account", "show")]
-public record AzCosmosdbFleetspaceAccountShowOptions(
-    [property: CliOption("--fleet-name")] string FleetName,
-    [property: CliOption("--fleetspace-account-name", ShortForm = "-n")] string FleetspaceAccountName,
-    [property: CliOption("--fleetspace-name")] string FleetspaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbFleetspaceAccountShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show details of a registered database account in a
+    /// </summary>
+    /// <param name="FleetName">Name of the Cosmos DB Fleet.</param>
+    /// <param name="FleetspaceAccountName">Name of the Fleetspace Account resource.</param>
+    /// <param name="FleetspaceName">Name of the Fleetspace resource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbFleetspaceAccountShowOptions(
+        string FleetName,
+        string FleetspaceAccountName,
+        string FleetspaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetName);
+        this.FleetName = FleetName;
+        global::System.ArgumentNullException.ThrowIfNull(FleetspaceAccountName);
+        this.FleetspaceAccountName = FleetspaceAccountName;
+        global::System.ArgumentNullException.ThrowIfNull(FleetspaceName);
+        this.FleetspaceName = FleetspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string FleetName, out string FleetspaceAccountName, out string FleetspaceName, out string ResourceGroup)
+    {
+        FleetName = this.FleetName;
+        FleetspaceAccountName = this.FleetspaceAccountName;
+        FleetspaceName = this.FleetspaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the Cosmos DB Fleet.
+    /// </summary>
+    [CliOption("--fleet-name")]
+    public string FleetName { get; private init; }
+
+    /// <summary>
+    /// Name of the Fleetspace Account resource.
+    /// </summary>
+    [CliOption("--fleetspace-account-name", ShortForm = "-n")]
+    public string FleetspaceAccountName { get; private init; }
+
+    /// <summary>
+    /// Name of the Fleetspace resource.
+    /// </summary>
+    [CliOption("--fleetspace-name")]
+    public string FleetspaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

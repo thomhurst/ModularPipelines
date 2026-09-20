@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the metric definitions for the subscription.
 /// </summary>
-/// <param name="Region">The region where the metrics you want reside.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list-sub-definitions")]
-public record AzMonitorMetricsListSubDefinitionsOptions(
-    [property: CliOption("--region")] string Region
-) : AzOptions
+public record AzMonitorMetricsListSubDefinitionsOptions : AzOptions
 {
+    /// <summary>
+    /// List the metric definitions for the subscription.
+    /// </summary>
+    /// <param name="Region">The region where the metrics you want reside.</param>
+    public AzMonitorMetricsListSubDefinitionsOptions(
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string Region)
+    {
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// The region where the metrics you want reside.
+    /// </summary>
+    [CliOption("--region")]
+    public string Region { get; private init; }
+
     /// <summary>
     /// Metric namespace where the metrics you want reside.
     /// </summary>

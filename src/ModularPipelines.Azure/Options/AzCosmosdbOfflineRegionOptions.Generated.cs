@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Offline the specified region for the specified Azure Cosmos DB
 /// </summary>
-/// <param name="Region">The region to offline for the CosmosDB account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "offline-region")]
-public record AzCosmosdbOfflineRegionOptions(
-    [property: CliOption("--region")] string Region
-) : AzOptions
+public record AzCosmosdbOfflineRegionOptions : AzOptions
 {
+    /// <summary>
+    /// Offline the specified region for the specified Azure Cosmos DB
+    /// </summary>
+    /// <param name="Region">The region to offline for the CosmosDB account.</param>
+    public AzCosmosdbOfflineRegionOptions(
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string Region)
+    {
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// The region to offline for the CosmosDB account.
+    /// </summary>
+    [CliOption("--region")]
+    public string Region { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

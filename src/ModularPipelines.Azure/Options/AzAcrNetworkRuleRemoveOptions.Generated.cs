@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a network rule.
 /// </summary>
-/// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "network-rule", "remove")]
-public record AzAcrNetworkRuleRemoveOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAcrNetworkRuleRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a network rule.
+    /// </summary>
+    /// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrNetworkRuleRemoveOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// IPv4/IPv6 address or CIDR range.
     /// </summary>

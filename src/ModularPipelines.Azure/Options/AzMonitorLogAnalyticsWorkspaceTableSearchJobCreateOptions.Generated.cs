@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Log Analytics workspace
 /// </summary>
-/// <param name="EndSearchTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
-/// <param name="Name">Name of the table. The table name needs to end with _SRCH.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SearchQuery">Search job query.</param>
-/// <param name="StartSearchTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
-/// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "table", "search-job", "create")]
-public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions(
-    [property: CliOption("--end-search-time")] string EndSearchTime,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--search-query")] string SearchQuery,
-    [property: CliOption("--start-search-time")] string StartSearchTime,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Log Analytics workspace
+    /// </summary>
+    /// <param name="EndSearchTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
+    /// <param name="Name">Name of the table. The table name needs to end with _SRCH.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SearchQuery">Search job query.</param>
+    /// <param name="StartSearchTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
+    /// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
+    public AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions(
+        string EndSearchTime,
+        string Name,
+        string ResourceGroup,
+        string SearchQuery,
+        string StartSearchTime,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndSearchTime);
+        this.EndSearchTime = EndSearchTime;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SearchQuery);
+        this.SearchQuery = SearchQuery;
+        global::System.ArgumentNullException.ThrowIfNull(StartSearchTime);
+        this.StartSearchTime = StartSearchTime;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string EndSearchTime, out string Name, out string ResourceGroup, out string SearchQuery, out string StartSearchTime, out string WorkspaceName)
+    {
+        EndSearchTime = this.EndSearchTime;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SearchQuery = this.SearchQuery;
+        StartSearchTime = this.StartSearchTime;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliOption("--end-search-time")]
+    public string EndSearchTime { get; private init; }
+
+    /// <summary>
+    /// Name of the table. The table name needs to end with _SRCH.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Search job query.
+    /// </summary>
+    [CliOption("--search-query")]
+    public string SearchQuery { get; private init; }
+
+    /// <summary>
+    /// Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// </summary>
+    [CliOption("--start-search-time")]
+    public string StartSearchTime { get; private init; }
+
+    /// <summary>
+    /// Name of the Log Analytics Workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Limit the search job to return up to specified number of rows.
     /// </summary>

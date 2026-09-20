@@ -16,14 +16,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new option to an existing content key policy.
 /// </summary>
-/// <param name="PolicyOptionName">The content key policy option name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "content-key-policy", "option", "add")]
-public record AzAmsContentKeyPolicyOptionAddOptions(
-    [property: CliOption("--policy-option-name")] string PolicyOptionName
-) : AzOptions
+public record AzAmsContentKeyPolicyOptionAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a new option to an existing content key policy.
+    /// </summary>
+    /// <param name="PolicyOptionName">The content key policy option name.</param>
+    public AzAmsContentKeyPolicyOptionAddOptions(
+        string PolicyOptionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyOptionName);
+        this.PolicyOptionName = PolicyOptionName;
+    }
+
+    public void Deconstruct(out string PolicyOptionName)
+    {
+        PolicyOptionName = this.PolicyOptionName;
+    }
+
+    /// <summary>
+    /// The content key policy option name.
+    /// </summary>
+    [CliOption("--policy-option-name")]
+    public string PolicyOptionName { get; private init; }
+
     /// <summary>
     /// Use Clear Key configuration, a.k.a AES encryption. It's intended for non-DRM keys.
     /// </summary>

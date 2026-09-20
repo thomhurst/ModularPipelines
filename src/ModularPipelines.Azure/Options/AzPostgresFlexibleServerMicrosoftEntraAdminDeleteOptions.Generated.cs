@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a Microsoft Entra
 /// </summary>
-/// <param name="ObjectId">The unique identifier of the Microsoft Entra administrator.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "microsoft-entra-admin", "delete")]
-public record AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions(
-    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId
-) : AzOptions
+public record AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a Microsoft Entra
+    /// </summary>
+    /// <param name="ObjectId">The unique identifier of the Microsoft Entra administrator.</param>
+    public AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions(
+        string ObjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ObjectId);
+        this.ObjectId = ObjectId;
+    }
+
+    public void Deconstruct(out string ObjectId)
+    {
+        ObjectId = this.ObjectId;
+    }
+
+    /// <summary>
+    /// The unique identifier of the Microsoft Entra administrator.
+    /// </summary>
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string ObjectId { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

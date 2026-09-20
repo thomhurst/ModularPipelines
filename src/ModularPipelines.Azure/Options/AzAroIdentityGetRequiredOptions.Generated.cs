@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get required identities.
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="MasterSubnet">Name or ID of master vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Version">OpenShift version to use for cluster creation.</param>
-/// <param name="WorkerSubnet">Name or ID of worker vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aro", "identity", "get-required")]
-public record AzAroIdentityGetRequiredOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--master-subnet")] string MasterSubnet,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--version")] string Version,
-    [property: CliOption("--worker-subnet")] string WorkerSubnet
-) : AzOptions
+public record AzAroIdentityGetRequiredOptions : AzOptions
 {
+    /// <summary>
+    /// Get required identities.
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="MasterSubnet">Name or ID of master vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Version">OpenShift version to use for cluster creation.</param>
+    /// <param name="WorkerSubnet">Name or ID of worker vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
+    public AzAroIdentityGetRequiredOptions(
+        string Location,
+        string MasterSubnet,
+        string ResourceGroup,
+        string Version,
+        string WorkerSubnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(MasterSubnet);
+        this.MasterSubnet = MasterSubnet;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(WorkerSubnet);
+        this.WorkerSubnet = WorkerSubnet;
+    }
+
+    public void Deconstruct(out string Location, out string MasterSubnet, out string ResourceGroup, out string Version, out string WorkerSubnet)
+    {
+        Location = this.Location;
+        MasterSubnet = this.MasterSubnet;
+        ResourceGroup = this.ResourceGroup;
+        Version = this.Version;
+        WorkerSubnet = this.WorkerSubnet;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name or ID of master vnet subnet.  If name is supplied, `--vnet` must be supplied.
+    /// </summary>
+    [CliOption("--master-subnet")]
+    public string MasterSubnet { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// OpenShift version to use for cluster creation.
+    /// </summary>
+    [CliOption("--version")]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Name or ID of worker vnet subnet.  If name is supplied, `--vnet` must be supplied.
+    /// </summary>
+    [CliOption("--worker-subnet")]
+    public string WorkerSubnet { get; private init; }
+
     /// <summary>
     /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
     /// </summary>

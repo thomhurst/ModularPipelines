@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Swap a revision label between two revisions with
 /// </summary>
-/// <param name="Name">The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Source">Source label to be swapped.</param>
-/// <param name="Target">Target label to be swapped to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "revision", "label", "swap")]
-public record AzContainerappRevisionLabelSwapOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--source")] string Source,
-    [property: CliOption("--target")] string Target
-) : AzOptions
+public record AzContainerappRevisionLabelSwapOptions : AzOptions
 {
+    /// <summary>
+    /// Swap a revision label between two revisions with
+    /// </summary>
+    /// <param name="Name">The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Source">Source label to be swapped.</param>
+    /// <param name="Target">Target label to be swapped to.</param>
+    public AzContainerappRevisionLabelSwapOptions(
+        string Name,
+        string ResourceGroup,
+        string Source,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Source, out string Target)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Source = this.Source;
+        Target = this.Target;
+    }
+
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Source label to be swapped.
+    /// </summary>
+    [CliOption("--source")]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// Target label to be swapped to.
+    /// </summary>
+    [CliOption("--target")]
+    public string Target { get; private init; }
+
 }

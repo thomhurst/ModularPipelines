@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List managed application definitions.
 /// </summary>
-/// <param name="ResourceGroup">The resource group of the managed application definition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedapp", "definition", "list")]
-public record AzManagedappDefinitionListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzManagedappDefinitionListOptions : AzOptions
 {
+    /// <summary>
+    /// List managed application definitions.
+    /// </summary>
+    /// <param name="ResourceGroup">The resource group of the managed application definition.</param>
+    public AzManagedappDefinitionListOptions(
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The resource group of the managed application definition.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

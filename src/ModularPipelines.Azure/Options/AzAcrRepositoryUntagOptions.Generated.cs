@@ -16,16 +16,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Untag an image in an Azure Container Registry.
 /// </summary>
-/// <param name="Image">The name of the image. May include a tag in the format 'name:tag'.</param>
-/// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "repository", "untag")]
-public record AzAcrRepositoryUntagOptions(
-    [property: CliOption("--image", ShortForm = "-t")] string Image,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAcrRepositoryUntagOptions : AzOptions
 {
+    /// <summary>
+    /// Untag an image in an Azure Container Registry.
+    /// </summary>
+    /// <param name="Image">The name of the image. May include a tag in the format 'name:tag'.</param>
+    /// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrRepositoryUntagOptions(
+        string Image,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Image, out string Name)
+    {
+        Image = this.Image;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the image. May include a tag in the format 'name:tag'.
+    /// </summary>
+    [CliOption("--image", ShortForm = "-t")]
+    public string Image { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The password used to log into a container registry.
     /// </summary>

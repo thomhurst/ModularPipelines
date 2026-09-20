@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete synapse managed private endpoints in a
 /// </summary>
-/// <param name="PeName">The managed private endpoint name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "managed-private-endpoints", "delete")]
-public record AzSynapseManagedPrivateEndpointsDeleteOptions(
-    [property: CliOption("--pe-name")] string PeName
-) : AzOptions
+public record AzSynapseManagedPrivateEndpointsDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete synapse managed private endpoints in a
+    /// </summary>
+    /// <param name="PeName">The managed private endpoint name.</param>
+    public AzSynapseManagedPrivateEndpointsDeleteOptions(
+        string PeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PeName);
+        this.PeName = PeName;
+    }
+
+    public void Deconstruct(out string PeName)
+    {
+        PeName = this.PeName;
+    }
+
+    /// <summary>
+    /// The managed private endpoint name.
+    /// </summary>
+    [CliOption("--pe-name")]
+    public string PeName { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

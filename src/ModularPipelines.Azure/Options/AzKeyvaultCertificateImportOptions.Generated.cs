@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import a certificate into KeyVault.
 /// </summary>
-/// <param name="File">PKCS12 file or PEM file containing the certificate and private key.</param>
-/// <param name="Name">Name of the certificate.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "import")]
-public record AzKeyvaultCertificateImportOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificateImportOptions : AzOptions
 {
+    /// <summary>
+    /// Import a certificate into KeyVault.
+    /// </summary>
+    /// <param name="File">PKCS12 file or PEM file containing the certificate and private key.</param>
+    /// <param name="Name">Name of the certificate.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificateImportOptions(
+        string File,
+        string Name,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string File, out string Name, out string VaultName)
+    {
+        File = this.File;
+        Name = this.Name;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// PKCS12 file or PEM file containing the certificate and private key.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// Name of the certificate.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Import the certificate in disabled state.  Allowed values: false, true.
     /// </summary>

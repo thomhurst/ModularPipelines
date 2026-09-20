@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set a keyvault reference.
 /// </summary>
-/// <param name="Key">Key to be set. Key cannot be a '.' or '..', or contain the '%' character.</param>
-/// <param name="SecretIdentifier">ID of the Key Vault object. Can be found using 'az keyvault {collection} show' command, where collection is key, secret or certificate. To set reference to the latest version of your secret, remove version information from secret identifier.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "set-keyvault")]
-public record AzAppConfigKvSetKeyvaultOptions(
-    [property: CliOption("--key")] string Key,
-    [property: CliOption("--secret-identifier")] string SecretIdentifier
-) : AzOptions
+public record AzAppConfigKvSetKeyvaultOptions : AzOptions
 {
+    /// <summary>
+    /// Set a keyvault reference.
+    /// </summary>
+    /// <param name="Key">Key to be set. Key cannot be a '.' or '..', or contain the '%' character.</param>
+    /// <param name="SecretIdentifier">ID of the Key Vault object. Can be found using 'az keyvault {collection} show' command, where collection is key, secret or certificate. To set reference to the latest version of your secret, remove version information from secret identifier.</param>
+    public AzAppConfigKvSetKeyvaultOptions(
+        string Key,
+        string SecretIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(SecretIdentifier);
+        this.SecretIdentifier = SecretIdentifier;
+    }
+
+    public void Deconstruct(out string Key, out string SecretIdentifier)
+    {
+        Key = this.Key;
+        SecretIdentifier = this.SecretIdentifier;
+    }
+
+    /// <summary>
+    /// Key to be set. Key cannot be a '.' or '..', or contain the '%' character.
+    /// </summary>
+    [CliOption("--key")]
+    public string Key { get; private init; }
+
+    /// <summary>
+    /// ID of the Key Vault object. Can be found using 'az keyvault {collection} show' command, where collection is key, secret or certificate. To set reference to the latest version of your secret, remove version information from secret identifier.
+    /// </summary>
+    [CliOption("--secret-identifier")]
+    public string SecretIdentifier { get; private init; }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app- configuration/concept-enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>

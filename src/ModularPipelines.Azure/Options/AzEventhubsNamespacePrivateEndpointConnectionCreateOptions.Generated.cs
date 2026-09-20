@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create PrivateEndpointConnections of
 /// </summary>
-/// <param name="Name">The PrivateEndpointConnection name.</param>
-/// <param name="NamespaceName">The Namespace name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "private-endpoint-connection", "create")]
-public record AzEventhubsNamespacePrivateEndpointConnectionCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventhubsNamespacePrivateEndpointConnectionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create PrivateEndpointConnections of
+    /// </summary>
+    /// <param name="Name">The PrivateEndpointConnection name.</param>
+    /// <param name="NamespaceName">The Namespace name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventhubsNamespacePrivateEndpointConnectionCreateOptions(
+        string Name,
+        string NamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string NamespaceName, out string ResourceGroup)
+    {
+        Name = this.Name;
+        NamespaceName = this.NamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The PrivateEndpointConnection name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The Namespace name.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Description of the connection state.
     /// </summary>

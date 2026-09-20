@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List SSL certificates for a function app.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "ssl", "list")]
-public record AzFunctionappConfigSslListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzFunctionappConfigSslListOptions : AzOptions
 {
+    /// <summary>
+    /// List SSL certificates for a function app.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzFunctionappConfigSslListOptions(
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Name of the function app. Required for Flex Consumption apps to list site-scoped certificates.
     /// </summary>

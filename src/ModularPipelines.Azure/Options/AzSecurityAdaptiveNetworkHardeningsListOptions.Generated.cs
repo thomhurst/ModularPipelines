@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets a list of Adaptive Network Hardenings
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ResourceName">Name of the resource.</param>
-/// <param name="ResourceNamespace">The Namespace of the resource.</param>
-/// <param name="ResourceType">The type of the resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "adaptive_network_hardenings", "list")]
-public record AzSecurityAdaptiveNetworkHardeningsListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--resource-name")] string ResourceName,
-    [property: CliOption("--resource-namespace")] string ResourceNamespace,
-    [property: CliOption("--resource-type")] string ResourceType
-) : AzOptions
+public record AzSecurityAdaptiveNetworkHardeningsListOptions : AzOptions
 {
+    /// <summary>
+    /// Gets a list of Adaptive Network Hardenings
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ResourceName">Name of the resource.</param>
+    /// <param name="ResourceNamespace">The Namespace of the resource.</param>
+    /// <param name="ResourceType">The type of the resource.</param>
+    public AzSecurityAdaptiveNetworkHardeningsListOptions(
+        string ResourceGroup,
+        string ResourceName,
+        string ResourceNamespace,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceNamespace);
+        this.ResourceNamespace = ResourceNamespace;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string ResourceName, out string ResourceNamespace, out string ResourceType)
+    {
+        ResourceGroup = this.ResourceGroup;
+        ResourceName = this.ResourceName;
+        ResourceNamespace = this.ResourceNamespace;
+        ResourceType = this.ResourceType;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the resource.
+    /// </summary>
+    [CliOption("--resource-name")]
+    public string ResourceName { get; private init; }
+
+    /// <summary>
+    /// The Namespace of the resource.
+    /// </summary>
+    [CliOption("--resource-namespace")]
+    public string ResourceNamespace { get; private init; }
+
+    /// <summary>
+    /// The type of the resource.
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string ResourceType { get; private init; }
+
 }

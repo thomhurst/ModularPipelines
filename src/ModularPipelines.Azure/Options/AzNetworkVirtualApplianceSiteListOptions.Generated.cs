@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all Azure network virtual appliance site.
 /// </summary>
-/// <param name="ApplianceName">The name of Network Virtual Appliance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "site", "list")]
-public record AzNetworkVirtualApplianceSiteListOptions(
-    [property: CliOption("--appliance-name")] string ApplianceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkVirtualApplianceSiteListOptions : AzOptions
 {
+    /// <summary>
+    /// List all Azure network virtual appliance site.
+    /// </summary>
+    /// <param name="ApplianceName">The name of Network Virtual Appliance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkVirtualApplianceSiteListOptions(
+        string ApplianceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplianceName);
+        this.ApplianceName = ApplianceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ApplianceName, out string ResourceGroup)
+    {
+        ApplianceName = this.ApplianceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of Network Virtual Appliance.
+    /// </summary>
+    [CliOption("--appliance-name")]
+    public string ApplianceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

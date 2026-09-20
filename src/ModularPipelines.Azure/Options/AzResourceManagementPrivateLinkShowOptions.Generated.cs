@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get resource management private.
 /// </summary>
-/// <param name="Name">The name of the resource management private link.</param>
-/// <param name="ResourceGroup">The name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resourcemanagement", "private-link", "show")]
-public record AzResourceManagementPrivateLinkShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzResourceManagementPrivateLinkShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get resource management private.
+    /// </summary>
+    /// <param name="Name">The name of the resource management private link.</param>
+    /// <param name="ResourceGroup">The name of the resource group.</param>
+    public AzResourceManagementPrivateLinkShowOptions(
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the resource management private link.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the resource group.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

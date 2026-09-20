@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists the metric data for a subscription. Parameters can be
 /// </summary>
-/// <param name="Region">The region where the metrics you want reside.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list-sub")]
-public record AzMonitorMetricsListSubOptions(
-    [property: CliOption("--region")] string Region
-) : AzOptions
+public record AzMonitorMetricsListSubOptions : AzOptions
 {
+    /// <summary>
+    /// Lists the metric data for a subscription. Parameters can be
+    /// </summary>
+    /// <param name="Region">The region where the metrics you want reside.</param>
+    public AzMonitorMetricsListSubOptions(
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string Region)
+    {
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// The region where the metrics you want reside.
+    /// </summary>
+    [CliOption("--region")]
+    public string Region { get; private init; }
+
     /// <summary>
     /// The list of aggregation types (comma separated) to retrieve.
     /// </summary>

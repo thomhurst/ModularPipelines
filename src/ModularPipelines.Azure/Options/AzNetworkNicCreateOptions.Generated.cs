@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a network interface.
 /// </summary>
-/// <param name="Name">Name of the network interface (NIC).</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Subnet">Name or ID of an existing subnet. If name specified, please also specify `--vnet-name`; If you want to use an existing subnet in other resource group, please provide the ID instead of the name of the subnet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "create")]
-public record AzNetworkNicCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--subnet")] string Subnet
-) : AzOptions
+public record AzNetworkNicCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a network interface.
+    /// </summary>
+    /// <param name="Name">Name of the network interface (NIC).</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Subnet">Name or ID of an existing subnet. If name specified, please also specify `--vnet-name`; If you want to use an existing subnet in other resource group, please provide the ID instead of the name of the subnet.</param>
+    public AzNetworkNicCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Subnet)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// Name of the network interface (NIC).
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name or ID of an existing subnet. If name specified, please also specify `--vnet-name`; If you want to use an existing subnet in other resource group, please provide the ID instead of the name of the subnet.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string Subnet { get; private init; }
+
     /// <summary>
     /// Whether to enable accelerated networking. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

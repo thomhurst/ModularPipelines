@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the existing immutability policy along with
 /// </summary>
-/// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
-/// <param name="ContainerName">The container name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "immutability-policy", "show")]
-public record AzStorageContainerImmutabilityPolicyShowOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName
-) : AzOptions
+public record AzStorageContainerImmutabilityPolicyShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the existing immutability policy along with
+    /// </summary>
+    /// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
+    /// <param name="ContainerName">The container name.</param>
+    public AzStorageContainerImmutabilityPolicyShowOptions(
+        string AccountName,
+        string ContainerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+    }
+
+    public void Deconstruct(out string AccountName, out string ContainerName)
+    {
+        AccountName = this.AccountName;
+        ContainerName = this.ContainerName;
+    }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

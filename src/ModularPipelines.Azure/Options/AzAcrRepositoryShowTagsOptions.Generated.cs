@@ -16,16 +16,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show tags for a repository in an Azure Container Registry.
 /// </summary>
-/// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
-/// <param name="Repository">The name of the repository.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "repository", "show-tags")]
-public record AzAcrRepositoryShowTagsOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--repository")] string Repository
-) : AzOptions
+public record AzAcrRepositoryShowTagsOptions : AzOptions
 {
+    /// <summary>
+    /// Show tags for a repository in an Azure Container Registry.
+    /// </summary>
+    /// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    /// <param name="Repository">The name of the repository.</param>
+    public AzAcrRepositoryShowTagsOptions(
+        string Name,
+        string Repository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string Name, out string Repository)
+    {
+        Name = this.Name;
+        Repository = this.Repository;
+    }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the repository.
+    /// </summary>
+    [CliOption("--repository")]
+    public string Repository { get; private init; }
+
     /// <summary>
     /// Show detailed information.
     /// </summary>

@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new Azure Cosmos DB database account by restoring from an
 /// </summary>
-/// <param name="AccountName">Name of the source Cosmos DB database account for the restore.</param>
-/// <param name="Location">This is the write region of the restored account. This is also the location of the source account where its backups are located if source_backup_location is not provided.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="RestoreTimestamp">The timestamp to which the account has to be restored to.</param>
-/// <param name="TargetDatabaseAccountName">Name of the new target Cosmos DB database account after the restore.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "restore")]
-public record AzCosmosdbRestoreOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--restore-timestamp", ShortForm = "-t")] string RestoreTimestamp,
-    [property: CliOption("--target-database-account-name", ShortForm = "-n")] string TargetDatabaseAccountName
-) : AzOptions
+public record AzCosmosdbRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new Azure Cosmos DB database account by restoring from an
+    /// </summary>
+    /// <param name="AccountName">Name of the source Cosmos DB database account for the restore.</param>
+    /// <param name="Location">This is the write region of the restored account. This is also the location of the source account where its backups are located if source_backup_location is not provided.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="RestoreTimestamp">The timestamp to which the account has to be restored to.</param>
+    /// <param name="TargetDatabaseAccountName">Name of the new target Cosmos DB database account after the restore.</param>
+    public AzCosmosdbRestoreOptions(
+        string AccountName,
+        string Location,
+        string ResourceGroup,
+        string RestoreTimestamp,
+        string TargetDatabaseAccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(RestoreTimestamp);
+        this.RestoreTimestamp = RestoreTimestamp;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDatabaseAccountName);
+        this.TargetDatabaseAccountName = TargetDatabaseAccountName;
+    }
+
+    public void Deconstruct(out string AccountName, out string Location, out string ResourceGroup, out string RestoreTimestamp, out string TargetDatabaseAccountName)
+    {
+        AccountName = this.AccountName;
+        Location = this.Location;
+        ResourceGroup = this.ResourceGroup;
+        RestoreTimestamp = this.RestoreTimestamp;
+        TargetDatabaseAccountName = this.TargetDatabaseAccountName;
+    }
+
+    /// <summary>
+    /// Name of the source Cosmos DB database account for the restore.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// This is the write region of the restored account. This is also the location of the source account where its backups are located if source_backup_location is not provided.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The timestamp to which the account has to be restored to.
+    /// </summary>
+    [CliOption("--restore-timestamp", ShortForm = "-t")]
+    public string RestoreTimestamp { get; private init; }
+
+    /// <summary>
+    /// Name of the new target Cosmos DB database account after the restore.
+    /// </summary>
+    [CliOption("--target-database-account-name", ShortForm = "-n")]
+    public string TargetDatabaseAccountName { get; private init; }
+
     /// <summary>
     /// Assign system or user assigned identities separated by spaces. Use '[system]' to refer system assigned identity.
     /// </summary>

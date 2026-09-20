@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a Spark job.
 /// </summary>
-/// <param name="SparkPoolName">The name of the Spark pool.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
-/// <param name="LivyId">The id of the Spark job.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "job", "show")]
-public record AzSynapseSparkJobShowOptions(
-    [property: CliOption("--spark-pool-name")] string SparkPoolName,
-    [property: CliOption("--workspace-name")] string WorkspaceName,
-    [property: CliOption("--livy-id")] string LivyId
-) : AzOptions
+public record AzSynapseSparkJobShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a Spark job.
+    /// </summary>
+    /// <param name="SparkPoolName">The name of the Spark pool.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    /// <param name="LivyId">The id of the Spark job.</param>
+    public AzSynapseSparkJobShowOptions(
+        string SparkPoolName,
+        string WorkspaceName,
+        string LivyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SparkPoolName);
+        this.SparkPoolName = SparkPoolName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(LivyId);
+        this.LivyId = LivyId;
+    }
+
+    public void Deconstruct(out string SparkPoolName, out string WorkspaceName, out string LivyId)
+    {
+        SparkPoolName = this.SparkPoolName;
+        WorkspaceName = this.WorkspaceName;
+        LivyId = this.LivyId;
+    }
+
+    /// <summary>
+    /// The name of the Spark pool.
+    /// </summary>
+    [CliOption("--spark-pool-name")]
+    public string SparkPoolName { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The id of the Spark job.
+    /// </summary>
+    [CliOption("--livy-id")]
+    public string LivyId { get; private init; }
+
 }

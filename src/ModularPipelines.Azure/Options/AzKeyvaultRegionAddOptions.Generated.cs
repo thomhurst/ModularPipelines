@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add regions for the managed HSM Pool.
 /// </summary>
-/// <param name="HsmName">Name of the HSM.</param>
-/// <param name="Region">The region name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "region", "add")]
-public record AzKeyvaultRegionAddOptions(
-    [property: CliOption("--hsm-name")] string HsmName,
-    [property: CliOption("--region", ShortForm = "-r")] string Region
-) : AzOptions
+public record AzKeyvaultRegionAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add regions for the managed HSM Pool.
+    /// </summary>
+    /// <param name="HsmName">Name of the HSM.</param>
+    /// <param name="Region">The region name.</param>
+    public AzKeyvaultRegionAddOptions(
+        string HsmName,
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HsmName);
+        this.HsmName = HsmName;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string HsmName, out string Region)
+    {
+        HsmName = this.HsmName;
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// Name of the HSM.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string HsmName { get; private init; }
+
+    /// <summary>
+    /// The region name.
+    /// </summary>
+    [CliOption("--region", ShortForm = "-r")]
+    public string Region { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

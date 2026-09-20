@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Display information for a NIC attached to a VM.
 /// </summary>
-/// <param name="Nic">NIC name or ID.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "nic", "show")]
-public record AzVmNicShowOptions(
-    [property: CliOption("--nic")] string Nic,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vm-name")] string VmName
-) : AzOptions
+public record AzVmNicShowOptions : AzOptions
 {
+    /// <summary>
+    /// Display information for a NIC attached to a VM.
+    /// </summary>
+    /// <param name="Nic">NIC name or ID.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
+    public AzVmNicShowOptions(
+        string Nic,
+        string ResourceGroup,
+        string VmName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Nic);
+        this.Nic = Nic;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VmName);
+        this.VmName = VmName;
+    }
+
+    public void Deconstruct(out string Nic, out string ResourceGroup, out string VmName)
+    {
+        Nic = this.Nic;
+        ResourceGroup = this.ResourceGroup;
+        VmName = this.VmName;
+    }
+
+    /// <summary>
+    /// NIC name or ID.
+    /// </summary>
+    [CliOption("--nic")]
+    public string Nic { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--vm-name")]
+    public string VmName { get; private init; }
+
 }

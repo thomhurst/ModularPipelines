@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Moves volume to another pool.
 /// </summary>
-/// <param name="NewPoolResourceId">Resource id of the pool to move volume to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "pool-change")]
-public record AzNetappfilesVolumePoolChangeOptions(
-    [property: CliOption("--new-pool-resource-id", ShortForm = "-d")] string NewPoolResourceId
-) : AzOptions
+public record AzNetappfilesVolumePoolChangeOptions : AzOptions
 {
+    /// <summary>
+    /// Moves volume to another pool.
+    /// </summary>
+    /// <param name="NewPoolResourceId">Resource id of the pool to move volume to.</param>
+    public AzNetappfilesVolumePoolChangeOptions(
+        string NewPoolResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewPoolResourceId);
+        this.NewPoolResourceId = NewPoolResourceId;
+    }
+
+    public void Deconstruct(out string NewPoolResourceId)
+    {
+        NewPoolResourceId = this.NewPoolResourceId;
+    }
+
+    /// <summary>
+    /// Resource id of the pool to move volume to.
+    /// </summary>
+    [CliOption("--new-pool-resource-id", ShortForm = "-d")]
+    public string NewPoolResourceId { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes a Managed Cassandra Datacenter.
 /// </summary>
-/// <param name="ClusterName">Cluster Name.</param>
-/// <param name="DataCenterName">Datacenter Name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "datacenter", "delete")]
-public record AzManagedCassandraDatacenterDeleteOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--data-center-name", ShortForm = "-d")] string DataCenterName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzManagedCassandraDatacenterDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes a Managed Cassandra Datacenter.
+    /// </summary>
+    /// <param name="ClusterName">Cluster Name.</param>
+    /// <param name="DataCenterName">Datacenter Name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzManagedCassandraDatacenterDeleteOptions(
+        string ClusterName,
+        string DataCenterName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(DataCenterName);
+        this.DataCenterName = DataCenterName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string DataCenterName, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        DataCenterName = this.DataCenterName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cluster Name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Datacenter Name.
+    /// </summary>
+    [CliOption("--data-center-name", ShortForm = "-d")]
+    public string DataCenterName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

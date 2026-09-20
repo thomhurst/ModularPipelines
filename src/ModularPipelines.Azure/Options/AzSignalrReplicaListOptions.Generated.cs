@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List replicas of SignalR Service.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SignalrName">Name of the SignalR.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "replica", "list")]
-public record AzSignalrReplicaListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--signalr-name")] string SignalrName
-) : AzOptions
+public record AzSignalrReplicaListOptions : AzOptions
 {
+    /// <summary>
+    /// List replicas of SignalR Service.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SignalrName">Name of the SignalR.</param>
+    public AzSignalrReplicaListOptions(
+        string ResourceGroup,
+        string SignalrName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SignalrName);
+        this.SignalrName = SignalrName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string SignalrName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        SignalrName = this.SignalrName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the SignalR.
+    /// </summary>
+    [CliOption("--signalr-name")]
+    public string SignalrName { get; private init; }
+
 }

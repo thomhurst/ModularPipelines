@@ -16,16 +16,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a user account to a Batch compute node.
 /// </summary>
-/// <param name="NodeId">The ID of the machine on which you want to create a user Account. Required.</param>
-/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "user", "create")]
-public record AzBatchNodeUserCreateOptions(
-    [property: CliOption("--node-id")] string NodeId,
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchNodeUserCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Add a user account to a Batch compute node.
+    /// </summary>
+    /// <param name="NodeId">The ID of the machine on which you want to create a user Account. Required.</param>
+    /// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
+    public AzBatchNodeUserCreateOptions(
+        string NodeId,
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeId);
+        this.NodeId = NodeId;
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string NodeId, out string PoolId)
+    {
+        NodeId = this.NodeId;
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the machine on which you want to create a user Account. Required.
+    /// </summary>
+    [CliOption("--node-id")]
+    public string NodeId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Pool that contains the Compute Node. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// A file containing the user specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'User Arguments' are ignored.
     /// </summary>

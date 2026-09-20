@@ -15,16 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore the specified files from the
 /// </summary>
-/// <param name="DestinationVolumeId">Resource Id of the destination volume on which the files need to be restored.</param>
-/// <param name="FileList">List of files to be restored  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "backup-vault", "backup", "restore-file")]
-public record AzNetappfilesAccountBackupVaultBackupRestoreFileOptions(
-    [property: CliOption("--destination-volume-id")] string DestinationVolumeId,
-    [property: CliOption("--file-list", GroupValues = true)] IEnumerable<string> FileList
-) : AzOptions
+public record AzNetappfilesAccountBackupVaultBackupRestoreFileOptions : AzOptions
 {
+    /// <summary>
+    /// Restore the specified files from the
+    /// </summary>
+    /// <param name="DestinationVolumeId">Resource Id of the destination volume on which the files need to be restored.</param>
+    /// <param name="FileList">List of files to be restored  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    public AzNetappfilesAccountBackupVaultBackupRestoreFileOptions(
+        string DestinationVolumeId,
+        IEnumerable<string> FileList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationVolumeId);
+        this.DestinationVolumeId = DestinationVolumeId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FileList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FileList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FileList));
+            }
+
+            FileList = materialized;
+        }
+        this.FileList = FileList;
+    }
+
+    public void Deconstruct(out string DestinationVolumeId, out IEnumerable<string> FileList)
+    {
+        DestinationVolumeId = this.DestinationVolumeId;
+        FileList = this.FileList;
+    }
+
+    /// <summary>
+    /// Resource Id of the destination volume on which the files need to be restored.
+    /// </summary>
+    [CliOption("--destination-volume-id")]
+    public string DestinationVolumeId { get; private init; }
+
+    /// <summary>
+    /// List of files to be restored  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--file-list", GroupValues = true)]
+    public IEnumerable<string> FileList { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

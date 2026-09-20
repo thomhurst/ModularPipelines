@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set a stored access policy on a containing object.
 /// </summary>
-/// <param name="Name">The stored access policy name.</param>
-/// <param name="TableName">The table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "table", "policy", "update")]
-public record AzStorageTablePolicyUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--table-name", ShortForm = "-t")] string TableName
-) : AzOptions
+public record AzStorageTablePolicyUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Set a stored access policy on a containing object.
+    /// </summary>
+    /// <param name="Name">The stored access policy name.</param>
+    /// <param name="TableName">The table name.</param>
+    public AzStorageTablePolicyUpdateOptions(
+        string Name,
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    public void Deconstruct(out string Name, out string TableName)
+    {
+        Name = this.Name;
+        TableName = this.TableName;
+    }
+
+    /// <summary>
+    /// The stored access policy name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The table name.
+    /// </summary>
+    [CliOption("--table-name", ShortForm = "-t")]
+    public string TableName { get; private init; }
+
     /// <summary>
     /// Expiration UTC datetime in (Y-m-d'T'H:M:S'Z').
     /// </summary>

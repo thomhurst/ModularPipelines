@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Geo-restore a server from backup.
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="SourceServer">The name or ID of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mariadb", "server", "georestore")]
-public record AzMariadbServerGeorestoreOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--source-server", ShortForm = "-s")] string SourceServer
-) : AzOptions
+public record AzMariadbServerGeorestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Geo-restore a server from backup.
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="SourceServer">The name or ID of the source server to restore from.</param>
+    public AzMariadbServerGeorestoreOptions(
+        string Location,
+        string SourceServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(SourceServer);
+        this.SourceServer = SourceServer;
+    }
+
+    public void Deconstruct(out string Location, out string SourceServer)
+    {
+        Location = this.Location;
+        SourceServer = this.SourceServer;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name or ID of the source server to restore from.
+    /// </summary>
+    [CliOption("--source-server", ShortForm = "-s")]
+    public string SourceServer { get; private init; }
+
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lint a Bicep file.
 /// </summary>
-/// <param name="File">The path to the Bicep module file to lint in the file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "lint")]
-public record AzBicepLintOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzBicepLintOptions : AzOptions
 {
+    /// <summary>
+    /// Lint a Bicep file.
+    /// </summary>
+    /// <param name="File">The path to the Bicep module file to lint in the file system.</param>
+    public AzBicepLintOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// The path to the Bicep module file to lint in the file system.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Set diagnostics format.  Allowed values: default, sarif.
     /// </summary>

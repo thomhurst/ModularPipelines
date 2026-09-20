@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a SQL role assignment under an Azure Cosmos DB
 /// </summary>
-/// <param name="AccountName">Cosmosdb account name.</param>
-/// <param name="PrincipalId">AAD Object ID of the principal to which this Role Assignment is being granted.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Scope">Data plane resource path at which this Role Assignment is being granted.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "role", "assignment", "create")]
-public record AzCosmosdbSqlRoleAssignmentCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--principal-id", ShortForm = "-p")] string PrincipalId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--scope", ShortForm = "-s")] string Scope
-) : AzOptions
+public record AzCosmosdbSqlRoleAssignmentCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a SQL role assignment under an Azure Cosmos DB
+    /// </summary>
+    /// <param name="AccountName">Cosmosdb account name.</param>
+    /// <param name="PrincipalId">AAD Object ID of the principal to which this Role Assignment is being granted.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Scope">Data plane resource path at which this Role Assignment is being granted.</param>
+    public AzCosmosdbSqlRoleAssignmentCreateOptions(
+        string AccountName,
+        string PrincipalId,
+        string ResourceGroup,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
+        this.PrincipalId = PrincipalId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string AccountName, out string PrincipalId, out string ResourceGroup, out string Scope)
+    {
+        AccountName = this.AccountName;
+        PrincipalId = this.PrincipalId;
+        ResourceGroup = this.ResourceGroup;
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// Cosmosdb account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// AAD Object ID of the principal to which this Role Assignment is being granted.
+    /// </summary>
+    [CliOption("--principal-id", ShortForm = "-p")]
+    public string PrincipalId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Data plane resource path at which this Role Assignment is being granted.
+    /// </summary>
+    [CliOption("--scope", ShortForm = "-s")]
+    public string Scope { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

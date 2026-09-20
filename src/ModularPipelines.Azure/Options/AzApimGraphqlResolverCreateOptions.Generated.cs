@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new resolver in the GraphQL API or updates an
 /// </summary>
-/// <param name="DisplayName">Resolver Name.</param>
-/// <param name="Path">Resolver identifier within a GraphQL API. Must be unique in the current API Management service instance.</param>
-/// <param name="ResolverId">Resolver identifier within a GraphQL API. Must be unique in the current API Management service instance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
-/// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "graphql", "resolver", "create")]
-public record AzApimGraphqlResolverCreateOptions(
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--path")] string Path,
-    [property: CliOption("--resolver-id")] string ResolverId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
-    [property: CliOption("--api-id")] string ApiId
-) : AzOptions
+public record AzApimGraphqlResolverCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new resolver in the GraphQL API or updates an
+    /// </summary>
+    /// <param name="DisplayName">Resolver Name.</param>
+    /// <param name="Path">Resolver identifier within a GraphQL API. Must be unique in the current API Management service instance.</param>
+    /// <param name="ResolverId">Resolver identifier within a GraphQL API. Must be unique in the current API Management service instance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    /// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.</param>
+    public AzApimGraphqlResolverCreateOptions(
+        string DisplayName,
+        string Path,
+        string ResolverId,
+        string ResourceGroup,
+        string ServiceName,
+        string ApiId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        global::System.ArgumentNullException.ThrowIfNull(ResolverId);
+        this.ResolverId = ResolverId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Path, out string ResolverId, out string ResourceGroup, out string ServiceName, out string ApiId)
+    {
+        DisplayName = this.DisplayName;
+        Path = this.Path;
+        ResolverId = this.ResolverId;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        ApiId = this.ApiId;
+    }
+
+    /// <summary>
+    /// Resolver Name.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Resolver identifier within a GraphQL API. Must be unique in the current API Management service instance.
+    /// </summary>
+    [CliOption("--path")]
+    public string Path { get; private init; }
+
+    /// <summary>
+    /// Resolver identifier within a GraphQL API. Must be unique in the current API Management service instance.
+    /// </summary>
+    [CliOption("--resolver-id")]
+    public string ResolverId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+    /// </summary>
+    [CliOption("--api-id")]
+    public string ApiId { get; private init; }
+
     /// <summary>
     /// Description of the resolver. May include HTML formatting tags.
     /// </summary>

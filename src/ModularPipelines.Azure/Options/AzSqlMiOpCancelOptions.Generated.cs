@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Cancels the asynchronous operation on the managed instance.
 /// </summary>
-/// <param name="Name">The unique name of the operation to cancel.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "op", "cancel")]
-public record AzSqlMiOpCancelOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSqlMiOpCancelOptions : AzOptions
 {
+    /// <summary>
+    /// Cancels the asynchronous operation on the managed instance.
+    /// </summary>
+    /// <param name="Name">The unique name of the operation to cancel.</param>
+    public AzSqlMiOpCancelOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The unique name of the operation to cancel.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

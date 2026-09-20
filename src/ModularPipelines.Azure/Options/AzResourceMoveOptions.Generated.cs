@@ -15,16 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Move resources from one resource group to another (can be under different
 /// </summary>
-/// <param name="DestinationGroup">The destination resource group name.</param>
-/// <param name="Ids">The space-separated resource ids to be moved.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "move")]
-public record AzResourceMoveOptions(
-    [property: CliOption("--destination-group")] string DestinationGroup,
-    [property: CliOption("--ids", GroupValues = true)] IEnumerable<string> Ids
-) : AzOptions
+public record AzResourceMoveOptions : AzOptions
 {
+    /// <summary>
+    /// Move resources from one resource group to another (can be under different
+    /// </summary>
+    /// <param name="DestinationGroup">The destination resource group name.</param>
+    /// <param name="Ids">The space-separated resource ids to be moved.</param>
+    public AzResourceMoveOptions(
+        string DestinationGroup,
+        IEnumerable<string> Ids
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationGroup);
+        this.DestinationGroup = DestinationGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Ids);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Ids));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Ids));
+            }
+
+            Ids = materialized;
+        }
+        this.Ids = Ids;
+    }
+
+    public void Deconstruct(out string DestinationGroup, out IEnumerable<string> Ids)
+    {
+        DestinationGroup = this.DestinationGroup;
+        Ids = this.Ids;
+    }
+
+    /// <summary>
+    /// The destination resource group name.
+    /// </summary>
+    [CliOption("--destination-group")]
+    public string DestinationGroup { get; private init; }
+
+    /// <summary>
+    /// The space-separated resource ids to be moved.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string> Ids { get; private init; }
+
     /// <summary>
     /// The destination subscription identifier.
     /// </summary>

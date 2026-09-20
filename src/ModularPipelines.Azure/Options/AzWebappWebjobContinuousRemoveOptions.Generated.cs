@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a specific continuous webjob.
 /// </summary>
-/// <param name="WebjobName">The name of the webjob.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "webjob", "continuous", "remove")]
-public record AzWebappWebjobContinuousRemoveOptions(
-    [property: CliOption("--webjob-name", ShortForm = "-w")] string WebjobName
-) : AzOptions
+public record AzWebappWebjobContinuousRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a specific continuous webjob.
+    /// </summary>
+    /// <param name="WebjobName">The name of the webjob.</param>
+    public AzWebappWebjobContinuousRemoveOptions(
+        string WebjobName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebjobName);
+        this.WebjobName = WebjobName;
+    }
+
+    public void Deconstruct(out string WebjobName)
+    {
+        WebjobName = this.WebjobName;
+    }
+
+    /// <summary>
+    /// The name of the webjob.
+    /// </summary>
+    [CliOption("--webjob-name", ShortForm = "-w")]
+    public string WebjobName { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

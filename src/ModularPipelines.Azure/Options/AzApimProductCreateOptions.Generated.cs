@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a product.
 /// </summary>
-/// <param name="ProductName">Product name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the api management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "product", "create")]
-public record AzApimProductCreateOptions(
-    [property: CliOption("--product-name")] string ProductName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName
-) : AzOptions
+public record AzApimProductCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a product.
+    /// </summary>
+    /// <param name="ProductName">Product name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the api management service instance.</param>
+    public AzApimProductCreateOptions(
+        string ProductName,
+        string ResourceGroup,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductName);
+        this.ProductName = ProductName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string ProductName, out string ResourceGroup, out string ServiceName)
+    {
+        ProductName = this.ProductName;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// Product name.
+    /// </summary>
+    [CliOption("--product-name")]
+    public string ProductName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the api management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
     /// <summary>
     /// Whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can use any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false.  Allowed values: false, true.
     /// </summary>

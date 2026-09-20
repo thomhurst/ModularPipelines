@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the revision mode of a container app.
 /// </summary>
-/// <param name="Mode">The active revisions mode for the container app.  Allowed values: multiple, single.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "revision", "set-mode")]
-public record AzContainerappRevisionSetModeOptions(
-    [property: CliOption("--mode")] string Mode
-) : AzOptions
+public record AzContainerappRevisionSetModeOptions : AzOptions
 {
+    /// <summary>
+    /// Set the revision mode of a container app.
+    /// </summary>
+    /// <param name="Mode">The active revisions mode for the container app.  Allowed values: multiple, single.</param>
+    public AzContainerappRevisionSetModeOptions(
+        string Mode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Mode);
+        this.Mode = Mode;
+    }
+
+    public void Deconstruct(out string Mode)
+    {
+        Mode = this.Mode;
+    }
+
+    /// <summary>
+    /// The active revisions mode for the container app.  Allowed values: multiple, single.
+    /// </summary>
+    [CliOption("--mode")]
+    public string Mode { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

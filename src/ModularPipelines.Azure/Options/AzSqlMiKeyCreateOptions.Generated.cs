@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a SQL Instance key.
 /// </summary>
-/// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azur e.net/keys/YourKeyName/01234567890123456789012345678901".</param>
-/// <param name="ManagedInstance">Name of the Azure SQL Managed Instance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "key", "create")]
-public record AzSqlMiKeyCreateOptions(
-    [property: CliOption("--kid", ShortForm = "-k")] string Kid,
-    [property: CliOption("--managed-instance", ShortForm = "--mi")] string ManagedInstance,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlMiKeyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a SQL Instance key.
+    /// </summary>
+    /// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azur e.net/keys/YourKeyName/01234567890123456789012345678901".</param>
+    /// <param name="ManagedInstance">Name of the Azure SQL Managed Instance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSqlMiKeyCreateOptions(
+        string Kid,
+        string ManagedInstance,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Kid);
+        this.Kid = Kid;
+        global::System.ArgumentNullException.ThrowIfNull(ManagedInstance);
+        this.ManagedInstance = ManagedInstance;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Kid, out string ManagedInstance, out string ResourceGroup)
+    {
+        Kid = this.Kid;
+        ManagedInstance = this.ManagedInstance;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azur e.net/keys/YourKeyName/01234567890123456789012345678901".
+    /// </summary>
+    [CliOption("--kid", ShortForm = "-k")]
+    public string Kid { get; private init; }
+
+    /// <summary>
+    /// Name of the Azure SQL Managed Instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string ManagedInstance { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

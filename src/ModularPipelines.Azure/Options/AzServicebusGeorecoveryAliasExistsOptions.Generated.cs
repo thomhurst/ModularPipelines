@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check the give namespace name availability.
 /// </summary>
-/// <param name="Alias">The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "georecovery-alias", "exists")]
-public record AzServicebusGeorecoveryAliasExistsOptions(
-    [property: CliOption("--alias", ShortForm = "-a")] string Alias
-) : AzOptions
+public record AzServicebusGeorecoveryAliasExistsOptions : AzOptions
 {
+    /// <summary>
+    /// Check the give namespace name availability.
+    /// </summary>
+    /// <param name="Alias">The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.</param>
+    public AzServicebusGeorecoveryAliasExistsOptions(
+        string Alias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+    }
+
+    public void Deconstruct(out string Alias)
+    {
+        Alias = this.Alias;
+    }
+
+    /// <summary>
+    /// The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.
+    /// </summary>
+    [CliOption("--alias", ShortForm = "-a")]
+    public string Alias { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

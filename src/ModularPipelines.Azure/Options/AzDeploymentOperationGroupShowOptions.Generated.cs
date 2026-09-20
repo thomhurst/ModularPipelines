@@ -15,16 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a deployment operation at resource group.
 /// </summary>
-/// <param name="Name">The deployment name.</param>
-/// <param name="OperationIds">A list of operation ids to show.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "operation", "group", "show")]
-public record AzDeploymentOperationGroupShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--operation-ids", GroupValues = true)] IEnumerable<string> OperationIds,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzDeploymentOperationGroupShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show a deployment operation at resource group.
+    /// </summary>
+    /// <param name="Name">The deployment name.</param>
+    /// <param name="OperationIds">A list of operation ids to show.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzDeploymentOperationGroupShowOptions(
+        string Name,
+        IEnumerable<string> OperationIds,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OperationIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OperationIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OperationIds));
+            }
+
+            OperationIds = materialized;
+        }
+        this.OperationIds = OperationIds;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out IEnumerable<string> OperationIds, out string ResourceGroup)
+    {
+        Name = this.Name;
+        OperationIds = this.OperationIds;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The deployment name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// A list of operation ids to show.
+    /// </summary>
+    [CliOption("--operation-ids", GroupValues = true)]
+    public IEnumerable<string> OperationIds { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

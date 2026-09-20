@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the details of the management group.
 /// </summary>
-/// <param name="Name">Name of the management group (the last segment of the resource ID). Do not use display name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "show")]
-public record AzAccountManagementGroupShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAccountManagementGroupShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get the details of the management group.
+    /// </summary>
+    /// <param name="Name">Name of the management group (the last segment of the resource ID). Do not use display name.</param>
+    public AzAccountManagementGroupShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the management group (the last segment of the resource ID). Do not use display name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// If given, lists the children in the first level of hierarchy.
     /// </summary>

@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete DNS Zone(s) from App Routing.
 /// </summary>
-/// <param name="Ids">Comma-separated list of DNS zone resource IDs to delete from App Routing.</param>
-/// <param name="Name">Name of the managed cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "approuting", "zone", "delete")]
-public record AzAksApproutingZoneDeleteOptions(
-    [property: CliOption("--ids", GroupValues = true)] IEnumerable<string> Ids,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksApproutingZoneDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete DNS Zone(s) from App Routing.
+    /// </summary>
+    /// <param name="Ids">Comma-separated list of DNS zone resource IDs to delete from App Routing.</param>
+    /// <param name="Name">Name of the managed cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksApproutingZoneDeleteOptions(
+        IEnumerable<string> Ids,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Ids);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Ids));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Ids));
+            }
+
+            Ids = materialized;
+        }
+        this.Ids = Ids;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Ids, out string Name, out string ResourceGroup)
+    {
+        Ids = this.Ids;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Comma-separated list of DNS zone resource IDs to delete from App Routing.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string> Ids { get; private init; }
+
+    /// <summary>
+    /// Name of the managed cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

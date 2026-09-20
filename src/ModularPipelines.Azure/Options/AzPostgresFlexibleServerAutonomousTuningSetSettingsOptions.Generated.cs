@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an autonomous tuning setting
 /// </summary>
-/// <param name="Name">The name of the tuning setting.  Allowed values: analysis_interval, max_columns_per_index, max_index_count, max_indexes_per_table, max_queries_per_database, max_regression_factor, max_total_size_factor, min_improvement_factor, mode, unused_dml_per_table, unused_min_period, unused_reads_per_table.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "autonomous-tuning", "set-settings")]
-public record AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions : AzOptions
 {
+    /// <summary>
+    /// Update an autonomous tuning setting
+    /// </summary>
+    /// <param name="Name">The name of the tuning setting.  Allowed values: analysis_interval, max_columns_per_index, max_index_count, max_indexes_per_table, max_queries_per_database, max_regression_factor, max_total_size_factor, min_improvement_factor, mode, unused_dml_per_table, unused_min_period, unused_reads_per_table.</param>
+    public AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the tuning setting.  Allowed values: analysis_interval, max_columns_per_index, max_index_count, max_indexes_per_table, max_queries_per_database, max_regression_factor, max_total_size_factor, min_improvement_factor, mode, unused_dml_per_table, unused_min_period, unused_reads_per_table.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Value of the tuning setting.
     /// </summary>

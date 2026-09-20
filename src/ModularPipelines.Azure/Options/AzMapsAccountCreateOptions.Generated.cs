@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Maps Account. A Maps Account holds the keys which allow access
 /// </summary>
-/// <param name="AccountName">The name of the maps account.</param>
-/// <param name="ResourceGroup">Resource group name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("maps", "account", "create")]
-public record AzMapsAccountCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMapsAccountCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Maps Account. A Maps Account holds the keys which allow access
+    /// </summary>
+    /// <param name="AccountName">The name of the maps account.</param>
+    /// <param name="ResourceGroup">Resource group name.</param>
+    public AzMapsAccountCreateOptions(
+        string AccountName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the maps account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Resource group name.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// You must agree to the License and Privacy Statement to create an account.
     /// </summary>

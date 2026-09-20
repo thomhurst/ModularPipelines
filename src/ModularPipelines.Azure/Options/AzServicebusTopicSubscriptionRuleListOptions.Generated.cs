@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the rules within given topic-subscription.
 /// </summary>
-/// <param name="NamespaceName">The namespace name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SubscriptionName">The subscription name.</param>
-/// <param name="TopicName">The topic name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "topic", "subscription", "rule", "list")]
-public record AzServicebusTopicSubscriptionRuleListOptions(
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--subscription-name")] string SubscriptionName,
-    [property: CliOption("--topic-name")] string TopicName
-) : AzOptions
+public record AzServicebusTopicSubscriptionRuleListOptions : AzOptions
 {
+    /// <summary>
+    /// List all the rules within given topic-subscription.
+    /// </summary>
+    /// <param name="NamespaceName">The namespace name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SubscriptionName">The subscription name.</param>
+    /// <param name="TopicName">The topic name.</param>
+    public AzServicebusTopicSubscriptionRuleListOptions(
+        string NamespaceName,
+        string ResourceGroup,
+        string SubscriptionName,
+        string TopicName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionName);
+        this.SubscriptionName = SubscriptionName;
+        global::System.ArgumentNullException.ThrowIfNull(TopicName);
+        this.TopicName = TopicName;
+    }
+
+    public void Deconstruct(out string NamespaceName, out string ResourceGroup, out string SubscriptionName, out string TopicName)
+    {
+        NamespaceName = this.NamespaceName;
+        ResourceGroup = this.ResourceGroup;
+        SubscriptionName = this.SubscriptionName;
+        TopicName = this.TopicName;
+    }
+
+    /// <summary>
+    /// The namespace name.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The subscription name.
+    /// </summary>
+    [CliOption("--subscription-name")]
+    public string SubscriptionName { get; private init; }
+
+    /// <summary>
+    /// The topic name.
+    /// </summary>
+    [CliOption("--topic-name")]
+    public string TopicName { get; private init; }
+
     /// <summary>
     /// Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
     /// </summary>

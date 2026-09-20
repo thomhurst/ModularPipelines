@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new autoscale rule.
 /// </summary>
-/// <param name="AutoscaleName">Name of the autoscale settings.</param>
-/// <param name="Condition">The condition which triggers the scaling action. Usage:  --condition ["NAMESPACE"] METRIC {==,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD {avg,min,max,total,count} PERIOD [where DIMENSION {==,!=} VALUE [or VALUE ...] [and   DIMENSION {==,!=} VALUE [or VALUE ...] ...]]</param>
-/// <param name="Scale">The direction and amount to scale. Usage:          --scale {to,in,out} VAL[%] Fixed Count:    --scale to 5 In by Count:    --scale in 2 Out by Percent: --scale out 10%.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "create")]
-public record AzMonitorAutoscaleRuleCreateOptions(
-    [property: CliOption("--autoscale-name")] string AutoscaleName,
-    [property: CliOption("--condition")] string Condition,
-    [property: CliOption("--scale")] string Scale
-) : AzOptions
+public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Add a new autoscale rule.
+    /// </summary>
+    /// <param name="AutoscaleName">Name of the autoscale settings.</param>
+    /// <param name="Condition">The condition which triggers the scaling action. Usage:  --condition ["NAMESPACE"] METRIC {==,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD {avg,min,max,total,count} PERIOD [where DIMENSION {==,!=} VALUE [or VALUE ...] [and   DIMENSION {==,!=} VALUE [or VALUE ...] ...]]</param>
+    /// <param name="Scale">The direction and amount to scale. Usage:          --scale {to,in,out} VAL[%] Fixed Count:    --scale to 5 In by Count:    --scale in 2 Out by Percent: --scale out 10%.</param>
+    public AzMonitorAutoscaleRuleCreateOptions(
+        string AutoscaleName,
+        string Condition,
+        string Scale
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoscaleName);
+        this.AutoscaleName = AutoscaleName;
+        global::System.ArgumentNullException.ThrowIfNull(Condition);
+        this.Condition = Condition;
+        global::System.ArgumentNullException.ThrowIfNull(Scale);
+        this.Scale = Scale;
+    }
+
+    public void Deconstruct(out string AutoscaleName, out string Condition, out string Scale)
+    {
+        AutoscaleName = this.AutoscaleName;
+        Condition = this.Condition;
+        Scale = this.Scale;
+    }
+
+    /// <summary>
+    /// Name of the autoscale settings.
+    /// </summary>
+    [CliOption("--autoscale-name")]
+    public string AutoscaleName { get; private init; }
+
+    /// <summary>
+    /// The condition which triggers the scaling action. Usage:  --condition ["NAMESPACE"] METRIC {==,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD {avg,min,max,total,count} PERIOD [where DIMENSION {==,!=} VALUE [or VALUE ...] [and   DIMENSION {==,!=} VALUE [or VALUE ...] ...]]
+    /// </summary>
+    [CliOption("--condition")]
+    public string Condition { get; private init; }
+
+    /// <summary>
+    /// The direction and amount to scale. Usage:          --scale {to,in,out} VAL[%] Fixed Count:    --scale to 5 In by Count:    --scale in 2 Out by Percent: --scale out 10%.
+    /// </summary>
+    [CliOption("--scale")]
+    public string Scale { get; private init; }
+
     /// <summary>
     /// The number of minutes that must elapse before another scaling event can occur.  Default: 5.
     /// </summary>

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update properties of an SOA record.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ZoneName">The name of the Private DNS zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "soa", "update")]
-public record AzNetworkPrivateDnsRecordSetSoaUpdateOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkPrivateDnsRecordSetSoaUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update properties of an SOA record.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ZoneName">The name of the Private DNS zone.</param>
+    public AzNetworkPrivateDnsRecordSetSoaUpdateOptions(
+        string ResourceGroup,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string ZoneName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Private DNS zone.
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Email address.
     /// </summary>

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update properties for specified encryption scope
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
-/// <param name="Name">The name of the encryption scope within the specified storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "encryption-scope", "update")]
-public record AzStorageAccountEncryptionScopeUpdateOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageAccountEncryptionScopeUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update properties for specified encryption scope
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    /// <param name="Name">The name of the encryption scope within the specified storage account.</param>
+    public AzStorageAccountEncryptionScopeUpdateOptions(
+        string AccountName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string AccountName, out string Name)
+    {
+        AccountName = this.AccountName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the encryption scope within the specified storage account.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The provider for the encryption scope.  Allowed values: Microsoft.KeyVault, Microsoft.Storage.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete specified deployment stack from resource group scope.
 /// </summary>
-/// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted. Allowed values: deleteAll, deleteResources, detachAll.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "group", "delete")]
-public record AzStackGroupDeleteOptions(
-    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage
-) : AzOptions
+public record AzStackGroupDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete specified deployment stack from resource group scope.
+    /// </summary>
+    /// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted. Allowed values: deleteAll, deleteResources, detachAll.</param>
+    public AzStackGroupDeleteOptions(
+        string ActionOnUnmanage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionOnUnmanage);
+        this.ActionOnUnmanage = ActionOnUnmanage;
+    }
+
+    public void Deconstruct(out string ActionOnUnmanage)
+    {
+        ActionOnUnmanage = this.ActionOnUnmanage;
+    }
+
+    /// <summary>
+    /// Defines what happens to resources that are no longer managed after the stack is updated or deleted. Allowed values: deleteAll, deleteResources, detachAll.
+    /// </summary>
+    [CliOption("--action-on-unmanage", ShortForm = "--aou")]
+    public string ActionOnUnmanage { get; private init; }
+
     /// <summary>
     /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized.  Allowed values: false, true.
     /// </summary>

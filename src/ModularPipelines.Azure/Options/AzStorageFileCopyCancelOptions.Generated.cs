@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Abort an ongoing copy operation.
 /// </summary>
-/// <param name="CopyId">The copy operation to abort. This can be either an ID, or an instance of FileProperties.</param>
-/// <param name="DestinationPath">The path to the file within the file share.</param>
-/// <param name="DestinationShare">Name of the destination share. The share must exist.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "copy", "cancel")]
-public record AzStorageFileCopyCancelOptions(
-    [property: CliOption("--copy-id")] string CopyId,
-    [property: CliOption("--destination-path", ShortForm = "-p")] string DestinationPath,
-    [property: CliOption("--destination-share", ShortForm = "-s")] string DestinationShare
-) : AzOptions
+public record AzStorageFileCopyCancelOptions : AzOptions
 {
+    /// <summary>
+    /// Abort an ongoing copy operation.
+    /// </summary>
+    /// <param name="CopyId">The copy operation to abort. This can be either an ID, or an instance of FileProperties.</param>
+    /// <param name="DestinationPath">The path to the file within the file share.</param>
+    /// <param name="DestinationShare">Name of the destination share. The share must exist.</param>
+    public AzStorageFileCopyCancelOptions(
+        string CopyId,
+        string DestinationPath,
+        string DestinationShare
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CopyId);
+        this.CopyId = CopyId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationPath);
+        this.DestinationPath = DestinationPath;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationShare);
+        this.DestinationShare = DestinationShare;
+    }
+
+    public void Deconstruct(out string CopyId, out string DestinationPath, out string DestinationShare)
+    {
+        CopyId = this.CopyId;
+        DestinationPath = this.DestinationPath;
+        DestinationShare = this.DestinationShare;
+    }
+
+    /// <summary>
+    /// The copy operation to abort. This can be either an ID, or an instance of FileProperties.
+    /// </summary>
+    [CliOption("--copy-id")]
+    public string CopyId { get; private init; }
+
+    /// <summary>
+    /// The path to the file within the file share.
+    /// </summary>
+    [CliOption("--destination-path", ShortForm = "-p")]
+    public string DestinationPath { get; private init; }
+
+    /// <summary>
+    /// Name of the destination share. The share must exist.
+    /// </summary>
+    [CliOption("--destination-share", ShortForm = "-s")]
+    public string DestinationShare { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

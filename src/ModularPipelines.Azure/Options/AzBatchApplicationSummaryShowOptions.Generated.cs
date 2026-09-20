@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets information about the specified application.
 /// </summary>
-/// <param name="ApplicationId">The ID of the Application. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "application", "summary", "show")]
-public record AzBatchApplicationSummaryShowOptions(
-    [property: CliOption("--application-id")] string ApplicationId
-) : AzOptions
+public record AzBatchApplicationSummaryShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets information about the specified application.
+    /// </summary>
+    /// <param name="ApplicationId">The ID of the Application. Required.</param>
+    public AzBatchApplicationSummaryShowOptions(
+        string ApplicationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+    }
+
+    public void Deconstruct(out string ApplicationId)
+    {
+        ApplicationId = this.ApplicationId;
+    }
+
+    /// <summary>
+    /// The ID of the Application. Required.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string ApplicationId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

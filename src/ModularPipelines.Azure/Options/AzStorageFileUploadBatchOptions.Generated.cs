@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload files from a local directory to an Azure Storage File
 /// </summary>
-/// <param name="Destination">The destination of the upload operation. The destination can be the file share URL or the share name. When the destination is the share URL, the storage account name is parsed from the URL.</param>
-/// <param name="Source">The directory to upload files from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "upload-batch")]
-public record AzStorageFileUploadBatchOptions(
-    [property: CliOption("--destination", ShortForm = "-d")] string Destination,
-    [property: CliOption("--source", ShortForm = "-s")] string Source
-) : AzOptions
+public record AzStorageFileUploadBatchOptions : AzOptions
 {
+    /// <summary>
+    /// Upload files from a local directory to an Azure Storage File
+    /// </summary>
+    /// <param name="Destination">The destination of the upload operation. The destination can be the file share URL or the share name. When the destination is the share URL, the storage account name is parsed from the URL.</param>
+    /// <param name="Source">The directory to upload files from.</param>
+    public AzStorageFileUploadBatchOptions(
+        string Destination,
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Destination, out string Source)
+    {
+        Destination = this.Destination;
+        Source = this.Source;
+    }
+
+    /// <summary>
+    /// The destination of the upload operation. The destination can be the file share URL or the share name. When the destination is the share URL, the storage account name is parsed from the URL.
+    /// </summary>
+    [CliOption("--destination", ShortForm = "-d")]
+    public string Destination { get; private init; }
+
+    /// <summary>
+    /// The directory to upload files from.
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string Source { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

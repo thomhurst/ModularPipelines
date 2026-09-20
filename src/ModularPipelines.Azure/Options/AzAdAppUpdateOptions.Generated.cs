@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an application.
 /// </summary>
-/// <param name="Id">Identifier uri, application id, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "update")]
-public record AzAdAppUpdateOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdAppUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an application.
+    /// </summary>
+    /// <param name="Id">Identifier uri, application id, or object id.</param>
+    public AzAdAppUpdateOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Identifier uri, application id, or object id.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
     /// <summary>
     /// The display name of the application.
     /// </summary>

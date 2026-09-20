@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an existing management group.
 /// </summary>
-/// <param name="Name">Name of the management group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "delete")]
-public record AzAccountManagementGroupDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAccountManagementGroupDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete an existing management group.
+    /// </summary>
+    /// <param name="Name">Name of the management group.</param>
+    public AzAccountManagementGroupDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the management group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Skip registration for resource provider Microsoft.Management.
     /// </summary>

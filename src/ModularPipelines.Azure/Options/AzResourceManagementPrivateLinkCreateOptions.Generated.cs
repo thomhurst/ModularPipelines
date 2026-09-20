@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a resource management group private link.
 /// </summary>
-/// <param name="Location">The region to create the resource management private link.</param>
-/// <param name="Name">The name of the resource management private link.</param>
-/// <param name="ResourceGroup">The name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resourcemanagement", "private-link", "create")]
-public record AzResourceManagementPrivateLinkCreateOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzResourceManagementPrivateLinkCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a resource management group private link.
+    /// </summary>
+    /// <param name="Location">The region to create the resource management private link.</param>
+    /// <param name="Name">The name of the resource management private link.</param>
+    /// <param name="ResourceGroup">The name of the resource group.</param>
+    public AzResourceManagementPrivateLinkCreateOptions(
+        string Location,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Location, out string Name, out string ResourceGroup)
+    {
+        Location = this.Location;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The region to create the resource management private link.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name of the resource management private link.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the resource group.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

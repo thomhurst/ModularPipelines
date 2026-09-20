@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the managed instance's Start/Stop schedule.
 /// </summary>
-/// <param name="ManagedInstance">The name of the managed instance.</param>
-/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "start-stop-schedule", "create")]
-public record AzSqlMiStartStopScheduleCreateOptions(
-    [property: CliOption("--managed-instance", ShortForm = "--mi")] string ManagedInstance,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlMiStartStopScheduleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create the managed instance's Start/Stop schedule.
+    /// </summary>
+    /// <param name="ManagedInstance">The name of the managed instance.</param>
+    /// <param name="ResourceGroup">Name of the resource group.</param>
+    public AzSqlMiStartStopScheduleCreateOptions(
+        string ManagedInstance,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagedInstance);
+        this.ManagedInstance = ManagedInstance;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ManagedInstance, out string ResourceGroup)
+    {
+        ManagedInstance = this.ManagedInstance;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the managed instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string ManagedInstance { get; private init; }
+
+    /// <summary>
+    /// Name of the resource group.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The description of the schedule.
     /// </summary>

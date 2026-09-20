@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List inbound NAT rule port mappings.
 /// </summary>
-/// <param name="BackendPoolName">The name of the backend address pool.</param>
-/// <param name="Request">Query inbound NAT rule port mapping request.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "list-mapping")]
-public record AzNetworkLbListMappingOptions(
-    [property: CliOption("--backend-pool-name")] string BackendPoolName,
-    [property: CliOption("--request")] string Request
-) : AzOptions
+public record AzNetworkLbListMappingOptions : AzOptions
 {
+    /// <summary>
+    /// List inbound NAT rule port mappings.
+    /// </summary>
+    /// <param name="BackendPoolName">The name of the backend address pool.</param>
+    /// <param name="Request">Query inbound NAT rule port mapping request.</param>
+    public AzNetworkLbListMappingOptions(
+        string BackendPoolName,
+        string Request
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendPoolName);
+        this.BackendPoolName = BackendPoolName;
+        global::System.ArgumentNullException.ThrowIfNull(Request);
+        this.Request = Request;
+    }
+
+    public void Deconstruct(out string BackendPoolName, out string Request)
+    {
+        BackendPoolName = this.BackendPoolName;
+        Request = this.Request;
+    }
+
+    /// <summary>
+    /// The name of the backend address pool.
+    /// </summary>
+    [CliOption("--backend-pool-name")]
+    public string BackendPoolName { get; private init; }
+
+    /// <summary>
+    /// Query inbound NAT rule port mapping request.
+    /// </summary>
+    [CliOption("--request")]
+    public string Request { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

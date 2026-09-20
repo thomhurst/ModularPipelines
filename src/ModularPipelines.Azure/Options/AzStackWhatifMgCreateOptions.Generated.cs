@@ -15,26 +15,100 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a deployment stack what-if result at management group scope.
 /// </summary>
-/// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
-/// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
-/// <param name="Location">The location to store the deployment stack what-if result.</param>
-/// <param name="ManagementGroupId">The management group ID to create a deployment stack what-if result in.</param>
-/// <param name="Name">The name of the deployment stack what-if result.</param>
-/// <param name="RetentionInterval">The retention interval for What-If results. The value must be in ISO 8601 format and between 1 day and 30 days.</param>
-/// <param name="StackId">The fully-qualified ID of the deployment stack to perform a what-if operation on.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "mg", "create")]
-public record AzStackWhatifMgCreateOptions(
-    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage,
-    [property: CliOption("--deny-settings-mode", ShortForm = "--dm")] string DenySettingsMode,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--retention-interval", ShortForm = "--ri")] string RetentionInterval,
-    [property: CliOption("--stack-id")] string StackId
-) : AzOptions
+public record AzStackWhatifMgCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a deployment stack what-if result at management group scope.
+    /// </summary>
+    /// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
+    /// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
+    /// <param name="Location">The location to store the deployment stack what-if result.</param>
+    /// <param name="ManagementGroupId">The management group ID to create a deployment stack what-if result in.</param>
+    /// <param name="Name">The name of the deployment stack what-if result.</param>
+    /// <param name="RetentionInterval">The retention interval for What-If results. The value must be in ISO 8601 format and between 1 day and 30 days.</param>
+    /// <param name="StackId">The fully-qualified ID of the deployment stack to perform a what-if operation on.</param>
+    public AzStackWhatifMgCreateOptions(
+        string ActionOnUnmanage,
+        string DenySettingsMode,
+        string Location,
+        string ManagementGroupId,
+        string Name,
+        string RetentionInterval,
+        string StackId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionOnUnmanage);
+        this.ActionOnUnmanage = ActionOnUnmanage;
+        global::System.ArgumentNullException.ThrowIfNull(DenySettingsMode);
+        this.DenySettingsMode = DenySettingsMode;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RetentionInterval);
+        this.RetentionInterval = RetentionInterval;
+        global::System.ArgumentNullException.ThrowIfNull(StackId);
+        this.StackId = StackId;
+    }
+
+    public void Deconstruct(out string ActionOnUnmanage, out string DenySettingsMode, out string Location, out string ManagementGroupId, out string Name, out string RetentionInterval, out string StackId)
+    {
+        ActionOnUnmanage = this.ActionOnUnmanage;
+        DenySettingsMode = this.DenySettingsMode;
+        Location = this.Location;
+        ManagementGroupId = this.ManagementGroupId;
+        Name = this.Name;
+        RetentionInterval = this.RetentionInterval;
+        StackId = this.StackId;
+    }
+
+    /// <summary>
+    /// Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.
+    /// </summary>
+    [CliOption("--action-on-unmanage", ShortForm = "--aou")]
+    public string ActionOnUnmanage { get; private init; }
+
+    /// <summary>
+    /// Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.
+    /// </summary>
+    [CliOption("--deny-settings-mode", ShortForm = "--dm")]
+    public string DenySettingsMode { get; private init; }
+
+    /// <summary>
+    /// The location to store the deployment stack what-if result.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The management group ID to create a deployment stack what-if result in.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
+    /// <summary>
+    /// The name of the deployment stack what-if result.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The retention interval for What-If results. The value must be in ISO 8601 format and between 1 day and 30 days.
+    /// </summary>
+    [CliOption("--retention-interval", ShortForm = "--ri")]
+    public string RetentionInterval { get; private init; }
+
+    /// <summary>
+    /// The fully-qualified ID of the deployment stack to perform a what-if operation on.
+    /// </summary>
+    [CliOption("--stack-id")]
+    public string StackId { get; private init; }
+
     /// <summary>
     /// DenySettings will be applied to child scopes.
     /// </summary>

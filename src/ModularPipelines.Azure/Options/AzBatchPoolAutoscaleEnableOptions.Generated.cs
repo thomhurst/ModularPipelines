@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enables automatic scaling for a Pool.
 /// </summary>
-/// <param name="PoolId">The ID of the Pool to get. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "autoscale", "enable")]
-public record AzBatchPoolAutoscaleEnableOptions(
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchPoolAutoscaleEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Enables automatic scaling for a Pool.
+    /// </summary>
+    /// <param name="PoolId">The ID of the Pool to get. Required.</param>
+    public AzBatchPoolAutoscaleEnableOptions(
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string PoolId)
+    {
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the Pool to get. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// The time interval at which to automatically adjust the Pool size according to the autoscale formula. The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service rejects the request with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). If you specify a new interval, then the existing autoscale evaluation schedule will be stopped and a new autoscale evaluation schedule will be started, with its starting time being the time when this request was issued.
     /// </summary>

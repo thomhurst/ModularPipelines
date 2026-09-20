@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update diagnostic settings for the specified resource.
 /// </summary>
-/// <param name="Name">The name of the diagnostic setting. Required.</param>
-/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "update")]
-public record AzMonitorDiagnosticSettingsUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource")] string Resource
-) : AzOptions
+public record AzMonitorDiagnosticSettingsUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update diagnostic settings for the specified resource.
+    /// </summary>
+    /// <param name="Name">The name of the diagnostic setting. Required.</param>
+    /// <param name="Resource">Name or ID of the target resource.</param>
+    public AzMonitorDiagnosticSettingsUpdateOptions(
+        string Name,
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Name, out string Resource)
+    {
+        Name = this.Name;
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// The name of the diagnostic setting. Required.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the target resource.
+    /// </summary>
+    [CliOption("--resource")]
+    public string Resource { get; private init; }
+
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details of a migration task. Use the "--expand" to get more
 /// </summary>
-/// <param name="Name">The name of the Task.</param>
-/// <param name="ProjectName">The name of the Project.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the Service.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "task", "show")]
-public record AzDmsProjectTaskShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--project-name")] string ProjectName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name")] string ServiceName
-) : AzOptions
+public record AzDmsProjectTaskShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the details of a migration task. Use the "--expand" to get more
+    /// </summary>
+    /// <param name="Name">The name of the Task.</param>
+    /// <param name="ProjectName">The name of the Project.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the Service.</param>
+    public AzDmsProjectTaskShowOptions(
+        string Name,
+        string ProjectName,
+        string ResourceGroup,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string Name, out string ProjectName, out string ResourceGroup, out string ServiceName)
+    {
+        Name = this.Name;
+        ProjectName = this.ProjectName;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// The name of the Task.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the Project.
+    /// </summary>
+    [CliOption("--project-name")]
+    public string ProjectName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Service.
+    /// </summary>
+    [CliOption("--service-name")]
+    public string ServiceName { get; private init; }
+
     /// <summary>
     /// Expand the response to provide more details. Use with "command" to see more details of the task. Use with "output" to see the results of the task's migration.
     /// </summary>

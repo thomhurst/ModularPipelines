@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an application gateway WAF
 /// </summary>
-/// <param name="Action">Action to take.  Allowed values: Allow, Block, JSChallenge, Log.</param>
-/// <param name="Name">Name of the WAF policy rule.</param>
-/// <param name="PolicyName">Name of the application gateway WAF policy.</param>
-/// <param name="Priority">Rule priority. Lower values are evaluated prior to higher values.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="RuleType">Type of rule.  Allowed values: Invalid, MatchRule, RateLimitRule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "create")]
-public record AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions(
-    [property: CliOption("--action")] string Action,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--policy-name")] string PolicyName,
-    [property: CliOption("--priority")] string Priority,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--rule-type")] string RuleType
-) : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an application gateway WAF
+    /// </summary>
+    /// <param name="Action">Action to take.  Allowed values: Allow, Block, JSChallenge, Log.</param>
+    /// <param name="Name">Name of the WAF policy rule.</param>
+    /// <param name="PolicyName">Name of the application gateway WAF policy.</param>
+    /// <param name="Priority">Rule priority. Lower values are evaluated prior to higher values.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="RuleType">Type of rule.  Allowed values: Invalid, MatchRule, RateLimitRule.</param>
+    public AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions(
+        string Action,
+        string Name,
+        string PolicyName,
+        string Priority,
+        string ResourceGroup,
+        string RuleType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(RuleType);
+        this.RuleType = RuleType;
+    }
+
+    public void Deconstruct(out string Action, out string Name, out string PolicyName, out string Priority, out string ResourceGroup, out string RuleType)
+    {
+        Action = this.Action;
+        Name = this.Name;
+        PolicyName = this.PolicyName;
+        Priority = this.Priority;
+        ResourceGroup = this.ResourceGroup;
+        RuleType = this.RuleType;
+    }
+
+    /// <summary>
+    /// Action to take.  Allowed values: Allow, Block, JSChallenge, Log.
+    /// </summary>
+    [CliOption("--action")]
+    public string Action { get; private init; }
+
+    /// <summary>
+    /// Name of the WAF policy rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the application gateway WAF policy.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Rule priority. Lower values are evaluated prior to higher values.
+    /// </summary>
+    [CliOption("--priority")]
+    public string Priority { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Type of rule.  Allowed values: Invalid, MatchRule, RateLimitRule.
+    /// </summary>
+    [CliOption("--rule-type")]
+    public string RuleType { get; private init; }
+
     /// <summary>
     /// Describe if the custom rule is in enabled or disabled state. Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>

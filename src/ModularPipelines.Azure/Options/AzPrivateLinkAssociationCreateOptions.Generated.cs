@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a PrivateLinkAssociation.
 /// </summary>
-/// <param name="ManagementGroupId">The management group id.</param>
-/// <param name="Name">The name of the private link association.</param>
-/// <param name="Privatelink">The name of the private link.</param>
-/// <param name="PublicNetworkAccess">Restrict traffic to private link.  Allowed values: disabled, enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("private-link", "association", "create")]
-public record AzPrivateLinkAssociationCreateOptions(
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--privatelink", ShortForm = "-p")] string Privatelink,
-    [property: CliOption("--public-network-access", ShortForm = "-a")] string PublicNetworkAccess
-) : AzOptions
+public record AzPrivateLinkAssociationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a PrivateLinkAssociation.
+    /// </summary>
+    /// <param name="ManagementGroupId">The management group id.</param>
+    /// <param name="Name">The name of the private link association.</param>
+    /// <param name="Privatelink">The name of the private link.</param>
+    /// <param name="PublicNetworkAccess">Restrict traffic to private link.  Allowed values: disabled, enabled.</param>
+    public AzPrivateLinkAssociationCreateOptions(
+        string ManagementGroupId,
+        string Name,
+        string Privatelink,
+        string PublicNetworkAccess
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Privatelink);
+        this.Privatelink = Privatelink;
+        global::System.ArgumentNullException.ThrowIfNull(PublicNetworkAccess);
+        this.PublicNetworkAccess = PublicNetworkAccess;
+    }
+
+    public void Deconstruct(out string ManagementGroupId, out string Name, out string Privatelink, out string PublicNetworkAccess)
+    {
+        ManagementGroupId = this.ManagementGroupId;
+        Name = this.Name;
+        Privatelink = this.Privatelink;
+        PublicNetworkAccess = this.PublicNetworkAccess;
+    }
+
+    /// <summary>
+    /// The management group id.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
+    /// <summary>
+    /// The name of the private link association.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the private link.
+    /// </summary>
+    [CliOption("--privatelink", ShortForm = "-p")]
+    public string Privatelink { get; private init; }
+
+    /// <summary>
+    /// Restrict traffic to private link.  Allowed values: disabled, enabled.
+    /// </summary>
+    [CliOption("--public-network-access", ShortForm = "-a")]
+    public string PublicNetworkAccess { get; private init; }
+
 }

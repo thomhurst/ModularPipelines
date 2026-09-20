@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an OWASP CRS
 /// </summary>
-/// <param name="MatchOperator">When match-variable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.  Allowed values: Contains, EndsWith, Equals, EqualsAny, StartsWith.</param>
-/// <param name="MatchVariable">Variable to be excluded.  Allowed values: RequestArgKeys, RequestArgNames, RequestArgValues, RequestCookieKeys, RequestCookieNames, RequestCookieValues, RequestHeaderKeys, RequestHeaderNames, RequestHeaderValues.</param>
-/// <param name="PolicyName">Name of the web application firewall policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Selector">When match-variable is a collection, operator used to specify which elements in the collection this exclusion applies to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exclusion", "add")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions(
-    [property: CliOption("--match-operator", ShortForm = "--selector-match-operator")] string MatchOperator,
-    [property: CliOption("--match-variable")] string MatchVariable,
-    [property: CliOption("--policy-name")] string PolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--selector")] string Selector
-) : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add an OWASP CRS
+    /// </summary>
+    /// <param name="MatchOperator">When match-variable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.  Allowed values: Contains, EndsWith, Equals, EqualsAny, StartsWith.</param>
+    /// <param name="MatchVariable">Variable to be excluded.  Allowed values: RequestArgKeys, RequestArgNames, RequestArgValues, RequestCookieKeys, RequestCookieNames, RequestCookieValues, RequestHeaderKeys, RequestHeaderNames, RequestHeaderValues.</param>
+    /// <param name="PolicyName">Name of the web application firewall policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Selector">When match-variable is a collection, operator used to specify which elements in the collection this exclusion applies to.</param>
+    public AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions(
+        string MatchOperator,
+        string MatchVariable,
+        string PolicyName,
+        string ResourceGroup,
+        string Selector
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MatchOperator);
+        this.MatchOperator = MatchOperator;
+        global::System.ArgumentNullException.ThrowIfNull(MatchVariable);
+        this.MatchVariable = MatchVariable;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Selector);
+        this.Selector = Selector;
+    }
+
+    public void Deconstruct(out string MatchOperator, out string MatchVariable, out string PolicyName, out string ResourceGroup, out string Selector)
+    {
+        MatchOperator = this.MatchOperator;
+        MatchVariable = this.MatchVariable;
+        PolicyName = this.PolicyName;
+        ResourceGroup = this.ResourceGroup;
+        Selector = this.Selector;
+    }
+
+    /// <summary>
+    /// When match-variable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.  Allowed values: Contains, EndsWith, Equals, EqualsAny, StartsWith.
+    /// </summary>
+    [CliOption("--match-operator", ShortForm = "--selector-match-operator")]
+    public string MatchOperator { get; private init; }
+
+    /// <summary>
+    /// Variable to be excluded.  Allowed values: RequestArgKeys, RequestArgNames, RequestArgValues, RequestCookieKeys, RequestCookieNames, RequestCookieValues, RequestHeaderKeys, RequestHeaderNames, RequestHeaderValues.
+    /// </summary>
+    [CliOption("--match-variable")]
+    public string MatchVariable { get; private init; }
+
+    /// <summary>
+    /// Name of the web application firewall policy.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// When match-variable is a collection, operator used to specify which elements in the collection this exclusion applies to.
+    /// </summary>
+    [CliOption("--selector")]
+    public string Selector { get; private init; }
+
     /// <summary>
     /// Index of exclusion. If no index is provided, the default behavior is `append`.
     /// </summary>

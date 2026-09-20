@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List available partner channels.
 /// </summary>
-/// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "channel", "list")]
-public record AzEventgridPartnerNamespaceChannelListOptions(
-    [property: CliOption("--partner-namespace-name")] string PartnerNamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridPartnerNamespaceChannelListOptions : AzOptions
 {
+    /// <summary>
+    /// List available partner channels.
+    /// </summary>
+    /// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridPartnerNamespaceChannelListOptions(
+        string PartnerNamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PartnerNamespaceName);
+        this.PartnerNamespaceName = PartnerNamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string PartnerNamespaceName, out string ResourceGroup)
+    {
+        PartnerNamespaceName = this.PartnerNamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the partner namespace.
+    /// </summary>
+    [CliOption("--partner-namespace-name")]
+    public string PartnerNamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The OData query used for filtering the list results. Filtering is currently allowed on the Name property only. The supported operations include: CONTAINS, eq (for equal), ne (for not equal), AND, OR and NOT.
     /// </summary>

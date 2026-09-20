@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove the user or system managed identities.
 /// </summary>
-/// <param name="AzureMonitorWorkspaceName">The name of the Azure Monitor workspace. The name is case insensitive.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "identity", "remove")]
-public record AzMonitorAccountIdentityRemoveOptions(
-    [property: CliOption("--azure-monitor-workspace-name", ShortForm = "-n")] string AzureMonitorWorkspaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMonitorAccountIdentityRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove the user or system managed identities.
+    /// </summary>
+    /// <param name="AzureMonitorWorkspaceName">The name of the Azure Monitor workspace. The name is case insensitive.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMonitorAccountIdentityRemoveOptions(
+        string AzureMonitorWorkspaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AzureMonitorWorkspaceName);
+        this.AzureMonitorWorkspaceName = AzureMonitorWorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AzureMonitorWorkspaceName, out string ResourceGroup)
+    {
+        AzureMonitorWorkspaceName = this.AzureMonitorWorkspaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Azure Monitor workspace. The name is case insensitive.
+    /// </summary>
+    [CliOption("--azure-monitor-workspace-name", ShortForm = "-n")]
+    public string AzureMonitorWorkspaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create container on the device.
 /// </summary>
-/// <param name="ContainerName">The container name.</param>
-/// <param name="DeviceName">The device name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StorageAccountName">The Storage Account Name.</param>
-/// <param name="DataFormat">DataFormat for Container.  Allowed values: AzureFile, BlockBlob, PageBlob.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account", "container", "create")]
-public record AzDataboxedgeDeviceStorageAccountContainerCreateOptions(
-    [property: CliOption("--container-name", ShortForm = "-n")] string ContainerName,
-    [property: CliOption("--device-name")] string DeviceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--storage-account-name")] string StorageAccountName,
-    [property: CliOption("--data-format")] string DataFormat
-) : AzOptions
+public record AzDataboxedgeDeviceStorageAccountContainerCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create container on the device.
+    /// </summary>
+    /// <param name="ContainerName">The container name.</param>
+    /// <param name="DeviceName">The device name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StorageAccountName">The Storage Account Name.</param>
+    /// <param name="DataFormat">DataFormat for Container.  Allowed values: AzureFile, BlockBlob, PageBlob.</param>
+    public AzDataboxedgeDeviceStorageAccountContainerCreateOptions(
+        string ContainerName,
+        string DeviceName,
+        string ResourceGroup,
+        string StorageAccountName,
+        string DataFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccountName);
+        this.StorageAccountName = StorageAccountName;
+        global::System.ArgumentNullException.ThrowIfNull(DataFormat);
+        this.DataFormat = DataFormat;
+    }
+
+    public void Deconstruct(out string ContainerName, out string DeviceName, out string ResourceGroup, out string StorageAccountName, out string DataFormat)
+    {
+        ContainerName = this.ContainerName;
+        DeviceName = this.DeviceName;
+        ResourceGroup = this.ResourceGroup;
+        StorageAccountName = this.StorageAccountName;
+        DataFormat = this.DataFormat;
+    }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-n")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliOption("--device-name")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The Storage Account Name.
+    /// </summary>
+    [CliOption("--storage-account-name")]
+    public string StorageAccountName { get; private init; }
+
+    /// <summary>
+    /// DataFormat for Container.  Allowed values: AzureFile, BlockBlob, PageBlob.
+    /// </summary>
+    [CliOption("--data-format")]
+    public string DataFormat { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

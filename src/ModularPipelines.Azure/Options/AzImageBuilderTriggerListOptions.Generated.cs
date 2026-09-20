@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all triggers for the specified Image Template resource.
 /// </summary>
-/// <param name="ImageTemplateName">The name of the image Template.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "trigger", "list")]
-public record AzImageBuilderTriggerListOptions(
-    [property: CliOption("--image-template-name")] string ImageTemplateName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzImageBuilderTriggerListOptions : AzOptions
 {
+    /// <summary>
+    /// List all triggers for the specified Image Template resource.
+    /// </summary>
+    /// <param name="ImageTemplateName">The name of the image Template.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzImageBuilderTriggerListOptions(
+        string ImageTemplateName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageTemplateName);
+        this.ImageTemplateName = ImageTemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ImageTemplateName, out string ResourceGroup)
+    {
+        ImageTemplateName = this.ImageTemplateName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the image Template.
+    /// </summary>
+    [CliOption("--image-template-name")]
+    public string ImageTemplateName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

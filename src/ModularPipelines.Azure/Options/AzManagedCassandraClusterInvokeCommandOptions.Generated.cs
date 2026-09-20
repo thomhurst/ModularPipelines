@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Invoke a command like nodetool for cassandra
 /// </summary>
-/// <param name="ClusterName">Cluster Name.</param>
-/// <param name="CommandName">The command which should be run.</param>
-/// <param name="Host">IP address of the cassandra host to run the command on.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "cluster", "invoke-command")]
-public record AzManagedCassandraClusterInvokeCommandOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--command-name")] string CommandName,
-    [property: CliOption("--host")] string Host,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
 {
+    /// <summary>
+    /// Invoke a command like nodetool for cassandra
+    /// </summary>
+    /// <param name="ClusterName">Cluster Name.</param>
+    /// <param name="CommandName">The command which should be run.</param>
+    /// <param name="Host">IP address of the cassandra host to run the command on.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzManagedCassandraClusterInvokeCommandOptions(
+        string ClusterName,
+        string CommandName,
+        string Host,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(CommandName);
+        this.CommandName = CommandName;
+        global::System.ArgumentNullException.ThrowIfNull(Host);
+        this.Host = Host;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string CommandName, out string Host, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        CommandName = this.CommandName;
+        Host = this.Host;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cluster Name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The command which should be run.
+    /// </summary>
+    [CliOption("--command-name")]
+    public string CommandName { get; private init; }
+
+    /// <summary>
+    /// IP address of the cassandra host to run the command on.
+    /// </summary>
+    [CliOption("--host")]
+    public string Host { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The key="value" of arguments for the command.
     /// </summary>

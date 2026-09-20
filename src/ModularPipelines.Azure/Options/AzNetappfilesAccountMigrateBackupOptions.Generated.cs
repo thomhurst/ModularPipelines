@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Migrate the backups under a NetApp account to backup
 /// </summary>
-/// <param name="BackupVaultId">The ResourceId of the Backup Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "migrate-backup")]
-public record AzNetappfilesAccountMigrateBackupOptions(
-    [property: CliOption("--backup-vault-id")] string BackupVaultId
-) : AzOptions
+public record AzNetappfilesAccountMigrateBackupOptions : AzOptions
 {
+    /// <summary>
+    /// Migrate the backups under a NetApp account to backup
+    /// </summary>
+    /// <param name="BackupVaultId">The ResourceId of the Backup Vault.</param>
+    public AzNetappfilesAccountMigrateBackupOptions(
+        string BackupVaultId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultId);
+        this.BackupVaultId = BackupVaultId;
+    }
+
+    public void Deconstruct(out string BackupVaultId)
+    {
+        BackupVaultId = this.BackupVaultId;
+    }
+
+    /// <summary>
+    /// The ResourceId of the Backup Vault.
+    /// </summary>
+    [CliOption("--backup-vault-id")]
+    public string BackupVaultId { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List containers registered to a Recovery services vault.
 /// </summary>
-/// <param name="BackupManagementType">Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload, MAB.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VaultName">Name of the Recovery services vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "container", "list")]
-public record AzBackupContainerListOptions(
-    [property: CliOption("--backup-management-type")] string BackupManagementType,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
-) : AzOptions
+public record AzBackupContainerListOptions : AzOptions
 {
+    /// <summary>
+    /// List containers registered to a Recovery services vault.
+    /// </summary>
+    /// <param name="BackupManagementType">Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload, MAB.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VaultName">Name of the Recovery services vault.</param>
+    public AzBackupContainerListOptions(
+        string BackupManagementType,
+        string ResourceGroup,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupManagementType);
+        this.BackupManagementType = BackupManagementType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string BackupManagementType, out string ResourceGroup, out string VaultName)
+    {
+        BackupManagementType = this.BackupManagementType;
+        ResourceGroup = this.ResourceGroup;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload, MAB.
+    /// </summary>
+    [CliOption("--backup-management-type")]
+    public string BackupManagementType { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Use this flag to list containers in secondary region.
     /// </summary>

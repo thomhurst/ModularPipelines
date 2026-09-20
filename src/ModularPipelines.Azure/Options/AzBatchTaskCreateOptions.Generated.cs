@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create Batch tasks.
 /// </summary>
-/// <param name="JobId">The ID of the job containing the task.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "create")]
-public record AzBatchTaskCreateOptions(
-    [property: CliOption("--job-id")] string JobId
-) : AzOptions
+public record AzBatchTaskCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create Batch tasks.
+    /// </summary>
+    /// <param name="JobId">The ID of the job containing the task.</param>
+    public AzBatchTaskCreateOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out string JobId)
+    {
+        JobId = this.JobId;
+    }
+
+    /// <summary>
+    /// The ID of the job containing the task.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
     /// <summary>
     /// Required. You can pass the affinityId of a Node to indicate that this Task needs to run on that Compute Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable at the time the Task is scheduled, then the Task will be scheduled elsewhere.
     /// </summary>

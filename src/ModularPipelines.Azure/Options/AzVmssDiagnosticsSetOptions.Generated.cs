@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable diagnostics on a VMSS.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Settings">Json string or a file path, which defines data to be collected.</param>
-/// <param name="VmssName">Scale set name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "diagnostics", "set")]
-public record AzVmssDiagnosticsSetOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--settings")] string Settings,
-    [property: CliOption("--vmss-name")] string VmssName
-) : AzOptions
+public record AzVmssDiagnosticsSetOptions : AzOptions
 {
+    /// <summary>
+    /// Enable diagnostics on a VMSS.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Settings">Json string or a file path, which defines data to be collected.</param>
+    /// <param name="VmssName">Scale set name.</param>
+    public AzVmssDiagnosticsSetOptions(
+        string ResourceGroup,
+        string Settings,
+        string VmssName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Settings);
+        this.Settings = Settings;
+        global::System.ArgumentNullException.ThrowIfNull(VmssName);
+        this.VmssName = VmssName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string Settings, out string VmssName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        Settings = this.Settings;
+        VmssName = this.VmssName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Json string or a file path, which defines data to be collected.
+    /// </summary>
+    [CliOption("--settings")]
+    public string Settings { get; private init; }
+
+    /// <summary>
+    /// Scale set name.
+    /// </summary>
+    [CliOption("--vmss-name")]
+    public string VmssName { get; private init; }
+
     /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
     /// </summary>

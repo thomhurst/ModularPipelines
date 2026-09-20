@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the IP configurations of an NIC.
 /// </summary>
-/// <param name="NicName">Name of the network interface (NIC).</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "list")]
-public record AzNetworkNicIpConfigListOptions(
-    [property: CliOption("--nic-name")] string NicName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkNicIpConfigListOptions : AzOptions
 {
+    /// <summary>
+    /// List the IP configurations of an NIC.
+    /// </summary>
+    /// <param name="NicName">Name of the network interface (NIC).</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkNicIpConfigListOptions(
+        string NicName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NicName);
+        this.NicName = NicName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string NicName, out string ResourceGroup)
+    {
+        NicName = this.NicName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the network interface (NIC).
+    /// </summary>
+    [CliOption("--nic-name")]
+    public string NicName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

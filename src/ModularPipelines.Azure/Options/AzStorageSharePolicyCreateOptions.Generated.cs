@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a stored access policy on the containing object.
 /// </summary>
-/// <param name="Name">The stored access policy name.</param>
-/// <param name="ShareName">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "policy", "create")]
-public record AzStorageSharePolicyCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--share-name", ShortForm = "-s")] string ShareName
-) : AzOptions
+public record AzStorageSharePolicyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a stored access policy on the containing object.
+    /// </summary>
+    /// <param name="Name">The stored access policy name.</param>
+    /// <param name="ShareName">The file share name.</param>
+    public AzStorageSharePolicyCreateOptions(
+        string Name,
+        string ShareName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ShareName);
+        this.ShareName = ShareName;
+    }
+
+    public void Deconstruct(out string Name, out string ShareName)
+    {
+        Name = this.Name;
+        ShareName = this.ShareName;
+    }
+
+    /// <summary>
+    /// The stored access policy name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string ShareName { get; private init; }
+
     /// <summary>
     /// Expiration UTC datetime in (Y-m-d'T'H:M:S'Z').
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove the Access Control on a path and sub-paths in
 /// </summary>
-/// <param name="Acl">Remove POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, and a user or group identifier in the format "[scope:][type]:[id]".</param>
-/// <param name="FileSystem">File system name (i.e. container name).</param>
-/// <param name="Path">The path to a file or directory in the specified file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "access", "remove-recursive")]
-public record AzStorageFsAccessRemoveRecursiveOptions(
-    [property: CliOption("--acl")] string Acl,
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzStorageFsAccessRemoveRecursiveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove the Access Control on a path and sub-paths in
+    /// </summary>
+    /// <param name="Acl">Remove POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, and a user or group identifier in the format "[scope:][type]:[id]".</param>
+    /// <param name="FileSystem">File system name (i.e. container name).</param>
+    /// <param name="Path">The path to a file or directory in the specified file system.</param>
+    public AzStorageFsAccessRemoveRecursiveOptions(
+        string Acl,
+        string FileSystem,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Acl);
+        this.Acl = Acl;
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Acl, out string FileSystem, out string Path)
+    {
+        Acl = this.Acl;
+        FileSystem = this.FileSystem;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// Remove POSIX access control rights on files and directories. The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, and a user or group identifier in the format "[scope:][type]:[id]".
+    /// </summary>
+    [CliOption("--acl")]
+    public string Acl { get; private init; }
+
+    /// <summary>
+    /// File system name (i.e. container name).
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
+    /// <summary>
+    /// The path to a file or directory in the specified file system.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

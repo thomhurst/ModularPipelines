@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show details of a replica of an App Configuration store.
 /// </summary>
-/// <param name="Name">Name of the replica of the App Configuration store.</param>
-/// <param name="StoreName">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "replica", "show")]
-public record AzAppConfigReplicaShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--store-name", ShortForm = "-s")] string StoreName
-) : AzOptions
+public record AzAppConfigReplicaShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show details of a replica of an App Configuration store.
+    /// </summary>
+    /// <param name="Name">Name of the replica of the App Configuration store.</param>
+    /// <param name="StoreName">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
+    public AzAppConfigReplicaShowOptions(
+        string Name,
+        string StoreName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(StoreName);
+        this.StoreName = StoreName;
+    }
+
+    public void Deconstruct(out string Name, out string StoreName)
+    {
+        Name = this.Name;
+        StoreName = this.StoreName;
+    }
+
+    /// <summary>
+    /// Name of the replica of the App Configuration store.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--store-name", ShortForm = "-s")]
+    public string StoreName { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore key-values.
 /// </summary>
-/// <param name="Datetime">Format: "YYYY-MM-DDThh:mm:ss["Z"/±hh:mm]. If no time zone or offset specified, use UTC by default.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "restore")]
-public record AzAppConfigKvRestoreOptions(
-    [property: CliOption("--datetime")] string Datetime
-) : AzOptions
+public record AzAppConfigKvRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restore key-values.
+    /// </summary>
+    /// <param name="Datetime">Format: "YYYY-MM-DDThh:mm:ss["Z"/±hh:mm]. If no time zone or offset specified, use UTC by default.</param>
+    public AzAppConfigKvRestoreOptions(
+        string Datetime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datetime);
+        this.Datetime = Datetime;
+    }
+
+    public void Deconstruct(out string Datetime)
+    {
+        Datetime = this.Datetime;
+    }
+
+    /// <summary>
+    /// Format: "YYYY-MM-DDThh:mm:ss["Z"/±hh:mm]. If no time zone or offset specified, use UTC by default.
+    /// </summary>
+    [CliOption("--datetime")]
+    public string Datetime { get; private init; }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app-configuration/concept- enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>

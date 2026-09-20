@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a specific migration.
 /// </summary>
-/// <param name="Name">Name of the migration.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "migration", "update")]
-public record AzPostgresFlexibleServerMigrationUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzPostgresFlexibleServerMigrationUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a specific migration.
+    /// </summary>
+    /// <param name="Name">Name of the migration.</param>
+    public AzPostgresFlexibleServerMigrationUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the migration.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Cancel the data migration for all the databases.
     /// </summary>

@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new server Active Directory administrator.
 /// </summary>
-/// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
-/// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "ad-admin", "create")]
-public record AzSqlServerAdAdminCreateOptions(
-    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
-    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server", ShortForm = "-s")] string Server
-) : AzOptions
+public record AzSqlServerAdAdminCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new server Active Directory administrator.
+    /// </summary>
+    /// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
+    /// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.</param>
+    public AzSqlServerAdAdminCreateOptions(
+        string DisplayName,
+        string ObjectId,
+        string ResourceGroup,
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectId);
+        this.ObjectId = ObjectId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string DisplayName, out string ObjectId, out string ResourceGroup, out string Server)
+    {
+        DisplayName = this.DisplayName;
+        ObjectId = this.ObjectId;
+        ResourceGroup = this.ResourceGroup;
+        Server = this.Server;
+    }
+
+    /// <summary>
+    /// Display name of the Azure AD administrator user or group.
+    /// </summary>
+    [CliOption("--display-name", ShortForm = "-u")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The unique ID of the Azure AD administrator.
+    /// </summary>
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string ObjectId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string Server { get; private init; }
+
 }

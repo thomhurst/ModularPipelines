@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an image builder output distributor from an image
 /// </summary>
-/// <param name="OutputName">Name of the image builder run output.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "output", "remove")]
-public record AzImageBuilderOutputRemoveOptions(
-    [property: CliOption("--output-name")] string OutputName
-) : AzOptions
+public record AzImageBuilderOutputRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an image builder output distributor from an image
+    /// </summary>
+    /// <param name="OutputName">Name of the image builder run output.</param>
+    public AzImageBuilderOutputRemoveOptions(
+        string OutputName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputName);
+        this.OutputName = OutputName;
+    }
+
+    public void Deconstruct(out string OutputName)
+    {
+        OutputName = this.OutputName;
+    }
+
+    /// <summary>
+    /// Name of the image builder run output.
+    /// </summary>
+    [CliOption("--output-name")]
+    public string OutputName { get; private init; }
+
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>

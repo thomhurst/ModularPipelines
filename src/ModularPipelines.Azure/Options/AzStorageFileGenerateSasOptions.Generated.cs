@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate a shared access signature for the file.
 /// </summary>
-/// <param name="Path">The path to the file within the file share.</param>
-/// <param name="ShareName">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "generate-sas")]
-public record AzStorageFileGenerateSasOptions(
-    [property: CliOption("--path", ShortForm = "-p")] string Path,
-    [property: CliOption("--share-name", ShortForm = "-s")] string ShareName
-) : AzOptions
+public record AzStorageFileGenerateSasOptions : AzOptions
 {
+    /// <summary>
+    /// Generate a shared access signature for the file.
+    /// </summary>
+    /// <param name="Path">The path to the file within the file share.</param>
+    /// <param name="ShareName">The file share name.</param>
+    public AzStorageFileGenerateSasOptions(
+        string Path,
+        string ShareName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        global::System.ArgumentNullException.ThrowIfNull(ShareName);
+        this.ShareName = ShareName;
+    }
+
+    public void Deconstruct(out string Path, out string ShareName)
+    {
+        Path = this.Path;
+        ShareName = this.ShareName;
+    }
+
+    /// <summary>
+    /// The path to the file within the file share.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string ShareName { get; private init; }
+
     /// <summary>
     /// Indicates that this command return the SAS signed with the user delegation key. The expiry parameter and '--auth-mode login' are required if this argument is specified.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a Network rule from a Network Profile.
 /// </summary>
-/// <param name="ResourceGroup">Name of the resource group. If not specified will display currently set account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "network-profile", "network-rule", "add")]
-public record AzBatchAccountNetworkProfileNetworkRuleAddOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzBatchAccountNetworkProfileNetworkRuleAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a Network rule from a Network Profile.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of the resource group. If not specified will display currently set account.</param>
+    public AzBatchAccountNetworkProfileNetworkRuleAddOptions(
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the resource group. If not specified will display currently set account.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// IPv4 address or CIDR range.
     /// </summary>

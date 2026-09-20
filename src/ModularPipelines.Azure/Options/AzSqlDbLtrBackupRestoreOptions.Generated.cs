@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a long term retention backup to a new database.
 /// </summary>
-/// <param name="BackupId">The resource id of the long term retention backup to be restored. Use 'az sql db ltr-backup show' or 'az sql db ltr-backup list' for backup id.</param>
-/// <param name="DestDatabase">Name of the database that will be created as the restore destination.</param>
-/// <param name="DestResourceGroup">Name of the resource group of the server to restore database to.</param>
-/// <param name="DestServer">Name of the server to restore database to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "ltr-backup", "restore")]
-public record AzSqlDbLtrBackupRestoreOptions(
-    [property: CliOption("--backup-id")] string BackupId,
-    [property: CliOption("--dest-database")] string DestDatabase,
-    [property: CliOption("--dest-resource-group")] string DestResourceGroup,
-    [property: CliOption("--dest-server")] string DestServer
-) : AzOptions
+public record AzSqlDbLtrBackupRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restore a long term retention backup to a new database.
+    /// </summary>
+    /// <param name="BackupId">The resource id of the long term retention backup to be restored. Use 'az sql db ltr-backup show' or 'az sql db ltr-backup list' for backup id.</param>
+    /// <param name="DestDatabase">Name of the database that will be created as the restore destination.</param>
+    /// <param name="DestResourceGroup">Name of the resource group of the server to restore database to.</param>
+    /// <param name="DestServer">Name of the server to restore database to.</param>
+    public AzSqlDbLtrBackupRestoreOptions(
+        string BackupId,
+        string DestDatabase,
+        string DestResourceGroup,
+        string DestServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupId);
+        this.BackupId = BackupId;
+        global::System.ArgumentNullException.ThrowIfNull(DestDatabase);
+        this.DestDatabase = DestDatabase;
+        global::System.ArgumentNullException.ThrowIfNull(DestResourceGroup);
+        this.DestResourceGroup = DestResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(DestServer);
+        this.DestServer = DestServer;
+    }
+
+    public void Deconstruct(out string BackupId, out string DestDatabase, out string DestResourceGroup, out string DestServer)
+    {
+        BackupId = this.BackupId;
+        DestDatabase = this.DestDatabase;
+        DestResourceGroup = this.DestResourceGroup;
+        DestServer = this.DestServer;
+    }
+
+    /// <summary>
+    /// The resource id of the long term retention backup to be restored. Use 'az sql db ltr-backup show' or 'az sql db ltr-backup list' for backup id.
+    /// </summary>
+    [CliOption("--backup-id")]
+    public string BackupId { get; private init; }
+
+    /// <summary>
+    /// Name of the database that will be created as the restore destination.
+    /// </summary>
+    [CliOption("--dest-database")]
+    public string DestDatabase { get; private init; }
+
+    /// <summary>
+    /// Name of the resource group of the server to restore database to.
+    /// </summary>
+    [CliOption("--dest-resource-group")]
+    public string DestResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the server to restore database to.
+    /// </summary>
+    [CliOption("--dest-server")]
+    public string DestServer { get; private init; }
+
     /// <summary>
     /// Assign identity for database.  Allowed values: false, true.
     /// </summary>

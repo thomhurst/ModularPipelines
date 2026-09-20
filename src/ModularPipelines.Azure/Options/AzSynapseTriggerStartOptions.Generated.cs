@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Starts a trigger.
 /// </summary>
-/// <param name="Name">The trigger name.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "trigger", "start")]
-public record AzSynapseTriggerStartOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseTriggerStartOptions : AzOptions
 {
+    /// <summary>
+    /// Starts a trigger.
+    /// </summary>
+    /// <param name="Name">The trigger name.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseTriggerStartOptions(
+        string Name,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Name, out string WorkspaceName)
+    {
+        Name = this.Name;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The trigger name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all deployment stacks what-if results in a management group.
 /// </summary>
-/// <param name="ManagementGroupId">The management group ID to create a deployment stack what- if result in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "mg", "list")]
-public record AzStackWhatifMgListOptions(
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
-) : AzOptions
+public record AzStackWhatifMgListOptions : AzOptions
 {
+    /// <summary>
+    /// List all deployment stacks what-if results in a management group.
+    /// </summary>
+    /// <param name="ManagementGroupId">The management group ID to create a deployment stack what- if result in.</param>
+    public AzStackWhatifMgListOptions(
+        string ManagementGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+    }
+
+    public void Deconstruct(out string ManagementGroupId)
+    {
+        ManagementGroupId = this.ManagementGroupId;
+    }
+
+    /// <summary>
+    /// The management group ID to create a deployment stack what- if result in.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
 }

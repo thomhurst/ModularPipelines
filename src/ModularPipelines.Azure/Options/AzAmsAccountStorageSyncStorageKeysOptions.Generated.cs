@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Synchronize storage account keys for a storage
 /// </summary>
-/// <param name="StorageAccountId">The storage account Id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "storage", "sync-storage-keys")]
-public record AzAmsAccountStorageSyncStorageKeysOptions(
-    [property: CliOption("--storage-account-id")] string StorageAccountId
-) : AzOptions
+public record AzAmsAccountStorageSyncStorageKeysOptions : AzOptions
 {
+    /// <summary>
+    /// Synchronize storage account keys for a storage
+    /// </summary>
+    /// <param name="StorageAccountId">The storage account Id.</param>
+    public AzAmsAccountStorageSyncStorageKeysOptions(
+        string StorageAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccountId);
+        this.StorageAccountId = StorageAccountId;
+    }
+
+    public void Deconstruct(out string StorageAccountId)
+    {
+        StorageAccountId = this.StorageAccountId;
+    }
+
+    /// <summary>
+    /// The storage account Id.
+    /// </summary>
+    [CliOption("--storage-account-id")]
+    public string StorageAccountId { get; private init; }
+
     /// <summary>
     /// The name of the Azure Media Services account.
     /// </summary>

@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the details of the Api Version Set specified by its
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
-/// <param name="VersionSetId">A resource identifier for the related ApiVersionSet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "versionset", "show")]
-public record AzApimApiVersionSetShowOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
-    [property: CliOption("--version-set-id")] string VersionSetId
-) : AzOptions
+public record AzApimApiVersionSetShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the details of the Api Version Set specified by its
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    /// <param name="VersionSetId">A resource identifier for the related ApiVersionSet.</param>
+    public AzApimApiVersionSetShowOptions(
+        string ResourceGroup,
+        string ServiceName,
+        string VersionSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(VersionSetId);
+        this.VersionSetId = VersionSetId;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string ServiceName, out string VersionSetId)
+    {
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        VersionSetId = this.VersionSetId;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// A resource identifier for the related ApiVersionSet.
+    /// </summary>
+    [CliOption("--version-set-id")]
+    public string VersionSetId { get; private init; }
+
 }

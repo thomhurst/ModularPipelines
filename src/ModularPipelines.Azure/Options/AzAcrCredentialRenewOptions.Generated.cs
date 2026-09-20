@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate login credentials for an Azure Container Registry.
 /// </summary>
-/// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
-/// <param name="PasswordName">The name of password to regenerate.  Allowed values: password, password2.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "credential", "renew")]
-public record AzAcrCredentialRenewOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--password-name")] string PasswordName
-) : AzOptions
+public record AzAcrCredentialRenewOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerate login credentials for an Azure Container Registry.
+    /// </summary>
+    /// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    /// <param name="PasswordName">The name of password to regenerate.  Allowed values: password, password2.</param>
+    public AzAcrCredentialRenewOptions(
+        string Name,
+        string PasswordName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PasswordName);
+        this.PasswordName = PasswordName;
+    }
+
+    public void Deconstruct(out string Name, out string PasswordName)
+    {
+        Name = this.Name;
+        PasswordName = this.PasswordName;
+    }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of password to regenerate.  Allowed values: password, password2.
+    /// </summary>
+    [CliOption("--password-name")]
+    public string PasswordName { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

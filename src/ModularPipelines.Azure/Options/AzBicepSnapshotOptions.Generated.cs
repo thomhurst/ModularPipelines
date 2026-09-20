@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Capture or validate a snapshot of the resources predicted to be deployed by
 /// </summary>
-/// <param name="File">The path to the .bicepparam file to capture a snapshot for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "snapshot")]
-public record AzBicepSnapshotOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzBicepSnapshotOptions : AzOptions
 {
+    /// <summary>
+    /// Capture or validate a snapshot of the resources predicted to be deployed by
+    /// </summary>
+    /// <param name="File">The path to the .bicepparam file to capture a snapshot for.</param>
+    public AzBicepSnapshotOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// The path to the .bicepparam file to capture a snapshot for.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Deployment name forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
     /// </summary>

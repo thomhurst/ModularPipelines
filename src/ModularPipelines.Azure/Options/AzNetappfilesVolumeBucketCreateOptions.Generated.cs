@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a bucket for a volume. A bucket allows additional
 /// </summary>
-/// <param name="AccountName">The name of the NetApp account.</param>
-/// <param name="BucketName">The name of the bucket.</param>
-/// <param name="PoolName">The name of the capacity pool.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VolumeName">The name of the volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "bucket", "create")]
-public record AzNetappfilesVolumeBucketCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--bucket-name", ShortForm = "-n")] string BucketName,
-    [property: CliOption("--pool-name", ShortForm = "-p")] string PoolName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--volume-name", ShortForm = "-v")] string VolumeName
-) : AzOptions
+public record AzNetappfilesVolumeBucketCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a bucket for a volume. A bucket allows additional
+    /// </summary>
+    /// <param name="AccountName">The name of the NetApp account.</param>
+    /// <param name="BucketName">The name of the bucket.</param>
+    /// <param name="PoolName">The name of the capacity pool.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VolumeName">The name of the volume.</param>
+    public AzNetappfilesVolumeBucketCreateOptions(
+        string AccountName,
+        string BucketName,
+        string PoolName,
+        string ResourceGroup,
+        string VolumeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(BucketName);
+        this.BucketName = BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(PoolName);
+        this.PoolName = PoolName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VolumeName);
+        this.VolumeName = VolumeName;
+    }
+
+    public void Deconstruct(out string AccountName, out string BucketName, out string PoolName, out string ResourceGroup, out string VolumeName)
+    {
+        AccountName = this.AccountName;
+        BucketName = this.BucketName;
+        PoolName = this.PoolName;
+        ResourceGroup = this.ResourceGroup;
+        VolumeName = this.VolumeName;
+    }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the bucket.
+    /// </summary>
+    [CliOption("--bucket-name", ShortForm = "-n")]
+    public string BucketName { get; private init; }
+
+    /// <summary>
+    /// The name of the capacity pool.
+    /// </summary>
+    [CliOption("--pool-name", ShortForm = "-p")]
+    public string PoolName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the volume.
+    /// </summary>
+    [CliOption("--volume-name", ShortForm = "-v")]
+    public string VolumeName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

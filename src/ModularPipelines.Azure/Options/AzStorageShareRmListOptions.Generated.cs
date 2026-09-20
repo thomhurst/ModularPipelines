@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all shares.
 /// </summary>
-/// <param name="AccountName">The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share-rm", "list")]
-public record AzStorageShareRmListOptions(
-    [property: CliOption("--account-name", ShortForm = "--storage-account")] string AccountName
-) : AzOptions
+public record AzStorageShareRmListOptions : AzOptions
 {
+    /// <summary>
+    /// List all shares.
+    /// </summary>
+    /// <param name="AccountName">The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.</param>
+    public AzStorageShareRmListOptions(
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    public void Deconstruct(out string AccountName)
+    {
+        AccountName = this.AccountName;
+    }
+
+    /// <summary>
+    /// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "--storage-account")]
+    public string AccountName { get; private init; }
+
     /// <summary>
     /// Optional. When specified, only share names starting with the filter will be listed.
     /// </summary>

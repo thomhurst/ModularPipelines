@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update Authorization Rule for given Relay Service
 /// </summary>
-/// <param name="Rights">Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "hyco", "authorization-rule", "update")]
-public record AzRelayHycoAuthorizationRuleUpdateOptions(
-    [property: CliOption("--rights", GroupValues = true)] IEnumerable<string> Rights
-) : AzOptions
+public record AzRelayHycoAuthorizationRuleUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update Authorization Rule for given Relay Service
+    /// </summary>
+    /// <param name="Rights">Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+    public AzRelayHycoAuthorizationRuleUpdateOptions(
+        IEnumerable<string> Rights
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rights);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rights));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rights));
+            }
+
+            Rights = materialized;
+        }
+        this.Rights = Rights;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Rights)
+    {
+        Rights = this.Rights;
+    }
+
+    /// <summary>
+    /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--rights", GroupValues = true)]
+    public IEnumerable<string> Rights { get; private init; }
+
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>

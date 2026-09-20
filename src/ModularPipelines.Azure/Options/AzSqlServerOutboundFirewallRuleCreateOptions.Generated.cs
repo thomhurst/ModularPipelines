@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new outbound firewall rule.
 /// </summary>
-/// <param name="OutboundRuleFqdn">The allowed FQDN for the outbound firewall rule.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "outbound-firewall-rule", "create")]
-public record AzSqlServerOutboundFirewallRuleCreateOptions(
-    [property: CliOption("--outbound-rule-fqdn", ShortForm = "-n")] string OutboundRuleFqdn,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server", ShortForm = "-s")] string Server
-) : AzOptions
+public record AzSqlServerOutboundFirewallRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new outbound firewall rule.
+    /// </summary>
+    /// <param name="OutboundRuleFqdn">The allowed FQDN for the outbound firewall rule.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
+    public AzSqlServerOutboundFirewallRuleCreateOptions(
+        string OutboundRuleFqdn,
+        string ResourceGroup,
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutboundRuleFqdn);
+        this.OutboundRuleFqdn = OutboundRuleFqdn;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string OutboundRuleFqdn, out string ResourceGroup, out string Server)
+    {
+        OutboundRuleFqdn = this.OutboundRuleFqdn;
+        ResourceGroup = this.ResourceGroup;
+        Server = this.Server;
+    }
+
+    /// <summary>
+    /// The allowed FQDN for the outbound firewall rule.
+    /// </summary>
+    [CliOption("--outbound-rule-fqdn", ShortForm = "-n")]
+    public string OutboundRuleFqdn { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string Server { get; private init; }
+
 }

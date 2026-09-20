@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the rules in the specified Object Replication
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
-/// <param name="PolicyId">The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "rule", "list")]
-public record AzStorageAccountOrPolicyRuleListOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
-    [property: CliOption("--policy-id")] string PolicyId
-) : AzOptions
+public record AzStorageAccountOrPolicyRuleListOptions : AzOptions
 {
+    /// <summary>
+    /// List all the rules in the specified Object Replication
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    /// <param name="PolicyId">The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.</param>
+    public AzStorageAccountOrPolicyRuleListOptions(
+        string AccountName,
+        string PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+    }
+
+    public void Deconstruct(out string AccountName, out string PolicyId)
+    {
+        AccountName = this.AccountName;
+        PolicyId = this.PolicyId;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.
+    /// </summary>
+    [CliOption("--policy-id")]
+    public string PolicyId { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

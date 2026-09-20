@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Cancels the asynchronous operation on the database.
 /// </summary>
-/// <param name="Name">The unique name of the operation to cancel.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "op", "cancel")]
-public record AzSqlDbOpCancelOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSqlDbOpCancelOptions : AzOptions
 {
+    /// <summary>
+    /// Cancels the asynchronous operation on the database.
+    /// </summary>
+    /// <param name="Name">The unique name of the operation to cancel.</param>
+    public AzSqlDbOpCancelOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The unique name of the operation to cancel.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Name of the Azure SQL Database.
     /// </summary>

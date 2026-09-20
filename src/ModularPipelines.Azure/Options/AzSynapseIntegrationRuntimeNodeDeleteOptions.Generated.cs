@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a self-hosted integration runtime node.
 /// </summary>
-/// <param name="NodeName">The integration runtime node name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "integration-runtime-node", "delete")]
-public record AzSynapseIntegrationRuntimeNodeDeleteOptions(
-    [property: CliOption("--node-name")] string NodeName
-) : AzOptions
+public record AzSynapseIntegrationRuntimeNodeDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a self-hosted integration runtime node.
+    /// </summary>
+    /// <param name="NodeName">The integration runtime node name.</param>
+    public AzSynapseIntegrationRuntimeNodeDeleteOptions(
+        string NodeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeName);
+        this.NodeName = NodeName;
+    }
+
+    public void Deconstruct(out string NodeName)
+    {
+        NodeName = this.NodeName;
+    }
+
+    /// <summary>
+    /// The integration runtime node name.
+    /// </summary>
+    [CliOption("--node-name")]
+    public string NodeName { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show details of a shared access policies in an Azure IoT Hub Device
 /// </summary>
-/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
-/// <param name="Pn">A friendly name for DPS access policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "policy", "show")]
-public record AzIotDpsPolicyShowOptions(
-    [property: CliOption("--dps-name", ShortForm = "-n")] string DpsName,
-    [property: CliOption("--pn", ShortForm = "--policy-name")] string Pn
-) : AzOptions
+public record AzIotDpsPolicyShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show details of a shared access policies in an Azure IoT Hub Device
+    /// </summary>
+    /// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+    /// <param name="Pn">A friendly name for DPS access policy.</param>
+    public AzIotDpsPolicyShowOptions(
+        string DpsName,
+        string Pn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DpsName);
+        this.DpsName = DpsName;
+        global::System.ArgumentNullException.ThrowIfNull(Pn);
+        this.Pn = Pn;
+    }
+
+    public void Deconstruct(out string DpsName, out string Pn)
+    {
+        DpsName = this.DpsName;
+        Pn = this.Pn;
+    }
+
+    /// <summary>
+    /// IoT Hub Device Provisioning Service name.
+    /// </summary>
+    [CliOption("--dps-name", ShortForm = "-n")]
+    public string DpsName { get; private init; }
+
+    /// <summary>
+    /// A friendly name for DPS access policy.
+    /// </summary>
+    [CliOption("--pn", ShortForm = "--policy-name")]
+    public string Pn { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

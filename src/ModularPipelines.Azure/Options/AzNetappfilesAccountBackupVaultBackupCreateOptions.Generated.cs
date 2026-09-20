@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a backup under the Backup Vault.
 /// </summary>
-/// <param name="AccountName">The name of the NetApp account.</param>
-/// <param name="BackupName">The name of the backup.</param>
-/// <param name="BackupVaultName">The name of the Backup Vault.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VolumeResourceId">ResourceId used to identify the Volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "backup-vault", "backup", "create")]
-public record AzNetappfilesAccountBackupVaultBackupCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--backup-name", ShortForm = "-n")] string BackupName,
-    [property: CliOption("--backup-vault-name", ShortForm = "-v")] string BackupVaultName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--volume-resource-id")] string VolumeResourceId
-) : AzOptions
+public record AzNetappfilesAccountBackupVaultBackupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a backup under the Backup Vault.
+    /// </summary>
+    /// <param name="AccountName">The name of the NetApp account.</param>
+    /// <param name="BackupName">The name of the backup.</param>
+    /// <param name="BackupVaultName">The name of the Backup Vault.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VolumeResourceId">ResourceId used to identify the Volume.</param>
+    public AzNetappfilesAccountBackupVaultBackupCreateOptions(
+        string AccountName,
+        string BackupName,
+        string BackupVaultName,
+        string ResourceGroup,
+        string VolumeResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(BackupName);
+        this.BackupName = BackupName;
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
+        this.BackupVaultName = BackupVaultName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VolumeResourceId);
+        this.VolumeResourceId = VolumeResourceId;
+    }
+
+    public void Deconstruct(out string AccountName, out string BackupName, out string BackupVaultName, out string ResourceGroup, out string VolumeResourceId)
+    {
+        AccountName = this.AccountName;
+        BackupName = this.BackupName;
+        BackupVaultName = this.BackupVaultName;
+        ResourceGroup = this.ResourceGroup;
+        VolumeResourceId = this.VolumeResourceId;
+    }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the backup.
+    /// </summary>
+    [CliOption("--backup-name", ShortForm = "-n")]
+    public string BackupName { get; private init; }
+
+    /// <summary>
+    /// The name of the Backup Vault.
+    /// </summary>
+    [CliOption("--backup-vault-name", ShortForm = "-v")]
+    public string BackupVaultName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// ResourceId used to identify the Volume.
+    /// </summary>
+    [CliOption("--volume-resource-id")]
+    public string VolumeResourceId { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

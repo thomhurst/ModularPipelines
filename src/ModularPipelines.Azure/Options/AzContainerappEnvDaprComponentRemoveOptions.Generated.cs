@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a Dapr component from an environment.
 /// </summary>
-/// <param name="DaprComponentName">The Dapr component name.</param>
-/// <param name="Name">The environment name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "dapr-component", "remove")]
-public record AzContainerappEnvDaprComponentRemoveOptions(
-    [property: CliOption("--dapr-component-name")] string DaprComponentName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzContainerappEnvDaprComponentRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a Dapr component from an environment.
+    /// </summary>
+    /// <param name="DaprComponentName">The Dapr component name.</param>
+    /// <param name="Name">The environment name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzContainerappEnvDaprComponentRemoveOptions(
+        string DaprComponentName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DaprComponentName);
+        this.DaprComponentName = DaprComponentName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DaprComponentName, out string Name, out string ResourceGroup)
+    {
+        DaprComponentName = this.DaprComponentName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The Dapr component name.
+    /// </summary>
+    [CliOption("--dapr-component-name")]
+    public string DaprComponentName { get; private init; }
+
+    /// <summary>
+    /// The environment name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

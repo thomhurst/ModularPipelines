@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an output from an existing transform.
 /// </summary>
-/// <param name="OutputIndex">The element index of the output to remove.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "transform", "output", "remove")]
-public record AzAmsTransformOutputRemoveOptions(
-    [property: CliOption("--output-index")] string OutputIndex
-) : AzOptions
+public record AzAmsTransformOutputRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an output from an existing transform.
+    /// </summary>
+    /// <param name="OutputIndex">The element index of the output to remove.</param>
+    public AzAmsTransformOutputRemoveOptions(
+        string OutputIndex
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputIndex);
+        this.OutputIndex = OutputIndex;
+    }
+
+    public void Deconstruct(out string OutputIndex)
+    {
+        OutputIndex = this.OutputIndex;
+    }
+
+    /// <summary>
+    /// The element index of the output to remove.
+    /// </summary>
+    [CliOption("--output-index")]
+    public string OutputIndex { get; private init; }
+
     /// <summary>
     /// The name of the Azure Media Services account.
     /// </summary>

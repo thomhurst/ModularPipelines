@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove managed identities from an existing batch account.
 /// </summary>
-/// <param name="Name">Name of the batch account to show. If not specified will display currently set account.</param>
-/// <param name="ResourceGroup">Name of the resource group. If not specified will display currently set account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "identity", "remove")]
-public record AzBatchAccountIdentityRemoveOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzBatchAccountIdentityRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove managed identities from an existing batch account.
+    /// </summary>
+    /// <param name="Name">Name of the batch account to show. If not specified will display currently set account.</param>
+    /// <param name="ResourceGroup">Name of the resource group. If not specified will display currently set account.</param>
+    public AzBatchAccountIdentityRemoveOptions(
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the batch account to show. If not specified will display currently set account.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the resource group. If not specified will display currently set account.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export a database to a bacpac.
 /// </summary>
-/// <param name="AdminUser">Required. Administrator login name.</param>
-/// <param name="StorageKey">Required. Storage key.</param>
-/// <param name="StorageKeyType">Required. Storage key type.  Allowed values: ManagedIdentity, SharedAccessKey, StorageAccessKey.</param>
-/// <param name="StorageUri">Required. Storage Uri.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "export")]
-public record AzSqlDbExportOptions(
-    [property: CliOption("--admin-user", ShortForm = "-u")] string AdminUser,
-    [property: CliOption("--storage-key")] string StorageKey,
-    [property: CliOption("--storage-key-type")] string StorageKeyType,
-    [property: CliOption("--storage-uri")] string StorageUri
-) : AzOptions
+public record AzSqlDbExportOptions : AzOptions
 {
+    /// <summary>
+    /// Export a database to a bacpac.
+    /// </summary>
+    /// <param name="AdminUser">Required. Administrator login name.</param>
+    /// <param name="StorageKey">Required. Storage key.</param>
+    /// <param name="StorageKeyType">Required. Storage key type.  Allowed values: ManagedIdentity, SharedAccessKey, StorageAccessKey.</param>
+    /// <param name="StorageUri">Required. Storage Uri.</param>
+    public AzSqlDbExportOptions(
+        string AdminUser,
+        string StorageKey,
+        string StorageKeyType,
+        string StorageUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminUser);
+        this.AdminUser = AdminUser;
+        global::System.ArgumentNullException.ThrowIfNull(StorageKey);
+        this.StorageKey = StorageKey;
+        global::System.ArgumentNullException.ThrowIfNull(StorageKeyType);
+        this.StorageKeyType = StorageKeyType;
+        global::System.ArgumentNullException.ThrowIfNull(StorageUri);
+        this.StorageUri = StorageUri;
+    }
+
+    public void Deconstruct(out string AdminUser, out string StorageKey, out string StorageKeyType, out string StorageUri)
+    {
+        AdminUser = this.AdminUser;
+        StorageKey = this.StorageKey;
+        StorageKeyType = this.StorageKeyType;
+        StorageUri = this.StorageUri;
+    }
+
+    /// <summary>
+    /// Required. Administrator login name.
+    /// </summary>
+    [CliOption("--admin-user", ShortForm = "-u")]
+    public string AdminUser { get; private init; }
+
+    /// <summary>
+    /// Required. Storage key.
+    /// </summary>
+    [CliOption("--storage-key")]
+    public string StorageKey { get; private init; }
+
+    /// <summary>
+    /// Required. Storage key type.  Allowed values: ManagedIdentity, SharedAccessKey, StorageAccessKey.
+    /// </summary>
+    [CliOption("--storage-key-type")]
+    public string StorageKeyType { get; private init; }
+
+    /// <summary>
+    /// Required. Storage Uri.
+    /// </summary>
+    [CliOption("--storage-uri")]
+    public string StorageUri { get; private init; }
+
     /// <summary>
     /// Required. Administrator login password.
     /// </summary>

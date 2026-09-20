@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List pipelines.
 /// </summary>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "pipeline", "list")]
-public record AzSynapsePipelineListOptions(
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapsePipelineListOptions : AzOptions
 {
+    /// <summary>
+    /// List pipelines.
+    /// </summary>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapsePipelineListOptions(
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string WorkspaceName)
+    {
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Detach a managed disk from a VM.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "disk", "detach")]
-public record AzVmDiskDetachOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vm-name")] string VmName
-) : AzOptions
+public record AzVmDiskDetachOptions : AzOptions
 {
+    /// <summary>
+    /// Detach a managed disk from a VM.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
+    public AzVmDiskDetachOptions(
+        string ResourceGroup,
+        string VmName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VmName);
+        this.VmName = VmName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string VmName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        VmName = this.VmName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--vm-name")]
+    public string VmName { get; private init; }
+
     /// <summary>
     /// The disk IDs of the managed disk (space-delimited).
     /// </summary>

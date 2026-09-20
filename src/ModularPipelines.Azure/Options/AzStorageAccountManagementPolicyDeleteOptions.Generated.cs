@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the data policy rules associated with the
 /// </summary>
-/// <param name="AccountName">The name of the storage account within the specified resource group.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "management-policy", "delete")]
-public record AzStorageAccountManagementPolicyDeleteOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzStorageAccountManagementPolicyDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete the data policy rules associated with the
+    /// </summary>
+    /// <param name="AccountName">The name of the storage account within the specified resource group.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzStorageAccountManagementPolicyDeleteOptions(
+        string AccountName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the storage account within the specified resource group.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

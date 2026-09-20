@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create operation to create or update the restore point
 /// </summary>
-/// <param name="CollectionName">The name of the restore point collection.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("restore-point", "collection", "create")]
-public record AzRestorePointCollectionCreateOptions(
-    [property: CliOption("--collection-name", ShortForm = "--restore-point-collection-name")] string CollectionName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzRestorePointCollectionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create operation to create or update the restore point
+    /// </summary>
+    /// <param name="CollectionName">The name of the restore point collection.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzRestorePointCollectionCreateOptions(
+        string CollectionName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionName);
+        this.CollectionName = CollectionName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string CollectionName, out string ResourceGroup)
+    {
+        CollectionName = this.CollectionName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the restore point collection.
+    /// </summary>
+    [CliOption("--collection-name", ShortForm = "--restore-point-collection-name")]
+    public string CollectionName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.  When not specified, the location of the resource group will be used.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a VM's size.
 /// </summary>
-/// <param name="Size">The VM size.  Values from: az vm list-vm-resize-options.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "resize")]
-public record AzVmResizeOptions(
-    [property: CliOption("--size")] string Size
-) : AzOptions
+public record AzVmResizeOptions : AzOptions
 {
+    /// <summary>
+    /// Update a VM's size.
+    /// </summary>
+    /// <param name="Size">The VM size.  Values from: az vm list-vm-resize-options.</param>
+    public AzVmResizeOptions(
+        string Size
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Size);
+        this.Size = Size;
+    }
+
+    public void Deconstruct(out string Size)
+    {
+        Size = this.Size;
+    }
+
+    /// <summary>
+    /// The VM size.  Values from: az vm list-vm-resize-options.
+    /// </summary>
+    [CliOption("--size")]
+    public string Size { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

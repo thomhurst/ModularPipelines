@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check if a quota is available.
 /// </summary>
-/// <param name="Name">Name of the resource to verify.</param>
-/// <param name="ResourceGroup">Resource group name.</param>
-/// <param name="Type">Resource type used for verification.  Allowed values: Microsoft.NetApp/netAppAccounts, Microsoft.NetApp/netAppAccounts/backupVaults/backups, Microsoft.NetApp/netAppAccounts/capacityPools, Microsoft.NetApp/netAppAccounts/capacityPools/volumes, Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups, Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots .</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "check-quota-availability")]
-public record AzNetappfilesCheckQuotaAvailabilityOptions(
-    [property: CliOption("--name")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzNetappfilesCheckQuotaAvailabilityOptions : AzOptions
 {
+    /// <summary>
+    /// Check if a quota is available.
+    /// </summary>
+    /// <param name="Name">Name of the resource to verify.</param>
+    /// <param name="ResourceGroup">Resource group name.</param>
+    /// <param name="Type">Resource type used for verification.  Allowed values: Microsoft.NetApp/netAppAccounts, Microsoft.NetApp/netAppAccounts/backupVaults/backups, Microsoft.NetApp/netAppAccounts/capacityPools, Microsoft.NetApp/netAppAccounts/capacityPools/volumes, Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups, Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots .</param>
+    public AzNetappfilesCheckQuotaAvailabilityOptions(
+        string Name,
+        string ResourceGroup,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Type)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Name of the resource to verify.
+    /// </summary>
+    [CliOption("--name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Resource group name.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Resource type used for verification.  Allowed values: Microsoft.NetApp/netAppAccounts, Microsoft.NetApp/netAppAccounts/backupVaults/backups, Microsoft.NetApp/netAppAccounts/capacityPools, Microsoft.NetApp/netAppAccounts/capacityPools/volumes, Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups, Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots .
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

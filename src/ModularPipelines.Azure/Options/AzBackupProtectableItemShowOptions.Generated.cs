@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve the specified protectable item within the given
 /// </summary>
-/// <param name="ProtectableItemType">Specify the type of items within the Resource which should be discovered and protected by Azure Backup. 'HANAInstance' and 'SAPHanaSystem' can be used interchangeably.  Allowed values: HANAInstance, SAPAseDatabase, SAPHanaDBInstance, SAPHanaDatabase, SAPHanaSystem, SQLAG, SQLDatabase, SQLInstance.</param>
-/// <param name="ServerName">Parent Server name of the item.</param>
-/// <param name="WorkloadType">Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protectable-item", "show")]
-public record AzBackupProtectableItemShowOptions(
-    [property: CliOption("--protectable-item-type")] string ProtectableItemType,
-    [property: CliOption("--server-name")] string ServerName,
-    [property: CliOption("--workload-type")] string WorkloadType
-) : AzOptions
+public record AzBackupProtectableItemShowOptions : AzOptions
 {
+    /// <summary>
+    /// Retrieve the specified protectable item within the given
+    /// </summary>
+    /// <param name="ProtectableItemType">Specify the type of items within the Resource which should be discovered and protected by Azure Backup. 'HANAInstance' and 'SAPHanaSystem' can be used interchangeably.  Allowed values: HANAInstance, SAPAseDatabase, SAPHanaDBInstance, SAPHanaDatabase, SAPHanaSystem, SQLAG, SQLDatabase, SQLInstance.</param>
+    /// <param name="ServerName">Parent Server name of the item.</param>
+    /// <param name="WorkloadType">Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.</param>
+    public AzBackupProtectableItemShowOptions(
+        string ProtectableItemType,
+        string ServerName,
+        string WorkloadType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProtectableItemType);
+        this.ProtectableItemType = ProtectableItemType;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadType);
+        this.WorkloadType = WorkloadType;
+    }
+
+    public void Deconstruct(out string ProtectableItemType, out string ServerName, out string WorkloadType)
+    {
+        ProtectableItemType = this.ProtectableItemType;
+        ServerName = this.ServerName;
+        WorkloadType = this.WorkloadType;
+    }
+
+    /// <summary>
+    /// Specify the type of items within the Resource which should be discovered and protected by Azure Backup. 'HANAInstance' and 'SAPHanaSystem' can be used interchangeably.  Allowed values: HANAInstance, SAPAseDatabase, SAPHanaDBInstance, SAPHanaDatabase, SAPHanaSystem, SQLAG, SQLDatabase, SQLInstance.
+    /// </summary>
+    [CliOption("--protectable-item-type")]
+    public string ProtectableItemType { get; private init; }
+
+    /// <summary>
+    /// Parent Server name of the item.
+    /// </summary>
+    [CliOption("--server-name")]
+    public string ServerName { get; private init; }
+
+    /// <summary>
+    /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.
+    /// </summary>
+    [CliOption("--workload-type")]
+    public string WorkloadType { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

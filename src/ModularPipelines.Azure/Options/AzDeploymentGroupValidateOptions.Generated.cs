@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validate whether a template is valid at resource group.
 /// </summary>
-/// <param name="ResourceGroup">The resource group to create deployment at.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "group", "validate")]
-public record AzDeploymentGroupValidateOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzDeploymentGroupValidateOptions : AzOptions
 {
+    /// <summary>
+    /// Validate whether a template is valid at resource group.
+    /// </summary>
+    /// <param name="ResourceGroup">The resource group to create deployment at.</param>
+    public AzDeploymentGroupValidateOptions(
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The resource group to create deployment at.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The deployment mode.  Allowed values: Complete, Incremental.  Default: Incremental.
     /// </summary>

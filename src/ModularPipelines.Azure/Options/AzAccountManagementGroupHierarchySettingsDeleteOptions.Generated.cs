@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the hierarchy settings defined at
 /// </summary>
-/// <param name="Name">Name of the management group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "hierarchy-settings", "delete")]
-public record AzAccountManagementGroupHierarchySettingsDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAccountManagementGroupHierarchySettingsDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete the hierarchy settings defined at
+    /// </summary>
+    /// <param name="Name">Name of the management group.</param>
+    public AzAccountManagementGroupHierarchySettingsDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the management group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

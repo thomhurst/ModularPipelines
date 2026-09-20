@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until the policy is set.
 /// </summary>
-/// <param name="PolicyName">The policy name. Should always be "default". "default" Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "str-policy", "wait")]
-public record AzSqlDbStrPolicyWaitOptions(
-    [property: CliOption("--policy-name")] string PolicyName
-) : AzOptions
+public record AzSqlDbStrPolicyWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until the policy is set.
+    /// </summary>
+    /// <param name="PolicyName">The policy name. Should always be "default". "default" Required.</param>
+    public AzSqlDbStrPolicyWaitOptions(
+        string PolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+    }
+
+    public void Deconstruct(out string PolicyName)
+    {
+        PolicyName = this.PolicyName;
+    }
+
+    /// <summary>
+    /// The policy name. Should always be "default". "default" Required.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string PolicyName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

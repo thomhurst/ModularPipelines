@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a track for an Azure Media Services asset.
 /// </summary>
-/// <param name="AccountName">The name of the Azure Media Services account.</param>
-/// <param name="AssetName">The asset name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="TrackName">The name of the track.</param>
-/// <param name="TrackType">The type of track. Allowed values: Text.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "asset-track", "create")]
-public record AzAmsAssetTrackCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--asset-name")] string AssetName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--track-name")] string TrackName,
-    [property: CliOption("--track-type")] string TrackType
-) : AzOptions
+public record AzAmsAssetTrackCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a track for an Azure Media Services asset.
+    /// </summary>
+    /// <param name="AccountName">The name of the Azure Media Services account.</param>
+    /// <param name="AssetName">The asset name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="TrackName">The name of the track.</param>
+    /// <param name="TrackType">The type of track. Allowed values: Text.</param>
+    public AzAmsAssetTrackCreateOptions(
+        string AccountName,
+        string AssetName,
+        string ResourceGroup,
+        string TrackName,
+        string TrackType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(AssetName);
+        this.AssetName = AssetName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(TrackName);
+        this.TrackName = TrackName;
+        global::System.ArgumentNullException.ThrowIfNull(TrackType);
+        this.TrackType = TrackType;
+    }
+
+    public void Deconstruct(out string AccountName, out string AssetName, out string ResourceGroup, out string TrackName, out string TrackType)
+    {
+        AccountName = this.AccountName;
+        AssetName = this.AssetName;
+        ResourceGroup = this.ResourceGroup;
+        TrackName = this.TrackName;
+        TrackType = this.TrackType;
+    }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The asset name.
+    /// </summary>
+    [CliOption("--asset-name")]
+    public string AssetName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the track.
+    /// </summary>
+    [CliOption("--track-name")]
+    public string TrackName { get; private init; }
+
+    /// <summary>
+    /// The type of track. Allowed values: Text.
+    /// </summary>
+    [CliOption("--track-type")]
+    public string TrackType { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

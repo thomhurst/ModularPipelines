@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes a job from a Batch account.
 /// </summary>
-/// <param name="JobId">The ID of the Job to delete. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job", "delete")]
-public record AzBatchJobDeleteOptions(
-    [property: CliOption("--job-id")] string JobId
-) : AzOptions
+public record AzBatchJobDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes a job from a Batch account.
+    /// </summary>
+    /// <param name="JobId">The ID of the Job to delete. Required.</param>
+    public AzBatchJobDeleteOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out string JobId)
+    {
+        JobId = this.JobId;
+    }
+
+    /// <summary>
+    /// The ID of the Job to delete. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

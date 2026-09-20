@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create shared privatelink resources in a Search
 /// </summary>
-/// <param name="GroupId">The group id of the resource; for example: blob, sql or vault.</param>
-/// <param name="Name">Name of the shared private link resource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ResourceId">Fully qualified resource ID for the resource. for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupNa me}/providers/ {resourceProviderNamespace}/{resourceType}/{resourceName}.</param>
-/// <param name="ServiceName">The name of the search service.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "shared-private-link-resource", "create")]
-public record AzSearchSharedPrivateLinkResourceCreateOptions(
-    [property: CliOption("--group-id")] string GroupId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--resource-id")] string ResourceId,
-    [property: CliOption("--service-name")] string ServiceName
-) : AzOptions
+public record AzSearchSharedPrivateLinkResourceCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create shared privatelink resources in a Search
+    /// </summary>
+    /// <param name="GroupId">The group id of the resource; for example: blob, sql or vault.</param>
+    /// <param name="Name">Name of the shared private link resource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ResourceId">Fully qualified resource ID for the resource. for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupNa me}/providers/ {resourceProviderNamespace}/{resourceType}/{resourceName}.</param>
+    /// <param name="ServiceName">The name of the search service.</param>
+    public AzSearchSharedPrivateLinkResourceCreateOptions(
+        string GroupId,
+        string Name,
+        string ResourceGroup,
+        string ResourceId,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupId);
+        this.GroupId = GroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string GroupId, out string Name, out string ResourceGroup, out string ResourceId, out string ServiceName)
+    {
+        GroupId = this.GroupId;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ResourceId = this.ResourceId;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// The group id of the resource; for example: blob, sql or vault.
+    /// </summary>
+    [CliOption("--group-id")]
+    public string GroupId { get; private init; }
+
+    /// <summary>
+    /// Name of the shared private link resource.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Fully qualified resource ID for the resource. for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupNa me}/providers/ {resourceProviderNamespace}/{resourceType}/{resourceName}.
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string ResourceId { get; private init; }
+
+    /// <summary>
+    /// The name of the search service.
+    /// </summary>
+    [CliOption("--service-name")]
+    public string ServiceName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

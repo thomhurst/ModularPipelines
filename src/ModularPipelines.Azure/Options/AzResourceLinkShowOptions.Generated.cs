@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets a resource link with the specified ID.
 /// </summary>
-/// <param name="Link">Fully-qualified resource ID of the resource link.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "link", "show")]
-public record AzResourceLinkShowOptions(
-    [property: CliOption("--link")] string Link
-) : AzOptions
+public record AzResourceLinkShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets a resource link with the specified ID.
+    /// </summary>
+    /// <param name="Link">Fully-qualified resource ID of the resource link.</param>
+    public AzResourceLinkShowOptions(
+        string Link
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Link);
+        this.Link = Link;
+    }
+
+    public void Deconstruct(out string Link)
+    {
+        Link = this.Link;
+    }
+
+    /// <summary>
+    /// Fully-qualified resource ID of the resource link.
+    /// </summary>
+    [CliOption("--link")]
+    public string Link { get; private init; }
+
 }

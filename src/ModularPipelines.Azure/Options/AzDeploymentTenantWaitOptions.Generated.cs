@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a deployment condition is
 /// </summary>
-/// <param name="Name">The deployment name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "tenant", "wait")]
-public record AzDeploymentTenantWaitOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzDeploymentTenantWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a deployment condition is
+    /// </summary>
+    /// <param name="Name">The deployment name.</param>
+    public AzDeploymentTenantWaitOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The deployment name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Wait until created with 'provisioningState' at 'Succeeded'.
     /// </summary>

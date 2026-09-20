@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a trigger for the specified virtual machine image
 /// </summary>
-/// <param name="ImageTemplateName">The name of the image Template.</param>
-/// <param name="Name">The name of the trigger.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "trigger", "create")]
-public record AzImageBuilderTriggerCreateOptions(
-    [property: CliOption("--image-template-name")] string ImageTemplateName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzImageBuilderTriggerCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a trigger for the specified virtual machine image
+    /// </summary>
+    /// <param name="ImageTemplateName">The name of the image Template.</param>
+    /// <param name="Name">The name of the trigger.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzImageBuilderTriggerCreateOptions(
+        string ImageTemplateName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageTemplateName);
+        this.ImageTemplateName = ImageTemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ImageTemplateName, out string Name, out string ResourceGroup)
+    {
+        ImageTemplateName = this.ImageTemplateName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the image Template.
+    /// </summary>
+    [CliOption("--image-template-name")]
+    public string ImageTemplateName { get; private init; }
+
+    /// <summary>
+    /// The name of the trigger.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

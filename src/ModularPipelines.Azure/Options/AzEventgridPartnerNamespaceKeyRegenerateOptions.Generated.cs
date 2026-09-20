@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate a shared access key of a partner
 /// </summary>
-/// <param name="KeyName">Key name to regenerate key1 or key2.</param>
-/// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "key", "regenerate")]
-public record AzEventgridPartnerNamespaceKeyRegenerateOptions(
-    [property: CliOption("--key-name")] string KeyName,
-    [property: CliOption("--partner-namespace-name")] string PartnerNamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridPartnerNamespaceKeyRegenerateOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerate a shared access key of a partner
+    /// </summary>
+    /// <param name="KeyName">Key name to regenerate key1 or key2.</param>
+    /// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridPartnerNamespaceKeyRegenerateOptions(
+        string KeyName,
+        string PartnerNamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerNamespaceName);
+        this.PartnerNamespaceName = PartnerNamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string KeyName, out string PartnerNamespaceName, out string ResourceGroup)
+    {
+        KeyName = this.KeyName;
+        PartnerNamespaceName = this.PartnerNamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Key name to regenerate key1 or key2.
+    /// </summary>
+    [CliOption("--key-name")]
+    public string KeyName { get; private init; }
+
+    /// <summary>
+    /// Name of the partner namespace.
+    /// </summary>
+    [CliOption("--partner-namespace-name")]
+    public string PartnerNamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

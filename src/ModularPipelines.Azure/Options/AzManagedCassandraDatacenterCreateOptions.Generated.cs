@@ -15,24 +15,88 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Datacenter in an Azure Managed Cassandra
 /// </summary>
-/// <param name="ClusterName">Cluster Name.</param>
-/// <param name="DataCenterLocation">Azure Location of the Datacenter.</param>
-/// <param name="DataCenterName">Datacenter Name.</param>
-/// <param name="DelegatedSubnetId">The resource id of a subnet where ip addresses of the Cassandra virtual machines will be allocated. This must be in the same region as data_center_location.</param>
-/// <param name="NodeCount">The number of Cassandra virtual machines in this data center. The minimum value is 3.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "datacenter", "create")]
-public record AzManagedCassandraDatacenterCreateOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--data-center-location", ShortForm = "-l")] string DataCenterLocation,
-    [property: CliOption("--data-center-name", ShortForm = "-d")] string DataCenterName,
-    [property: CliOption("--delegated-subnet-id", ShortForm = "-s")] string DelegatedSubnetId,
-    [property: CliOption("--node-count", ShortForm = "-n")] int NodeCount,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzManagedCassandraDatacenterCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Datacenter in an Azure Managed Cassandra
+    /// </summary>
+    /// <param name="ClusterName">Cluster Name.</param>
+    /// <param name="DataCenterLocation">Azure Location of the Datacenter.</param>
+    /// <param name="DataCenterName">Datacenter Name.</param>
+    /// <param name="DelegatedSubnetId">The resource id of a subnet where ip addresses of the Cassandra virtual machines will be allocated. This must be in the same region as data_center_location.</param>
+    /// <param name="NodeCount">The number of Cassandra virtual machines in this data center. The minimum value is 3.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzManagedCassandraDatacenterCreateOptions(
+        string ClusterName,
+        string DataCenterLocation,
+        string DataCenterName,
+        string DelegatedSubnetId,
+        int NodeCount,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(DataCenterLocation);
+        this.DataCenterLocation = DataCenterLocation;
+        global::System.ArgumentNullException.ThrowIfNull(DataCenterName);
+        this.DataCenterName = DataCenterName;
+        global::System.ArgumentNullException.ThrowIfNull(DelegatedSubnetId);
+        this.DelegatedSubnetId = DelegatedSubnetId;
+        this.NodeCount = NodeCount;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string DataCenterLocation, out string DataCenterName, out string DelegatedSubnetId, out int NodeCount, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        DataCenterLocation = this.DataCenterLocation;
+        DataCenterName = this.DataCenterName;
+        DelegatedSubnetId = this.DelegatedSubnetId;
+        NodeCount = this.NodeCount;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cluster Name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Azure Location of the Datacenter.
+    /// </summary>
+    [CliOption("--data-center-location", ShortForm = "-l")]
+    public string DataCenterLocation { get; private init; }
+
+    /// <summary>
+    /// Datacenter Name.
+    /// </summary>
+    [CliOption("--data-center-name", ShortForm = "-d")]
+    public string DataCenterName { get; private init; }
+
+    /// <summary>
+    /// The resource id of a subnet where ip addresses of the Cassandra virtual machines will be allocated. This must be in the same region as data_center_location.
+    /// </summary>
+    [CliOption("--delegated-subnet-id", ShortForm = "-s")]
+    public string DelegatedSubnetId { get; private init; }
+
+    /// <summary>
+    /// The number of Cassandra virtual machines in this data center. The minimum value is 3.
+    /// </summary>
+    [CliOption("--node-count", ShortForm = "-n")]
+    public int NodeCount { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// If the data center haves Availability Zone feature, apply it to the Virtual Machine ScaleSet that host the data center virtual machines. Allowed values: false, true.
     /// </summary>

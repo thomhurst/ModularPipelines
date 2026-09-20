@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a role definition.
 /// </summary>
-/// <param name="RoleDefinition">Description of an existing role as JSON, or a path to a file containing a JSON description.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("role", "definition", "update")]
-public record AzRoleDefinitionUpdateOptions(
-    [property: CliOption("--role-definition")] string RoleDefinition
-) : AzOptions
+public record AzRoleDefinitionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a role definition.
+    /// </summary>
+    /// <param name="RoleDefinition">Description of an existing role as JSON, or a path to a file containing a JSON description.</param>
+    public AzRoleDefinitionUpdateOptions(
+        string RoleDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleDefinition);
+        this.RoleDefinition = RoleDefinition;
+    }
+
+    public void Deconstruct(out string RoleDefinition)
+    {
+        RoleDefinition = this.RoleDefinition;
+    }
+
+    /// <summary>
+    /// Description of an existing role as JSON, or a path to a file containing a JSON description.
+    /// </summary>
+    [CliOption("--role-definition")]
+    public string RoleDefinition { get; private init; }
+
 }

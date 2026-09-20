@@ -15,20 +15,88 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a CORS rule for a storage
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
-/// <param name="AllowedMethods">Space-separated list of HTTP verbs (methods) allowed to be executed by the origin.</param>
-/// <param name="AllowedOrigins">Space-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains.</param>
-/// <param name="MaxAge">The number of seconds that the client/browser should cache a preflight response.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "blob-service-properties", "cors-rule", "add")]
-public record AzStorageAccountBlobServicePropertiesCorsRuleAddOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
-    [property: CliOption("--allowed-methods", ShortForm = "--methods", GroupValues = true)] IEnumerable<string> AllowedMethods,
-    [property: CliOption("--allowed-origins", ShortForm = "--origins", GroupValues = true)] IEnumerable<string> AllowedOrigins,
-    [property: CliOption("--max-age", ShortForm = "--max-age-in-seconds")] int MaxAge
-) : AzOptions
+public record AzStorageAccountBlobServicePropertiesCorsRuleAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a CORS rule for a storage
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    /// <param name="AllowedMethods">Space-separated list of HTTP verbs (methods) allowed to be executed by the origin.</param>
+    /// <param name="AllowedOrigins">Space-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains.</param>
+    /// <param name="MaxAge">The number of seconds that the client/browser should cache a preflight response.</param>
+    public AzStorageAccountBlobServicePropertiesCorsRuleAddOptions(
+        string AccountName,
+        IEnumerable<string> AllowedMethods,
+        IEnumerable<string> AllowedOrigins,
+        int MaxAge
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedMethods);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedMethods));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedMethods));
+            }
+
+            AllowedMethods = materialized;
+        }
+        this.AllowedMethods = AllowedMethods;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedOrigins);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedOrigins));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedOrigins));
+            }
+
+            AllowedOrigins = materialized;
+        }
+        this.AllowedOrigins = AllowedOrigins;
+        this.MaxAge = MaxAge;
+    }
+
+    public void Deconstruct(out string AccountName, out IEnumerable<string> AllowedMethods, out IEnumerable<string> AllowedOrigins, out int MaxAge)
+    {
+        AccountName = this.AccountName;
+        AllowedMethods = this.AllowedMethods;
+        AllowedOrigins = this.AllowedOrigins;
+        MaxAge = this.MaxAge;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of HTTP verbs (methods) allowed to be executed by the origin.
+    /// </summary>
+    [CliOption("--allowed-methods", ShortForm = "--methods", GroupValues = true)]
+    public IEnumerable<string> AllowedMethods { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains.
+    /// </summary>
+    [CliOption("--allowed-origins", ShortForm = "--origins", GroupValues = true)]
+    public IEnumerable<string> AllowedOrigins { get; private init; }
+
+    /// <summary>
+    /// The number of seconds that the client/browser should cache a preflight response.
+    /// </summary>
+    [CliOption("--max-age", ShortForm = "--max-age-in-seconds")]
+    public int MaxAge { get; private init; }
+
     /// <summary>
     /// Space-separated list of headers allowed to be part of the cross-origin request.
     /// </summary>

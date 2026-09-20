@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a disk encryption set.
 /// </summary>
-/// <param name="DiskEncryptionSetName">Name of disk encryption set.</param>
-/// <param name="KeyUrl">URL pointing to a key or secret in KeyVault.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("disk-encryption-set", "create")]
-public record AzDiskEncryptionSetCreateOptions(
-    [property: CliOption("--disk-encryption-set-name", ShortForm = "-n")] string DiskEncryptionSetName,
-    [property: CliOption("--key-url")] string KeyUrl,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzDiskEncryptionSetCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a disk encryption set.
+    /// </summary>
+    /// <param name="DiskEncryptionSetName">Name of disk encryption set.</param>
+    /// <param name="KeyUrl">URL pointing to a key or secret in KeyVault.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzDiskEncryptionSetCreateOptions(
+        string DiskEncryptionSetName,
+        string KeyUrl,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskEncryptionSetName);
+        this.DiskEncryptionSetName = DiskEncryptionSetName;
+        global::System.ArgumentNullException.ThrowIfNull(KeyUrl);
+        this.KeyUrl = KeyUrl;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DiskEncryptionSetName, out string KeyUrl, out string ResourceGroup)
+    {
+        DiskEncryptionSetName = this.DiskEncryptionSetName;
+        KeyUrl = this.KeyUrl;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of disk encryption set.
+    /// </summary>
+    [CliOption("--disk-encryption-set-name", ShortForm = "-n")]
+    public string DiskEncryptionSetName { get; private init; }
+
+    /// <summary>
+    /// URL pointing to a key or secret in KeyVault.
+    /// </summary>
+    [CliOption("--key-url")]
+    public string KeyUrl { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Enable automatic rotation of keys.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new http route config.
 /// </summary>
-/// <param name="HttpRouteConfigName">The name of the http route configuration.</param>
-/// <param name="Name">Name of the Container Apps environment.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Yaml">The path to the YAML input file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "http-route-config", "create")]
-public record AzContainerappEnvHttpRouteConfigCreateOptions(
-    [property: CliOption("--http-route-config-name", ShortForm = "-r")] string HttpRouteConfigName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--yaml")] string Yaml
-) : AzOptions
+public record AzContainerappEnvHttpRouteConfigCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new http route config.
+    /// </summary>
+    /// <param name="HttpRouteConfigName">The name of the http route configuration.</param>
+    /// <param name="Name">Name of the Container Apps environment.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Yaml">The path to the YAML input file.</param>
+    public AzContainerappEnvHttpRouteConfigCreateOptions(
+        string HttpRouteConfigName,
+        string Name,
+        string ResourceGroup,
+        string Yaml
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HttpRouteConfigName);
+        this.HttpRouteConfigName = HttpRouteConfigName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Yaml);
+        this.Yaml = Yaml;
+    }
+
+    public void Deconstruct(out string HttpRouteConfigName, out string Name, out string ResourceGroup, out string Yaml)
+    {
+        HttpRouteConfigName = this.HttpRouteConfigName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Yaml = this.Yaml;
+    }
+
+    /// <summary>
+    /// The name of the http route configuration.
+    /// </summary>
+    [CliOption("--http-route-config-name", ShortForm = "-r")]
+    public string HttpRouteConfigName { get; private init; }
+
+    /// <summary>
+    /// Name of the Container Apps environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The path to the YAML input file.
+    /// </summary>
+    [CliOption("--yaml")]
+    public string Yaml { get; private init; }
+
 }

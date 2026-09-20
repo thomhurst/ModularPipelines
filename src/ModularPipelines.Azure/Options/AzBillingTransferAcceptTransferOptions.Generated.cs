@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Accepts a transfer request.
 /// </summary>
-/// <param name="TransferName">The ID that uniquely identifies a transfer request.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "transfer", "accept-transfer")]
-public record AzBillingTransferAcceptTransferOptions(
-    [property: CliOption("--transfer-name")] string TransferName
-) : AzOptions
+public record AzBillingTransferAcceptTransferOptions : AzOptions
 {
+    /// <summary>
+    /// Accepts a transfer request.
+    /// </summary>
+    /// <param name="TransferName">The ID that uniquely identifies a transfer request.</param>
+    public AzBillingTransferAcceptTransferOptions(
+        string TransferName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransferName);
+        this.TransferName = TransferName;
+    }
+
+    public void Deconstruct(out string TransferName)
+    {
+        TransferName = this.TransferName;
+    }
+
+    /// <summary>
+    /// The ID that uniquely identifies a transfer request.
+    /// </summary>
+    [CliOption("--transfer-name")]
+    public string TransferName { get; private init; }
+
     /// <summary>
     /// Request parameters to accept transfer.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>

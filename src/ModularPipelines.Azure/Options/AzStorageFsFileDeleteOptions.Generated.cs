@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a file in ADLS Gen2 file system.
 /// </summary>
-/// <param name="FileSystem">File system name (i.e. container name).</param>
-/// <param name="Path">The file path in a file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "file", "delete")]
-public record AzStorageFsFileDeleteOptions(
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzStorageFsFileDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a file in ADLS Gen2 file system.
+    /// </summary>
+    /// <param name="FileSystem">File system name (i.e. container name).</param>
+    /// <param name="Path">The file path in a file system.</param>
+    public AzStorageFsFileDeleteOptions(
+        string FileSystem,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string FileSystem, out string Path)
+    {
+        FileSystem = this.FileSystem;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// File system name (i.e. container name).
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
+    /// <summary>
+    /// The file path in a file system.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

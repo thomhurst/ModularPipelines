@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Permanently stop data replication between two database replicas.
 /// </summary>
-/// <param name="PartnerServer">Name of the server that the other replica is in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "replica", "delete-link")]
-public record AzSqlDbReplicaDeleteLinkOptions(
-    [property: CliOption("--partner-server")] string PartnerServer
-) : AzOptions
+public record AzSqlDbReplicaDeleteLinkOptions : AzOptions
 {
+    /// <summary>
+    /// Permanently stop data replication between two database replicas.
+    /// </summary>
+    /// <param name="PartnerServer">Name of the server that the other replica is in.</param>
+    public AzSqlDbReplicaDeleteLinkOptions(
+        string PartnerServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PartnerServer);
+        this.PartnerServer = PartnerServer;
+    }
+
+    public void Deconstruct(out string PartnerServer)
+    {
+        PartnerServer = this.PartnerServer;
+    }
+
+    /// <summary>
+    /// Name of the server that the other replica is in.
+    /// </summary>
+    [CliOption("--partner-server")]
+    public string PartnerServer { get; private init; }
+
     /// <summary>
     /// Name of the resource group that the other replica is in. If unspecified, defaults to the first database's resource group.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Format a Bicep file.
 /// </summary>
-/// <param name="File">The path to the Bicep file to format in the file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "format")]
-public record AzBicepFormatOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzBicepFormatOptions : AzOptions
 {
+    /// <summary>
+    /// Format a Bicep file.
+    /// </summary>
+    /// <param name="File">The path to the Bicep file to format in the file system.</param>
+    public AzBicepFormatOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// The path to the Bicep file to format in the file system.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Set indentation kind.  Allowed values: Space, Tab.
     /// </summary>

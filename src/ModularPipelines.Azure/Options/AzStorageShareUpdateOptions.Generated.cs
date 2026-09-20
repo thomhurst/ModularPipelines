@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set service-defined properties for the specified share.
 /// </summary>
-/// <param name="Name">The file share name.</param>
-/// <param name="Quota">Specifies the maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5 TB (5120 GB).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "update")]
-public record AzStorageShareUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--quota")] string Quota
-) : AzOptions
+public record AzStorageShareUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Set service-defined properties for the specified share.
+    /// </summary>
+    /// <param name="Name">The file share name.</param>
+    /// <param name="Quota">Specifies the maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5 TB (5120 GB).</param>
+    public AzStorageShareUpdateOptions(
+        string Name,
+        string Quota
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Quota);
+        this.Quota = Quota;
+    }
+
+    public void Deconstruct(out string Name, out string Quota)
+    {
+        Name = this.Name;
+        Quota = this.Quota;
+    }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Specifies the maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5 TB (5120 GB).
+    /// </summary>
+    [CliOption("--quota")]
+    public string Quota { get; private init; }
+
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>

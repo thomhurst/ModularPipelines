@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore backed up Azure file shares to the same file-
 /// </summary>
-/// <param name="ResolveConflict">Instruction if there's a conflict with the restored data.  Allowed values: Overwrite, Skip.</param>
-/// <param name="RestoreMode">Specify the restore mode.  Allowed values: AlternateLocation, OriginalLocation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "restore", "restore-azurefileshare")]
-public record AzBackupRestoreRestoreAzurefileshareOptions(
-    [property: CliOption("--resolve-conflict")] string ResolveConflict,
-    [property: CliOption("--restore-mode")] string RestoreMode
-) : AzOptions
+public record AzBackupRestoreRestoreAzurefileshareOptions : AzOptions
 {
+    /// <summary>
+    /// Restore backed up Azure file shares to the same file-
+    /// </summary>
+    /// <param name="ResolveConflict">Instruction if there's a conflict with the restored data.  Allowed values: Overwrite, Skip.</param>
+    /// <param name="RestoreMode">Specify the restore mode.  Allowed values: AlternateLocation, OriginalLocation.</param>
+    public AzBackupRestoreRestoreAzurefileshareOptions(
+        string ResolveConflict,
+        string RestoreMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResolveConflict);
+        this.ResolveConflict = ResolveConflict;
+        global::System.ArgumentNullException.ThrowIfNull(RestoreMode);
+        this.RestoreMode = RestoreMode;
+    }
+
+    public void Deconstruct(out string ResolveConflict, out string RestoreMode)
+    {
+        ResolveConflict = this.ResolveConflict;
+        RestoreMode = this.RestoreMode;
+    }
+
+    /// <summary>
+    /// Instruction if there's a conflict with the restored data.  Allowed values: Overwrite, Skip.
+    /// </summary>
+    [CliOption("--resolve-conflict")]
+    public string ResolveConflict { get; private init; }
+
+    /// <summary>
+    /// Specify the restore mode.  Allowed values: AlternateLocation, OriginalLocation.
+    /// </summary>
+    [CliOption("--restore-mode")]
+    public string RestoreMode { get; private init; }
+
     /// <summary>
     /// Destination file share to which content will be restored.
     /// </summary>

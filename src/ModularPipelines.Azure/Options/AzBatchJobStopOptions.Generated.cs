@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Stop a running Batch job.
 /// </summary>
-/// <param name="JobId">The ID of the Job to terminate. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job", "stop")]
-public record AzBatchJobStopOptions(
-    [property: CliOption("--job-id")] string JobId
-) : AzOptions
+public record AzBatchJobStopOptions : AzOptions
 {
+    /// <summary>
+    /// Stop a running Batch job.
+    /// </summary>
+    /// <param name="JobId">The ID of the Job to terminate. Required.</param>
+    public AzBatchJobStopOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out string JobId)
+    {
+        JobId = this.JobId;
+    }
+
+    /// <summary>
+    /// The ID of the Job to terminate. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
     /// <summary>
     /// Termination reason. The text you want to appear as the job's TerminateReason. The default is 'UserTerminate'.
     /// </summary>

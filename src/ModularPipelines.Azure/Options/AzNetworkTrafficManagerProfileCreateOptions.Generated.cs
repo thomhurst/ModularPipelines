@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a traffic manager profile.
 /// </summary>
-/// <param name="Name">Traffic manager profile name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="RoutingMethod">Routing method.  Allowed values: Geographic, Multivalue, Performance, Priority, Subnet, Weighted.</param>
-/// <param name="UniqueDnsName">Relative DNS name for the traffic manager profile. Resulting FQDN will be `&lt;unique-dns-name&gt;.trafficmanager.net` and must be globally unique.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "traffic-manager", "profile", "create")]
-public record AzNetworkTrafficManagerProfileCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--routing-method")] string RoutingMethod,
-    [property: CliOption("--unique-dns-name")] string UniqueDnsName
-) : AzOptions
+public record AzNetworkTrafficManagerProfileCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a traffic manager profile.
+    /// </summary>
+    /// <param name="Name">Traffic manager profile name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="RoutingMethod">Routing method.  Allowed values: Geographic, Multivalue, Performance, Priority, Subnet, Weighted.</param>
+    /// <param name="UniqueDnsName">Relative DNS name for the traffic manager profile. Resulting FQDN will be `&lt;unique-dns-name&gt;.trafficmanager.net` and must be globally unique.</param>
+    public AzNetworkTrafficManagerProfileCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string RoutingMethod,
+        string UniqueDnsName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingMethod);
+        this.RoutingMethod = RoutingMethod;
+        global::System.ArgumentNullException.ThrowIfNull(UniqueDnsName);
+        this.UniqueDnsName = UniqueDnsName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string RoutingMethod, out string UniqueDnsName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        RoutingMethod = this.RoutingMethod;
+        UniqueDnsName = this.UniqueDnsName;
+    }
+
+    /// <summary>
+    /// Traffic manager profile name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Routing method.  Allowed values: Geographic, Multivalue, Performance, Priority, Subnet, Weighted.
+    /// </summary>
+    [CliOption("--routing-method")]
+    public string RoutingMethod { get; private init; }
+
+    /// <summary>
+    /// Relative DNS name for the traffic manager profile. Resulting FQDN will be `&lt;unique-dns-name&gt;.trafficmanager.net` and must be globally unique.
+    /// </summary>
+    [CliOption("--unique-dns-name")]
+    public string UniqueDnsName { get; private init; }
+
     /// <summary>
     /// Maximum number of endpoints to be returned for MultiValue routing type.
     /// </summary>

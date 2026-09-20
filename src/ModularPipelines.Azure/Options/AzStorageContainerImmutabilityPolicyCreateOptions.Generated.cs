@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update an unlocked immutability
 /// </summary>
-/// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
-/// <param name="ContainerName">The container name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "immutability-policy", "create")]
-public record AzStorageContainerImmutabilityPolicyCreateOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName
-) : AzOptions
+public record AzStorageContainerImmutabilityPolicyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create or update an unlocked immutability
+    /// </summary>
+    /// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
+    /// <param name="ContainerName">The container name.</param>
+    public AzStorageContainerImmutabilityPolicyCreateOptions(
+        string AccountName,
+        string ContainerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+    }
+
+    public void Deconstruct(out string AccountName, out string ContainerName)
+    {
+        AccountName = this.AccountName;
+        ContainerName = this.ContainerName;
+    }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
     /// <summary>
     /// This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.  Allowed values: false, true.
     /// </summary>

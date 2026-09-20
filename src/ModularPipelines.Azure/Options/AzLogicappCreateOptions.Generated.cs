@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a logic app.
 /// </summary>
-/// <param name="Name">Name of the new logic app.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StorageAccount">Provide a string value of a Storage Account in the provided Resource Group. Or Resource ID of a Storage Account in a different Resource Group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logicapp", "create")]
-public record AzLogicappCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--storage-account", ShortForm = "-s")] string StorageAccount
-) : AzOptions
+public record AzLogicappCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a logic app.
+    /// </summary>
+    /// <param name="Name">Name of the new logic app.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StorageAccount">Provide a string value of a Storage Account in the provided Resource Group. Or Resource ID of a Storage Account in a different Resource Group.</param>
+    public AzLogicappCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string StorageAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccount);
+        this.StorageAccount = StorageAccount;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string StorageAccount)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        StorageAccount = this.StorageAccount;
+    }
+
+    /// <summary>
+    /// Name of the new logic app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Provide a string value of a Storage Account in the provided Resource Group. Or Resource ID of a Storage Account in a different Resource Group.
+    /// </summary>
+    [CliOption("--storage-account", ShortForm = "-s")]
+    public string StorageAccount { get; private init; }
+
     /// <summary>
     /// Name of the existing App Insights project to be added to the logic app. Must be in the same resource group.
     /// </summary>

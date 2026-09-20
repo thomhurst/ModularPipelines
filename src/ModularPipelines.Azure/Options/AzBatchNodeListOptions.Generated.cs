@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists the Compute Nodes in the specified Pool.
 /// </summary>
-/// <param name="PoolId">The ID of the Pool from which you want to list Compute Nodes. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "list")]
-public record AzBatchNodeListOptions(
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchNodeListOptions : AzOptions
 {
+    /// <summary>
+    /// Lists the Compute Nodes in the specified Pool.
+    /// </summary>
+    /// <param name="PoolId">The ID of the Pool from which you want to list Compute Nodes. Required.</param>
+    public AzBatchNodeListOptions(
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string PoolId)
+    {
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the Pool from which you want to list Compute Nodes. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all
 /// </summary>
-/// <param name="PolicyName">The name of the web application firewall policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exclusion", "rule-set", "list")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetListOptions(
-    [property: CliOption("--policy-name")] string PolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetListOptions : AzOptions
 {
+    /// <summary>
+    /// List all
+    /// </summary>
+    /// <param name="PolicyName">The name of the web application firewall policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetListOptions(
+        string PolicyName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string PolicyName, out string ResourceGroup)
+    {
+        PolicyName = this.PolicyName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the web application firewall policy.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

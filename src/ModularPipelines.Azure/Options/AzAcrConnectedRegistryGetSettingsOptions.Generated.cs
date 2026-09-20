@@ -16,18 +16,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve information required to activate a connected
 /// </summary>
-/// <param name="Name">Name for the connected registry. Name must be between 5 to 40 character long, start with a letter and contain only alphanumeric characters (including ‘_’ or ‘-’). Name must be unique under the Cloud ACR hierarchy.</param>
-/// <param name="ParentProtocol">Specify the protocol used to communicate with its parent. Allowed values: http, https.</param>
-/// <param name="Registry">The login server of the Cloud ACR registry. Must be the FQDN to support also Azure Stack.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "connected-registry", "get-settings")]
-public record AzAcrConnectedRegistryGetSettingsOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--parent-protocol")] string ParentProtocol,
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry
-) : AzOptions
+public record AzAcrConnectedRegistryGetSettingsOptions : AzOptions
 {
+    /// <summary>
+    /// Retrieve information required to activate a connected
+    /// </summary>
+    /// <param name="Name">Name for the connected registry. Name must be between 5 to 40 character long, start with a letter and contain only alphanumeric characters (including ‘_’ or ‘-’). Name must be unique under the Cloud ACR hierarchy.</param>
+    /// <param name="ParentProtocol">Specify the protocol used to communicate with its parent. Allowed values: http, https.</param>
+    /// <param name="Registry">The login server of the Cloud ACR registry. Must be the FQDN to support also Azure Stack.</param>
+    public AzAcrConnectedRegistryGetSettingsOptions(
+        string Name,
+        string ParentProtocol,
+        string Registry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ParentProtocol);
+        this.ParentProtocol = ParentProtocol;
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+    }
+
+    public void Deconstruct(out string Name, out string ParentProtocol, out string Registry)
+    {
+        Name = this.Name;
+        ParentProtocol = this.ParentProtocol;
+        Registry = this.Registry;
+    }
+
+    /// <summary>
+    /// Name for the connected registry. Name must be between 5 to 40 character long, start with a letter and contain only alphanumeric characters (including ‘_’ or ‘-’). Name must be unique under the Cloud ACR hierarchy.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Specify the protocol used to communicate with its parent. Allowed values: http, https.
+    /// </summary>
+    [CliOption("--parent-protocol")]
+    public string ParentProtocol { get; private init; }
+
+    /// <summary>
+    /// The login server of the Cloud ACR registry. Must be the FQDN to support also Azure Stack.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
     /// <summary>
     /// Select which password you want to generate, and it is required to retrieve the password from the sync token.  Allowed values: 1, 2.
     /// </summary>

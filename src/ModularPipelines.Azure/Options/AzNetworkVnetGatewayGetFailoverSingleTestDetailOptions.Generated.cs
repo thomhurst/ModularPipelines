@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation retrieves the details
 /// </summary>
-/// <param name="FailoverTestId">The unique Guid value which identifies the test.</param>
-/// <param name="PeeringLocation">Peering location of the test.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "get-failover-single-test-detail")]
-public record AzNetworkVnetGatewayGetFailoverSingleTestDetailOptions(
-    [property: CliOption("--failover-test-id")] string FailoverTestId,
-    [property: CliOption("--peering-location")] string PeeringLocation
-) : AzOptions
+public record AzNetworkVnetGatewayGetFailoverSingleTestDetailOptions : AzOptions
 {
+    /// <summary>
+    /// This operation retrieves the details
+    /// </summary>
+    /// <param name="FailoverTestId">The unique Guid value which identifies the test.</param>
+    /// <param name="PeeringLocation">Peering location of the test.</param>
+    public AzNetworkVnetGatewayGetFailoverSingleTestDetailOptions(
+        string FailoverTestId,
+        string PeeringLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FailoverTestId);
+        this.FailoverTestId = FailoverTestId;
+        global::System.ArgumentNullException.ThrowIfNull(PeeringLocation);
+        this.PeeringLocation = PeeringLocation;
+    }
+
+    public void Deconstruct(out string FailoverTestId, out string PeeringLocation)
+    {
+        FailoverTestId = this.FailoverTestId;
+        PeeringLocation = this.PeeringLocation;
+    }
+
+    /// <summary>
+    /// The unique Guid value which identifies the test.
+    /// </summary>
+    [CliOption("--failover-test-id")]
+    public string FailoverTestId { get; private init; }
+
+    /// <summary>
+    /// Peering location of the test.
+    /// </summary>
+    [CliOption("--peering-location")]
+    public string PeeringLocation { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates an application group for an EventHub
 /// </summary>
-/// <param name="ClientAppGroupId">The Unique identifier for application group.Supports SAS(NamespaceSASKeyName=KeyName or EntitySASKeyName=KeyName) or AAD(AADAppID=Guid).</param>
-/// <param name="Name">Name of Application Group.</param>
-/// <param name="NamespaceName">Name of Namespace.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "application-group", "create")]
-public record AzEventhubsNamespaceApplicationGroupCreateOptions(
-    [property: CliOption("--client-app-group-id", ShortForm = "--client-app-group-identifier")] string ClientAppGroupId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventhubsNamespaceApplicationGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates an application group for an EventHub
+    /// </summary>
+    /// <param name="ClientAppGroupId">The Unique identifier for application group.Supports SAS(NamespaceSASKeyName=KeyName or EntitySASKeyName=KeyName) or AAD(AADAppID=Guid).</param>
+    /// <param name="Name">Name of Application Group.</param>
+    /// <param name="NamespaceName">Name of Namespace.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventhubsNamespaceApplicationGroupCreateOptions(
+        string ClientAppGroupId,
+        string Name,
+        string NamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientAppGroupId);
+        this.ClientAppGroupId = ClientAppGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClientAppGroupId, out string Name, out string NamespaceName, out string ResourceGroup)
+    {
+        ClientAppGroupId = this.ClientAppGroupId;
+        Name = this.Name;
+        NamespaceName = this.NamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The Unique identifier for application group.Supports SAS(NamespaceSASKeyName=KeyName or EntitySASKeyName=KeyName) or AAD(AADAppID=Guid).
+    /// </summary>
+    [CliOption("--client-app-group-id", ShortForm = "--client-app-group-identifier")]
+    public string ClientAppGroupId { get; private init; }
+
+    /// <summary>
+    /// Name of Application Group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of Namespace.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Determines if Application Group is allowed to create connection with namespace or not. Once the isEnabled is set to false, all the existing connections of application group gets dropped and no new connections will be allowed.  Allowed values: false, true.
     /// </summary>

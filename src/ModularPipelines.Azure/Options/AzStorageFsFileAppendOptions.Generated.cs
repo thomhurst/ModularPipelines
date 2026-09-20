@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Append content to a file in ADLS Gen2 file system.
 /// </summary>
-/// <param name="Content">Content to be appended to file.</param>
-/// <param name="FileSystem">File system name (i.e. container name).</param>
-/// <param name="Path">The file path in a file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "file", "append")]
-public record AzStorageFsFileAppendOptions(
-    [property: CliOption("--content")] string Content,
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzStorageFsFileAppendOptions : AzOptions
 {
+    /// <summary>
+    /// Append content to a file in ADLS Gen2 file system.
+    /// </summary>
+    /// <param name="Content">Content to be appended to file.</param>
+    /// <param name="FileSystem">File system name (i.e. container name).</param>
+    /// <param name="Path">The file path in a file system.</param>
+    public AzStorageFsFileAppendOptions(
+        string Content,
+        string FileSystem,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Content, out string FileSystem, out string Path)
+    {
+        Content = this.Content;
+        FileSystem = this.FileSystem;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// Content to be appended to file.
+    /// </summary>
+    [CliOption("--content")]
+    public string Content { get; private init; }
+
+    /// <summary>
+    /// File system name (i.e. container name).
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
+    /// <summary>
+    /// The file path in a file system.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

@@ -15,30 +15,133 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates an availability group listener.
 /// </summary>
-/// <param name="AgName">Name of the availability group. Please refer to https://learn.microsoft.com/sql/database-engine/availability- groups/windows/use-the-availability-group-wizard-sql-server- management-studio?view=sql-server-2017 to create and availability group.</param>
-/// <param name="GroupName">Name of the SQL virtual machine group.</param>
-/// <param name="Name">Name of the availability group listener.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="IpAddress">Private IP address bound to the availability group listener.</param>
-/// <param name="LoadBalancer">Name or resource ID of the load balancer.</param>
-/// <param name="ProbePort">Probe port.</param>
-/// <param name="Sqlvms">Space-separated list of SQL virtual machine instance name or resource IDs that are enrolled into the availability group.</param>
-/// <param name="Subnet">The name or resource id of the subnet to include in the private IP.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "group", "ag-listener", "create")]
-public record AzSqlVmGroupAgListenerCreateOptions(
-    [property: CliOption("--ag-name", ShortForm = "-a")] string AgName,
-    [property: CliOption("--group-name", ShortForm = "-r")] string GroupName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--ip-address", ShortForm = "-i")] string IpAddress,
-    [property: CliOption("--load-balancer", ShortForm = "-b")] string LoadBalancer,
-    [property: CliOption("--probe-port", ShortForm = "-e")] string ProbePort,
-    [property: CliOption("--sqlvms", ShortForm = "-q", GroupValues = true)] IEnumerable<string> Sqlvms,
-    [property: CliOption("--subnet", ShortForm = "-u")] string Subnet
-) : AzOptions
+public record AzSqlVmGroupAgListenerCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates an availability group listener.
+    /// </summary>
+    /// <param name="AgName">Name of the availability group. Please refer to https://learn.microsoft.com/sql/database-engine/availability- groups/windows/use-the-availability-group-wizard-sql-server- management-studio?view=sql-server-2017 to create and availability group.</param>
+    /// <param name="GroupName">Name of the SQL virtual machine group.</param>
+    /// <param name="Name">Name of the availability group listener.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="IpAddress">Private IP address bound to the availability group listener.</param>
+    /// <param name="LoadBalancer">Name or resource ID of the load balancer.</param>
+    /// <param name="ProbePort">Probe port.</param>
+    /// <param name="Sqlvms">Space-separated list of SQL virtual machine instance name or resource IDs that are enrolled into the availability group.</param>
+    /// <param name="Subnet">The name or resource id of the subnet to include in the private IP.</param>
+    public AzSqlVmGroupAgListenerCreateOptions(
+        string AgName,
+        string GroupName,
+        string Name,
+        string ResourceGroup,
+        string IpAddress,
+        string LoadBalancer,
+        string ProbePort,
+        IEnumerable<string> Sqlvms,
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgName);
+        this.AgName = AgName;
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(IpAddress);
+        this.IpAddress = IpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancer);
+        this.LoadBalancer = LoadBalancer;
+        global::System.ArgumentNullException.ThrowIfNull(ProbePort);
+        this.ProbePort = ProbePort;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sqlvms);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sqlvms));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sqlvms));
+            }
+
+            Sqlvms = materialized;
+        }
+        this.Sqlvms = Sqlvms;
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string AgName, out string GroupName, out string Name, out string ResourceGroup, out string IpAddress, out string LoadBalancer, out string ProbePort, out IEnumerable<string> Sqlvms, out string Subnet)
+    {
+        AgName = this.AgName;
+        GroupName = this.GroupName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        IpAddress = this.IpAddress;
+        LoadBalancer = this.LoadBalancer;
+        ProbePort = this.ProbePort;
+        Sqlvms = this.Sqlvms;
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// Name of the availability group. Please refer to https://learn.microsoft.com/sql/database-engine/availability- groups/windows/use-the-availability-group-wizard-sql-server- management-studio?view=sql-server-2017 to create and availability group.
+    /// </summary>
+    [CliOption("--ag-name", ShortForm = "-a")]
+    public string AgName { get; private init; }
+
+    /// <summary>
+    /// Name of the SQL virtual machine group.
+    /// </summary>
+    [CliOption("--group-name", ShortForm = "-r")]
+    public string GroupName { get; private init; }
+
+    /// <summary>
+    /// Name of the availability group listener.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Private IP address bound to the availability group listener.
+    /// </summary>
+    [CliOption("--ip-address", ShortForm = "-i")]
+    public string IpAddress { get; private init; }
+
+    /// <summary>
+    /// Name or resource ID of the load balancer.
+    /// </summary>
+    [CliOption("--load-balancer", ShortForm = "-b")]
+    public string LoadBalancer { get; private init; }
+
+    /// <summary>
+    /// Probe port.
+    /// </summary>
+    [CliOption("--probe-port", ShortForm = "-e")]
+    public string ProbePort { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of SQL virtual machine instance name or resource IDs that are enrolled into the availability group.
+    /// </summary>
+    [CliOption("--sqlvms", ShortForm = "-q", GroupValues = true)]
+    public IEnumerable<string> Sqlvms { get; private init; }
+
+    /// <summary>
+    /// The name or resource id of the subnet to include in the private IP.
+    /// </summary>
+    [CliOption("--subnet", ShortForm = "-u")]
+    public string Subnet { get; private init; }
+
     /// <summary>
     /// Name or resource ID of the public IP.
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a partner namespace.
 /// </summary>
-/// <param name="Name">Name of the partner namespace.</param>
-/// <param name="PartnerRegistrationId">The fully qualified ARM Id of the partner registration that should be associated with this partner namespace. This takes the following format: /subscriptions/{subscriptionId}/resourceGroups/{reso urceGroupName}/providers/Microsoft.EventGrid/partner Registrations/{partnerRegistrationName}.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "create")]
-public record AzEventgridPartnerNamespaceCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--partner-registration-id")] string PartnerRegistrationId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridPartnerNamespaceCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a partner namespace.
+    /// </summary>
+    /// <param name="Name">Name of the partner namespace.</param>
+    /// <param name="PartnerRegistrationId">The fully qualified ARM Id of the partner registration that should be associated with this partner namespace. This takes the following format: /subscriptions/{subscriptionId}/resourceGroups/{reso urceGroupName}/providers/Microsoft.EventGrid/partner Registrations/{partnerRegistrationName}.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridPartnerNamespaceCreateOptions(
+        string Name,
+        string PartnerRegistrationId,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerRegistrationId);
+        this.PartnerRegistrationId = PartnerRegistrationId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string PartnerRegistrationId, out string ResourceGroup)
+    {
+        Name = this.Name;
+        PartnerRegistrationId = this.PartnerRegistrationId;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the partner namespace.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The fully qualified ARM Id of the partner registration that should be associated with this partner namespace. This takes the following format: /subscriptions/{subscriptionId}/resourceGroups/{reso urceGroupName}/providers/Microsoft.EventGrid/partner Registrations/{partnerRegistrationName}.
+    /// </summary>
+    [CliOption("--partner-registration-id")]
+    public string PartnerRegistrationId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a deployment for Azure Cognitive
 /// </summary>
-/// <param name="Name">Cognitive service account name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ModelFormat">Cognitive Services account deployment model format.</param>
-/// <param name="ModelName">Cognitive Services account deployment model name.</param>
-/// <param name="ModelVersion">Cognitive Services account deployment model version.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "deployment", "create")]
-public record AzCognitiveservicesAccountDeploymentCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--model-format")] string ModelFormat,
-    [property: CliOption("--model-name")] string ModelName,
-    [property: CliOption("--model-version")] string ModelVersion
-) : AzOptions
+public record AzCognitiveservicesAccountDeploymentCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a deployment for Azure Cognitive
+    /// </summary>
+    /// <param name="Name">Cognitive service account name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ModelFormat">Cognitive Services account deployment model format.</param>
+    /// <param name="ModelName">Cognitive Services account deployment model name.</param>
+    /// <param name="ModelVersion">Cognitive Services account deployment model version.</param>
+    public AzCognitiveservicesAccountDeploymentCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string ModelFormat,
+        string ModelName,
+        string ModelVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ModelFormat);
+        this.ModelFormat = ModelFormat;
+        global::System.ArgumentNullException.ThrowIfNull(ModelName);
+        this.ModelName = ModelName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelVersion);
+        this.ModelVersion = ModelVersion;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string ModelFormat, out string ModelName, out string ModelVersion)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ModelFormat = this.ModelFormat;
+        ModelName = this.ModelName;
+        ModelVersion = this.ModelVersion;
+    }
+
+    /// <summary>
+    /// Cognitive service account name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Cognitive Services account deployment model format.
+    /// </summary>
+    [CliOption("--model-format")]
+    public string ModelFormat { get; private init; }
+
+    /// <summary>
+    /// Cognitive Services account deployment model name.
+    /// </summary>
+    [CliOption("--model-name")]
+    public string ModelName { get; private init; }
+
+    /// <summary>
+    /// Cognitive Services account deployment model version.
+    /// </summary>
+    [CliOption("--model-version")]
+    public string ModelVersion { get; private init; }
+
     /// <summary>
     /// Capacity value of the Sku of Cognitive Services account/deployment.
     /// </summary>

@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new policy for the given BackupManagementType and
 /// </summary>
-/// <param name="BackupManagementType">Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.</param>
-/// <param name="Name">Name of the Policy.</param>
-/// <param name="Policy">JSON encoded policy definition. Use the show command with JSON output to obtain a policy object. Modify the values using a file editor and pass the object.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VaultName">Name of the Recovery services vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "policy", "create")]
-public record AzBackupPolicyCreateOptions(
-    [property: CliOption("--backup-management-type")] string BackupManagementType,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--policy")] string Policy,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
-) : AzOptions
+public record AzBackupPolicyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new policy for the given BackupManagementType and
+    /// </summary>
+    /// <param name="BackupManagementType">Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.</param>
+    /// <param name="Name">Name of the Policy.</param>
+    /// <param name="Policy">JSON encoded policy definition. Use the show command with JSON output to obtain a policy object. Modify the values using a file editor and pass the object.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VaultName">Name of the Recovery services vault.</param>
+    public AzBackupPolicyCreateOptions(
+        string BackupManagementType,
+        string Name,
+        string Policy,
+        string ResourceGroup,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupManagementType);
+        this.BackupManagementType = BackupManagementType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string BackupManagementType, out string Name, out string Policy, out string ResourceGroup, out string VaultName)
+    {
+        BackupManagementType = this.BackupManagementType;
+        Name = this.Name;
+        Policy = this.Policy;
+        ResourceGroup = this.ResourceGroup;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
+    /// </summary>
+    [CliOption("--backup-management-type")]
+    public string BackupManagementType { get; private init; }
+
+    /// <summary>
+    /// Name of the Policy.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// JSON encoded policy definition. Use the show command with JSON output to obtain a policy object. Modify the values using a file editor and pass the object.
+    /// </summary>
+    [CliOption("--policy")]
+    public string Policy { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase, VM.
     /// </summary>

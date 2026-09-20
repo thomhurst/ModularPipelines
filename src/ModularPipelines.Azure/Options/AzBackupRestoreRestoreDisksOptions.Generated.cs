@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore disks of the backed VM from the specified recovery
 /// </summary>
-/// <param name="StorageAccount">Name or ID of the staging storage account. The VM configuration will be restored to this storage account. See the help for --restore-to-staging-storage-account parameter for more info. The ID might be needed for cross-region restores where the storage account and vault are not on the same resource group. In order to get the ID, use the storage account show command as specified here (https://learn.microsoft.com/en- us/azure/storage/common/storage-account-get- info?tabs=azure-cli#get-the-resource-id-for-a-storage- account).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "restore", "restore-disks")]
-public record AzBackupRestoreRestoreDisksOptions(
-    [property: CliOption("--storage-account")] string StorageAccount
-) : AzOptions
+public record AzBackupRestoreRestoreDisksOptions : AzOptions
 {
+    /// <summary>
+    /// Restore disks of the backed VM from the specified recovery
+    /// </summary>
+    /// <param name="StorageAccount">Name or ID of the staging storage account. The VM configuration will be restored to this storage account. See the help for --restore-to-staging-storage-account parameter for more info. The ID might be needed for cross-region restores where the storage account and vault are not on the same resource group. In order to get the ID, use the storage account show command as specified here (https://learn.microsoft.com/en- us/azure/storage/common/storage-account-get- info?tabs=azure-cli#get-the-resource-id-for-a-storage- account).</param>
+    public AzBackupRestoreRestoreDisksOptions(
+        string StorageAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccount);
+        this.StorageAccount = StorageAccount;
+    }
+
+    public void Deconstruct(out string StorageAccount)
+    {
+        StorageAccount = this.StorageAccount;
+    }
+
+    /// <summary>
+    /// Name or ID of the staging storage account. The VM configuration will be restored to this storage account. See the help for --restore-to-staging-storage-account parameter for more info. The ID might be needed for cross-region restores where the storage account and vault are not on the same resource group. In order to get the ID, use the storage account show command as specified here (https://learn.microsoft.com/en- us/azure/storage/common/storage-account-get- info?tabs=azure-cli#get-the-resource-id-for-a-storage- account).
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string StorageAccount { get; private init; }
+
     /// <summary>
     /// Disk encryption set ID for the OS disk of confidential VMs. This is used to encrypt the OS disk during restore.
     /// </summary>

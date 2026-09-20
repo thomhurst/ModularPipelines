@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add allowed origins.
 /// </summary>
-/// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*" and remove all other origins from the list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "cors", "add")]
-public record AzWebappCorsAddOptions(
-    [property: CliOption("--allowed-origins", ShortForm = "-a")] string AllowedOrigins
-) : AzOptions
+public record AzWebappCorsAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add allowed origins.
+    /// </summary>
+    /// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*" and remove all other origins from the list.</param>
+    public AzWebappCorsAddOptions(
+        string AllowedOrigins
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AllowedOrigins);
+        this.AllowedOrigins = AllowedOrigins;
+    }
+
+    public void Deconstruct(out string AllowedOrigins)
+    {
+        AllowedOrigins = this.AllowedOrigins;
+    }
+
+    /// <summary>
+    /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*" and remove all other origins from the list.
+    /// </summary>
+    [CliOption("--allowed-origins", ShortForm = "-a")]
+    public string AllowedOrigins { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

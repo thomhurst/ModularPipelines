@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validate a deployment stack at resource group scope.
 /// </summary>
-/// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
-/// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
-/// <param name="Name">The name of the deployment stack.</param>
-/// <param name="ResourceGroup">The resource group where the deployment stack will be created.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "group", "validate")]
-public record AzStackGroupValidateOptions(
-    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage,
-    [property: CliOption("--deny-settings-mode", ShortForm = "--dm")] string DenySettingsMode,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzStackGroupValidateOptions : AzOptions
 {
+    /// <summary>
+    /// Validate a deployment stack at resource group scope.
+    /// </summary>
+    /// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
+    /// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
+    /// <param name="Name">The name of the deployment stack.</param>
+    /// <param name="ResourceGroup">The resource group where the deployment stack will be created.</param>
+    public AzStackGroupValidateOptions(
+        string ActionOnUnmanage,
+        string DenySettingsMode,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionOnUnmanage);
+        this.ActionOnUnmanage = ActionOnUnmanage;
+        global::System.ArgumentNullException.ThrowIfNull(DenySettingsMode);
+        this.DenySettingsMode = DenySettingsMode;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ActionOnUnmanage, out string DenySettingsMode, out string Name, out string ResourceGroup)
+    {
+        ActionOnUnmanage = this.ActionOnUnmanage;
+        DenySettingsMode = this.DenySettingsMode;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.
+    /// </summary>
+    [CliOption("--action-on-unmanage", ShortForm = "--aou")]
+    public string ActionOnUnmanage { get; private init; }
+
+    /// <summary>
+    /// Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.
+    /// </summary>
+    [CliOption("--deny-settings-mode", ShortForm = "--dm")]
+    public string DenySettingsMode { get; private init; }
+
+    /// <summary>
+    /// The name of the deployment stack.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The resource group where the deployment stack will be created.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. Allowed values: false, true.
     /// </summary>

@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a transfer request by ID. The caller must be the recipient of the
 /// </summary>
-/// <param name="TransferName">The ID that uniquely identifies a transfer request.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "transfer", "show")]
-public record AzBillingTransferShowOptions(
-    [property: CliOption("--transfer-name")] string TransferName
-) : AzOptions
+public record AzBillingTransferShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a transfer request by ID. The caller must be the recipient of the
+    /// </summary>
+    /// <param name="TransferName">The ID that uniquely identifies a transfer request.</param>
+    public AzBillingTransferShowOptions(
+        string TransferName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransferName);
+        this.TransferName = TransferName;
+    }
+
+    public void Deconstruct(out string TransferName)
+    {
+        TransferName = this.TransferName;
+    }
+
+    /// <summary>
+    /// The ID that uniquely identifies a transfer request.
+    /// </summary>
+    [CliOption("--transfer-name")]
+    public string TransferName { get; private init; }
+
 }

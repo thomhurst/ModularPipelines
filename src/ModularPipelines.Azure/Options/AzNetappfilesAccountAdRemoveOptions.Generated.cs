@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an active directory from the account.
 /// </summary>
-/// <param name="AccountName">The name of the NetApp account.</param>
-/// <param name="ActiveDirectory">Id of the Active Directory.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "ad", "remove")]
-public record AzNetappfilesAccountAdRemoveOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
-    [property: CliOption("--active-directory", ShortForm = "--active-directory-id")] string ActiveDirectory,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetappfilesAccountAdRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an active directory from the account.
+    /// </summary>
+    /// <param name="AccountName">The name of the NetApp account.</param>
+    /// <param name="ActiveDirectory">Id of the Active Directory.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetappfilesAccountAdRemoveOptions(
+        string AccountName,
+        string ActiveDirectory,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ActiveDirectory);
+        this.ActiveDirectory = ActiveDirectory;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string ActiveDirectory, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        ActiveDirectory = this.ActiveDirectory;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Id of the Active Directory.
+    /// </summary>
+    [CliOption("--active-directory", ShortForm = "--active-directory-id")]
+    public string ActiveDirectory { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

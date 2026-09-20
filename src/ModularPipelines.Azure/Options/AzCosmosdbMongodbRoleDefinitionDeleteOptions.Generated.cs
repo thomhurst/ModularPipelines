@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a CosmosDb MongoDb role definition under an
 /// </summary>
-/// <param name="AccountName">Cosmosdb account name.</param>
-/// <param name="Id">Unique ID for the Mongo Role Definition.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "mongodb", "role", "definition", "delete")]
-public record AzCosmosdbMongodbRoleDefinitionDeleteOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--id", ShortForm = "-i")] string Id,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbMongodbRoleDefinitionDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a CosmosDb MongoDb role definition under an
+    /// </summary>
+    /// <param name="AccountName">Cosmosdb account name.</param>
+    /// <param name="Id">Unique ID for the Mongo Role Definition.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbMongodbRoleDefinitionDeleteOptions(
+        string AccountName,
+        string Id,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string Id, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        Id = this.Id;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cosmosdb account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Unique ID for the Mongo Role Definition.
+    /// </summary>
+    [CliOption("--id", ShortForm = "-i")]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

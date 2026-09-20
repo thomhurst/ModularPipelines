@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an Access Policy to the Redis Cache.
 /// </summary>
-/// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
-/// <param name="Name">Name of the Redis cache.</param>
-/// <param name="Permissions">Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy", "create")]
-public record AzRedisAccessPolicyCreateOptions(
-    [property: CliOption("--access-policy-name")] string AccessPolicyName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--permissions")] string Permissions,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzRedisAccessPolicyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Add an Access Policy to the Redis Cache.
+    /// </summary>
+    /// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
+    /// <param name="Name">Name of the Redis cache.</param>
+    /// <param name="Permissions">Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzRedisAccessPolicyCreateOptions(
+        string AccessPolicyName,
+        string Name,
+        string Permissions,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessPolicyName);
+        this.AccessPolicyName = AccessPolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Permissions);
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccessPolicyName, out string Name, out string Permissions, out string ResourceGroup)
+    {
+        AccessPolicyName = this.AccessPolicyName;
+        Name = this.Name;
+        Permissions = this.Permissions;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the access policy that is being assigned.
+    /// </summary>
+    [CliOption("--access-policy-name")]
+    public string AccessPolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of the Redis cache.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites.
+    /// </summary>
+    [CliOption("--permissions")]
+    public string Permissions { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

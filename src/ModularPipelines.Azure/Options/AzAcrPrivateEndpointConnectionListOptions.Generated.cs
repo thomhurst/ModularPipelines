@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all private endpoint connections to a container
 /// </summary>
-/// <param name="RegistryName">The name of the container registry. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "private-endpoint-connection", "list")]
-public record AzAcrPrivateEndpointConnectionListOptions(
-    [property: CliOption("--registry-name", ShortForm = "-r")] string RegistryName
-) : AzOptions
+public record AzAcrPrivateEndpointConnectionListOptions : AzOptions
 {
+    /// <summary>
+    /// List all private endpoint connections to a container
+    /// </summary>
+    /// <param name="RegistryName">The name of the container registry. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrPrivateEndpointConnectionListOptions(
+        string RegistryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryName);
+        this.RegistryName = RegistryName;
+    }
+
+    public void Deconstruct(out string RegistryName)
+    {
+        RegistryName = this.RegistryName;
+    }
+
+    /// <summary>
+    /// The name of the container registry. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry-name", ShortForm = "-r")]
+    public string RegistryName { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

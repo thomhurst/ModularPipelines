@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validate/Begin migrating a storage account to enable
 /// </summary>
-/// <param name="RequestType">Start a validation request for migration or start a migration request.  Allowed values: upgrade, validation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "hns-migration", "start")]
-public record AzStorageAccountHnsMigrationStartOptions(
-    [property: CliOption("--request-type", ShortForm = "--type")] string RequestType
-) : AzOptions
+public record AzStorageAccountHnsMigrationStartOptions : AzOptions
 {
+    /// <summary>
+    /// Validate/Begin migrating a storage account to enable
+    /// </summary>
+    /// <param name="RequestType">Start a validation request for migration or start a migration request.  Allowed values: upgrade, validation.</param>
+    public AzStorageAccountHnsMigrationStartOptions(
+        string RequestType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RequestType);
+        this.RequestType = RequestType;
+    }
+
+    public void Deconstruct(out string RequestType)
+    {
+        RequestType = this.RequestType;
+    }
+
+    /// <summary>
+    /// Start a validation request for migration or start a migration request.  Allowed values: upgrade, validation.
+    /// </summary>
+    [CliOption("--request-type", ShortForm = "--type")]
+    public string RequestType { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

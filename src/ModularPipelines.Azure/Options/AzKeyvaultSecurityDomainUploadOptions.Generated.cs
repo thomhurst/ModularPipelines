@@ -16,14 +16,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start to restore the HSM.
 /// </summary>
-/// <param name="SdFile">This file contains security domain encrypted using SD Exchange file downloaded in security-domain init-recovery command.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "upload")]
-public record AzKeyvaultSecurityDomainUploadOptions(
-    [property: CliOption("--sd-file")] string SdFile
-) : AzOptions
+public record AzKeyvaultSecurityDomainUploadOptions : AzOptions
 {
+    /// <summary>
+    /// Start to restore the HSM.
+    /// </summary>
+    /// <param name="SdFile">This file contains security domain encrypted using SD Exchange file downloaded in security-domain init-recovery command.</param>
+    public AzKeyvaultSecurityDomainUploadOptions(
+        string SdFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SdFile);
+        this.SdFile = SdFile;
+    }
+
+    public void Deconstruct(out string SdFile)
+    {
+        SdFile = this.SdFile;
+    }
+
+    /// <summary>
+    /// This file contains security domain encrypted using SD Exchange file downloaded in security-domain init-recovery command.
+    /// </summary>
+    [CliOption("--sd-file")]
+    public string SdFile { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

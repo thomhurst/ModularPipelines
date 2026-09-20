@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Clear legal hold tags.
 /// </summary>
-/// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
-/// <param name="ContainerName">The container name.</param>
-/// <param name="Tags">Space-separated tags. Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "legal-hold", "clear")]
-public record AzStorageContainerLegalHoldClearOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
-    [property: CliOption("--tags", GroupValues = true)] IEnumerable<string> Tags
-) : AzOptions
+public record AzStorageContainerLegalHoldClearOptions : AzOptions
 {
+    /// <summary>
+    /// Clear legal hold tags.
+    /// </summary>
+    /// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
+    /// <param name="ContainerName">The container name.</param>
+    /// <param name="Tags">Space-separated tags. Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case.</param>
+    public AzStorageContainerLegalHoldClearOptions(
+        string AccountName,
+        string ContainerName,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    public void Deconstruct(out string AccountName, out string ContainerName, out IEnumerable<string> Tags)
+    {
+        AccountName = this.AccountName;
+        ContainerName = this.ContainerName;
+        Tags = this.Tags;
+    }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// Space-separated tags. Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case.
+    /// </summary>
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string> Tags { get; private init; }
+
     /// <summary>
     /// When enabled, new blocks can be written to both Append and Block Blobs while maintaining legal hold protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted.  Allowed values: false, true.
     /// </summary>

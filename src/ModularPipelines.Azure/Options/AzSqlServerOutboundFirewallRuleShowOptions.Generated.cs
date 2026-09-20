@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details for an outbound firewall rule.
 /// </summary>
-/// <param name="OutboundRuleFqdn">The allowed FQDN for the outbound firewall rule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "outbound-firewall-rule", "show")]
-public record AzSqlServerOutboundFirewallRuleShowOptions(
-    [property: CliOption("--outbound-rule-fqdn", ShortForm = "-n")] string OutboundRuleFqdn
-) : AzOptions
+public record AzSqlServerOutboundFirewallRuleShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the details for an outbound firewall rule.
+    /// </summary>
+    /// <param name="OutboundRuleFqdn">The allowed FQDN for the outbound firewall rule.</param>
+    public AzSqlServerOutboundFirewallRuleShowOptions(
+        string OutboundRuleFqdn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutboundRuleFqdn);
+        this.OutboundRuleFqdn = OutboundRuleFqdn;
+    }
+
+    public void Deconstruct(out string OutboundRuleFqdn)
+    {
+        OutboundRuleFqdn = this.OutboundRuleFqdn;
+    }
+
+    /// <summary>
+    /// The allowed FQDN for the outbound firewall rule.
+    /// </summary>
+    [CliOption("--outbound-rule-fqdn", ShortForm = "-n")]
+    public string OutboundRuleFqdn { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

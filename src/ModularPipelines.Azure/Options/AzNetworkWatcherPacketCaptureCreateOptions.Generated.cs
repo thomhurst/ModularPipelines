@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create and start a packet capture session.
 /// </summary>
-/// <param name="Name">Name of the packet capture session.</param>
-/// <param name="ResourceGroup">Name of the resource group the target resource is in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "packet-capture", "create")]
-public record AzNetworkWatcherPacketCaptureCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create and start a packet capture session.
+    /// </summary>
+    /// <param name="Name">Name of the packet capture session.</param>
+    /// <param name="ResourceGroup">Name of the resource group the target resource is in.</param>
+    public AzNetworkWatcherPacketCaptureCreateOptions(
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the packet capture session.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the resource group the target resource is in.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Maximum size in bytes of the capture output.  Default: 1073741824.
     /// </summary>

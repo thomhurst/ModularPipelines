@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Data Box Edge/Data Box Gateway resource.
 /// </summary>
-/// <param name="DeviceName">The device name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "create")]
-public record AzDataboxedgeDeviceCreateOptions(
-    [property: CliOption("--device-name", ShortForm = "-n")] string DeviceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzDataboxedgeDeviceCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Data Box Edge/Data Box Gateway resource.
+    /// </summary>
+    /// <param name="DeviceName">The device name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzDataboxedgeDeviceCreateOptions(
+        string DeviceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DeviceName, out string ResourceGroup)
+    {
+        DeviceName = this.DeviceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliOption("--device-name", ShortForm = "-n")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The Description of the Data Box Edge/Gateway device.
     /// </summary>

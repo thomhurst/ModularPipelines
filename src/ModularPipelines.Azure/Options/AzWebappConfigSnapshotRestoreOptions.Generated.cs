@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a web app snapshot.
 /// </summary>
-/// <param name="Time">Timestamp of the snapshot to restore.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "snapshot", "restore")]
-public record AzWebappConfigSnapshotRestoreOptions(
-    [property: CliOption("--time")] string Time
-) : AzOptions
+public record AzWebappConfigSnapshotRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restore a web app snapshot.
+    /// </summary>
+    /// <param name="Time">Timestamp of the snapshot to restore.</param>
+    public AzWebappConfigSnapshotRestoreOptions(
+        string Time
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Time);
+        this.Time = Time;
+    }
+
+    public void Deconstruct(out string Time)
+    {
+        Time = this.Time;
+    }
+
+    /// <summary>
+    /// Timestamp of the snapshot to restore.
+    /// </summary>
+    [CliOption("--time")]
+    public string Time { get; private init; }
+
     /// <summary>
     /// Restore the web app files without restoring the settings.
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a container app replica.
 /// </summary>
-/// <param name="Name">The name of the Containerapp.</param>
-/// <param name="Replica">The name of the replica.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "replica", "show")]
-public record AzContainerappReplicaShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--replica")] string Replica,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzContainerappReplicaShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show a container app replica.
+    /// </summary>
+    /// <param name="Name">The name of the Containerapp.</param>
+    /// <param name="Replica">The name of the replica.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzContainerappReplicaShowOptions(
+        string Name,
+        string Replica,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Replica);
+        this.Replica = Replica;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string Replica, out string ResourceGroup)
+    {
+        Name = this.Name;
+        Replica = this.Replica;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Containerapp.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the replica.
+    /// </summary>
+    [CliOption("--replica")]
+    public string Replica { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The name of the container app revision. Defaults to the latest revision.
     /// </summary>

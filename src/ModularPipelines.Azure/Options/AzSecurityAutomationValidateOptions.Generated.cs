@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validates a security automation model before create or update.
 /// </summary>
-/// <param name="Actions">A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true.</param>
-/// <param name="Name">Name of the resource to be fetched.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Scopes">A collection of scopes on which the security automations logic is applied.</param>
-/// <param name="Sources">A collection of the source event types which evaluate the security automation set of rules.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation", "validate")]
-public record AzSecurityAutomationValidateOptions(
-    [property: CliOption("--actions")] string Actions,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--scopes")] string Scopes,
-    [property: CliOption("--sources")] string Sources
-) : AzOptions
+public record AzSecurityAutomationValidateOptions : AzOptions
 {
+    /// <summary>
+    /// Validates a security automation model before create or update.
+    /// </summary>
+    /// <param name="Actions">A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true.</param>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Scopes">A collection of scopes on which the security automations logic is applied.</param>
+    /// <param name="Sources">A collection of the source event types which evaluate the security automation set of rules.</param>
+    public AzSecurityAutomationValidateOptions(
+        string Actions,
+        string Name,
+        string ResourceGroup,
+        string Scopes,
+        string Sources
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Actions);
+        this.Actions = Actions;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Scopes);
+        this.Scopes = Scopes;
+        global::System.ArgumentNullException.ThrowIfNull(Sources);
+        this.Sources = Sources;
+    }
+
+    public void Deconstruct(out string Actions, out string Name, out string ResourceGroup, out string Scopes, out string Sources)
+    {
+        Actions = this.Actions;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Scopes = this.Scopes;
+        Sources = this.Sources;
+    }
+
+    /// <summary>
+    /// A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true.
+    /// </summary>
+    [CliOption("--actions")]
+    public string Actions { get; private init; }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// A collection of scopes on which the security automations logic is applied.
+    /// </summary>
+    [CliOption("--scopes")]
+    public string Scopes { get; private init; }
+
+    /// <summary>
+    /// A collection of the source event types which evaluate the security automation set of rules.
+    /// </summary>
+    [CliOption("--sources")]
+    public string Sources { get; private init; }
+
     /// <summary>
     /// The security automation description.
     /// </summary>

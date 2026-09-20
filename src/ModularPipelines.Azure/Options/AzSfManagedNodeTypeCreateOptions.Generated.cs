@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create node type on a managed cluster.
 /// </summary>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="InstanceCount">"The number of nodes in the node type.</param>
-/// <param name="Name">Node type name.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "create")]
-public record AzSfManagedNodeTypeCreateOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--instance-count")] string InstanceCount,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSfManagedNodeTypeCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create node type on a managed cluster.
+    /// </summary>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="InstanceCount">"The number of nodes in the node type.</param>
+    /// <param name="Name">Node type name.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSfManagedNodeTypeCreateOptions(
+        string ClusterName,
+        string InstanceCount,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceCount);
+        this.InstanceCount = InstanceCount;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string InstanceCount, out string Name, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        InstanceCount = this.InstanceCount;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// "The number of nodes in the node type.
+    /// </summary>
+    [CliOption("--instance-count")]
+    public string InstanceCount { get; private init; }
+
+    /// <summary>
+    /// Node type name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Application End port of a range of ports.
     /// </summary>

@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the storage account credential.
 /// </summary>
-/// <param name="DeviceName">The device name.</param>
-/// <param name="Name">The storage account credential name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="AccountType">Type of storage accessed on the storage account.  Allowed values: BlobStorage, GeneralPurposeStorage.</param>
-/// <param name="Alias">Alias for the storage account.</param>
-/// <param name="SslStatus">Signifies whether SSL needs to be enabled or not.  Allowed values: Disabled, Enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account-credential", "create")]
-public record AzDataboxedgeDeviceStorageAccountCredentialCreateOptions(
-    [property: CliOption("--device-name")] string DeviceName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--account-type")] string AccountType,
-    [property: CliOption("--alias")] string Alias,
-    [property: CliOption("--ssl-status")] string SslStatus
-) : AzOptions
+public record AzDataboxedgeDeviceStorageAccountCredentialCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create the storage account credential.
+    /// </summary>
+    /// <param name="DeviceName">The device name.</param>
+    /// <param name="Name">The storage account credential name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="AccountType">Type of storage accessed on the storage account.  Allowed values: BlobStorage, GeneralPurposeStorage.</param>
+    /// <param name="Alias">Alias for the storage account.</param>
+    /// <param name="SslStatus">Signifies whether SSL needs to be enabled or not.  Allowed values: Disabled, Enabled.</param>
+    public AzDataboxedgeDeviceStorageAccountCredentialCreateOptions(
+        string DeviceName,
+        string Name,
+        string ResourceGroup,
+        string AccountType,
+        string Alias,
+        string SslStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(AccountType);
+        this.AccountType = AccountType;
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+        global::System.ArgumentNullException.ThrowIfNull(SslStatus);
+        this.SslStatus = SslStatus;
+    }
+
+    public void Deconstruct(out string DeviceName, out string Name, out string ResourceGroup, out string AccountType, out string Alias, out string SslStatus)
+    {
+        DeviceName = this.DeviceName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        AccountType = this.AccountType;
+        Alias = this.Alias;
+        SslStatus = this.SslStatus;
+    }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliOption("--device-name")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// The storage account credential name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Type of storage accessed on the storage account.  Allowed values: BlobStorage, GeneralPurposeStorage.
+    /// </summary>
+    [CliOption("--account-type")]
+    public string AccountType { get; private init; }
+
+    /// <summary>
+    /// Alias for the storage account.
+    /// </summary>
+    [CliOption("--alias")]
+    public string Alias { get; private init; }
+
+    /// <summary>
+    /// Signifies whether SSL needs to be enabled or not.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--ssl-status")]
+    public string SslStatus { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

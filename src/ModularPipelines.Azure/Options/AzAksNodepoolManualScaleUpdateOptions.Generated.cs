@@ -15,20 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing manual of a VirtualMachines agentpool
 /// </summary>
-/// <param name="ClusterName">The cluster name.</param>
-/// <param name="CurrentVmSizes">Comma-separated list of sizes in the manual to be updated.</param>
-/// <param name="Name">The node pool name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "manual-scale", "update")]
-public record AzAksNodepoolManualScaleUpdateOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--current-vm-sizes", GroupValues = true)] IEnumerable<string> CurrentVmSizes,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksNodepoolManualScaleUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing manual of a VirtualMachines agentpool
+    /// </summary>
+    /// <param name="ClusterName">The cluster name.</param>
+    /// <param name="CurrentVmSizes">Comma-separated list of sizes in the manual to be updated.</param>
+    /// <param name="Name">The node pool name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksNodepoolManualScaleUpdateOptions(
+        string ClusterName,
+        IEnumerable<string> CurrentVmSizes,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CurrentVmSizes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CurrentVmSizes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CurrentVmSizes));
+            }
+
+            CurrentVmSizes = materialized;
+        }
+        this.CurrentVmSizes = CurrentVmSizes;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out IEnumerable<string> CurrentVmSizes, out string Name, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        CurrentVmSizes = this.CurrentVmSizes;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The cluster name.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Comma-separated list of sizes in the manual to be updated.
+    /// </summary>
+    [CliOption("--current-vm-sizes", GroupValues = true)]
+    public IEnumerable<string> CurrentVmSizes { get; private init; }
+
+    /// <summary>
+    /// The node pool name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

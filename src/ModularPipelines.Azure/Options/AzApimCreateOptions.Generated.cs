@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an API Management service instance.
 /// </summary>
-/// <param name="Name">Unique name of the service instance to be created. The name must be globally unique since it will be included as the gateway hostname like' https://my-api-servicename.azure-api.net'.  See examples.</param>
-/// <param name="PublisherEmail">The e-mail address to receive all system notifications.</param>
-/// <param name="PublisherName">The name of your organization for use in the developer portal and e-mail notifications.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "create")]
-public record AzApimCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--publisher-email")] string PublisherEmail,
-    [property: CliOption("--publisher-name")] string PublisherName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzApimCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an API Management service instance.
+    /// </summary>
+    /// <param name="Name">Unique name of the service instance to be created. The name must be globally unique since it will be included as the gateway hostname like' https://my-api-servicename.azure-api.net'.  See examples.</param>
+    /// <param name="PublisherEmail">The e-mail address to receive all system notifications.</param>
+    /// <param name="PublisherName">The name of your organization for use in the developer portal and e-mail notifications.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzApimCreateOptions(
+        string Name,
+        string PublisherEmail,
+        string PublisherName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PublisherEmail);
+        this.PublisherEmail = PublisherEmail;
+        global::System.ArgumentNullException.ThrowIfNull(PublisherName);
+        this.PublisherName = PublisherName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string PublisherEmail, out string PublisherName, out string ResourceGroup)
+    {
+        Name = this.Name;
+        PublisherEmail = this.PublisherEmail;
+        PublisherName = this.PublisherName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Unique name of the service instance to be created. The name must be globally unique since it will be included as the gateway hostname like' https://my-api-servicename.azure-api.net'.  See examples.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The e-mail address to receive all system notifications.
+    /// </summary>
+    [CliOption("--publisher-email")]
+    public string PublisherEmail { get; private init; }
+
+    /// <summary>
+    /// The name of your organization for use in the developer portal and e-mail notifications.
+    /// </summary>
+    [CliOption("--publisher-name")]
+    public string PublisherName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Disable gateway in the master region. Only valid for an Api Management service deployed in multiple locations.  Allowed values: false, true.
     /// </summary>

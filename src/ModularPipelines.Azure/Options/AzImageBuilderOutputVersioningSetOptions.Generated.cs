@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the image builder output versioner of an image
 /// </summary>
-/// <param name="OutputName">Name of the image builder run output.</param>
-/// <param name="Scheme">Version numbering scheme to be used.  Allowed values: Latest, Source.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "output", "versioning", "set")]
-public record AzImageBuilderOutputVersioningSetOptions(
-    [property: CliOption("--output-name")] string OutputName,
-    [property: CliOption("--scheme")] string Scheme
-) : AzOptions
+public record AzImageBuilderOutputVersioningSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set the image builder output versioner of an image
+    /// </summary>
+    /// <param name="OutputName">Name of the image builder run output.</param>
+    /// <param name="Scheme">Version numbering scheme to be used.  Allowed values: Latest, Source.</param>
+    public AzImageBuilderOutputVersioningSetOptions(
+        string OutputName,
+        string Scheme
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputName);
+        this.OutputName = OutputName;
+        global::System.ArgumentNullException.ThrowIfNull(Scheme);
+        this.Scheme = Scheme;
+    }
+
+    public void Deconstruct(out string OutputName, out string Scheme)
+    {
+        OutputName = this.OutputName;
+        Scheme = this.Scheme;
+    }
+
+    /// <summary>
+    /// Name of the image builder run output.
+    /// </summary>
+    [CliOption("--output-name")]
+    public string OutputName { get; private init; }
+
+    /// <summary>
+    /// Version numbering scheme to be used.  Allowed values: Latest, Source.
+    /// </summary>
+    [CliOption("--scheme")]
+    public string Scheme { get; private init; }
+
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>

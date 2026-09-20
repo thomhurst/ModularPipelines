@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Register a provider.
 /// </summary>
-/// <param name="Namespace">The resource namespace, aka 'provider'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("provider", "register")]
-public record AzProviderRegisterOptions(
-    [property: CliOption("--namespace", ShortForm = "-n")] string Namespace
-) : AzOptions
+public record AzProviderRegisterOptions : AzOptions
 {
+    /// <summary>
+    /// Register a provider.
+    /// </summary>
+    /// <param name="Namespace">The resource namespace, aka 'provider'.</param>
+    public AzProviderRegisterOptions(
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Namespace)
+    {
+        Namespace = this.Namespace;
+    }
+
+    /// <summary>
+    /// The resource namespace, aka 'provider'.
+    /// </summary>
+    [CliOption("--namespace", ShortForm = "-n")]
+    public string Namespace { get; private init; }
+
     /// <summary>
     /// A value indicating whether authorization is consented or not.
     /// </summary>

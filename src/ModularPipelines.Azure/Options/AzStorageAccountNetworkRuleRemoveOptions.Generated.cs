@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a network rule.
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "network-rule", "remove")]
-public record AzStorageAccountNetworkRuleRemoveOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
-) : AzOptions
+public record AzStorageAccountNetworkRuleRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a network rule.
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    public AzStorageAccountNetworkRuleRemoveOptions(
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    public void Deconstruct(out string AccountName)
+    {
+        AccountName = this.AccountName;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
     /// <summary>
     /// IPv4 address or CIDR range. Can supply a list: --ip-address ip1 [ip2]...
     /// </summary>

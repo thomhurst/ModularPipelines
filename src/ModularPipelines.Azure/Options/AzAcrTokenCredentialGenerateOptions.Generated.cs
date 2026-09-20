@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate or replace one or both passwords of a token for an
 /// </summary>
-/// <param name="Name">The name of the token.</param>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "token", "credential", "generate")]
-public record AzAcrTokenCredentialGenerateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry
-) : AzOptions
+public record AzAcrTokenCredentialGenerateOptions : AzOptions
 {
+    /// <summary>
+    /// Generate or replace one or both passwords of a token for an
+    /// </summary>
+    /// <param name="Name">The name of the token.</param>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrTokenCredentialGenerateOptions(
+        string Name,
+        string Registry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+    }
+
+    public void Deconstruct(out string Name, out string Registry)
+    {
+        Name = this.Name;
+        Registry = this.Registry;
+    }
+
+    /// <summary>
+    /// The name of the token.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
     /// <summary>
     /// UTC time for which the credentials will be valid. In the format of %Y-%m-%dT%H:%M:%SZ, e.g. 2025-12-31T12:59:59Z.
     /// </summary>

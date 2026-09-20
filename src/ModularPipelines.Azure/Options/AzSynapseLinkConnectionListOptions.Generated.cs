@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List link connections in a synapse workspace.
 /// </summary>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "link-connection", "list")]
-public record AzSynapseLinkConnectionListOptions(
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseLinkConnectionListOptions : AzOptions
 {
+    /// <summary>
+    /// List link connections in a synapse workspace.
+    /// </summary>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseLinkConnectionListOptions(
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string WorkspaceName)
+    {
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

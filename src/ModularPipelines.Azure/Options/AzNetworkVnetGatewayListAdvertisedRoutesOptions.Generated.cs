@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the routes of a virtual network gateway
 /// </summary>
-/// <param name="Peer">The IP address of the peer.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "list-advertised-routes")]
-public record AzNetworkVnetGatewayListAdvertisedRoutesOptions(
-    [property: CliOption("--peer")] string Peer
-) : AzOptions
+public record AzNetworkVnetGatewayListAdvertisedRoutesOptions : AzOptions
 {
+    /// <summary>
+    /// List the routes of a virtual network gateway
+    /// </summary>
+    /// <param name="Peer">The IP address of the peer.</param>
+    public AzNetworkVnetGatewayListAdvertisedRoutesOptions(
+        string Peer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Peer);
+        this.Peer = Peer;
+    }
+
+    public void Deconstruct(out string Peer)
+    {
+        Peer = this.Peer;
+    }
+
+    /// <summary>
+    /// The IP address of the peer.
+    /// </summary>
+    [CliOption("--peer")]
+    public string Peer { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

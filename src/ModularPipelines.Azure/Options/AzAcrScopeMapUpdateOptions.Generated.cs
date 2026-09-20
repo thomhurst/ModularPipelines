@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a scope map for an Azure Container Registry.
 /// </summary>
-/// <param name="Name">The name of the scope map.</param>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "scope-map", "update")]
-public record AzAcrScopeMapUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry
-) : AzOptions
+public record AzAcrScopeMapUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a scope map for an Azure Container Registry.
+    /// </summary>
+    /// <param name="Name">The name of the scope map.</param>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrScopeMapUpdateOptions(
+        string Name,
+        string Registry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+    }
+
+    public void Deconstruct(out string Name, out string Registry)
+    {
+        Name = this.Name;
+        Registry = this.Registry;
+    }
+
+    /// <summary>
+    /// The name of the scope map.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
     /// <summary>
     /// Gateway permissions to be added. Use the format "--add-gateway GATEWAY [ACTION1 ACTION2 ...]" per flag. Valid actions are ['config/read', 'config/write', 'message/read', 'message/write'].
     /// </summary>

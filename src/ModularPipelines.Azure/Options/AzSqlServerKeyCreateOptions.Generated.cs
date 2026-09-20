@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a server key.
 /// </summary>
-/// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.ne t/keys/YourKeyName/01234567890123456789012345678901".</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "key", "create")]
-public record AzSqlServerKeyCreateOptions(
-    [property: CliOption("--kid", ShortForm = "-k")] string Kid,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server", ShortForm = "-s")] string Server
-) : AzOptions
+public record AzSqlServerKeyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a server key.
+    /// </summary>
+    /// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.ne t/keys/YourKeyName/01234567890123456789012345678901".</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
+    public AzSqlServerKeyCreateOptions(
+        string Kid,
+        string ResourceGroup,
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Kid);
+        this.Kid = Kid;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string Kid, out string ResourceGroup, out string Server)
+    {
+        Kid = this.Kid;
+        ResourceGroup = this.ResourceGroup;
+        Server = this.Server;
+    }
+
+    /// <summary>
+    /// The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.ne t/keys/YourKeyName/01234567890123456789012345678901".
+    /// </summary>
+    [CliOption("--kid", ShortForm = "-k")]
+    public string Kid { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string Server { get; private init; }
+
 }

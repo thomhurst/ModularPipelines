@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition of a Spark pool
 /// </summary>
-/// <param name="BigDataPoolName">Big Data pool name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "pool", "wait")]
-public record AzSynapseSparkPoolWaitOptions(
-    [property: CliOption("--big-data-pool-name")] string BigDataPoolName
-) : AzOptions
+public record AzSynapseSparkPoolWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition of a Spark pool
+    /// </summary>
+    /// <param name="BigDataPoolName">Big Data pool name.</param>
+    public AzSynapseSparkPoolWaitOptions(
+        string BigDataPoolName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BigDataPoolName);
+        this.BigDataPoolName = BigDataPoolName;
+    }
+
+    public void Deconstruct(out string BigDataPoolName)
+    {
+        BigDataPoolName = this.BigDataPoolName;
+    }
+
+    /// <summary>
+    /// Big Data pool name.
+    /// </summary>
+    [CliOption("--big-data-pool-name")]
+    public string BigDataPoolName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start a deployment at resource group.
 /// </summary>
-/// <param name="ResourceGroup">The resource group to create deployment at.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "group", "create")]
-public record AzDeploymentGroupCreateOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzDeploymentGroupCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Start a deployment at resource group.
+    /// </summary>
+    /// <param name="ResourceGroup">The resource group to create deployment at.</param>
+    public AzDeploymentGroupCreateOptions(
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The resource group to create deployment at.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Auxiliary tenants which will be used during deployment across tenants.
     /// </summary>

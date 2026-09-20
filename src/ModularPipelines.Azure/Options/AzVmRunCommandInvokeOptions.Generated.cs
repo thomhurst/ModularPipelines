@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute a specific run command on a vm.
 /// </summary>
-/// <param name="CommandId">The command id.  Values from: az vm run-command list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "run-command", "invoke")]
-public record AzVmRunCommandInvokeOptions(
-    [property: CliOption("--command-id")] string CommandId
-) : AzOptions
+public record AzVmRunCommandInvokeOptions : AzOptions
 {
+    /// <summary>
+    /// Execute a specific run command on a vm.
+    /// </summary>
+    /// <param name="CommandId">The command id.  Values from: az vm run-command list.</param>
+    public AzVmRunCommandInvokeOptions(
+        string CommandId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommandId);
+        this.CommandId = CommandId;
+    }
+
+    public void Deconstruct(out string CommandId)
+    {
+        CommandId = this.CommandId;
+    }
+
+    /// <summary>
+    /// The command id.  Values from: az vm run-command list.
+    /// </summary>
+    [CliOption("--command-id")]
+    public string CommandId { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

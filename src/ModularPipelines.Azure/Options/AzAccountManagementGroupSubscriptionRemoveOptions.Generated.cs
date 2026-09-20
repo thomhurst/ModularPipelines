@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an existing subscription from a
 /// </summary>
-/// <param name="Name">Name of the management group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "subscription", "remove")]
-public record AzAccountManagementGroupSubscriptionRemoveOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAccountManagementGroupSubscriptionRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an existing subscription from a
+    /// </summary>
+    /// <param name="Name">Name of the management group.</param>
+    public AzAccountManagementGroupSubscriptionRemoveOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the management group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

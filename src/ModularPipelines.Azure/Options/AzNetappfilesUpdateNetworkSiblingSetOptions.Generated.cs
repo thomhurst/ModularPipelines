@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the network features of a network sibling
 /// </summary>
-/// <param name="NetworkSiblingSetId">Network Sibling Set ID for a group of volumes sharing networking resources in a subnet.</param>
-/// <param name="NetworkSiblingSetStateId">Network sibling set state Id identifying the current state of the sibling set. Value can start with a dash, use ='-value'.</param>
-/// <param name="SubnetId">The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscr iptions/subscriptionId/resourceGroups/res ourceGroup/providers/Microsoft.Network/vi rtualNetworks/testVnet/subnets/{mySubnet} .</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "update-network-sibling-set")]
-public record AzNetappfilesUpdateNetworkSiblingSetOptions(
-    [property: CliOption("--network-sibling-set-id")] string NetworkSiblingSetId,
-    [property: CliOption("--network-sibling-set-state-id", ShortForm = "--state-id")] string NetworkSiblingSetStateId,
-    [property: CliOption("--subnet-id")] string SubnetId
-) : AzOptions
+public record AzNetappfilesUpdateNetworkSiblingSetOptions : AzOptions
 {
+    /// <summary>
+    /// Update the network features of a network sibling
+    /// </summary>
+    /// <param name="NetworkSiblingSetId">Network Sibling Set ID for a group of volumes sharing networking resources in a subnet.</param>
+    /// <param name="NetworkSiblingSetStateId">Network sibling set state Id identifying the current state of the sibling set. Value can start with a dash, use ='-value'.</param>
+    /// <param name="SubnetId">The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscr iptions/subscriptionId/resourceGroups/res ourceGroup/providers/Microsoft.Network/vi rtualNetworks/testVnet/subnets/{mySubnet} .</param>
+    public AzNetappfilesUpdateNetworkSiblingSetOptions(
+        string NetworkSiblingSetId,
+        string NetworkSiblingSetStateId,
+        string SubnetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkSiblingSetId);
+        this.NetworkSiblingSetId = NetworkSiblingSetId;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkSiblingSetStateId);
+        this.NetworkSiblingSetStateId = NetworkSiblingSetStateId;
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+    }
+
+    public void Deconstruct(out string NetworkSiblingSetId, out string NetworkSiblingSetStateId, out string SubnetId)
+    {
+        NetworkSiblingSetId = this.NetworkSiblingSetId;
+        NetworkSiblingSetStateId = this.NetworkSiblingSetStateId;
+        SubnetId = this.SubnetId;
+    }
+
+    /// <summary>
+    /// Network Sibling Set ID for a group of volumes sharing networking resources in a subnet.
+    /// </summary>
+    [CliOption("--network-sibling-set-id")]
+    public string NetworkSiblingSetId { get; private init; }
+
+    /// <summary>
+    /// Network sibling set state Id identifying the current state of the sibling set. Value can start with a dash, use ='-value'.
+    /// </summary>
+    [CliOption("--network-sibling-set-state-id", ShortForm = "--state-id")]
+    public string NetworkSiblingSetStateId { get; private init; }
+
+    /// <summary>
+    /// The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscr iptions/subscriptionId/resourceGroups/res ourceGroup/providers/Microsoft.Network/vi rtualNetworks/testVnet/subnets/{mySubnet} .
+    /// </summary>
+    [CliOption("--subnet-id")]
+    public string SubnetId { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

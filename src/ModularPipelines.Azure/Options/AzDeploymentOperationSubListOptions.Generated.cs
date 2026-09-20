@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List deployment operations at subscription scope.
 /// </summary>
-/// <param name="Name">The deployment name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "operation", "sub", "list")]
-public record AzDeploymentOperationSubListOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzDeploymentOperationSubListOptions : AzOptions
 {
+    /// <summary>
+    /// List deployment operations at subscription scope.
+    /// </summary>
+    /// <param name="Name">The deployment name.</param>
+    public AzDeploymentOperationSubListOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The deployment name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

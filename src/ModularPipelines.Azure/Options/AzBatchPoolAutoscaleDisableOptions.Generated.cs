@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disables automatic scaling for a Pool.
 /// </summary>
-/// <param name="PoolId">The ID of the Pool on which to disable automatic scaling. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "autoscale", "disable")]
-public record AzBatchPoolAutoscaleDisableOptions(
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchPoolAutoscaleDisableOptions : AzOptions
 {
+    /// <summary>
+    /// Disables automatic scaling for a Pool.
+    /// </summary>
+    /// <param name="PoolId">The ID of the Pool on which to disable automatic scaling. Required.</param>
+    public AzBatchPoolAutoscaleDisableOptions(
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string PoolId)
+    {
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the Pool on which to disable automatic scaling. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

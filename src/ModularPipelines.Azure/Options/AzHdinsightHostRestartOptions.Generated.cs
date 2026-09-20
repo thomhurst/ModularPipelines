@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restart the specific hosts of the specified HDInsight cluster.
 /// </summary>
-/// <param name="ClusterName">The name of the cluster.</param>
-/// <param name="HostNames">A space-delimited list of host names that need to be restarted.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "host", "restart")]
-public record AzHdinsightHostRestartOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--host-names", GroupValues = true)] IEnumerable<string> HostNames,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzHdinsightHostRestartOptions : AzOptions
 {
+    /// <summary>
+    /// Restart the specific hosts of the specified HDInsight cluster.
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster.</param>
+    /// <param name="HostNames">A space-delimited list of host names that need to be restarted.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzHdinsightHostRestartOptions(
+        string ClusterName,
+        IEnumerable<string> HostNames,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(HostNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(HostNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(HostNames));
+            }
+
+            HostNames = materialized;
+        }
+        this.HostNames = HostNames;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out IEnumerable<string> HostNames, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        HostNames = this.HostNames;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// A space-delimited list of host names that need to be restarted.
+    /// </summary>
+    [CliOption("--host-names", GroupValues = true)]
+    public IEnumerable<string> HostNames { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Attempt to decompile an ARM template file to a Bicep file.
 /// </summary>
-/// <param name="File">The path to the ARM template to decompile in the file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "decompile")]
-public record AzBicepDecompileOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzBicepDecompileOptions : AzOptions
 {
+    /// <summary>
+    /// Attempt to decompile an ARM template file to a Bicep file.
+    /// </summary>
+    /// <param name="File">The path to the ARM template to decompile in the file system.</param>
+    public AzBicepDecompileOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// The path to the ARM template to decompile in the file system.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Allows overwriting the output file if it exists.
     /// </summary>

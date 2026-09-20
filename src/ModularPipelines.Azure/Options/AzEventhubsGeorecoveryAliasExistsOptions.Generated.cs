@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check the give Namespace name availability.
 /// </summary>
-/// <param name="Alias">Name to check the namespace name availability.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "georecovery-alias", "exists")]
-public record AzEventhubsGeorecoveryAliasExistsOptions(
-    [property: CliOption("--alias", ShortForm = "-a")] string Alias
-) : AzOptions
+public record AzEventhubsGeorecoveryAliasExistsOptions : AzOptions
 {
+    /// <summary>
+    /// Check the give Namespace name availability.
+    /// </summary>
+    /// <param name="Alias">Name to check the namespace name availability.</param>
+    public AzEventhubsGeorecoveryAliasExistsOptions(
+        string Alias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+    }
+
+    public void Deconstruct(out string Alias)
+    {
+        Alias = this.Alias;
+    }
+
+    /// <summary>
+    /// Name to check the namespace name availability.
+    /// </summary>
+    [CliOption("--alias", ShortForm = "-a")]
+    public string Alias { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

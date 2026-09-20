@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the specified certificate issuer.
 /// </summary>
-/// <param name="IssuerName">Certificate issuer name.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "show")]
-public record AzKeyvaultCertificateIssuerShowOptions(
-    [property: CliOption("--issuer-name")] string IssuerName,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificateIssuerShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the specified certificate issuer.
+    /// </summary>
+    /// <param name="IssuerName">Certificate issuer name.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificateIssuerShowOptions(
+        string IssuerName,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IssuerName);
+        this.IssuerName = IssuerName;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string IssuerName, out string VaultName)
+    {
+        IssuerName = this.IssuerName;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Certificate issuer name.
+    /// </summary>
+    [CliOption("--issuer-name")]
+    public string IssuerName { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
 }

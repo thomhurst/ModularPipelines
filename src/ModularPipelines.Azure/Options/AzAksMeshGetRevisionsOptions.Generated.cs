@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Discover available Azure Service Mesh revisions and their
 /// </summary>
-/// <param name="Location">Location in which to discover available Azure Service Mesh revisions.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "mesh", "get-revisions")]
-public record AzAksMeshGetRevisionsOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzAksMeshGetRevisionsOptions : AzOptions
 {
+    /// <summary>
+    /// Discover available Azure Service Mesh revisions and their
+    /// </summary>
+    /// <param name="Location">Location in which to discover available Azure Service Mesh revisions.</param>
+    public AzAksMeshGetRevisionsOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Location in which to discover available Azure Service Mesh revisions.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
 }

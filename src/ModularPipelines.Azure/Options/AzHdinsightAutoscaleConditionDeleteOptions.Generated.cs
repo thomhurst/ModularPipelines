@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete schedule condition.
 /// </summary>
-/// <param name="ClusterName">The name of the cluster.</param>
-/// <param name="Index">The Space-separated list of condition indices which starts with 0 to delete.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "autoscale", "condition", "delete")]
-public record AzHdinsightAutoscaleConditionDeleteOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--index", GroupValues = true)] IEnumerable<string> Index,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzHdinsightAutoscaleConditionDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete schedule condition.
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster.</param>
+    /// <param name="Index">The Space-separated list of condition indices which starts with 0 to delete.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzHdinsightAutoscaleConditionDeleteOptions(
+        string ClusterName,
+        IEnumerable<string> Index,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Index);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Index));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Index));
+            }
+
+            Index = materialized;
+        }
+        this.Index = Index;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out IEnumerable<string> Index, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        Index = this.Index;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The Space-separated list of condition indices which starts with 0 to delete.
+    /// </summary>
+    [CliOption("--index", GroupValues = true)]
+    public IEnumerable<string> Index { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

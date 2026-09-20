@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a registration definition.
 /// </summary>
-/// <param name="Name">Name of the registration definition.</param>
-/// <param name="PrincipalId">The principal id.</param>
-/// <param name="RoleDefinitionId">The role definition id.</param>
-/// <param name="TenantId">Id of the managedBy tenant.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "definition", "create")]
-public record AzManagedservicesDefinitionCreateOptions(
-    [property: CliOption("--name")] string Name,
-    [property: CliOption("--principal-id")] string PrincipalId,
-    [property: CliOption("--role-definition-id")] string RoleDefinitionId,
-    [property: CliOption("--tenant-id")] string TenantId
-) : AzOptions
+public record AzManagedservicesDefinitionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a registration definition.
+    /// </summary>
+    /// <param name="Name">Name of the registration definition.</param>
+    /// <param name="PrincipalId">The principal id.</param>
+    /// <param name="RoleDefinitionId">The role definition id.</param>
+    /// <param name="TenantId">Id of the managedBy tenant.</param>
+    public AzManagedservicesDefinitionCreateOptions(
+        string Name,
+        string PrincipalId,
+        string RoleDefinitionId,
+        string TenantId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
+        this.PrincipalId = PrincipalId;
+        global::System.ArgumentNullException.ThrowIfNull(RoleDefinitionId);
+        this.RoleDefinitionId = RoleDefinitionId;
+        global::System.ArgumentNullException.ThrowIfNull(TenantId);
+        this.TenantId = TenantId;
+    }
+
+    public void Deconstruct(out string Name, out string PrincipalId, out string RoleDefinitionId, out string TenantId)
+    {
+        Name = this.Name;
+        PrincipalId = this.PrincipalId;
+        RoleDefinitionId = this.RoleDefinitionId;
+        TenantId = this.TenantId;
+    }
+
+    /// <summary>
+    /// Name of the registration definition.
+    /// </summary>
+    [CliOption("--name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The principal id.
+    /// </summary>
+    [CliOption("--principal-id")]
+    public string PrincipalId { get; private init; }
+
+    /// <summary>
+    /// The role definition id.
+    /// </summary>
+    [CliOption("--role-definition-id")]
+    public string RoleDefinitionId { get; private init; }
+
+    /// <summary>
+    /// Id of the managedBy tenant.
+    /// </summary>
+    [CliOption("--tenant-id")]
+    public string TenantId { get; private init; }
+
     /// <summary>
     /// Guid of the registration definition.
     /// </summary>

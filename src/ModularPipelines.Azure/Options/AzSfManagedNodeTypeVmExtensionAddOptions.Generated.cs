@@ -15,26 +15,100 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an extension to the node type.
 /// </summary>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="ExtensionName">Extension name.</param>
-/// <param name="ExtensionType">Specifies the type of the extension; an example is "CustomScriptExtension".</param>
-/// <param name="Name">Node type name.</param>
-/// <param name="Publisher">The name of the extension handler publisher.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="TypeHandlerVersion">Specifies the version of the script handler.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "vm-extension", "add")]
-public record AzSfManagedNodeTypeVmExtensionAddOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--extension-name")] string ExtensionName,
-    [property: CliOption("--extension-type")] string ExtensionType,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--publisher")] string Publisher,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--type-handler-version")] string TypeHandlerVersion
-) : AzOptions
+public record AzSfManagedNodeTypeVmExtensionAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add an extension to the node type.
+    /// </summary>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="ExtensionName">Extension name.</param>
+    /// <param name="ExtensionType">Specifies the type of the extension; an example is "CustomScriptExtension".</param>
+    /// <param name="Name">Node type name.</param>
+    /// <param name="Publisher">The name of the extension handler publisher.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="TypeHandlerVersion">Specifies the version of the script handler.</param>
+    public AzSfManagedNodeTypeVmExtensionAddOptions(
+        string ClusterName,
+        string ExtensionName,
+        string ExtensionType,
+        string Name,
+        string Publisher,
+        string ResourceGroup,
+        string TypeHandlerVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(ExtensionName);
+        this.ExtensionName = ExtensionName;
+        global::System.ArgumentNullException.ThrowIfNull(ExtensionType);
+        this.ExtensionType = ExtensionType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Publisher);
+        this.Publisher = Publisher;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(TypeHandlerVersion);
+        this.TypeHandlerVersion = TypeHandlerVersion;
+    }
+
+    public void Deconstruct(out string ClusterName, out string ExtensionName, out string ExtensionType, out string Name, out string Publisher, out string ResourceGroup, out string TypeHandlerVersion)
+    {
+        ClusterName = this.ClusterName;
+        ExtensionName = this.ExtensionName;
+        ExtensionType = this.ExtensionType;
+        Name = this.Name;
+        Publisher = this.Publisher;
+        ResourceGroup = this.ResourceGroup;
+        TypeHandlerVersion = this.TypeHandlerVersion;
+    }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Extension name.
+    /// </summary>
+    [CliOption("--extension-name")]
+    public string ExtensionName { get; private init; }
+
+    /// <summary>
+    /// Specifies the type of the extension; an example is "CustomScriptExtension".
+    /// </summary>
+    [CliOption("--extension-type")]
+    public string ExtensionType { get; private init; }
+
+    /// <summary>
+    /// Node type name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the extension handler publisher.
+    /// </summary>
+    [CliOption("--publisher")]
+    public string Publisher { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Specifies the version of the script handler.
+    /// </summary>
+    [CliOption("--type-handler-version")]
+    public string TypeHandlerVersion { get; private init; }
+
     /// <summary>
     /// Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. Allowed values: false, true.  Default: True.
     /// </summary>

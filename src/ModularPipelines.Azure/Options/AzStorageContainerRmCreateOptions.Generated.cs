@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new container under the specified storage account.
 /// </summary>
-/// <param name="Name">The container name.</param>
-/// <param name="StorageAccount">The name or ID of the storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container-rm", "create")]
-public record AzStorageContainerRmCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--storage-account")] string StorageAccount
-) : AzOptions
+public record AzStorageContainerRmCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new container under the specified storage account.
+    /// </summary>
+    /// <param name="Name">The container name.</param>
+    /// <param name="StorageAccount">The name or ID of the storage account.</param>
+    public AzStorageContainerRmCreateOptions(
+        string Name,
+        string StorageAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccount);
+        this.StorageAccount = StorageAccount;
+    }
+
+    public void Deconstruct(out string Name, out string StorageAccount)
+    {
+        Name = this.Name;
+        StorageAccount = this.StorageAccount;
+    }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name or ID of the storage account.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string StorageAccount { get; private init; }
+
     /// <summary>
     /// Throw an exception if the container already exists.
     /// </summary>

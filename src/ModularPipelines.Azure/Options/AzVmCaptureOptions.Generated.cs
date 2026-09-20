@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Capture information for a stopped VM.
 /// </summary>
-/// <param name="VhdNamePrefix">The VHD name prefix specify for the VM disks.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "capture")]
-public record AzVmCaptureOptions(
-    [property: CliOption("--vhd-name-prefix")] string VhdNamePrefix
-) : AzOptions
+public record AzVmCaptureOptions : AzOptions
 {
+    /// <summary>
+    /// Capture information for a stopped VM.
+    /// </summary>
+    /// <param name="VhdNamePrefix">The VHD name prefix specify for the VM disks.</param>
+    public AzVmCaptureOptions(
+        string VhdNamePrefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VhdNamePrefix);
+        this.VhdNamePrefix = VhdNamePrefix;
+    }
+
+    public void Deconstruct(out string VhdNamePrefix)
+    {
+        VhdNamePrefix = this.VhdNamePrefix;
+    }
+
+    /// <summary>
+    /// The VHD name prefix specify for the VM disks.
+    /// </summary>
+    [CliOption("--vhd-name-prefix")]
+    public string VhdNamePrefix { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

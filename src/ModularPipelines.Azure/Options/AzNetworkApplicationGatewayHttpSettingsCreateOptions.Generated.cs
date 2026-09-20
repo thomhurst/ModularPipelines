@@ -15,20 +15,66 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create HTTP settings.
 /// </summary>
-/// <param name="GatewayName">Name of the application gateway.</param>
-/// <param name="Name">Name of the backend http settings.</param>
-/// <param name="Port">Number of the destination port on the backend.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "http-settings", "create")]
-public record AzNetworkApplicationGatewayHttpSettingsCreateOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--port")] int Port,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewayHttpSettingsCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create HTTP settings.
+    /// </summary>
+    /// <param name="GatewayName">Name of the application gateway.</param>
+    /// <param name="Name">Name of the backend http settings.</param>
+    /// <param name="Port">Number of the destination port on the backend.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkApplicationGatewayHttpSettingsCreateOptions(
+        string GatewayName,
+        string Name,
+        int Port,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.Port = Port;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GatewayName, out string Name, out int Port, out string ResourceGroup)
+    {
+        GatewayName = this.GatewayName;
+        Name = this.Name;
+        Port = this.Port;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Name of the backend http settings.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Number of the destination port on the backend.
+    /// </summary>
+    [CliOption("--port")]
+    public int Port { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Name used for the affinity cookie.
     /// </summary>

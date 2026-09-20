@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List soft-deleted Recovery Services vaults.
 /// </summary>
-/// <param name="Location">Location of the deleted vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "deleted-vault", "list")]
-public record AzBackupDeletedVaultListOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzBackupDeletedVaultListOptions : AzOptions
 {
+    /// <summary>
+    /// List soft-deleted Recovery Services vaults.
+    /// </summary>
+    /// <param name="Location">Location of the deleted vault.</param>
+    public AzBackupDeletedVaultListOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Location of the deleted vault.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
 }

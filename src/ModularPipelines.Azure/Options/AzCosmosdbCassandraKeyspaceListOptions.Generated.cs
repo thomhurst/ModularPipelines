@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the Cassandra keyspaces under an Azure Cosmos DB
 /// </summary>
-/// <param name="AccountName">Cosmosdb account name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "cassandra", "keyspace", "list")]
-public record AzCosmosdbCassandraKeyspaceListOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbCassandraKeyspaceListOptions : AzOptions
 {
+    /// <summary>
+    /// List the Cassandra keyspaces under an Azure Cosmos DB
+    /// </summary>
+    /// <param name="AccountName">Cosmosdb account name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbCassandraKeyspaceListOptions(
+        string AccountName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cosmosdb account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

@@ -15,18 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a CORS rule to a storage account.
 /// </summary>
-/// <param name="Methods">Space-separated list of HTTP methods allowed to be executed by the origin.  Allowed values: CONNECT, DELETE, GET, HEAD, MERGE, OPTIONS, PATCH, POST, PUT, TRACE.</param>
-/// <param name="Origins">Space-separated list of origin domains that will be allowed via CORS, or '*' to allow all domains.</param>
-/// <param name="Services">The storage service(s) to add rules to. Allowed options are: (b)lob, (f)ile, (q)ueue, (t)able. Can be combined.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "cors", "add")]
-public record AzStorageCorsAddOptions(
-    [property: CliOption("--methods", GroupValues = true)] IEnumerable<string> Methods,
-    [property: CliOption("--origins", GroupValues = true)] IEnumerable<string> Origins,
-    [property: CliOption("--services")] string Services
-) : AzOptions
+public record AzStorageCorsAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a CORS rule to a storage account.
+    /// </summary>
+    /// <param name="Methods">Space-separated list of HTTP methods allowed to be executed by the origin.  Allowed values: CONNECT, DELETE, GET, HEAD, MERGE, OPTIONS, PATCH, POST, PUT, TRACE.</param>
+    /// <param name="Origins">Space-separated list of origin domains that will be allowed via CORS, or '*' to allow all domains.</param>
+    /// <param name="Services">The storage service(s) to add rules to. Allowed options are: (b)lob, (f)ile, (q)ueue, (t)able. Can be combined.</param>
+    public AzStorageCorsAddOptions(
+        IEnumerable<string> Methods,
+        IEnumerable<string> Origins,
+        string Services
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Methods);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Methods));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Methods));
+            }
+
+            Methods = materialized;
+        }
+        this.Methods = Methods;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Origins);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Origins));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Origins));
+            }
+
+            Origins = materialized;
+        }
+        this.Origins = Origins;
+        global::System.ArgumentNullException.ThrowIfNull(Services);
+        this.Services = Services;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Methods, out IEnumerable<string> Origins, out string Services)
+    {
+        Methods = this.Methods;
+        Origins = this.Origins;
+        Services = this.Services;
+    }
+
+    /// <summary>
+    /// Space-separated list of HTTP methods allowed to be executed by the origin.  Allowed values: CONNECT, DELETE, GET, HEAD, MERGE, OPTIONS, PATCH, POST, PUT, TRACE.
+    /// </summary>
+    [CliOption("--methods", GroupValues = true)]
+    public IEnumerable<string> Methods { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of origin domains that will be allowed via CORS, or '*' to allow all domains.
+    /// </summary>
+    [CliOption("--origins", GroupValues = true)]
+    public IEnumerable<string> Origins { get; private init; }
+
+    /// <summary>
+    /// The storage service(s) to add rules to. Allowed options are: (b)lob, (f)ile, (q)ueue, (t)able. Can be combined.
+    /// </summary>
+    [CliOption("--services")]
+    public string Services { get; private init; }
+
     /// <summary>
     /// Space-separated list of response headers allowed to be part of the cross-origin request.
     /// </summary>

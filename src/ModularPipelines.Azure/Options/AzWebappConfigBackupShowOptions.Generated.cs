@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the backup schedule for a web app.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WebappName">The name of the web app.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "show")]
-public record AzWebappConfigBackupShowOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--webapp-name", ShortForm = "-n")] string WebappName
-) : AzOptions
+public record AzWebappConfigBackupShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the backup schedule for a web app.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WebappName">The name of the web app.</param>
+    public AzWebappConfigBackupShowOptions(
+        string ResourceGroup,
+        string WebappName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WebappName);
+        this.WebappName = WebappName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string WebappName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        WebappName = this.WebappName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the web app.
+    /// </summary>
+    [CliOption("--webapp-name", ShortForm = "-n")]
+    public string WebappName { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

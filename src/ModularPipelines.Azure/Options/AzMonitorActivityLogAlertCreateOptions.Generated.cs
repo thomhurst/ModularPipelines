@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a default activity log alert rule.
 /// </summary>
-/// <param name="ActivityLogAlertName">The name of the activity log alert.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "activity-log", "alert", "create")]
-public record AzMonitorActivityLogAlertCreateOptions(
-    [property: CliOption("--activity-log-alert-name", ShortForm = "-n")] string ActivityLogAlertName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMonitorActivityLogAlertCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a default activity log alert rule.
+    /// </summary>
+    /// <param name="ActivityLogAlertName">The name of the activity log alert.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMonitorActivityLogAlertCreateOptions(
+        string ActivityLogAlertName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivityLogAlertName);
+        this.ActivityLogAlertName = ActivityLogAlertName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ActivityLogAlertName, out string ResourceGroup)
+    {
+        ActivityLogAlertName = this.ActivityLogAlertName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the activity log alert.
+    /// </summary>
+    [CliOption("--activity-log-alert-name", ShortForm = "-n")]
+    public string ActivityLogAlertName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Add an action group. Accepts space-separated action group identifiers. The identifier can be the action group's name or its resource ID. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>

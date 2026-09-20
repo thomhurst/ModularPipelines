@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a regional virtual network integration to a webapp.
 /// </summary>
-/// <param name="Name">Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Subnet">The name or resource ID of the subnet.</param>
-/// <param name="Vnet">The name or resource ID of the Vnet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "vnet-integration", "add")]
-public record AzWebappVnetIntegrationAddOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--subnet")] string Subnet,
-    [property: CliOption("--vnet")] string Vnet
-) : AzOptions
+public record AzWebappVnetIntegrationAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a regional virtual network integration to a webapp.
+    /// </summary>
+    /// <param name="Name">Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Subnet">The name or resource ID of the subnet.</param>
+    /// <param name="Vnet">The name or resource ID of the Vnet.</param>
+    public AzWebappVnetIntegrationAddOptions(
+        string Name,
+        string ResourceGroup,
+        string Subnet,
+        string Vnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+        global::System.ArgumentNullException.ThrowIfNull(Vnet);
+        this.Vnet = Vnet;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Subnet, out string Vnet)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Subnet = this.Subnet;
+        Vnet = this.Vnet;
+    }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name or resource ID of the subnet.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string Subnet { get; private init; }
+
+    /// <summary>
+    /// The name or resource ID of the Vnet.
+    /// </summary>
+    [CliOption("--vnet")]
+    public string Vnet { get; private init; }
+
     /// <summary>
     /// Skip check if you do not have permission or the VNet is in another subscription.  Allowed values: false, true.
     /// </summary>

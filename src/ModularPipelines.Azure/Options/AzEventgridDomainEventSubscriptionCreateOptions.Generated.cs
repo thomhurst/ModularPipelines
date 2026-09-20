@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new event subscription for a domain.
 /// </summary>
-/// <param name="DomainName">Name of the domain.</param>
-/// <param name="Name">Name of the event subscription.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "domain", "event-subscription", "create")]
-public record AzEventgridDomainEventSubscriptionCreateOptions(
-    [property: CliOption("--domain-name")] string DomainName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventgridDomainEventSubscriptionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new event subscription for a domain.
+    /// </summary>
+    /// <param name="DomainName">Name of the domain.</param>
+    /// <param name="Name">Name of the event subscription.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventgridDomainEventSubscriptionCreateOptions(
+        string DomainName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DomainName, out string Name, out string ResourceGroup)
+    {
+        DomainName = this.DomainName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the domain.
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string DomainName { get; private init; }
+
+    /// <summary>
+    /// Name of the event subscription.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The Azure Active Directory Application Id or Uri to get the access token that will be included as the bearer token in delivery requests. Applicable only for webhook as a destination.
     /// </summary>

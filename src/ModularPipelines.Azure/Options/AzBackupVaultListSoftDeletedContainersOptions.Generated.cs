@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List soft-deleted containers within a particular
 /// </summary>
-/// <param name="BackupManagementType">Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "vault", "list-soft-deleted-containers")]
-public record AzBackupVaultListSoftDeletedContainersOptions(
-    [property: CliOption("--backup-management-type")] string BackupManagementType
-) : AzOptions
+public record AzBackupVaultListSoftDeletedContainersOptions : AzOptions
 {
+    /// <summary>
+    /// List soft-deleted containers within a particular
+    /// </summary>
+    /// <param name="BackupManagementType">Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.</param>
+    public AzBackupVaultListSoftDeletedContainersOptions(
+        string BackupManagementType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupManagementType);
+        this.BackupManagementType = BackupManagementType;
+    }
+
+    public void Deconstruct(out string BackupManagementType)
+    {
+        BackupManagementType = this.BackupManagementType;
+    }
+
+    /// <summary>
+    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
+    /// </summary>
+    [CliOption("--backup-management-type")]
+    public string BackupManagementType { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

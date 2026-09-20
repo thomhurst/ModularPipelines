@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the Azure Cosmos DB location properties in the given location.
 /// </summary>
-/// <param name="Location">Name of the location.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "locations", "show")]
-public record AzCosmosdbLocationsShowOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzCosmosdbLocationsShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the Azure Cosmos DB location properties in the given location.
+    /// </summary>
+    /// <param name="Location">Name of the location.</param>
+    public AzCosmosdbLocationsShowOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Name of the location.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
 }

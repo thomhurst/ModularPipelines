@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a function app key.
 /// </summary>
-/// <param name="KeyName">Name of the key to set.</param>
-/// <param name="KeyType">Type of key.  Allowed values: functionKeys, masterKey, systemKeys.</param>
-/// <param name="Name">Name of the function app.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "keys", "delete")]
-public record AzFunctionappKeysDeleteOptions(
-    [property: CliOption("--key-name")] string KeyName,
-    [property: CliOption("--key-type")] string KeyType,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzFunctionappKeysDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a function app key.
+    /// </summary>
+    /// <param name="KeyName">Name of the key to set.</param>
+    /// <param name="KeyType">Type of key.  Allowed values: functionKeys, masterKey, systemKeys.</param>
+    /// <param name="Name">Name of the function app.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzFunctionappKeysDeleteOptions(
+        string KeyName,
+        string KeyType,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(KeyType);
+        this.KeyType = KeyType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string KeyName, out string KeyType, out string Name, out string ResourceGroup)
+    {
+        KeyName = this.KeyName;
+        KeyType = this.KeyType;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the key to set.
+    /// </summary>
+    [CliOption("--key-name")]
+    public string KeyName { get; private init; }
+
+    /// <summary>
+    /// Type of key.  Allowed values: functionKeys, masterKey, systemKeys.
+    /// </summary>
+    [CliOption("--key-type")]
+    public string KeyType { get; private init; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The name of the slot. Defaults to the productions slot if not specified.
     /// </summary>

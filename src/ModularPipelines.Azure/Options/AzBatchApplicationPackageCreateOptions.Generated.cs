@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Batch application package record and activate it.
 /// </summary>
-/// <param name="ApplicationName">The name of the application.</param>
-/// <param name="Name">Name of the Batch account.</param>
-/// <param name="PackageFile">The path of the application package in zip format.</param>
-/// <param name="ResourceGroup">Name of the resource group.</param>
-/// <param name="VersionName">The version name of the application.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "application", "package", "create")]
-public record AzBatchApplicationPackageCreateOptions(
-    [property: CliOption("--application-name")] string ApplicationName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--package-file")] string PackageFile,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--version-name")] string VersionName
-) : AzOptions
+public record AzBatchApplicationPackageCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Batch application package record and activate it.
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application.</param>
+    /// <param name="Name">Name of the Batch account.</param>
+    /// <param name="PackageFile">The path of the application package in zip format.</param>
+    /// <param name="ResourceGroup">Name of the resource group.</param>
+    /// <param name="VersionName">The version name of the application.</param>
+    public AzBatchApplicationPackageCreateOptions(
+        string ApplicationName,
+        string Name,
+        string PackageFile,
+        string ResourceGroup,
+        string VersionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PackageFile);
+        this.PackageFile = PackageFile;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VersionName);
+        this.VersionName = VersionName;
+    }
+
+    public void Deconstruct(out string ApplicationName, out string Name, out string PackageFile, out string ResourceGroup, out string VersionName)
+    {
+        ApplicationName = this.ApplicationName;
+        Name = this.Name;
+        PackageFile = this.PackageFile;
+        ResourceGroup = this.ResourceGroup;
+        VersionName = this.VersionName;
+    }
+
+    /// <summary>
+    /// The name of the application.
+    /// </summary>
+    [CliOption("--application-name")]
+    public string ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Name of the Batch account.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The path of the application package in zip format.
+    /// </summary>
+    [CliOption("--package-file")]
+    public string PackageFile { get; private init; }
+
+    /// <summary>
+    /// Name of the resource group.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The version name of the application.
+    /// </summary>
+    [CliOption("--version-name")]
+    public string VersionName { get; private init; }
+
 }

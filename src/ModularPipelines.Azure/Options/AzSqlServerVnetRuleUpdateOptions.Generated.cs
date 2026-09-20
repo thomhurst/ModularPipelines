@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a virtual network rule.
 /// </summary>
-/// <param name="Name">The name of the virtual network rule.</param>
-/// <param name="Subnet">Name or ID of the subnet that allows access to an Azure Sql Server. If subnet name is provided, --vnet-name must be provided.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "vnet-rule", "update")]
-public record AzSqlServerVnetRuleUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--subnet")] string Subnet
-) : AzOptions
+public record AzSqlServerVnetRuleUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a virtual network rule.
+    /// </summary>
+    /// <param name="Name">The name of the virtual network rule.</param>
+    /// <param name="Subnet">Name or ID of the subnet that allows access to an Azure Sql Server. If subnet name is provided, --vnet-name must be provided.</param>
+    public AzSqlServerVnetRuleUpdateOptions(
+        string Name,
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string Name, out string Subnet)
+    {
+        Name = this.Name;
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// The name of the virtual network rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the subnet that allows access to an Azure Sql Server. If subnet name is provided, --vnet-name must be provided.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string Subnet { get; private init; }
+
     /// <summary>
     /// Create firewall rule before the virtual network has vnet service endpoint enabled.  Allowed values: false, true.
     /// </summary>

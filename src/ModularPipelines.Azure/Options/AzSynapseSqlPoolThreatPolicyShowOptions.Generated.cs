@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a SQL pool's threat detection policy.
 /// </summary>
-/// <param name="SecurityAlertPolicyName">Name of the security alert policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "threat-policy", "show")]
-public record AzSynapseSqlPoolThreatPolicyShowOptions(
-    [property: CliOption("--security-alert-policy-name", ShortForm = "-s")] string SecurityAlertPolicyName
-) : AzOptions
+public record AzSynapseSqlPoolThreatPolicyShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a SQL pool's threat detection policy.
+    /// </summary>
+    /// <param name="SecurityAlertPolicyName">Name of the security alert policy.</param>
+    public AzSynapseSqlPoolThreatPolicyShowOptions(
+        string SecurityAlertPolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityAlertPolicyName);
+        this.SecurityAlertPolicyName = SecurityAlertPolicyName;
+    }
+
+    public void Deconstruct(out string SecurityAlertPolicyName)
+    {
+        SecurityAlertPolicyName = this.SecurityAlertPolicyName;
+    }
+
+    /// <summary>
+    /// Name of the security alert policy.
+    /// </summary>
+    [CliOption("--security-alert-policy-name", ShortForm = "-s")]
+    public string SecurityAlertPolicyName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

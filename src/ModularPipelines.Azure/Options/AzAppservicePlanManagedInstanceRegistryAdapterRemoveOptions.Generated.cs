@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a registry adapter from a
 /// </summary>
-/// <param name="RegistryKey">Registry key for the adapter to remove.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "registry-adapter", "remove")]
-public record AzAppservicePlanManagedInstanceRegistryAdapterRemoveOptions(
-    [property: CliOption("--registry-key")] string RegistryKey
-) : AzOptions
+public record AzAppservicePlanManagedInstanceRegistryAdapterRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a registry adapter from a
+    /// </summary>
+    /// <param name="RegistryKey">Registry key for the adapter to remove.</param>
+    public AzAppservicePlanManagedInstanceRegistryAdapterRemoveOptions(
+        string RegistryKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryKey);
+        this.RegistryKey = RegistryKey;
+    }
+
+    public void Deconstruct(out string RegistryKey)
+    {
+        RegistryKey = this.RegistryKey;
+    }
+
+    /// <summary>
+    /// Registry key for the adapter to remove.
+    /// </summary>
+    [CliOption("--registry-key")]
+    public string RegistryKey { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

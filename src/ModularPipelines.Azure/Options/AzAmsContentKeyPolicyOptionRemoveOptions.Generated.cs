@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an option from an existing content key policy.
 /// </summary>
-/// <param name="PolicyOptionId">The content key policy option identifier. This value can be obtained from "policyOptionId" property by running a show operation on a content key policy resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "content-key-policy", "option", "remove")]
-public record AzAmsContentKeyPolicyOptionRemoveOptions(
-    [property: CliOption("--policy-option-id")] string PolicyOptionId
-) : AzOptions
+public record AzAmsContentKeyPolicyOptionRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an option from an existing content key policy.
+    /// </summary>
+    /// <param name="PolicyOptionId">The content key policy option identifier. This value can be obtained from "policyOptionId" property by running a show operation on a content key policy resource.</param>
+    public AzAmsContentKeyPolicyOptionRemoveOptions(
+        string PolicyOptionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyOptionId);
+        this.PolicyOptionId = PolicyOptionId;
+    }
+
+    public void Deconstruct(out string PolicyOptionId)
+    {
+        PolicyOptionId = this.PolicyOptionId;
+    }
+
+    /// <summary>
+    /// The content key policy option identifier. This value can be obtained from "policyOptionId" property by running a show operation on a content key policy resource.
+    /// </summary>
+    [CliOption("--policy-option-id")]
+    public string PolicyOptionId { get; private init; }
+
     /// <summary>
     /// The name of the Azure Media Services account.
     /// </summary>

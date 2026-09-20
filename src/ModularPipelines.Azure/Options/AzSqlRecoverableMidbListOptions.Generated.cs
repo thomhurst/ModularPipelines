@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get all recoverable managed databases for given instance name.
 /// </summary>
-/// <param name="InstanceName">The name of the managed instance. Required.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "recoverable-midb", "list")]
-public record AzSqlRecoverableMidbListOptions(
-    [property: CliOption("--instance-name", ShortForm = "--mi")] string InstanceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlRecoverableMidbListOptions : AzOptions
 {
+    /// <summary>
+    /// Get all recoverable managed databases for given instance name.
+    /// </summary>
+    /// <param name="InstanceName">The name of the managed instance. Required.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSqlRecoverableMidbListOptions(
+        string InstanceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string InstanceName, out string ResourceGroup)
+    {
+        InstanceName = this.InstanceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the managed instance. Required.
+    /// </summary>
+    [CliOption("--instance-name", ShortForm = "--mi")]
+    public string InstanceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets a Geo-Disaster Recovery Configuration Alias for the
 /// </summary>
-/// <param name="Alias">Name of the Geo-Disaster Recovery Configuration Alias.</param>
-/// <param name="PartnerNamespace">Name (if within the same resource group) or ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "georecovery-alias", "set")]
-public record AzEventhubsGeorecoveryAliasSetOptions(
-    [property: CliOption("--alias", ShortForm = "-a")] string Alias,
-    [property: CliOption("--partner-namespace")] string PartnerNamespace
-) : AzOptions
+public record AzEventhubsGeorecoveryAliasSetOptions : AzOptions
 {
+    /// <summary>
+    /// Sets a Geo-Disaster Recovery Configuration Alias for the
+    /// </summary>
+    /// <param name="Alias">Name of the Geo-Disaster Recovery Configuration Alias.</param>
+    /// <param name="PartnerNamespace">Name (if within the same resource group) or ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.</param>
+    public AzEventhubsGeorecoveryAliasSetOptions(
+        string Alias,
+        string PartnerNamespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerNamespace);
+        this.PartnerNamespace = PartnerNamespace;
+    }
+
+    public void Deconstruct(out string Alias, out string PartnerNamespace)
+    {
+        Alias = this.Alias;
+        PartnerNamespace = this.PartnerNamespace;
+    }
+
+    /// <summary>
+    /// Name of the Geo-Disaster Recovery Configuration Alias.
+    /// </summary>
+    [CliOption("--alias", ShortForm = "-a")]
+    public string Alias { get; private init; }
+
+    /// <summary>
+    /// Name (if within the same resource group) or ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.
+    /// </summary>
+    [CliOption("--partner-namespace")]
+    public string PartnerNamespace { get; private init; }
+
     /// <summary>
     /// Alternate Name for the Alias, when the Namespace name and Alias name are same.
     /// </summary>

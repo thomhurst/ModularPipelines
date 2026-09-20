@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List supported of regulatory compliance
 /// </summary>
-/// <param name="StandardName">The compliance standard name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "regulatory-compliance-controls", "list")]
-public record AzSecurityRegulatoryComplianceControlsListOptions(
-    [property: CliOption("--standard-name")] string StandardName
-) : AzOptions
+public record AzSecurityRegulatoryComplianceControlsListOptions : AzOptions
 {
+    /// <summary>
+    /// List supported of regulatory compliance
+    /// </summary>
+    /// <param name="StandardName">The compliance standard name.</param>
+    public AzSecurityRegulatoryComplianceControlsListOptions(
+        string StandardName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StandardName);
+        this.StandardName = StandardName;
+    }
+
+    public void Deconstruct(out string StandardName)
+    {
+        StandardName = this.StandardName;
+    }
+
+    /// <summary>
+    /// The compliance standard name.
+    /// </summary>
+    [CliOption("--standard-name")]
+    public string StandardName { get; private init; }
+
 }

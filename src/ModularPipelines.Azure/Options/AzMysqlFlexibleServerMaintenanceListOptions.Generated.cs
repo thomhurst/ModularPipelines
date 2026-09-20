@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all of the maintenances of a flexible server.
 /// </summary>
-/// <param name="ResourceGroup">Resource Group Name of the server.</param>
-/// <param name="ServerName">The name of the server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "maintenance", "list")]
-public record AzMysqlFlexibleServerMaintenanceListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
-) : AzOptions
+public record AzMysqlFlexibleServerMaintenanceListOptions : AzOptions
 {
+    /// <summary>
+    /// List all of the maintenances of a flexible server.
+    /// </summary>
+    /// <param name="ResourceGroup">Resource Group Name of the server.</param>
+    /// <param name="ServerName">The name of the server.</param>
+    public AzMysqlFlexibleServerMaintenanceListOptions(
+        string ResourceGroup,
+        string ServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string ServerName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        ServerName = this.ServerName;
+    }
+
+    /// <summary>
+    /// Resource Group Name of the server.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the server.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string ServerName { get; private init; }
+
 }

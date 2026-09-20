@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a match
 /// </summary>
-/// <param name="Index">Index of the match condition to remove.</param>
-/// <param name="Name">Name of the WAF policy rule.</param>
-/// <param name="PolicyName">Name of the application gateway WAF policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "match-condition", "remove")]
-public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionRemoveOptions(
-    [property: CliOption("--index")] string Index,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--policy-name")] string PolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a match
+    /// </summary>
+    /// <param name="Index">Index of the match condition to remove.</param>
+    /// <param name="Name">Name of the WAF policy rule.</param>
+    /// <param name="PolicyName">Name of the application gateway WAF policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionRemoveOptions(
+        string Index,
+        string Name,
+        string PolicyName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Index);
+        this.Index = Index;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Index, out string Name, out string PolicyName, out string ResourceGroup)
+    {
+        Index = this.Index;
+        Name = this.Name;
+        PolicyName = this.PolicyName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Index of the match condition to remove.
+    /// </summary>
+    [CliOption("--index")]
+    public string Index { get; private init; }
+
+    /// <summary>
+    /// Name of the WAF policy rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the application gateway WAF policy.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

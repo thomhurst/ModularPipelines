@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the details of a function.
 /// </summary>
-/// <param name="FunctionName">Name of the Function.</param>
-/// <param name="Name">Name of the function app.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "function", "show")]
-public record AzFunctionappFunctionShowOptions(
-    [property: CliOption("--function-name")] string FunctionName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzFunctionappFunctionShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get the details of a function.
+    /// </summary>
+    /// <param name="FunctionName">Name of the Function.</param>
+    /// <param name="Name">Name of the function app.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzFunctionappFunctionShowOptions(
+        string FunctionName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FunctionName);
+        this.FunctionName = FunctionName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string FunctionName, out string Name, out string ResourceGroup)
+    {
+        FunctionName = this.FunctionName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the Function.
+    /// </summary>
+    [CliOption("--function-name")]
+    public string FunctionName { get; private init; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

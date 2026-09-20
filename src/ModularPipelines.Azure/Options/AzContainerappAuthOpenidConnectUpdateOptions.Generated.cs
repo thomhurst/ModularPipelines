@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the client id and client secret setting name
 /// </summary>
-/// <param name="ProviderName">The name of the custom OpenID Connect provider.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "auth", "openid-connect", "update")]
-public record AzContainerappAuthOpenidConnectUpdateOptions(
-    [property: CliOption("--provider-name")] string ProviderName
-) : AzOptions
+public record AzContainerappAuthOpenidConnectUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update the client id and client secret setting name
+    /// </summary>
+    /// <param name="ProviderName">The name of the custom OpenID Connect provider.</param>
+    public AzContainerappAuthOpenidConnectUpdateOptions(
+        string ProviderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProviderName);
+        this.ProviderName = ProviderName;
+    }
+
+    public void Deconstruct(out string ProviderName)
+    {
+        ProviderName = this.ProviderName;
+    }
+
+    /// <summary>
+    /// The name of the custom OpenID Connect provider.
+    /// </summary>
+    [CliOption("--provider-name")]
+    public string ProviderName { get; private init; }
+
     /// <summary>
     /// The Client ID of the app used for login.
     /// </summary>

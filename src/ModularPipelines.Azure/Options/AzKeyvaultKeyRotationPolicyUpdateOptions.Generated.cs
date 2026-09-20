@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the rotation policy of a Key Vault key.
 /// </summary>
-/// <param name="Value">The rotation policy file definition as JSON, or a path to a file containing JSON policy definition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "rotation-policy", "update")]
-public record AzKeyvaultKeyRotationPolicyUpdateOptions(
-    [property: CliOption("--value")] string Value
-) : AzOptions
+public record AzKeyvaultKeyRotationPolicyUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update the rotation policy of a Key Vault key.
+    /// </summary>
+    /// <param name="Value">The rotation policy file definition as JSON, or a path to a file containing JSON policy definition.</param>
+    public AzKeyvaultKeyRotationPolicyUpdateOptions(
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string Value)
+    {
+        Value = this.Value;
+    }
+
+    /// <summary>
+    /// The rotation policy file definition as JSON, or a path to a file containing JSON policy definition.
+    /// </summary>
+    [CliOption("--value")]
+    public string Value { get; private init; }
+
     /// <summary>
     /// Name of the key. Required if --id is not specified.
     /// </summary>

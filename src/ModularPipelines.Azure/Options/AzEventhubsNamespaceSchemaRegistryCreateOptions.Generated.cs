@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an EventHub schema group.
 /// </summary>
-/// <param name="Name">The Schema Group name.</param>
-/// <param name="NamespaceName">The Namespace name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "schema-registry", "create")]
-public record AzEventhubsNamespaceSchemaRegistryCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventhubsNamespaceSchemaRegistryCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an EventHub schema group.
+    /// </summary>
+    /// <param name="Name">The Schema Group name.</param>
+    /// <param name="NamespaceName">The Namespace name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventhubsNamespaceSchemaRegistryCreateOptions(
+        string Name,
+        string NamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string NamespaceName, out string ResourceGroup)
+    {
+        Name = this.Name;
+        NamespaceName = this.NamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The Schema Group name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The Namespace name.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Dictionary object for SchemaGroup group properties Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>

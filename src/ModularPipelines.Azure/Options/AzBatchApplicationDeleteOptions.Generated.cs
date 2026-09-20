@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes an application.
 /// </summary>
-/// <param name="ApplicationName">The name of the application. This must be unique within the account. Required.</param>
-/// <param name="Name">Name of the Batch account.</param>
-/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "application", "delete")]
-public record AzBatchApplicationDeleteOptions(
-    [property: CliOption("--application-name")] string ApplicationName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzBatchApplicationDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes an application.
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application. This must be unique within the account. Required.</param>
+    /// <param name="Name">Name of the Batch account.</param>
+    /// <param name="ResourceGroup">Name of the resource group.</param>
+    public AzBatchApplicationDeleteOptions(
+        string ApplicationName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ApplicationName, out string Name, out string ResourceGroup)
+    {
+        ApplicationName = this.ApplicationName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the application. This must be unique within the account. Required.
+    /// </summary>
+    [CliOption("--application-name")]
+    public string ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Name of the Batch account.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the resource group.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

@@ -16,20 +16,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create user on a Data Box Edge/Data Box Gateway device.
 /// </summary>
-/// <param name="DeviceName">The device name.</param>
-/// <param name="Name">The user name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="UserType">Type of the user.  Allowed values: ARM, LocalManagement, Share.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "user", "create")]
-public record AzDataboxedgeDeviceUserCreateOptions(
-    [property: CliOption("--device-name")] string DeviceName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--user-type")] string UserType
-) : AzOptions
+public record AzDataboxedgeDeviceUserCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create user on a Data Box Edge/Data Box Gateway device.
+    /// </summary>
+    /// <param name="DeviceName">The device name.</param>
+    /// <param name="Name">The user name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="UserType">Type of the user.  Allowed values: ARM, LocalManagement, Share.</param>
+    public AzDataboxedgeDeviceUserCreateOptions(
+        string DeviceName,
+        string Name,
+        string ResourceGroup,
+        string UserType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(UserType);
+        this.UserType = UserType;
+    }
+
+    public void Deconstruct(out string DeviceName, out string Name, out string ResourceGroup, out string UserType)
+    {
+        DeviceName = this.DeviceName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        UserType = this.UserType;
+    }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliOption("--device-name")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// The user name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Type of the user.  Allowed values: ARM, LocalManagement, Share.
+    /// </summary>
+    [CliOption("--user-type")]
+    public string UserType { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

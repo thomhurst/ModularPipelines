@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a Batch pool. Updating a property in a subgroup
 /// </summary>
-/// <param name="PoolId">The ID of the Pool to get. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "set")]
-public record AzBatchPoolSetOptions(
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchPoolSetOptions : AzOptions
 {
+    /// <summary>
+    /// Update the properties of a Batch pool. Updating a property in a subgroup
+    /// </summary>
+    /// <param name="PoolId">The ID of the Pool to get. Required.</param>
+    public AzBatchPoolSetOptions(
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string PoolId)
+    {
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the Pool to get. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// A file containing the pool specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Pool Arguments' are ignored.
     /// </summary>

@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new shared access policy in an Azure IoT Hub Device
 /// </summary>
-/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
-/// <param name="Pn">A friendly name for DPS access policy.</param>
-/// <param name="Rights">Access rights for the IoT Hub Device Provisioning Service. Use space-separated list for multiple rights.  Allowed values: DeviceConnect, EnrollmentRead, EnrollmentWrite, RegistrationStatusRead, RegistrationStatusWrite, ServiceConfig.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "policy", "create")]
-public record AzIotDpsPolicyCreateOptions(
-    [property: CliOption("--dps-name", ShortForm = "-n")] string DpsName,
-    [property: CliOption("--pn", ShortForm = "--policy-name")] string Pn,
-    [property: CliOption("--rights", ShortForm = "-r", GroupValues = true)] IEnumerable<string> Rights
-) : AzOptions
+public record AzIotDpsPolicyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new shared access policy in an Azure IoT Hub Device
+    /// </summary>
+    /// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+    /// <param name="Pn">A friendly name for DPS access policy.</param>
+    /// <param name="Rights">Access rights for the IoT Hub Device Provisioning Service. Use space-separated list for multiple rights.  Allowed values: DeviceConnect, EnrollmentRead, EnrollmentWrite, RegistrationStatusRead, RegistrationStatusWrite, ServiceConfig.</param>
+    public AzIotDpsPolicyCreateOptions(
+        string DpsName,
+        string Pn,
+        IEnumerable<string> Rights
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DpsName);
+        this.DpsName = DpsName;
+        global::System.ArgumentNullException.ThrowIfNull(Pn);
+        this.Pn = Pn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rights);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rights));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rights));
+            }
+
+            Rights = materialized;
+        }
+        this.Rights = Rights;
+    }
+
+    public void Deconstruct(out string DpsName, out string Pn, out IEnumerable<string> Rights)
+    {
+        DpsName = this.DpsName;
+        Pn = this.Pn;
+        Rights = this.Rights;
+    }
+
+    /// <summary>
+    /// IoT Hub Device Provisioning Service name.
+    /// </summary>
+    [CliOption("--dps-name", ShortForm = "-n")]
+    public string DpsName { get; private init; }
+
+    /// <summary>
+    /// A friendly name for DPS access policy.
+    /// </summary>
+    [CliOption("--pn", ShortForm = "--policy-name")]
+    public string Pn { get; private init; }
+
+    /// <summary>
+    /// Access rights for the IoT Hub Device Provisioning Service. Use space-separated list for multiple rights.  Allowed values: DeviceConnect, EnrollmentRead, EnrollmentWrite, RegistrationStatusRead, RegistrationStatusWrite, ServiceConfig.
+    /// </summary>
+    [CliOption("--rights", ShortForm = "-r", GroupValues = true)]
+    public IEnumerable<string> Rights { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

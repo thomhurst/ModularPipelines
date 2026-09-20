@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an application owner.
 /// </summary>
-/// <param name="Id">Identifier uri, application id, or object id.</param>
-/// <param name="OwnerObjectId">Owner's object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "owner", "remove")]
-public record AzAdAppOwnerRemoveOptions(
-    [property: CliOption("--id")] string Id,
-    [property: CliOption("--owner-object-id")] string OwnerObjectId
-) : AzOptions
+public record AzAdAppOwnerRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an application owner.
+    /// </summary>
+    /// <param name="Id">Identifier uri, application id, or object id.</param>
+    /// <param name="OwnerObjectId">Owner's object id.</param>
+    public AzAdAppOwnerRemoveOptions(
+        string Id,
+        string OwnerObjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(OwnerObjectId);
+        this.OwnerObjectId = OwnerObjectId;
+    }
+
+    public void Deconstruct(out string Id, out string OwnerObjectId)
+    {
+        Id = this.Id;
+        OwnerObjectId = this.OwnerObjectId;
+    }
+
+    /// <summary>
+    /// Identifier uri, application id, or object id.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// Owner's object id.
+    /// </summary>
+    [CliOption("--owner-object-id")]
+    public string OwnerObjectId { get; private init; }
+
 }

@@ -15,22 +15,87 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a managed service correlation scheme.
 /// </summary>
-/// <param name="Application">Specify the name of the service.</param>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="CorrelatedName">Specify the Arm Resource ID of the service that the correlation relationship is established with.</param>
-/// <param name="Name">Specify the name of the service.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Scheme">Specify the ServiceCorrelationScheme which describes the relationship between this service and the service specified via correlated_service_name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-service", "correlation-scheme", "update")]
-public record AzSfManagedServiceCorrelationSchemeUpdateOptions(
-    [property: CliOption("--application", ShortForm = "--application-name")] string Application,
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--correlated-name", ShortForm = "--correlated-service-name")] string CorrelatedName,
-    [property: CliOption("--name", ShortForm = "--service-name")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--scheme")] string Scheme
-) : AzOptions
+public record AzSfManagedServiceCorrelationSchemeUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a managed service correlation scheme.
+    /// </summary>
+    /// <param name="Application">Specify the name of the service.</param>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="CorrelatedName">Specify the Arm Resource ID of the service that the correlation relationship is established with.</param>
+    /// <param name="Name">Specify the name of the service.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Scheme">Specify the ServiceCorrelationScheme which describes the relationship between this service and the service specified via correlated_service_name.</param>
+    public AzSfManagedServiceCorrelationSchemeUpdateOptions(
+        string Application,
+        string ClusterName,
+        string CorrelatedName,
+        string Name,
+        string ResourceGroup,
+        string Scheme
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(CorrelatedName);
+        this.CorrelatedName = CorrelatedName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Scheme);
+        this.Scheme = Scheme;
+    }
+
+    public void Deconstruct(out string Application, out string ClusterName, out string CorrelatedName, out string Name, out string ResourceGroup, out string Scheme)
+    {
+        Application = this.Application;
+        ClusterName = this.ClusterName;
+        CorrelatedName = this.CorrelatedName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Scheme = this.Scheme;
+    }
+
+    /// <summary>
+    /// Specify the name of the service.
+    /// </summary>
+    [CliOption("--application", ShortForm = "--application-name")]
+    public string Application { get; private init; }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Specify the Arm Resource ID of the service that the correlation relationship is established with.
+    /// </summary>
+    [CliOption("--correlated-name", ShortForm = "--correlated-service-name")]
+    public string CorrelatedName { get; private init; }
+
+    /// <summary>
+    /// Specify the name of the service.
+    /// </summary>
+    [CliOption("--name", ShortForm = "--service-name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Specify the ServiceCorrelationScheme which describes the relationship between this service and the service specified via correlated_service_name.
+    /// </summary>
+    [CliOption("--scheme")]
+    public string Scheme { get; private init; }
+
 }

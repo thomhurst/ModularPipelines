@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a column's sensitivity classification.
 /// </summary>
-/// <param name="Column">The name of column.</param>
-/// <param name="Schema">The name of schema.</param>
-/// <param name="Table">The name of table.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "classification", "update")]
-public record AzSynapseSqlPoolClassificationUpdateOptions(
-    [property: CliOption("--column")] string Column,
-    [property: CliOption("--schema")] string Schema,
-    [property: CliOption("--table")] string Table
-) : AzOptions
+public record AzSynapseSqlPoolClassificationUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a column's sensitivity classification.
+    /// </summary>
+    /// <param name="Column">The name of column.</param>
+    /// <param name="Schema">The name of schema.</param>
+    /// <param name="Table">The name of table.</param>
+    public AzSynapseSqlPoolClassificationUpdateOptions(
+        string Column,
+        string Schema,
+        string Table
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Column);
+        this.Column = Column;
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+    }
+
+    public void Deconstruct(out string Column, out string Schema, out string Table)
+    {
+        Column = this.Column;
+        Schema = this.Schema;
+        Table = this.Table;
+    }
+
+    /// <summary>
+    /// The name of column.
+    /// </summary>
+    [CliOption("--column")]
+    public string Column { get; private init; }
+
+    /// <summary>
+    /// The name of schema.
+    /// </summary>
+    [CliOption("--schema")]
+    public string Schema { get; private init; }
+
+    /// <summary>
+    /// The name of table.
+    /// </summary>
+    [CliOption("--table")]
+    public string Table { get; private init; }
+
     /// <summary>
     /// The information type.
     /// </summary>

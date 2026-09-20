@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a resource policy remediation.
 /// </summary>
-/// <param name="Name">Name of the remediation.</param>
-/// <param name="PolicyAssignment">Name or resource ID of the policy assignment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "remediation", "create")]
-public record AzPolicyRemediationCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--policy-assignment", ShortForm = "-a")] string PolicyAssignment
-) : AzOptions
+public record AzPolicyRemediationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a resource policy remediation.
+    /// </summary>
+    /// <param name="Name">Name of the remediation.</param>
+    /// <param name="PolicyAssignment">Name or resource ID of the policy assignment.</param>
+    public AzPolicyRemediationCreateOptions(
+        string Name,
+        string PolicyAssignment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyAssignment);
+        this.PolicyAssignment = PolicyAssignment;
+    }
+
+    public void Deconstruct(out string Name, out string PolicyAssignment)
+    {
+        Name = this.Name;
+        PolicyAssignment = this.PolicyAssignment;
+    }
+
+    /// <summary>
+    /// Name of the remediation.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name or resource ID of the policy assignment.
+    /// </summary>
+    [CliOption("--policy-assignment", ShortForm = "-a")]
+    public string PolicyAssignment { get; private init; }
+
     /// <summary>
     /// Policy definition reference ID inside the policy set definition. Only required when the policy assignment is assigning a policy set definition.
     /// </summary>

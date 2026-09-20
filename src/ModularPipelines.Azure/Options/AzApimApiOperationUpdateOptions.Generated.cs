@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates the details of the operation in the API specified by its
 /// </summary>
-/// <param name="OperationId">Operation identifier within an API. Must be unique in the current API Management service instance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
-/// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "operation", "update")]
-public record AzApimApiOperationUpdateOptions(
-    [property: CliOption("--operation-id")] string OperationId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
-    [property: CliOption("--api-id")] string ApiId
-) : AzOptions
+public record AzApimApiOperationUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates the details of the operation in the API specified by its
+    /// </summary>
+    /// <param name="OperationId">Operation identifier within an API. Must be unique in the current API Management service instance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    /// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.</param>
+    public AzApimApiOperationUpdateOptions(
+        string OperationId,
+        string ResourceGroup,
+        string ServiceName,
+        string ApiId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationId);
+        this.OperationId = OperationId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+    }
+
+    public void Deconstruct(out string OperationId, out string ResourceGroup, out string ServiceName, out string ApiId)
+    {
+        OperationId = this.OperationId;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        ApiId = this.ApiId;
+    }
+
+    /// <summary>
+    /// Operation identifier within an API. Must be unique in the current API Management service instance.
+    /// </summary>
+    [CliOption("--operation-id")]
+    public string OperationId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+    /// </summary>
+    [CliOption("--api-id")]
+    public string ApiId { get; private init; }
+
     /// <summary>
     /// Description of the operation. May include HTML formatting tags.
     /// </summary>

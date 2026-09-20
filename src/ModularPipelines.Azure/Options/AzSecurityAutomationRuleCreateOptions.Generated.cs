@@ -15,18 +15,64 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates security automation rule.
 /// </summary>
-/// <param name="ExpectedValue">The expected value.</param>
-/// <param name="Operator">A valid comparer operator to use. A case-insensitive comparison will be applied for String PropertyType.</param>
-/// <param name="PropertyJPath">The JPath of the entity model property that should be checked.</param>
-/// <param name="PropertyType">The data type of the compared operands (string, integer, floating point number or a boolean [true/false]].</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-rule", "create")]
-public record AzSecurityAutomationRuleCreateOptions(
-    [property: CliOption("--expected-value")] string ExpectedValue,
-    [property: CliOption("--operator")] string Operator,
-    [property: CliOption("--property-j-path")] string PropertyJPath,
-    [property: CliOption("--property-type")] bool PropertyType
-) : AzOptions
+public record AzSecurityAutomationRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates security automation rule.
+    /// </summary>
+    /// <param name="ExpectedValue">The expected value.</param>
+    /// <param name="Operator">A valid comparer operator to use. A case-insensitive comparison will be applied for String PropertyType.</param>
+    /// <param name="PropertyJPath">The JPath of the entity model property that should be checked.</param>
+    /// <param name="PropertyType">The data type of the compared operands (string, integer, floating point number or a boolean [true/false]].</param>
+    public AzSecurityAutomationRuleCreateOptions(
+        string ExpectedValue,
+        string Operator,
+        string PropertyJPath,
+        bool PropertyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExpectedValue);
+        this.ExpectedValue = ExpectedValue;
+        global::System.ArgumentNullException.ThrowIfNull(Operator);
+        this.Operator = Operator;
+        global::System.ArgumentNullException.ThrowIfNull(PropertyJPath);
+        this.PropertyJPath = PropertyJPath;
+        this.PropertyType = PropertyType;
+    }
+
+    public void Deconstruct(out string ExpectedValue, out string Operator, out string PropertyJPath, out bool PropertyType)
+    {
+        ExpectedValue = this.ExpectedValue;
+        Operator = this.Operator;
+        PropertyJPath = this.PropertyJPath;
+        PropertyType = this.PropertyType;
+    }
+
+    /// <summary>
+    /// The expected value.
+    /// </summary>
+    [CliOption("--expected-value")]
+    public string ExpectedValue { get; private init; }
+
+    /// <summary>
+    /// A valid comparer operator to use. A case-insensitive comparison will be applied for String PropertyType.
+    /// </summary>
+    [CliOption("--operator")]
+    public string Operator { get; private init; }
+
+    /// <summary>
+    /// The JPath of the entity model property that should be checked.
+    /// </summary>
+    [CliOption("--property-j-path")]
+    public string PropertyJPath { get; private init; }
+
+    /// <summary>
+    /// The data type of the compared operands (string, integer, floating point number or a boolean [true/false]].
+    /// </summary>
+    [CliOption("--property-type")]
+    public bool PropertyType { get; private init; }
+
 }

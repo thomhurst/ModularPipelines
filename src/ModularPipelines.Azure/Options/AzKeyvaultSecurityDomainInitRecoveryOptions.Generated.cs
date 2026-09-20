@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve the exchange key of the HSM.
 /// </summary>
-/// <param name="SdExchangeKey">Local file path to store the exported key.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "init-recovery")]
-public record AzKeyvaultSecurityDomainInitRecoveryOptions(
-    [property: CliOption("--sd-exchange-key")] string SdExchangeKey
-) : AzOptions
+public record AzKeyvaultSecurityDomainInitRecoveryOptions : AzOptions
 {
+    /// <summary>
+    /// Retrieve the exchange key of the HSM.
+    /// </summary>
+    /// <param name="SdExchangeKey">Local file path to store the exported key.</param>
+    public AzKeyvaultSecurityDomainInitRecoveryOptions(
+        string SdExchangeKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SdExchangeKey);
+        this.SdExchangeKey = SdExchangeKey;
+    }
+
+    public void Deconstruct(out string SdExchangeKey)
+    {
+        SdExchangeKey = this.SdExchangeKey;
+    }
+
+    /// <summary>
+    /// Local file path to store the exported key.
+    /// </summary>
+    [CliOption("--sd-exchange-key")]
+    public string SdExchangeKey { get; private init; }
+
     /// <summary>
     /// Name of the HSM. Can be omitted if --id is specified.
     /// </summary>

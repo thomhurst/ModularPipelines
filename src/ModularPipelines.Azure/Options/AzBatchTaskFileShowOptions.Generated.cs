@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the properties of the specified Task file.
 /// </summary>
-/// <param name="FilePath">The path to the Task file that you want to get the content of. Required.</param>
-/// <param name="JobId">The ID of the Job that contains the Task. Required.</param>
-/// <param name="TaskId">The ID of the Task whose file you want to retrieve. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "file", "show")]
-public record AzBatchTaskFileShowOptions(
-    [property: CliOption("--file-path")] string FilePath,
-    [property: CliOption("--job-id")] string JobId,
-    [property: CliOption("--task-id")] string TaskId
-) : AzOptions
+public record AzBatchTaskFileShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the properties of the specified Task file.
+    /// </summary>
+    /// <param name="FilePath">The path to the Task file that you want to get the content of. Required.</param>
+    /// <param name="JobId">The ID of the Job that contains the Task. Required.</param>
+    /// <param name="TaskId">The ID of the Task whose file you want to retrieve. Required.</param>
+    public AzBatchTaskFileShowOptions(
+        string FilePath,
+        string JobId,
+        string TaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+    }
+
+    public void Deconstruct(out string FilePath, out string JobId, out string TaskId)
+    {
+        FilePath = this.FilePath;
+        JobId = this.JobId;
+        TaskId = this.TaskId;
+    }
+
+    /// <summary>
+    /// The path to the Task file that you want to get the content of. Required.
+    /// </summary>
+    [CliOption("--file-path")]
+    public string FilePath { get; private init; }
+
+    /// <summary>
+    /// The ID of the Job that contains the Task. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Task whose file you want to retrieve. Required.
+    /// </summary>
+    [CliOption("--task-id")]
+    public string TaskId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

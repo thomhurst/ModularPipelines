@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a policy attestation.
 /// </summary>
-/// <param name="AttestationName">The name of the attestation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "attestation", "show")]
-public record AzPolicyAttestationShowOptions(
-    [property: CliOption("--attestation-name", ShortForm = "-n")] string AttestationName
-) : AzOptions
+public record AzPolicyAttestationShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a policy attestation.
+    /// </summary>
+    /// <param name="AttestationName">The name of the attestation.</param>
+    public AzPolicyAttestationShowOptions(
+        string AttestationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttestationName);
+        this.AttestationName = AttestationName;
+    }
+
+    public void Deconstruct(out string AttestationName)
+    {
+        AttestationName = this.AttestationName;
+    }
+
+    /// <summary>
+    /// The name of the attestation.
+    /// </summary>
+    [CliOption("--attestation-name", ShortForm = "-n")]
+    public string AttestationName { get; private init; }
+
     /// <summary>
     /// Provider namespace (Ex: Microsoft.Provider).
     /// </summary>

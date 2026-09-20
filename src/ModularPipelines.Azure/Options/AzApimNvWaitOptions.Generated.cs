@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition of an apim named value is
 /// </summary>
-/// <param name="NamedValueId">Identifier of the NamedValue.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "nv", "wait")]
-public record AzApimNvWaitOptions(
-    [property: CliOption("--named-value-id")] string NamedValueId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName
-) : AzOptions
+public record AzApimNvWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition of an apim named value is
+    /// </summary>
+    /// <param name="NamedValueId">Identifier of the NamedValue.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    public AzApimNvWaitOptions(
+        string NamedValueId,
+        string ResourceGroup,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamedValueId);
+        this.NamedValueId = NamedValueId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string NamedValueId, out string ResourceGroup, out string ServiceName)
+    {
+        NamedValueId = this.NamedValueId;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// Identifier of the NamedValue.
+    /// </summary>
+    [CliOption("--named-value-id")]
+    public string NamedValueId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
     /// <summary>
     /// Wait until created with 'provisioningState' at 'Succeeded'.
     /// </summary>

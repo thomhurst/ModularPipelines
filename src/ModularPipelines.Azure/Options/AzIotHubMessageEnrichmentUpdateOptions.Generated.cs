@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a message enrichment in your IoT hub (by key).
 /// </summary>
-/// <param name="Endpoints">Endpoint(s) to apply enrichments to. Use a space-separated list for multiple endpoints.</param>
-/// <param name="Key">The enrichment's key.</param>
-/// <param name="Value">The enrichment's value.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "message-enrichment", "update")]
-public record AzIotHubMessageEnrichmentUpdateOptions(
-    [property: CliOption("--endpoints", ShortForm = "-e", GroupValues = true)] IEnumerable<string> Endpoints,
-    [property: CliOption("--key", ShortForm = "-k")] string Key,
-    [property: CliOption("--value", ShortForm = "-v")] string Value
-) : AzOptions
+public record AzIotHubMessageEnrichmentUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a message enrichment in your IoT hub (by key).
+    /// </summary>
+    /// <param name="Endpoints">Endpoint(s) to apply enrichments to. Use a space-separated list for multiple endpoints.</param>
+    /// <param name="Key">The enrichment's key.</param>
+    /// <param name="Value">The enrichment's value.</param>
+    public AzIotHubMessageEnrichmentUpdateOptions(
+        IEnumerable<string> Endpoints,
+        string Key,
+        string Value
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Endpoints);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Endpoints));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Endpoints));
+            }
+
+            Endpoints = materialized;
+        }
+        this.Endpoints = Endpoints;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Endpoints, out string Key, out string Value)
+    {
+        Endpoints = this.Endpoints;
+        Key = this.Key;
+        Value = this.Value;
+    }
+
+    /// <summary>
+    /// Endpoint(s) to apply enrichments to. Use a space-separated list for multiple endpoints.
+    /// </summary>
+    [CliOption("--endpoints", ShortForm = "-e", GroupValues = true)]
+    public IEnumerable<string> Endpoints { get; private init; }
+
+    /// <summary>
+    /// The enrichment's key.
+    /// </summary>
+    [CliOption("--key", ShortForm = "-k")]
+    public string Key { get; private init; }
+
+    /// <summary>
+    /// The enrichment's value.
+    /// </summary>
+    [CliOption("--value", ShortForm = "-v")]
+    public string Value { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

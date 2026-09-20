@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a service.
 /// </summary>
-/// <param name="ApplicationName">The name of the application resource. Required.</param>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="Name">Specify the name of the service. The application name must be a prefix of the service name, for example: appName~serviceName.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "service", "show")]
-public record AzSfServiceShowOptions(
-    [property: CliOption("--application-name")] string ApplicationName,
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--name", ShortForm = "--service-name")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSfServiceShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a service.
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application resource. Required.</param>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="Name">Specify the name of the service. The application name must be a prefix of the service name, for example: appName~serviceName.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSfServiceShowOptions(
+        string ApplicationName,
+        string ClusterName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ApplicationName, out string ClusterName, out string Name, out string ResourceGroup)
+    {
+        ApplicationName = this.ApplicationName;
+        ClusterName = this.ClusterName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the application resource. Required.
+    /// </summary>
+    [CliOption("--application-name")]
+    public string ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Specify the name of the service. The application name must be a prefix of the service name, for example: appName~serviceName.
+    /// </summary>
+    [CliOption("--name", ShortForm = "--service-name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

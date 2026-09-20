@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Register a Resource to the given Recovery Services Vault.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ResourceId">ID of the Azure Resource containing items to be protected by Azure Backup service. Currently, only Azure VM resource IDs are supported.</param>
-/// <param name="VaultName">Name of the Recovery services vault.</param>
-/// <param name="WorkloadType">Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "container", "register")]
-public record AzBackupContainerRegisterOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--resource-id")] string ResourceId,
-    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName,
-    [property: CliOption("--workload-type")] string WorkloadType
-) : AzOptions
+public record AzBackupContainerRegisterOptions : AzOptions
 {
+    /// <summary>
+    /// Register a Resource to the given Recovery Services Vault.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ResourceId">ID of the Azure Resource containing items to be protected by Azure Backup service. Currently, only Azure VM resource IDs are supported.</param>
+    /// <param name="VaultName">Name of the Recovery services vault.</param>
+    /// <param name="WorkloadType">Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.</param>
+    public AzBackupContainerRegisterOptions(
+        string ResourceGroup,
+        string ResourceId,
+        string VaultName,
+        string WorkloadType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadType);
+        this.WorkloadType = WorkloadType;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string ResourceId, out string VaultName, out string WorkloadType)
+    {
+        ResourceGroup = this.ResourceGroup;
+        ResourceId = this.ResourceId;
+        VaultName = this.VaultName;
+        WorkloadType = this.WorkloadType;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// ID of the Azure Resource containing items to be protected by Azure Backup service. Currently, only Azure VM resource IDs are supported.
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string ResourceId { get; private init; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string VaultName { get; private init; }
+
+    /// <summary>
+    /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.
+    /// </summary>
+    [CliOption("--workload-type")]
+    public string WorkloadType { get; private init; }
+
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload. Default: AzureWorkload.
     /// </summary>

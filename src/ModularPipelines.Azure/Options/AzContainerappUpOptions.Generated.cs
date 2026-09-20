@@ -16,14 +16,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a container app as well as any associated resources (ACR,
 /// </summary>
-/// <param name="Name">The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "up")]
-public record AzContainerappUpOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzContainerappUpOptions : AzOptions
 {
+    /// <summary>
+    /// Create or update a container app as well as any associated resources (ACR,
+    /// </summary>
+    /// <param name="Name">The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.</param>
+    public AzContainerappUpOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Open the app in a web browser after creation and deployment, if possible.
     /// </summary>

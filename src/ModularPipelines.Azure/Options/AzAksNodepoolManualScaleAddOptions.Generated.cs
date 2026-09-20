@@ -15,22 +15,88 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new manual to a VirtualMachines agentpool in the
 /// </summary>
-/// <param name="ClusterName">The cluster name.</param>
-/// <param name="Name">The node pool name.</param>
-/// <param name="NodeCount">Number of nodes in the manual.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VmSizes">Comma-separated list of sizes in the manual.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "manual-scale", "add")]
-public record AzAksNodepoolManualScaleAddOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--node-count", ShortForm = "-c")] int NodeCount,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vm-sizes", GroupValues = true)] IEnumerable<string> VmSizes
-) : AzOptions
+public record AzAksNodepoolManualScaleAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a new manual to a VirtualMachines agentpool in the
+    /// </summary>
+    /// <param name="ClusterName">The cluster name.</param>
+    /// <param name="Name">The node pool name.</param>
+    /// <param name="NodeCount">Number of nodes in the manual.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VmSizes">Comma-separated list of sizes in the manual.</param>
+    public AzAksNodepoolManualScaleAddOptions(
+        string ClusterName,
+        string Name,
+        int NodeCount,
+        string ResourceGroup,
+        IEnumerable<string> VmSizes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.NodeCount = NodeCount;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VmSizes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VmSizes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VmSizes));
+            }
+
+            VmSizes = materialized;
+        }
+        this.VmSizes = VmSizes;
+    }
+
+    public void Deconstruct(out string ClusterName, out string Name, out int NodeCount, out string ResourceGroup, out IEnumerable<string> VmSizes)
+    {
+        ClusterName = this.ClusterName;
+        Name = this.Name;
+        NodeCount = this.NodeCount;
+        ResourceGroup = this.ResourceGroup;
+        VmSizes = this.VmSizes;
+    }
+
+    /// <summary>
+    /// The cluster name.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The node pool name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Number of nodes in the manual.
+    /// </summary>
+    [CliOption("--node-count", ShortForm = "-c")]
+    public int NodeCount { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Comma-separated list of sizes in the manual.
+    /// </summary>
+    [CliOption("--vm-sizes", GroupValues = true)]
+    public IEnumerable<string> VmSizes { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

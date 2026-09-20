@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a deployment at management group.
 /// </summary>
-/// <param name="ManagementGroupId">The management group id.</param>
-/// <param name="Name">The deployment name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "mg", "show")]
-public record AzDeploymentMgShowOptions(
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzDeploymentMgShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show a deployment at management group.
+    /// </summary>
+    /// <param name="ManagementGroupId">The management group id.</param>
+    /// <param name="Name">The deployment name.</param>
+    public AzDeploymentMgShowOptions(
+        string ManagementGroupId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string ManagementGroupId, out string Name)
+    {
+        ManagementGroupId = this.ManagementGroupId;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The management group id.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
+    /// <summary>
+    /// The deployment name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

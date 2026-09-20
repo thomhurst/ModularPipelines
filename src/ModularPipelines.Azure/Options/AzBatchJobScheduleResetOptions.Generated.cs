@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset the properties of a job schedule.  An updated job
 /// </summary>
-/// <param name="JobScheduleId">The ID of the Job Schedule to update. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job-schedule", "reset")]
-public record AzBatchJobScheduleResetOptions(
-    [property: CliOption("--job-schedule-id")] string JobScheduleId
-) : AzOptions
+public record AzBatchJobScheduleResetOptions : AzOptions
 {
+    /// <summary>
+    /// Reset the properties of a job schedule.  An updated job
+    /// </summary>
+    /// <param name="JobScheduleId">The ID of the Job Schedule to update. Required.</param>
+    public AzBatchJobScheduleResetOptions(
+        string JobScheduleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobScheduleId);
+        this.JobScheduleId = JobScheduleId;
+    }
+
+    public void Deconstruct(out string JobScheduleId)
+    {
+        JobScheduleId = this.JobScheduleId;
+    }
+
+    /// <summary>
+    /// The ID of the Job Schedule to update. Required.
+    /// </summary>
+    [CliOption("--job-schedule-id")]
+    public string JobScheduleId { get; private init; }
+
     /// <summary>
     /// A file containing the job schedule specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Job Schedule Arguments' are ignored.
     /// </summary>

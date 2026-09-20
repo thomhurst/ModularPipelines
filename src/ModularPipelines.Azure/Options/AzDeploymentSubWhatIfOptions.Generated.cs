@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute a deployment What-If operation at subscription scope.
 /// </summary>
-/// <param name="Location">The location to store the deployment What-If operation metadata.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "sub", "what-if")]
-public record AzDeploymentSubWhatIfOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzDeploymentSubWhatIfOptions : AzOptions
 {
+    /// <summary>
+    /// Execute a deployment What-If operation at subscription scope.
+    /// </summary>
+    /// <param name="Location">The location to store the deployment What-If operation metadata.</param>
+    public AzDeploymentSubWhatIfOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The location to store the deployment What-If operation metadata.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
     /// <summary>
     /// Space-separated list of resource change types to be excluded from What-If results.  Allowed values: Create, Delete, Deploy, Ignore, Modify, NoChange, Unsupported.
     /// </summary>

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a cache rule.
 /// </summary>
-/// <param name="Name">The name of the cache rule.</param>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
-/// <param name="SourceRepo">The full source repository path such as 'docker.io/library/ubuntu'.</param>
-/// <param name="TargetRepo">The target repository namespace such as 'ubuntu'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "cache", "create")]
-public record AzAcrCacheCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
-    [property: CliOption("--source-repo", ShortForm = "-s")] string SourceRepo,
-    [property: CliOption("--target-repo", ShortForm = "-t")] string TargetRepo
-) : AzOptions
+public record AzAcrCacheCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a cache rule.
+    /// </summary>
+    /// <param name="Name">The name of the cache rule.</param>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    /// <param name="SourceRepo">The full source repository path such as 'docker.io/library/ubuntu'.</param>
+    /// <param name="TargetRepo">The target repository namespace such as 'ubuntu'.</param>
+    public AzAcrCacheCreateOptions(
+        string Name,
+        string Registry,
+        string SourceRepo,
+        string TargetRepo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+        global::System.ArgumentNullException.ThrowIfNull(SourceRepo);
+        this.SourceRepo = SourceRepo;
+        global::System.ArgumentNullException.ThrowIfNull(TargetRepo);
+        this.TargetRepo = TargetRepo;
+    }
+
+    public void Deconstruct(out string Name, out string Registry, out string SourceRepo, out string TargetRepo)
+    {
+        Name = this.Name;
+        Registry = this.Registry;
+        SourceRepo = this.SourceRepo;
+        TargetRepo = this.TargetRepo;
+    }
+
+    /// <summary>
+    /// The name of the cache rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
+    /// <summary>
+    /// The full source repository path such as 'docker.io/library/ubuntu'.
+    /// </summary>
+    [CliOption("--source-repo", ShortForm = "-s")]
+    public string SourceRepo { get; private init; }
+
+    /// <summary>
+    /// The target repository namespace such as 'ubuntu'.
+    /// </summary>
+    [CliOption("--target-repo", ShortForm = "-t")]
+    public string TargetRepo { get; private init; }
+
     /// <summary>
     /// The name of the credential set.
     /// </summary>

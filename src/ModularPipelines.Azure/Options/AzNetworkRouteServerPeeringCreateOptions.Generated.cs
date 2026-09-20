@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a route server peering.
 /// </summary>
-/// <param name="Name">The name of the Route Server Peering.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="RouteServer">The name of the Route Server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "routeserver", "peering", "create")]
-public record AzNetworkRouteServerPeeringCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--routeserver")] string RouteServer
-) : AzOptions
+public record AzNetworkRouteServerPeeringCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a route server peering.
+    /// </summary>
+    /// <param name="Name">The name of the Route Server Peering.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="RouteServer">The name of the Route Server.</param>
+    public AzNetworkRouteServerPeeringCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string RouteServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(RouteServer);
+        this.RouteServer = RouteServer;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string RouteServer)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        RouteServer = this.RouteServer;
+    }
+
+    /// <summary>
+    /// The name of the Route Server Peering.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Route Server.
+    /// </summary>
+    [CliOption("--routeserver")]
+    public string RouteServer { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,22 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute script actions on the specified HDInsight cluster.
 /// </summary>
-/// <param name="ClusterName">The name of the cluster.</param>
-/// <param name="Name">The name of the script action.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Roles">A space-delimited list of roles (nodes) where the script will be executed. Valid roles are headnode, workernode, zookeepernode, edgenode.</param>
-/// <param name="ScriptUri">The URI to the script.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "script-action", "execute")]
-public record AzHdinsightScriptActionExecuteOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--roles", GroupValues = true)] IEnumerable<string> Roles,
-    [property: CliOption("--script-uri")] string ScriptUri
-) : AzOptions
+public record AzHdinsightScriptActionExecuteOptions : AzOptions
 {
+    /// <summary>
+    /// Execute script actions on the specified HDInsight cluster.
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster.</param>
+    /// <param name="Name">The name of the script action.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Roles">A space-delimited list of roles (nodes) where the script will be executed. Valid roles are headnode, workernode, zookeepernode, edgenode.</param>
+    /// <param name="ScriptUri">The URI to the script.</param>
+    public AzHdinsightScriptActionExecuteOptions(
+        string ClusterName,
+        string Name,
+        string ResourceGroup,
+        IEnumerable<string> Roles,
+        string ScriptUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Roles);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Roles));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Roles));
+            }
+
+            Roles = materialized;
+        }
+        this.Roles = Roles;
+        global::System.ArgumentNullException.ThrowIfNull(ScriptUri);
+        this.ScriptUri = ScriptUri;
+    }
+
+    public void Deconstruct(out string ClusterName, out string Name, out string ResourceGroup, out IEnumerable<string> Roles, out string ScriptUri)
+    {
+        ClusterName = this.ClusterName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Roles = this.Roles;
+        ScriptUri = this.ScriptUri;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// The name of the script action.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// A space-delimited list of roles (nodes) where the script will be executed. Valid roles are headnode, workernode, zookeepernode, edgenode.
+    /// </summary>
+    [CliOption("--roles", GroupValues = true)]
+    public IEnumerable<string> Roles { get; private init; }
+
+    /// <summary>
+    /// The URI to the script.
+    /// </summary>
+    [CliOption("--script-uri")]
+    public string ScriptUri { get; private init; }
+
     /// <summary>
     /// If the scripts needs to be persisted.
     /// </summary>

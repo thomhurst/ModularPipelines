@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a system topic.
 /// </summary>
-/// <param name="Name">Name of the system topic.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Source">The ARM Id for the topic, e.g., /subscriptions/{SubId}/resou rceGroups/{RgName}/providers/Microsoft.Storage/storageAccoun ts/{AccountName}.</param>
-/// <param name="TopicType">Name of the topic type.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "system-topic", "create")]
-public record AzEventgridSystemTopicCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--source")] string Source,
-    [property: CliOption("--topic-type")] string TopicType
-) : AzOptions
+public record AzEventgridSystemTopicCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a system topic.
+    /// </summary>
+    /// <param name="Name">Name of the system topic.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Source">The ARM Id for the topic, e.g., /subscriptions/{SubId}/resou rceGroups/{RgName}/providers/Microsoft.Storage/storageAccoun ts/{AccountName}.</param>
+    /// <param name="TopicType">Name of the topic type.</param>
+    public AzEventgridSystemTopicCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Source,
+        string TopicType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(TopicType);
+        this.TopicType = TopicType;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Source, out string TopicType)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Source = this.Source;
+        TopicType = this.TopicType;
+    }
+
+    /// <summary>
+    /// Name of the system topic.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The ARM Id for the topic, e.g., /subscriptions/{SubId}/resou rceGroups/{RgName}/providers/Microsoft.Storage/storageAccoun ts/{AccountName}.
+    /// </summary>
+    [CliOption("--source")]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// Name of the topic type.
+    /// </summary>
+    [CliOption("--topic-type")]
+    public string TopicType { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

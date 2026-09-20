@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows a regulatory compliance details state
 /// </summary>
-/// <param name="Name">Name of the resource to be fetched.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "regulatory-compliance-standards", "show")]
-public record AzSecurityRegulatoryComplianceStandardsShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSecurityRegulatoryComplianceStandardsShowOptions : AzOptions
 {
+    /// <summary>
+    /// Shows a regulatory compliance details state
+    /// </summary>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    public AzSecurityRegulatoryComplianceStandardsShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

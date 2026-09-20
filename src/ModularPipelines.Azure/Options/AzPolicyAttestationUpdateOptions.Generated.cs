@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing policy attestation.
 /// </summary>
-/// <param name="AttestationName">The name of the attestation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "attestation", "update")]
-public record AzPolicyAttestationUpdateOptions(
-    [property: CliOption("--attestation-name", ShortForm = "-n")] string AttestationName
-) : AzOptions
+public record AzPolicyAttestationUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing policy attestation.
+    /// </summary>
+    /// <param name="AttestationName">The name of the attestation.</param>
+    public AzPolicyAttestationUpdateOptions(
+        string AttestationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttestationName);
+        this.AttestationName = AttestationName;
+    }
+
+    public void Deconstruct(out string AttestationName)
+    {
+        AttestationName = this.AttestationName;
+    }
+
+    /// <summary>
+    /// The name of the attestation.
+    /// </summary>
+    [CliOption("--attestation-name", ShortForm = "-n")]
+    public string AttestationName { get; private init; }
+
     /// <summary>
     /// The time the evidence was assessed.
     /// </summary>

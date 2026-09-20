@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates a security alert status.
 /// </summary>
-/// <param name="Location">Location of the resource.</param>
-/// <param name="Name">Name of the resource to be fetched.</param>
-/// <param name="Status">Target status of the alert. possible values are "dismiss", "activate", "resolve" and "inprogress".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alert", "update")]
-public record AzSecurityAlertUpdateOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--status")] string Status
-) : AzOptions
+public record AzSecurityAlertUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates a security alert status.
+    /// </summary>
+    /// <param name="Location">Location of the resource.</param>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    /// <param name="Status">Target status of the alert. possible values are "dismiss", "activate", "resolve" and "inprogress".</param>
+    public AzSecurityAlertUpdateOptions(
+        string Location,
+        string Name,
+        string Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    public void Deconstruct(out string Location, out string Name, out string Status)
+    {
+        Location = this.Location;
+        Name = this.Name;
+        Status = this.Status;
+    }
+
+    /// <summary>
+    /// Location of the resource.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Target status of the alert. possible values are "dismiss", "activate", "resolve" and "inprogress".
+    /// </summary>
+    [CliOption("--status")]
+    public string Status { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

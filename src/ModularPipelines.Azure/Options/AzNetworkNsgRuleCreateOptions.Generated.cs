@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a network security group rule.
 /// </summary>
-/// <param name="Name">Name of the network security group rule.</param>
-/// <param name="NsgName">Name of the network security group.</param>
-/// <param name="Priority">Priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nsg", "rule", "create")]
-public record AzNetworkNsgRuleCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--nsg-name")] string NsgName,
-    [property: CliOption("--priority")] string Priority,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkNsgRuleCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a network security group rule.
+    /// </summary>
+    /// <param name="Name">Name of the network security group rule.</param>
+    /// <param name="NsgName">Name of the network security group.</param>
+    /// <param name="Priority">Priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkNsgRuleCreateOptions(
+        string Name,
+        string NsgName,
+        string Priority,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NsgName);
+        this.NsgName = NsgName;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string NsgName, out string Priority, out string ResourceGroup)
+    {
+        Name = this.Name;
+        NsgName = this.NsgName;
+        Priority = this.Priority;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the network security group rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the network security group.
+    /// </summary>
+    [CliOption("--nsg-name")]
+    public string NsgName { get; private init; }
+
+    /// <summary>
+    /// Priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    /// </summary>
+    [CliOption("--priority")]
+    public string Priority { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Network traffic is allowed or denied.  Allowed values: Allow, Deny.  Default: Allow.
     /// </summary>

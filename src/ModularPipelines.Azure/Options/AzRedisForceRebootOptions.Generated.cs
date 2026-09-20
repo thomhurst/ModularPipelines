@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reboot specified Redis node(s).
 /// </summary>
-/// <param name="RebootType">Which Redis node(s) to reboot. Depending on this value data loss is possible.  Allowed values: AllNodes, PrimaryNode, SecondaryNode.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "force-reboot")]
-public record AzRedisForceRebootOptions(
-    [property: CliOption("--reboot-type")] string RebootType
-) : AzOptions
+public record AzRedisForceRebootOptions : AzOptions
 {
+    /// <summary>
+    /// Reboot specified Redis node(s).
+    /// </summary>
+    /// <param name="RebootType">Which Redis node(s) to reboot. Depending on this value data loss is possible.  Allowed values: AllNodes, PrimaryNode, SecondaryNode.</param>
+    public AzRedisForceRebootOptions(
+        string RebootType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RebootType);
+        this.RebootType = RebootType;
+    }
+
+    public void Deconstruct(out string RebootType)
+    {
+        RebootType = this.RebootType;
+    }
+
+    /// <summary>
+    /// Which Redis node(s) to reboot. Depending on this value data loss is possible.  Allowed values: AllNodes, PrimaryNode, SecondaryNode.
+    /// </summary>
+    [CliOption("--reboot-type")]
+    public string RebootType { get; private init; }
+
     /// <summary>
     /// If clustering is enabled, the ID of the shard to be rebooted.
     /// </summary>

@@ -15,22 +15,77 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create new Redis Cache instance.
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="Name">Name of the Redis cache.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Sku">Type of Redis cache.  Allowed values: Basic, Premium, Standard.</param>
-/// <param name="VmSize">Size of Redis cache to deploy. Basic and Standard Cache sizes start with C. Premium Cache sizes start with P.  Allowed values: c0, c1, c2, c3, c4, c5, c6, p1, p2, p3, p4, p5.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "create")]
-public record AzRedisCreateOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--sku")] string Sku,
-    [property: CliOption("--vm-size")] int VmSize
-) : AzOptions
+public record AzRedisCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create new Redis Cache instance.
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Name">Name of the Redis cache.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Sku">Type of Redis cache.  Allowed values: Basic, Premium, Standard.</param>
+    /// <param name="VmSize">Size of Redis cache to deploy. Basic and Standard Cache sizes start with C. Premium Cache sizes start with P.  Allowed values: c0, c1, c2, c3, c4, c5, c6, p1, p2, p3, p4, p5.</param>
+    public AzRedisCreateOptions(
+        string Location,
+        string Name,
+        string ResourceGroup,
+        string Sku,
+        int VmSize
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        this.Sku = Sku;
+        this.VmSize = VmSize;
+    }
+
+    public void Deconstruct(out string Location, out string Name, out string ResourceGroup, out string Sku, out int VmSize)
+    {
+        Location = this.Location;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Sku = this.Sku;
+        VmSize = this.VmSize;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of the Redis cache.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Type of Redis cache.  Allowed values: Basic, Premium, Standard.
+    /// </summary>
+    [CliOption("--sku")]
+    public string Sku { get; private init; }
+
+    /// <summary>
+    /// Size of Redis cache to deploy. Basic and Standard Cache sizes start with C. Premium Cache sizes start with P.  Allowed values: c0, c1, c2, c3, c4, c5, c6, p1, p2, p3, p4, p5.
+    /// </summary>
+    [CliOption("--vm-size")]
+    public int VmSize { get; private init; }
+
     /// <summary>
     /// Authentication to Redis through access keys is disabled when set as true.  Allowed values: false, true.
     /// </summary>

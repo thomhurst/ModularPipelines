@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure deployment slot auto swap.
 /// </summary>
-/// <param name="Slot">The name of the slot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "slot", "auto-swap")]
-public record AzFunctionappDeploymentSlotAutoSwapOptions(
-    [property: CliOption("--slot", ShortForm = "-s")] string Slot
-) : AzOptions
+public record AzFunctionappDeploymentSlotAutoSwapOptions : AzOptions
 {
+    /// <summary>
+    /// Configure deployment slot auto swap.
+    /// </summary>
+    /// <param name="Slot">The name of the slot.</param>
+    public AzFunctionappDeploymentSlotAutoSwapOptions(
+        string Slot
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Slot);
+        this.Slot = Slot;
+    }
+
+    public void Deconstruct(out string Slot)
+    {
+        Slot = this.Slot;
+    }
+
+    /// <summary>
+    /// The name of the slot.
+    /// </summary>
+    [CliOption("--slot", ShortForm = "-s")]
+    public string Slot { get; private init; }
+
     /// <summary>
     /// Target slot to auto swap.  Default: production.
     /// </summary>

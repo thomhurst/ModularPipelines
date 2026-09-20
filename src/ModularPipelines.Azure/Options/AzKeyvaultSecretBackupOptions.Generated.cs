@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Backs up the specified secret.
 /// </summary>
-/// <param name="File">File to receive the secret contents.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "secret", "backup")]
-public record AzKeyvaultSecretBackupOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzKeyvaultSecretBackupOptions : AzOptions
 {
+    /// <summary>
+    /// Backs up the specified secret.
+    /// </summary>
+    /// <param name="File">File to receive the secret contents.</param>
+    public AzKeyvaultSecretBackupOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// File to receive the secret contents.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Id of the secret. If specified all other 'Id' arguments should be omitted.
     /// </summary>

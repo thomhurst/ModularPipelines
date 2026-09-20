@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List KQL scripts.
 /// </summary>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kql-script", "list")]
-public record AzSynapseKqlScriptListOptions(
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseKqlScriptListOptions : AzOptions
 {
+    /// <summary>
+    /// List KQL scripts.
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzSynapseKqlScriptListOptions(
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string WorkspaceName)
+    {
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

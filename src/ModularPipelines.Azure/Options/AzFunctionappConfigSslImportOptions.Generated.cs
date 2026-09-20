@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import an SSL certificate to a function app from Key Vault.
 /// </summary>
-/// <param name="KeyVault">The name or resource ID of the Key Vault.</param>
-/// <param name="KeyVaultCertificateName">The name of the certificate in Key Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "ssl", "import")]
-public record AzFunctionappConfigSslImportOptions(
-    [property: CliOption("--key-vault")] string KeyVault,
-    [property: CliOption("--key-vault-certificate-name")] string KeyVaultCertificateName
-) : AzOptions
+public record AzFunctionappConfigSslImportOptions : AzOptions
 {
+    /// <summary>
+    /// Import an SSL certificate to a function app from Key Vault.
+    /// </summary>
+    /// <param name="KeyVault">The name or resource ID of the Key Vault.</param>
+    /// <param name="KeyVaultCertificateName">The name of the certificate in Key Vault.</param>
+    public AzFunctionappConfigSslImportOptions(
+        string KeyVault,
+        string KeyVaultCertificateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyVault);
+        this.KeyVault = KeyVault;
+        global::System.ArgumentNullException.ThrowIfNull(KeyVaultCertificateName);
+        this.KeyVaultCertificateName = KeyVaultCertificateName;
+    }
+
+    public void Deconstruct(out string KeyVault, out string KeyVaultCertificateName)
+    {
+        KeyVault = this.KeyVault;
+        KeyVaultCertificateName = this.KeyVaultCertificateName;
+    }
+
+    /// <summary>
+    /// The name or resource ID of the Key Vault.
+    /// </summary>
+    [CliOption("--key-vault")]
+    public string KeyVault { get; private init; }
+
+    /// <summary>
+    /// The name of the certificate in Key Vault.
+    /// </summary>
+    [CliOption("--key-vault-certificate-name")]
+    public string KeyVaultCertificateName { get; private init; }
+
     /// <summary>
     /// The name of the certificate.
     /// </summary>

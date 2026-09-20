@@ -15,38 +15,166 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the specified Cache within the Capacity Pool.
 /// </summary>
-/// <param name="AccountName">The name of the NetApp account.</param>
-/// <param name="CacheName">The name of the cache resource.</param>
-/// <param name="PoolName">The name of the capacity pool.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="PeerAddresses">ONTAP Intercluster LIF IP addresses. One IP address per cluster node is required Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
-/// <param name="PeerClusterName">ONTAP cluster name of external cluster hosting the origin volume. Must match the exact cluster name.</param>
-/// <param name="PeerVolumeName">External origin volume name associated to this cache.</param>
-/// <param name="PeerVserverName">External Vserver (SVM) name name of the SVM hosting the origin volume.</param>
-/// <param name="CacheSubnetId">The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs.</param>
-/// <param name="EncryptionKeySource">Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case- insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.</param>
-/// <param name="FilePath">The file path of the Cache.</param>
-/// <param name="PeeringSubnetId">The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses.</param>
-/// <param name="Size">Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "cache", "create")]
-public record AzNetappfilesCacheCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--cache-name", ShortForm = "-n")] string CacheName,
-    [property: CliOption("--pool-name", ShortForm = "-p")] string PoolName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--peer-addresses")] string PeerAddresses,
-    [property: CliOption("--peer-cluster-name")] string PeerClusterName,
-    [property: CliOption("--peer-volume-name")] string PeerVolumeName,
-    [property: CliOption("--peer-vserver-name")] string PeerVserverName,
-    [property: CliOption("--cache-subnet-id", ShortForm = "--cache-subnet-resource-id")] string CacheSubnetId,
-    [property: CliOption("--encryption-key-source")] string EncryptionKeySource,
-    [property: CliOption("--file-path")] string FilePath,
-    [property: CliOption("--peering-subnet-id", ShortForm = "--peering-subnet-resource-id")] string PeeringSubnetId,
-    [property: CliOption("--size")] string Size
-) : AzOptions
+public record AzNetappfilesCacheCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create the specified Cache within the Capacity Pool.
+    /// </summary>
+    /// <param name="AccountName">The name of the NetApp account.</param>
+    /// <param name="CacheName">The name of the cache resource.</param>
+    /// <param name="PoolName">The name of the capacity pool.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="PeerAddresses">ONTAP Intercluster LIF IP addresses. One IP address per cluster node is required Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="PeerClusterName">ONTAP cluster name of external cluster hosting the origin volume. Must match the exact cluster name.</param>
+    /// <param name="PeerVolumeName">External origin volume name associated to this cache.</param>
+    /// <param name="PeerVserverName">External Vserver (SVM) name name of the SVM hosting the origin volume.</param>
+    /// <param name="CacheSubnetId">The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs.</param>
+    /// <param name="EncryptionKeySource">Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case- insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.</param>
+    /// <param name="FilePath">The file path of the Cache.</param>
+    /// <param name="PeeringSubnetId">The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses.</param>
+    /// <param name="Size">Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB.</param>
+    public AzNetappfilesCacheCreateOptions(
+        string AccountName,
+        string CacheName,
+        string PoolName,
+        string ResourceGroup,
+        string PeerAddresses,
+        string PeerClusterName,
+        string PeerVolumeName,
+        string PeerVserverName,
+        string CacheSubnetId,
+        string EncryptionKeySource,
+        string FilePath,
+        string PeeringSubnetId,
+        string Size
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(CacheName);
+        this.CacheName = CacheName;
+        global::System.ArgumentNullException.ThrowIfNull(PoolName);
+        this.PoolName = PoolName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(PeerAddresses);
+        this.PeerAddresses = PeerAddresses;
+        global::System.ArgumentNullException.ThrowIfNull(PeerClusterName);
+        this.PeerClusterName = PeerClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(PeerVolumeName);
+        this.PeerVolumeName = PeerVolumeName;
+        global::System.ArgumentNullException.ThrowIfNull(PeerVserverName);
+        this.PeerVserverName = PeerVserverName;
+        global::System.ArgumentNullException.ThrowIfNull(CacheSubnetId);
+        this.CacheSubnetId = CacheSubnetId;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionKeySource);
+        this.EncryptionKeySource = EncryptionKeySource;
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+        global::System.ArgumentNullException.ThrowIfNull(PeeringSubnetId);
+        this.PeeringSubnetId = PeeringSubnetId;
+        global::System.ArgumentNullException.ThrowIfNull(Size);
+        this.Size = Size;
+    }
+
+    public void Deconstruct(out string AccountName, out string CacheName, out string PoolName, out string ResourceGroup, out string PeerAddresses, out string PeerClusterName, out string PeerVolumeName, out string PeerVserverName, out string CacheSubnetId, out string EncryptionKeySource, out string FilePath, out string PeeringSubnetId, out string Size)
+    {
+        AccountName = this.AccountName;
+        CacheName = this.CacheName;
+        PoolName = this.PoolName;
+        ResourceGroup = this.ResourceGroup;
+        PeerAddresses = this.PeerAddresses;
+        PeerClusterName = this.PeerClusterName;
+        PeerVolumeName = this.PeerVolumeName;
+        PeerVserverName = this.PeerVserverName;
+        CacheSubnetId = this.CacheSubnetId;
+        EncryptionKeySource = this.EncryptionKeySource;
+        FilePath = this.FilePath;
+        PeeringSubnetId = this.PeeringSubnetId;
+        Size = this.Size;
+    }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the cache resource.
+    /// </summary>
+    [CliOption("--cache-name", ShortForm = "-n")]
+    public string CacheName { get; private init; }
+
+    /// <summary>
+    /// The name of the capacity pool.
+    /// </summary>
+    [CliOption("--pool-name", ShortForm = "-p")]
+    public string PoolName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// ONTAP Intercluster LIF IP addresses. One IP address per cluster node is required Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--peer-addresses")]
+    public string PeerAddresses { get; private init; }
+
+    /// <summary>
+    /// ONTAP cluster name of external cluster hosting the origin volume. Must match the exact cluster name.
+    /// </summary>
+    [CliOption("--peer-cluster-name")]
+    public string PeerClusterName { get; private init; }
+
+    /// <summary>
+    /// External origin volume name associated to this cache.
+    /// </summary>
+    [CliOption("--peer-volume-name")]
+    public string PeerVolumeName { get; private init; }
+
+    /// <summary>
+    /// External Vserver (SVM) name name of the SVM hosting the origin volume.
+    /// </summary>
+    [CliOption("--peer-vserver-name")]
+    public string PeerVserverName { get; private init; }
+
+    /// <summary>
+    /// The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs.
+    /// </summary>
+    [CliOption("--cache-subnet-id", ShortForm = "--cache-subnet-resource-id")]
+    public string CacheSubnetId { get; private init; }
+
+    /// <summary>
+    /// Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case- insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.
+    /// </summary>
+    [CliOption("--encryption-key-source")]
+    public string EncryptionKeySource { get; private init; }
+
+    /// <summary>
+    /// The file path of the Cache.
+    /// </summary>
+    [CliOption("--file-path")]
+    public string FilePath { get; private init; }
+
+    /// <summary>
+    /// The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses.
+    /// </summary>
+    [CliOption("--peering-subnet-id", ShortForm = "--peering-subnet-resource-id")]
+    public string PeeringSubnetId { get; private init; }
+
+    /// <summary>
+    /// Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB.
+    /// </summary>
+    [CliOption("--size")]
+    public string Size { get; private init; }
+
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

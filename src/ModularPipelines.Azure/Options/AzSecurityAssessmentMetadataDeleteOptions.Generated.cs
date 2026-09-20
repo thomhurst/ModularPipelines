@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes a security assessment type and all it's
 /// </summary>
-/// <param name="Name">Name of the resource to be fetched.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "assessment-metadata", "delete")]
-public record AzSecurityAssessmentMetadataDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzSecurityAssessmentMetadataDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes a security assessment type and all it's
+    /// </summary>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    public AzSecurityAssessmentMetadataDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

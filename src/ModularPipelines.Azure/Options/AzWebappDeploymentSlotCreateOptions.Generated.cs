@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a deployment slot.
 /// </summary>
-/// <param name="Name">Name of the webapp.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Slot">The name of the slot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "slot", "create")]
-public record AzWebappDeploymentSlotCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--slot", ShortForm = "-s")] string Slot
-) : AzOptions
+public record AzWebappDeploymentSlotCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a deployment slot.
+    /// </summary>
+    /// <param name="Name">Name of the webapp.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Slot">The name of the slot.</param>
+    public AzWebappDeploymentSlotCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Slot
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Slot);
+        this.Slot = Slot;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Slot)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Slot = this.Slot;
+    }
+
+    /// <summary>
+    /// Name of the webapp.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the slot.
+    /// </summary>
+    [CliOption("--slot", ShortForm = "-s")]
+    public string Slot { get; private init; }
+
     /// <summary>
     /// Source slot to clone configurations from. Use web app's name to refer to the production slot.
     /// </summary>

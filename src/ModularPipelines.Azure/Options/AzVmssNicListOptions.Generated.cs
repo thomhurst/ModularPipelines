@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get all network interfaces in a virtual machine scale set.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VirtualMachineScaleSetName">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "nic", "list")]
-public record AzVmssNicListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--virtual-machine-scale-set-name", ShortForm = "--vmss-name")] string VirtualMachineScaleSetName
-) : AzOptions
+public record AzVmssNicListOptions : AzOptions
 {
+    /// <summary>
+    /// Get all network interfaces in a virtual machine scale set.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VirtualMachineScaleSetName">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
+    public AzVmssNicListOptions(
+        string ResourceGroup,
+        string VirtualMachineScaleSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VirtualMachineScaleSetName);
+        this.VirtualMachineScaleSetName = VirtualMachineScaleSetName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string VirtualMachineScaleSetName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        VirtualMachineScaleSetName = this.VirtualMachineScaleSetName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--virtual-machine-scale-set-name", ShortForm = "--vmss-name")]
+    public string VirtualMachineScaleSetName { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

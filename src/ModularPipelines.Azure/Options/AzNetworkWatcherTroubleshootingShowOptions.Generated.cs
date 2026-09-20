@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the results of the last troubleshooting operation.
 /// </summary>
-/// <param name="Resource">Name or ID of the resource to troubleshoot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "troubleshooting", "show")]
-public record AzNetworkWatcherTroubleshootingShowOptions(
-    [property: CliOption("--resource")] string Resource
-) : AzOptions
+public record AzNetworkWatcherTroubleshootingShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get the results of the last troubleshooting operation.
+    /// </summary>
+    /// <param name="Resource">Name or ID of the resource to troubleshoot.</param>
+    public AzNetworkWatcherTroubleshootingShowOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// Name or ID of the resource to troubleshoot.
+    /// </summary>
+    [CliOption("--resource")]
+    public string Resource { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update short term retention settings for a live database.
 /// </summary>
-/// <param name="RetentionDays">New backup short term retention policy retention in days.Valid retention days for live database of (DTU) Basic can be 1-7 days; Rest models can be 1-35 days.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "str-policy", "set")]
-public record AzSqlDbStrPolicySetOptions(
-    [property: CliOption("--retention-days")] string RetentionDays
-) : AzOptions
+public record AzSqlDbStrPolicySetOptions : AzOptions
 {
+    /// <summary>
+    /// Update short term retention settings for a live database.
+    /// </summary>
+    /// <param name="RetentionDays">New backup short term retention policy retention in days.Valid retention days for live database of (DTU) Basic can be 1-7 days; Rest models can be 1-35 days.</param>
+    public AzSqlDbStrPolicySetOptions(
+        string RetentionDays
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RetentionDays);
+        this.RetentionDays = RetentionDays;
+    }
+
+    public void Deconstruct(out string RetentionDays)
+    {
+        RetentionDays = this.RetentionDays;
+    }
+
+    /// <summary>
+    /// New backup short term retention policy retention in days.Valid retention days for live database of (DTU) Basic can be 1-7 days; Rest models can be 1-35 days.
+    /// </summary>
+    [CliOption("--retention-days")]
+    public string RetentionDays { get; private init; }
+
     /// <summary>
     /// New backup short term retention policy differential backup interval in hours.Valid differential backup interval for live database can be 12 or 24 hours.
     /// </summary>

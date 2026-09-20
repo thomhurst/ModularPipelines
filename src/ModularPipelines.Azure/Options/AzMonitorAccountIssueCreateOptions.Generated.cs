@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new issue or updates an existing one.
 /// </summary>
-/// <param name="AzureMonitorWorkspaceName">The name of the Azure Monitor Workspace. The name is case insensitive.</param>
-/// <param name="IssueName">The name of the IssueResource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "issue", "create")]
-public record AzMonitorAccountIssueCreateOptions(
-    [property: CliOption("--azure-monitor-workspace-name", ShortForm = "-w")] string AzureMonitorWorkspaceName,
-    [property: CliOption("--issue-name", ShortForm = "-n")] string IssueName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMonitorAccountIssueCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new issue or updates an existing one.
+    /// </summary>
+    /// <param name="AzureMonitorWorkspaceName">The name of the Azure Monitor Workspace. The name is case insensitive.</param>
+    /// <param name="IssueName">The name of the IssueResource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzMonitorAccountIssueCreateOptions(
+        string AzureMonitorWorkspaceName,
+        string IssueName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AzureMonitorWorkspaceName);
+        this.AzureMonitorWorkspaceName = AzureMonitorWorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(IssueName);
+        this.IssueName = IssueName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AzureMonitorWorkspaceName, out string IssueName, out string ResourceGroup)
+    {
+        AzureMonitorWorkspaceName = this.AzureMonitorWorkspaceName;
+        IssueName = this.IssueName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Azure Monitor Workspace. The name is case insensitive.
+    /// </summary>
+    [CliOption("--azure-monitor-workspace-name", ShortForm = "-w")]
+    public string AzureMonitorWorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The name of the IssueResource.
+    /// </summary>
+    [CliOption("--issue-name", ShortForm = "-n")]
+    public string IssueName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Related resource or alert that is to be added to the issue (default: empty - the issue will be created without any related resources or alerts).
     /// </summary>

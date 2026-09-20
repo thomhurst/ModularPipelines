@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update specific setting associated with the managed HSM.
 /// </summary>
-/// <param name="Name">Name of the setting.</param>
-/// <param name="Value">Value of the setting.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "setting", "update")]
-public record AzKeyvaultSettingUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--value")] string Value
-) : AzOptions
+public record AzKeyvaultSettingUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update specific setting associated with the managed HSM.
+    /// </summary>
+    /// <param name="Name">Name of the setting.</param>
+    /// <param name="Value">Value of the setting.</param>
+    public AzKeyvaultSettingUpdateOptions(
+        string Name,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string Name, out string Value)
+    {
+        Name = this.Name;
+        Value = this.Value;
+    }
+
+    /// <summary>
+    /// Name of the setting.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Value of the setting.
+    /// </summary>
+    [CliOption("--value")]
+    public string Value { get; private init; }
+
     /// <summary>
     /// Type of the setting value.  Allowed values: boolean, string.
     /// </summary>

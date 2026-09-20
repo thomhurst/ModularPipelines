@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Changes the failover priority for the Azure Cosmos DB
 /// </summary>
-/// <param name="FailoverPolicies">Space-separated failover policies in 'regionName=failoverPriority' format. Number of policies must match the number of regions the account is currently replicated. All regionName values must match those of the regions the account is currently replicated. All failoverPriority values must be unique. There must be one failoverPriority value zero (0) specified. All remaining failoverPriority values can be any positive integer and they don't have to be contiguos, neither written in any specific order. E.g eastus=0 westus=1.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "failover-priority-change")]
-public record AzCosmosdbFailoverPriorityChangeOptions(
-    [property: CliOption("--failover-policies", GroupValues = true)] IEnumerable<string> FailoverPolicies
-) : AzOptions
+public record AzCosmosdbFailoverPriorityChangeOptions : AzOptions
 {
+    /// <summary>
+    /// Changes the failover priority for the Azure Cosmos DB
+    /// </summary>
+    /// <param name="FailoverPolicies">Space-separated failover policies in 'regionName=failoverPriority' format. Number of policies must match the number of regions the account is currently replicated. All regionName values must match those of the regions the account is currently replicated. All failoverPriority values must be unique. There must be one failoverPriority value zero (0) specified. All remaining failoverPriority values can be any positive integer and they don't have to be contiguos, neither written in any specific order. E.g eastus=0 westus=1.</param>
+    public AzCosmosdbFailoverPriorityChangeOptions(
+        IEnumerable<string> FailoverPolicies
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FailoverPolicies);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FailoverPolicies));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FailoverPolicies));
+            }
+
+            FailoverPolicies = materialized;
+        }
+        this.FailoverPolicies = FailoverPolicies;
+    }
+
+    public void Deconstruct(out IEnumerable<string> FailoverPolicies)
+    {
+        FailoverPolicies = this.FailoverPolicies;
+    }
+
+    /// <summary>
+    /// Space-separated failover policies in 'regionName=failoverPriority' format. Number of policies must match the number of regions the account is currently replicated. All regionName values must match those of the regions the account is currently replicated. All failoverPriority values must be unique. There must be one failoverPriority value zero (0) specified. All remaining failoverPriority values can be any positive integer and they don't have to be contiguos, neither written in any specific order. E.g eastus=0 westus=1.
+    /// </summary>
+    [CliOption("--failover-policies", GroupValues = true)]
+    public IEnumerable<string> FailoverPolicies { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the active cloud.
 /// </summary>
-/// <param name="Name">Name of a registered cloud.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloud", "set")]
-public record AzCloudSetOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzCloudSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set the active cloud.
+    /// </summary>
+    /// <param name="Name">Name of a registered cloud.</param>
+    public AzCloudSetOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of a registered cloud.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Profile to use for this cloud. The azure stack profiles `2017-03-09-profile` `2018-03-01-hybrid` `2019-03-01-hybrid` and `2020-09-01-hybrid` have been deprecated and removed. To continue using Azure Stack, please install the Azure CLI `2.66.*` (LTS) version. For more details, refer to: https://learn.microsoft.com/en- us/cli/azure/whats-new-overview#important-notice-for-azure-stack-hub- customers.  Allowed values: latest.
     /// </summary>

@@ -15,16 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Insert an entity into a table.
 /// </summary>
-/// <param name="Entity">Space-separated list of key=value pairs. Must contain a PartitionKey and a RowKey. The PartitionKey and RowKey must be unique within the table, and may be up to 64Kb in size. If using an integer value as a key, convert it to a fixed-width string which can be canonically sorted. For example, convert the integer value 1 to the string value "0000001" to ensure proper sorting. To manually specify the value type, an additional key,value pair can be added in the format of `key@odata.type=&lt;EdmType&gt;` where `&lt;EdmType&gt;` can be from the following list: Edm.Binary, Edm.Int64, Edm.Guid, Edm.DateTime, Edm.String, Edm.Int32, Edm.Double, Edm.Boolean.</param>
-/// <param name="TableName">The name of the table to insert the entity into.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "entity", "insert")]
-public record AzStorageEntityInsertOptions(
-    [property: CliOption("--entity", ShortForm = "-e", GroupValues = true)] IEnumerable<string> Entity,
-    [property: CliOption("--table-name", ShortForm = "-t")] string TableName
-) : AzOptions
+public record AzStorageEntityInsertOptions : AzOptions
 {
+    /// <summary>
+    /// Insert an entity into a table.
+    /// </summary>
+    /// <param name="Entity">Space-separated list of key=value pairs. Must contain a PartitionKey and a RowKey. The PartitionKey and RowKey must be unique within the table, and may be up to 64Kb in size. If using an integer value as a key, convert it to a fixed-width string which can be canonically sorted. For example, convert the integer value 1 to the string value "0000001" to ensure proper sorting. To manually specify the value type, an additional key,value pair can be added in the format of `key@odata.type=&lt;EdmType&gt;` where `&lt;EdmType&gt;` can be from the following list: Edm.Binary, Edm.Int64, Edm.Guid, Edm.DateTime, Edm.String, Edm.Int32, Edm.Double, Edm.Boolean.</param>
+    /// <param name="TableName">The name of the table to insert the entity into.</param>
+    public AzStorageEntityInsertOptions(
+        IEnumerable<string> Entity,
+        string TableName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entity);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entity));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entity));
+            }
+
+            Entity = materialized;
+        }
+        this.Entity = Entity;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Entity, out string TableName)
+    {
+        Entity = this.Entity;
+        TableName = this.TableName;
+    }
+
+    /// <summary>
+    /// Space-separated list of key=value pairs. Must contain a PartitionKey and a RowKey. The PartitionKey and RowKey must be unique within the table, and may be up to 64Kb in size. If using an integer value as a key, convert it to a fixed-width string which can be canonically sorted. For example, convert the integer value 1 to the string value "0000001" to ensure proper sorting. To manually specify the value type, an additional key,value pair can be added in the format of `key@odata.type=&lt;EdmType&gt;` where `&lt;EdmType&gt;` can be from the following list: Edm.Binary, Edm.Int64, Edm.Guid, Edm.DateTime, Edm.String, Edm.Int32, Edm.Double, Edm.Boolean.
+    /// </summary>
+    [CliOption("--entity", ShortForm = "-e", GroupValues = true)]
+    public IEnumerable<string> Entity { get; private init; }
+
+    /// <summary>
+    /// The name of the table to insert the entity into.
+    /// </summary>
+    [CliOption("--table-name", ShortForm = "-t")]
+    public string TableName { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

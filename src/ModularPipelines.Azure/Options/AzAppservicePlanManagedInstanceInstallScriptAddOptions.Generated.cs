@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an install script to a managed
 /// </summary>
-/// <param name="InstallScriptName">Name of the install script.</param>
-/// <param name="SourceUri">Source URI of the install script.</param>
-/// <param name="Type">Type of the install script.  Allowed values: PlatformStorage, RemoteAzureBlob.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "install-script", "add")]
-public record AzAppservicePlanManagedInstanceInstallScriptAddOptions(
-    [property: CliOption("--install-script-name")] string InstallScriptName,
-    [property: CliOption("--source-uri")] string SourceUri,
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzAppservicePlanManagedInstanceInstallScriptAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add an install script to a managed
+    /// </summary>
+    /// <param name="InstallScriptName">Name of the install script.</param>
+    /// <param name="SourceUri">Source URI of the install script.</param>
+    /// <param name="Type">Type of the install script.  Allowed values: PlatformStorage, RemoteAzureBlob.</param>
+    public AzAppservicePlanManagedInstanceInstallScriptAddOptions(
+        string InstallScriptName,
+        string SourceUri,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstallScriptName);
+        this.InstallScriptName = InstallScriptName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceUri);
+        this.SourceUri = SourceUri;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string InstallScriptName, out string SourceUri, out string Type)
+    {
+        InstallScriptName = this.InstallScriptName;
+        SourceUri = this.SourceUri;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Name of the install script.
+    /// </summary>
+    [CliOption("--install-script-name")]
+    public string InstallScriptName { get; private init; }
+
+    /// <summary>
+    /// Source URI of the install script.
+    /// </summary>
+    [CliOption("--source-uri")]
+    public string SourceUri { get; private init; }
+
+    /// <summary>
+    /// Type of the install script.  Allowed values: PlatformStorage, RemoteAzureBlob.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

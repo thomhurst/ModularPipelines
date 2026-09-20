@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets a database's transparent data encryption configuration.
 /// </summary>
-/// <param name="Status">Status of the transparent data encryption.  Allowed values: Disabled, Enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "tde", "set")]
-public record AzSqlDbTdeSetOptions(
-    [property: CliOption("--status")] string Status
-) : AzOptions
+public record AzSqlDbTdeSetOptions : AzOptions
 {
+    /// <summary>
+    /// Sets a database's transparent data encryption configuration.
+    /// </summary>
+    /// <param name="Status">Status of the transparent data encryption.  Allowed values: Disabled, Enabled.</param>
+    public AzSqlDbTdeSetOptions(
+        string Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    public void Deconstruct(out string Status)
+    {
+        Status = this.Status;
+    }
+
+    /// <summary>
+    /// Status of the transparent data encryption.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--status")]
+    public string Status { get; private init; }
+
     /// <summary>
     /// Name of the Azure SQL Database.
     /// </summary>

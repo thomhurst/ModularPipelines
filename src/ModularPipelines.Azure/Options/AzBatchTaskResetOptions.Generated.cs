@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset the properties of a Batch task.
 /// </summary>
-/// <param name="JobId">The ID of the Job containing the Task.</param>
-/// <param name="TaskId">The ID of the Task to update.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "reset")]
-public record AzBatchTaskResetOptions(
-    [property: CliOption("--job-id")] string JobId,
-    [property: CliOption("--task-id")] string TaskId
-) : AzOptions
+public record AzBatchTaskResetOptions : AzOptions
 {
+    /// <summary>
+    /// Reset the properties of a Batch task.
+    /// </summary>
+    /// <param name="JobId">The ID of the Job containing the Task.</param>
+    /// <param name="TaskId">The ID of the Task to update.</param>
+    public AzBatchTaskResetOptions(
+        string JobId,
+        string TaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+    }
+
+    public void Deconstruct(out string JobId, out string TaskId)
+    {
+        JobId = this.JobId;
+        TaskId = this.TaskId;
+    }
+
+    /// <summary>
+    /// The ID of the Job containing the Task.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Task to update.
+    /// </summary>
+    [CliOption("--task-id")]
+    public string TaskId { get; private init; }
+
     /// <summary>
     /// The file containing pool update properties parameter specification in JSON(formatted to match REST API request body). If this parameter is specified, all 'Pool Update Properties Parameter Arguments' are ignored.
     /// </summary>

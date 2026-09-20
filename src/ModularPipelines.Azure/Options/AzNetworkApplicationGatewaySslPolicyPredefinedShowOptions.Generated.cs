@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get SSL predefined policy with the
 /// </summary>
-/// <param name="Name">Name of SSL predefined policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "ssl-policy", "predefined", "show")]
-public record AzNetworkApplicationGatewaySslPolicyPredefinedShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzNetworkApplicationGatewaySslPolicyPredefinedShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get SSL predefined policy with the
+    /// </summary>
+    /// <param name="Name">Name of SSL predefined policy.</param>
+    public AzNetworkApplicationGatewaySslPolicyPredefinedShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of SSL predefined policy.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

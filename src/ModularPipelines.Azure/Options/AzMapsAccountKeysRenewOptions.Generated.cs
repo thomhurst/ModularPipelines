@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate either the primary or secondary key for use with the
 /// </summary>
-/// <param name="AccountName">The name of the maps account.</param>
-/// <param name="Key">Whether the operation refers to the primary or secondary key.  Allowed values: primary, secondary.</param>
-/// <param name="ResourceGroup">Resource group name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("maps", "account", "keys", "renew")]
-public record AzMapsAccountKeysRenewOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
-    [property: CliOption("--key")] string Key,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzMapsAccountKeysRenewOptions : AzOptions
 {
+    /// <summary>
+    /// Regenerate either the primary or secondary key for use with the
+    /// </summary>
+    /// <param name="AccountName">The name of the maps account.</param>
+    /// <param name="Key">Whether the operation refers to the primary or secondary key.  Allowed values: primary, secondary.</param>
+    /// <param name="ResourceGroup">Resource group name.</param>
+    public AzMapsAccountKeysRenewOptions(
+        string AccountName,
+        string Key,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string Key, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        Key = this.Key;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the maps account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Whether the operation refers to the primary or secondary key.  Allowed values: primary, secondary.
+    /// </summary>
+    [CliOption("--key")]
+    public string Key { get; private init; }
+
+    /// <summary>
+    /// Resource group name.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

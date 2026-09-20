@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export the template used to create the deployment stack.
 /// </summary>
-/// <param name="ManagementGroupId">The management group ID to create a deployment stack in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "mg", "export")]
-public record AzStackMgExportOptions(
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
-) : AzOptions
+public record AzStackMgExportOptions : AzOptions
 {
+    /// <summary>
+    /// Export the template used to create the deployment stack.
+    /// </summary>
+    /// <param name="ManagementGroupId">The management group ID to create a deployment stack in.</param>
+    public AzStackMgExportOptions(
+        string ManagementGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+    }
+
+    public void Deconstruct(out string ManagementGroupId)
+    {
+        ManagementGroupId = this.ManagementGroupId;
+    }
+
+    /// <summary>
+    /// The management group ID to create a deployment stack in.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
     /// <summary>
     /// The deployment stack resource ID.
     /// </summary>

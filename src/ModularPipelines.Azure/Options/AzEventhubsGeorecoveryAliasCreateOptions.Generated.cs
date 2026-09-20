@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new Alias(Disaster Recovery configuration).
 /// </summary>
-/// <param name="Alias">The Disaster Recovery configuration name.</param>
-/// <param name="NamespaceName">The Namespace name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "georecovery-alias", "create")]
-public record AzEventhubsGeorecoveryAliasCreateOptions(
-    [property: CliOption("--alias", ShortForm = "-a")] string Alias,
-    [property: CliOption("--namespace-name")] string NamespaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzEventhubsGeorecoveryAliasCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new Alias(Disaster Recovery configuration).
+    /// </summary>
+    /// <param name="Alias">The Disaster Recovery configuration name.</param>
+    /// <param name="NamespaceName">The Namespace name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzEventhubsGeorecoveryAliasCreateOptions(
+        string Alias,
+        string NamespaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Alias, out string NamespaceName, out string ResourceGroup)
+    {
+        Alias = this.Alias;
+        NamespaceName = this.NamespaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The Disaster Recovery configuration name.
+    /// </summary>
+    [CliOption("--alias", ShortForm = "-a")]
+    public string Alias { get; private init; }
+
+    /// <summary>
+    /// The Namespace name.
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string NamespaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Alternate name specified when alias and namespace names are same.
     /// </summary>

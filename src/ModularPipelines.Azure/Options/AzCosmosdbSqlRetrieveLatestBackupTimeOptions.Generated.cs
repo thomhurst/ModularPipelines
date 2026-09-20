@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieves latest restorable timestamp for the
 /// </summary>
-/// <param name="AccountName">Name of the CosmosDB database account.</param>
-/// <param name="ContainerName">Name of the CosmosDB Sql container name.</param>
-/// <param name="DatabaseName">Name of the CosmosDB Sql database name.</param>
-/// <param name="Location">Location of the account.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "retrieve-latest-backup-time")]
-public record AzCosmosdbSqlRetrieveLatestBackupTimeOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
-    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbSqlRetrieveLatestBackupTimeOptions : AzOptions
 {
+    /// <summary>
+    /// Retrieves latest restorable timestamp for the
+    /// </summary>
+    /// <param name="AccountName">Name of the CosmosDB database account.</param>
+    /// <param name="ContainerName">Name of the CosmosDB Sql container name.</param>
+    /// <param name="DatabaseName">Name of the CosmosDB Sql database name.</param>
+    /// <param name="Location">Location of the account.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbSqlRetrieveLatestBackupTimeOptions(
+        string AccountName,
+        string ContainerName,
+        string DatabaseName,
+        string Location,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string ContainerName, out string DatabaseName, out string Location, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        ContainerName = this.ContainerName;
+        DatabaseName = this.DatabaseName;
+        Location = this.Location;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the CosmosDB database account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Name of the CosmosDB Sql container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// Name of the CosmosDB Sql database name.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string DatabaseName { get; private init; }
+
+    /// <summary>
+    /// Location of the account.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

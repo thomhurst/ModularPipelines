@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Mark the specified share for deletion.
 /// </summary>
-/// <param name="Name">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "delete")]
-public record AzStorageShareDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageShareDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Mark the specified share for deletion.
+    /// </summary>
+    /// <param name="Name">The file share name.</param>
+    public AzStorageShareDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Specify the deletion strategy when the share has snapshots.  Allowed values: include, include-leased.
     /// </summary>

@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows IoT Security Analytics metrics.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SolutionName">Name of the IoT Security solution.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "iot-analytics", "show")]
-public record AzSecurityIotAnalyticsShowOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--solution-name")] string SolutionName
-) : AzOptions
+public record AzSecurityIotAnalyticsShowOptions : AzOptions
 {
+    /// <summary>
+    /// Shows IoT Security Analytics metrics.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SolutionName">Name of the IoT Security solution.</param>
+    public AzSecurityIotAnalyticsShowOptions(
+        string ResourceGroup,
+        string SolutionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SolutionName);
+        this.SolutionName = SolutionName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string SolutionName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        SolutionName = this.SolutionName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the IoT Security solution.
+    /// </summary>
+    [CliOption("--solution-name")]
+    public string SolutionName { get; private init; }
+
 }

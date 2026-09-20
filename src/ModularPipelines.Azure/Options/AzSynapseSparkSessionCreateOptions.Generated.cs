@@ -15,22 +15,77 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Spark session.
 /// </summary>
-/// <param name="ExecutorSize">The executor size.  Allowed values: Large, Medium, Small.</param>
-/// <param name="Executors">The number of executors.</param>
-/// <param name="Name">The Spark session name.</param>
-/// <param name="SparkPoolName">The name of the Spark pool.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "session", "create")]
-public record AzSynapseSparkSessionCreateOptions(
-    [property: CliOption("--executor-size")] string ExecutorSize,
-    [property: CliOption("--executors")] int Executors,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--spark-pool-name")] string SparkPoolName,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseSparkSessionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Spark session.
+    /// </summary>
+    /// <param name="ExecutorSize">The executor size.  Allowed values: Large, Medium, Small.</param>
+    /// <param name="Executors">The number of executors.</param>
+    /// <param name="Name">The Spark session name.</param>
+    /// <param name="SparkPoolName">The name of the Spark pool.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzSynapseSparkSessionCreateOptions(
+        string ExecutorSize,
+        int Executors,
+        string Name,
+        string SparkPoolName,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutorSize);
+        this.ExecutorSize = ExecutorSize;
+        this.Executors = Executors;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SparkPoolName);
+        this.SparkPoolName = SparkPoolName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string ExecutorSize, out int Executors, out string Name, out string SparkPoolName, out string WorkspaceName)
+    {
+        ExecutorSize = this.ExecutorSize;
+        Executors = this.Executors;
+        Name = this.Name;
+        SparkPoolName = this.SparkPoolName;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The executor size.  Allowed values: Large, Medium, Small.
+    /// </summary>
+    [CliOption("--executor-size")]
+    public string ExecutorSize { get; private init; }
+
+    /// <summary>
+    /// The number of executors.
+    /// </summary>
+    [CliOption("--executors")]
+    public int Executors { get; private init; }
+
+    /// <summary>
+    /// The Spark session name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the Spark pool.
+    /// </summary>
+    [CliOption("--spark-pool-name")]
+    public string SparkPoolName { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// The configuration of Spark session.
     /// </summary>

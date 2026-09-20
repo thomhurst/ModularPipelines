@@ -15,22 +15,87 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an SQL user defined function under an
 /// </summary>
-/// <param name="AccountName">Cosmosdb account name.</param>
-/// <param name="Body">UserDefinedFunction body, you can enter it as a string or as a file, e.g., --body @udfbody-file.json.</param>
-/// <param name="ContainerName">Container name.</param>
-/// <param name="DatabaseName">Database name.</param>
-/// <param name="Name">UserDefinedFunction name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "user-defined-function", "create")]
-public record AzCosmosdbSqlUserDefinedFunctionCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--body", ShortForm = "-b")] string Body,
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
-    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbSqlUserDefinedFunctionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an SQL user defined function under an
+    /// </summary>
+    /// <param name="AccountName">Cosmosdb account name.</param>
+    /// <param name="Body">UserDefinedFunction body, you can enter it as a string or as a file, e.g., --body @udfbody-file.json.</param>
+    /// <param name="ContainerName">Container name.</param>
+    /// <param name="DatabaseName">Database name.</param>
+    /// <param name="Name">UserDefinedFunction name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbSqlUserDefinedFunctionCreateOptions(
+        string AccountName,
+        string Body,
+        string ContainerName,
+        string DatabaseName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string Body, out string ContainerName, out string DatabaseName, out string Name, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        Body = this.Body;
+        ContainerName = this.ContainerName;
+        DatabaseName = this.DatabaseName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cosmosdb account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// UserDefinedFunction body, you can enter it as a string or as a file, e.g., --body @udfbody-file.json.
+    /// </summary>
+    [CliOption("--body", ShortForm = "-b")]
+    public string Body { get; private init; }
+
+    /// <summary>
+    /// Container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// Database name.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string DatabaseName { get; private init; }
+
+    /// <summary>
+    /// UserDefinedFunction name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

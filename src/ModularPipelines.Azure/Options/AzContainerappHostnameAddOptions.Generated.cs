@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add the hostname to a container app without binding.
 /// </summary>
-/// <param name="Hostname">The custom domain name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "hostname", "add")]
-public record AzContainerappHostnameAddOptions(
-    [property: CliOption("--hostname")] string Hostname
-) : AzOptions
+public record AzContainerappHostnameAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add the hostname to a container app without binding.
+    /// </summary>
+    /// <param name="Hostname">The custom domain name.</param>
+    public AzContainerappHostnameAddOptions(
+        string Hostname
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+    }
+
+    public void Deconstruct(out string Hostname)
+    {
+        Hostname = this.Hostname;
+    }
+
+    /// <summary>
+    /// The custom domain name.
+    /// </summary>
+    [CliOption("--hostname")]
+    public string Hostname { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

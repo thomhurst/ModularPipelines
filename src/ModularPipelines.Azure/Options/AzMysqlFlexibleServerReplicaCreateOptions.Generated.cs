@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a read replica for a server.
 /// </summary>
-/// <param name="ReplicaName">The name of the server to restore to.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "replica", "create")]
-public record AzMysqlFlexibleServerReplicaCreateOptions(
-    [property: CliOption("--replica-name")] string ReplicaName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--source-server")] string SourceServer
-) : AzOptions
+public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a read replica for a server.
+    /// </summary>
+    /// <param name="ReplicaName">The name of the server to restore to.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
+    public AzMysqlFlexibleServerReplicaCreateOptions(
+        string ReplicaName,
+        string ResourceGroup,
+        string SourceServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicaName);
+        this.ReplicaName = ReplicaName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SourceServer);
+        this.SourceServer = SourceServer;
+    }
+
+    public void Deconstruct(out string ReplicaName, out string ResourceGroup, out string SourceServer)
+    {
+        ReplicaName = this.ReplicaName;
+        ResourceGroup = this.ResourceGroup;
+        SourceServer = this.SourceServer;
+    }
+
+    /// <summary>
+    /// The name of the server to restore to.
+    /// </summary>
+    [CliOption("--replica-name")]
+    public string ReplicaName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name or resource ID of the source server to restore from.
+    /// </summary>
+    [CliOption("--source-server")]
+    public string SourceServer { get; private init; }
+
     /// <summary>
     /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days.
     /// </summary>

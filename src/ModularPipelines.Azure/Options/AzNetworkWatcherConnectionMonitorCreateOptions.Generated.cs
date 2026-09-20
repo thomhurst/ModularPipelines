@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a connection monitor.
 /// </summary>
-/// <param name="ConnectionMonitorName">Connection monitor name.</param>
-/// <param name="EndpointDestName">The name of the destination of connection monitor endpoint. If you are creating a V2 Connection Monitor, it's required.</param>
-/// <param name="EndpointSourceName">The name of the source of connection monitor endpoint. If you are creating a V2 Connection Monitor, it's required.</param>
-/// <param name="EndpointSourceResourceId">Resource ID of the source of connection monitor endpoint. If endpoint is intended to used as source, this option is required.</param>
-/// <param name="TestConfigName">The name of the connection monitor test configuration. If you are creating a V2 Connection Monitor, it's required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "connection-monitor", "create")]
-public record AzNetworkWatcherConnectionMonitorCreateOptions(
-    [property: CliOption("--connection-monitor-name", ShortForm = "-n")] string ConnectionMonitorName,
-    [property: CliOption("--endpoint-dest-name")] string EndpointDestName,
-    [property: CliOption("--endpoint-source-name")] string EndpointSourceName,
-    [property: CliOption("--endpoint-source-resource-id")] string EndpointSourceResourceId,
-    [property: CliOption("--test-config-name")] string TestConfigName
-) : AzOptions
+public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a connection monitor.
+    /// </summary>
+    /// <param name="ConnectionMonitorName">Connection monitor name.</param>
+    /// <param name="EndpointDestName">The name of the destination of connection monitor endpoint. If you are creating a V2 Connection Monitor, it's required.</param>
+    /// <param name="EndpointSourceName">The name of the source of connection monitor endpoint. If you are creating a V2 Connection Monitor, it's required.</param>
+    /// <param name="EndpointSourceResourceId">Resource ID of the source of connection monitor endpoint. If endpoint is intended to used as source, this option is required.</param>
+    /// <param name="TestConfigName">The name of the connection monitor test configuration. If you are creating a V2 Connection Monitor, it's required.</param>
+    public AzNetworkWatcherConnectionMonitorCreateOptions(
+        string ConnectionMonitorName,
+        string EndpointDestName,
+        string EndpointSourceName,
+        string EndpointSourceResourceId,
+        string TestConfigName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionMonitorName);
+        this.ConnectionMonitorName = ConnectionMonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointDestName);
+        this.EndpointDestName = EndpointDestName;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointSourceName);
+        this.EndpointSourceName = EndpointSourceName;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointSourceResourceId);
+        this.EndpointSourceResourceId = EndpointSourceResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(TestConfigName);
+        this.TestConfigName = TestConfigName;
+    }
+
+    public void Deconstruct(out string ConnectionMonitorName, out string EndpointDestName, out string EndpointSourceName, out string EndpointSourceResourceId, out string TestConfigName)
+    {
+        ConnectionMonitorName = this.ConnectionMonitorName;
+        EndpointDestName = this.EndpointDestName;
+        EndpointSourceName = this.EndpointSourceName;
+        EndpointSourceResourceId = this.EndpointSourceResourceId;
+        TestConfigName = this.TestConfigName;
+    }
+
+    /// <summary>
+    /// Connection monitor name.
+    /// </summary>
+    [CliOption("--connection-monitor-name", ShortForm = "-n")]
+    public string ConnectionMonitorName { get; private init; }
+
+    /// <summary>
+    /// The name of the destination of connection monitor endpoint. If you are creating a V2 Connection Monitor, it's required.
+    /// </summary>
+    [CliOption("--endpoint-dest-name")]
+    public string EndpointDestName { get; private init; }
+
+    /// <summary>
+    /// The name of the source of connection monitor endpoint. If you are creating a V2 Connection Monitor, it's required.
+    /// </summary>
+    [CliOption("--endpoint-source-name")]
+    public string EndpointSourceName { get; private init; }
+
+    /// <summary>
+    /// Resource ID of the source of connection monitor endpoint. If endpoint is intended to used as source, this option is required.
+    /// </summary>
+    [CliOption("--endpoint-source-resource-id")]
+    public string EndpointSourceResourceId { get; private init; }
+
+    /// <summary>
+    /// The name of the connection monitor test configuration. If you are creating a V2 Connection Monitor, it's required.
+    /// </summary>
+    [CliOption("--test-config-name")]
+    public string TestConfigName { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

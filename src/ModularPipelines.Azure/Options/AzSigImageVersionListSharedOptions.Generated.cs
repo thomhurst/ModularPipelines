@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List VM Image Versions in a gallery shared directly to your
 /// </summary>
-/// <param name="GalleryImageDefinition">The name of the Shared Gallery Image Definition from which the Image Versions are to be listed.</param>
-/// <param name="GalleryUniqueName">The unique name of the Shared Gallery.</param>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "list-shared")]
-public record AzSigImageVersionListSharedOptions(
-    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
-    [property: CliOption("--gallery-unique-name")] string GalleryUniqueName,
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzSigImageVersionListSharedOptions : AzOptions
 {
+    /// <summary>
+    /// List VM Image Versions in a gallery shared directly to your
+    /// </summary>
+    /// <param name="GalleryImageDefinition">The name of the Shared Gallery Image Definition from which the Image Versions are to be listed.</param>
+    /// <param name="GalleryUniqueName">The unique name of the Shared Gallery.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    public AzSigImageVersionListSharedOptions(
+        string GalleryImageDefinition,
+        string GalleryUniqueName,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GalleryImageDefinition);
+        this.GalleryImageDefinition = GalleryImageDefinition;
+        global::System.ArgumentNullException.ThrowIfNull(GalleryUniqueName);
+        this.GalleryUniqueName = GalleryUniqueName;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string GalleryImageDefinition, out string GalleryUniqueName, out string Location)
+    {
+        GalleryImageDefinition = this.GalleryImageDefinition;
+        GalleryUniqueName = this.GalleryUniqueName;
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The name of the Shared Gallery Image Definition from which the Image Versions are to be listed.
+    /// </summary>
+    [CliOption("--gallery-image-definition", ShortForm = "-i")]
+    public string GalleryImageDefinition { get; private init; }
+
+    /// <summary>
+    /// The unique name of the Shared Gallery.
+    /// </summary>
+    [CliOption("--gallery-unique-name")]
+    public string GalleryUniqueName { get; private init; }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
     /// <summary>
     /// The query parameter to decide what shared galleries to fetch when doing listing operations. If not specified, list by subscription id.  Allowed values: tenant.
     /// </summary>

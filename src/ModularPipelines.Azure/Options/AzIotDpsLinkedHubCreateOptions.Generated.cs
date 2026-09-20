@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a linked IoT hub in an Azure IoT Hub Device Provisioning
 /// </summary>
-/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "create")]
-public record AzIotDpsLinkedHubCreateOptions(
-    [property: CliOption("--dps-name")] string DpsName
-) : AzOptions
+public record AzIotDpsLinkedHubCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a linked IoT hub in an Azure IoT Hub Device Provisioning
+    /// </summary>
+    /// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+    public AzIotDpsLinkedHubCreateOptions(
+        string DpsName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DpsName);
+        this.DpsName = DpsName;
+    }
+
+    public void Deconstruct(out string DpsName)
+    {
+        DpsName = this.DpsName;
+    }
+
+    /// <summary>
+    /// IoT Hub Device Provisioning Service name.
+    /// </summary>
+    [CliOption("--dps-name")]
+    public string DpsName { get; private init; }
+
     /// <summary>
     /// Allocation weight of the IoT hub.
     /// </summary>

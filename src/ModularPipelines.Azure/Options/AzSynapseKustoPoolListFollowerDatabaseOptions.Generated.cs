@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Returns a list of databases that are owned by
 /// </summary>
-/// <param name="KustoPoolName">The name of the Kusto pool.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kusto", "pool", "list-follower-database")]
-public record AzSynapseKustoPoolListFollowerDatabaseOptions(
-    [property: CliOption("--kusto-pool-name", ShortForm = "-n")] string KustoPoolName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseKustoPoolListFollowerDatabaseOptions : AzOptions
 {
+    /// <summary>
+    /// Returns a list of databases that are owned by
+    /// </summary>
+    /// <param name="KustoPoolName">The name of the Kusto pool.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzSynapseKustoPoolListFollowerDatabaseOptions(
+        string KustoPoolName,
+        string ResourceGroup,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KustoPoolName);
+        this.KustoPoolName = KustoPoolName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string KustoPoolName, out string ResourceGroup, out string WorkspaceName)
+    {
+        KustoPoolName = this.KustoPoolName;
+        ResourceGroup = this.ResourceGroup;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The name of the Kusto pool.
+    /// </summary>
+    [CliOption("--kusto-pool-name", ShortForm = "-n")]
+    public string KustoPoolName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

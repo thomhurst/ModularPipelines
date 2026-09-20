@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the Gremlin graphs under an Azure Cosmos DB Gremlin
 /// </summary>
-/// <param name="AccountName">Cosmosdb account name.</param>
-/// <param name="DatabaseName">Database name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "graph", "list")]
-public record AzCosmosdbGremlinGraphListOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--database-name", ShortForm = "-d")] string DatabaseName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbGremlinGraphListOptions : AzOptions
 {
+    /// <summary>
+    /// List the Gremlin graphs under an Azure Cosmos DB Gremlin
+    /// </summary>
+    /// <param name="AccountName">Cosmosdb account name.</param>
+    /// <param name="DatabaseName">Database name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbGremlinGraphListOptions(
+        string AccountName,
+        string DatabaseName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string DatabaseName, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        DatabaseName = this.DatabaseName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Cosmosdb account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Database name.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string DatabaseName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

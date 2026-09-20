@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore backed up Azure Workloads in a Recovery services
 /// </summary>
-/// <param name="RecoveryConfig">Specify the recovery configuration of a backed up item. The configuration object can be obtained from 'backup recoveryconfig show' command.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VaultName">Name of the Recovery services vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "restore", "restore-azurewl")]
-public record AzBackupRestoreRestoreAzurewlOptions(
-    [property: CliOption("--recovery-config")] string RecoveryConfig,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
-) : AzOptions
+public record AzBackupRestoreRestoreAzurewlOptions : AzOptions
 {
+    /// <summary>
+    /// Restore backed up Azure Workloads in a Recovery services
+    /// </summary>
+    /// <param name="RecoveryConfig">Specify the recovery configuration of a backed up item. The configuration object can be obtained from 'backup recoveryconfig show' command.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VaultName">Name of the Recovery services vault.</param>
+    public AzBackupRestoreRestoreAzurewlOptions(
+        string RecoveryConfig,
+        string ResourceGroup,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryConfig);
+        this.RecoveryConfig = RecoveryConfig;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string RecoveryConfig, out string ResourceGroup, out string VaultName)
+    {
+        RecoveryConfig = this.RecoveryConfig;
+        ResourceGroup = this.ResourceGroup;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Specify the recovery configuration of a backed up item. The configuration object can be obtained from 'backup recoveryconfig show' command.
+    /// </summary>
+    [CliOption("--recovery-config")]
+    public string RecoveryConfig { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Set the maximum time, in days (between 10-30, both inclusive) for which the recovery point stays in hydrated state.  Default: 15.
     /// </summary>

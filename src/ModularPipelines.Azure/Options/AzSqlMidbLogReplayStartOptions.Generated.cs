@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start Log Replay service on specified database.
 /// </summary>
-/// <param name="Ss">The authorization Sas token to access storage container where backups are.</param>
-/// <param name="StorageUri">The URI of the storage container where backups are.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "log-replay", "start")]
-public record AzSqlMidbLogReplayStartOptions(
-    [property: CliOption("--ss", ShortForm = "--storage-sas")] string Ss,
-    [property: CliOption("--storage-uri", ShortForm = "--su")] string StorageUri
-) : AzOptions
+public record AzSqlMidbLogReplayStartOptions : AzOptions
 {
+    /// <summary>
+    /// Start Log Replay service on specified database.
+    /// </summary>
+    /// <param name="Ss">The authorization Sas token to access storage container where backups are.</param>
+    /// <param name="StorageUri">The URI of the storage container where backups are.</param>
+    public AzSqlMidbLogReplayStartOptions(
+        string Ss,
+        string StorageUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ss);
+        this.Ss = Ss;
+        global::System.ArgumentNullException.ThrowIfNull(StorageUri);
+        this.StorageUri = StorageUri;
+    }
+
+    public void Deconstruct(out string Ss, out string StorageUri)
+    {
+        Ss = this.Ss;
+        StorageUri = this.StorageUri;
+    }
+
+    /// <summary>
+    /// The authorization Sas token to access storage container where backups are.
+    /// </summary>
+    [CliOption("--ss", ShortForm = "--storage-sas")]
+    public string Ss { get; private init; }
+
+    /// <summary>
+    /// The URI of the storage container where backups are.
+    /// </summary>
+    [CliOption("--storage-uri", ShortForm = "--su")]
+    public string StorageUri { get; private init; }
+
     /// <summary>
     /// The flag that in usage with last_backup_name automatically completes log replay servise.
     /// </summary>

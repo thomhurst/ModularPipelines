@@ -15,20 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a message enrichment for chosen endpoints in your
 /// </summary>
-/// <param name="Endpoints">Endpoint(s) to apply enrichments to. Use a space-separated list for multiple endpoints.</param>
-/// <param name="Key">The enrichment's key.</param>
-/// <param name="Name">IoT Hub name.</param>
-/// <param name="Value">The enrichment's value.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "message-enrichment", "create")]
-public record AzIotHubMessageEnrichmentCreateOptions(
-    [property: CliOption("--endpoints", ShortForm = "-e", GroupValues = true)] IEnumerable<string> Endpoints,
-    [property: CliOption("--key", ShortForm = "-k")] string Key,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--value", ShortForm = "-v")] string Value
-) : AzOptions
+public record AzIotHubMessageEnrichmentCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a message enrichment for chosen endpoints in your
+    /// </summary>
+    /// <param name="Endpoints">Endpoint(s) to apply enrichments to. Use a space-separated list for multiple endpoints.</param>
+    /// <param name="Key">The enrichment's key.</param>
+    /// <param name="Name">IoT Hub name.</param>
+    /// <param name="Value">The enrichment's value.</param>
+    public AzIotHubMessageEnrichmentCreateOptions(
+        IEnumerable<string> Endpoints,
+        string Key,
+        string Name,
+        string Value
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Endpoints);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Endpoints));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Endpoints));
+            }
+
+            Endpoints = materialized;
+        }
+        this.Endpoints = Endpoints;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Endpoints, out string Key, out string Name, out string Value)
+    {
+        Endpoints = this.Endpoints;
+        Key = this.Key;
+        Name = this.Name;
+        Value = this.Value;
+    }
+
+    /// <summary>
+    /// Endpoint(s) to apply enrichments to. Use a space-separated list for multiple endpoints.
+    /// </summary>
+    [CliOption("--endpoints", ShortForm = "-e", GroupValues = true)]
+    public IEnumerable<string> Endpoints { get; private init; }
+
+    /// <summary>
+    /// The enrichment's key.
+    /// </summary>
+    [CliOption("--key", ShortForm = "-k")]
+    public string Key { get; private init; }
+
+    /// <summary>
+    /// IoT Hub name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The enrichment's value.
+    /// </summary>
+    [CliOption("--value", ShortForm = "-v")]
+    public string Value { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

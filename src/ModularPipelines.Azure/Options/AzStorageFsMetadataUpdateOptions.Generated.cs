@@ -15,16 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets one or more user-defined name-value pairs for the specified
 /// </summary>
-/// <param name="Metadata">Metadata in space-separated key=value pairs. This overwrites any existing metadata.</param>
-/// <param name="Name">File system name (i.e. container name).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "metadata", "update")]
-public record AzStorageFsMetadataUpdateOptions(
-    [property: CliOption("--metadata", GroupValues = true)] IEnumerable<string> Metadata,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageFsMetadataUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Sets one or more user-defined name-value pairs for the specified
+    /// </summary>
+    /// <param name="Metadata">Metadata in space-separated key=value pairs. This overwrites any existing metadata.</param>
+    /// <param name="Name">File system name (i.e. container name).</param>
+    public AzStorageFsMetadataUpdateOptions(
+        IEnumerable<string> Metadata,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Metadata);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Metadata));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Metadata));
+            }
+
+            Metadata = materialized;
+        }
+        this.Metadata = Metadata;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Metadata, out string Name)
+    {
+        Metadata = this.Metadata;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
+    /// </summary>
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string> Metadata { get; private init; }
+
+    /// <summary>
+    /// File system name (i.e. container name).
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

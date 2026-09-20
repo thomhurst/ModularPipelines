@@ -15,24 +15,88 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a commitment plan for Azure
 /// </summary>
-/// <param name="AutoRenew">A boolean indicating whether to apply auto renew.  Allowed values: false, true.</param>
-/// <param name="CommitmentPlanName">Cognitive Services account commitment plan name.</param>
-/// <param name="HostingModel">Cognitive Services account hosting model.  Allowed values: ConnectedContainer, DisconnectedContainer, ProvisionedWeb, Web.</param>
-/// <param name="Name">Cognitive service account name.</param>
-/// <param name="PlanType">Cognitive Services account commitment plan type.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "commitment-plan", "create")]
-public record AzCognitiveservicesAccountCommitmentPlanCreateOptions(
-    [property: CliOption("--auto-renew")] bool AutoRenew,
-    [property: CliOption("--commitment-plan-name")] string CommitmentPlanName,
-    [property: CliOption("--hosting-model")] string HostingModel,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--plan-type")] string PlanType,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCognitiveservicesAccountCommitmentPlanCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a commitment plan for Azure
+    /// </summary>
+    /// <param name="AutoRenew">A boolean indicating whether to apply auto renew.  Allowed values: false, true.</param>
+    /// <param name="CommitmentPlanName">Cognitive Services account commitment plan name.</param>
+    /// <param name="HostingModel">Cognitive Services account hosting model.  Allowed values: ConnectedContainer, DisconnectedContainer, ProvisionedWeb, Web.</param>
+    /// <param name="Name">Cognitive service account name.</param>
+    /// <param name="PlanType">Cognitive Services account commitment plan type.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCognitiveservicesAccountCommitmentPlanCreateOptions(
+        bool AutoRenew,
+        string CommitmentPlanName,
+        string HostingModel,
+        string Name,
+        string PlanType,
+        string ResourceGroup
+    )
+    {
+        this.AutoRenew = AutoRenew;
+        global::System.ArgumentNullException.ThrowIfNull(CommitmentPlanName);
+        this.CommitmentPlanName = CommitmentPlanName;
+        global::System.ArgumentNullException.ThrowIfNull(HostingModel);
+        this.HostingModel = HostingModel;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PlanType);
+        this.PlanType = PlanType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out bool AutoRenew, out string CommitmentPlanName, out string HostingModel, out string Name, out string PlanType, out string ResourceGroup)
+    {
+        AutoRenew = this.AutoRenew;
+        CommitmentPlanName = this.CommitmentPlanName;
+        HostingModel = this.HostingModel;
+        Name = this.Name;
+        PlanType = this.PlanType;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// A boolean indicating whether to apply auto renew.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--auto-renew")]
+    public bool AutoRenew { get; private init; }
+
+    /// <summary>
+    /// Cognitive Services account commitment plan name.
+    /// </summary>
+    [CliOption("--commitment-plan-name")]
+    public string CommitmentPlanName { get; private init; }
+
+    /// <summary>
+    /// Cognitive Services account hosting model.  Allowed values: ConnectedContainer, DisconnectedContainer, ProvisionedWeb, Web.
+    /// </summary>
+    [CliOption("--hosting-model")]
+    public string HostingModel { get; private init; }
+
+    /// <summary>
+    /// Cognitive service account name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Cognitive Services account commitment plan type.
+    /// </summary>
+    [CliOption("--plan-type")]
+    public string PlanType { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Cognitive Services account commitment plan current commitment period count.
     /// </summary>

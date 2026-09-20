@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disable an Azure Service Mesh egress gateway.
 /// </summary>
-/// <param name="IstioEgGtwName">Specify the name of the Istio egress gateway. This required field specifies the name of the Istio egress gateway. Must be between 1 and 253 characters, must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character.</param>
-/// <param name="Name">Name of the managed cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "mesh", "disable-egress-gateway")]
-public record AzAksMeshDisableEgressGatewayOptions(
-    [property: CliOption("--istio-eg-gtw-name", ShortForm = "--istio-egressgateway-name")] string IstioEgGtwName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksMeshDisableEgressGatewayOptions : AzOptions
 {
+    /// <summary>
+    /// Disable an Azure Service Mesh egress gateway.
+    /// </summary>
+    /// <param name="IstioEgGtwName">Specify the name of the Istio egress gateway. This required field specifies the name of the Istio egress gateway. Must be between 1 and 253 characters, must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character.</param>
+    /// <param name="Name">Name of the managed cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksMeshDisableEgressGatewayOptions(
+        string IstioEgGtwName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IstioEgGtwName);
+        this.IstioEgGtwName = IstioEgGtwName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string IstioEgGtwName, out string Name, out string ResourceGroup)
+    {
+        IstioEgGtwName = this.IstioEgGtwName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Specify the name of the Istio egress gateway. This required field specifies the name of the Istio egress gateway. Must be between 1 and 253 characters, must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character.
+    /// </summary>
+    [CliOption("--istio-eg-gtw-name", ShortForm = "--istio-egressgateway-name")]
+    public string IstioEgGtwName { get; private init; }
+
+    /// <summary>
+    /// Name of the managed cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Specify the namespace of the Istio egress gateway.  Default: aks-istio- egress. This optional field specifies the namespace of the Istio egress gateway. Defaults to "aks- istio-egress" if unspecified.
     /// </summary>

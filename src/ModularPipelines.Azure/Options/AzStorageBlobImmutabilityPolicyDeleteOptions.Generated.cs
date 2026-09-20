@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete blob's immutability policy.
 /// </summary>
-/// <param name="ContainerName">The container name.</param>
-/// <param name="Name">The blob name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "blob", "immutability-policy", "delete")]
-public record AzStorageBlobImmutabilityPolicyDeleteOptions(
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageBlobImmutabilityPolicyDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete blob's immutability policy.
+    /// </summary>
+    /// <param name="ContainerName">The container name.</param>
+    /// <param name="Name">The blob name.</param>
+    public AzStorageBlobImmutabilityPolicyDeleteOptions(
+        string ContainerName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string ContainerName, out string Name)
+    {
+        ContainerName = this.ContainerName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// The blob name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

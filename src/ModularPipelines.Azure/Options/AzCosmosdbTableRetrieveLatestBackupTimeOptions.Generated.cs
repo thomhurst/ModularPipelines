@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieves latest restorable timestamp for the
 /// </summary>
-/// <param name="AccountName">Name of the CosmosDB database account.</param>
-/// <param name="Location">Location of the account.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="TableName">Name of the CosmosDB Table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "table", "retrieve-latest-backup-time")]
-public record AzCosmosdbTableRetrieveLatestBackupTimeOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--table-name", ShortForm = "-n")] string TableName
-) : AzOptions
+public record AzCosmosdbTableRetrieveLatestBackupTimeOptions : AzOptions
 {
+    /// <summary>
+    /// Retrieves latest restorable timestamp for the
+    /// </summary>
+    /// <param name="AccountName">Name of the CosmosDB database account.</param>
+    /// <param name="Location">Location of the account.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="TableName">Name of the CosmosDB Table name.</param>
+    public AzCosmosdbTableRetrieveLatestBackupTimeOptions(
+        string AccountName,
+        string Location,
+        string ResourceGroup,
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    public void Deconstruct(out string AccountName, out string Location, out string ResourceGroup, out string TableName)
+    {
+        AccountName = this.AccountName;
+        Location = this.Location;
+        ResourceGroup = this.ResourceGroup;
+        TableName = this.TableName;
+    }
+
+    /// <summary>
+    /// Name of the CosmosDB database account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Location of the account.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the CosmosDB Table name.
+    /// </summary>
+    [CliOption("--table-name", ShortForm = "-n")]
+    public string TableName { get; private init; }
+
 }

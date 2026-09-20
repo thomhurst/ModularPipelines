@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists all of the subtasks that are associated with the specified
 /// </summary>
-/// <param name="JobId">The ID of the Job. Required.</param>
-/// <param name="TaskId">The ID of the Task. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "subtask", "list")]
-public record AzBatchTaskSubtaskListOptions(
-    [property: CliOption("--job-id")] string JobId,
-    [property: CliOption("--task-id")] string TaskId
-) : AzOptions
+public record AzBatchTaskSubtaskListOptions : AzOptions
 {
+    /// <summary>
+    /// Lists all of the subtasks that are associated with the specified
+    /// </summary>
+    /// <param name="JobId">The ID of the Job. Required.</param>
+    /// <param name="TaskId">The ID of the Task. Required.</param>
+    public AzBatchTaskSubtaskListOptions(
+        string JobId,
+        string TaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+    }
+
+    public void Deconstruct(out string JobId, out string TaskId)
+    {
+        JobId = this.JobId;
+        TaskId = this.TaskId;
+    }
+
+    /// <summary>
+    /// The ID of the Job. Required.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string JobId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Task. Required.
+    /// </summary>
+    [CliOption("--task-id")]
+    public string TaskId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

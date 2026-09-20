@@ -15,16 +15,44 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation retrieves the details of
 /// </summary>
-/// <param name="FetchLatest">Fetch only the latest tests for each peering location. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
-/// <param name="Type">The type of failover test.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "get-failover-all-tests-detail")]
-public record AzNetworkVnetGatewayGetFailoverAllTestsDetailOptions(
-    [property: CliOption("--fetch-latest")] bool FetchLatest,
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzNetworkVnetGatewayGetFailoverAllTestsDetailOptions : AzOptions
 {
+    /// <summary>
+    /// This operation retrieves the details of
+    /// </summary>
+    /// <param name="FetchLatest">Fetch only the latest tests for each peering location. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+    /// <param name="Type">The type of failover test.</param>
+    public AzNetworkVnetGatewayGetFailoverAllTestsDetailOptions(
+        bool FetchLatest,
+        string Type
+    )
+    {
+        this.FetchLatest = FetchLatest;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out bool FetchLatest, out string Type)
+    {
+        FetchLatest = this.FetchLatest;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Fetch only the latest tests for each peering location. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--fetch-latest")]
+    public bool FetchLatest { get; private init; }
+
+    /// <summary>
+    /// The type of failover test.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

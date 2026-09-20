@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Clear all CORS rules for a storage
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "blob-service-properties", "cors-rule", "clear")]
-public record AzStorageAccountBlobServicePropertiesCorsRuleClearOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
-) : AzOptions
+public record AzStorageAccountBlobServicePropertiesCorsRuleClearOptions : AzOptions
 {
+    /// <summary>
+    /// Clear all CORS rules for a storage
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    public AzStorageAccountBlobServicePropertiesCorsRuleClearOptions(
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    public void Deconstruct(out string AccountName)
+    {
+        AccountName = this.AccountName;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

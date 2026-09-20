@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List stored access policies on a containing object.
 /// </summary>
-/// <param name="ShareName">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "policy", "list")]
-public record AzStorageSharePolicyListOptions(
-    [property: CliOption("--share-name", ShortForm = "-s")] string ShareName
-) : AzOptions
+public record AzStorageSharePolicyListOptions : AzOptions
 {
+    /// <summary>
+    /// List stored access policies on a containing object.
+    /// </summary>
+    /// <param name="ShareName">The file share name.</param>
+    public AzStorageSharePolicyListOptions(
+        string ShareName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ShareName);
+        this.ShareName = ShareName;
+    }
+
+    public void Deconstruct(out string ShareName)
+    {
+        ShareName = this.ShareName;
+    }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string ShareName { get; private init; }
+
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>

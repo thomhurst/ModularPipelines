@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Removes an existing custom OpenID Connect identity
 /// </summary>
-/// <param name="ProviderName">The name of the custom OpenID Connect provider.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "auth", "openid-connect", "remove")]
-public record AzContainerappAuthOpenidConnectRemoveOptions(
-    [property: CliOption("--provider-name")] string ProviderName
-) : AzOptions
+public record AzContainerappAuthOpenidConnectRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Removes an existing custom OpenID Connect identity
+    /// </summary>
+    /// <param name="ProviderName">The name of the custom OpenID Connect provider.</param>
+    public AzContainerappAuthOpenidConnectRemoveOptions(
+        string ProviderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProviderName);
+        this.ProviderName = ProviderName;
+    }
+
+    public void Deconstruct(out string ProviderName)
+    {
+        ProviderName = this.ProviderName;
+    }
+
+    /// <summary>
+    /// The name of the custom OpenID Connect provider.
+    /// </summary>
+    [CliOption("--provider-name")]
+    public string ProviderName { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details of an SSL certificate for a web app.
 /// </summary>
-/// <param name="CertificateName">The name of the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "ssl", "show")]
-public record AzWebappConfigSslShowOptions(
-    [property: CliOption("--certificate-name")] string CertificateName
-) : AzOptions
+public record AzWebappConfigSslShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the details of an SSL certificate for a web app.
+    /// </summary>
+    /// <param name="CertificateName">The name of the certificate.</param>
+    public AzWebappConfigSslShowOptions(
+        string CertificateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateName);
+        this.CertificateName = CertificateName;
+    }
+
+    public void Deconstruct(out string CertificateName)
+    {
+        CertificateName = this.CertificateName;
+    }
+
+    /// <summary>
+    /// The name of the certificate.
+    /// </summary>
+    [CliOption("--certificate-name")]
+    public string CertificateName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

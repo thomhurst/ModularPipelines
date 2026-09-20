@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an API Management Named Value.
 /// </summary>
-/// <param name="DisplayName">The Display name of the Named Value.</param>
-/// <param name="NamedValueId">Unique name for the Named Value to be created. Must be unique in the current API Management service instance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "nv", "create")]
-public record AzApimNvCreateOptions(
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--named-value-id")] string NamedValueId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName
-) : AzOptions
+public record AzApimNvCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an API Management Named Value.
+    /// </summary>
+    /// <param name="DisplayName">The Display name of the Named Value.</param>
+    /// <param name="NamedValueId">Unique name for the Named Value to be created. Must be unique in the current API Management service instance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    public AzApimNvCreateOptions(
+        string DisplayName,
+        string NamedValueId,
+        string ResourceGroup,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(NamedValueId);
+        this.NamedValueId = NamedValueId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string DisplayName, out string NamedValueId, out string ResourceGroup, out string ServiceName)
+    {
+        DisplayName = this.DisplayName;
+        NamedValueId = this.NamedValueId;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// The Display name of the Named Value.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Unique name for the Named Value to be created. Must be unique in the current API Management service instance.
+    /// </summary>
+    [CliOption("--named-value-id")]
+    public string NamedValueId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
     /// <summary>
     /// ETag of the Entity.
     /// </summary>

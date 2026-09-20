@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a SignalR Service.
 /// </summary>
-/// <param name="Name">Name of signalr service.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Sku">The sku name of the signalr service. Allowed values: Premium_P1, Standard_S1, Free_F1.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "create")]
-public record AzSignalrCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--sku")] string Sku
-) : AzOptions
+public record AzSignalrCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a SignalR Service.
+    /// </summary>
+    /// <param name="Name">Name of signalr service.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Sku">The sku name of the signalr service. Allowed values: Premium_P1, Standard_S1, Free_F1.</param>
+    public AzSignalrCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Sku
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        this.Sku = Sku;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Sku)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Sku = this.Sku;
+    }
+
+    /// <summary>
+    /// Name of signalr service.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The sku name of the signalr service. Allowed values: Premium_P1, Standard_S1, Free_F1.
+    /// </summary>
+    [CliOption("--sku")]
+    public string Sku { get; private init; }
+
     /// <summary>
     /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".
     /// </summary>

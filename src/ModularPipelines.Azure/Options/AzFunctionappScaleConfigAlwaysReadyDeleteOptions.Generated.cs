@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete always-ready settings in the scale
 /// </summary>
-/// <param name="SettingNames">Space-separated always-ready setting names.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "scale", "config", "always-ready", "delete")]
-public record AzFunctionappScaleConfigAlwaysReadyDeleteOptions(
-    [property: CliOption("--setting-names", GroupValues = true)] IEnumerable<string> SettingNames
-) : AzOptions
+public record AzFunctionappScaleConfigAlwaysReadyDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete always-ready settings in the scale
+    /// </summary>
+    /// <param name="SettingNames">Space-separated always-ready setting names.</param>
+    public AzFunctionappScaleConfigAlwaysReadyDeleteOptions(
+        IEnumerable<string> SettingNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SettingNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SettingNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SettingNames));
+            }
+
+            SettingNames = materialized;
+        }
+        this.SettingNames = SettingNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> SettingNames)
+    {
+        SettingNames = this.SettingNames;
+    }
+
+    /// <summary>
+    /// Space-separated always-ready setting names.
+    /// </summary>
+    [CliOption("--setting-names", GroupValues = true)]
+    public IEnumerable<string> SettingNames { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

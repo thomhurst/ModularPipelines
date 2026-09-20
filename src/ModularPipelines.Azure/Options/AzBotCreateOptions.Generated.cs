@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new v4 SDK bot.
 /// </summary>
-/// <param name="AppType">Microsoft App Type for the bot.</param>
-/// <param name="Appid">The Microsoft account ID (MSA ID) to be used with the bot.</param>
-/// <param name="Name">The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "create")]
-public record AzBotCreateOptions(
-    [property: CliOption("--app-type")] string AppType,
-    [property: CliOption("--appid")] string Appid,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzBotCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new v4 SDK bot.
+    /// </summary>
+    /// <param name="AppType">Microsoft App Type for the bot.</param>
+    /// <param name="Appid">The Microsoft account ID (MSA ID) to be used with the bot.</param>
+    /// <param name="Name">The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzBotCreateOptions(
+        string AppType,
+        string Appid,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppType);
+        this.AppType = AppType;
+        global::System.ArgumentNullException.ThrowIfNull(Appid);
+        this.Appid = Appid;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AppType, out string Appid, out string Name, out string ResourceGroup)
+    {
+        AppType = this.AppType;
+        Appid = this.Appid;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Microsoft App Type for the bot.
+    /// </summary>
+    [CliOption("--app-type")]
+    public string AppType { get; private init; }
+
+    /// <summary>
+    /// The Microsoft account ID (MSA ID) to be used with the bot.
+    /// </summary>
+    [CliOption("--appid")]
+    public string Appid { get; private init; }
+
+    /// <summary>
+    /// The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The key vault key url to enable Customer Managed Keys encryption.
     /// </summary>

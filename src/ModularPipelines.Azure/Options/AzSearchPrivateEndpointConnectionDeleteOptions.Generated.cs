@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disconnects the private endpoint connection and
 /// </summary>
-/// <param name="Name">The name of the private endpoint connection to the Azure AI Search service with the specified resource group. Required.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the search service.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "private-endpoint-connection", "delete")]
-public record AzSearchPrivateEndpointConnectionDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name")] string ServiceName
-) : AzOptions
+public record AzSearchPrivateEndpointConnectionDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Disconnects the private endpoint connection and
+    /// </summary>
+    /// <param name="Name">The name of the private endpoint connection to the Azure AI Search service with the specified resource group. Required.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the search service.</param>
+    public AzSearchPrivateEndpointConnectionDeleteOptions(
+        string Name,
+        string ResourceGroup,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string ServiceName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// The name of the private endpoint connection to the Azure AI Search service with the specified resource group. Required.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the search service.
+    /// </summary>
+    [CliOption("--service-name")]
+    public string ServiceName { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

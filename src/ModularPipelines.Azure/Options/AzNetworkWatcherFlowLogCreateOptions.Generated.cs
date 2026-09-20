@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a flow log on a network security group.
 /// </summary>
-/// <param name="Name">The name of the flow logger.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "flow-log", "create")]
-public record AzNetworkWatcherFlowLogCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a flow log on a network security group.
+    /// </summary>
+    /// <param name="Name">The name of the flow logger.</param>
+    public AzNetworkWatcherFlowLogCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the flow logger.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Enable logging. Default: true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

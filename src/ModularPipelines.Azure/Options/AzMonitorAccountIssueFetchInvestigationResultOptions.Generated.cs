@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Fetch investigation result.
 /// </summary>
-/// <param name="InvestigationId">The unique identifier of the investigation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "issue", "fetch-investigation-result")]
-public record AzMonitorAccountIssueFetchInvestigationResultOptions(
-    [property: CliOption("--investigation-id")] string InvestigationId
-) : AzOptions
+public record AzMonitorAccountIssueFetchInvestigationResultOptions : AzOptions
 {
+    /// <summary>
+    /// Fetch investigation result.
+    /// </summary>
+    /// <param name="InvestigationId">The unique identifier of the investigation.</param>
+    public AzMonitorAccountIssueFetchInvestigationResultOptions(
+        string InvestigationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InvestigationId);
+        this.InvestigationId = InvestigationId;
+    }
+
+    public void Deconstruct(out string InvestigationId)
+    {
+        InvestigationId = this.InvestigationId;
+    }
+
+    /// <summary>
+    /// The unique identifier of the investigation.
+    /// </summary>
+    [CliOption("--investigation-id")]
+    public string InvestigationId { get; private init; }
+
     /// <summary>
     /// The name of the Azure Monitor Workspace. The name is case insensitive.
     /// </summary>

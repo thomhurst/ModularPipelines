@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// NFS only. Creates a symbolic link to the specified file.
 /// </summary>
-/// <param name="Path">The path to the file within the file share.</param>
-/// <param name="ShareName">The file share name.</param>
-/// <param name="Target">Specifies the file path the symbolic link will point to. The file path can be either relative or absolute.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "symbolic-link", "create")]
-public record AzStorageFileSymbolicLinkCreateOptions(
-    [property: CliOption("--path", ShortForm = "-p")] string Path,
-    [property: CliOption("--share-name", ShortForm = "-s")] string ShareName,
-    [property: CliOption("--target")] string Target
-) : AzOptions
+public record AzStorageFileSymbolicLinkCreateOptions : AzOptions
 {
+    /// <summary>
+    /// NFS only. Creates a symbolic link to the specified file.
+    /// </summary>
+    /// <param name="Path">The path to the file within the file share.</param>
+    /// <param name="ShareName">The file share name.</param>
+    /// <param name="Target">Specifies the file path the symbolic link will point to. The file path can be either relative or absolute.</param>
+    public AzStorageFileSymbolicLinkCreateOptions(
+        string Path,
+        string ShareName,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        global::System.ArgumentNullException.ThrowIfNull(ShareName);
+        this.ShareName = ShareName;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    public void Deconstruct(out string Path, out string ShareName, out string Target)
+    {
+        Path = this.Path;
+        ShareName = this.ShareName;
+        Target = this.Target;
+    }
+
+    /// <summary>
+    /// The path to the file within the file share.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string ShareName { get; private init; }
+
+    /// <summary>
+    /// Specifies the file path the symbolic link will point to. The file path can be either relative or absolute.
+    /// </summary>
+    [CliOption("--target")]
+    public string Target { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

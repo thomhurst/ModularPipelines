@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure IP access restrictions for a
 /// </summary>
-/// <param name="Action">Whether the IP security restriction allows or denies access. All restrictions must be use the same action. If no restrictions are set, all traffic is allowed.  Allowed values: Allow, Deny.</param>
-/// <param name="IpAddress">The address range of the IP security restriction in IPv4 CIDR notation. (for example, '198.51.100.14/24').</param>
-/// <param name="RuleName">The IP security restriction name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ingress", "access-restriction", "set")]
-public record AzContainerappIngressAccessRestrictionSetOptions(
-    [property: CliOption("--action")] string Action,
-    [property: CliOption("--ip-address")] string IpAddress,
-    [property: CliOption("--rule-name")] string RuleName
-) : AzOptions
+public record AzContainerappIngressAccessRestrictionSetOptions : AzOptions
 {
+    /// <summary>
+    /// Configure IP access restrictions for a
+    /// </summary>
+    /// <param name="Action">Whether the IP security restriction allows or denies access. All restrictions must be use the same action. If no restrictions are set, all traffic is allowed.  Allowed values: Allow, Deny.</param>
+    /// <param name="IpAddress">The address range of the IP security restriction in IPv4 CIDR notation. (for example, '198.51.100.14/24').</param>
+    /// <param name="RuleName">The IP security restriction name.</param>
+    public AzContainerappIngressAccessRestrictionSetOptions(
+        string Action,
+        string IpAddress,
+        string RuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(IpAddress);
+        this.IpAddress = IpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+    }
+
+    public void Deconstruct(out string Action, out string IpAddress, out string RuleName)
+    {
+        Action = this.Action;
+        IpAddress = this.IpAddress;
+        RuleName = this.RuleName;
+    }
+
+    /// <summary>
+    /// Whether the IP security restriction allows or denies access. All restrictions must be use the same action. If no restrictions are set, all traffic is allowed.  Allowed values: Allow, Deny.
+    /// </summary>
+    [CliOption("--action")]
+    public string Action { get; private init; }
+
+    /// <summary>
+    /// The address range of the IP security restriction in IPv4 CIDR notation. (for example, '198.51.100.14/24').
+    /// </summary>
+    [CliOption("--ip-address")]
+    public string IpAddress { get; private init; }
+
+    /// <summary>
+    /// The IP security restriction name.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
     /// <summary>
     /// The description of the IP security restriction.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the result of evaluating an automatic scaling formula on
 /// </summary>
-/// <param name="PoolId">The ID of the Pool on which to evaluate the automatic scaling formula. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "autoscale", "evaluate")]
-public record AzBatchPoolAutoscaleEvaluateOptions(
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchPoolAutoscaleEvaluateOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the result of evaluating an automatic scaling formula on
+    /// </summary>
+    /// <param name="PoolId">The ID of the Pool on which to evaluate the automatic scaling formula. Required.</param>
+    public AzBatchPoolAutoscaleEvaluateOptions(
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string PoolId)
+    {
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the Pool on which to evaluate the automatic scaling formula. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// A file containing the content specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Content Arguments' are ignored.
     /// </summary>

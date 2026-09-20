@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List extensions associated with a VMSS.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VmssName">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "extension", "list")]
-public record AzVmssExtensionListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vmss-name")] string VmssName
-) : AzOptions
+public record AzVmssExtensionListOptions : AzOptions
 {
+    /// <summary>
+    /// List extensions associated with a VMSS.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VmssName">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
+    public AzVmssExtensionListOptions(
+        string ResourceGroup,
+        string VmssName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VmssName);
+        this.VmssName = VmssName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string VmssName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        VmssName = this.VmssName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--vmss-name")]
+    public string VmssName { get; private init; }
+
 }

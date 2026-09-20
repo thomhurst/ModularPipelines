@@ -16,24 +16,91 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a containerapp connection to
 /// </summary>
-/// <param name="BootstrapServer">Kafka bootstrap server url.</param>
-/// <param name="KafkaKey">Kafka API-Key (key).</param>
-/// <param name="KafkaSecret">Kafka API-Key (secret).</param>
-/// <param name="SchemaKey">Schema registry API-Key (key).</param>
-/// <param name="SchemaRegistry">Schema registry url.</param>
-/// <param name="SchemaSecret">Schema registry API-Key (secret).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "connection", "create", "confluent-cloud")]
-public record AzContainerappConnectionCreateConfluentCloudOptions(
-    [property: CliOption("--bootstrap-server")] string BootstrapServer,
-    [property: CliOption("--kafka-key")] string KafkaKey,
-    [property: SecretValue, CliOption("--kafka-secret")] string KafkaSecret,
-    [property: CliOption("--schema-key")] string SchemaKey,
-    [property: CliOption("--schema-registry")] string SchemaRegistry,
-    [property: SecretValue, CliOption("--schema-secret")] string SchemaSecret
-) : AzOptions
+public record AzContainerappConnectionCreateConfluentCloudOptions : AzOptions
 {
+    /// <summary>
+    /// Create a containerapp connection to
+    /// </summary>
+    /// <param name="BootstrapServer">Kafka bootstrap server url.</param>
+    /// <param name="KafkaKey">Kafka API-Key (key).</param>
+    /// <param name="KafkaSecret">Kafka API-Key (secret).</param>
+    /// <param name="SchemaKey">Schema registry API-Key (key).</param>
+    /// <param name="SchemaRegistry">Schema registry url.</param>
+    /// <param name="SchemaSecret">Schema registry API-Key (secret).</param>
+    public AzContainerappConnectionCreateConfluentCloudOptions(
+        string BootstrapServer,
+        string KafkaKey,
+        string KafkaSecret,
+        string SchemaKey,
+        string SchemaRegistry,
+        string SchemaSecret
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BootstrapServer);
+        this.BootstrapServer = BootstrapServer;
+        global::System.ArgumentNullException.ThrowIfNull(KafkaKey);
+        this.KafkaKey = KafkaKey;
+        global::System.ArgumentNullException.ThrowIfNull(KafkaSecret);
+        this.KafkaSecret = KafkaSecret;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaKey);
+        this.SchemaKey = SchemaKey;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaRegistry);
+        this.SchemaRegistry = SchemaRegistry;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaSecret);
+        this.SchemaSecret = SchemaSecret;
+    }
+
+    public void Deconstruct(out string BootstrapServer, out string KafkaKey, out string KafkaSecret, out string SchemaKey, out string SchemaRegistry, out string SchemaSecret)
+    {
+        BootstrapServer = this.BootstrapServer;
+        KafkaKey = this.KafkaKey;
+        KafkaSecret = this.KafkaSecret;
+        SchemaKey = this.SchemaKey;
+        SchemaRegistry = this.SchemaRegistry;
+        SchemaSecret = this.SchemaSecret;
+    }
+
+    /// <summary>
+    /// Kafka bootstrap server url.
+    /// </summary>
+    [CliOption("--bootstrap-server")]
+    public string BootstrapServer { get; private init; }
+
+    /// <summary>
+    /// Kafka API-Key (key).
+    /// </summary>
+    [CliOption("--kafka-key")]
+    public string KafkaKey { get; private init; }
+
+    /// <summary>
+    /// Kafka API-Key (secret).
+    /// </summary>
+    [SecretValue]
+    [CliOption("--kafka-secret")]
+    public string KafkaSecret { get; private init; }
+
+    /// <summary>
+    /// Schema registry API-Key (key).
+    /// </summary>
+    [CliOption("--schema-key")]
+    public string SchemaKey { get; private init; }
+
+    /// <summary>
+    /// Schema registry url.
+    /// </summary>
+    [CliOption("--schema-registry")]
+    public string SchemaRegistry { get; private init; }
+
+    /// <summary>
+    /// Schema registry API-Key (secret).
+    /// </summary>
+    [SecretValue]
+    [CliOption("--schema-secret")]
+    public string SchemaSecret { get; private init; }
+
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>

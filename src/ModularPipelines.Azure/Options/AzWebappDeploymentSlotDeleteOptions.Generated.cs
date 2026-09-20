@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a deployment slot.
 /// </summary>
-/// <param name="Slot">The name of the slot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "slot", "delete")]
-public record AzWebappDeploymentSlotDeleteOptions(
-    [property: CliOption("--slot", ShortForm = "-s")] string Slot
-) : AzOptions
+public record AzWebappDeploymentSlotDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a deployment slot.
+    /// </summary>
+    /// <param name="Slot">The name of the slot.</param>
+    public AzWebappDeploymentSlotDeleteOptions(
+        string Slot
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Slot);
+        this.Slot = Slot;
+    }
+
+    public void Deconstruct(out string Slot)
+    {
+        Slot = this.Slot;
+    }
+
+    /// <summary>
+    /// The name of the slot.
+    /// </summary>
+    [CliOption("--slot", ShortForm = "-s")]
+    public string Slot { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

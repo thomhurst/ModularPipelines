@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition of the managed
 /// </summary>
-/// <param name="Database">The name of the Azure SQL Managed Database.</param>
-/// <param name="ManagedInstance">Name of the Azure SQL Managed Instance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "ltr-backup", "wait")]
-public record AzSqlMidbLtrBackupWaitOptions(
-    [property: CliOption("--database", ShortForm = "-d")] string Database,
-    [property: CliOption("--managed-instance", ShortForm = "--mi")] string ManagedInstance,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlMidbLtrBackupWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition of the managed
+    /// </summary>
+    /// <param name="Database">The name of the Azure SQL Managed Database.</param>
+    /// <param name="ManagedInstance">Name of the Azure SQL Managed Instance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSqlMidbLtrBackupWaitOptions(
+        string Database,
+        string ManagedInstance,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+        global::System.ArgumentNullException.ThrowIfNull(ManagedInstance);
+        this.ManagedInstance = ManagedInstance;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Database, out string ManagedInstance, out string ResourceGroup)
+    {
+        Database = this.Database;
+        ManagedInstance = this.ManagedInstance;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Azure SQL Managed Database.
+    /// </summary>
+    [CliOption("--database", ShortForm = "-d")]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// Name of the Azure SQL Managed Instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string ManagedInstance { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Wait until created with 'provisioningState' at 'Succeeded'.
     /// </summary>

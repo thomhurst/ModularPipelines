@@ -15,26 +15,100 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Move a particular recovery point of a backed up item from one
 /// </summary>
-/// <param name="ContainerName">Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.</param>
-/// <param name="DestinationTier">The destination/target tier to which a particular recovery point has to be moved.  Allowed values: VaultArchive.</param>
-/// <param name="ItemName">Name of the backed up item.</param>
-/// <param name="Name">Name of the recovery point.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SourceTier">The source tier from which a particular recovery point has to be moved.  Allowed values: VaultStandard.</param>
-/// <param name="VaultName">Name of the Recovery services vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "recoverypoint", "move")]
-public record AzBackupRecoveryPointMoveOptions(
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
-    [property: CliOption("--destination-tier")] string DestinationTier,
-    [property: CliOption("--item-name", ShortForm = "-i")] string ItemName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--source-tier")] string SourceTier,
-    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
-) : AzOptions
+public record AzBackupRecoveryPointMoveOptions : AzOptions
 {
+    /// <summary>
+    /// Move a particular recovery point of a backed up item from one
+    /// </summary>
+    /// <param name="ContainerName">Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.</param>
+    /// <param name="DestinationTier">The destination/target tier to which a particular recovery point has to be moved.  Allowed values: VaultArchive.</param>
+    /// <param name="ItemName">Name of the backed up item.</param>
+    /// <param name="Name">Name of the recovery point.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SourceTier">The source tier from which a particular recovery point has to be moved.  Allowed values: VaultStandard.</param>
+    /// <param name="VaultName">Name of the Recovery services vault.</param>
+    public AzBackupRecoveryPointMoveOptions(
+        string ContainerName,
+        string DestinationTier,
+        string ItemName,
+        string Name,
+        string ResourceGroup,
+        string SourceTier,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationTier);
+        this.DestinationTier = DestinationTier;
+        global::System.ArgumentNullException.ThrowIfNull(ItemName);
+        this.ItemName = ItemName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SourceTier);
+        this.SourceTier = SourceTier;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string ContainerName, out string DestinationTier, out string ItemName, out string Name, out string ResourceGroup, out string SourceTier, out string VaultName)
+    {
+        ContainerName = this.ContainerName;
+        DestinationTier = this.DestinationTier;
+        ItemName = this.ItemName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SourceTier = this.SourceTier;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// The destination/target tier to which a particular recovery point has to be moved.  Allowed values: VaultArchive.
+    /// </summary>
+    [CliOption("--destination-tier")]
+    public string DestinationTier { get; private init; }
+
+    /// <summary>
+    /// Name of the backed up item.
+    /// </summary>
+    [CliOption("--item-name", ShortForm = "-i")]
+    public string ItemName { get; private init; }
+
+    /// <summary>
+    /// Name of the recovery point.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The source tier from which a particular recovery point has to be moved.  Allowed values: VaultStandard.
+    /// </summary>
+    [CliOption("--source-tier")]
+    public string SourceTier { get; private init; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
     /// </summary>

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Allows traffic that met
 /// </summary>
-/// <param name="MatchVariable">The variable on which we evaluate the exception condition.  Allowed values: RemoteAddr, RequestHeader, RequestURI.</param>
-/// <param name="PolicyName">The name of the application gateway WAF policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ValueMatchOperator">Operates on the allowed values for the matchVariable.  Allowed values: Contains, EndsWith, Equals, IPMatch, StartsWith.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exception", "add")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions(
-    [property: CliOption("--match-variable")] string MatchVariable,
-    [property: CliOption("--policy-name")] string PolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--value-match-operator", ShortForm = "--value-operator")] string ValueMatchOperator
-) : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions : AzOptions
 {
+    /// <summary>
+    /// Allows traffic that met
+    /// </summary>
+    /// <param name="MatchVariable">The variable on which we evaluate the exception condition.  Allowed values: RemoteAddr, RequestHeader, RequestURI.</param>
+    /// <param name="PolicyName">The name of the application gateway WAF policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ValueMatchOperator">Operates on the allowed values for the matchVariable.  Allowed values: Contains, EndsWith, Equals, IPMatch, StartsWith.</param>
+    public AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions(
+        string MatchVariable,
+        string PolicyName,
+        string ResourceGroup,
+        string ValueMatchOperator
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MatchVariable);
+        this.MatchVariable = MatchVariable;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ValueMatchOperator);
+        this.ValueMatchOperator = ValueMatchOperator;
+    }
+
+    public void Deconstruct(out string MatchVariable, out string PolicyName, out string ResourceGroup, out string ValueMatchOperator)
+    {
+        MatchVariable = this.MatchVariable;
+        PolicyName = this.PolicyName;
+        ResourceGroup = this.ResourceGroup;
+        ValueMatchOperator = this.ValueMatchOperator;
+    }
+
+    /// <summary>
+    /// The variable on which we evaluate the exception condition.  Allowed values: RemoteAddr, RequestHeader, RequestURI.
+    /// </summary>
+    [CliOption("--match-variable")]
+    public string MatchVariable { get; private init; }
+
+    /// <summary>
+    /// The name of the application gateway WAF policy.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Operates on the allowed values for the matchVariable.  Allowed values: Contains, EndsWith, Equals, IPMatch, StartsWith.
+    /// </summary>
+    [CliOption("--value-match-operator", ShortForm = "--value-operator")]
+    public string ValueMatchOperator { get; private init; }
+
     /// <summary>
     /// Index of exception. If no index is provided, the default behaviour is `append`.
     /// </summary>

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import an API Management API.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the api management service instance.</param>
-/// <param name="SpecificationFormat">Specify the format of the imported API.  Allowed values: GraphQL, OpenApi, OpenApiJson, Swagger, Wadl, Wsdl.</param>
-/// <param name="Path">Required. Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "import")]
-public record AzApimApiImportOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
-    [property: CliOption("--specification-format")] string SpecificationFormat,
-    [property: CliOption("--path")] string Path
-) : AzOptions
+public record AzApimApiImportOptions : AzOptions
 {
+    /// <summary>
+    /// Import an API Management API.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the api management service instance.</param>
+    /// <param name="SpecificationFormat">Specify the format of the imported API.  Allowed values: GraphQL, OpenApi, OpenApiJson, Swagger, Wadl, Wsdl.</param>
+    /// <param name="Path">Required. Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance.</param>
+    public AzApimApiImportOptions(
+        string ResourceGroup,
+        string ServiceName,
+        string SpecificationFormat,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(SpecificationFormat);
+        this.SpecificationFormat = SpecificationFormat;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string ServiceName, out string SpecificationFormat, out string Path)
+    {
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        SpecificationFormat = this.SpecificationFormat;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the api management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// Specify the format of the imported API.  Allowed values: GraphQL, OpenApi, OpenApiJson, Swagger, Wadl, Wsdl.
+    /// </summary>
+    [CliOption("--specification-format")]
+    public string SpecificationFormat { get; private init; }
+
+    /// <summary>
+    /// Required. Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance.
+    /// </summary>
+    [CliOption("--path")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download the public part of a stored key.
 /// </summary>
-/// <param name="File">File to receive the key contents.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "download")]
-public record AzKeyvaultKeyDownloadOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzKeyvaultKeyDownloadOptions : AzOptions
 {
+    /// <summary>
+    /// Download the public part of a stored key.
+    /// </summary>
+    /// <param name="File">File to receive the key contents.</param>
+    public AzKeyvaultKeyDownloadOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// File to receive the key contents.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Encoding of the key, default: PEM.  Allowed values: DER, PEM.  Default: PEM.
     /// </summary>

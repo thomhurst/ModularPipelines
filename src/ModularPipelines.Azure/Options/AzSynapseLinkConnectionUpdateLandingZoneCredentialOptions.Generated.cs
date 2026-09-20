@@ -16,16 +16,55 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update landing zone credetial of a
 /// </summary>
-/// <param name="Name">The link connection name.</param>
-/// <param name="SasToken">Value of secure string.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "link-connection", "update-landing-zone-credential")]
-public record AzSynapseLinkConnectionUpdateLandingZoneCredentialOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: SecretValue, CliOption("--sas-token")] string SasToken,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseLinkConnectionUpdateLandingZoneCredentialOptions : AzOptions
 {
+    /// <summary>
+    /// Update landing zone credetial of a
+    /// </summary>
+    /// <param name="Name">The link connection name.</param>
+    /// <param name="SasToken">Value of secure string.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseLinkConnectionUpdateLandingZoneCredentialOptions(
+        string Name,
+        string SasToken,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SasToken);
+        this.SasToken = SasToken;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Name, out string SasToken, out string WorkspaceName)
+    {
+        Name = this.Name;
+        SasToken = this.SasToken;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The link connection name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Value of secure string.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string SasToken { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a web app's Azure storage account
 /// </summary>
-/// <param name="CustomId">Name of the share configured within the web app.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "storage-account", "delete")]
-public record AzWebappConfigStorageAccountDeleteOptions(
-    [property: CliOption("--custom-id", ShortForm = "-i")] string CustomId
-) : AzOptions
+public record AzWebappConfigStorageAccountDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a web app's Azure storage account
+    /// </summary>
+    /// <param name="CustomId">Name of the share configured within the web app.</param>
+    public AzWebappConfigStorageAccountDeleteOptions(
+        string CustomId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomId);
+        this.CustomId = CustomId;
+    }
+
+    public void Deconstruct(out string CustomId)
+    {
+        CustomId = this.CustomId;
+    }
+
+    /// <summary>
+    /// Name of the share configured within the web app.
+    /// </summary>
+    [CliOption("--custom-id", ShortForm = "-i")]
+    public string CustomId { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

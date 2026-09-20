@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List gallery in VM access control profiles in a
 /// </summary>
-/// <param name="GalleryName">The name of the Shared Image Gallery from which the InVMAccessControlProfiles are to be listed.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "in-vm-access-control-profile", "list")]
-public record AzSigInVmAccessControlProfileListOptions(
-    [property: CliOption("--gallery-name")] string GalleryName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSigInVmAccessControlProfileListOptions : AzOptions
 {
+    /// <summary>
+    /// List gallery in VM access control profiles in a
+    /// </summary>
+    /// <param name="GalleryName">The name of the Shared Image Gallery from which the InVMAccessControlProfiles are to be listed.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSigInVmAccessControlProfileListOptions(
+        string GalleryName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GalleryName);
+        this.GalleryName = GalleryName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GalleryName, out string ResourceGroup)
+    {
+        GalleryName = this.GalleryName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Shared Image Gallery from which the InVMAccessControlProfiles are to be listed.
+    /// </summary>
+    [CliOption("--gallery-name")]
+    public string GalleryName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

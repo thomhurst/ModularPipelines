@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all global reach connections associated
 /// </summary>
-/// <param name="CircuitName">ExpressRoute circuit name.</param>
-/// <param name="PeeringName">Name of BGP peering (i.e. AzurePrivatePeering).</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "peering", "connection", "list")]
-public record AzNetworkExpressRoutePeeringConnectionListOptions(
-    [property: CliOption("--circuit-name")] string CircuitName,
-    [property: CliOption("--peering-name")] string PeeringName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkExpressRoutePeeringConnectionListOptions : AzOptions
 {
+    /// <summary>
+    /// List all global reach connections associated
+    /// </summary>
+    /// <param name="CircuitName">ExpressRoute circuit name.</param>
+    /// <param name="PeeringName">Name of BGP peering (i.e. AzurePrivatePeering).</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkExpressRoutePeeringConnectionListOptions(
+        string CircuitName,
+        string PeeringName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CircuitName);
+        this.CircuitName = CircuitName;
+        global::System.ArgumentNullException.ThrowIfNull(PeeringName);
+        this.PeeringName = PeeringName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string CircuitName, out string PeeringName, out string ResourceGroup)
+    {
+        CircuitName = this.CircuitName;
+        PeeringName = this.PeeringName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// ExpressRoute circuit name.
+    /// </summary>
+    [CliOption("--circuit-name")]
+    public string CircuitName { get; private init; }
+
+    /// <summary>
+    /// Name of BGP peering (i.e. AzurePrivatePeering).
+    /// </summary>
+    [CliOption("--peering-name")]
+    public string PeeringName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a virtual network gateway.
 /// </summary>
-/// <param name="Name">Name of the VNet gateway.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Vnet">Name or ID of an existing virtual network which has a subnet named 'GatewaySubnet'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "create")]
-public record AzNetworkVnetGatewayCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vnet")] string Vnet
-) : AzOptions
+public record AzNetworkVnetGatewayCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a virtual network gateway.
+    /// </summary>
+    /// <param name="Name">Name of the VNet gateway.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Vnet">Name or ID of an existing virtual network which has a subnet named 'GatewaySubnet'.</param>
+    public AzNetworkVnetGatewayCreateOptions(
+        string Name,
+        string ResourceGroup,
+        string Vnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Vnet);
+        this.Vnet = Vnet;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string Vnet)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Vnet = this.Vnet;
+    }
+
+    /// <summary>
+    /// Name of the VNet gateway.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name or ID of an existing virtual network which has a subnet named 'GatewaySubnet'.
+    /// </summary>
+    [CliOption("--vnet")]
+    public string Vnet { get; private init; }
+
     /// <summary>
     /// Configure this gateway to accept traffic from other Azure Virtual Networks. This configuration does not support connectivity to Azure Virtual WAN.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

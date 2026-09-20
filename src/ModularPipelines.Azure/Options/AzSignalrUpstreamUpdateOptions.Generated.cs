@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update order sensitive upstream settings for an existing SignalR
 /// </summary>
-/// <param name="Template">Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event- pattern", "category-pattern".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "upstream", "update")]
-public record AzSignalrUpstreamUpdateOptions(
-    [property: CliOption("--template")] string Template
-) : AzOptions
+public record AzSignalrUpstreamUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update order sensitive upstream settings for an existing SignalR
+    /// </summary>
+    /// <param name="Template">Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event- pattern", "category-pattern".</param>
+    public AzSignalrUpstreamUpdateOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event- pattern", "category-pattern".
+    /// </summary>
+    [CliOption("--template")]
+    public string Template { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

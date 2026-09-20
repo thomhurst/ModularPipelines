@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download log files.
 /// </summary>
-/// <param name="Name">Space-separated list of log filenames on the server to download.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server-logs", "download")]
-public record AzMysqlServerLogsDownloadOptions(
-    [property: CliOption("--name", ShortForm = "-n", GroupValues = true)] IEnumerable<string> Name
-) : AzOptions
+public record AzMysqlServerLogsDownloadOptions : AzOptions
 {
+    /// <summary>
+    /// Download log files.
+    /// </summary>
+    /// <param name="Name">Space-separated list of log filenames on the server to download.</param>
+    public AzMysqlServerLogsDownloadOptions(
+        IEnumerable<string> Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Name);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Name));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Name));
+            }
+
+            Name = materialized;
+        }
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Space-separated list of log filenames on the server to download.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n", GroupValues = true)]
+    public IEnumerable<string> Name { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

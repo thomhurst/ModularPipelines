@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new shared access policy in an IoT hub.
 /// </summary>
-/// <param name="HubName">IoT Hub name.</param>
-/// <param name="Name">Shared access policy name.</param>
-/// <param name="Permissions">Permissions of shared access policy. Use space-separated list for multiple permissions. Possible values: RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "policy", "create")]
-public record AzIotHubPolicyCreateOptions(
-    [property: CliOption("--hub-name")] string HubName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--permissions", GroupValues = true)] IEnumerable<string> Permissions
-) : AzOptions
+public record AzIotHubPolicyCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new shared access policy in an IoT hub.
+    /// </summary>
+    /// <param name="HubName">IoT Hub name.</param>
+    /// <param name="Name">Shared access policy name.</param>
+    /// <param name="Permissions">Permissions of shared access policy. Use space-separated list for multiple permissions. Possible values: RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect.</param>
+    public AzIotHubPolicyCreateOptions(
+        string HubName,
+        string Name,
+        IEnumerable<string> Permissions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HubName);
+        this.HubName = HubName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Permissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Permissions));
+            }
+
+            Permissions = materialized;
+        }
+        this.Permissions = Permissions;
+    }
+
+    public void Deconstruct(out string HubName, out string Name, out IEnumerable<string> Permissions)
+    {
+        HubName = this.HubName;
+        Name = this.Name;
+        Permissions = this.Permissions;
+    }
+
+    /// <summary>
+    /// IoT Hub name.
+    /// </summary>
+    [CliOption("--hub-name")]
+    public string HubName { get; private init; }
+
+    /// <summary>
+    /// Shared access policy name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Permissions of shared access policy. Use space-separated list for multiple permissions. Possible values: RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect.
+    /// </summary>
+    [CliOption("--permissions", GroupValues = true)]
+    public IEnumerable<string> Permissions { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

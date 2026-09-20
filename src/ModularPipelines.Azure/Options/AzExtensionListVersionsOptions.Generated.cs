@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List available versions for an extension.
 /// </summary>
-/// <param name="Name">Name of extension.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("extension", "list-versions")]
-public record AzExtensionListVersionsOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzExtensionListVersionsOptions : AzOptions
 {
+    /// <summary>
+    /// List available versions for an extension.
+    /// </summary>
+    /// <param name="Name">Name of extension.</param>
+    public AzExtensionListVersionsOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of extension.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

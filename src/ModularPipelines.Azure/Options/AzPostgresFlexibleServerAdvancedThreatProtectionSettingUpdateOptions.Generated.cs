@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates advanced threat
 /// </summary>
-/// <param name="State">State of advanced threat protection setting.  Allowed values: Disabled, Enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "advanced-threat-protection-setting", "update")]
-public record AzPostgresFlexibleServerAdvancedThreatProtectionSettingUpdateOptions(
-    [property: CliOption("--state")] string State
-) : AzOptions
+public record AzPostgresFlexibleServerAdvancedThreatProtectionSettingUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates advanced threat
+    /// </summary>
+    /// <param name="State">State of advanced threat protection setting.  Allowed values: Disabled, Enabled.</param>
+    public AzPostgresFlexibleServerAdvancedThreatProtectionSettingUpdateOptions(
+        string State
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+    }
+
+    public void Deconstruct(out string State)
+    {
+        State = this.State;
+    }
+
+    /// <summary>
+    /// State of advanced threat protection setting.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--state")]
+    public string State { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

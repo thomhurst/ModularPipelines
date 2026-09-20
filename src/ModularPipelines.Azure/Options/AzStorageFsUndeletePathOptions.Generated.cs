@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore soft-deleted path.
 /// </summary>
-/// <param name="DeletedPathName">Specifies the path (file or directory) to restore.</param>
-/// <param name="DeletionId">Specifies the version of the deleted path to restore. :keyword int timeout: Sets the server-side timeout for the operation in seconds. For more details see https://learn.microsoft.com/rest/api/storageservices/setting- timeouts-for-blob-service-operations. This value is not tracked or validated on the client. To configure client-side network timesouts see `here &lt;https://github.com/Azure/azure-sdk-for- python/tree/main/sdk/storage/azure-storage-file-datalake #other-client--per-operation-configuration&gt;`_.</param>
-/// <param name="FileSystem">File system name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "undelete-path")]
-public record AzStorageFsUndeletePathOptions(
-    [property: CliOption("--deleted-path-name")] string DeletedPathName,
-    [property: CliOption("--deletion-id")] string DeletionId,
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem
-) : AzOptions
+public record AzStorageFsUndeletePathOptions : AzOptions
 {
+    /// <summary>
+    /// Restore soft-deleted path.
+    /// </summary>
+    /// <param name="DeletedPathName">Specifies the path (file or directory) to restore.</param>
+    /// <param name="DeletionId">Specifies the version of the deleted path to restore. :keyword int timeout: Sets the server-side timeout for the operation in seconds. For more details see https://learn.microsoft.com/rest/api/storageservices/setting- timeouts-for-blob-service-operations. This value is not tracked or validated on the client. To configure client-side network timesouts see `here &lt;https://github.com/Azure/azure-sdk-for- python/tree/main/sdk/storage/azure-storage-file-datalake #other-client--per-operation-configuration&gt;`_.</param>
+    /// <param name="FileSystem">File system name.</param>
+    public AzStorageFsUndeletePathOptions(
+        string DeletedPathName,
+        string DeletionId,
+        string FileSystem
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeletedPathName);
+        this.DeletedPathName = DeletedPathName;
+        global::System.ArgumentNullException.ThrowIfNull(DeletionId);
+        this.DeletionId = DeletionId;
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+    }
+
+    public void Deconstruct(out string DeletedPathName, out string DeletionId, out string FileSystem)
+    {
+        DeletedPathName = this.DeletedPathName;
+        DeletionId = this.DeletionId;
+        FileSystem = this.FileSystem;
+    }
+
+    /// <summary>
+    /// Specifies the path (file or directory) to restore.
+    /// </summary>
+    [CliOption("--deleted-path-name")]
+    public string DeletedPathName { get; private init; }
+
+    /// <summary>
+    /// Specifies the version of the deleted path to restore. :keyword int timeout: Sets the server-side timeout for the operation in seconds. For more details see https://learn.microsoft.com/rest/api/storageservices/setting- timeouts-for-blob-service-operations. This value is not tracked or validated on the client. To configure client-side network timesouts see `here &lt;https://github.com/Azure/azure-sdk-for- python/tree/main/sdk/storage/azure-storage-file-datalake #other-client--per-operation-configuration&gt;`_.
+    /// </summary>
+    [CliOption("--deletion-id")]
+    public string DeletionId { get; private init; }
+
+    /// <summary>
+    /// File system name.
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

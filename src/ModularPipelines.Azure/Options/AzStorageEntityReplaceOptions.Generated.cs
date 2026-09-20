@@ -15,16 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing entity in a table.
 /// </summary>
-/// <param name="Entity">Space-separated list of key=value pairs. Must contain a PartitionKey and a RowKey.</param>
-/// <param name="TableName">The table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "entity", "replace")]
-public record AzStorageEntityReplaceOptions(
-    [property: CliOption("--entity", ShortForm = "-e", GroupValues = true)] IEnumerable<string> Entity,
-    [property: CliOption("--table-name", ShortForm = "-t")] string TableName
-) : AzOptions
+public record AzStorageEntityReplaceOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing entity in a table.
+    /// </summary>
+    /// <param name="Entity">Space-separated list of key=value pairs. Must contain a PartitionKey and a RowKey.</param>
+    /// <param name="TableName">The table name.</param>
+    public AzStorageEntityReplaceOptions(
+        IEnumerable<string> Entity,
+        string TableName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entity);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entity));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entity));
+            }
+
+            Entity = materialized;
+        }
+        this.Entity = Entity;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Entity, out string TableName)
+    {
+        Entity = this.Entity;
+        TableName = this.TableName;
+    }
+
+    /// <summary>
+    /// Space-separated list of key=value pairs. Must contain a PartitionKey and a RowKey.
+    /// </summary>
+    [CliOption("--entity", ShortForm = "-e", GroupValues = true)]
+    public IEnumerable<string> Entity { get; private init; }
+
+    /// <summary>
+    /// The table name.
+    /// </summary>
+    [CliOption("--table-name", ShortForm = "-t")]
+    public string TableName { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

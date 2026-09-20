@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Invoke a Spark statement.
 /// </summary>
-/// <param name="Code">The code of Spark statement. This is either the code contents or use `@&lt;file path&gt;` to load the content from a file.</param>
-/// <param name="Language">The language of Spark statement.  Allowed values: CSharp, PySpark, Python, SQL, Scala, Spark, SparkDotNet.</param>
-/// <param name="SessionId">The id of Spark session.</param>
-/// <param name="SparkPoolName">The name of the Spark pool.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "statement", "invoke")]
-public record AzSynapseSparkStatementInvokeOptions(
-    [property: CliOption("--code")] string Code,
-    [property: CliOption("--language")] string Language,
-    [property: CliOption("--session-id")] string SessionId,
-    [property: CliOption("--spark-pool-name")] string SparkPoolName,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseSparkStatementInvokeOptions : AzOptions
 {
+    /// <summary>
+    /// Invoke a Spark statement.
+    /// </summary>
+    /// <param name="Code">The code of Spark statement. This is either the code contents or use `@&lt;file path&gt;` to load the content from a file.</param>
+    /// <param name="Language">The language of Spark statement.  Allowed values: CSharp, PySpark, Python, SQL, Scala, Spark, SparkDotNet.</param>
+    /// <param name="SessionId">The id of Spark session.</param>
+    /// <param name="SparkPoolName">The name of the Spark pool.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzSynapseSparkStatementInvokeOptions(
+        string Code,
+        string Language,
+        string SessionId,
+        string SparkPoolName,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Code);
+        this.Code = Code;
+        global::System.ArgumentNullException.ThrowIfNull(Language);
+        this.Language = Language;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(SparkPoolName);
+        this.SparkPoolName = SparkPoolName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Code, out string Language, out string SessionId, out string SparkPoolName, out string WorkspaceName)
+    {
+        Code = this.Code;
+        Language = this.Language;
+        SessionId = this.SessionId;
+        SparkPoolName = this.SparkPoolName;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The code of Spark statement. This is either the code contents or use `@&lt;file path&gt;` to load the content from a file.
+    /// </summary>
+    [CliOption("--code")]
+    public string Code { get; private init; }
+
+    /// <summary>
+    /// The language of Spark statement.  Allowed values: CSharp, PySpark, Python, SQL, Scala, Spark, SparkDotNet.
+    /// </summary>
+    [CliOption("--language")]
+    public string Language { get; private init; }
+
+    /// <summary>
+    /// The id of Spark session.
+    /// </summary>
+    [CliOption("--session-id")]
+    public string SessionId { get; private init; }
+
+    /// <summary>
+    /// The name of the Spark pool.
+    /// </summary>
+    [CliOption("--spark-pool-name")]
+    public string SparkPoolName { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

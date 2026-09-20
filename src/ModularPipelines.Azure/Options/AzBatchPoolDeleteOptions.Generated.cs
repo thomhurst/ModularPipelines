@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes a Pool from the specified Account.
 /// </summary>
-/// <param name="PoolId">The ID of the Pool to get. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "delete")]
-public record AzBatchPoolDeleteOptions(
-    [property: CliOption("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchPoolDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes a Pool from the specified Account.
+    /// </summary>
+    /// <param name="PoolId">The ID of the Pool to get. Required.</param>
+    public AzBatchPoolDeleteOptions(
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    public void Deconstruct(out string PoolId)
+    {
+        PoolId = this.PoolId;
+    }
+
+    /// <summary>
+    /// The ID of the Pool to get. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

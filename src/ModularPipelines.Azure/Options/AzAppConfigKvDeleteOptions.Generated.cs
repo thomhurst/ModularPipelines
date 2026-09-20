@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete key-values.
 /// </summary>
-/// <param name="Key">Support star sign as filters, for instance * means all key and abc* means keys with abc as prefix.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "delete")]
-public record AzAppConfigKvDeleteOptions(
-    [property: CliOption("--key")] string Key
-) : AzOptions
+public record AzAppConfigKvDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete key-values.
+    /// </summary>
+    /// <param name="Key">Support star sign as filters, for instance * means all key and abc* means keys with abc as prefix.</param>
+    public AzAppConfigKvDeleteOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// Support star sign as filters, for instance * means all key and abc* means keys with abc as prefix.
+    /// </summary>
+    [CliOption("--key")]
+    public string Key { get; private init; }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app-configuration/concept- enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>

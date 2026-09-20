@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all federated identity credentials under an
 /// </summary>
-/// <param name="IdentityName">The name of the identity resource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "federated-credential", "list")]
-public record AzIdentityFederatedCredentialListOptions(
-    [property: CliOption("--identity-name")] string IdentityName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzIdentityFederatedCredentialListOptions : AzOptions
 {
+    /// <summary>
+    /// List all federated identity credentials under an
+    /// </summary>
+    /// <param name="IdentityName">The name of the identity resource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzIdentityFederatedCredentialListOptions(
+        string IdentityName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityName);
+        this.IdentityName = IdentityName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string IdentityName, out string ResourceGroup)
+    {
+        IdentityName = this.IdentityName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the identity resource.
+    /// </summary>
+    [CliOption("--identity-name")]
+    public string IdentityName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls.
     /// </summary>

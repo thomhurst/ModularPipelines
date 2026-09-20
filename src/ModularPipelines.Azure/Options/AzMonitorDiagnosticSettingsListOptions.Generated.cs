@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the active diagnostic settings list for the specified
 /// </summary>
-/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "list")]
-public record AzMonitorDiagnosticSettingsListOptions(
-    [property: CliOption("--resource")] string Resource
-) : AzOptions
+public record AzMonitorDiagnosticSettingsListOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the active diagnostic settings list for the specified
+    /// </summary>
+    /// <param name="Resource">Name or ID of the target resource.</param>
+    public AzMonitorDiagnosticSettingsListOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// Name or ID of the target resource.
+    /// </summary>
+    [CliOption("--resource")]
+    public string Resource { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

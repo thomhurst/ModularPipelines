@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute a command from within a running container of a container group.
 /// </summary>
-/// <param name="ExecCommand">The command to run from within the container.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "exec")]
-public record AzContainerExecOptions(
-    [property: CliOption("--exec-command")] string ExecCommand
-) : AzOptions
+public record AzContainerExecOptions : AzOptions
 {
+    /// <summary>
+    /// Execute a command from within a running container of a container group.
+    /// </summary>
+    /// <param name="ExecCommand">The command to run from within the container.</param>
+    public AzContainerExecOptions(
+        string ExecCommand
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecCommand);
+        this.ExecCommand = ExecCommand;
+    }
+
+    public void Deconstruct(out string ExecCommand)
+    {
+        ExecCommand = this.ExecCommand;
+    }
+
+    /// <summary>
+    /// The command to run from within the container.
+    /// </summary>
+    [CliOption("--exec-command")]
+    public string ExecCommand { get; private init; }
+
     /// <summary>
     /// The container name where to execute the command. Can be ommitted for container groups with only one container.
     /// </summary>

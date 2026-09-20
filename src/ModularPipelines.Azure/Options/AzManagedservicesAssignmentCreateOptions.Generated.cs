@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a registration assignment.
 /// </summary>
-/// <param name="Definition">Fully qualified path of the registration definition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "assignment", "create")]
-public record AzManagedservicesAssignmentCreateOptions(
-    [property: CliOption("--definition")] string Definition
-) : AzOptions
+public record AzManagedservicesAssignmentCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a registration assignment.
+    /// </summary>
+    /// <param name="Definition">Fully qualified path of the registration definition.</param>
+    public AzManagedservicesAssignmentCreateOptions(
+        string Definition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Definition);
+        this.Definition = Definition;
+    }
+
+    public void Deconstruct(out string Definition)
+    {
+        Definition = this.Definition;
+    }
+
+    /// <summary>
+    /// Fully qualified path of the registration definition.
+    /// </summary>
+    [CliOption("--definition")]
+    public string Definition { get; private init; }
+
     /// <summary>
     /// Can be used to override the generated registration assignment id.
     /// </summary>

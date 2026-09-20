@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Kusto pool.
 /// </summary>
-/// <param name="KustoPoolName">The name of the Kusto pool.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Sku">The SKU of the kusto pool. Usage: --sku name=XX capacity=XX size=XX</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kusto", "pool", "create")]
-public record AzSynapseKustoPoolCreateOptions(
-    [property: CliOption("--kusto-pool-name", ShortForm = "-n")] string KustoPoolName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--sku")] string Sku,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseKustoPoolCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Kusto pool.
+    /// </summary>
+    /// <param name="KustoPoolName">The name of the Kusto pool.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Sku">The SKU of the kusto pool. Usage: --sku name=XX capacity=XX size=XX</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzSynapseKustoPoolCreateOptions(
+        string KustoPoolName,
+        string ResourceGroup,
+        string Sku,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KustoPoolName);
+        this.KustoPoolName = KustoPoolName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        this.Sku = Sku;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string KustoPoolName, out string ResourceGroup, out string Sku, out string WorkspaceName)
+    {
+        KustoPoolName = this.KustoPoolName;
+        ResourceGroup = this.ResourceGroup;
+        Sku = this.Sku;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The name of the Kusto pool.
+    /// </summary>
+    [CliOption("--kusto-pool-name", ShortForm = "-n")]
+    public string KustoPoolName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The SKU of the kusto pool. Usage: --sku name=XX capacity=XX size=XX
+    /// </summary>
+    [CliOption("--sku")]
+    public string Sku { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// A boolean value that indicates if the purge operations are enabled.  Allowed values: false, true.
     /// </summary>

@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create application federated identity credential.
 /// </summary>
-/// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
-/// <param name="Parameters">Parameters for creating federated identity credential. Should be JSON file path or in-line JSON string. See examples for details.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "federated-credential", "create")]
-public record AzAdAppFederatedCredentialCreateOptions(
-    [property: CliOption("--id")] string Id,
-    [property: CliOption("--parameters")] string Parameters
-) : AzOptions
+public record AzAdAppFederatedCredentialCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create application federated identity credential.
+    /// </summary>
+    /// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
+    /// <param name="Parameters">Parameters for creating federated identity credential. Should be JSON file path or in-line JSON string. See examples for details.</param>
+    public AzAdAppFederatedCredentialCreateOptions(
+        string Id,
+        string Parameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(Parameters);
+        this.Parameters = Parameters;
+    }
+
+    public void Deconstruct(out string Id, out string Parameters)
+    {
+        Id = this.Id;
+        Parameters = this.Parameters;
+    }
+
+    /// <summary>
+    /// Application's appId, identifierUri, or id (formerly known as objectId).
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// Parameters for creating federated identity credential. Should be JSON file path or in-line JSON string. See examples for details.
+    /// </summary>
+    [CliOption("--parameters")]
+    public string Parameters { get; private init; }
+
 }

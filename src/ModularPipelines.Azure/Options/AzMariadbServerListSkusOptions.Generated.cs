@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List available sku's in the given region.
 /// </summary>
-/// <param name="Location">The name of the location. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mariadb", "server", "list-skus")]
-public record AzMariadbServerListSkusOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzMariadbServerListSkusOptions : AzOptions
 {
+    /// <summary>
+    /// List available sku's in the given region.
+    /// </summary>
+    /// <param name="Location">The name of the location. Required.</param>
+    public AzMariadbServerListSkusOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The name of the location. Required.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
 }

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a connection monitor.
 /// </summary>
-/// <param name="ConnectionMonitorName">The name of the connection monitor.</param>
-/// <param name="NetworkWatcherName">The name of the Network Watcher resource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "network-watcher", "connection-monitor", "create")]
-public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions(
-    [property: CliOption("--connection-monitor-name", ShortForm = "-n")] string ConnectionMonitorName,
-    [property: CliOption("--network-watcher-name")] string NetworkWatcherName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a connection monitor.
+    /// </summary>
+    /// <param name="ConnectionMonitorName">The name of the connection monitor.</param>
+    /// <param name="NetworkWatcherName">The name of the Network Watcher resource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkNetworkWatcherConnectionMonitorCreateOptions(
+        string ConnectionMonitorName,
+        string NetworkWatcherName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionMonitorName);
+        this.ConnectionMonitorName = ConnectionMonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkWatcherName);
+        this.NetworkWatcherName = NetworkWatcherName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ConnectionMonitorName, out string NetworkWatcherName, out string ResourceGroup)
+    {
+        ConnectionMonitorName = this.ConnectionMonitorName;
+        NetworkWatcherName = this.NetworkWatcherName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the connection monitor.
+    /// </summary>
+    [CliOption("--connection-monitor-name", ShortForm = "-n")]
+    public string ConnectionMonitorName { get; private init; }
+
+    /// <summary>
+    /// The name of the Network Watcher resource.
+    /// </summary>
+    [CliOption("--network-watcher-name")]
+    public string NetworkWatcherName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Value indicating whether connection monitor V1 should be migrated to V2 format.
     /// </summary>

@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create your IoT Security solution.
 /// </summary>
-/// <param name="DisplayName">Resource display name.</param>
-/// <param name="IotHubs">IoT Hub resource IDs.</param>
-/// <param name="Location">Location of the resource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SolutionName">Name of the IoT Security solution.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "iot-solution", "create")]
-public record AzSecurityIotSolutionCreateOptions(
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--iot-hubs")] string IotHubs,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--solution-name")] string SolutionName
-) : AzOptions
+public record AzSecurityIotSolutionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create your IoT Security solution.
+    /// </summary>
+    /// <param name="DisplayName">Resource display name.</param>
+    /// <param name="IotHubs">IoT Hub resource IDs.</param>
+    /// <param name="Location">Location of the resource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SolutionName">Name of the IoT Security solution.</param>
+    public AzSecurityIotSolutionCreateOptions(
+        string DisplayName,
+        string IotHubs,
+        string Location,
+        string ResourceGroup,
+        string SolutionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(IotHubs);
+        this.IotHubs = IotHubs;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SolutionName);
+        this.SolutionName = SolutionName;
+    }
+
+    public void Deconstruct(out string DisplayName, out string IotHubs, out string Location, out string ResourceGroup, out string SolutionName)
+    {
+        DisplayName = this.DisplayName;
+        IotHubs = this.IotHubs;
+        Location = this.Location;
+        ResourceGroup = this.ResourceGroup;
+        SolutionName = this.SolutionName;
+    }
+
+    /// <summary>
+    /// Resource display name.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// IoT Hub resource IDs.
+    /// </summary>
+    [CliOption("--iot-hubs")]
+    public string IotHubs { get; private init; }
+
+    /// <summary>
+    /// Location of the resource.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the IoT Security solution.
+    /// </summary>
+    [CliOption("--solution-name")]
+    public string SolutionName { get; private init; }
+
 }

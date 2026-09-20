@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get specific setting associated with the managed HSM.
 /// </summary>
-/// <param name="Name">Name of the setting.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "setting", "show")]
-public record AzKeyvaultSettingShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzKeyvaultSettingShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get specific setting associated with the managed HSM.
+    /// </summary>
+    /// <param name="Name">Name of the setting.</param>
+    public AzKeyvaultSettingShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the setting.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Name of the HSM.
     /// </summary>

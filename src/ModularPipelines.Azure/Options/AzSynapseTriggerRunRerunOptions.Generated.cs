@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Rerun single trigger instance by runId.
 /// </summary>
-/// <param name="Name">The trigger name.</param>
-/// <param name="RunId">The trigger run identifier.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "trigger-run", "rerun")]
-public record AzSynapseTriggerRunRerunOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--run-id")] string RunId,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseTriggerRunRerunOptions : AzOptions
 {
+    /// <summary>
+    /// Rerun single trigger instance by runId.
+    /// </summary>
+    /// <param name="Name">The trigger name.</param>
+    /// <param name="RunId">The trigger run identifier.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseTriggerRunRerunOptions(
+        string Name,
+        string RunId,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RunId);
+        this.RunId = RunId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Name, out string RunId, out string WorkspaceName)
+    {
+        Name = this.Name;
+        RunId = this.RunId;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The trigger name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The trigger run identifier.
+    /// </summary>
+    [CliOption("--run-id")]
+    public string RunId { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
 }

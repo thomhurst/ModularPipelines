@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reschedule a maintenance event to a
 /// </summary>
-/// <param name="StartTime">New UTC start time to target rescheduling maintenance (ISO8601 format), e.g., 2026-04-10T10:00:00+00:00.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "maintenance-event", "reschedule")]
-public record AzPostgresFlexibleServerMaintenanceEventRescheduleOptions(
-    [property: CliOption("--start-time", ShortForm = "-t")] string StartTime
-) : AzOptions
+public record AzPostgresFlexibleServerMaintenanceEventRescheduleOptions : AzOptions
 {
+    /// <summary>
+    /// Reschedule a maintenance event to a
+    /// </summary>
+    /// <param name="StartTime">New UTC start time to target rescheduling maintenance (ISO8601 format), e.g., 2026-04-10T10:00:00+00:00.</param>
+    public AzPostgresFlexibleServerMaintenanceEventRescheduleOptions(
+        string StartTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+    }
+
+    public void Deconstruct(out string StartTime)
+    {
+        StartTime = this.StartTime;
+    }
+
+    /// <summary>
+    /// New UTC start time to target rescheduling maintenance (ISO8601 format), e.g., 2026-04-10T10:00:00+00:00.
+    /// </summary>
+    [CliOption("--start-time", ShortForm = "-t")]
+    public string StartTime { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

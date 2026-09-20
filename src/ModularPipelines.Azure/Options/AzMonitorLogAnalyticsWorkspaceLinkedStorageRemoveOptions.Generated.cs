@@ -15,18 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove some linked storage accounts
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StorageAccounts">List of Name or ID of Azure Storage Account.</param>
-/// <param name="Type">Data source type for the linked storage account.  Allowed values: Alerts, AzureWatson, CustomLogs, Ingestion, Query.</param>
-/// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "linked-storage", "remove")]
-public record AzMonitorLogAnalyticsWorkspaceLinkedStorageRemoveOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--storage-accounts", GroupValues = true)] IEnumerable<string> StorageAccounts,
-    [property: CliOption("--type")] string Type,
-    [property: CliOption("--workspace-name", ShortForm = "-n")] string WorkspaceName
-) : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceLinkedStorageRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove some linked storage accounts
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StorageAccounts">List of Name or ID of Azure Storage Account.</param>
+    /// <param name="Type">Data source type for the linked storage account.  Allowed values: Alerts, AzureWatson, CustomLogs, Ingestion, Query.</param>
+    /// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
+    public AzMonitorLogAnalyticsWorkspaceLinkedStorageRemoveOptions(
+        string ResourceGroup,
+        IEnumerable<string> StorageAccounts,
+        string Type,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StorageAccounts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StorageAccounts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StorageAccounts));
+            }
+
+            StorageAccounts = materialized;
+        }
+        this.StorageAccounts = StorageAccounts;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out IEnumerable<string> StorageAccounts, out string Type, out string WorkspaceName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        StorageAccounts = this.StorageAccounts;
+        Type = this.Type;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// List of Name or ID of Azure Storage Account.
+    /// </summary>
+    [CliOption("--storage-accounts", GroupValues = true)]
+    public IEnumerable<string> StorageAccounts { get; private init; }
+
+    /// <summary>
+    /// Data source type for the linked storage account.  Allowed values: Alerts, AzureWatson, CustomLogs, Ingestion, Query.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// Name of the Log Analytics Workspace.
+    /// </summary>
+    [CliOption("--workspace-name", ShortForm = "-n")]
+    public string WorkspaceName { get; private init; }
+
 }

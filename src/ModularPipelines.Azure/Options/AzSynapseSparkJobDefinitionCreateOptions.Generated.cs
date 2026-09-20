@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a spark job definition.
 /// </summary>
-/// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
-/// <param name="Name">The spark job definition name.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark-job-definition", "create")]
-public record AzSynapseSparkJobDefinitionCreateOptions(
-    [property: CliOption("--file")] string File,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseSparkJobDefinitionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a spark job definition.
+    /// </summary>
+    /// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
+    /// <param name="Name">The spark job definition name.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseSparkJobDefinitionCreateOptions(
+        string File,
+        string Name,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string File, out string Name, out string WorkspaceName)
+    {
+        File = this.File;
+        Name = this.Name;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.
+    /// </summary>
+    [CliOption("--file")]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// The spark job definition name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// The folder that this spark job definition is in. If not specified, it will appear at the root level. Eg: folder/subfolder1.
     /// </summary>

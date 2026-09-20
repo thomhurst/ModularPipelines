@@ -16,18 +16,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a storage mount to a managed
 /// </summary>
-/// <param name="DestinationPath">Destination path in the managed instance.</param>
-/// <param name="MountName">Name of the storage mount.</param>
-/// <param name="Type">Type of the storage mount.  Allowed values: AzureFiles, FileShare, LocalStorage.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "storage-mount", "add")]
-public record AzAppservicePlanManagedInstanceStorageMountAddOptions(
-    [property: CliOption("--destination-path")] string DestinationPath,
-    [property: CliOption("--mount-name")] string MountName,
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzAppservicePlanManagedInstanceStorageMountAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a storage mount to a managed
+    /// </summary>
+    /// <param name="DestinationPath">Destination path in the managed instance.</param>
+    /// <param name="MountName">Name of the storage mount.</param>
+    /// <param name="Type">Type of the storage mount.  Allowed values: AzureFiles, FileShare, LocalStorage.</param>
+    public AzAppservicePlanManagedInstanceStorageMountAddOptions(
+        string DestinationPath,
+        string MountName,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationPath);
+        this.DestinationPath = DestinationPath;
+        global::System.ArgumentNullException.ThrowIfNull(MountName);
+        this.MountName = MountName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string DestinationPath, out string MountName, out string Type)
+    {
+        DestinationPath = this.DestinationPath;
+        MountName = this.MountName;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Destination path in the managed instance.
+    /// </summary>
+    [CliOption("--destination-path")]
+    public string DestinationPath { get; private init; }
+
+    /// <summary>
+    /// Name of the storage mount.
+    /// </summary>
+    [CliOption("--mount-name")]
+    public string MountName { get; private init; }
+
+    /// <summary>
+    /// Type of the storage mount.  Allowed values: AzureFiles, FileShare, LocalStorage.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// Key Vault secret URI for credentials.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists users and assigned roles, limited to users who accepted their
 /// </summary>
-/// <param name="Name">Name of the static site.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "users", "list")]
-public record AzStaticwebappUsersListOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStaticwebappUsersListOptions : AzOptions
 {
+    /// <summary>
+    /// Lists users and assigned roles, limited to users who accepted their
+    /// </summary>
+    /// <param name="Name">Name of the static site.</param>
+    public AzStaticwebappUsersListOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.  Default: all.
     /// </summary>

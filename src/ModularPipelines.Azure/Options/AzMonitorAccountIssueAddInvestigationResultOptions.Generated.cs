@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds investigation result.
 /// </summary>
-/// <param name="Id">The identifier of the investigation.</param>
-/// <param name="Result">The result of this investigation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "issue", "add-investigation-result")]
-public record AzMonitorAccountIssueAddInvestigationResultOptions(
-    [property: CliOption("--id")] string Id,
-    [property: CliOption("--result")] string Result
-) : AzOptions
+public record AzMonitorAccountIssueAddInvestigationResultOptions : AzOptions
 {
+    /// <summary>
+    /// Adds investigation result.
+    /// </summary>
+    /// <param name="Id">The identifier of the investigation.</param>
+    /// <param name="Result">The result of this investigation.</param>
+    public AzMonitorAccountIssueAddInvestigationResultOptions(
+        string Id,
+        string Result
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(Result);
+        this.Result = Result;
+    }
+
+    public void Deconstruct(out string Id, out string Result)
+    {
+        Id = this.Id;
+        Result = this.Result;
+    }
+
+    /// <summary>
+    /// The identifier of the investigation.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// The result of this investigation.
+    /// </summary>
+    [CliOption("--result")]
+    public string Result { get; private init; }
+
     /// <summary>
     /// The creation time of the investigation (in UTC).
     /// </summary>

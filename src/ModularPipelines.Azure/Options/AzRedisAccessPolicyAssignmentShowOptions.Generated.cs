@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the detailed information about an Access Policy
 /// </summary>
-/// <param name="PolicyAssignmentName">The name of the access policy assignment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy-assignment", "show")]
-public record AzRedisAccessPolicyAssignmentShowOptions(
-    [property: CliOption("--policy-assignment-name")] string PolicyAssignmentName
-) : AzOptions
+public record AzRedisAccessPolicyAssignmentShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get the detailed information about an Access Policy
+    /// </summary>
+    /// <param name="PolicyAssignmentName">The name of the access policy assignment.</param>
+    public AzRedisAccessPolicyAssignmentShowOptions(
+        string PolicyAssignmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyAssignmentName);
+        this.PolicyAssignmentName = PolicyAssignmentName;
+    }
+
+    public void Deconstruct(out string PolicyAssignmentName)
+    {
+        PolicyAssignmentName = this.PolicyAssignmentName;
+    }
+
+    /// <summary>
+    /// The name of the access policy assignment.
+    /// </summary>
+    [CliOption("--policy-assignment-name")]
+    public string PolicyAssignmentName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

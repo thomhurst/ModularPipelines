@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add or update a certificate.
 /// </summary>
-/// <param name="CertificateFile">The filepath of the .pfx or .pem file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "certificate", "upload")]
-public record AzContainerappEnvCertificateUploadOptions(
-    [property: CliOption("--certificate-file", ShortForm = "-f")] string CertificateFile
-) : AzOptions
+public record AzContainerappEnvCertificateUploadOptions : AzOptions
 {
+    /// <summary>
+    /// Add or update a certificate.
+    /// </summary>
+    /// <param name="CertificateFile">The filepath of the .pfx or .pem file.</param>
+    public AzContainerappEnvCertificateUploadOptions(
+        string CertificateFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateFile);
+        this.CertificateFile = CertificateFile;
+    }
+
+    public void Deconstruct(out string CertificateFile)
+    {
+        CertificateFile = this.CertificateFile;
+    }
+
+    /// <summary>
+    /// The filepath of the .pfx or .pem file.
+    /// </summary>
+    [CliOption("--certificate-file", ShortForm = "-f")]
+    public string CertificateFile { get; private init; }
+
     /// <summary>
     /// Name of the certificate which should be unique within the Container Apps environment.
     /// </summary>

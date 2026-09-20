@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get data boundary of tenant.
 /// </summary>
-/// <param name="Default">Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-boundary", "show-tenant")]
-public record AzDataBoundaryShowTenantOptions(
-    [property: CliOption("--default")] string Default
-) : AzOptions
+public record AzDataBoundaryShowTenantOptions : AzOptions
 {
+    /// <summary>
+    /// Get data boundary of tenant.
+    /// </summary>
+    /// <param name="Default">Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.</param>
+    public AzDataBoundaryShowTenantOptions(
+        string Default
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Default);
+        this.Default = Default;
+    }
+
+    public void Deconstruct(out string Default)
+    {
+        Default = this.Default;
+    }
+
+    /// <summary>
+    /// Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.
+    /// </summary>
+    [CliOption("--default")]
+    public string Default { get; private init; }
+
 }

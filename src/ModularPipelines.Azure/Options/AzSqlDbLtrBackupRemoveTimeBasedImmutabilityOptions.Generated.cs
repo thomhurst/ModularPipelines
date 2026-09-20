@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disable the time based immutability on a
 /// </summary>
-/// <param name="Database">Name of the Azure SQL Database. If specified (along with server name), retrieves all requested backups under this database.</param>
-/// <param name="Location">The location of the desired backups.</param>
-/// <param name="Name">The name of the LTR backup. Use 'az sql db ltr-backup show' or 'az sql db ltr-backup list' for backup name.</param>
-/// <param name="Server">Name of the Azure SQL Server. If specified, retrieves all requested backups under this server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "ltr-backup", "remove-time-based-immutability")]
-public record AzSqlDbLtrBackupRemoveTimeBasedImmutabilityOptions(
-    [property: CliOption("--database", ShortForm = "-d")] string Database,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--server", ShortForm = "-s")] string Server
-) : AzOptions
+public record AzSqlDbLtrBackupRemoveTimeBasedImmutabilityOptions : AzOptions
 {
+    /// <summary>
+    /// Disable the time based immutability on a
+    /// </summary>
+    /// <param name="Database">Name of the Azure SQL Database. If specified (along with server name), retrieves all requested backups under this database.</param>
+    /// <param name="Location">The location of the desired backups.</param>
+    /// <param name="Name">The name of the LTR backup. Use 'az sql db ltr-backup show' or 'az sql db ltr-backup list' for backup name.</param>
+    /// <param name="Server">Name of the Azure SQL Server. If specified, retrieves all requested backups under this server.</param>
+    public AzSqlDbLtrBackupRemoveTimeBasedImmutabilityOptions(
+        string Database,
+        string Location,
+        string Name,
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string Database, out string Location, out string Name, out string Server)
+    {
+        Database = this.Database;
+        Location = this.Location;
+        Name = this.Name;
+        Server = this.Server;
+    }
+
+    /// <summary>
+    /// Name of the Azure SQL Database. If specified (along with server name), retrieves all requested backups under this database.
+    /// </summary>
+    [CliOption("--database", ShortForm = "-d")]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// The location of the desired backups.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name of the LTR backup. Use 'az sql db ltr-backup show' or 'az sql db ltr-backup list' for backup name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. If specified, retrieves all requested backups under this server.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string Server { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

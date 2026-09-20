@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update properties of a web
 /// </summary>
-/// <param name="PolicyName">Name of the web application firewall policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "policy-setting", "update")]
-public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions(
-    [property: CliOption("--policy-name")] string PolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update properties of a web
+    /// </summary>
+    /// <param name="PolicyName">Name of the web application firewall policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions(
+        string PolicyName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string PolicyName, out string ResourceGroup)
+    {
+        PolicyName = this.PolicyName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the web application firewall policy.
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// If the action type is block, customer can override the response body. The body must be specified in base64 encoding.
     /// </summary>

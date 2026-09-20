@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start protecting a previously unprotected Azure
 /// </summary>
-/// <param name="AzureFileShare">Name of the Azure FileShare.</param>
-/// <param name="PolicyName">Name of the backup policy.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StorageAccount">Name of the Storage Account of the FileShare.</param>
-/// <param name="VaultName">Name of the Recovery services vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protection", "enable-for-azurefileshare")]
-public record AzBackupProtectionEnableForAzurefileshareOptions(
-    [property: CliOption("--azure-file-share")] string AzureFileShare,
-    [property: CliOption("--policy-name", ShortForm = "-p")] string PolicyName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--storage-account")] string StorageAccount,
-    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
-) : AzOptions
+public record AzBackupProtectionEnableForAzurefileshareOptions : AzOptions
 {
+    /// <summary>
+    /// Start protecting a previously unprotected Azure
+    /// </summary>
+    /// <param name="AzureFileShare">Name of the Azure FileShare.</param>
+    /// <param name="PolicyName">Name of the backup policy.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StorageAccount">Name of the Storage Account of the FileShare.</param>
+    /// <param name="VaultName">Name of the Recovery services vault.</param>
+    public AzBackupProtectionEnableForAzurefileshareOptions(
+        string AzureFileShare,
+        string PolicyName,
+        string ResourceGroup,
+        string StorageAccount,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AzureFileShare);
+        this.AzureFileShare = AzureFileShare;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccount);
+        this.StorageAccount = StorageAccount;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string AzureFileShare, out string PolicyName, out string ResourceGroup, out string StorageAccount, out string VaultName)
+    {
+        AzureFileShare = this.AzureFileShare;
+        PolicyName = this.PolicyName;
+        ResourceGroup = this.ResourceGroup;
+        StorageAccount = this.StorageAccount;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Name of the Azure FileShare.
+    /// </summary>
+    [CliOption("--azure-file-share")]
+    public string AzureFileShare { get; private init; }
+
+    /// <summary>
+    /// Name of the backup policy.
+    /// </summary>
+    [CliOption("--policy-name", ShortForm = "-p")]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Storage Account of the FileShare.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string StorageAccount { get; private init; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string VaultName { get; private init; }
+
 }

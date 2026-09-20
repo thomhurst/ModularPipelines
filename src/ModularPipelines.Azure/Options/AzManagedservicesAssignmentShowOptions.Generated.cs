@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show registration assignment.
 /// </summary>
-/// <param name="Assignment">The identifier (guid) or the fully qualified resource id of the registration assignment. When resource id is used, subscription id and resource group parameters are ignored.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "assignment", "show")]
-public record AzManagedservicesAssignmentShowOptions(
-    [property: CliOption("--assignment")] string Assignment
-) : AzOptions
+public record AzManagedservicesAssignmentShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show registration assignment.
+    /// </summary>
+    /// <param name="Assignment">The identifier (guid) or the fully qualified resource id of the registration assignment. When resource id is used, subscription id and resource group parameters are ignored.</param>
+    public AzManagedservicesAssignmentShowOptions(
+        string Assignment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Assignment);
+        this.Assignment = Assignment;
+    }
+
+    public void Deconstruct(out string Assignment)
+    {
+        Assignment = this.Assignment;
+    }
+
+    /// <summary>
+    /// The identifier (guid) or the fully qualified resource id of the registration assignment. When resource id is used, subscription id and resource group parameters are ignored.
+    /// </summary>
+    [CliOption("--assignment")]
+    public string Assignment { get; private init; }
+
     /// <summary>
     /// Tells whether to return registration definition details also along with registration assignment details.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

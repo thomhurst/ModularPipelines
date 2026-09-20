@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Selectively update the set of tags on a specific resource.
 /// </summary>
-/// <param name="Operation">The update operation. Options are Merge, Replace and Delete.  Allowed values: Delete, Merge, Replace.</param>
-/// <param name="ResourceId">The resource identifier for the entity being tagged. A resource, a resource group or a subscription may be tagged.</param>
-/// <param name="Tags">The tags to be updated on the resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tag", "update")]
-public record AzTagUpdateOptions(
-    [property: CliOption("--operation")] string Operation,
-    [property: CliOption("--resource-id")] string ResourceId,
-    [property: CliOption("--tags")] string Tags
-) : AzOptions
+public record AzTagUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Selectively update the set of tags on a specific resource.
+    /// </summary>
+    /// <param name="Operation">The update operation. Options are Merge, Replace and Delete.  Allowed values: Delete, Merge, Replace.</param>
+    /// <param name="ResourceId">The resource identifier for the entity being tagged. A resource, a resource group or a subscription may be tagged.</param>
+    /// <param name="Tags">The tags to be updated on the resource.</param>
+    public AzTagUpdateOptions(
+        string Operation,
+        string ResourceId,
+        string Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(Tags);
+        this.Tags = Tags;
+    }
+
+    public void Deconstruct(out string Operation, out string ResourceId, out string Tags)
+    {
+        Operation = this.Operation;
+        ResourceId = this.ResourceId;
+        Tags = this.Tags;
+    }
+
+    /// <summary>
+    /// The update operation. Options are Merge, Replace and Delete.  Allowed values: Delete, Merge, Replace.
+    /// </summary>
+    [CliOption("--operation")]
+    public string Operation { get; private init; }
+
+    /// <summary>
+    /// The resource identifier for the entity being tagged. A resource, a resource group or a subscription may be tagged.
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string ResourceId { get; private init; }
+
+    /// <summary>
+    /// The tags to be updated on the resource.
+    /// </summary>
+    [CliOption("--tags")]
+    public string Tags { get; private init; }
+
 }

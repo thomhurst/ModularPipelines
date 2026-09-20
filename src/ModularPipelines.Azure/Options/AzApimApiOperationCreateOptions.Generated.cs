@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a new operation in the API.
 /// </summary>
-/// <param name="DisplayName">Required. Operation Name.</param>
-/// <param name="Method">Required. A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
-/// <param name="UrlTemplate">Relative URL template identifying the target resource for this operation. May include parameters.</param>
-/// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "operation", "create")]
-public record AzApimApiOperationCreateOptions(
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--method")] string Method,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
-    [property: CliOption("--url-template")] string UrlTemplate,
-    [property: CliOption("--api-id")] string ApiId
-) : AzOptions
+public record AzApimApiOperationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a new operation in the API.
+    /// </summary>
+    /// <param name="DisplayName">Required. Operation Name.</param>
+    /// <param name="Method">Required. A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    /// <param name="UrlTemplate">Relative URL template identifying the target resource for this operation. May include parameters.</param>
+    /// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.</param>
+    public AzApimApiOperationCreateOptions(
+        string DisplayName,
+        string Method,
+        string ResourceGroup,
+        string ServiceName,
+        string UrlTemplate,
+        string ApiId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Method);
+        this.Method = Method;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(UrlTemplate);
+        this.UrlTemplate = UrlTemplate;
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Method, out string ResourceGroup, out string ServiceName, out string UrlTemplate, out string ApiId)
+    {
+        DisplayName = this.DisplayName;
+        Method = this.Method;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        UrlTemplate = this.UrlTemplate;
+        ApiId = this.ApiId;
+    }
+
+    /// <summary>
+    /// Required. Operation Name.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Required. A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
+    /// </summary>
+    [CliOption("--method")]
+    public string Method { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// Relative URL template identifying the target resource for this operation. May include parameters.
+    /// </summary>
+    [CliOption("--url-template")]
+    public string UrlTemplate { get; private init; }
+
+    /// <summary>
+    /// API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+    /// </summary>
+    [CliOption("--api-id")]
+    public string ApiId { get; private init; }
+
     /// <summary>
     /// Description of the operation. May include HTML formatting tags.
     /// </summary>

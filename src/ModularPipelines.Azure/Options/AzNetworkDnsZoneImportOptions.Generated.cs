@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a DNS zone using a DNS zone file.
 /// </summary>
-/// <param name="FileName">Path to the DNS zone file to import.</param>
-/// <param name="Name">The name of the zone.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "zone", "import")]
-public record AzNetworkDnsZoneImportOptions(
-    [property: CliOption("--file-name", ShortForm = "-f")] string FileName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkDnsZoneImportOptions : AzOptions
 {
+    /// <summary>
+    /// Create a DNS zone using a DNS zone file.
+    /// </summary>
+    /// <param name="FileName">Path to the DNS zone file to import.</param>
+    /// <param name="Name">The name of the zone.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkDnsZoneImportOptions(
+        string FileName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string FileName, out string Name, out string ResourceGroup)
+    {
+        FileName = this.FileName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Path to the DNS zone file to import.
+    /// </summary>
+    [CliOption("--file-name", ShortForm = "-f")]
+    public string FileName { get; private init; }
+
+    /// <summary>
+    /// The name of the zone.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

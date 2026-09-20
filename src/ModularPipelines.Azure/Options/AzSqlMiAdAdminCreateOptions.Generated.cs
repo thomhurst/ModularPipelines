@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a new managed instance Active Directory administrator.
 /// </summary>
-/// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
-/// <param name="ManagedInstance">Name of the Azure SQL Managed Instance.</param>
-/// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "ad-admin", "create")]
-public record AzSqlMiAdAdminCreateOptions(
-    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
-    [property: CliOption("--managed-instance", ShortForm = "--mi")] string ManagedInstance,
-    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSqlMiAdAdminCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a new managed instance Active Directory administrator.
+    /// </summary>
+    /// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
+    /// <param name="ManagedInstance">Name of the Azure SQL Managed Instance.</param>
+    /// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSqlMiAdAdminCreateOptions(
+        string DisplayName,
+        string ManagedInstance,
+        string ObjectId,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ManagedInstance);
+        this.ManagedInstance = ManagedInstance;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectId);
+        this.ObjectId = ObjectId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string DisplayName, out string ManagedInstance, out string ObjectId, out string ResourceGroup)
+    {
+        DisplayName = this.DisplayName;
+        ManagedInstance = this.ManagedInstance;
+        ObjectId = this.ObjectId;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Display name of the Azure AD administrator user or group.
+    /// </summary>
+    [CliOption("--display-name", ShortForm = "-u")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Name of the Azure SQL Managed Instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string ManagedInstance { get; private init; }
+
+    /// <summary>
+    /// The unique ID of the Azure AD administrator.
+    /// </summary>
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string ObjectId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

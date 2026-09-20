@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show information about functions.
 /// </summary>
-/// <param name="Name">Name of the static site.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "environment", "functions")]
-public record AzStaticwebappEnvironmentFunctionsOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStaticwebappEnvironmentFunctionsOptions : AzOptions
 {
+    /// <summary>
+    /// Show information about functions.
+    /// </summary>
+    /// <param name="Name">Name of the static site.</param>
+    public AzStaticwebappEnvironmentFunctionsOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Name of the environment of static site.  Default: default.
     /// </summary>

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a stored access policy on a containing object.
 /// </summary>
-/// <param name="Name">The stored access policy name.</param>
-/// <param name="ShareName">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "policy", "show")]
-public record AzStorageSharePolicyShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--share-name", ShortForm = "-s")] string ShareName
-) : AzOptions
+public record AzStorageSharePolicyShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show a stored access policy on a containing object.
+    /// </summary>
+    /// <param name="Name">The stored access policy name.</param>
+    /// <param name="ShareName">The file share name.</param>
+    public AzStorageSharePolicyShowOptions(
+        string Name,
+        string ShareName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ShareName);
+        this.ShareName = ShareName;
+    }
+
+    public void Deconstruct(out string Name, out string ShareName)
+    {
+        Name = this.Name;
+        ShareName = this.ShareName;
+    }
+
+    /// <summary>
+    /// The stored access policy name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string ShareName { get; private init; }
+
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>

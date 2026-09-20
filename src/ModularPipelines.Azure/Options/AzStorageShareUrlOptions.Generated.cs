@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a URI to access a file share.
 /// </summary>
-/// <param name="Name">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "url")]
-public record AzStorageShareUrlOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageShareUrlOptions : AzOptions
 {
+    /// <summary>
+    /// Create a URI to access a file share.
+    /// </summary>
+    /// <param name="Name">The file share name.</param>
+    public AzStorageShareUrlOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Protocol to use.  Allowed values: http, https.  Default: https.
     /// </summary>

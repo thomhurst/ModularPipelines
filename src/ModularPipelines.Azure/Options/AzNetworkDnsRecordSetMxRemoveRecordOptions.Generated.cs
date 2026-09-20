@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an MX record from its record set.
 /// </summary>
-/// <param name="Exchange">Exchange metric.</param>
-/// <param name="Preference">Preference metric.</param>
-/// <param name="RecordSetName">The name of the record set relative to the zone.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ZoneName">The name of the zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "mx", "remove-record")]
-public record AzNetworkDnsRecordSetMxRemoveRecordOptions(
-    [property: CliOption("--exchange", ShortForm = "-e")] string Exchange,
-    [property: CliOption("--preference", ShortForm = "-p")] string Preference,
-    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkDnsRecordSetMxRemoveRecordOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an MX record from its record set.
+    /// </summary>
+    /// <param name="Exchange">Exchange metric.</param>
+    /// <param name="Preference">Preference metric.</param>
+    /// <param name="RecordSetName">The name of the record set relative to the zone.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ZoneName">The name of the zone.</param>
+    public AzNetworkDnsRecordSetMxRemoveRecordOptions(
+        string Exchange,
+        string Preference,
+        string RecordSetName,
+        string ResourceGroup,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Exchange);
+        this.Exchange = Exchange;
+        global::System.ArgumentNullException.ThrowIfNull(Preference);
+        this.Preference = Preference;
+        global::System.ArgumentNullException.ThrowIfNull(RecordSetName);
+        this.RecordSetName = RecordSetName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string Exchange, out string Preference, out string RecordSetName, out string ResourceGroup, out string ZoneName)
+    {
+        Exchange = this.Exchange;
+        Preference = this.Preference;
+        RecordSetName = this.RecordSetName;
+        ResourceGroup = this.ResourceGroup;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// Exchange metric.
+    /// </summary>
+    [CliOption("--exchange", ShortForm = "-e")]
+    public string Exchange { get; private init; }
+
+    /// <summary>
+    /// Preference metric.
+    /// </summary>
+    [CliOption("--preference", ShortForm = "-p")]
+    public string Preference { get; private init; }
+
+    /// <summary>
+    /// The name of the record set relative to the zone.
+    /// </summary>
+    [CliOption("--record-set-name", ShortForm = "-n")]
+    public string RecordSetName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the zone.
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Keep the empty record set if the last record is removed.
     /// </summary>

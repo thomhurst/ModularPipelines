@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List a list of network
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SearchServiceName">The name of the Azure AI Search service associated with the specified resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "service", "network-security-perimeter-configuration", "list")]
-public record AzSearchServiceNetworkSecurityPerimeterConfigurationListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--search-service-name")] string SearchServiceName
-) : AzOptions
+public record AzSearchServiceNetworkSecurityPerimeterConfigurationListOptions : AzOptions
 {
+    /// <summary>
+    /// List a list of network
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SearchServiceName">The name of the Azure AI Search service associated with the specified resource group.</param>
+    public AzSearchServiceNetworkSecurityPerimeterConfigurationListOptions(
+        string ResourceGroup,
+        string SearchServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SearchServiceName);
+        this.SearchServiceName = SearchServiceName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string SearchServiceName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        SearchServiceName = this.SearchServiceName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the Azure AI Search service associated with the specified resource group.
+    /// </summary>
+    [CliOption("--search-service-name")]
+    public string SearchServiceName { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

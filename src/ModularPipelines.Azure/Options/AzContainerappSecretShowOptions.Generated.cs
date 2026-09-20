@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show details of a secret.
 /// </summary>
-/// <param name="SecretName">The name of the secret to show.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "secret", "show")]
-public record AzContainerappSecretShowOptions(
-    [property: CliOption("--secret-name")] string SecretName
-) : AzOptions
+public record AzContainerappSecretShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show details of a secret.
+    /// </summary>
+    /// <param name="SecretName">The name of the secret to show.</param>
+    public AzContainerappSecretShowOptions(
+        string SecretName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretName);
+        this.SecretName = SecretName;
+    }
+
+    public void Deconstruct(out string SecretName)
+    {
+        SecretName = this.SecretName;
+    }
+
+    /// <summary>
+    /// The name of the secret to show.
+    /// </summary>
+    [CliOption("--secret-name")]
+    public string SecretName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

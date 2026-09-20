@@ -16,14 +16,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update deployment credentials.
 /// </summary>
-/// <param name="UserName">User name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "user", "set")]
-public record AzFunctionappDeploymentUserSetOptions(
-    [property: CliOption("--user-name")] string UserName
-) : AzOptions
+public record AzFunctionappDeploymentUserSetOptions : AzOptions
 {
+    /// <summary>
+    /// Update deployment credentials.
+    /// </summary>
+    /// <param name="UserName">User name.</param>
+    public AzFunctionappDeploymentUserSetOptions(
+        string UserName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+    }
+
+    public void Deconstruct(out string UserName)
+    {
+        UserName = this.UserName;
+    }
+
+    /// <summary>
+    /// User name.
+    /// </summary>
+    [CliOption("--user-name")]
+    public string UserName { get; private init; }
+
     /// <summary>
     /// Password, will prompt if not specified.
     /// </summary>

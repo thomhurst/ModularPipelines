@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get regions information associated with the managed HSM Pool.
 /// </summary>
-/// <param name="HsmName">Name of the HSM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "region", "list")]
-public record AzKeyvaultRegionListOptions(
-    [property: CliOption("--hsm-name")] string HsmName
-) : AzOptions
+public record AzKeyvaultRegionListOptions : AzOptions
 {
+    /// <summary>
+    /// Get regions information associated with the managed HSM Pool.
+    /// </summary>
+    /// <param name="HsmName">Name of the HSM.</param>
+    public AzKeyvaultRegionListOptions(
+        string HsmName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HsmName);
+        this.HsmName = HsmName;
+    }
+
+    public void Deconstruct(out string HsmName)
+    {
+        HsmName = this.HsmName;
+    }
+
+    /// <summary>
+    /// Name of the HSM.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string HsmName { get; private init; }
+
     /// <summary>
     /// Name of resource group.
     /// </summary>

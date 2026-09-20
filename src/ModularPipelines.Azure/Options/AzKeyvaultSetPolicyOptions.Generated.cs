@@ -16,14 +16,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update security policy settings for a Key Vault.
 /// </summary>
-/// <param name="Name">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "set-policy")]
-public record AzKeyvaultSetPolicyOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzKeyvaultSetPolicyOptions : AzOptions
 {
+    /// <summary>
+    /// Update security policy settings for a Key Vault.
+    /// </summary>
+    /// <param name="Name">Name of the Vault.</param>
+    public AzKeyvaultSetPolicyOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Application ID of the client making request on behalf of a principal. Exposed for compound identity using on-behalf-of authentication flow.
     /// </summary>

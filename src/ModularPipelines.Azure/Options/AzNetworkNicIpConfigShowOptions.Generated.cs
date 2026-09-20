@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details of an IP configuration.
 /// </summary>
-/// <param name="Name">Name of the IP configuration.</param>
-/// <param name="NicName">Name of the network interface (NIC).</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "show")]
-public record AzNetworkNicIpConfigShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--nic-name")] string NicName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkNicIpConfigShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the details of an IP configuration.
+    /// </summary>
+    /// <param name="Name">Name of the IP configuration.</param>
+    /// <param name="NicName">Name of the network interface (NIC).</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkNicIpConfigShowOptions(
+        string Name,
+        string NicName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NicName);
+        this.NicName = NicName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Name, out string NicName, out string ResourceGroup)
+    {
+        Name = this.Name;
+        NicName = this.NicName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the IP configuration.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of the network interface (NIC).
+    /// </summary>
+    [CliOption("--nic-name")]
+    public string NicName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

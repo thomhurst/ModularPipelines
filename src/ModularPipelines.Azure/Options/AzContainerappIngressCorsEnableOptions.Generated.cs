@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable CORS policy for a container app.
 /// </summary>
-/// <param name="AllowedOrigins">A list of allowed origin(s) for the container app. Values are space-separated. Empty string to clear existing values.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ingress", "cors", "enable")]
-public record AzContainerappIngressCorsEnableOptions(
-    [property: CliOption("--allowed-origins", ShortForm = "-r", GroupValues = true)] IEnumerable<string> AllowedOrigins
-) : AzOptions
+public record AzContainerappIngressCorsEnableOptions : AzOptions
 {
+    /// <summary>
+    /// Enable CORS policy for a container app.
+    /// </summary>
+    /// <param name="AllowedOrigins">A list of allowed origin(s) for the container app. Values are space-separated. Empty string to clear existing values.</param>
+    public AzContainerappIngressCorsEnableOptions(
+        IEnumerable<string> AllowedOrigins
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedOrigins);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedOrigins));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedOrigins));
+            }
+
+            AllowedOrigins = materialized;
+        }
+        this.AllowedOrigins = AllowedOrigins;
+    }
+
+    public void Deconstruct(out IEnumerable<string> AllowedOrigins)
+    {
+        AllowedOrigins = this.AllowedOrigins;
+    }
+
+    /// <summary>
+    /// A list of allowed origin(s) for the container app. Values are space-separated. Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--allowed-origins", ShortForm = "-r", GroupValues = true)]
+    public IEnumerable<string> AllowedOrigins { get; private init; }
+
     /// <summary>
     /// Whether the credential is allowed for the container app. Allowed values: false, true.
     /// </summary>

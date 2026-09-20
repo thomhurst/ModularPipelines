@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a contact to the specified vault to receive
 /// </summary>
-/// <param name="Email">Contact e-mail address. Must be unique.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "contact", "add")]
-public record AzKeyvaultCertificateContactAddOptions(
-    [property: CliOption("--email")] string Email,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificateContactAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a contact to the specified vault to receive
+    /// </summary>
+    /// <param name="Email">Contact e-mail address. Must be unique.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultCertificateContactAddOptions(
+        string Email,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string Email, out string VaultName)
+    {
+        Email = this.Email;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// Contact e-mail address. Must be unique.
+    /// </summary>
+    [CliOption("--email")]
+    public string Email { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
     /// <summary>
     /// Full contact name.
     /// </summary>

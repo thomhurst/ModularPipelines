@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Run an existing workflow in your github repository.
 /// </summary>
-/// <param name="ActionName">The name of the github action.</param>
-/// <param name="Branch">The name of the branch you want upload github action file. The default will be your current branch.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "deploy", "run")]
-public record AzPostgresFlexibleServerDeployRunOptions(
-    [property: CliOption("--action-name")] string ActionName,
-    [property: CliOption("--branch")] string Branch
-) : AzOptions
+public record AzPostgresFlexibleServerDeployRunOptions : AzOptions
 {
+    /// <summary>
+    /// Run an existing workflow in your github repository.
+    /// </summary>
+    /// <param name="ActionName">The name of the github action.</param>
+    /// <param name="Branch">The name of the branch you want upload github action file. The default will be your current branch.</param>
+    public AzPostgresFlexibleServerDeployRunOptions(
+        string ActionName,
+        string Branch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionName);
+        this.ActionName = ActionName;
+        global::System.ArgumentNullException.ThrowIfNull(Branch);
+        this.Branch = Branch;
+    }
+
+    public void Deconstruct(out string ActionName, out string Branch)
+    {
+        ActionName = this.ActionName;
+        Branch = this.Branch;
+    }
+
+    /// <summary>
+    /// The name of the github action.
+    /// </summary>
+    [CliOption("--action-name")]
+    public string ActionName { get; private init; }
+
+    /// <summary>
+    /// The name of the branch you want upload github action file. The default will be your current branch.
+    /// </summary>
+    [CliOption("--branch")]
+    public string Branch { get; private init; }
+
 }

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Geo-restore a flexible server from backup.
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="SourceServer">The name or resource identifier of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "geo-restore")]
-public record AzPostgresFlexibleServerGeoRestoreOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--source-server")] string SourceServer
-) : AzOptions
+public record AzPostgresFlexibleServerGeoRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Geo-restore a flexible server from backup.
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="SourceServer">The name or resource identifier of the source server to restore from.</param>
+    public AzPostgresFlexibleServerGeoRestoreOptions(
+        string Location,
+        string SourceServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(SourceServer);
+        this.SourceServer = SourceServer;
+    }
+
+    public void Deconstruct(out string Location, out string SourceServer)
+    {
+        Location = this.Location;
+        SourceServer = this.SourceServer;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name or resource identifier of the source server to restore from.
+    /// </summary>
+    [CliOption("--source-server")]
+    public string SourceServer { get; private init; }
+
     /// <summary>
     /// The client ID of the geo backup federated identity.
     /// </summary>
@@ -80,7 +109,7 @@ public record AzPostgresFlexibleServerGeoRestoreOptions(
     public bool? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2026-03-22T18:20:22+00:00 The default value is set to current time.  Default: 2026-09-14T10:27:39+00:00.
+    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2026-03-22T18:20:22+00:00 The default value is set to current time.  Default: 2026-09-20T12:17:02+00:00.
     /// </summary>
     [CliOption("--restore-time")]
     public string? RestoreTime { get; set; }

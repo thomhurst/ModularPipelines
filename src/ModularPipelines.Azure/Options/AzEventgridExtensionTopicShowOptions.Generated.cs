@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the details of an extension topic.
 /// </summary>
-/// <param name="Scope">The identifier of the resource to which extension topic is queried. The scope can be a subscription, or a resource group, or a top level resource belonging to a resource provider namespace. For example, use '/subscriptions/{subscriptionId}/' for a subscription, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and '/subscriptions/{subscriptionId}/resourceGroups/{resour ceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resource Name}' for Azure resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "extension-topic", "show")]
-public record AzEventgridExtensionTopicShowOptions(
-    [property: CliOption("--scope")] string Scope
-) : AzOptions
+public record AzEventgridExtensionTopicShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get the details of an extension topic.
+    /// </summary>
+    /// <param name="Scope">The identifier of the resource to which extension topic is queried. The scope can be a subscription, or a resource group, or a top level resource belonging to a resource provider namespace. For example, use '/subscriptions/{subscriptionId}/' for a subscription, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and '/subscriptions/{subscriptionId}/resourceGroups/{resour ceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resource Name}' for Azure resource.</param>
+    public AzEventgridExtensionTopicShowOptions(
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Scope)
+    {
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// The identifier of the resource to which extension topic is queried. The scope can be a subscription, or a resource group, or a top level resource belonging to a resource provider namespace. For example, use '/subscriptions/{subscriptionId}/' for a subscription, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and '/subscriptions/{subscriptionId}/resourceGroups/{resour ceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resource Name}' for Azure resource.
+    /// </summary>
+    [CliOption("--scope")]
+    public string Scope { get; private init; }
+
 }

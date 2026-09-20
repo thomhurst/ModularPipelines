@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a cluster.
 /// </summary>
-/// <param name="MasterSubnet">Name or ID of master vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
-/// <param name="Name">Name of cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkerSubnet">Name or ID of worker vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aro", "create")]
-public record AzAroCreateOptions(
-    [property: CliOption("--master-subnet")] string MasterSubnet,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--worker-subnet")] string WorkerSubnet
-) : AzOptions
+public record AzAroCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a cluster.
+    /// </summary>
+    /// <param name="MasterSubnet">Name or ID of master vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
+    /// <param name="Name">Name of cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkerSubnet">Name or ID of worker vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
+    public AzAroCreateOptions(
+        string MasterSubnet,
+        string Name,
+        string ResourceGroup,
+        string WorkerSubnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MasterSubnet);
+        this.MasterSubnet = MasterSubnet;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkerSubnet);
+        this.WorkerSubnet = WorkerSubnet;
+    }
+
+    public void Deconstruct(out string MasterSubnet, out string Name, out string ResourceGroup, out string WorkerSubnet)
+    {
+        MasterSubnet = this.MasterSubnet;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        WorkerSubnet = this.WorkerSubnet;
+    }
+
+    /// <summary>
+    /// Name or ID of master vnet subnet.  If name is supplied, `--vnet` must be supplied.
+    /// </summary>
+    [CliOption("--master-subnet")]
+    public string MasterSubnet { get; private init; }
+
+    /// <summary>
+    /// Name of cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name or ID of worker vnet subnet.  If name is supplied, `--vnet` must be supplied.
+    /// </summary>
+    [CliOption("--worker-subnet")]
+    public string WorkerSubnet { get; private init; }
+
     /// <summary>
     /// API server visibility. [Default: Public].  Allowed values: Private, Public.
     /// </summary>

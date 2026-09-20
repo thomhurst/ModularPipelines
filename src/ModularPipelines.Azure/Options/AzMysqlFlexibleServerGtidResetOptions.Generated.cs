@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Resets GTID on a server.
 /// </summary>
-/// <param name="GtidSet">A GTID set is a set comprising one or more single GTIDs or ranges of GTIDs. A GTID is represented as a pair of coordinates, separated by a colon character (:), as shown: source_id:transaction_id.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServerName">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "gtid", "reset")]
-public record AzMysqlFlexibleServerGtidResetOptions(
-    [property: CliOption("--gtid-set")] string GtidSet,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
-) : AzOptions
+public record AzMysqlFlexibleServerGtidResetOptions : AzOptions
 {
+    /// <summary>
+    /// Resets GTID on a server.
+    /// </summary>
+    /// <param name="GtidSet">A GTID set is a set comprising one or more single GTIDs or ranges of GTIDs. A GTID is represented as a pair of coordinates, separated by a colon character (:), as shown: source_id:transaction_id.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServerName">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+    public AzMysqlFlexibleServerGtidResetOptions(
+        string GtidSet,
+        string ResourceGroup,
+        string ServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GtidSet);
+        this.GtidSet = GtidSet;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+    }
+
+    public void Deconstruct(out string GtidSet, out string ResourceGroup, out string ServerName)
+    {
+        GtidSet = this.GtidSet;
+        ResourceGroup = this.ResourceGroup;
+        ServerName = this.ServerName;
+    }
+
+    /// <summary>
+    /// A GTID set is a set comprising one or more single GTIDs or ranges of GTIDs. A GTID is represented as a pair of coordinates, separated by a colon character (:), as shown: source_id:transaction_id.
+    /// </summary>
+    [CliOption("--gtid-set")]
+    public string GtidSet { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string ServerName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

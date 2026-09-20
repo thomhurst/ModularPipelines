@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List service principal owners.
 /// </summary>
-/// <param name="Id">Service principal name, or object id or the service principal.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "sp", "owner", "list")]
-public record AzAdSpOwnerListOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdSpOwnerListOptions : AzOptions
 {
+    /// <summary>
+    /// List service principal owners.
+    /// </summary>
+    /// <param name="Id">Service principal name, or object id or the service principal.</param>
+    public AzAdSpOwnerListOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Service principal name, or object id or the service principal.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
 }

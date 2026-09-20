@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set applications for VMSS.
 /// </summary>
-/// <param name="AppVersionIds">Space-separated application version ids to set to VM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "application", "set")]
-public record AzVmssApplicationSetOptions(
-    [property: CliOption("--app-version-ids", GroupValues = true)] IEnumerable<string> AppVersionIds
-) : AzOptions
+public record AzVmssApplicationSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set applications for VMSS.
+    /// </summary>
+    /// <param name="AppVersionIds">Space-separated application version ids to set to VM.</param>
+    public AzVmssApplicationSetOptions(
+        IEnumerable<string> AppVersionIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AppVersionIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AppVersionIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AppVersionIds));
+            }
+
+            AppVersionIds = materialized;
+        }
+        this.AppVersionIds = AppVersionIds;
+    }
+
+    public void Deconstruct(out IEnumerable<string> AppVersionIds)
+    {
+        AppVersionIds = this.AppVersionIds;
+    }
+
+    /// <summary>
+    /// Space-separated application version ids to set to VM.
+    /// </summary>
+    [CliOption("--app-version-ids", GroupValues = true)]
+    public IEnumerable<string> AppVersionIds { get; private init; }
+
     /// <summary>
     /// Space-separated application configuration overrides for each application version ids. It should have the same number of items as the application version ids. Null is available for a application which does not have a configuration override.
     /// </summary>

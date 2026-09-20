@@ -15,18 +15,65 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the backend address from the load
 /// </summary>
-/// <param name="LbName">The name of the load balancer.</param>
-/// <param name="Name">Name of the backend address.</param>
-/// <param name="PoolName">The name of the backend address pool.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "address-pool", "address", "show")]
-public record AzNetworkCrossRegionLbAddressPoolAddressShowOptions(
-    [property: CliOption("--lb-name")] string LbName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--pool-name")] string PoolName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkCrossRegionLbAddressPoolAddressShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the backend address from the load
+    /// </summary>
+    /// <param name="LbName">The name of the load balancer.</param>
+    /// <param name="Name">Name of the backend address.</param>
+    /// <param name="PoolName">The name of the backend address pool.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkCrossRegionLbAddressPoolAddressShowOptions(
+        string LbName,
+        string Name,
+        string PoolName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbName);
+        this.LbName = LbName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PoolName);
+        this.PoolName = PoolName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string LbName, out string Name, out string PoolName, out string ResourceGroup)
+    {
+        LbName = this.LbName;
+        Name = this.Name;
+        PoolName = this.PoolName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
+    [CliOption("--lb-name")]
+    public string LbName { get; private init; }
+
+    /// <summary>
+    /// Name of the backend address.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the backend address pool.
+    /// </summary>
+    [CliOption("--pool-name")]
+    public string PoolName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

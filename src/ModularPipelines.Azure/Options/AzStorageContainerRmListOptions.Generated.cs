@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all containers under the specified storage account.
 /// </summary>
-/// <param name="StorageAccount">The name or ID of the storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container-rm", "list")]
-public record AzStorageContainerRmListOptions(
-    [property: CliOption("--storage-account")] string StorageAccount
-) : AzOptions
+public record AzStorageContainerRmListOptions : AzOptions
 {
+    /// <summary>
+    /// List all containers under the specified storage account.
+    /// </summary>
+    /// <param name="StorageAccount">The name or ID of the storage account.</param>
+    public AzStorageContainerRmListOptions(
+        string StorageAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccount);
+        this.StorageAccount = StorageAccount;
+    }
+
+    public void Deconstruct(out string StorageAccount)
+    {
+        StorageAccount = this.StorageAccount;
+    }
+
+    /// <summary>
+    /// The name or ID of the storage account.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string StorageAccount { get; private init; }
+
     /// <summary>
     /// Include soft deleted containers when specified.
     /// </summary>

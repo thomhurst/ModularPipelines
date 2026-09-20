@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// NFS only. Create a hard link to the file specified by path.
 /// </summary>
-/// <param name="Path">The path to the file within the file share.</param>
-/// <param name="ShareName">The file share name.</param>
-/// <param name="Target">Specifies the path of the target file to which the link will be created, up to 2 KiB in length. It should be the full path of the target starting from the root. The target file must be in the same share and the same storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "hard-link", "create")]
-public record AzStorageFileHardLinkCreateOptions(
-    [property: CliOption("--path", ShortForm = "-p")] string Path,
-    [property: CliOption("--share-name", ShortForm = "-s")] string ShareName,
-    [property: CliOption("--target")] string Target
-) : AzOptions
+public record AzStorageFileHardLinkCreateOptions : AzOptions
 {
+    /// <summary>
+    /// NFS only. Create a hard link to the file specified by path.
+    /// </summary>
+    /// <param name="Path">The path to the file within the file share.</param>
+    /// <param name="ShareName">The file share name.</param>
+    /// <param name="Target">Specifies the path of the target file to which the link will be created, up to 2 KiB in length. It should be the full path of the target starting from the root. The target file must be in the same share and the same storage account.</param>
+    public AzStorageFileHardLinkCreateOptions(
+        string Path,
+        string ShareName,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        global::System.ArgumentNullException.ThrowIfNull(ShareName);
+        this.ShareName = ShareName;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    public void Deconstruct(out string Path, out string ShareName, out string Target)
+    {
+        Path = this.Path;
+        ShareName = this.ShareName;
+        Target = this.Target;
+    }
+
+    /// <summary>
+    /// The path to the file within the file share.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string ShareName { get; private init; }
+
+    /// <summary>
+    /// Specifies the path of the target file to which the link will be created, up to 2 KiB in length. It should be the full path of the target starting from the root. The target file must be in the same share and the same storage account.
+    /// </summary>
+    [CliOption("--target")]
+    public string Target { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

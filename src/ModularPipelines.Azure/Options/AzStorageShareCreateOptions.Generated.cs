@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a new share under the specified account.
 /// </summary>
-/// <param name="Name">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "create")]
-public record AzStorageShareCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageShareCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a new share under the specified account.
+    /// </summary>
+    /// <param name="Name">The file share name.</param>
+    public AzStorageShareCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Specifies whether the snapshot virtual directory should be accessible at the root of the share mount point when NFS is enabled. If not specified, it will be accessible.  Allowed values: false, true.
     /// </summary>

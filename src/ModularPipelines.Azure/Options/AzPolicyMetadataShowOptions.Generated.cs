@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a single policy metadata resource.
 /// </summary>
-/// <param name="Name">The name of the metadata resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "metadata", "show")]
-public record AzPolicyMetadataShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzPolicyMetadataShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get a single policy metadata resource.
+    /// </summary>
+    /// <param name="Name">The name of the metadata resource.</param>
+    public AzPolicyMetadataShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the metadata resource.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

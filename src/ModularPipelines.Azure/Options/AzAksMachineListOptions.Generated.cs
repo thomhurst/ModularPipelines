@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get information about IP Addresses, Hostname for all machines in an
 /// </summary>
-/// <param name="ClusterName">Name of the managed cluster.</param>
-/// <param name="NodepoolName">Name of the agentpool of a managed cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "machine", "list")]
-public record AzAksMachineListOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--nodepool-name")] string NodepoolName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksMachineListOptions : AzOptions
 {
+    /// <summary>
+    /// Get information about IP Addresses, Hostname for all machines in an
+    /// </summary>
+    /// <param name="ClusterName">Name of the managed cluster.</param>
+    /// <param name="NodepoolName">Name of the agentpool of a managed cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksMachineListOptions(
+        string ClusterName,
+        string NodepoolName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(NodepoolName);
+        this.NodepoolName = NodepoolName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string NodepoolName, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        NodepoolName = this.NodepoolName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the managed cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Name of the agentpool of a managed cluster.
+    /// </summary>
+    [CliOption("--nodepool-name")]
+    public string NodepoolName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

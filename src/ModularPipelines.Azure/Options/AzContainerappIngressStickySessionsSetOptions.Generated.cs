@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure Sticky session for a container app.
 /// </summary>
-/// <param name="Affinity">Whether the affinity for the container app is Sticky or None.  Allowed values: none, sticky.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ingress", "sticky-sessions", "set")]
-public record AzContainerappIngressStickySessionsSetOptions(
-    [property: CliOption("--affinity")] string Affinity
-) : AzOptions
+public record AzContainerappIngressStickySessionsSetOptions : AzOptions
 {
+    /// <summary>
+    /// Configure Sticky session for a container app.
+    /// </summary>
+    /// <param name="Affinity">Whether the affinity for the container app is Sticky or None.  Allowed values: none, sticky.</param>
+    public AzContainerappIngressStickySessionsSetOptions(
+        string Affinity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Affinity);
+        this.Affinity = Affinity;
+    }
+
+    public void Deconstruct(out string Affinity)
+    {
+        Affinity = this.Affinity;
+    }
+
+    /// <summary>
+    /// Whether the affinity for the container app is Sticky or None.  Allowed values: none, sticky.
+    /// </summary>
+    [CliOption("--affinity")]
+    public string Affinity { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

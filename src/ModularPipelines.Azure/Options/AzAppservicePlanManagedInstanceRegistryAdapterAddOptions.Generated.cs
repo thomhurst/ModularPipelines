@@ -16,18 +16,57 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a registry adapter to a managed
 /// </summary>
-/// <param name="RegistryKey">Registry key for the adapter.</param>
-/// <param name="SecretUri">Key Vault secret URI for the value.</param>
-/// <param name="Type">Type of the registry adapter.  Allowed values: Binary, DWord, Expand_String, Multi_String, QWord, String.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "registry-adapter", "add")]
-public record AzAppservicePlanManagedInstanceRegistryAdapterAddOptions(
-    [property: CliOption("--registry-key")] string RegistryKey,
-    [property: SecretValue, CliOption("--secret-uri")] string SecretUri,
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzAppservicePlanManagedInstanceRegistryAdapterAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a registry adapter to a managed
+    /// </summary>
+    /// <param name="RegistryKey">Registry key for the adapter.</param>
+    /// <param name="SecretUri">Key Vault secret URI for the value.</param>
+    /// <param name="Type">Type of the registry adapter.  Allowed values: Binary, DWord, Expand_String, Multi_String, QWord, String.</param>
+    public AzAppservicePlanManagedInstanceRegistryAdapterAddOptions(
+        string RegistryKey,
+        string SecretUri,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryKey);
+        this.RegistryKey = RegistryKey;
+        global::System.ArgumentNullException.ThrowIfNull(SecretUri);
+        this.SecretUri = SecretUri;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string RegistryKey, out string SecretUri, out string Type)
+    {
+        RegistryKey = this.RegistryKey;
+        SecretUri = this.SecretUri;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Registry key for the adapter.
+    /// </summary>
+    [CliOption("--registry-key")]
+    public string RegistryKey { get; private init; }
+
+    /// <summary>
+    /// Key Vault secret URI for the value.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret-uri")]
+    public string SecretUri { get; private init; }
+
+    /// <summary>
+    /// Type of the registry adapter.  Allowed values: Binary, DWord, Expand_String, Multi_String, QWord, String.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

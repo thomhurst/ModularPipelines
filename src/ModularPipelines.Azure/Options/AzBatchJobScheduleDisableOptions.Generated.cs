@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Disables a Job Schedule.
 /// </summary>
-/// <param name="JobScheduleId">The ID of the Job Schedule to disable. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job-schedule", "disable")]
-public record AzBatchJobScheduleDisableOptions(
-    [property: CliOption("--job-schedule-id")] string JobScheduleId
-) : AzOptions
+public record AzBatchJobScheduleDisableOptions : AzOptions
 {
+    /// <summary>
+    /// Disables a Job Schedule.
+    /// </summary>
+    /// <param name="JobScheduleId">The ID of the Job Schedule to disable. Required.</param>
+    public AzBatchJobScheduleDisableOptions(
+        string JobScheduleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobScheduleId);
+        this.JobScheduleId = JobScheduleId;
+    }
+
+    public void Deconstruct(out string JobScheduleId)
+    {
+        JobScheduleId = this.JobScheduleId;
+    }
+
+    /// <summary>
+    /// The ID of the Job Schedule to disable. Required.
+    /// </summary>
+    [CliOption("--job-schedule-id")]
+    public string JobScheduleId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

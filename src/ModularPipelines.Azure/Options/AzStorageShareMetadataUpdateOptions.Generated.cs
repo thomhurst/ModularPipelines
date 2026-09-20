@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set one or more user-defined name-value pairs for the
 /// </summary>
-/// <param name="Name">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "metadata", "update")]
-public record AzStorageShareMetadataUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageShareMetadataUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Set one or more user-defined name-value pairs for the
+    /// </summary>
+    /// <param name="Name">The file share name.</param>
+    public AzStorageShareMetadataUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The file share name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
     /// </summary>

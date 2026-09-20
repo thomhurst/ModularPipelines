@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all of the private endpoint connections in the
 /// </summary>
-/// <param name="AccountName">The name of the Batch account. Required.</param>
-/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "private-endpoint-connection", "list")]
-public record AzBatchPrivateEndpointConnectionListOptions(
-    [property: CliOption("--account-name")] string AccountName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzBatchPrivateEndpointConnectionListOptions : AzOptions
 {
+    /// <summary>
+    /// List all of the private endpoint connections in the
+    /// </summary>
+    /// <param name="AccountName">The name of the Batch account. Required.</param>
+    /// <param name="ResourceGroup">Name of the resource group.</param>
+    public AzBatchPrivateEndpointConnectionListOptions(
+        string AccountName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Batch account. Required.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Name of the resource group.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The maximum number of items to return in the response. Default value is None.
     /// </summary>

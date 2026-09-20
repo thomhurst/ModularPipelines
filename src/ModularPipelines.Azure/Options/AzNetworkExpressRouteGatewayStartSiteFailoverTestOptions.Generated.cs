@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation starts failover
 /// </summary>
-/// <param name="PeeringLocation">Peering location of the test.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "gateway", "start-site-failover-test")]
-public record AzNetworkExpressRouteGatewayStartSiteFailoverTestOptions(
-    [property: CliOption("--peering-location")] string PeeringLocation
-) : AzOptions
+public record AzNetworkExpressRouteGatewayStartSiteFailoverTestOptions : AzOptions
 {
+    /// <summary>
+    /// This operation starts failover
+    /// </summary>
+    /// <param name="PeeringLocation">Peering location of the test.</param>
+    public AzNetworkExpressRouteGatewayStartSiteFailoverTestOptions(
+        string PeeringLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PeeringLocation);
+        this.PeeringLocation = PeeringLocation;
+    }
+
+    public void Deconstruct(out string PeeringLocation)
+    {
+        PeeringLocation = this.PeeringLocation;
+    }
+
+    /// <summary>
+    /// Peering location of the test.
+    /// </summary>
+    [CliOption("--peering-location")]
+    public string PeeringLocation { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

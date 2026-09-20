@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manual platform update domain walk to update virtual machines in a
 /// </summary>
-/// <param name="PlatformUpdateDomain">The platform update domain for which a manual recovery walk is requested.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "update-domain-walk")]
-public record AzVmssUpdateDomainWalkOptions(
-    [property: CliOption("--platform-update-domain")] string PlatformUpdateDomain
-) : AzOptions
+public record AzVmssUpdateDomainWalkOptions : AzOptions
 {
+    /// <summary>
+    /// Manual platform update domain walk to update virtual machines in a
+    /// </summary>
+    /// <param name="PlatformUpdateDomain">The platform update domain for which a manual recovery walk is requested.</param>
+    public AzVmssUpdateDomainWalkOptions(
+        string PlatformUpdateDomain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlatformUpdateDomain);
+        this.PlatformUpdateDomain = PlatformUpdateDomain;
+    }
+
+    public void Deconstruct(out string PlatformUpdateDomain)
+    {
+        PlatformUpdateDomain = this.PlatformUpdateDomain;
+    }
+
+    /// <summary>
+    /// The platform update domain for which a manual recovery walk is requested.
+    /// </summary>
+    [CliOption("--platform-update-domain")]
+    public string PlatformUpdateDomain { get; private init; }
+
     /// <summary>
     /// The placement group id for which the manual recovery walk is requested.
     /// </summary>

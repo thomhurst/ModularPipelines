@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Display Advanced Threat Protection settings for a storage
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StorageAccount">Name of an existing Storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "atp", "storage", "show")]
-public record AzSecurityAtpStorageShowOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--storage-account")] string StorageAccount
-) : AzOptions
+public record AzSecurityAtpStorageShowOptions : AzOptions
 {
+    /// <summary>
+    /// Display Advanced Threat Protection settings for a storage
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StorageAccount">Name of an existing Storage account.</param>
+    public AzSecurityAtpStorageShowOptions(
+        string ResourceGroup,
+        string StorageAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StorageAccount);
+        this.StorageAccount = StorageAccount;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string StorageAccount)
+    {
+        ResourceGroup = this.ResourceGroup;
+        StorageAccount = this.StorageAccount;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of an existing Storage account.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string StorageAccount { get; private init; }
+
 }

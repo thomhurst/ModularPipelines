@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a Fleetspace from a Fleet.
 /// </summary>
-/// <param name="FleetName">Name of the Cosmos DB Fleet.</param>
-/// <param name="FleetspaceName">Name of the Fleetspace resource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "fleetspace", "delete")]
-public record AzCosmosdbFleetspaceDeleteOptions(
-    [property: CliOption("--fleet-name")] string FleetName,
-    [property: CliOption("--fleetspace-name", ShortForm = "-n")] string FleetspaceName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbFleetspaceDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a Fleetspace from a Fleet.
+    /// </summary>
+    /// <param name="FleetName">Name of the Cosmos DB Fleet.</param>
+    /// <param name="FleetspaceName">Name of the Fleetspace resource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbFleetspaceDeleteOptions(
+        string FleetName,
+        string FleetspaceName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetName);
+        this.FleetName = FleetName;
+        global::System.ArgumentNullException.ThrowIfNull(FleetspaceName);
+        this.FleetspaceName = FleetspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string FleetName, out string FleetspaceName, out string ResourceGroup)
+    {
+        FleetName = this.FleetName;
+        FleetspaceName = this.FleetspaceName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the Cosmos DB Fleet.
+    /// </summary>
+    [CliOption("--fleet-name")]
+    public string FleetName { get; private init; }
+
+    /// <summary>
+    /// Name of the Fleetspace resource.
+    /// </summary>
+    [CliOption("--fleetspace-name", ShortForm = "-n")]
+    public string FleetspaceName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

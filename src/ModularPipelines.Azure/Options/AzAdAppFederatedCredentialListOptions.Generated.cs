@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List application federated identity credentials.
 /// </summary>
-/// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "federated-credential", "list")]
-public record AzAdAppFederatedCredentialListOptions(
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdAppFederatedCredentialListOptions : AzOptions
 {
+    /// <summary>
+    /// List application federated identity credentials.
+    /// </summary>
+    /// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
+    public AzAdAppFederatedCredentialListOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Application's appId, identifierUri, or id (formerly known as objectId).
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
 }

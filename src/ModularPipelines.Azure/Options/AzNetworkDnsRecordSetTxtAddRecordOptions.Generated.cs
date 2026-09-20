@@ -15,20 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a TXT record.
 /// </summary>
-/// <param name="RecordSetName">The name of the record set relative to the zone. Creates a new record set if one does not exist.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Value">Space-separated list of text values which will be concatenated together.</param>
-/// <param name="ZoneName">The name of the zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "txt", "add-record")]
-public record AzNetworkDnsRecordSetTxtAddRecordOptions(
-    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--value", ShortForm = "-v", GroupValues = true)] IEnumerable<string> Value,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkDnsRecordSetTxtAddRecordOptions : AzOptions
 {
+    /// <summary>
+    /// Add a TXT record.
+    /// </summary>
+    /// <param name="RecordSetName">The name of the record set relative to the zone. Creates a new record set if one does not exist.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Value">Space-separated list of text values which will be concatenated together.</param>
+    /// <param name="ZoneName">The name of the zone.</param>
+    public AzNetworkDnsRecordSetTxtAddRecordOptions(
+        string RecordSetName,
+        string ResourceGroup,
+        IEnumerable<string> Value,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecordSetName);
+        this.RecordSetName = RecordSetName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Value);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Value));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Value));
+            }
+
+            Value = materialized;
+        }
+        this.Value = Value;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string RecordSetName, out string ResourceGroup, out IEnumerable<string> Value, out string ZoneName)
+    {
+        RecordSetName = this.RecordSetName;
+        ResourceGroup = this.ResourceGroup;
+        Value = this.Value;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// The name of the record set relative to the zone. Creates a new record set if one does not exist.
+    /// </summary>
+    [CliOption("--record-set-name", ShortForm = "-n")]
+    public string RecordSetName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Space-separated list of text values which will be concatenated together.
+    /// </summary>
+    [CliOption("--value", ShortForm = "-v", GroupValues = true)]
+    public IEnumerable<string> Value { get; private init; }
+
+    /// <summary>
+    /// The name of the zone.
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Create the record set only if it does not already exist.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete security policy settings for a Key Vault.
 /// </summary>
-/// <param name="Name">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "delete-policy")]
-public record AzKeyvaultDeletePolicyOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzKeyvaultDeletePolicyOptions : AzOptions
 {
+    /// <summary>
+    /// Delete security policy settings for a Key Vault.
+    /// </summary>
+    /// <param name="Name">Name of the Vault.</param>
+    public AzKeyvaultDeletePolicyOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Application ID of the client making request on behalf of a principal. Exposed for compound identity using on-behalf-of authentication flow.
     /// </summary>

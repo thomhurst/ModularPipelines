@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get soft-deleted Api Management service instances available for
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="ServiceName">The name of the soft deleted API Management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "deletedservice", "show")]
-public record AzApimDeletedserviceShowOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName
-) : AzOptions
+public record AzApimDeletedserviceShowOptions : AzOptions
 {
+    /// <summary>
+    /// Get soft-deleted Api Management service instances available for
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="ServiceName">The name of the soft deleted API Management service instance.</param>
+    public AzApimDeletedserviceShowOptions(
+        string Location,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string Location, out string ServiceName)
+    {
+        Location = this.Location;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name of the soft deleted API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
 }

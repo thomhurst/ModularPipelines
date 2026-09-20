@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Backs up the specified certificate.
 /// </summary>
-/// <param name="File">Local file path in which to store certificate backup.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "backup")]
-public record AzKeyvaultCertificateBackupOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File
-) : AzOptions
+public record AzKeyvaultCertificateBackupOptions : AzOptions
 {
+    /// <summary>
+    /// Backs up the specified certificate.
+    /// </summary>
+    /// <param name="File">Local file path in which to store certificate backup.</param>
+    public AzKeyvaultCertificateBackupOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// Local file path in which to store certificate backup.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
     /// <summary>
     /// Id of the certificate. If specified all other 'Id' arguments should be omitted.
     /// </summary>

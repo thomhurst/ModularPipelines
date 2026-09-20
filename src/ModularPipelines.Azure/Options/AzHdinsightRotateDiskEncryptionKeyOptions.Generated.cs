@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Rotate the disk encryption key of the specified
 /// </summary>
-/// <param name="Name">The name of the cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="EncryptionKeyName">Key name that is used for enabling disk encryption.</param>
-/// <param name="EncryptionKeyVersion">Key version that is used for enabling disk encryption.</param>
-/// <param name="EncryptionVaultUri">Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "rotate-disk-encryption-key")]
-public record AzHdinsightRotateDiskEncryptionKeyOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--encryption-key-name")] string EncryptionKeyName,
-    [property: CliOption("--encryption-key-version")] string EncryptionKeyVersion,
-    [property: CliOption("--encryption-vault-uri")] string EncryptionVaultUri
-) : AzOptions
+public record AzHdinsightRotateDiskEncryptionKeyOptions : AzOptions
 {
+    /// <summary>
+    /// Rotate the disk encryption key of the specified
+    /// </summary>
+    /// <param name="Name">The name of the cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="EncryptionKeyName">Key name that is used for enabling disk encryption.</param>
+    /// <param name="EncryptionKeyVersion">Key version that is used for enabling disk encryption.</param>
+    /// <param name="EncryptionVaultUri">Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net.</param>
+    public AzHdinsightRotateDiskEncryptionKeyOptions(
+        string Name,
+        string ResourceGroup,
+        string EncryptionKeyName,
+        string EncryptionKeyVersion,
+        string EncryptionVaultUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionKeyName);
+        this.EncryptionKeyName = EncryptionKeyName;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionKeyVersion);
+        this.EncryptionKeyVersion = EncryptionKeyVersion;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionVaultUri);
+        this.EncryptionVaultUri = EncryptionVaultUri;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string EncryptionKeyName, out string EncryptionKeyVersion, out string EncryptionVaultUri)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        EncryptionKeyName = this.EncryptionKeyName;
+        EncryptionKeyVersion = this.EncryptionKeyVersion;
+        EncryptionVaultUri = this.EncryptionVaultUri;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Key name that is used for enabling disk encryption.
+    /// </summary>
+    [CliOption("--encryption-key-name")]
+    public string EncryptionKeyName { get; private init; }
+
+    /// <summary>
+    /// Key version that is used for enabling disk encryption.
+    /// </summary>
+    [CliOption("--encryption-key-version")]
+    public string EncryptionKeyVersion { get; private init; }
+
+    /// <summary>
+    /// Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net.
+    /// </summary>
+    [CliOption("--encryption-vault-uri")]
+    public string EncryptionVaultUri { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

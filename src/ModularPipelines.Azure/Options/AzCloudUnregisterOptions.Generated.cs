@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Unregister a cloud.
 /// </summary>
-/// <param name="Name">Name of a registered cloud.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloud", "unregister")]
-public record AzCloudUnregisterOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzCloudUnregisterOptions : AzOptions
 {
+    /// <summary>
+    /// Unregister a cloud.
+    /// </summary>
+    /// <param name="Name">Name of a registered cloud.</param>
+    public AzCloudUnregisterOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of a registered cloud.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

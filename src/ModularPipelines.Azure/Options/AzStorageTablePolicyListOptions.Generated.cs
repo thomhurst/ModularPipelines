@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List stored access policies on a containing object.
 /// </summary>
-/// <param name="TableName">The table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "table", "policy", "list")]
-public record AzStorageTablePolicyListOptions(
-    [property: CliOption("--table-name", ShortForm = "-t")] string TableName
-) : AzOptions
+public record AzStorageTablePolicyListOptions : AzOptions
 {
+    /// <summary>
+    /// List stored access policies on a containing object.
+    /// </summary>
+    /// <param name="TableName">The table name.</param>
+    public AzStorageTablePolicyListOptions(
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    public void Deconstruct(out string TableName)
+    {
+        TableName = this.TableName;
+    }
+
+    /// <summary>
+    /// The table name.
+    /// </summary>
+    [CliOption("--table-name", ShortForm = "-t")]
+    public string TableName { get; private init; }
+
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>

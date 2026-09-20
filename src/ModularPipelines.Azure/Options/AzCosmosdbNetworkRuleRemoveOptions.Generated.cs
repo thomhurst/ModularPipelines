@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a virtual network rule from an existing Cosmos DB
 /// </summary>
-/// <param name="Subnet">Name or ID of the subnet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "network-rule", "remove")]
-public record AzCosmosdbNetworkRuleRemoveOptions(
-    [property: CliOption("--subnet")] string Subnet
-) : AzOptions
+public record AzCosmosdbNetworkRuleRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a virtual network rule from an existing Cosmos DB
+    /// </summary>
+    /// <param name="Subnet">Name or ID of the subnet.</param>
+    public AzCosmosdbNetworkRuleRemoveOptions(
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string Subnet)
+    {
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// Name or ID of the subnet.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string Subnet { get; private init; }
+
     /// <summary>
     /// The name of the VNET, which must be provided in conjunction with the name of the subnet.
     /// </summary>

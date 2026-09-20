@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute a deployment What-If operation at resource group scope.
 /// </summary>
-/// <param name="ResourceGroup">The resource group to execute deployment What-If operation at.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "group", "what-if")]
-public record AzDeploymentGroupWhatIfOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzDeploymentGroupWhatIfOptions : AzOptions
 {
+    /// <summary>
+    /// Execute a deployment What-If operation at resource group scope.
+    /// </summary>
+    /// <param name="ResourceGroup">The resource group to execute deployment What-If operation at.</param>
+    public AzDeploymentGroupWhatIfOptions(
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The resource group to execute deployment What-If operation at.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Auxiliary tenants which will be used during deployment across tenants.
     /// </summary>

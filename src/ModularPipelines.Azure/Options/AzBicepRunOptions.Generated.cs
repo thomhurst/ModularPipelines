@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Forward a raw command to the installed Bicep CLI.
 /// </summary>
-/// <param name="Command">The Bicep CLI command to run, including its arguments, as a single quoted string (e.g. "build main.bicep").</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "run")]
-public record AzBicepRunOptions(
-    [property: CliOption("--command", ShortForm = "-c")] string Command
-) : AzOptions
+public record AzBicepRunOptions : AzOptions
 {
+    /// <summary>
+    /// Forward a raw command to the installed Bicep CLI.
+    /// </summary>
+    /// <param name="Command">The Bicep CLI command to run, including its arguments, as a single quoted string (e.g. "build main.bicep").</param>
+    public AzBicepRunOptions(
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string Command)
+    {
+        Command = this.Command;
+    }
+
+    /// <summary>
+    /// The Bicep CLI command to run, including its arguments, as a single quoted string (e.g. "build main.bicep").
+    /// </summary>
+    [CliOption("--command", ShortForm = "-c")]
+    public string Command { get; private init; }
+
 }

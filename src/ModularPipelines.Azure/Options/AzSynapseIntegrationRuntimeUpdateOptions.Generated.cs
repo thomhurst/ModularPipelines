@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an integration runtime.
 /// </summary>
-/// <param name="AutoUpdate">Enable or disable the self-hosted integration runtime auto- update.  Allowed values: Off, On.</param>
-/// <param name="UpdateDelayOffset">The time of the day for the self-hosted integration runtime auto-update.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "integration-runtime", "update")]
-public record AzSynapseIntegrationRuntimeUpdateOptions(
-    [property: CliOption("--auto-update")] string AutoUpdate,
-    [property: CliOption("--update-delay-offset")] string UpdateDelayOffset
-) : AzOptions
+public record AzSynapseIntegrationRuntimeUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an integration runtime.
+    /// </summary>
+    /// <param name="AutoUpdate">Enable or disable the self-hosted integration runtime auto- update.  Allowed values: Off, On.</param>
+    /// <param name="UpdateDelayOffset">The time of the day for the self-hosted integration runtime auto-update.</param>
+    public AzSynapseIntegrationRuntimeUpdateOptions(
+        string AutoUpdate,
+        string UpdateDelayOffset
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoUpdate);
+        this.AutoUpdate = AutoUpdate;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateDelayOffset);
+        this.UpdateDelayOffset = UpdateDelayOffset;
+    }
+
+    public void Deconstruct(out string AutoUpdate, out string UpdateDelayOffset)
+    {
+        AutoUpdate = this.AutoUpdate;
+        UpdateDelayOffset = this.UpdateDelayOffset;
+    }
+
+    /// <summary>
+    /// Enable or disable the self-hosted integration runtime auto- update.  Allowed values: Off, On.
+    /// </summary>
+    [CliOption("--auto-update")]
+    public string AutoUpdate { get; private init; }
+
+    /// <summary>
+    /// The time of the day for the self-hosted integration runtime auto-update.
+    /// </summary>
+    [CliOption("--update-delay-offset")]
+    public string UpdateDelayOffset { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get information on the `next hop` of a VM.
 /// </summary>
-/// <param name="DestIp">Destination IPv4 address.</param>
-/// <param name="SourceIp">Source IPv4 address.</param>
-/// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "show-next-hop")]
-public record AzNetworkWatcherShowNextHopOptions(
-    [property: CliOption("--dest-ip")] string DestIp,
-    [property: CliOption("--source-ip")] string SourceIp,
-    [property: CliOption("--vm")] string Vm
-) : AzOptions
+public record AzNetworkWatcherShowNextHopOptions : AzOptions
 {
+    /// <summary>
+    /// Get information on the `next hop` of a VM.
+    /// </summary>
+    /// <param name="DestIp">Destination IPv4 address.</param>
+    /// <param name="SourceIp">Source IPv4 address.</param>
+    /// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
+    public AzNetworkWatcherShowNextHopOptions(
+        string DestIp,
+        string SourceIp,
+        string Vm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestIp);
+        this.DestIp = DestIp;
+        global::System.ArgumentNullException.ThrowIfNull(SourceIp);
+        this.SourceIp = SourceIp;
+        global::System.ArgumentNullException.ThrowIfNull(Vm);
+        this.Vm = Vm;
+    }
+
+    public void Deconstruct(out string DestIp, out string SourceIp, out string Vm)
+    {
+        DestIp = this.DestIp;
+        SourceIp = this.SourceIp;
+        Vm = this.Vm;
+    }
+
+    /// <summary>
+    /// Destination IPv4 address.
+    /// </summary>
+    [CliOption("--dest-ip")]
+    public string DestIp { get; private init; }
+
+    /// <summary>
+    /// Source IPv4 address.
+    /// </summary>
+    [CliOption("--source-ip")]
+    public string SourceIp { get; private init; }
+
+    /// <summary>
+    /// Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.
+    /// </summary>
+    [CliOption("--vm")]
+    public string Vm { get; private init; }
+
     /// <summary>
     /// Name or ID of the NIC resource to test. If the VM has multiple NICs and IP forwarding is enabled on any of them, this parameter is required.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Invoke an action on the resource.
 /// </summary>
-/// <param name="Action">The action that will be invoked on the specified resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "invoke-action")]
-public record AzResourceInvokeActionOptions(
-    [property: CliOption("--action")] string Action
-) : AzOptions
+public record AzResourceInvokeActionOptions : AzOptions
 {
+    /// <summary>
+    /// Invoke an action on the resource.
+    /// </summary>
+    /// <param name="Action">The action that will be invoked on the specified resource.</param>
+    public AzResourceInvokeActionOptions(
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    public void Deconstruct(out string Action)
+    {
+        Action = this.Action;
+    }
+
+    /// <summary>
+    /// The action that will be invoked on the specified resource.
+    /// </summary>
+    [CliOption("--action")]
+    public string Action { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

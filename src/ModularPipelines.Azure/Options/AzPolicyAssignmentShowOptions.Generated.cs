@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve a policy assignment.
 /// </summary>
-/// <param name="Name">The name of the policy assignment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "assignment", "show")]
-public record AzPolicyAssignmentShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzPolicyAssignmentShowOptions : AzOptions
 {
+    /// <summary>
+    /// Retrieve a policy assignment.
+    /// </summary>
+    /// <param name="Name">The name of the policy assignment.</param>
+    public AzPolicyAssignmentShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the policy assignment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Additional properties to include in output.
     /// </summary>

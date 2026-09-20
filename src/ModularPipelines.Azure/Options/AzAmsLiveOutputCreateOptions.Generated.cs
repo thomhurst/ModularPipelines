@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a live output.
 /// </summary>
-/// <param name="AccountName">The name of the Azure Media Services account.</param>
-/// <param name="ArchiveWindowLength">ISO 8601 timespan duration of the archive window length. This is the duration that customer want to retain the recorded content. Minimum window is 5 minutes (PT5M or 00:05:00). Maximum window is 25 hours (PT25H or 25:00:00). For example, to retain the output for 10 minutes, use PT10M or 00:10:00.</param>
-/// <param name="AssetName">The name of the asset.</param>
-/// <param name="LiveEventName">The name of the live event.</param>
-/// <param name="Name">The name of the live output.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "live-output", "create")]
-public record AzAmsLiveOutputCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--archive-window-length")] string ArchiveWindowLength,
-    [property: CliOption("--asset-name")] string AssetName,
-    [property: CliOption("--live-event-name")] string LiveEventName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAmsLiveOutputCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a live output.
+    /// </summary>
+    /// <param name="AccountName">The name of the Azure Media Services account.</param>
+    /// <param name="ArchiveWindowLength">ISO 8601 timespan duration of the archive window length. This is the duration that customer want to retain the recorded content. Minimum window is 5 minutes (PT5M or 00:05:00). Maximum window is 25 hours (PT25H or 25:00:00). For example, to retain the output for 10 minutes, use PT10M or 00:10:00.</param>
+    /// <param name="AssetName">The name of the asset.</param>
+    /// <param name="LiveEventName">The name of the live event.</param>
+    /// <param name="Name">The name of the live output.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAmsLiveOutputCreateOptions(
+        string AccountName,
+        string ArchiveWindowLength,
+        string AssetName,
+        string LiveEventName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(ArchiveWindowLength);
+        this.ArchiveWindowLength = ArchiveWindowLength;
+        global::System.ArgumentNullException.ThrowIfNull(AssetName);
+        this.AssetName = AssetName;
+        global::System.ArgumentNullException.ThrowIfNull(LiveEventName);
+        this.LiveEventName = LiveEventName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string AccountName, out string ArchiveWindowLength, out string AssetName, out string LiveEventName, out string Name, out string ResourceGroup)
+    {
+        AccountName = this.AccountName;
+        ArchiveWindowLength = this.ArchiveWindowLength;
+        AssetName = this.AssetName;
+        LiveEventName = this.LiveEventName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// ISO 8601 timespan duration of the archive window length. This is the duration that customer want to retain the recorded content. Minimum window is 5 minutes (PT5M or 00:05:00). Maximum window is 25 hours (PT25H or 25:00:00). For example, to retain the output for 10 minutes, use PT10M or 00:10:00.
+    /// </summary>
+    [CliOption("--archive-window-length")]
+    public string ArchiveWindowLength { get; private init; }
+
+    /// <summary>
+    /// The name of the asset.
+    /// </summary>
+    [CliOption("--asset-name")]
+    public string AssetName { get; private init; }
+
+    /// <summary>
+    /// The name of the live event.
+    /// </summary>
+    [CliOption("--live-event-name")]
+    public string LiveEventName { get; private init; }
+
+    /// <summary>
+    /// The name of the live output.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// The live output description.
     /// </summary>

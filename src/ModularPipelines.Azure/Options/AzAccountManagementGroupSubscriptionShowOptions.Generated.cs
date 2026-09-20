@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details of a subscription under a known
 /// </summary>
-/// <param name="Name">Name of the management group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "subscription", "show")]
-public record AzAccountManagementGroupSubscriptionShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAccountManagementGroupSubscriptionShowOptions : AzOptions
 {
+    /// <summary>
+    /// Show the details of a subscription under a known
+    /// </summary>
+    /// <param name="Name">Name of the management group.</param>
+    public AzAccountManagementGroupSubscriptionShowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the management group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
 }

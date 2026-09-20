@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an API permission.
 /// </summary>
-/// <param name="Api">RequiredResourceAccess.resourceAppId - The unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.</param>
-/// <param name="Id">Identifier uri, application id, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "permission", "delete")]
-public record AzAdAppPermissionDeleteOptions(
-    [property: CliOption("--api")] string Api,
-    [property: CliOption("--id")] string Id
-) : AzOptions
+public record AzAdAppPermissionDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an API permission.
+    /// </summary>
+    /// <param name="Api">RequiredResourceAccess.resourceAppId - The unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.</param>
+    /// <param name="Id">Identifier uri, application id, or object id.</param>
+    public AzAdAppPermissionDeleteOptions(
+        string Api,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Api);
+        this.Api = Api;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Api, out string Id)
+    {
+        Api = this.Api;
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// RequiredResourceAccess.resourceAppId - The unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.
+    /// </summary>
+    [CliOption("--api")]
+    public string Api { get; private init; }
+
+    /// <summary>
+    /// Identifier uri, application id, or object id.
+    /// </summary>
+    [CliOption("--id")]
+    public string Id { get; private init; }
+
     /// <summary>
     /// Specify `ResourceAccess.id` - The unique identifier for one of the OAuth2Permission or AppRole instances that the resource application exposes. Space-separated list of `&lt;resource-access-id&gt;`.
     /// </summary>

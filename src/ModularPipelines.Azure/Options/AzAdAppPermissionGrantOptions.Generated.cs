@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Grant the app an API Delegated permissions.
 /// </summary>
-/// <param name="Scope">A space-separated list of the claim values for delegated permissions which should be included in access tokens for the resource application (the API). For example, openid User.Read GroupMember.Read.All. Each claim value should match the value field of one of the delegated permissions defined by the API, listed in the oauth2PermissionScopes property of the resource service principal.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "permission", "grant")]
-public record AzAdAppPermissionGrantOptions(
-    [property: CliOption("--scope", GroupValues = true)] IEnumerable<string> Scope
-) : AzOptions
+public record AzAdAppPermissionGrantOptions : AzOptions
 {
+    /// <summary>
+    /// Grant the app an API Delegated permissions.
+    /// </summary>
+    /// <param name="Scope">A space-separated list of the claim values for delegated permissions which should be included in access tokens for the resource application (the API). For example, openid User.Read GroupMember.Read.All. Each claim value should match the value field of one of the delegated permissions defined by the API, listed in the oauth2PermissionScopes property of the resource service principal.</param>
+    public AzAdAppPermissionGrantOptions(
+        IEnumerable<string> Scope
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Scope);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Scope));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Scope));
+            }
+
+            Scope = materialized;
+        }
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Scope)
+    {
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// A space-separated list of the claim values for delegated permissions which should be included in access tokens for the resource application (the API). For example, openid User.Read GroupMember.Read.All. Each claim value should match the value field of one of the delegated permissions defined by the API, listed in the oauth2PermissionScopes property of the resource service principal.
+    /// </summary>
+    [CliOption("--scope", GroupValues = true)]
+    public IEnumerable<string> Scope { get; private init; }
+
     /// <summary>
     /// Indicates whether authorization is granted for the client application to impersonate all users or only a specific user. 'AllPrincipals' indicates authorization to impersonate all users. 'Principal' indicates authorization to impersonate a specific user. Consent on behalf of all users can be granted by an administrator. Non-admin users may be authorized to consent on behalf of themselves in some cases, for some delegated permissions.  Allowed values: AllPrincipals, Principal.  Default: AllPrincipals.
     /// </summary>

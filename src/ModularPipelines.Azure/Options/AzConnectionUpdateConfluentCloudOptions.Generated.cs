@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a local connection to confluent-cloud.
 /// </summary>
-/// <param name="Connection">Name of the connection.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "update", "confluent-cloud")]
-public record AzConnectionUpdateConfluentCloudOptions(
-    [property: CliOption("--connection")] string Connection
-) : AzOptions
+public record AzConnectionUpdateConfluentCloudOptions : AzOptions
 {
+    /// <summary>
+    /// Update a local connection to confluent-cloud.
+    /// </summary>
+    /// <param name="Connection">Name of the connection.</param>
+    public AzConnectionUpdateConfluentCloudOptions(
+        string Connection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Connection);
+        this.Connection = Connection;
+    }
+
+    public void Deconstruct(out string Connection)
+    {
+        Connection = this.Connection;
+    }
+
+    /// <summary>
+    /// Name of the connection.
+    /// </summary>
+    [CliOption("--connection")]
+    public string Connection { get; private init; }
+
     /// <summary>
     /// Kafka bootstrap server url.
     /// </summary>

@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the versions of all the mongodb
 /// </summary>
-/// <param name="InstanceId">InstanceId of the Account.</param>
-/// <param name="Location">Location.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "mongodb", "restorable-database", "list")]
-public record AzCosmosdbMongodbRestorableDatabaseListOptions(
-    [property: CliOption("--instance-id", ShortForm = "-i")] string InstanceId,
-    [property: CliOption("--location", ShortForm = "-l")] string Location
-) : AzOptions
+public record AzCosmosdbMongodbRestorableDatabaseListOptions : AzOptions
 {
+    /// <summary>
+    /// List all the versions of all the mongodb
+    /// </summary>
+    /// <param name="InstanceId">InstanceId of the Account.</param>
+    /// <param name="Location">Location.</param>
+    public AzCosmosdbMongodbRestorableDatabaseListOptions(
+        string InstanceId,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string InstanceId, out string Location)
+    {
+        InstanceId = this.InstanceId;
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// InstanceId of the Account.
+    /// </summary>
+    [CliOption("--instance-id", ShortForm = "-i")]
+    public string InstanceId { get; private init; }
+
+    /// <summary>
+    /// Location.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
 }

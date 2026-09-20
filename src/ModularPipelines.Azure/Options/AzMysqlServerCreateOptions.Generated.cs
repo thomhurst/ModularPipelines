@@ -119,7 +119,7 @@ public record AzMysqlServerCreateOptions : AzOptions
     public string? AdminPassword { get; set; }
 
     /// <summary>
-    /// Administrator username for the server. Once set, it cannot be changed.  Default: weeklyelk5.
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: shyrobin7.
     /// </summary>
     [CliOption("--admin-user", ShortForm = "-u")]
     public string? AdminUser { get; set; }

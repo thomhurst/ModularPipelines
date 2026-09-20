@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a streaming locator.
 /// </summary>
-/// <param name="AccountName">The name of the Azure Media Services account.</param>
-/// <param name="AssetName">The name of the asset used by the streaming locator.</param>
-/// <param name="Name">The name of the streaming locator.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="StreamingPolicyName">The name of the streaming policy used by the streaming locator. You can either create one with `az ams streaming policy create` or use any of the predefined policies: Predefined_DownloadOnly, Predefined_ClearStreamingOnly, Predefined_DownloadAndClearStreaming, Predefined_ClearKey, Predefined_MultiDrmCencStreaming, Predefined_MultiDrmStreaming.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-locator", "create")]
-public record AzAmsStreamingLocatorCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--asset-name")] string AssetName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--streaming-policy-name")] string StreamingPolicyName
-) : AzOptions
+public record AzAmsStreamingLocatorCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a streaming locator.
+    /// </summary>
+    /// <param name="AccountName">The name of the Azure Media Services account.</param>
+    /// <param name="AssetName">The name of the asset used by the streaming locator.</param>
+    /// <param name="Name">The name of the streaming locator.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="StreamingPolicyName">The name of the streaming policy used by the streaming locator. You can either create one with `az ams streaming policy create` or use any of the predefined policies: Predefined_DownloadOnly, Predefined_ClearStreamingOnly, Predefined_DownloadAndClearStreaming, Predefined_ClearKey, Predefined_MultiDrmCencStreaming, Predefined_MultiDrmStreaming.</param>
+    public AzAmsStreamingLocatorCreateOptions(
+        string AccountName,
+        string AssetName,
+        string Name,
+        string ResourceGroup,
+        string StreamingPolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(AssetName);
+        this.AssetName = AssetName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(StreamingPolicyName);
+        this.StreamingPolicyName = StreamingPolicyName;
+    }
+
+    public void Deconstruct(out string AccountName, out string AssetName, out string Name, out string ResourceGroup, out string StreamingPolicyName)
+    {
+        AccountName = this.AccountName;
+        AssetName = this.AssetName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        StreamingPolicyName = this.StreamingPolicyName;
+    }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// The name of the asset used by the streaming locator.
+    /// </summary>
+    [CliOption("--asset-name")]
+    public string AssetName { get; private init; }
+
+    /// <summary>
+    /// The name of the streaming locator.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the streaming policy used by the streaming locator. You can either create one with `az ams streaming policy create` or use any of the predefined policies: Predefined_DownloadOnly, Predefined_ClearStreamingOnly, Predefined_DownloadAndClearStreaming, Predefined_ClearKey, Predefined_MultiDrmCencStreaming, Predefined_MultiDrmStreaming.
+    /// </summary>
+    [CliOption("--streaming-policy-name")]
+    public string StreamingPolicyName { get; private init; }
+
     /// <summary>
     /// An alternative media identifier associated with the streaming locator.
     /// </summary>

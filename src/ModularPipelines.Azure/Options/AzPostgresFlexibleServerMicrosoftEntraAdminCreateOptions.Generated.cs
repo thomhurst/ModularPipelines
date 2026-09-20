@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Microsoft Entra
 /// </summary>
-/// <param name="DisplayName">Display name of the Microsoft Entra administrator user or group.</param>
-/// <param name="ObjectId">The unique identifier of the Microsoft Entra administrator.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServerName">Name of the server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "microsoft-entra-admin", "create")]
-public record AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions(
-    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
-    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
-) : AzOptions
+public record AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Microsoft Entra
+    /// </summary>
+    /// <param name="DisplayName">Display name of the Microsoft Entra administrator user or group.</param>
+    /// <param name="ObjectId">The unique identifier of the Microsoft Entra administrator.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServerName">Name of the server.</param>
+    public AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions(
+        string DisplayName,
+        string ObjectId,
+        string ResourceGroup,
+        string ServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectId);
+        this.ObjectId = ObjectId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+    }
+
+    public void Deconstruct(out string DisplayName, out string ObjectId, out string ResourceGroup, out string ServerName)
+    {
+        DisplayName = this.DisplayName;
+        ObjectId = this.ObjectId;
+        ResourceGroup = this.ResourceGroup;
+        ServerName = this.ServerName;
+    }
+
+    /// <summary>
+    /// Display name of the Microsoft Entra administrator user or group.
+    /// </summary>
+    [CliOption("--display-name", ShortForm = "-u")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the Microsoft Entra administrator.
+    /// </summary>
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string ObjectId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the server.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string ServerName { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

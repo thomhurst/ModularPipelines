@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a run of a pipeline.
 /// </summary>
-/// <param name="Name">The pipeline name.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "pipeline", "create-run")]
-public record AzSynapsePipelineCreateRunOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapsePipelineCreateRunOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a run of a pipeline.
+    /// </summary>
+    /// <param name="Name">The pipeline name.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapsePipelineCreateRunOptions(
+        string Name,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Name, out string WorkspaceName)
+    {
+        Name = this.Name;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The pipeline name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId.  Allowed values: false, true.
     /// </summary>

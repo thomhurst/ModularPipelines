@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new Cosmos DB Fleet.
 /// </summary>
-/// <param name="FleetName">Name of the Fleet resource.</param>
-/// <param name="Location">Location of the Fleet.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "fleet", "create")]
-public record AzCosmosdbFleetCreateOptions(
-    [property: CliOption("--fleet-name", ShortForm = "-n")] string FleetName,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbFleetCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a new Cosmos DB Fleet.
+    /// </summary>
+    /// <param name="FleetName">Name of the Fleet resource.</param>
+    /// <param name="Location">Location of the Fleet.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCosmosdbFleetCreateOptions(
+        string FleetName,
+        string Location,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetName);
+        this.FleetName = FleetName;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string FleetName, out string Location, out string ResourceGroup)
+    {
+        FleetName = this.FleetName;
+        Location = this.Location;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the Fleet resource.
+    /// </summary>
+    [CliOption("--fleet-name", ShortForm = "-n")]
+    public string FleetName { get; private init; }
+
+    /// <summary>
+    /// Location of the Fleet.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Tags in 'key=value key2=value2' format.
     /// </summary>

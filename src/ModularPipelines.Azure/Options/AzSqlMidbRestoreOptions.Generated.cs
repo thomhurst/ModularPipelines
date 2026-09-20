@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a managed database.
 /// </summary>
-/// <param name="DestName">Name of the managed database that will be created as the restore destination.</param>
-/// <param name="Time">The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "restore")]
-public record AzSqlMidbRestoreOptions(
-    [property: CliOption("--dest-name")] string DestName,
-    [property: CliOption("--time", ShortForm = "-t")] string Time
-) : AzOptions
+public record AzSqlMidbRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restore a managed database.
+    /// </summary>
+    /// <param name="DestName">Name of the managed database that will be created as the restore destination.</param>
+    /// <param name="Time">The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".</param>
+    public AzSqlMidbRestoreOptions(
+        string DestName,
+        string Time
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestName);
+        this.DestName = DestName;
+        global::System.ArgumentNullException.ThrowIfNull(Time);
+        this.Time = Time;
+    }
+
+    public void Deconstruct(out string DestName, out string Time)
+    {
+        DestName = this.DestName;
+        Time = this.Time;
+    }
+
+    /// <summary>
+    /// Name of the managed database that will be created as the restore destination.
+    /// </summary>
+    [CliOption("--dest-name")]
+    public string DestName { get; private init; }
+
+    /// <summary>
+    /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".
+    /// </summary>
+    [CliOption("--time", ShortForm = "-t")]
+    public string Time { get; private init; }
+
     /// <summary>
     /// If specified, restore from a deleted database instead of from an existing database. Must match the deleted time of a deleted database on the source Managed Instance.
     /// </summary>

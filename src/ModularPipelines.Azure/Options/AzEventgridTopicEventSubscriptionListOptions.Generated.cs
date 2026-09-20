@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List event subscriptions of a specific topic.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="TopicName">Name of the topic.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "topic", "event-subscription", "list")]
-public record AzEventgridTopicEventSubscriptionListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--topic-name")] string TopicName
-) : AzOptions
+public record AzEventgridTopicEventSubscriptionListOptions : AzOptions
 {
+    /// <summary>
+    /// List event subscriptions of a specific topic.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="TopicName">Name of the topic.</param>
+    public AzEventgridTopicEventSubscriptionListOptions(
+        string ResourceGroup,
+        string TopicName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(TopicName);
+        this.TopicName = TopicName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string TopicName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        TopicName = this.TopicName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the topic.
+    /// </summary>
+    [CliOption("--topic-name")]
+    public string TopicName { get; private init; }
+
     /// <summary>
     /// The OData query used for filtering the list results. Filtering is currently allowed on the Name property only. The supported operations include: CONTAINS, eq (for equal), ne (for not equal), AND, OR and NOT.
     /// </summary>

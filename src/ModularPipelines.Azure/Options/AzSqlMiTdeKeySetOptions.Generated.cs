@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets the SQL Instance's encryption protector.
 /// </summary>
-/// <param name="ServerKeyType">The type of the server key.  Allowed values: AzureKeyVault, ServiceManaged.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "tde-key", "set")]
-public record AzSqlMiTdeKeySetOptions(
-    [property: CliOption("--server-key-type", ShortForm = "-t")] string ServerKeyType
-) : AzOptions
+public record AzSqlMiTdeKeySetOptions : AzOptions
 {
+    /// <summary>
+    /// Sets the SQL Instance's encryption protector.
+    /// </summary>
+    /// <param name="ServerKeyType">The type of the server key.  Allowed values: AzureKeyVault, ServiceManaged.</param>
+    public AzSqlMiTdeKeySetOptions(
+        string ServerKeyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerKeyType);
+        this.ServerKeyType = ServerKeyType;
+    }
+
+    public void Deconstruct(out string ServerKeyType)
+    {
+        ServerKeyType = this.ServerKeyType;
+    }
+
+    /// <summary>
+    /// The type of the server key.  Allowed values: AzureKeyVault, ServiceManaged.
+    /// </summary>
+    [CliOption("--server-key-type", ShortForm = "-t")]
+    public string ServerKeyType { get; private init; }
+
     /// <summary>
     /// The key auto rotation opt in status. Can be either true or false.  Allowed values: false, true.
     /// </summary>

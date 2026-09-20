@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the Access Policy Assignment (Redis User).
 /// </summary>
-/// <param name="PolicyAssignmentName">The name of the access policy assignment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy-assignment", "delete")]
-public record AzRedisAccessPolicyAssignmentDeleteOptions(
-    [property: CliOption("--policy-assignment-name")] string PolicyAssignmentName
-) : AzOptions
+public record AzRedisAccessPolicyAssignmentDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete the Access Policy Assignment (Redis User).
+    /// </summary>
+    /// <param name="PolicyAssignmentName">The name of the access policy assignment.</param>
+    public AzRedisAccessPolicyAssignmentDeleteOptions(
+        string PolicyAssignmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyAssignmentName);
+        this.PolicyAssignmentName = PolicyAssignmentName;
+    }
+
+    public void Deconstruct(out string PolicyAssignmentName)
+    {
+        PolicyAssignmentName = this.PolicyAssignmentName;
+    }
+
+    /// <summary>
+    /// The name of the access policy assignment.
+    /// </summary>
+    [CliOption("--policy-assignment-name")]
+    public string PolicyAssignmentName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

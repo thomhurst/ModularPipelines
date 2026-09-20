@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List peerings.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="VnetName">The virtual network (VNet) name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet", "peering", "list")]
-public record AzNetworkVnetPeeringListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--vnet-name")] string VnetName
-) : AzOptions
+public record AzNetworkVnetPeeringListOptions : AzOptions
 {
+    /// <summary>
+    /// List peerings.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="VnetName">The virtual network (VNet) name.</param>
+    public AzNetworkVnetPeeringListOptions(
+        string ResourceGroup,
+        string VnetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(VnetName);
+        this.VnetName = VnetName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string VnetName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        VnetName = this.VnetName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The virtual network (VNet) name.
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string VnetName { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

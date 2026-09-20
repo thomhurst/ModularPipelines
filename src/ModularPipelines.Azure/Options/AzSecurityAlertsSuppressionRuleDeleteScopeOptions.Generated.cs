@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an alerts suppression rule scope.
 /// </summary>
-/// <param name="Field">Entity name.</param>
-/// <param name="RuleName">The unique name of the alerts suppression rule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alerts-suppression-rule", "delete_scope")]
-public record AzSecurityAlertsSuppressionRuleDeleteScopeOptions(
-    [property: CliOption("--field")] string Field,
-    [property: CliOption("--rule-name")] string RuleName
-) : AzOptions
+public record AzSecurityAlertsSuppressionRuleDeleteScopeOptions : AzOptions
 {
+    /// <summary>
+    /// Delete an alerts suppression rule scope.
+    /// </summary>
+    /// <param name="Field">Entity name.</param>
+    /// <param name="RuleName">The unique name of the alerts suppression rule.</param>
+    public AzSecurityAlertsSuppressionRuleDeleteScopeOptions(
+        string Field,
+        string RuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Field);
+        this.Field = Field;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+    }
+
+    public void Deconstruct(out string Field, out string RuleName)
+    {
+        Field = this.Field;
+        RuleName = this.RuleName;
+    }
+
+    /// <summary>
+    /// Entity name.
+    /// </summary>
+    [CliOption("--field")]
+    public string Field { get; private init; }
+
+    /// <summary>
+    /// The unique name of the alerts suppression rule.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
 }

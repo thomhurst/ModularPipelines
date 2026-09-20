@@ -16,20 +16,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable to decrypt and encrypt security domain file as
 /// </summary>
-/// <param name="SdExchangeKey">The exchange key for security domain.</param>
-/// <param name="SdFile">This file contains security domain encrypted using SD Exchange file downloaded in security-domain init-recovery command.</param>
-/// <param name="SdFileRestoreBlob">Local file path to store the security domain encrypted with the exchange key.</param>
-/// <param name="SdWrappingKeys">Space-separated file paths to PEM files containing private keys.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "restore-blob")]
-public record AzKeyvaultSecurityDomainRestoreBlobOptions(
-    [property: CliOption("--sd-exchange-key")] string SdExchangeKey,
-    [property: CliOption("--sd-file")] string SdFile,
-    [property: CliOption("--sd-file-restore-blob")] string SdFileRestoreBlob,
-    [property: CliOption("--sd-wrapping-keys", GroupValues = true)] IEnumerable<string> SdWrappingKeys
-) : AzOptions
+public record AzKeyvaultSecurityDomainRestoreBlobOptions : AzOptions
 {
+    /// <summary>
+    /// Enable to decrypt and encrypt security domain file as
+    /// </summary>
+    /// <param name="SdExchangeKey">The exchange key for security domain.</param>
+    /// <param name="SdFile">This file contains security domain encrypted using SD Exchange file downloaded in security-domain init-recovery command.</param>
+    /// <param name="SdFileRestoreBlob">Local file path to store the security domain encrypted with the exchange key.</param>
+    /// <param name="SdWrappingKeys">Space-separated file paths to PEM files containing private keys.</param>
+    public AzKeyvaultSecurityDomainRestoreBlobOptions(
+        string SdExchangeKey,
+        string SdFile,
+        string SdFileRestoreBlob,
+        IEnumerable<string> SdWrappingKeys
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SdExchangeKey);
+        this.SdExchangeKey = SdExchangeKey;
+        global::System.ArgumentNullException.ThrowIfNull(SdFile);
+        this.SdFile = SdFile;
+        global::System.ArgumentNullException.ThrowIfNull(SdFileRestoreBlob);
+        this.SdFileRestoreBlob = SdFileRestoreBlob;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SdWrappingKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SdWrappingKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SdWrappingKeys));
+            }
+
+            SdWrappingKeys = materialized;
+        }
+        this.SdWrappingKeys = SdWrappingKeys;
+    }
+
+    public void Deconstruct(out string SdExchangeKey, out string SdFile, out string SdFileRestoreBlob, out IEnumerable<string> SdWrappingKeys)
+    {
+        SdExchangeKey = this.SdExchangeKey;
+        SdFile = this.SdFile;
+        SdFileRestoreBlob = this.SdFileRestoreBlob;
+        SdWrappingKeys = this.SdWrappingKeys;
+    }
+
+    /// <summary>
+    /// The exchange key for security domain.
+    /// </summary>
+    [CliOption("--sd-exchange-key")]
+    public string SdExchangeKey { get; private init; }
+
+    /// <summary>
+    /// This file contains security domain encrypted using SD Exchange file downloaded in security-domain init-recovery command.
+    /// </summary>
+    [CliOption("--sd-file")]
+    public string SdFile { get; private init; }
+
+    /// <summary>
+    /// Local file path to store the security domain encrypted with the exchange key.
+    /// </summary>
+    [CliOption("--sd-file-restore-blob")]
+    public string SdFileRestoreBlob { get; private init; }
+
+    /// <summary>
+    /// Space-separated file paths to PEM files containing private keys.
+    /// </summary>
+    [CliOption("--sd-wrapping-keys", GroupValues = true)]
+    public IEnumerable<string> SdWrappingKeys { get; private init; }
+
     /// <summary>
     /// Space-separated password list for --sd-wrapping-keys. CLI will match them in order. Can be omitted if your keys are without password protection.
     /// </summary>

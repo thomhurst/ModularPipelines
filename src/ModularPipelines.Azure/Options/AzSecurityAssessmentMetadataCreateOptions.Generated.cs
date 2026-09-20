@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a customer managed security assessment type.
 /// </summary>
-/// <param name="Description">Detailed string that will help users to understand the assessment and how it is calculated.</param>
-/// <param name="DisplayName">Human readable title for this object.</param>
-/// <param name="Name">Name of the resource to be fetched.</param>
-/// <param name="Severity">Indicates the importance of the security risk if the assessment is unhealthy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "assessment-metadata", "create")]
-public record AzSecurityAssessmentMetadataCreateOptions(
-    [property: CliOption("--description")] string Description,
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--severity")] string Severity
-) : AzOptions
+public record AzSecurityAssessmentMetadataCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a customer managed security assessment type.
+    /// </summary>
+    /// <param name="Description">Detailed string that will help users to understand the assessment and how it is calculated.</param>
+    /// <param name="DisplayName">Human readable title for this object.</param>
+    /// <param name="Name">Name of the resource to be fetched.</param>
+    /// <param name="Severity">Indicates the importance of the security risk if the assessment is unhealthy.</param>
+    public AzSecurityAssessmentMetadataCreateOptions(
+        string Description,
+        string DisplayName,
+        string Name,
+        string Severity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Severity);
+        this.Severity = Severity;
+    }
+
+    public void Deconstruct(out string Description, out string DisplayName, out string Name, out string Severity)
+    {
+        Description = this.Description;
+        DisplayName = this.DisplayName;
+        Name = this.Name;
+        Severity = this.Severity;
+    }
+
+    /// <summary>
+    /// Detailed string that will help users to understand the assessment and how it is calculated.
+    /// </summary>
+    [CliOption("--description")]
+    public string Description { get; private init; }
+
+    /// <summary>
+    /// Human readable title for this object.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Name of the resource to be fetched.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Indicates the importance of the security risk if the assessment is unhealthy.
+    /// </summary>
+    [CliOption("--severity")]
+    public string Severity { get; private init; }
+
     /// <summary>
     /// Detailed string that will help users to understand the different ways to mitigate or fix the security issue.
     /// </summary>

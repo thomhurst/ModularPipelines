@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove IP access restrictions from a
 /// </summary>
-/// <param name="RuleName">The IP security restriction name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ingress", "access-restriction", "remove")]
-public record AzContainerappIngressAccessRestrictionRemoveOptions(
-    [property: CliOption("--rule-name")] string RuleName
-) : AzOptions
+public record AzContainerappIngressAccessRestrictionRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove IP access restrictions from a
+    /// </summary>
+    /// <param name="RuleName">The IP security restriction name.</param>
+    public AzContainerappIngressAccessRestrictionRemoveOptions(
+        string RuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+    }
+
+    public void Deconstruct(out string RuleName)
+    {
+        RuleName = this.RuleName;
+    }
+
+    /// <summary>
+    /// The IP security restriction name.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

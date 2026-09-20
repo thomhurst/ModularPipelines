@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a KQL script.
 /// </summary>
-/// <param name="File">The KQL query file path.</param>
-/// <param name="Name">The name of the KQL script.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kql-script", "import")]
-public record AzSynapseKqlScriptImportOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseKqlScriptImportOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a KQL script.
+    /// </summary>
+    /// <param name="File">The KQL query file path.</param>
+    /// <param name="Name">The name of the KQL script.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkspaceName">The name of the workspace.</param>
+    public AzSynapseKqlScriptImportOptions(
+        string File,
+        string Name,
+        string ResourceGroup,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string File, out string Name, out string ResourceGroup, out string WorkspaceName)
+    {
+        File = this.File;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The KQL query file path.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// The name of the KQL script.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// The name of the Kusto database.
     /// </summary>

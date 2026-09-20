@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an image builder customizer from an image builder
 /// </summary>
-/// <param name="CustomizerName">Name of the customizer.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "customizer", "remove")]
-public record AzImageBuilderCustomizerRemoveOptions(
-    [property: CliOption("--customizer-name")] string CustomizerName
-) : AzOptions
+public record AzImageBuilderCustomizerRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove an image builder customizer from an image builder
+    /// </summary>
+    /// <param name="CustomizerName">Name of the customizer.</param>
+    public AzImageBuilderCustomizerRemoveOptions(
+        string CustomizerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomizerName);
+        this.CustomizerName = CustomizerName;
+    }
+
+    public void Deconstruct(out string CustomizerName)
+    {
+        CustomizerName = this.CustomizerName;
+    }
+
+    /// <summary>
+    /// Name of the customizer.
+    /// </summary>
+    [CliOption("--customizer-name")]
+    public string CustomizerName { get; private init; }
+
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>

@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all AAAA record sets in a zone.
 /// </summary>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ZoneName">Name of the Private DNS zone (without a terminating dot).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "aaaa", "list")]
-public record AzNetworkPrivateDnsRecordSetAaaaListOptions(
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkPrivateDnsRecordSetAaaaListOptions : AzOptions
 {
+    /// <summary>
+    /// List all AAAA record sets in a zone.
+    /// </summary>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ZoneName">Name of the Private DNS zone (without a terminating dot).</param>
+    public AzNetworkPrivateDnsRecordSetAaaaListOptions(
+        string ResourceGroup,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string ZoneName)
+    {
+        ResourceGroup = this.ResourceGroup;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the Private DNS zone (without a terminating dot).
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create storage account on the device.
 /// </summary>
-/// <param name="DeviceName">The device name.</param>
-/// <param name="Name">The StorageAccount name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="DataPolicy">Data policy of the storage Account.  Allowed values: Cloud, Local.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account", "create")]
-public record AzDataboxedgeDeviceStorageAccountCreateOptions(
-    [property: CliOption("--device-name")] string DeviceName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--data-policy")] string DataPolicy
-) : AzOptions
+public record AzDataboxedgeDeviceStorageAccountCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create storage account on the device.
+    /// </summary>
+    /// <param name="DeviceName">The device name.</param>
+    /// <param name="Name">The StorageAccount name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="DataPolicy">Data policy of the storage Account.  Allowed values: Cloud, Local.</param>
+    public AzDataboxedgeDeviceStorageAccountCreateOptions(
+        string DeviceName,
+        string Name,
+        string ResourceGroup,
+        string DataPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(DataPolicy);
+        this.DataPolicy = DataPolicy;
+    }
+
+    public void Deconstruct(out string DeviceName, out string Name, out string ResourceGroup, out string DataPolicy)
+    {
+        DeviceName = this.DeviceName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        DataPolicy = this.DataPolicy;
+    }
+
+    /// <summary>
+    /// The device name.
+    /// </summary>
+    [CliOption("--device-name")]
+    public string DeviceName { get; private init; }
+
+    /// <summary>
+    /// The StorageAccount name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Data policy of the storage Account.  Allowed values: Cloud, Local.
+    /// </summary>
+    [CliOption("--data-policy")]
+    public string DataPolicy { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

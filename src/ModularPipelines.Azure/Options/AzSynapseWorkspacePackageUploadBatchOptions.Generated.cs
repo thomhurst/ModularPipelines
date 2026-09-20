@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload workspace package files from a local
 /// </summary>
-/// <param name="Source">The directory where the files to be uploaded are located.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace-package", "upload-batch")]
-public record AzSynapseWorkspacePackageUploadBatchOptions(
-    [property: CliOption("--source", ShortForm = "-s")] string Source,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseWorkspacePackageUploadBatchOptions : AzOptions
 {
+    /// <summary>
+    /// Upload workspace package files from a local
+    /// </summary>
+    /// <param name="Source">The directory where the files to be uploaded are located.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseWorkspacePackageUploadBatchOptions(
+        string Source,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Source, out string WorkspaceName)
+    {
+        Source = this.Source;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The directory where the files to be uploaded are located.
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Include this flag to disable progress reporting for the command.
     /// </summary>

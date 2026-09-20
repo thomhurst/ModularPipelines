@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a role definition.
 /// </summary>
-/// <param name="HsmName">Name of the HSM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "role", "definition", "delete")]
-public record AzKeyvaultRoleDefinitionDeleteOptions(
-    [property: CliOption("--hsm-name")] string HsmName
-) : AzOptions
+public record AzKeyvaultRoleDefinitionDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a role definition.
+    /// </summary>
+    /// <param name="HsmName">Name of the HSM.</param>
+    public AzKeyvaultRoleDefinitionDeleteOptions(
+        string HsmName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HsmName);
+        this.HsmName = HsmName;
+    }
+
+    public void Deconstruct(out string HsmName)
+    {
+        HsmName = this.HsmName;
+    }
+
+    /// <summary>
+    /// Name of the HSM.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string HsmName { get; private init; }
+
     /// <summary>
     /// The role definition name. This is a GUID in the "name" property of a role definition.
     /// </summary>

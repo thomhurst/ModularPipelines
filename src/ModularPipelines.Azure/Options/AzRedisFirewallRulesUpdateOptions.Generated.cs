@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a redis cache firewall rule.
 /// </summary>
-/// <param name="EndIp">Highest IP address included in the range.</param>
-/// <param name="RuleName">The name of the firewall rule.</param>
-/// <param name="StartIp">Lowest IP address included in the range.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "firewall-rules", "update")]
-public record AzRedisFirewallRulesUpdateOptions(
-    [property: CliOption("--end-ip")] string EndIp,
-    [property: CliOption("--rule-name")] string RuleName,
-    [property: CliOption("--start-ip")] string StartIp
-) : AzOptions
+public record AzRedisFirewallRulesUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a redis cache firewall rule.
+    /// </summary>
+    /// <param name="EndIp">Highest IP address included in the range.</param>
+    /// <param name="RuleName">The name of the firewall rule.</param>
+    /// <param name="StartIp">Lowest IP address included in the range.</param>
+    public AzRedisFirewallRulesUpdateOptions(
+        string EndIp,
+        string RuleName,
+        string StartIp
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndIp);
+        this.EndIp = EndIp;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+        global::System.ArgumentNullException.ThrowIfNull(StartIp);
+        this.StartIp = StartIp;
+    }
+
+    public void Deconstruct(out string EndIp, out string RuleName, out string StartIp)
+    {
+        EndIp = this.EndIp;
+        RuleName = this.RuleName;
+        StartIp = this.StartIp;
+    }
+
+    /// <summary>
+    /// Highest IP address included in the range.
+    /// </summary>
+    [CliOption("--end-ip")]
+    public string EndIp { get; private init; }
+
+    /// <summary>
+    /// The name of the firewall rule.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
+    /// <summary>
+    /// Lowest IP address included in the range.
+    /// </summary>
+    [CliOption("--start-ip")]
+    public string StartIp { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

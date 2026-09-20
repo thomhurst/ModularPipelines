@@ -15,16 +15,54 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete an OAuth connection setting on a bot.
 /// </summary>
-/// <param name="Name">The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SettingName">Name of the oauth connection setting.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "authsetting", "delete")]
-public record AzBotAuthsettingDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--setting-name", ShortForm = "-c")] string SettingName
-) : AzOptions
+public record AzBotAuthsettingDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete an OAuth connection setting on a bot.
+    /// </summary>
+    /// <param name="Name">The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SettingName">Name of the oauth connection setting.</param>
+    public AzBotAuthsettingDeleteOptions(
+        string Name,
+        string ResourceGroup,
+        string SettingName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SettingName);
+        this.SettingName = SettingName;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string SettingName)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SettingName = this.SettingName;
+    }
+
+    /// <summary>
+    /// The resource name of the bot. Bot name must be between 4 and 42 characters in length. Bot name can only have the following characters -, a - z, A - Z, 0 - 9, and _.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the oauth connection setting.
+    /// </summary>
+    [CliOption("--setting-name", ShortForm = "-c")]
+    public string SettingName { get; private init; }
+
 }

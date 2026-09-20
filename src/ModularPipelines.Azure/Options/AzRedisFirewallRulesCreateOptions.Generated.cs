@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a redis cache firewall rule.
 /// </summary>
-/// <param name="EndIp">Highest IP address included in the range.</param>
-/// <param name="Name">Name of the Redis cache.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="RuleName">The name of the firewall rule.</param>
-/// <param name="StartIp">Lowest IP address included in the range.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "firewall-rules", "create")]
-public record AzRedisFirewallRulesCreateOptions(
-    [property: CliOption("--end-ip")] string EndIp,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--rule-name")] string RuleName,
-    [property: CliOption("--start-ip")] string StartIp
-) : AzOptions
+public record AzRedisFirewallRulesCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a redis cache firewall rule.
+    /// </summary>
+    /// <param name="EndIp">Highest IP address included in the range.</param>
+    /// <param name="Name">Name of the Redis cache.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="RuleName">The name of the firewall rule.</param>
+    /// <param name="StartIp">Lowest IP address included in the range.</param>
+    public AzRedisFirewallRulesCreateOptions(
+        string EndIp,
+        string Name,
+        string ResourceGroup,
+        string RuleName,
+        string StartIp
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndIp);
+        this.EndIp = EndIp;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+        global::System.ArgumentNullException.ThrowIfNull(StartIp);
+        this.StartIp = StartIp;
+    }
+
+    public void Deconstruct(out string EndIp, out string Name, out string ResourceGroup, out string RuleName, out string StartIp)
+    {
+        EndIp = this.EndIp;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        RuleName = this.RuleName;
+        StartIp = this.StartIp;
+    }
+
+    /// <summary>
+    /// Highest IP address included in the range.
+    /// </summary>
+    [CliOption("--end-ip")]
+    public string EndIp { get; private init; }
+
+    /// <summary>
+    /// Name of the Redis cache.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the firewall rule.
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string RuleName { get; private init; }
+
+    /// <summary>
+    /// Lowest IP address included in the range.
+    /// </summary>
+    [CliOption("--start-ip")]
+    public string StartIp { get; private init; }
+
 }

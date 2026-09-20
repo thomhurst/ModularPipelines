@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Terminates a Job Schedule.
 /// </summary>
-/// <param name="JobScheduleId">The ID of the Job Schedule to terminates. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job-schedule", "stop")]
-public record AzBatchJobScheduleStopOptions(
-    [property: CliOption("--job-schedule-id")] string JobScheduleId
-) : AzOptions
+public record AzBatchJobScheduleStopOptions : AzOptions
 {
+    /// <summary>
+    /// Terminates a Job Schedule.
+    /// </summary>
+    /// <param name="JobScheduleId">The ID of the Job Schedule to terminates. Required.</param>
+    public AzBatchJobScheduleStopOptions(
+        string JobScheduleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobScheduleId);
+        this.JobScheduleId = JobScheduleId;
+    }
+
+    public void Deconstruct(out string JobScheduleId)
+    {
+        JobScheduleId = this.JobScheduleId;
+    }
+
+    /// <summary>
+    /// The ID of the Job Schedule to terminates. Required.
+    /// </summary>
+    [CliOption("--job-schedule-id")]
+    public string JobScheduleId { get; private init; }
+
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>

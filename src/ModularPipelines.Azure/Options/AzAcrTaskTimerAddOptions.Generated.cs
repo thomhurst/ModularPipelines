@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a timer trigger to a task.
 /// </summary>
-/// <param name="Name">The name of the task.</param>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
-/// <param name="Schedule">The schedule of the timer trigger represented as a cron expression.</param>
-/// <param name="TimerName">The name of the timer trigger.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "timer", "add")]
-public record AzAcrTaskTimerAddOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry,
-    [property: CliOption("--schedule")] string Schedule,
-    [property: CliOption("--timer-name")] string TimerName
-) : AzOptions
+public record AzAcrTaskTimerAddOptions : AzOptions
 {
+    /// <summary>
+    /// Add a timer trigger to a task.
+    /// </summary>
+    /// <param name="Name">The name of the task.</param>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    /// <param name="Schedule">The schedule of the timer trigger represented as a cron expression.</param>
+    /// <param name="TimerName">The name of the timer trigger.</param>
+    public AzAcrTaskTimerAddOptions(
+        string Name,
+        string Registry,
+        string Schedule,
+        string TimerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+        global::System.ArgumentNullException.ThrowIfNull(TimerName);
+        this.TimerName = TimerName;
+    }
+
+    public void Deconstruct(out string Name, out string Registry, out string Schedule, out string TimerName)
+    {
+        Name = this.Name;
+        Registry = this.Registry;
+        Schedule = this.Schedule;
+        TimerName = this.TimerName;
+    }
+
+    /// <summary>
+    /// The name of the task.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
+    /// <summary>
+    /// The schedule of the timer trigger represented as a cron expression.
+    /// </summary>
+    [CliOption("--schedule")]
+    public string Schedule { get; private init; }
+
+    /// <summary>
+    /// The name of the timer trigger.
+    /// </summary>
+    [CliOption("--timer-name")]
+    public string TimerName { get; private init; }
+
     /// <summary>
     /// Indicates whether the timer trigger is enabled.  Allowed values: false, true.  Default: True.
     /// </summary>

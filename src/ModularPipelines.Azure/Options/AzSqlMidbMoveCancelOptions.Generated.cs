@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Cancel managed database move operation.
 /// </summary>
-/// <param name="DestMi">Name of the managed instance to move the managed database to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "move", "cancel")]
-public record AzSqlMidbMoveCancelOptions(
-    [property: CliOption("--dest-mi")] string DestMi
-) : AzOptions
+public record AzSqlMidbMoveCancelOptions : AzOptions
 {
+    /// <summary>
+    /// Cancel managed database move operation.
+    /// </summary>
+    /// <param name="DestMi">Name of the managed instance to move the managed database to.</param>
+    public AzSqlMidbMoveCancelOptions(
+        string DestMi
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestMi);
+        this.DestMi = DestMi;
+    }
+
+    public void Deconstruct(out string DestMi)
+    {
+        DestMi = this.DestMi;
+    }
+
+    /// <summary>
+    /// Name of the managed instance to move the managed database to.
+    /// </summary>
+    [CliOption("--dest-mi")]
+    public string DestMi { get; private init; }
+
     /// <summary>
     /// Name of the resource group to move the managed database to. If unspecified, defaults to the origin resource group.
     /// </summary>

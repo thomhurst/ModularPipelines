@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates a user entry with the listed roles. Either user details
 /// </summary>
-/// <param name="Name">Name of the static site.</param>
-/// <param name="Roles">Comma-separated default or user-defined role names. Roles that can be assigned to a user are comma separated and case-insensitive (at most 50 roles up to 25 characters each and restricted to 0-9,A-Z,a-z, and _). Define roles in routes.json during root directory of your GitHub repo.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "users", "update")]
-public record AzStaticwebappUsersUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--roles")] string Roles
-) : AzOptions
+public record AzStaticwebappUsersUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Updates a user entry with the listed roles. Either user details
+    /// </summary>
+    /// <param name="Name">Name of the static site.</param>
+    /// <param name="Roles">Comma-separated default or user-defined role names. Roles that can be assigned to a user are comma separated and case-insensitive (at most 50 roles up to 25 characters each and restricted to 0-9,A-Z,a-z, and _). Define roles in routes.json during root directory of your GitHub repo.</param>
+    public AzStaticwebappUsersUpdateOptions(
+        string Name,
+        string Roles
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Roles);
+        this.Roles = Roles;
+    }
+
+    public void Deconstruct(out string Name, out string Roles)
+    {
+        Name = this.Name;
+        Roles = this.Roles;
+    }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Comma-separated default or user-defined role names. Roles that can be assigned to a user are comma separated and case-insensitive (at most 50 roles up to 25 characters each and restricted to 0-9,A-Z,a-z, and _). Define roles in routes.json during root directory of your GitHub repo.
+    /// </summary>
+    [CliOption("--roles")]
+    public string Roles { get; private init; }
+
     /// <summary>
     /// Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.
     /// </summary>

@@ -15,16 +15,44 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation retrieves the
 /// </summary>
-/// <param name="FetchLatest">Fetch only the latest tests for each peering location.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
-/// <param name="Type">The type of failover test.  Allowed values: All, LinkFailover, MultiSiteFailover, SingleSiteFailover.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "get-link-failover-all-tests-detail")]
-public record AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions(
-    [property: CliOption("--fetch-latest")] bool FetchLatest,
-    [property: CliOption("--type")] string Type
-) : AzOptions
+public record AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions : AzOptions
 {
+    /// <summary>
+    /// This operation retrieves the
+    /// </summary>
+    /// <param name="FetchLatest">Fetch only the latest tests for each peering location.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+    /// <param name="Type">The type of failover test.  Allowed values: All, LinkFailover, MultiSiteFailover, SingleSiteFailover.</param>
+    public AzNetworkExpressRouteGetLinkFailoverAllTestsDetailOptions(
+        bool FetchLatest,
+        string Type
+    )
+    {
+        this.FetchLatest = FetchLatest;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out bool FetchLatest, out string Type)
+    {
+        FetchLatest = this.FetchLatest;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Fetch only the latest tests for each peering location.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--fetch-latest")]
+    public bool FetchLatest { get; private init; }
+
+    /// <summary>
+    /// The type of failover test.  Allowed values: All, LinkFailover, MultiSiteFailover, SingleSiteFailover.
+    /// </summary>
+    [CliOption("--type")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

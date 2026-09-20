@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a redirect configuration.
 /// </summary>
-/// <param name="GatewayName">Name of the application gateway.</param>
-/// <param name="Name">Name of the redirect configuration.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "redirect-config", "delete")]
-public record AzNetworkApplicationGatewayRedirectConfigDeleteOptions(
-    [property: CliOption("--gateway-name")] string GatewayName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewayRedirectConfigDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a redirect configuration.
+    /// </summary>
+    /// <param name="GatewayName">Name of the application gateway.</param>
+    /// <param name="Name">Name of the redirect configuration.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkApplicationGatewayRedirectConfigDeleteOptions(
+        string GatewayName,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string GatewayName, out string Name, out string ResourceGroup)
+    {
+        GatewayName = this.GatewayName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string GatewayName { get; private init; }
+
+    /// <summary>
+    /// Name of the redirect configuration.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

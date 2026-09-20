@@ -16,26 +16,102 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a local connection to confluent-cloud.
 /// </summary>
-/// <param name="BootstrapServer">Kafka bootstrap server url.</param>
-/// <param name="KafkaKey">Kafka API-Key (key).</param>
-/// <param name="KafkaSecret">Kafka API-Key (secret).</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SchemaKey">Schema registry API-Key (key).</param>
-/// <param name="SchemaRegistry">Schema registry url.</param>
-/// <param name="SchemaSecret">Schema registry API-Key (secret).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "confluent-cloud")]
-public record AzConnectionCreateConfluentCloudOptions(
-    [property: CliOption("--bootstrap-server")] string BootstrapServer,
-    [property: CliOption("--kafka-key")] string KafkaKey,
-    [property: SecretValue, CliOption("--kafka-secret")] string KafkaSecret,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--schema-key")] string SchemaKey,
-    [property: CliOption("--schema-registry")] string SchemaRegistry,
-    [property: SecretValue, CliOption("--schema-secret")] string SchemaSecret
-) : AzOptions
+public record AzConnectionCreateConfluentCloudOptions : AzOptions
 {
+    /// <summary>
+    /// Create a local connection to confluent-cloud.
+    /// </summary>
+    /// <param name="BootstrapServer">Kafka bootstrap server url.</param>
+    /// <param name="KafkaKey">Kafka API-Key (key).</param>
+    /// <param name="KafkaSecret">Kafka API-Key (secret).</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SchemaKey">Schema registry API-Key (key).</param>
+    /// <param name="SchemaRegistry">Schema registry url.</param>
+    /// <param name="SchemaSecret">Schema registry API-Key (secret).</param>
+    public AzConnectionCreateConfluentCloudOptions(
+        string BootstrapServer,
+        string KafkaKey,
+        string KafkaSecret,
+        string ResourceGroup,
+        string SchemaKey,
+        string SchemaRegistry,
+        string SchemaSecret
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BootstrapServer);
+        this.BootstrapServer = BootstrapServer;
+        global::System.ArgumentNullException.ThrowIfNull(KafkaKey);
+        this.KafkaKey = KafkaKey;
+        global::System.ArgumentNullException.ThrowIfNull(KafkaSecret);
+        this.KafkaSecret = KafkaSecret;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaKey);
+        this.SchemaKey = SchemaKey;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaRegistry);
+        this.SchemaRegistry = SchemaRegistry;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaSecret);
+        this.SchemaSecret = SchemaSecret;
+    }
+
+    public void Deconstruct(out string BootstrapServer, out string KafkaKey, out string KafkaSecret, out string ResourceGroup, out string SchemaKey, out string SchemaRegistry, out string SchemaSecret)
+    {
+        BootstrapServer = this.BootstrapServer;
+        KafkaKey = this.KafkaKey;
+        KafkaSecret = this.KafkaSecret;
+        ResourceGroup = this.ResourceGroup;
+        SchemaKey = this.SchemaKey;
+        SchemaRegistry = this.SchemaRegistry;
+        SchemaSecret = this.SchemaSecret;
+    }
+
+    /// <summary>
+    /// Kafka bootstrap server url.
+    /// </summary>
+    [CliOption("--bootstrap-server")]
+    public string BootstrapServer { get; private init; }
+
+    /// <summary>
+    /// Kafka API-Key (key).
+    /// </summary>
+    [CliOption("--kafka-key")]
+    public string KafkaKey { get; private init; }
+
+    /// <summary>
+    /// Kafka API-Key (secret).
+    /// </summary>
+    [SecretValue]
+    [CliOption("--kafka-secret")]
+    public string KafkaSecret { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Schema registry API-Key (key).
+    /// </summary>
+    [CliOption("--schema-key")]
+    public string SchemaKey { get; private init; }
+
+    /// <summary>
+    /// Schema registry url.
+    /// </summary>
+    [CliOption("--schema-registry")]
+    public string SchemaRegistry { get; private init; }
+
+    /// <summary>
+    /// Schema registry API-Key (secret).
+    /// </summary>
+    [SecretValue]
+    [CliOption("--schema-secret")]
+    public string SchemaSecret { get; private init; }
+
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
     /// </summary>

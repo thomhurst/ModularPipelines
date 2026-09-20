@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a policy assignment.
 /// </summary>
-/// <param name="Name">The name of the policy assignment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "assignment", "update")]
-public record AzPolicyAssignmentUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzPolicyAssignmentUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a policy assignment.
+    /// </summary>
+    /// <param name="Name">The name of the policy assignment.</param>
+    public AzPolicyAssignmentUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the policy assignment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The name or resource ID of the policy definition or policy set definition to be assigned.
     /// </summary>

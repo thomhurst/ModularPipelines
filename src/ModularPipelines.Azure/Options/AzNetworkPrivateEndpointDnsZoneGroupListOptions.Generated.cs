@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all private endpoint dns zone groups.
 /// </summary>
-/// <param name="EndpointName">Name of the private endpoint.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "dns-zone-group", "list")]
-public record AzNetworkPrivateEndpointDnsZoneGroupListOptions(
-    [property: CliOption("--endpoint-name")] string EndpointName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzNetworkPrivateEndpointDnsZoneGroupListOptions : AzOptions
 {
+    /// <summary>
+    /// List all private endpoint dns zone groups.
+    /// </summary>
+    /// <param name="EndpointName">Name of the private endpoint.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzNetworkPrivateEndpointDnsZoneGroupListOptions(
+        string EndpointName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string EndpointName, out string ResourceGroup)
+    {
+        EndpointName = this.EndpointName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Name of the private endpoint.
+    /// </summary>
+    [CliOption("--endpoint-name")]
+    public string EndpointName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

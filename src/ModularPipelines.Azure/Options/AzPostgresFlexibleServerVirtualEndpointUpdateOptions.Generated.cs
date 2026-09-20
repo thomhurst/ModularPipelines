@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a virtual endpoint.
 /// </summary>
-/// <param name="EndpointType">Virtual Endpoints offer two distinct types of connection points. Writer endpoint (Read/Write), this endpoint always points to the current primary server. Read-only endpoint, This endpoint can point to either a read replica or primary server.  Allowed values: ReadWrite.</param>
-/// <param name="Members">The read replicas the virtual endpoints point to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "virtual-endpoint", "update")]
-public record AzPostgresFlexibleServerVirtualEndpointUpdateOptions(
-    [property: CliOption("--endpoint-type", ShortForm = "-t")] string EndpointType,
-    [property: CliOption("--members", ShortForm = "-m")] string Members
-) : AzOptions
+public record AzPostgresFlexibleServerVirtualEndpointUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a virtual endpoint.
+    /// </summary>
+    /// <param name="EndpointType">Virtual Endpoints offer two distinct types of connection points. Writer endpoint (Read/Write), this endpoint always points to the current primary server. Read-only endpoint, This endpoint can point to either a read replica or primary server.  Allowed values: ReadWrite.</param>
+    /// <param name="Members">The read replicas the virtual endpoints point to.</param>
+    public AzPostgresFlexibleServerVirtualEndpointUpdateOptions(
+        string EndpointType,
+        string Members
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointType);
+        this.EndpointType = EndpointType;
+        global::System.ArgumentNullException.ThrowIfNull(Members);
+        this.Members = Members;
+    }
+
+    public void Deconstruct(out string EndpointType, out string Members)
+    {
+        EndpointType = this.EndpointType;
+        Members = this.Members;
+    }
+
+    /// <summary>
+    /// Virtual Endpoints offer two distinct types of connection points. Writer endpoint (Read/Write), this endpoint always points to the current primary server. Read-only endpoint, This endpoint can point to either a read replica or primary server.  Allowed values: ReadWrite.
+    /// </summary>
+    [CliOption("--endpoint-type", ShortForm = "-t")]
+    public string EndpointType { get; private init; }
+
+    /// <summary>
+    /// The read replicas the virtual endpoints point to.
+    /// </summary>
+    [CliOption("--members", ShortForm = "-m")]
+    public string Members { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

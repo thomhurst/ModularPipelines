@@ -16,22 +16,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a custom certificate of SignalR Service.
 /// </summary>
-/// <param name="KeyvaultBaseUri">Key vault base URI. For example, `https://contoso.vault.azure.net`.</param>
-/// <param name="KeyvaultSecretName">Key vault secret name where certificate is stored.</param>
-/// <param name="Name">Name of the custom certificate.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SignalrName">Name of the SignalR.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "custom-certificate", "create")]
-public record AzSignalrCustomCertificateCreateOptions(
-    [property: CliOption("--keyvault-base-uri")] string KeyvaultBaseUri,
-    [property: CliOption("--keyvault-secret-name")] string KeyvaultSecretName,
-    [property: CliOption("--name")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--signalr-name")] string SignalrName
-) : AzOptions
+public record AzSignalrCustomCertificateCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a custom certificate of SignalR Service.
+    /// </summary>
+    /// <param name="KeyvaultBaseUri">Key vault base URI. For example, `https://contoso.vault.azure.net`.</param>
+    /// <param name="KeyvaultSecretName">Key vault secret name where certificate is stored.</param>
+    /// <param name="Name">Name of the custom certificate.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SignalrName">Name of the SignalR.</param>
+    public AzSignalrCustomCertificateCreateOptions(
+        string KeyvaultBaseUri,
+        string KeyvaultSecretName,
+        string Name,
+        string ResourceGroup,
+        string SignalrName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyvaultBaseUri);
+        this.KeyvaultBaseUri = KeyvaultBaseUri;
+        global::System.ArgumentNullException.ThrowIfNull(KeyvaultSecretName);
+        this.KeyvaultSecretName = KeyvaultSecretName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SignalrName);
+        this.SignalrName = SignalrName;
+    }
+
+    public void Deconstruct(out string KeyvaultBaseUri, out string KeyvaultSecretName, out string Name, out string ResourceGroup, out string SignalrName)
+    {
+        KeyvaultBaseUri = this.KeyvaultBaseUri;
+        KeyvaultSecretName = this.KeyvaultSecretName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SignalrName = this.SignalrName;
+    }
+
+    /// <summary>
+    /// Key vault base URI. For example, `https://contoso.vault.azure.net`.
+    /// </summary>
+    [CliOption("--keyvault-base-uri")]
+    public string KeyvaultBaseUri { get; private init; }
+
+    /// <summary>
+    /// Key vault secret name where certificate is stored.
+    /// </summary>
+    [CliOption("--keyvault-secret-name")]
+    public string KeyvaultSecretName { get; private init; }
+
+    /// <summary>
+    /// Name of the custom certificate.
+    /// </summary>
+    [CliOption("--name")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Name of the SignalR.
+    /// </summary>
+    [CliOption("--signalr-name")]
+    public string SignalrName { get; private init; }
+
     /// <summary>
     /// Key vault secret version where certificate is stored. If empty, will use latest version.
     /// </summary>

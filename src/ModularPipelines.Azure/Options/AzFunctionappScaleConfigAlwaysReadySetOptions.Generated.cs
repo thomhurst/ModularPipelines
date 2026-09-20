@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add or update existing always-ready settings in
 /// </summary>
-/// <param name="Settings">Space-separated configuration for the number of pre-allocated instances in the format `&lt;name&gt;=&lt;value&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "scale", "config", "always-ready", "set")]
-public record AzFunctionappScaleConfigAlwaysReadySetOptions(
-    [property: CliOption("--settings", GroupValues = true)] IEnumerable<string> Settings
-) : AzOptions
+public record AzFunctionappScaleConfigAlwaysReadySetOptions : AzOptions
 {
+    /// <summary>
+    /// Add or update existing always-ready settings in
+    /// </summary>
+    /// <param name="Settings">Space-separated configuration for the number of pre-allocated instances in the format `&lt;name&gt;=&lt;value&gt;`.</param>
+    public AzFunctionappScaleConfigAlwaysReadySetOptions(
+        IEnumerable<string> Settings
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Settings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Settings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Settings));
+            }
+
+            Settings = materialized;
+        }
+        this.Settings = Settings;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Settings)
+    {
+        Settings = this.Settings;
+    }
+
+    /// <summary>
+    /// Space-separated configuration for the number of pre-allocated instances in the format `&lt;name&gt;=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--settings", GroupValues = true)]
+    public IEnumerable<string> Settings { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

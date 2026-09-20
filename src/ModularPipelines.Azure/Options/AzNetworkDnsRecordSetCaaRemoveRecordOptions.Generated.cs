@@ -15,24 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a CAA record from its record set.
 /// </summary>
-/// <param name="Flags">Integer flags for the record.</param>
-/// <param name="RecordSetName">The name of the record set relative to the zone.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Tag">Record tag.</param>
-/// <param name="Value">Value of the CAA record.</param>
-/// <param name="ZoneName">The name of the zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "caa", "remove-record")]
-public record AzNetworkDnsRecordSetCaaRemoveRecordOptions(
-    [property: CliOption("--flags")] string Flags,
-    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--tag")] string Tag,
-    [property: CliOption("--value")] string Value,
-    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
-) : AzOptions
+public record AzNetworkDnsRecordSetCaaRemoveRecordOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a CAA record from its record set.
+    /// </summary>
+    /// <param name="Flags">Integer flags for the record.</param>
+    /// <param name="RecordSetName">The name of the record set relative to the zone.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Tag">Record tag.</param>
+    /// <param name="Value">Value of the CAA record.</param>
+    /// <param name="ZoneName">The name of the zone.</param>
+    public AzNetworkDnsRecordSetCaaRemoveRecordOptions(
+        string Flags,
+        string RecordSetName,
+        string ResourceGroup,
+        string Tag,
+        string Value,
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Flags);
+        this.Flags = Flags;
+        global::System.ArgumentNullException.ThrowIfNull(RecordSetName);
+        this.RecordSetName = RecordSetName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Tag);
+        this.Tag = Tag;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string Flags, out string RecordSetName, out string ResourceGroup, out string Tag, out string Value, out string ZoneName)
+    {
+        Flags = this.Flags;
+        RecordSetName = this.RecordSetName;
+        ResourceGroup = this.ResourceGroup;
+        Tag = this.Tag;
+        Value = this.Value;
+        ZoneName = this.ZoneName;
+    }
+
+    /// <summary>
+    /// Integer flags for the record.
+    /// </summary>
+    [CliOption("--flags")]
+    public string Flags { get; private init; }
+
+    /// <summary>
+    /// The name of the record set relative to the zone.
+    /// </summary>
+    [CliOption("--record-set-name", ShortForm = "-n")]
+    public string RecordSetName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Record tag.
+    /// </summary>
+    [CliOption("--tag")]
+    public string Tag { get; private init; }
+
+    /// <summary>
+    /// Value of the CAA record.
+    /// </summary>
+    [CliOption("--value")]
+    public string Value { get; private init; }
+
+    /// <summary>
+    /// The name of the zone.
+    /// </summary>
+    [CliOption("--zone-name", ShortForm = "-z")]
+    public string ZoneName { get; private init; }
+
     /// <summary>
     /// Keep the empty record set if the last record is removed.
     /// </summary>

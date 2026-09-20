@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an event subscription.
 /// </summary>
-/// <param name="Name">Name of the event subscription.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "event-subscription", "update")]
-public record AzEventgridEventSubscriptionUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzEventgridEventSubscriptionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an event subscription.
+    /// </summary>
+    /// <param name="Name">Name of the event subscription.</param>
+    public AzEventgridEventSubscriptionUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the event subscription.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination where EventGrid should deadletter undeliverable events for this event subscription.
     /// </summary>

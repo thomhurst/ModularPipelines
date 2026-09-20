@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Modify the Access Control on a path and sub-paths in
 /// </summary>
-/// <param name="Acl">The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".  For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control.</param>
-/// <param name="FileSystem">File system name (i.e. container name).</param>
-/// <param name="Path">The path to a file or directory in the specified file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "access", "update-recursive")]
-public record AzStorageFsAccessUpdateRecursiveOptions(
-    [property: CliOption("--acl")] string Acl,
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzStorageFsAccessUpdateRecursiveOptions : AzOptions
 {
+    /// <summary>
+    /// Modify the Access Control on a path and sub-paths in
+    /// </summary>
+    /// <param name="Acl">The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".  For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control.</param>
+    /// <param name="FileSystem">File system name (i.e. container name).</param>
+    /// <param name="Path">The path to a file or directory in the specified file system.</param>
+    public AzStorageFsAccessUpdateRecursiveOptions(
+        string Acl,
+        string FileSystem,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Acl);
+        this.Acl = Acl;
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Acl, out string FileSystem, out string Path)
+    {
+        Acl = this.Acl;
+        FileSystem = this.FileSystem;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".  For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control.
+    /// </summary>
+    [CliOption("--acl")]
+    public string Acl { get; private init; }
+
+    /// <summary>
+    /// File system name (i.e. container name).
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
+    /// <summary>
+    /// The path to a file or directory in the specified file system.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

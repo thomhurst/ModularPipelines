@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set extensions for a VM.
 /// </summary>
-/// <param name="Name">Name of the extension.  Values from: az vm extension image list.</param>
-/// <param name="Publisher">The name of the extension publisher.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "extension", "set")]
-public record AzVmExtensionSetOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--publisher")] string Publisher
-) : AzOptions
+public record AzVmExtensionSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set extensions for a VM.
+    /// </summary>
+    /// <param name="Name">Name of the extension.  Values from: az vm extension image list.</param>
+    /// <param name="Publisher">The name of the extension publisher.</param>
+    public AzVmExtensionSetOptions(
+        string Name,
+        string Publisher
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Publisher);
+        this.Publisher = Publisher;
+    }
+
+    public void Deconstruct(out string Name, out string Publisher)
+    {
+        Name = this.Name;
+        Publisher = this.Publisher;
+    }
+
+    /// <summary>
+    /// Name of the extension.  Values from: az vm extension image list.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the extension publisher.
+    /// </summary>
+    [CliOption("--publisher")]
+    public string Publisher { get; private init; }
+
     /// <summary>
     /// Indicate the extension should be automatically upgraded by the platform if there is a newer version of the extension available.  Allowed values: false, true.
     /// </summary>

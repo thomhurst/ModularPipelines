@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Change the lease ID of an active lease.
 /// </summary>
-/// <param name="ContainerName">The container name.</param>
-/// <param name="LeaseId">Lease ID for active lease.</param>
-/// <param name="ProposedLeaseId">Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "lease", "change")]
-public record AzStorageContainerLeaseChangeOptions(
-    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
-    [property: CliOption("--lease-id")] string LeaseId,
-    [property: CliOption("--proposed-lease-id")] string ProposedLeaseId
-) : AzOptions
+public record AzStorageContainerLeaseChangeOptions : AzOptions
 {
+    /// <summary>
+    /// Change the lease ID of an active lease.
+    /// </summary>
+    /// <param name="ContainerName">The container name.</param>
+    /// <param name="LeaseId">Lease ID for active lease.</param>
+    /// <param name="ProposedLeaseId">Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format.</param>
+    public AzStorageContainerLeaseChangeOptions(
+        string ContainerName,
+        string LeaseId,
+        string ProposedLeaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        global::System.ArgumentNullException.ThrowIfNull(LeaseId);
+        this.LeaseId = LeaseId;
+        global::System.ArgumentNullException.ThrowIfNull(ProposedLeaseId);
+        this.ProposedLeaseId = ProposedLeaseId;
+    }
+
+    public void Deconstruct(out string ContainerName, out string LeaseId, out string ProposedLeaseId)
+    {
+        ContainerName = this.ContainerName;
+        LeaseId = this.LeaseId;
+        ProposedLeaseId = this.ProposedLeaseId;
+    }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string ContainerName { get; private init; }
+
+    /// <summary>
+    /// Lease ID for active lease.
+    /// </summary>
+    [CliOption("--lease-id")]
+    public string LeaseId { get; private init; }
+
+    /// <summary>
+    /// Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format.
+    /// </summary>
+    [CliOption("--proposed-lease-id")]
+    public string ProposedLeaseId { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

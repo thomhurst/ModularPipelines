@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset the registration details for a given container.
 /// </summary>
-/// <param name="WorkloadType">Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM. Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "container", "re-register")]
-public record AzBackupContainerReRegisterOptions(
-    [property: CliOption("--workload-type")] string WorkloadType
-) : AzOptions
+public record AzBackupContainerReRegisterOptions : AzOptions
 {
+    /// <summary>
+    /// Reset the registration details for a given container.
+    /// </summary>
+    /// <param name="WorkloadType">Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM. Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.</param>
+    public AzBackupContainerReRegisterOptions(
+        string WorkloadType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadType);
+        this.WorkloadType = WorkloadType;
+    }
+
+    public void Deconstruct(out string WorkloadType)
+    {
+        WorkloadType = this.WorkloadType;
+    }
+
+    /// <summary>
+    /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM. Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.
+    /// </summary>
+    [CliOption("--workload-type")]
+    public string WorkloadType { get; private init; }
+
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.  Default: AzureWorkload.
     /// </summary>

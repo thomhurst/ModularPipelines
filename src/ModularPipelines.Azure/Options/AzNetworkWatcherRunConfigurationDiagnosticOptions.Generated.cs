@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Run a configuration diagnostic on a target
 /// </summary>
-/// <param name="Resource">Name or ID of the target resource to diagnose. If an ID is given, other resource arguments should not be given.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "run-configuration-diagnostic")]
-public record AzNetworkWatcherRunConfigurationDiagnosticOptions(
-    [property: CliOption("--resource")] string Resource
-) : AzOptions
+public record AzNetworkWatcherRunConfigurationDiagnosticOptions : AzOptions
 {
+    /// <summary>
+    /// Run a configuration diagnostic on a target
+    /// </summary>
+    /// <param name="Resource">Name or ID of the target resource to diagnose. If an ID is given, other resource arguments should not be given.</param>
+    public AzNetworkWatcherRunConfigurationDiagnosticOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// Name or ID of the target resource to diagnose. If an ID is given, other resource arguments should not be given.
+    /// </summary>
+    [CliOption("--resource")]
+    public string Resource { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

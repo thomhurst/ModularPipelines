@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all of the executed runs for an Azure Container Registry, with the
 /// </summary>
-/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "list-runs")]
-public record AzAcrTaskListRunsOptions(
-    [property: CliOption("--registry", ShortForm = "-r")] string Registry
-) : AzOptions
+public record AzAcrTaskListRunsOptions : AzOptions
 {
+    /// <summary>
+    /// List all of the executed runs for an Azure Container Registry, with the
+    /// </summary>
+    /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    public AzAcrTaskListRunsOptions(
+        string Registry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+    }
+
+    public void Deconstruct(out string Registry)
+    {
+        Registry = this.Registry;
+    }
+
+    /// <summary>
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
+    /// </summary>
+    [CliOption("--registry", ShortForm = "-r")]
+    public string Registry { get; private init; }
+
     /// <summary>
     /// The name of the image. May include a tag in the format 'name:tag' or digest in the format 'name@digest'.
     /// </summary>

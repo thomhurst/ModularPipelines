@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create operation to create or update a capacity reservation.
 /// </summary>
-/// <param name="CapacityReservationGroup">The name of the capacity reservation group.</param>
-/// <param name="CapacityReservationName">The name of the capacity reservation.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("capacity", "reservation", "create")]
-public record AzCapacityReservationCreateOptions(
-    [property: CliOption("--capacity-reservation-group", ShortForm = "-c")] string CapacityReservationGroup,
-    [property: CliOption("--capacity-reservation-name", ShortForm = "-n")] string CapacityReservationName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzCapacityReservationCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create operation to create or update a capacity reservation.
+    /// </summary>
+    /// <param name="CapacityReservationGroup">The name of the capacity reservation group.</param>
+    /// <param name="CapacityReservationName">The name of the capacity reservation.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzCapacityReservationCreateOptions(
+        string CapacityReservationGroup,
+        string CapacityReservationName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationGroup);
+        this.CapacityReservationGroup = CapacityReservationGroup;
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationName);
+        this.CapacityReservationName = CapacityReservationName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string CapacityReservationGroup, out string CapacityReservationName, out string ResourceGroup)
+    {
+        CapacityReservationGroup = this.CapacityReservationGroup;
+        CapacityReservationName = this.CapacityReservationName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The name of the capacity reservation group.
+    /// </summary>
+    [CliOption("--capacity-reservation-group", ShortForm = "-c")]
+    public string CapacityReservationGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the capacity reservation.
+    /// </summary>
+    [CliOption("--capacity-reservation-name", ShortForm = "-n")]
+    public string CapacityReservationName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

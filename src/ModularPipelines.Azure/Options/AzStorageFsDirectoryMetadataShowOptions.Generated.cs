@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Return all user-defined metadata for the specified
 /// </summary>
-/// <param name="FileSystem">File system name (i.e. container name).</param>
-/// <param name="Name">The name of directory.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "directory", "metadata", "show")]
-public record AzStorageFsDirectoryMetadataShowOptions(
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStorageFsDirectoryMetadataShowOptions : AzOptions
 {
+    /// <summary>
+    /// Return all user-defined metadata for the specified
+    /// </summary>
+    /// <param name="FileSystem">File system name (i.e. container name).</param>
+    /// <param name="Name">The name of directory.</param>
+    public AzStorageFsDirectoryMetadataShowOptions(
+        string FileSystem,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string FileSystem, out string Name)
+    {
+        FileSystem = this.FileSystem;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// File system name (i.e. container name).
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
+    /// <summary>
+    /// The name of directory.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

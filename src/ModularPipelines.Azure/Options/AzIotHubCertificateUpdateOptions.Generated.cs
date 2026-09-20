@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an Azure IoT Hub certificate.
 /// </summary>
-/// <param name="Etag">Entity Tag (etag) of the object.</param>
-/// <param name="Name">A friendly name for the certificate.</param>
-/// <param name="Path">The path to the file containing the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "certificate", "update")]
-public record AzIotHubCertificateUpdateOptions(
-    [property: CliOption("--etag", ShortForm = "-e")] string Etag,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--path", ShortForm = "-p")] string Path
-) : AzOptions
+public record AzIotHubCertificateUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an Azure IoT Hub certificate.
+    /// </summary>
+    /// <param name="Etag">Entity Tag (etag) of the object.</param>
+    /// <param name="Name">A friendly name for the certificate.</param>
+    /// <param name="Path">The path to the file containing the certificate.</param>
+    public AzIotHubCertificateUpdateOptions(
+        string Etag,
+        string Name,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Etag);
+        this.Etag = Etag;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Etag, out string Name, out string Path)
+    {
+        Etag = this.Etag;
+        Name = this.Name;
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// Entity Tag (etag) of the object.
+    /// </summary>
+    [CliOption("--etag", ShortForm = "-e")]
+    public string Etag { get; private init; }
+
+    /// <summary>
+    /// A friendly name for the certificate.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The path to the file containing the certificate.
+    /// </summary>
+    [CliOption("--path", ShortForm = "-p")]
+    public string Path { get; private init; }
+
     /// <summary>
     /// A boolean indicating whether or not the certificate is verified. Allowed values: false, true.
     /// </summary>

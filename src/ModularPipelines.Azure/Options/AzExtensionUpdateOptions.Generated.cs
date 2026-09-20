@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an extension.
 /// </summary>
-/// <param name="Name">Name of extension.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("extension", "update")]
-public record AzExtensionUpdateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzExtensionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an extension.
+    /// </summary>
+    /// <param name="Name">Name of extension.</param>
+    public AzExtensionUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of extension.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Include preview packages for extension installation, if exists. Allowed values: false, true.
     /// </summary>

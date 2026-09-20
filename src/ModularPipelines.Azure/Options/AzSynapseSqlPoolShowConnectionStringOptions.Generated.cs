@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate a connection string to a SQL pool.
 /// </summary>
-/// <param name="Client">Type of client connection provider.  Allowed values: ado.net, jdbc, odbc, php, php_pdo.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "show-connection-string")]
-public record AzSynapseSqlPoolShowConnectionStringOptions(
-    [property: CliOption("--client", ShortForm = "-c")] string Client
-) : AzOptions
+public record AzSynapseSqlPoolShowConnectionStringOptions : AzOptions
 {
+    /// <summary>
+    /// Generate a connection string to a SQL pool.
+    /// </summary>
+    /// <param name="Client">Type of client connection provider.  Allowed values: ado.net, jdbc, odbc, php, php_pdo.</param>
+    public AzSynapseSqlPoolShowConnectionStringOptions(
+        string Client
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Client);
+        this.Client = Client;
+    }
+
+    public void Deconstruct(out string Client)
+    {
+        Client = this.Client;
+    }
+
+    /// <summary>
+    /// Type of client connection provider.  Allowed values: ado.net, jdbc, odbc, php, php_pdo.
+    /// </summary>
+    [CliOption("--client", ShortForm = "-c")]
+    public string Client { get; private init; }
+
     /// <summary>
     /// Type of authentication.  Allowed values: ADIntegrated, ADPassword, SqlPassword.  Default: SqlPassword.
     /// </summary>

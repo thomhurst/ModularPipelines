@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove user assigned managed identites from the
 /// </summary>
-/// <param name="Identity">Space-separated names or identifiers of identities.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "identity", "remove")]
-public record AzPostgresFlexibleServerIdentityRemoveOptions(
-    [property: CliOption("--identity", ShortForm = "-n", GroupValues = true)] IEnumerable<string> Identity
-) : AzOptions
+public record AzPostgresFlexibleServerIdentityRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove user assigned managed identites from the
+    /// </summary>
+    /// <param name="Identity">Space-separated names or identifiers of identities.</param>
+    public AzPostgresFlexibleServerIdentityRemoveOptions(
+        IEnumerable<string> Identity
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Identity);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Identity));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Identity));
+            }
+
+            Identity = materialized;
+        }
+        this.Identity = Identity;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Identity)
+    {
+        Identity = this.Identity;
+    }
+
+    /// <summary>
+    /// Space-separated names or identifiers of identities.
+    /// </summary>
+    [CliOption("--identity", ShortForm = "-n", GroupValues = true)]
+    public IEnumerable<string> Identity { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

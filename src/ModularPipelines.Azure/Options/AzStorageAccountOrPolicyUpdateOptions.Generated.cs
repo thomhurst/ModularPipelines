@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update Object Replication Service Policy properties for
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "update")]
-public record AzStorageAccountOrPolicyUpdateOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
-) : AzOptions
+public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update Object Replication Service Policy properties for
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    public AzStorageAccountOrPolicyUpdateOptions(
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    public void Deconstruct(out string AccountName)
+    {
+        AccountName = this.AccountName;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
     /// <summary>
     /// The destination storage account name or resource Id. Apply --account-name value as destination account when there is no destination account provided in --policy and --destination-account.
     /// </summary>

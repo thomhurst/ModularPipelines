@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Copies an incremental copy of a blob asynchronously.
 /// </summary>
-/// <param name="DestinationBlob">Name of the destination blob. If the exists, it will be overwritten.</param>
-/// <param name="DestinationContainer">The container name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "blob", "incremental-copy", "start")]
-public record AzStorageBlobIncrementalCopyStartOptions(
-    [property: CliOption("--destination-blob", ShortForm = "-b")] string DestinationBlob,
-    [property: CliOption("--destination-container", ShortForm = "-c")] string DestinationContainer
-) : AzOptions
+public record AzStorageBlobIncrementalCopyStartOptions : AzOptions
 {
+    /// <summary>
+    /// Copies an incremental copy of a blob asynchronously.
+    /// </summary>
+    /// <param name="DestinationBlob">Name of the destination blob. If the exists, it will be overwritten.</param>
+    /// <param name="DestinationContainer">The container name.</param>
+    public AzStorageBlobIncrementalCopyStartOptions(
+        string DestinationBlob,
+        string DestinationContainer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationBlob);
+        this.DestinationBlob = DestinationBlob;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationContainer);
+        this.DestinationContainer = DestinationContainer;
+    }
+
+    public void Deconstruct(out string DestinationBlob, out string DestinationContainer)
+    {
+        DestinationBlob = this.DestinationBlob;
+        DestinationContainer = this.DestinationContainer;
+    }
+
+    /// <summary>
+    /// Name of the destination blob. If the exists, it will be overwritten.
+    /// </summary>
+    [CliOption("--destination-blob", ShortForm = "-b")]
+    public string DestinationBlob { get; private init; }
+
+    /// <summary>
+    /// The container name.
+    /// </summary>
+    [CliOption("--destination-container", ShortForm = "-c")]
+    public string DestinationContainer { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

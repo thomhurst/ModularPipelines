@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a Api Version Set.
 /// </summary>
-/// <param name="DisplayName">Required. Name of API Version Set.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
-/// <param name="VersioningScheme">Required. An value that determines where the API Version identifer will be located in a HTTP request.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "versionset", "create")]
-public record AzApimApiVersionSetCreateOptions(
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
-    [property: CliOption("--versioning-scheme")] string VersioningScheme
-) : AzOptions
+public record AzApimApiVersionSetCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Creates a Api Version Set.
+    /// </summary>
+    /// <param name="DisplayName">Required. Name of API Version Set.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    /// <param name="VersioningScheme">Required. An value that determines where the API Version identifer will be located in a HTTP request.</param>
+    public AzApimApiVersionSetCreateOptions(
+        string DisplayName,
+        string ResourceGroup,
+        string ServiceName,
+        string VersioningScheme
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(VersioningScheme);
+        this.VersioningScheme = VersioningScheme;
+    }
+
+    public void Deconstruct(out string DisplayName, out string ResourceGroup, out string ServiceName, out string VersioningScheme)
+    {
+        DisplayName = this.DisplayName;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        VersioningScheme = this.VersioningScheme;
+    }
+
+    /// <summary>
+    /// Required. Name of API Version Set.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// Required. An value that determines where the API Version identifer will be located in a HTTP request.
+    /// </summary>
+    [CliOption("--versioning-scheme")]
+    public string VersioningScheme { get; private init; }
+
     /// <summary>
     /// Description of API Version Set.
     /// </summary>

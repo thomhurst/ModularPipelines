@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes an availability group listener.
 /// </summary>
-/// <param name="GroupName">Name of the SQL virtual machine group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "group", "ag-listener", "delete")]
-public record AzSqlVmGroupAgListenerDeleteOptions(
-    [property: CliOption("--group-name", ShortForm = "-r")] string GroupName
-) : AzOptions
+public record AzSqlVmGroupAgListenerDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Deletes an availability group listener.
+    /// </summary>
+    /// <param name="GroupName">Name of the SQL virtual machine group.</param>
+    public AzSqlVmGroupAgListenerDeleteOptions(
+        string GroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+    }
+
+    public void Deconstruct(out string GroupName)
+    {
+        GroupName = this.GroupName;
+    }
+
+    /// <summary>
+    /// Name of the SQL virtual machine group.
+    /// </summary>
+    [CliOption("--group-name", ShortForm = "-r")]
+    public string GroupName { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

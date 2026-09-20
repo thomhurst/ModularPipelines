@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the specified flow log resource.
 /// </summary>
-/// <param name="Name">The name of the flow logger.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "flow-log", "delete")]
-public record AzNetworkWatcherFlowLogDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzNetworkWatcherFlowLogDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete the specified flow log resource.
+    /// </summary>
+    /// <param name="Name">The name of the flow logger.</param>
+    public AzNetworkWatcherFlowLogDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the flow logger.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Location to identify the exclusive Network Watcher under a region. Only one Network Watcher can be existed per subscription and region.  When not specified, the location of the resource group will be used.
     /// </summary>

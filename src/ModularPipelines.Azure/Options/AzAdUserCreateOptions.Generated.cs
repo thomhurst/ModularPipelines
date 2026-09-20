@@ -16,18 +16,57 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a user.
 /// </summary>
-/// <param name="DisplayName">Object's display name or its prefix.</param>
-/// <param name="Password">The password that should be assigned to the user for authentication.</param>
-/// <param name="UserPrincipalName">The user principal name (someuser@contoso.com). It must contain one of the verified domains for the tenant.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "user", "create")]
-public record AzAdUserCreateOptions(
-    [property: CliOption("--display-name")] string DisplayName,
-    [property: SecretValue, CliOption("--password")] string Password,
-    [property: CliOption("--user-principal-name")] string UserPrincipalName
-) : AzOptions
+public record AzAdUserCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a user.
+    /// </summary>
+    /// <param name="DisplayName">Object's display name or its prefix.</param>
+    /// <param name="Password">The password that should be assigned to the user for authentication.</param>
+    /// <param name="UserPrincipalName">The user principal name (someuser@contoso.com). It must contain one of the verified domains for the tenant.</param>
+    public AzAdUserCreateOptions(
+        string DisplayName,
+        string Password,
+        string UserPrincipalName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+        global::System.ArgumentNullException.ThrowIfNull(UserPrincipalName);
+        this.UserPrincipalName = UserPrincipalName;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Password, out string UserPrincipalName)
+    {
+        DisplayName = this.DisplayName;
+        Password = this.Password;
+        UserPrincipalName = this.UserPrincipalName;
+    }
+
+    /// <summary>
+    /// Object's display name or its prefix.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The password that should be assigned to the user for authentication.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password")]
+    public string Password { get; private init; }
+
+    /// <summary>
+    /// The user principal name (someuser@contoso.com). It must contain one of the verified domains for the tenant.
+    /// </summary>
+    [CliOption("--user-principal-name")]
+    public string UserPrincipalName { get; private init; }
+
     /// <summary>
     /// Marks this user as needing to update their password the next time they authenticate. If omitted, false will be used.  Allowed values: false, true.
     /// </summary>

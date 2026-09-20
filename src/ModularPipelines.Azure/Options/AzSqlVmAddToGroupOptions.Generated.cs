@@ -16,14 +16,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds SQL virtual machine to a SQL virtual machine group.
 /// </summary>
-/// <param name="SqlvmGroup">Name or resource ID of the SQL virtual machine group. If only name provided, SQL virtual machine group should be in the same resource group of the SQL virtual machine.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "add-to-group")]
-public record AzSqlVmAddToGroupOptions(
-    [property: CliOption("--sqlvm-group", ShortForm = "-r")] string SqlvmGroup
-) : AzOptions
+public record AzSqlVmAddToGroupOptions : AzOptions
 {
+    /// <summary>
+    /// Adds SQL virtual machine to a SQL virtual machine group.
+    /// </summary>
+    /// <param name="SqlvmGroup">Name or resource ID of the SQL virtual machine group. If only name provided, SQL virtual machine group should be in the same resource group of the SQL virtual machine.</param>
+    public AzSqlVmAddToGroupOptions(
+        string SqlvmGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SqlvmGroup);
+        this.SqlvmGroup = SqlvmGroup;
+    }
+
+    public void Deconstruct(out string SqlvmGroup)
+    {
+        SqlvmGroup = this.SqlvmGroup;
+    }
+
+    /// <summary>
+    /// Name or resource ID of the SQL virtual machine group. If only name provided, SQL virtual machine group should be in the same resource group of the SQL virtual machine.
+    /// </summary>
+    [CliOption("--sqlvm-group", ShortForm = "-r")]
+    public string SqlvmGroup { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

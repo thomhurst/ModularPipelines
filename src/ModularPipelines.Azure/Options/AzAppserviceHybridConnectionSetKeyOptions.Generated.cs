@@ -15,20 +15,76 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the key that all apps in an appservice plan use to
 /// </summary>
-/// <param name="HybridConnection">Hybrid connection name.</param>
-/// <param name="KeyType">Which key (primary or secondary) should be used.</param>
-/// <param name="Namespace">Hybrid connection namespace.</param>
-/// <param name="Plan">AppService plan.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "hybrid-connection", "set-key")]
-public record AzAppserviceHybridConnectionSetKeyOptions(
-    [property: CliOption("--hybrid-connection")] string HybridConnection,
-    [property: CliOption("--key-type")] string KeyType,
-    [property: CliOption("--namespace")] string Namespace,
-    [property: CliOption("--plan")] string Plan,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAppserviceHybridConnectionSetKeyOptions : AzOptions
 {
+    /// <summary>
+    /// Set the key that all apps in an appservice plan use to
+    /// </summary>
+    /// <param name="HybridConnection">Hybrid connection name.</param>
+    /// <param name="KeyType">Which key (primary or secondary) should be used.</param>
+    /// <param name="Namespace">Hybrid connection namespace.</param>
+    /// <param name="Plan">AppService plan.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAppserviceHybridConnectionSetKeyOptions(
+        string HybridConnection,
+        string KeyType,
+        string Namespace,
+        string Plan,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HybridConnection);
+        this.HybridConnection = HybridConnection;
+        global::System.ArgumentNullException.ThrowIfNull(KeyType);
+        this.KeyType = KeyType;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(Plan);
+        this.Plan = Plan;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string HybridConnection, out string KeyType, out string Namespace, out string Plan, out string ResourceGroup)
+    {
+        HybridConnection = this.HybridConnection;
+        KeyType = this.KeyType;
+        Namespace = this.Namespace;
+        Plan = this.Plan;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Hybrid connection name.
+    /// </summary>
+    [CliOption("--hybrid-connection")]
+    public string HybridConnection { get; private init; }
+
+    /// <summary>
+    /// Which key (primary or secondary) should be used.
+    /// </summary>
+    [CliOption("--key-type")]
+    public string KeyType { get; private init; }
+
+    /// <summary>
+    /// Hybrid connection namespace.
+    /// </summary>
+    [CliOption("--namespace")]
+    public string Namespace { get; private init; }
+
+    /// <summary>
+    /// AppService plan.
+    /// </summary>
+    [CliOption("--plan")]
+    public string Plan { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
 }

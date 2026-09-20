@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete server key.
 /// </summary>
-/// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.net/keys/YourKeyName/0 1234567890123456789012345678901".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "key", "delete")]
-public record AzMysqlServerKeyDeleteOptions(
-    [property: CliOption("--kid", ShortForm = "-k")] string Kid
-) : AzOptions
+public record AzMysqlServerKeyDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete server key.
+    /// </summary>
+    /// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.net/keys/YourKeyName/0 1234567890123456789012345678901".</param>
+    public AzMysqlServerKeyDeleteOptions(
+        string Kid
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Kid);
+        this.Kid = Kid;
+    }
+
+    public void Deconstruct(out string Kid)
+    {
+        Kid = this.Kid;
+    }
+
+    /// <summary>
+    /// The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.net/keys/YourKeyName/0 1234567890123456789012345678901".
+    /// </summary>
+    [CliOption("--kid", ShortForm = "-k")]
+    public string Kid { get; private init; }
+
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Account Migration request can be triggered for a storage
 /// </summary>
-/// <param name="Sku">Target sku name for the account.  Allowed values: PremiumV2_LRS, PremiumV2_ZRS, Premium_LRS, Premium_ZRS, StandardV2_GRS, StandardV2_GZRS, StandardV2_LRS, StandardV2_ZRS, Standard_GRS, Standard_GZRS, Standard_LRS, Standard_RAGRS, Standard_RAGZRS, Standard_ZRS.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "migration", "start")]
-public record AzStorageAccountMigrationStartOptions(
-    [property: CliOption("--sku", ShortForm = "--target-sku-name")] string Sku
-) : AzOptions
+public record AzStorageAccountMigrationStartOptions : AzOptions
 {
+    /// <summary>
+    /// Account Migration request can be triggered for a storage
+    /// </summary>
+    /// <param name="Sku">Target sku name for the account.  Allowed values: PremiumV2_LRS, PremiumV2_ZRS, Premium_LRS, Premium_ZRS, StandardV2_GRS, StandardV2_GZRS, StandardV2_LRS, StandardV2_ZRS, Standard_GRS, Standard_GZRS, Standard_LRS, Standard_RAGRS, Standard_RAGZRS, Standard_ZRS.</param>
+    public AzStorageAccountMigrationStartOptions(
+        string Sku
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        this.Sku = Sku;
+    }
+
+    public void Deconstruct(out string Sku)
+    {
+        Sku = this.Sku;
+    }
+
+    /// <summary>
+    /// Target sku name for the account.  Allowed values: PremiumV2_LRS, PremiumV2_ZRS, Premium_LRS, Premium_ZRS, StandardV2_GRS, StandardV2_GZRS, StandardV2_LRS, StandardV2_ZRS, Standard_GRS, Standard_GZRS, Standard_LRS, Standard_RAGRS, Standard_RAGZRS, Standard_ZRS.
+    /// </summary>
+    [CliOption("--sku", ShortForm = "--target-sku-name")]
+    public string Sku { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

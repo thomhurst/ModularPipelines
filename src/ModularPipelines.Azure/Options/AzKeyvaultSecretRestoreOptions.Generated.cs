@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restores a backed up secret to a vault.
 /// </summary>
-/// <param name="File">File to receive the secret contents.</param>
-/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "secret", "restore")]
-public record AzKeyvaultSecretRestoreOptions(
-    [property: CliOption("--file", ShortForm = "-f")] string File,
-    [property: CliOption("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultSecretRestoreOptions : AzOptions
 {
+    /// <summary>
+    /// Restores a backed up secret to a vault.
+    /// </summary>
+    /// <param name="File">File to receive the secret contents.</param>
+    /// <param name="VaultName">Name of the Vault.</param>
+    public AzKeyvaultSecretRestoreOptions(
+        string File,
+        string VaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(VaultName);
+        this.VaultName = VaultName;
+    }
+
+    public void Deconstruct(out string File, out string VaultName)
+    {
+        File = this.File;
+        VaultName = this.VaultName;
+    }
+
+    /// <summary>
+    /// File to receive the secret contents.
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string VaultName { get; private init; }
+
 }

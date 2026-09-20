@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable Kubernetes addons.
 /// </summary>
-/// <param name="Addons">Enable the Kubernetes addons in a comma-separated list.</param>
-/// <param name="Name">Name of the managed cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "enable-addons")]
-public record AzAksEnableAddonsOptions(
-    [property: CliOption("--addons", ShortForm = "-a")] string Addons,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksEnableAddonsOptions : AzOptions
 {
+    /// <summary>
+    /// Enable Kubernetes addons.
+    /// </summary>
+    /// <param name="Addons">Enable the Kubernetes addons in a comma-separated list.</param>
+    /// <param name="Name">Name of the managed cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksEnableAddonsOptions(
+        string Addons,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Addons);
+        this.Addons = Addons;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Addons, out string Name, out string ResourceGroup)
+    {
+        Addons = this.Addons;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Enable the Kubernetes addons in a comma-separated list.
+    /// </summary>
+    [CliOption("--addons", ShortForm = "-a")]
+    public string Addons { get; private init; }
+
+    /// <summary>
+    /// Name of the managed cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Resource ID of Azure Monitor Private Link scope for Monitoring Addon.
     /// </summary>

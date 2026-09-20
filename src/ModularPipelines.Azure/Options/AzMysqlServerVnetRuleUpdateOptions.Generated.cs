@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a virtual network rule.
 /// </summary>
-/// <param name="Subnet">Name or ID of the subnet that allows access to an Azure Postgres Server. If subnet name is provided, --vnet-name must be provided.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "vnet-rule", "update")]
-public record AzMysqlServerVnetRuleUpdateOptions(
-    [property: CliOption("--subnet")] string Subnet
-) : AzOptions
+public record AzMysqlServerVnetRuleUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update a virtual network rule.
+    /// </summary>
+    /// <param name="Subnet">Name or ID of the subnet that allows access to an Azure Postgres Server. If subnet name is provided, --vnet-name must be provided.</param>
+    public AzMysqlServerVnetRuleUpdateOptions(
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string Subnet)
+    {
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// Name or ID of the subnet that allows access to an Azure Postgres Server. If subnet name is provided, --vnet-name must be provided.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string Subnet { get; private init; }
+
     /// <summary>
     /// Create vnet rule before virtual network has vnet service endpoint enabled.  Allowed values: false, true.
     /// </summary>

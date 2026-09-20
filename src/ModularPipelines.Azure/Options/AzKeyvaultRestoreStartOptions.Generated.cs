@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a full backup of a HSM.
 /// </summary>
-/// <param name="BackupFolder">Name of the blob container which contains the backup.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "restore", "start")]
-public record AzKeyvaultRestoreStartOptions(
-    [property: CliOption("--backup-folder")] string BackupFolder
-) : AzOptions
+public record AzKeyvaultRestoreStartOptions : AzOptions
 {
+    /// <summary>
+    /// Restore a full backup of a HSM.
+    /// </summary>
+    /// <param name="BackupFolder">Name of the blob container which contains the backup.</param>
+    public AzKeyvaultRestoreStartOptions(
+        string BackupFolder
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupFolder);
+        this.BackupFolder = BackupFolder;
+    }
+
+    public void Deconstruct(out string BackupFolder)
+    {
+        BackupFolder = this.BackupFolder;
+    }
+
+    /// <summary>
+    /// Name of the blob container which contains the backup.
+    /// </summary>
+    [CliOption("--backup-folder")]
+    public string BackupFolder { get; private init; }
+
     /// <summary>
     /// Name of a single key in the backup. When set, only this key will be restored.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a secret from a VM.
 /// </summary>
-/// <param name="Keyvault">Name or ID of the key vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "secret", "remove")]
-public record AzVmSecretRemoveOptions(
-    [property: CliOption("--keyvault")] string Keyvault
-) : AzOptions
+public record AzVmSecretRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a secret from a VM.
+    /// </summary>
+    /// <param name="Keyvault">Name or ID of the key vault.</param>
+    public AzVmSecretRemoveOptions(
+        string Keyvault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Keyvault);
+        this.Keyvault = Keyvault;
+    }
+
+    public void Deconstruct(out string Keyvault)
+    {
+        Keyvault = this.Keyvault;
+    }
+
+    /// <summary>
+    /// Name or ID of the key vault.
+    /// </summary>
+    [CliOption("--keyvault")]
+    public string Keyvault { get; private init; }
+
     /// <summary>
     /// Key vault certificate name or its full secret URL.
     /// </summary>

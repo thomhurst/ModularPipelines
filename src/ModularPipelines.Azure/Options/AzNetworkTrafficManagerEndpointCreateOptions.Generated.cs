@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a traffic manager endpoint.
 /// </summary>
-/// <param name="Name">Endpoint name.</param>
-/// <param name="ProfileName">Name of parent profile.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Type">Endpoint type.  Allowed values: azureEndpoints, externalEndpoints, nestedEndpoints.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "traffic-manager", "endpoint", "create")]
-public record AzNetworkTrafficManagerEndpointCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--profile-name")] string ProfileName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--type", ShortForm = "-t")] string Type
-) : AzOptions
+public record AzNetworkTrafficManagerEndpointCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a traffic manager endpoint.
+    /// </summary>
+    /// <param name="Name">Endpoint name.</param>
+    /// <param name="ProfileName">Name of parent profile.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Type">Endpoint type.  Allowed values: azureEndpoints, externalEndpoints, nestedEndpoints.</param>
+    public AzNetworkTrafficManagerEndpointCreateOptions(
+        string Name,
+        string ProfileName,
+        string ResourceGroup,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileName);
+        this.ProfileName = ProfileName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string Name, out string ProfileName, out string ResourceGroup, out string Type)
+    {
+        Name = this.Name;
+        ProfileName = this.ProfileName;
+        ResourceGroup = this.ResourceGroup;
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Endpoint name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of parent profile.
+    /// </summary>
+    [CliOption("--profile-name")]
+    public string ProfileName { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Endpoint type.  Allowed values: azureEndpoints, externalEndpoints, nestedEndpoints.
+    /// </summary>
+    [CliOption("--type", ShortForm = "-t")]
+    public string Type { get; private init; }
+
     /// <summary>
     /// If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.  Allowed values: Disabled, Enabled.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the deleted (file or directory) paths under the specified
 /// </summary>
-/// <param name="FileSystem">File system name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "list-deleted-path")]
-public record AzStorageFsListDeletedPathOptions(
-    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem
-) : AzOptions
+public record AzStorageFsListDeletedPathOptions : AzOptions
 {
+    /// <summary>
+    /// List the deleted (file or directory) paths under the specified
+    /// </summary>
+    /// <param name="FileSystem">File system name.</param>
+    public AzStorageFsListDeletedPathOptions(
+        string FileSystem
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystem);
+        this.FileSystem = FileSystem;
+    }
+
+    public void Deconstruct(out string FileSystem)
+    {
+        FileSystem = this.FileSystem;
+    }
+
+    /// <summary>
+    /// File system name.
+    /// </summary>
+    [CliOption("--file-system", ShortForm = "-f")]
+    public string FileSystem { get; private init; }
+
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>

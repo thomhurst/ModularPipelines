@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the access keys or Kerberos keys (if active directory
 /// </summary>
-/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "keys", "list")]
-public record AzStorageAccountKeysListOptions(
-    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
-) : AzOptions
+public record AzStorageAccountKeysListOptions : AzOptions
 {
+    /// <summary>
+    /// List the access keys or Kerberos keys (if active directory
+    /// </summary>
+    /// <param name="AccountName">The storage account name.</param>
+    public AzStorageAccountKeysListOptions(
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    public void Deconstruct(out string AccountName)
+    {
+        AccountName = this.AccountName;
+    }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string AccountName { get; private init; }
+
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>

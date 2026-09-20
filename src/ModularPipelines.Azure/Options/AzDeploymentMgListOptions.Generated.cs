@@ -15,12 +15,32 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List deployments at management group.
 /// </summary>
-/// <param name="ManagementGroupId">The management group id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "mg", "list")]
-public record AzDeploymentMgListOptions(
-    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
-) : AzOptions
+public record AzDeploymentMgListOptions : AzOptions
 {
+    /// <summary>
+    /// List deployments at management group.
+    /// </summary>
+    /// <param name="ManagementGroupId">The management group id.</param>
+    public AzDeploymentMgListOptions(
+        string ManagementGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementGroupId);
+        this.ManagementGroupId = ManagementGroupId;
+    }
+
+    public void Deconstruct(out string ManagementGroupId)
+    {
+        ManagementGroupId = this.ManagementGroupId;
+    }
+
+    /// <summary>
+    /// The management group id.
+    /// </summary>
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string ManagementGroupId { get; private init; }
+
 }

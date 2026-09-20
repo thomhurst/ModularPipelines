@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing function app's runtime configuration.
 /// </summary>
-/// <param name="RuntimeVersion">The version of the functions runtime stack. Use "az functionapp list-flexconsumption-runtimes" to check supported runtimes and versions.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "runtime", "config", "set")]
-public record AzFunctionappRuntimeConfigSetOptions(
-    [property: CliOption("--runtime-version")] string RuntimeVersion
-) : AzOptions
+public record AzFunctionappRuntimeConfigSetOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing function app's runtime configuration.
+    /// </summary>
+    /// <param name="RuntimeVersion">The version of the functions runtime stack. Use "az functionapp list-flexconsumption-runtimes" to check supported runtimes and versions.</param>
+    public AzFunctionappRuntimeConfigSetOptions(
+        string RuntimeVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeVersion);
+        this.RuntimeVersion = RuntimeVersion;
+    }
+
+    public void Deconstruct(out string RuntimeVersion)
+    {
+        RuntimeVersion = this.RuntimeVersion;
+    }
+
+    /// <summary>
+    /// The version of the functions runtime stack. Use "az functionapp list-flexconsumption-runtimes" to check supported runtimes and versions.
+    /// </summary>
+    [CliOption("--runtime-version")]
+    public string RuntimeVersion { get; private init; }
+
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the proxy redirection mechanism for Azure Service
 /// </summary>
-/// <param name="Mechanism">The proxy redirection mechanism.  Allowed values: CNIChaining, InitContainers. Allowed values are "CNIChaining" which uses CNI plugins for traffic redirection, and "InitContainers" which uses privileged init containers.</param>
-/// <param name="Name">Name of the managed cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "mesh", "proxy-redirection-mechanism")]
-public record AzAksMeshProxyRedirectionMechanismOptions(
-    [property: CliOption("--mechanism")] string Mechanism,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzAksMeshProxyRedirectionMechanismOptions : AzOptions
 {
+    /// <summary>
+    /// Set the proxy redirection mechanism for Azure Service
+    /// </summary>
+    /// <param name="Mechanism">The proxy redirection mechanism.  Allowed values: CNIChaining, InitContainers. Allowed values are "CNIChaining" which uses CNI plugins for traffic redirection, and "InitContainers" which uses privileged init containers.</param>
+    /// <param name="Name">Name of the managed cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzAksMeshProxyRedirectionMechanismOptions(
+        string Mechanism,
+        string Name,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Mechanism);
+        this.Mechanism = Mechanism;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string Mechanism, out string Name, out string ResourceGroup)
+    {
+        Mechanism = this.Mechanism;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// The proxy redirection mechanism.  Allowed values: CNIChaining, InitContainers. Allowed values are "CNIChaining" which uses CNI plugins for traffic redirection, and "InitContainers" which uses privileged init containers.
+    /// </summary>
+    [CliOption("--mechanism")]
+    public string Mechanism { get; private init; }
+
+    /// <summary>
+    /// Name of the managed cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validate a deployment stack at subscription scope.
 /// </summary>
-/// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
-/// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
-/// <param name="Location">The location to store the deployment stack.</param>
-/// <param name="Name">The name of the deployment stack.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "sub", "validate")]
-public record AzStackSubValidateOptions(
-    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage,
-    [property: CliOption("--deny-settings-mode", ShortForm = "--dm")] string DenySettingsMode,
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStackSubValidateOptions : AzOptions
 {
+    /// <summary>
+    /// Validate a deployment stack at subscription scope.
+    /// </summary>
+    /// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
+    /// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
+    /// <param name="Location">The location to store the deployment stack.</param>
+    /// <param name="Name">The name of the deployment stack.</param>
+    public AzStackSubValidateOptions(
+        string ActionOnUnmanage,
+        string DenySettingsMode,
+        string Location,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionOnUnmanage);
+        this.ActionOnUnmanage = ActionOnUnmanage;
+        global::System.ArgumentNullException.ThrowIfNull(DenySettingsMode);
+        this.DenySettingsMode = DenySettingsMode;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string ActionOnUnmanage, out string DenySettingsMode, out string Location, out string Name)
+    {
+        ActionOnUnmanage = this.ActionOnUnmanage;
+        DenySettingsMode = this.DenySettingsMode;
+        Location = this.Location;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.
+    /// </summary>
+    [CliOption("--action-on-unmanage", ShortForm = "--aou")]
+    public string ActionOnUnmanage { get; private init; }
+
+    /// <summary>
+    /// Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.
+    /// </summary>
+    [CliOption("--deny-settings-mode", ShortForm = "--dm")]
+    public string DenySettingsMode { get; private init; }
+
+    /// <summary>
+    /// The location to store the deployment stack.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name of the deployment stack.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. Allowed values: false, true.
     /// </summary>

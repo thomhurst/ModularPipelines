@@ -16,18 +16,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a user account on a Batch compute node.
 /// </summary>
-/// <param name="NodeId">The ID of the machine on which you want to update a user Account. Required.</param>
-/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
-/// <param name="UserName">The name of the user Account to update. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "user", "reset")]
-public record AzBatchNodeUserResetOptions(
-    [property: CliOption("--node-id")] string NodeId,
-    [property: CliOption("--pool-id")] string PoolId,
-    [property: CliOption("--user-name")] string UserName
-) : AzOptions
+public record AzBatchNodeUserResetOptions : AzOptions
 {
+    /// <summary>
+    /// Update the properties of a user account on a Batch compute node.
+    /// </summary>
+    /// <param name="NodeId">The ID of the machine on which you want to update a user Account. Required.</param>
+    /// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
+    /// <param name="UserName">The name of the user Account to update. Required.</param>
+    public AzBatchNodeUserResetOptions(
+        string NodeId,
+        string PoolId,
+        string UserName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeId);
+        this.NodeId = NodeId;
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+    }
+
+    public void Deconstruct(out string NodeId, out string PoolId, out string UserName)
+    {
+        NodeId = this.NodeId;
+        PoolId = this.PoolId;
+        UserName = this.UserName;
+    }
+
+    /// <summary>
+    /// The ID of the machine on which you want to update a user Account. Required.
+    /// </summary>
+    [CliOption("--node-id")]
+    public string NodeId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Pool that contains the Compute Node. Required.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string PoolId { get; private init; }
+
+    /// <summary>
+    /// The name of the user Account to update. Required.
+    /// </summary>
+    [CliOption("--user-name")]
+    public string UserName { get; private init; }
+
     /// <summary>
     /// A file containing the content specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Content Arguments' are ignored.
     /// </summary>

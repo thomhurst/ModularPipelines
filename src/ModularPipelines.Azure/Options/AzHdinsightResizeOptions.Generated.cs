@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Resize the specified HDInsight cluster to the specified size.
 /// </summary>
-/// <param name="Name">The name of the cluster.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkernodeCount">The target worker node instance count for the operation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "resize")]
-public record AzHdinsightResizeOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workernode-count", ShortForm = "-c")] string WorkernodeCount
-) : AzOptions
+public record AzHdinsightResizeOptions : AzOptions
 {
+    /// <summary>
+    /// Resize the specified HDInsight cluster to the specified size.
+    /// </summary>
+    /// <param name="Name">The name of the cluster.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkernodeCount">The target worker node instance count for the operation.</param>
+    public AzHdinsightResizeOptions(
+        string Name,
+        string ResourceGroup,
+        string WorkernodeCount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkernodeCount);
+        this.WorkernodeCount = WorkernodeCount;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out string WorkernodeCount)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        WorkernodeCount = this.WorkernodeCount;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The target worker node instance count for the operation.
+    /// </summary>
+    [CliOption("--workernode-count", ShortForm = "-c")]
+    public string WorkernodeCount { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

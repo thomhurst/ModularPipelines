@@ -15,18 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a logic app's settings.
 /// </summary>
-/// <param name="Name">Name of the logic app.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="SettingNames">Space-separated app setting names.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logicapp", "config", "appsettings", "delete")]
-public record AzLogicappConfigAppSettingsDeleteOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--setting-names", GroupValues = true)] IEnumerable<string> SettingNames
-) : AzOptions
+public record AzLogicappConfigAppSettingsDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete a logic app's settings.
+    /// </summary>
+    /// <param name="Name">Name of the logic app.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="SettingNames">Space-separated app setting names.</param>
+    public AzLogicappConfigAppSettingsDeleteOptions(
+        string Name,
+        string ResourceGroup,
+        IEnumerable<string> SettingNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SettingNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SettingNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SettingNames));
+            }
+
+            SettingNames = materialized;
+        }
+        this.SettingNames = SettingNames;
+    }
+
+    public void Deconstruct(out string Name, out string ResourceGroup, out IEnumerable<string> SettingNames)
+    {
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        SettingNames = this.SettingNames;
+    }
+
+    /// <summary>
+    /// Name of the logic app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Space-separated app setting names.
+    /// </summary>
+    [CliOption("--setting-names", GroupValues = true)]
+    public IEnumerable<string> SettingNames { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

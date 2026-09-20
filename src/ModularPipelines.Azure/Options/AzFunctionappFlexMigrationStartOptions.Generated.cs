@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Flex Consumption app with the same settings as
 /// </summary>
-/// <param name="ResourceGroup">The resource group of the target function app to migrate to.</param>
-/// <param name="SourceName">The name of the source function app to migrate from.</param>
-/// <param name="SourceResourceGroup">The resource group of the source function app to migrate from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "flex-migration", "start")]
-public record AzFunctionappFlexMigrationStartOptions(
-    [property: CliOption("--resource-group")] string ResourceGroup,
-    [property: CliOption("--source-name")] string SourceName,
-    [property: CliOption("--source-resource-group")] string SourceResourceGroup
-) : AzOptions
+public record AzFunctionappFlexMigrationStartOptions : AzOptions
 {
+    /// <summary>
+    /// Create a Flex Consumption app with the same settings as
+    /// </summary>
+    /// <param name="ResourceGroup">The resource group of the target function app to migrate to.</param>
+    /// <param name="SourceName">The name of the source function app to migrate from.</param>
+    /// <param name="SourceResourceGroup">The resource group of the source function app to migrate from.</param>
+    public AzFunctionappFlexMigrationStartOptions(
+        string ResourceGroup,
+        string SourceName,
+        string SourceResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(SourceName);
+        this.SourceName = SourceName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceResourceGroup);
+        this.SourceResourceGroup = SourceResourceGroup;
+    }
+
+    public void Deconstruct(out string ResourceGroup, out string SourceName, out string SourceResourceGroup)
+    {
+        ResourceGroup = this.ResourceGroup;
+        SourceName = this.SourceName;
+        SourceResourceGroup = this.SourceResourceGroup;
+    }
+
+    /// <summary>
+    /// The resource group of the target function app to migrate to.
+    /// </summary>
+    [CliOption("--resource-group")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the source function app to migrate from.
+    /// </summary>
+    [CliOption("--source-name")]
+    public string SourceName { get; private init; }
+
+    /// <summary>
+    /// The resource group of the source function app to migrate from.
+    /// </summary>
+    [CliOption("--source-resource-group")]
+    public string SourceResourceGroup { get; private init; }
+
     /// <summary>
     /// The maximum number of instances.
     /// </summary>

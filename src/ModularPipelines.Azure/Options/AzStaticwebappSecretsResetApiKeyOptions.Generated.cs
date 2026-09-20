@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset the deployment token for the static app.
 /// </summary>
-/// <param name="Name">Name of the static site.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "secrets", "reset-api-key")]
-public record AzStaticwebappSecretsResetApiKeyOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStaticwebappSecretsResetApiKeyOptions : AzOptions
 {
+    /// <summary>
+    /// Reset the deployment token for the static app.
+    /// </summary>
+    /// <param name="Name">Name of the static site.</param>
+    public AzStaticwebappSecretsResetApiKeyOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

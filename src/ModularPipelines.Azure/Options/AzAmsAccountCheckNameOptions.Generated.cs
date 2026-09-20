@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Checks whether the Media Service resource name is available.
 /// </summary>
-/// <param name="Name">The name of the Azure Media Services account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "check-name")]
-public record AzAmsAccountCheckNameOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzAmsAccountCheckNameOptions : AzOptions
 {
+    /// <summary>
+    /// Checks whether the Media Service resource name is available.
+    /// </summary>
+    /// <param name="Name">The name of the Azure Media Services account.</param>
+    public AzAmsAccountCheckNameOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>

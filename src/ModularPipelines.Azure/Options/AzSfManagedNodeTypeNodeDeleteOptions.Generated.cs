@@ -15,20 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete nodes of a node type.
 /// </summary>
-/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
-/// <param name="Name">Node type name.</param>
-/// <param name="NodeName">List of target nodes to perform the operation.</param>
-/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "node", "delete")]
-public record AzSfManagedNodeTypeNodeDeleteOptions(
-    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--node-name", GroupValues = true)] IEnumerable<string> NodeName,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
-) : AzOptions
+public record AzSfManagedNodeTypeNodeDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete nodes of a node type.
+    /// </summary>
+    /// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+    /// <param name="Name">Node type name.</param>
+    /// <param name="NodeName">List of target nodes to perform the operation.</param>
+    /// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    public AzSfManagedNodeTypeNodeDeleteOptions(
+        string ClusterName,
+        string Name,
+        IEnumerable<string> NodeName,
+        string ResourceGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NodeName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NodeName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NodeName));
+            }
+
+            NodeName = materialized;
+        }
+        this.NodeName = NodeName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+    }
+
+    public void Deconstruct(out string ClusterName, out string Name, out IEnumerable<string> NodeName, out string ResourceGroup)
+    {
+        ClusterName = this.ClusterName;
+        Name = this.Name;
+        NodeName = this.NodeName;
+        ResourceGroup = this.ResourceGroup;
+    }
+
+    /// <summary>
+    /// Specify the name of the cluster, if not given it will be same as resource group name.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// Node type name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// List of target nodes to perform the operation.
+    /// </summary>
+    [CliOption("--node-name", GroupValues = true)]
+    public IEnumerable<string> NodeName { get; private init; }
+
+    /// <summary>
+    /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
     /// <summary>
     /// Using this flag will force the operation even if service fabric is unable to disable the nodes. Use with caution as this might cause data loss if stateful workloads are running on the node.  Allowed values: false, true.
     /// </summary>

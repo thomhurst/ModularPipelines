@@ -15,20 +15,67 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a SQL pool.
 /// </summary>
-/// <param name="Name">The SQL pool name.</param>
-/// <param name="PerformanceLevel">The performance level.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "create")]
-public record AzSynapseSqlPoolCreateOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--performance-level")] string PerformanceLevel,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseSqlPoolCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create a SQL pool.
+    /// </summary>
+    /// <param name="Name">The SQL pool name.</param>
+    /// <param name="PerformanceLevel">The performance level.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseSqlPoolCreateOptions(
+        string Name,
+        string PerformanceLevel,
+        string ResourceGroup,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PerformanceLevel);
+        this.PerformanceLevel = PerformanceLevel;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string Name, out string PerformanceLevel, out string ResourceGroup, out string WorkspaceName)
+    {
+        Name = this.Name;
+        PerformanceLevel = this.PerformanceLevel;
+        ResourceGroup = this.ResourceGroup;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The SQL pool name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The performance level.
+    /// </summary>
+    [CliOption("--performance-level")]
+    public string PerformanceLevel { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// Collation defines the rules that sort and compare data, and cannot be changed after SQL pool creation. The default collation is "SQL_Latin1_General_CP1_CI_AS".
     /// </summary>

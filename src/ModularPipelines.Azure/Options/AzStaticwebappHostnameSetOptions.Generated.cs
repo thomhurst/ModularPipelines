@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set given sub-domain hostname to the static app. Please configure
 /// </summary>
-/// <param name="Hostname">Custom hostname such as www.example.com. Only support sub domain in preview.</param>
-/// <param name="Name">Name of the static site.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "hostname", "set")]
-public record AzStaticwebappHostnameSetOptions(
-    [property: CliOption("--hostname")] string Hostname,
-    [property: CliOption("--name", ShortForm = "-n")] string Name
-) : AzOptions
+public record AzStaticwebappHostnameSetOptions : AzOptions
 {
+    /// <summary>
+    /// Set given sub-domain hostname to the static app. Please configure
+    /// </summary>
+    /// <param name="Hostname">Custom hostname such as www.example.com. Only support sub domain in preview.</param>
+    /// <param name="Name">Name of the static site.</param>
+    public AzStaticwebappHostnameSetOptions(
+        string Hostname,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Hostname, out string Name)
+    {
+        Hostname = this.Hostname;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Custom hostname such as www.example.com. Only support sub domain in preview.
+    /// </summary>
+    [CliOption("--hostname")]
+    public string Hostname { get; private init; }
+
+    /// <summary>
+    /// Name of the static site.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

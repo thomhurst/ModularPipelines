@@ -15,16 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an app configuration snapshot.
 /// </summary>
-/// <param name="Filters">Space-separated list of escaped JSON objects that represent the key, label and tag filters used to build an App Configuration snapshot.</param>
-/// <param name="SnapshotName">Name of the App Configuration snapshot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "snapshot", "create")]
-public record AzAppConfigSnapshotCreateOptions(
-    [property: CliOption("--filters", GroupValues = true)] IEnumerable<string> Filters,
-    [property: CliOption("--snapshot-name", ShortForm = "-s")] string SnapshotName
-) : AzOptions
+public record AzAppConfigSnapshotCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an app configuration snapshot.
+    /// </summary>
+    /// <param name="Filters">Space-separated list of escaped JSON objects that represent the key, label and tag filters used to build an App Configuration snapshot.</param>
+    /// <param name="SnapshotName">Name of the App Configuration snapshot.</param>
+    public AzAppConfigSnapshotCreateOptions(
+        IEnumerable<string> Filters,
+        string SnapshotName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filters));
+            }
+
+            Filters = materialized;
+        }
+        this.Filters = Filters;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Filters, out string SnapshotName)
+    {
+        Filters = this.Filters;
+        SnapshotName = this.SnapshotName;
+    }
+
+    /// <summary>
+    /// Space-separated list of escaped JSON objects that represent the key, label and tag filters used to build an App Configuration snapshot.
+    /// </summary>
+    [CliOption("--filters", GroupValues = true)]
+    public IEnumerable<string> Filters { get; private init; }
+
+    /// <summary>
+    /// Name of the App Configuration snapshot.
+    /// </summary>
+    [CliOption("--snapshot-name", ShortForm = "-s")]
+    public string SnapshotName { get; private init; }
+
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app- configuration/concept-enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>

@@ -15,22 +15,78 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an Cassandra table under an Azure Cosmos DB
 /// </summary>
-/// <param name="AccountName">Cosmosdb account name.</param>
-/// <param name="KeyspaceName">Keyspace name.</param>
-/// <param name="Name">Table name.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Schema">Schema, you can enter it as a string or as a file, e.g., --schema @schema-file.json or --schema "{\"columns\": [{\"name\": \"columnA\",\"type\": \"uuid\"}, {\"name\": \"columnB\",\"type\": \"Ascii\"}],\"partitionKeys\": [{\"name\": \"columnA\"}]}".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "cassandra", "table", "create")]
-public record AzCosmosdbCassandraTableCreateOptions(
-    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
-    [property: CliOption("--keyspace-name", ShortForm = "-k")] string KeyspaceName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--schema")] string Schema
-) : AzOptions
+public record AzCosmosdbCassandraTableCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an Cassandra table under an Azure Cosmos DB
+    /// </summary>
+    /// <param name="AccountName">Cosmosdb account name.</param>
+    /// <param name="KeyspaceName">Keyspace name.</param>
+    /// <param name="Name">Table name.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Schema">Schema, you can enter it as a string or as a file, e.g., --schema @schema-file.json or --schema "{\"columns\": [{\"name\": \"columnA\",\"type\": \"uuid\"}, {\"name\": \"columnB\",\"type\": \"Ascii\"}],\"partitionKeys\": [{\"name\": \"columnA\"}]}".</param>
+    public AzCosmosdbCassandraTableCreateOptions(
+        string AccountName,
+        string KeyspaceName,
+        string Name,
+        string ResourceGroup,
+        string Schema
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(KeyspaceName);
+        this.KeyspaceName = KeyspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+    }
+
+    public void Deconstruct(out string AccountName, out string KeyspaceName, out string Name, out string ResourceGroup, out string Schema)
+    {
+        AccountName = this.AccountName;
+        KeyspaceName = this.KeyspaceName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        Schema = this.Schema;
+    }
+
+    /// <summary>
+    /// Cosmosdb account name.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string AccountName { get; private init; }
+
+    /// <summary>
+    /// Keyspace name.
+    /// </summary>
+    [CliOption("--keyspace-name", ShortForm = "-k")]
+    public string KeyspaceName { get; private init; }
+
+    /// <summary>
+    /// Table name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// Schema, you can enter it as a string or as a file, e.g., --schema @schema-file.json or --schema "{\"columns\": [{\"name\": \"columnA\",\"type\": \"uuid\"}, {\"name\": \"columnB\",\"type\": \"Ascii\"}],\"partitionKeys\": [{\"name\": \"columnA\"}]}".
+    /// </summary>
+    [CliOption("--schema")]
+    public string Schema { get; private init; }
+
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
     /// </summary>

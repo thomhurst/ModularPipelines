@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the preview feature with the specified name.
 /// </summary>
-/// <param name="Name">The feature name.</param>
-/// <param name="Namespace">The resource namespace, aka 'provider'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("feature", "show")]
-public record AzFeatureShowOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--namespace")] string Namespace
-) : AzOptions
+public record AzFeatureShowOptions : AzOptions
 {
+    /// <summary>
+    /// Gets the preview feature with the specified name.
+    /// </summary>
+    /// <param name="Name">The feature name.</param>
+    /// <param name="Namespace">The resource namespace, aka 'provider'.</param>
+    public AzFeatureShowOptions(
+        string Name,
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Name, out string Namespace)
+    {
+        Name = this.Name;
+        Namespace = this.Namespace;
+    }
+
+    /// <summary>
+    /// The feature name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The resource namespace, aka 'provider'.
+    /// </summary>
+    [CliOption("--namespace")]
+    public string Namespace { get; private init; }
+
 }

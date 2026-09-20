@@ -15,26 +15,99 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an inbound NAT address pool.
 /// </summary>
-/// <param name="LbName">The load balancer name.</param>
-/// <param name="Name">The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name can be used to access the resource.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="BackendPort">The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.</param>
-/// <param name="FrontendPortRangeEnd">The last port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65535.</param>
-/// <param name="FrontendPortRangeStart">The first port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65534.</param>
-/// <param name="Protocol">The reference to the transport protocol used by the inbound NAT pool.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "inbound-nat-pool", "create")]
-public record AzNetworkLbInboundNatPoolCreateOptions(
-    [property: CliOption("--lb-name")] string LbName,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--backend-port")] int BackendPort,
-    [property: CliOption("--frontend-port-range-end")] string FrontendPortRangeEnd,
-    [property: CliOption("--frontend-port-range-start")] string FrontendPortRangeStart,
-    [property: CliOption("--protocol")] string Protocol
-) : AzOptions
+public record AzNetworkLbInboundNatPoolCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Create an inbound NAT address pool.
+    /// </summary>
+    /// <param name="LbName">The load balancer name.</param>
+    /// <param name="Name">The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name can be used to access the resource.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="BackendPort">The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.</param>
+    /// <param name="FrontendPortRangeEnd">The last port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65535.</param>
+    /// <param name="FrontendPortRangeStart">The first port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65534.</param>
+    /// <param name="Protocol">The reference to the transport protocol used by the inbound NAT pool.  Allowed values: All, Tcp, Udp.</param>
+    public AzNetworkLbInboundNatPoolCreateOptions(
+        string LbName,
+        string Name,
+        string ResourceGroup,
+        int BackendPort,
+        string FrontendPortRangeEnd,
+        string FrontendPortRangeStart,
+        string Protocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbName);
+        this.LbName = LbName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        this.BackendPort = BackendPort;
+        global::System.ArgumentNullException.ThrowIfNull(FrontendPortRangeEnd);
+        this.FrontendPortRangeEnd = FrontendPortRangeEnd;
+        global::System.ArgumentNullException.ThrowIfNull(FrontendPortRangeStart);
+        this.FrontendPortRangeStart = FrontendPortRangeStart;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+    }
+
+    public void Deconstruct(out string LbName, out string Name, out string ResourceGroup, out int BackendPort, out string FrontendPortRangeEnd, out string FrontendPortRangeStart, out string Protocol)
+    {
+        LbName = this.LbName;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        BackendPort = this.BackendPort;
+        FrontendPortRangeEnd = this.FrontendPortRangeEnd;
+        FrontendPortRangeStart = this.FrontendPortRangeStart;
+        Protocol = this.Protocol;
+    }
+
+    /// <summary>
+    /// The load balancer name.
+    /// </summary>
+    [CliOption("--lb-name")]
+    public string LbName { get; private init; }
+
+    /// <summary>
+    /// The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name can be used to access the resource.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
+    /// </summary>
+    [CliOption("--backend-port")]
+    public int BackendPort { get; private init; }
+
+    /// <summary>
+    /// The last port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65535.
+    /// </summary>
+    [CliOption("--frontend-port-range-end")]
+    public string FrontendPortRangeEnd { get; private init; }
+
+    /// <summary>
+    /// The first port number in the range of external ports that will be used to provide Inbound Nat to NICs associated with a load balancer. Acceptable values range between 1 and 65534.
+    /// </summary>
+    [CliOption("--frontend-port-range-start")]
+    public string FrontendPortRangeStart { get; private init; }
+
+    /// <summary>
+    /// The reference to the transport protocol used by the inbound NAT pool.  Allowed values: All, Tcp, Udp.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string Protocol { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

@@ -15,22 +15,87 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing private endpoint connection in
 /// </summary>
-/// <param name="ActionsRequired">Custom 'actions required' message when updating the private endpoint connection resource.</param>
-/// <param name="Description">Custom description when updating the private endpoint connection resource.</param>
-/// <param name="Name">Name of the private endpoint connection resource; for example: {the name of the private endpoint resource}.{guid}.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the search service.</param>
-/// <param name="Status">The updated status of the private endpoint connection resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "private-endpoint-connection", "update")]
-public record AzSearchPrivateEndpointConnectionUpdateOptions(
-    [property: CliOption("--actions-required")] string ActionsRequired,
-    [property: CliOption("--description")] string Description,
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name")] string ServiceName,
-    [property: CliOption("--status")] string Status
-) : AzOptions
+public record AzSearchPrivateEndpointConnectionUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an existing private endpoint connection in
+    /// </summary>
+    /// <param name="ActionsRequired">Custom 'actions required' message when updating the private endpoint connection resource.</param>
+    /// <param name="Description">Custom description when updating the private endpoint connection resource.</param>
+    /// <param name="Name">Name of the private endpoint connection resource; for example: {the name of the private endpoint resource}.{guid}.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the search service.</param>
+    /// <param name="Status">The updated status of the private endpoint connection resource.</param>
+    public AzSearchPrivateEndpointConnectionUpdateOptions(
+        string ActionsRequired,
+        string Description,
+        string Name,
+        string ResourceGroup,
+        string ServiceName,
+        string Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionsRequired);
+        this.ActionsRequired = ActionsRequired;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    public void Deconstruct(out string ActionsRequired, out string Description, out string Name, out string ResourceGroup, out string ServiceName, out string Status)
+    {
+        ActionsRequired = this.ActionsRequired;
+        Description = this.Description;
+        Name = this.Name;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+        Status = this.Status;
+    }
+
+    /// <summary>
+    /// Custom 'actions required' message when updating the private endpoint connection resource.
+    /// </summary>
+    [CliOption("--actions-required")]
+    public string ActionsRequired { get; private init; }
+
+    /// <summary>
+    /// Custom description when updating the private endpoint connection resource.
+    /// </summary>
+    [CliOption("--description")]
+    public string Description { get; private init; }
+
+    /// <summary>
+    /// Name of the private endpoint connection resource; for example: {the name of the private endpoint resource}.{guid}.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the search service.
+    /// </summary>
+    [CliOption("--service-name")]
+    public string ServiceName { get; private init; }
+
+    /// <summary>
+    /// The updated status of the private endpoint connection resource.
+    /// </summary>
+    [CliOption("--status")]
+    public string Status { get; private init; }
+
 }

@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an API Management Named Value.
 /// </summary>
-/// <param name="NamedValueId">Unique name of the api to be created. Must be unique in the current API Management service instance.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="ServiceName">The name of the API Management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "nv", "update")]
-public record AzApimNvUpdateOptions(
-    [property: CliOption("--named-value-id")] string NamedValueId,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName
-) : AzOptions
+public record AzApimNvUpdateOptions : AzOptions
 {
+    /// <summary>
+    /// Update an API Management Named Value.
+    /// </summary>
+    /// <param name="NamedValueId">Unique name of the api to be created. Must be unique in the current API Management service instance.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="ServiceName">The name of the API Management service instance.</param>
+    public AzApimNvUpdateOptions(
+        string NamedValueId,
+        string ResourceGroup,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamedValueId);
+        this.NamedValueId = NamedValueId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string NamedValueId, out string ResourceGroup, out string ServiceName)
+    {
+        NamedValueId = this.NamedValueId;
+        ResourceGroup = this.ResourceGroup;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// Unique name of the api to be created. Must be unique in the current API Management service instance.
+    /// </summary>
+    [CliOption("--named-value-id")]
+    public string NamedValueId { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the API Management service instance.
+    /// </summary>
+    [CliOption("--service-name", ShortForm = "-n")]
+    public string ServiceName { get; private init; }
+
     /// <summary>
     /// ETag of the Entity.
     /// </summary>

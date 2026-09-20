@@ -15,18 +15,56 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Query trigger runs in the workspace based on input
 /// </summary>
-/// <param name="LastUpdatedAfter">The time at or after which the run event was updated in 'ISO 8601' format.</param>
-/// <param name="LastUpdatedBefore">The time at or before which the run event was updated in 'ISO 8601' format.</param>
-/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "trigger-run", "query-by-workspace")]
-public record AzSynapseTriggerRunQueryByWorkspaceOptions(
-    [property: CliOption("--last-updated-after")] string LastUpdatedAfter,
-    [property: CliOption("--last-updated-before")] string LastUpdatedBefore,
-    [property: CliOption("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseTriggerRunQueryByWorkspaceOptions : AzOptions
 {
+    /// <summary>
+    /// Query trigger runs in the workspace based on input
+    /// </summary>
+    /// <param name="LastUpdatedAfter">The time at or after which the run event was updated in 'ISO 8601' format.</param>
+    /// <param name="LastUpdatedBefore">The time at or before which the run event was updated in 'ISO 8601' format.</param>
+    /// <param name="WorkspaceName">The workspace name.</param>
+    public AzSynapseTriggerRunQueryByWorkspaceOptions(
+        string LastUpdatedAfter,
+        string LastUpdatedBefore,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LastUpdatedAfter);
+        this.LastUpdatedAfter = LastUpdatedAfter;
+        global::System.ArgumentNullException.ThrowIfNull(LastUpdatedBefore);
+        this.LastUpdatedBefore = LastUpdatedBefore;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    public void Deconstruct(out string LastUpdatedAfter, out string LastUpdatedBefore, out string WorkspaceName)
+    {
+        LastUpdatedAfter = this.LastUpdatedAfter;
+        LastUpdatedBefore = this.LastUpdatedBefore;
+        WorkspaceName = this.WorkspaceName;
+    }
+
+    /// <summary>
+    /// The time at or after which the run event was updated in 'ISO 8601' format.
+    /// </summary>
+    [CliOption("--last-updated-after")]
+    public string LastUpdatedAfter { get; private init; }
+
+    /// <summary>
+    /// The time at or before which the run event was updated in 'ISO 8601' format.
+    /// </summary>
+    [CliOption("--last-updated-before")]
+    public string LastUpdatedBefore { get; private init; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string WorkspaceName { get; private init; }
+
     /// <summary>
     /// The continuation token for getting the next page of results. Null for first page.
     /// </summary>

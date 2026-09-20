@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets a server to which DNS alias should point.
 /// </summary>
-/// <param name="Name">Name of the DNS alias.</param>
-/// <param name="OriginalServer">The name of the server to which alias is currently pointing.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "dns-alias", "set")]
-public record AzSqlServerDnsAliasSetOptions(
-    [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--original-server")] string OriginalServer
-) : AzOptions
+public record AzSqlServerDnsAliasSetOptions : AzOptions
 {
+    /// <summary>
+    /// Sets a server to which DNS alias should point.
+    /// </summary>
+    /// <param name="Name">Name of the DNS alias.</param>
+    /// <param name="OriginalServer">The name of the server to which alias is currently pointing.</param>
+    public AzSqlServerDnsAliasSetOptions(
+        string Name,
+        string OriginalServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(OriginalServer);
+        this.OriginalServer = OriginalServer;
+    }
+
+    public void Deconstruct(out string Name, out string OriginalServer)
+    {
+        Name = this.Name;
+        OriginalServer = this.OriginalServer;
+    }
+
+    /// <summary>
+    /// Name of the DNS alias.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The name of the server to which alias is currently pointing.
+    /// </summary>
+    [CliOption("--original-server")]
+    public string OriginalServer { get; private init; }
+
     /// <summary>
     /// Name of the original resource group.
     /// </summary>

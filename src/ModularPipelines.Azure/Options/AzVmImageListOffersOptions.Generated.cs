@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the VM image offers available in the Azure Marketplace.
 /// </summary>
-/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
-/// <param name="Publisher">Image publisher.  Values from: az vm image list-publishers.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "image", "list-offers")]
-public record AzVmImageListOffersOptions(
-    [property: CliOption("--location", ShortForm = "-l")] string Location,
-    [property: CliOption("--publisher", ShortForm = "-p")] string Publisher
-) : AzOptions
+public record AzVmImageListOffersOptions : AzOptions
 {
+    /// <summary>
+    /// List the VM image offers available in the Azure Marketplace.
+    /// </summary>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Publisher">Image publisher.  Values from: az vm image list-publishers.</param>
+    public AzVmImageListOffersOptions(
+        string Location,
+        string Publisher
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Publisher);
+        this.Publisher = Publisher;
+    }
+
+    public void Deconstruct(out string Location, out string Publisher)
+    {
+        Location = this.Location;
+        Publisher = this.Publisher;
+    }
+
+    /// <summary>
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Image publisher.  Values from: az vm image list-publishers.
+    /// </summary>
+    [CliOption("--publisher", ShortForm = "-p")]
+    public string Publisher { get; private init; }
+
     /// <summary>
     /// The name of edge zone.
     /// </summary>

@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a copy of a database.
 /// </summary>
-/// <param name="DestName">Name of the database that will be created as the copy destination.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "copy")]
-public record AzSqlDbCopyOptions(
-    [property: CliOption("--dest-name")] string DestName
-) : AzOptions
+public record AzSqlDbCopyOptions : AzOptions
 {
+    /// <summary>
+    /// Create a copy of a database.
+    /// </summary>
+    /// <param name="DestName">Name of the database that will be created as the copy destination.</param>
+    public AzSqlDbCopyOptions(
+        string DestName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestName);
+        this.DestName = DestName;
+    }
+
+    public void Deconstruct(out string DestName)
+    {
+        DestName = this.DestName;
+    }
+
+    /// <summary>
+    /// Name of the database that will be created as the copy destination.
+    /// </summary>
+    [CliOption("--dest-name")]
+    public string DestName { get; private init; }
+
     /// <summary>
     /// Assign identity for database.  Allowed values: false, true.
     /// </summary>

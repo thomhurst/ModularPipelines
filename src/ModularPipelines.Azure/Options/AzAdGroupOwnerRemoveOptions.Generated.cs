@@ -15,14 +15,43 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a group owner.
 /// </summary>
-/// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
-/// <param name="OwnerObjectId">Owner's object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "owner", "remove")]
-public record AzAdGroupOwnerRemoveOptions(
-    [property: CliOption("--group", ShortForm = "-g")] string Group,
-    [property: CliOption("--owner-object-id")] string OwnerObjectId
-) : AzOptions
+public record AzAdGroupOwnerRemoveOptions : AzOptions
 {
+    /// <summary>
+    /// Remove a group owner.
+    /// </summary>
+    /// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
+    /// <param name="OwnerObjectId">Owner's object id.</param>
+    public AzAdGroupOwnerRemoveOptions(
+        string Group,
+        string OwnerObjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Group);
+        this.Group = Group;
+        global::System.ArgumentNullException.ThrowIfNull(OwnerObjectId);
+        this.OwnerObjectId = OwnerObjectId;
+    }
+
+    public void Deconstruct(out string Group, out string OwnerObjectId)
+    {
+        Group = this.Group;
+        OwnerObjectId = this.OwnerObjectId;
+    }
+
+    /// <summary>
+    /// Group's object id or display name(prefix also works if there is a unique match).
+    /// </summary>
+    [CliOption("--group", ShortForm = "-g")]
+    public string Group { get; private init; }
+
+    /// <summary>
+    /// Owner's object id.
+    /// </summary>
+    [CliOption("--owner-object-id")]
+    public string OwnerObjectId { get; private init; }
+
 }

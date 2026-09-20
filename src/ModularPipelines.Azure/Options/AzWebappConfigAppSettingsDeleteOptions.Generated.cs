@@ -15,14 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete web app settings.
 /// </summary>
-/// <param name="SettingNames">Space-separated appsettings names.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "appsettings", "delete")]
-public record AzWebappConfigAppSettingsDeleteOptions(
-    [property: CliOption("--setting-names", GroupValues = true)] IEnumerable<string> SettingNames
-) : AzOptions
+public record AzWebappConfigAppSettingsDeleteOptions : AzOptions
 {
+    /// <summary>
+    /// Delete web app settings.
+    /// </summary>
+    /// <param name="SettingNames">Space-separated appsettings names.</param>
+    public AzWebappConfigAppSettingsDeleteOptions(
+        IEnumerable<string> SettingNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SettingNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SettingNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SettingNames));
+            }
+
+            SettingNames = materialized;
+        }
+        this.SettingNames = SettingNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> SettingNames)
+    {
+        SettingNames = this.SettingNames;
+    }
+
+    /// <summary>
+    /// Space-separated appsettings names.
+    /// </summary>
+    [CliOption("--setting-names", GroupValues = true)]
+    public IEnumerable<string> SettingNames { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

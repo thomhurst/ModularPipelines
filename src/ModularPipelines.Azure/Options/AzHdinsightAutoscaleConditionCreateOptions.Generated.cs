@@ -15,22 +15,89 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new schedule condition.
 /// </summary>
-/// <param name="ClusterName">The name of the cluster.</param>
-/// <param name="Days">A space-delimited list of schedule day.  Allowed values: Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.</param>
-/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-/// <param name="Time">The 24-hour time in the form xx:xx in days.</param>
-/// <param name="WorkernodeCount">The schedule workernode count.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "autoscale", "condition", "create")]
-public record AzHdinsightAutoscaleConditionCreateOptions(
-    [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--days", GroupValues = true)] IEnumerable<string> Days,
-    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--time")] string Time,
-    [property: CliOption("--workernode-count")] string WorkernodeCount
-) : AzOptions
+public record AzHdinsightAutoscaleConditionCreateOptions : AzOptions
 {
+    /// <summary>
+    /// Add a new schedule condition.
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster.</param>
+    /// <param name="Days">A space-delimited list of schedule day.  Allowed values: Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.</param>
+    /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+    /// <param name="Time">The 24-hour time in the form xx:xx in days.</param>
+    /// <param name="WorkernodeCount">The schedule workernode count.</param>
+    public AzHdinsightAutoscaleConditionCreateOptions(
+        string ClusterName,
+        IEnumerable<string> Days,
+        string ResourceGroup,
+        string Time,
+        string WorkernodeCount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Days);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Days));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Days));
+            }
+
+            Days = materialized;
+        }
+        this.Days = Days;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
+        this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Time);
+        this.Time = Time;
+        global::System.ArgumentNullException.ThrowIfNull(WorkernodeCount);
+        this.WorkernodeCount = WorkernodeCount;
+    }
+
+    public void Deconstruct(out string ClusterName, out IEnumerable<string> Days, out string ResourceGroup, out string Time, out string WorkernodeCount)
+    {
+        ClusterName = this.ClusterName;
+        Days = this.Days;
+        ResourceGroup = this.ResourceGroup;
+        Time = this.Time;
+        WorkernodeCount = this.WorkernodeCount;
+    }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string ClusterName { get; private init; }
+
+    /// <summary>
+    /// A space-delimited list of schedule day.  Allowed values: Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
+    /// </summary>
+    [CliOption("--days", GroupValues = true)]
+    public IEnumerable<string> Days { get; private init; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string ResourceGroup { get; private init; }
+
+    /// <summary>
+    /// The 24-hour time in the form xx:xx in days.
+    /// </summary>
+    [CliOption("--time")]
+    public string Time { get; private init; }
+
+    /// <summary>
+    /// The schedule workernode count.
+    /// </summary>
+    [CliOption("--workernode-count")]
+    public string WorkernodeCount { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

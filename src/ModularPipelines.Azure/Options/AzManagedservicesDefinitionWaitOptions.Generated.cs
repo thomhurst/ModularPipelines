@@ -15,16 +15,45 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition is met.
 /// </summary>
-/// <param name="Definition">Guid of the registration definition.</param>
-/// <param name="Scope">Scope of the resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "definition", "wait")]
-public record AzManagedservicesDefinitionWaitOptions(
-    [property: CliOption("--definition")] string Definition,
-    [property: CliOption("--scope")] string Scope
-) : AzOptions
+public record AzManagedservicesDefinitionWaitOptions : AzOptions
 {
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="Definition">Guid of the registration definition.</param>
+    /// <param name="Scope">Scope of the resource.</param>
+    public AzManagedservicesDefinitionWaitOptions(
+        string Definition,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Definition);
+        this.Definition = Definition;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Definition, out string Scope)
+    {
+        Definition = this.Definition;
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// Guid of the registration definition.
+    /// </summary>
+    [CliOption("--definition")]
+    public string Definition { get; private init; }
+
+    /// <summary>
+    /// Scope of the resource.
+    /// </summary>
+    [CliOption("--scope")]
+    public string Scope { get; private init; }
+
     /// <summary>
     /// Wait until created with 'provisioningState' at 'Succeeded'.
     /// </summary>
