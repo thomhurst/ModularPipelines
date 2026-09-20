@@ -21,6 +21,8 @@ Resolve the service with `context.Tools.Kubernetes`. Projects using C# 13 or ano
 ```
 using ModularPipelines;
 
+using ModularPipelines.Kubernetes.Enums;
+
 using ModularPipelines.Kubernetes.Options;
 
 
