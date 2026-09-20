@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "trust", "set")]
-public record PodmanImageTrustSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Registry
-) : PodmanOptions
+public record PodmanImageTrustSetOptions : PodmanOptions
 {
+    /// <summary>
+    /// Set default trust policy or a new trust policy for a registry
+    /// </summary>
+    /// <param name="Registry">The REGISTRY operand.</param>
+    public PodmanImageTrustSetOptions(
+        string Registry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+    }
+
+    public void Deconstruct(out string Registry)
+    {
+        Registry = this.Registry;
+    }
+
     /// <summary>
     /// Path of installed public key(s) to trust for TARGET. Absolute path to keys is added to policy.json. May used multiple times to define multiple public keys. File(s) must exist before using this command
     /// </summary>
@@ -39,5 +54,11 @@ public record PodmanImageTrustSetOptions(
     /// </summary>
     [CliOption("--type", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }
+
+    /// <summary>
+    /// The REGISTRY operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Registry { get; private init; }
 
 }

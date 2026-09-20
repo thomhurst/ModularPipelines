@@ -20,10 +20,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "create")]
-public record PodmanContainerCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
-) : PodmanOptions
+public record PodmanContainerCreateOptions : PodmanOptions
 {
+    /// <summary>
+    /// Create but do not start a container
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    public PodmanContainerCreateOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Add a custom host-to-IP mapping (host:ip) (default [])
     /// </summary>
@@ -390,9 +405,6 @@ public record PodmanContainerCreateOptions(
     /// </summary>
     [CliOption("--health-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? HealthTimeout { get; set; }
-
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Set container hostname
@@ -892,6 +904,12 @@ public record PodmanContainerCreateOptions(
     /// </summary>
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Image { get; private init; }
 
     /// <summary>
     /// The COMMAND operand.

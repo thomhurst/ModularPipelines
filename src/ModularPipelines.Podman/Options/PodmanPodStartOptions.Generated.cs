@@ -18,10 +18,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "start")]
-public record PodmanPodStartOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Pod
-) : PodmanOptions
+public record PodmanPodStartOptions : PodmanOptions
 {
+    /// <summary>
+    /// Start one or more pods
+    /// </summary>
+    /// <param name="Pod">The POD operand.</param>
+    public PodmanPodStartOptions(
+        IEnumerable<string> Pod
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Pod);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Pod));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Pod));
+            }
+
+            Pod = materialized;
+        }
+        this.Pod = Pod;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Pod)
+    {
+        Pod = this.Pod;
+    }
+
     /// <summary>
     /// Restart all running pods
     /// </summary>
@@ -39,5 +65,11 @@ public record PodmanPodStartOptions(
     /// </summary>
     [CliOption("--pod-id-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PodIdFile { get; set; }
+
+    /// <summary>
+    /// The POD operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Pod { get; private init; }
 
 }

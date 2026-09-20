@@ -19,10 +19,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
-public record PodmanSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Term
-) : PodmanOptions
+public record PodmanSearchOptions : PodmanOptions
 {
+    /// <summary>
+    /// Search registry for image
+    /// </summary>
+    /// <param name="Term">The TERM operand.</param>
+    public PodmanSearchOptions(
+        string Term
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Term);
+        this.Term = Term;
+    }
+
+    public void Deconstruct(out string Term)
+    {
+        Term = this.Term;
+    }
+
     /// <summary>
     /// Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
     /// </summary>
@@ -83,5 +98,11 @@ public record PodmanSearchOptions(
     /// </summary>
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
+
+    /// <summary>
+    /// The TERM operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Term { get; private init; }
 
 }

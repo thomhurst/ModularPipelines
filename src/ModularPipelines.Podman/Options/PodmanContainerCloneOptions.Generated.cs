@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clone")]
-public record PodmanContainerCloneOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanContainerCloneOptions : PodmanOptions
 {
+    /// <summary>
+    /// Clone an existing container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanContainerCloneOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Block IO weight (relative weight) accepts a weight value between 10 and 1000.
     /// </summary>
@@ -147,6 +162,12 @@ public record PodmanContainerCloneOptions(
     /// </summary>
     [CliFlag("--run")]
     public bool? Run { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
     /// <summary>
     /// The NAME operand.

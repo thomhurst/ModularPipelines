@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "podman",
-  "toolVersion": "podman version 6.1.1",
+  "toolVersion": "podman version 6.1.2",
   "commandCount": 258,
   "commandTreeSha256": "1173613661b2e99570a995b22aeebec1e2ff1858aa1ea713d8f9cf737e06a14c",
   "commands": [

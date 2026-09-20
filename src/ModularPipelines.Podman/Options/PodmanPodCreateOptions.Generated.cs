@@ -122,9 +122,6 @@ public record PodmanPodCreateOptions : PodmanOptions
     [CliOption("--gpus", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gpus { get; set; }
 
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
     /// <summary>
     /// Set container hostname
     /// </summary>

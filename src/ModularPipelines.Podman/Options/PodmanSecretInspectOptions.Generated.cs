@@ -18,10 +18,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "inspect")]
-public record PodmanSecretInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Secret
-) : PodmanOptions
+public record PodmanSecretInspectOptions : PodmanOptions
 {
+    /// <summary>
+    /// Inspect a secret
+    /// </summary>
+    /// <param name="Secret">The SECRET operand.</param>
+    public PodmanSecretInspectOptions(
+        IEnumerable<string> Secret
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Secret);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Secret));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Secret));
+            }
+
+            Secret = materialized;
+        }
+        this.Secret = Secret;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Secret)
+    {
+        Secret = this.Secret;
+    }
+
     /// <summary>
     /// Format inspect output using Go template
     /// </summary>
@@ -39,5 +65,11 @@ public record PodmanSecretInspectOptions(
     /// </summary>
     [CliFlag("--showsecret")]
     public bool? Showsecret { get; set; }
+
+    /// <summary>
+    /// The SECRET operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Secret { get; private init; }
 
 }

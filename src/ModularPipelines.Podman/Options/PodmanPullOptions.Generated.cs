@@ -19,10 +19,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pull")]
-public record PodmanPullOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Image
-) : PodmanOptions
+public record PodmanPullOptions : PodmanOptions
 {
+    /// <summary>
+    /// Pull an image from a registry
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    public PodmanPullOptions(
+        IEnumerable<string> Image
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Image);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Image));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Image));
+            }
+
+            Image = materialized;
+        }
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// All tagged images in the repository will be pulled
     /// </summary>
@@ -113,5 +139,11 @@ public record PodmanPullOptions(
     /// </summary>
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Image { get; private init; }
 
 }

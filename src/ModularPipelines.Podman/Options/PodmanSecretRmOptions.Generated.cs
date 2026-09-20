@@ -18,10 +18,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "rm")]
-public record PodmanSecretRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Secret
-) : PodmanOptions
+public record PodmanSecretRmOptions : PodmanOptions
 {
+    /// <summary>
+    /// Remove one or more secrets
+    /// </summary>
+    /// <param name="Secret">The SECRET operand.</param>
+    public PodmanSecretRmOptions(
+        IEnumerable<string> Secret
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Secret);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Secret));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Secret));
+            }
+
+            Secret = materialized;
+        }
+        this.Secret = Secret;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Secret)
+    {
+        Secret = this.Secret;
+    }
+
     /// <summary>
     /// Remove all secrets
     /// </summary>
@@ -33,5 +59,11 @@ public record PodmanSecretRmOptions(
     /// </summary>
     [CliFlag("--ignore", ShortForm = "-i")]
     public bool? Ignore { get; set; }
+
+    /// <summary>
+    /// The SECRET operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Secret { get; private init; }
 
 }

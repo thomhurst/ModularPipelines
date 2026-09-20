@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "port")]
-public record PodmanContainerPortOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanContainerPortOptions : PodmanOptions
 {
+    /// <summary>
+    /// List port mappings or a specific mapping for the container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanContainerPortOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Display port information for all containers
     /// </summary>
@@ -33,6 +48,12 @@ public record PodmanContainerPortOptions(
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
     /// <summary>
     /// The PORT operand.

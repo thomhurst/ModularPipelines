@@ -18,15 +18,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "top")]
-public record PodmanPodTopOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Pod
-) : PodmanOptions
+public record PodmanPodTopOptions : PodmanOptions
 {
+    /// <summary>
+    /// Display the running processes of containers in a pod
+    /// </summary>
+    /// <param name="Pod">The POD operand.</param>
+    public PodmanPodTopOptions(
+        string Pod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pod);
+        this.Pod = Pod;
+    }
+
+    public void Deconstruct(out string Pod)
+    {
+        Pod = this.Pod;
+    }
+
     /// <summary>
     /// Act on the latest container podman is aware of Not supported with the "--remote" flag
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
+
+    /// <summary>
+    /// The POD operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Pod { get; private init; }
 
     /// <summary>
     /// The FORMAT-DESCRIPTORS operand.

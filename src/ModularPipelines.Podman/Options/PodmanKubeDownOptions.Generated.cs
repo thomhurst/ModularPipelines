@@ -18,15 +18,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "down")]
-public record PodmanKubeDownOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Kubefile
-) : PodmanOptions
+public record PodmanKubeDownOptions : PodmanOptions
 {
+    /// <summary>
+    /// Remove pods based on Kubernetes YAML
+    /// </summary>
+    /// <param name="Kubefile">The KUBEFILE operand.</param>
+    public PodmanKubeDownOptions(
+        string Kubefile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Kubefile);
+        this.Kubefile = Kubefile;
+    }
+
+    public void Deconstruct(out string Kubefile)
+    {
+        Kubefile = this.Kubefile;
+    }
+
     /// <summary>
     /// remove volumes
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The KUBEFILE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Kubefile { get; private init; }
 
     /// <summary>
     /// The ADDITIONALKUBEFILES operand.

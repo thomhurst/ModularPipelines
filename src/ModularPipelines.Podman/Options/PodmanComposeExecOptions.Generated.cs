@@ -18,11 +18,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "exec")]
-public record PodmanComposeExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
-) : PodmanOptions
+public record PodmanComposeExecOptions : PodmanOptions
 {
+    /// <summary>
+    /// Execute a command in a running container
+    /// </summary>
+    /// <param name="Service">The SERVICE operand.</param>
+    /// <param name="Command">The COMMAND operand.</param>
+    public PodmanComposeExecOptions(
+        string Service,
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string Service, out string Command)
+    {
+        Service = this.Service;
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Detached mode: Run command in the background
     /// </summary>
@@ -64,6 +83,18 @@ public record PodmanComposeExecOptions(
     /// </summary>
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
+
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Service { get; private init; }
+
+    /// <summary>
+    /// The COMMAND operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Command { get; private init; }
 
     /// <summary>
     /// The ARGS operand.

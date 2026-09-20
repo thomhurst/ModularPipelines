@@ -18,8 +18,29 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "exists")]
-public record PodmanVolumeExistsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Volume
-) : PodmanOptions
+public record PodmanVolumeExistsOptions : PodmanOptions
 {
+    /// <summary>
+    /// Check if volume exists
+    /// </summary>
+    /// <param name="Volume">The VOLUME operand.</param>
+    public PodmanVolumeExistsOptions(
+        string Volume
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Volume);
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out string Volume)
+    {
+        Volume = this.Volume;
+    }
+
+    /// <summary>
+    /// The VOLUME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Volume { get; private init; }
+
 }

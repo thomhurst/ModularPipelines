@@ -18,8 +18,29 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "exists")]
-public record PodmanManifestExistsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Manifest
-) : PodmanOptions
+public record PodmanManifestExistsOptions : PodmanOptions
 {
+    /// <summary>
+    /// Check if a manifest list exists in local storage
+    /// </summary>
+    /// <param name="Manifest">The MANIFEST operand.</param>
+    public PodmanManifestExistsOptions(
+        string Manifest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Manifest);
+        this.Manifest = Manifest;
+    }
+
+    public void Deconstruct(out string Manifest)
+    {
+        Manifest = this.Manifest;
+    }
+
+    /// <summary>
+    /// The MANIFEST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Manifest { get; private init; }
+
 }

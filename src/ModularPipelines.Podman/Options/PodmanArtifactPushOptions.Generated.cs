@@ -19,10 +19,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifact", "push")]
-public record PodmanArtifactPushOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Artifact
-) : PodmanOptions
+public record PodmanArtifactPushOptions : PodmanOptions
 {
+    /// <summary>
+    /// Push an OCI artifact
+    /// </summary>
+    /// <param name="Artifact">The ARTIFACT operand.</param>
+    public PodmanArtifactPushOptions(
+        string Artifact
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Artifact);
+        this.Artifact = Artifact;
+    }
+
+    public void Deconstruct(out string Artifact)
+    {
+        Artifact = this.Artifact;
+    }
+
     /// <summary>
     /// Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
     /// </summary>
@@ -102,5 +117,11 @@ public record PodmanArtifactPushOptions(
     /// </summary>
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
+
+    /// <summary>
+    /// The ARTIFACT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Artifact { get; private init; }
 
 }

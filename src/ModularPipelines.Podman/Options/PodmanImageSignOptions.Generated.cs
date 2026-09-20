@@ -18,10 +18,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "sign")]
-public record PodmanImageSignOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Image
-) : PodmanOptions
+public record PodmanImageSignOptions : PodmanOptions
 {
+    /// <summary>
+    /// Sign an image
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    public PodmanImageSignOptions(
+        IEnumerable<string> Image
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Image);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Image));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Image));
+            }
+
+            Image = materialized;
+        }
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Sign all the manifests of the multi-architecture image
     /// </summary>
@@ -51,5 +77,11 @@ public record PodmanImageSignOptions(
     /// </summary>
     [CliOption("--sign-by", Format = OptionFormat.EqualsSeparated)]
     public string? SignBy { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Image { get; private init; }
 
 }

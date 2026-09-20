@@ -18,8 +18,29 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "exists")]
-public record PodmanNetworkExistsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Network
-) : PodmanOptions
+public record PodmanNetworkExistsOptions : PodmanOptions
 {
+    /// <summary>
+    /// Check if network exists
+    /// </summary>
+    /// <param name="Network">The NETWORK operand.</param>
+    public PodmanNetworkExistsOptions(
+        string Network
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out string Network)
+    {
+        Network = this.Network;
+    }
+
+    /// <summary>
+    /// The NETWORK operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Network { get; private init; }
+
 }

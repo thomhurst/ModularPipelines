@@ -18,11 +18,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "connection", "add")]
-public record PodmanSystemConnectionAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
-) : PodmanOptions
+public record PodmanSystemConnectionAddOptions : PodmanOptions
 {
+    /// <summary>
+    /// Record destination for the Podman service
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    /// <param name="Destination">The DESTINATION operand.</param>
+    public PodmanSystemConnectionAddOptions(
+        string Name,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Name, out string Destination)
+    {
+        Name = this.Name;
+        Destination = this.Destination;
+    }
+
     /// <summary>
     /// Set connection to be default
     /// </summary>
@@ -64,5 +83,17 @@ public record PodmanSystemConnectionAddOptions(
     /// </summary>
     [CliOption("--tls-key", Format = OptionFormat.EqualsSeparated)]
     public string? TlsKey { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The DESTINATION operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Destination { get; private init; }
 
 }

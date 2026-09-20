@@ -18,15 +18,46 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machine", "cp")]
-public record PodmanMachineCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string SrcPath,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string DestPath
-) : PodmanOptions
+public record PodmanMachineCpOptions : PodmanOptions
 {
+    /// <summary>
+    /// Securely copy contents between the virtual machine
+    /// </summary>
+    /// <param name="SrcPath">The SRC_PATH operand.</param>
+    /// <param name="DestPath">The DEST_PATH operand.</param>
+    public PodmanMachineCpOptions(
+        string SrcPath,
+        string DestPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SrcPath);
+        this.SrcPath = SrcPath;
+        global::System.ArgumentNullException.ThrowIfNull(DestPath);
+        this.DestPath = DestPath;
+    }
+
+    public void Deconstruct(out string SrcPath, out string DestPath)
+    {
+        SrcPath = this.SrcPath;
+        DestPath = this.DestPath;
+    }
+
     /// <summary>
     /// Suppress copy status output
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// The SRC_PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string SrcPath { get; private init; }
+
+    /// <summary>
+    /// The DEST_PATH operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string DestPath { get; private init; }
 
 }

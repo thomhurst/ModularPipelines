@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attach")]
-public record PodmanContainerAttachOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanContainerAttachOptions : PodmanOptions
 {
+    /// <summary>
+    /// Attach to a running container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanContainerAttachOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Select the key sequence for detaching a container. Format is a single character [a-Z] or a comma separated sequence of `ctrl-&lt;value&gt;`, where `&lt;value&gt;` is one of: `a-z`, `@`, `^`, `[`, `\`, `]`, `^` or `_` (default "ctrl-p,ctrl-q")
     /// </summary>
@@ -45,5 +60,11 @@ public record PodmanContainerAttachOptions(
     /// </summary>
     [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

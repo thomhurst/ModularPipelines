@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quadlet", "install")]
-public record PodmanQuadletInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string QuadletPathOrUrl
-) : PodmanOptions
+public record PodmanQuadletInstallOptions : PodmanOptions
 {
+    /// <summary>
+    /// Install a quadlet file or quadlet application
+    /// </summary>
+    /// <param name="QuadletPathOrUrl">The QUADLET-PATH-OR-URL operand.</param>
+    public PodmanQuadletInstallOptions(
+        string QuadletPathOrUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QuadletPathOrUrl);
+        this.QuadletPathOrUrl = QuadletPathOrUrl;
+    }
+
+    public void Deconstruct(out string QuadletPathOrUrl)
+    {
+        QuadletPathOrUrl = this.QuadletPathOrUrl;
+    }
+
     /// <summary>
     /// Group quadlets and associated file in a directory named after the application
     /// </summary>
@@ -39,6 +54,12 @@ public record PodmanQuadletInstallOptions(
     /// </summary>
     [CliFlag("--replace", ShortForm = "-r")]
     public bool? Replace { get; set; }
+
+    /// <summary>
+    /// The QUADLET-PATH-OR-URL operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string QuadletPathOrUrl { get; private init; }
 
     /// <summary>
     /// The FILES-PATH-OR-URL operand.

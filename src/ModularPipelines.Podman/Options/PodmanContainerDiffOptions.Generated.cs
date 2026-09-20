@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "diff")]
-public record PodmanContainerDiffOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanContainerDiffOptions : PodmanOptions
 {
+    /// <summary>
+    /// Inspect changes to the container's file systems
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanContainerDiffOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Change the output format (json)
     /// </summary>
@@ -33,5 +48,11 @@ public record PodmanContainerDiffOptions(
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

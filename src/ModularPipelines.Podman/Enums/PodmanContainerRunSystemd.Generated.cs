@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Podman.Enums;
 
 /// <summary>
-/// Allowed values for the --systemd option.
+/// Allowed values for --systemd.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PodmanContainerRunSystemd

@@ -18,14 +18,35 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifact", "inspect")]
-public record PodmanArtifactInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Artifact
-) : PodmanOptions
+public record PodmanArtifactInspectOptions : PodmanOptions
 {
+    /// <summary>
+    /// Inspect an OCI artifact
+    /// </summary>
+    /// <param name="Artifact">The ARTIFACT operand.</param>
+    public PodmanArtifactInspectOptions(
+        string Artifact
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Artifact);
+        this.Artifact = Artifact;
+    }
+
+    public void Deconstruct(out string Artifact)
+    {
+        Artifact = this.Artifact;
+    }
+
     /// <summary>
     /// Format volume output using JSON or a Go template (default "json")
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
+
+    /// <summary>
+    /// The ARTIFACT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Artifact { get; private init; }
 
 }

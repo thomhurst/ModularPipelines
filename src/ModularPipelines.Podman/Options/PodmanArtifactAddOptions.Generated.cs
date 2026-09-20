@@ -18,11 +18,41 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifact", "add")]
-public record PodmanArtifactAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Artifact,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Path
-) : PodmanOptions
+public record PodmanArtifactAddOptions : PodmanOptions
 {
+    /// <summary>
+    /// Add an OCI artifact to the local store
+    /// </summary>
+    /// <param name="Artifact">The ARTIFACT operand.</param>
+    /// <param name="Path">The PATH operand.</param>
+    public PodmanArtifactAddOptions(
+        string Artifact,
+        IEnumerable<string> Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Artifact);
+        this.Artifact = Artifact;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Path);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Path));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Path));
+            }
+
+            Path = materialized;
+        }
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Artifact, out IEnumerable<string> Path)
+    {
+        Artifact = this.Artifact;
+        Path = this.Path;
+    }
+
     /// <summary>
     /// set an annotation for the specified files of artifact
     /// </summary>
@@ -52,5 +82,17 @@ public record PodmanArtifactAddOptions(
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }
+
+    /// <summary>
+    /// The ARTIFACT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Artifact { get; private init; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Path { get; private init; }
 
 }

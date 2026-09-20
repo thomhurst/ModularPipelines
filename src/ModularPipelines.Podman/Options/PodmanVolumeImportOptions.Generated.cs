@@ -18,10 +18,31 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "import")]
-public record PodmanVolumeImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Volume
-) : PodmanOptions
+public record PodmanVolumeImportOptions : PodmanOptions
 {
+    /// <summary>
+    /// Import a tarball contents into a podman volume
+    /// </summary>
+    /// <param name="Volume">The VOLUME operand.</param>
+    public PodmanVolumeImportOptions(
+        string Volume
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Volume);
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out string Volume)
+    {
+        Volume = this.Volume;
+    }
+
+    /// <summary>
+    /// The VOLUME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Volume { get; private init; }
+
     /// <summary>
     /// The SOURCE operand.
     /// </summary>

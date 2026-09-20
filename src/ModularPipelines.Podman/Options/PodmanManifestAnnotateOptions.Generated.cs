@@ -18,11 +18,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "annotate")]
-public record PodmanManifestAnnotateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string List,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
-) : PodmanOptions
+public record PodmanManifestAnnotateOptions : PodmanOptions
 {
+    /// <summary>
+    /// Add or update information about an entry in a manifest list or image index
+    /// </summary>
+    /// <param name="List">The LIST operand.</param>
+    /// <param name="Image">The IMAGE operand.</param>
+    public PodmanManifestAnnotateOptions(
+        string List,
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(List);
+        this.List = List;
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string List, out string Image)
+    {
+        List = this.List;
+        Image = this.Image;
+    }
+
     /// <summary>
     /// set an annotation for the specified image or artifact
     /// </summary>
@@ -76,5 +95,17 @@ public record PodmanManifestAnnotateOptions(
     /// </summary>
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }
+
+    /// <summary>
+    /// The LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string List { get; private init; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Image { get; private init; }
 
 }

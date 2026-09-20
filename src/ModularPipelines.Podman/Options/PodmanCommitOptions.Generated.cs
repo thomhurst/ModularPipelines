@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("commit")]
-public record PodmanCommitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanCommitOptions : PodmanOptions
 {
+    /// <summary>
+    /// Create new image based on the changed container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanCommitOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Set the author for the image committed
     /// </summary>
@@ -81,6 +96,12 @@ public record PodmanCommitOptions(
     /// </summary>
     [CliFlag("--squash", ShortForm = "-s")]
     public bool? Squash { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
     /// <summary>
     /// The IMAGE operand.

@@ -18,15 +18,46 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "disconnect")]
-public record PodmanNetworkDisconnectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Network,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanNetworkDisconnectOptions : PodmanOptions
 {
+    /// <summary>
+    /// Disconnect a container from a network
+    /// </summary>
+    /// <param name="Network">The NETWORK operand.</param>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanNetworkDisconnectOptions(
+        string Network,
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Network, out string Container)
+    {
+        Network = this.Network;
+        Container = this.Container;
+    }
+
     /// <summary>
     /// force removal of container from network
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The NETWORK operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

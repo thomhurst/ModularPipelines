@@ -18,10 +18,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "checkpoint")]
-public record PodmanContainerCheckpointOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Container
-) : PodmanOptions
+public record PodmanContainerCheckpointOptions : PodmanOptions
 {
+    /// <summary>
+    /// Checkpoint one or more containers
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanContainerCheckpointOptions(
+        IEnumerable<string> Container
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Container);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Container));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Container));
+            }
+
+            Container = materialized;
+        }
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Checkpoint all running containers
     /// </summary>
@@ -105,5 +131,11 @@ public record PodmanContainerCheckpointOptions(
     /// </summary>
     [CliFlag("--with-previous")]
     public bool? WithPrevious { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Container { get; private init; }
 
 }

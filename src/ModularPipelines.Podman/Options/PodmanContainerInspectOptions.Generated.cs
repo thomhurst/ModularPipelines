@@ -18,10 +18,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "inspect")]
-public record PodmanContainerInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Container
-) : PodmanOptions
+public record PodmanContainerInspectOptions : PodmanOptions
 {
+    /// <summary>
+    /// Display the configuration of a container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanContainerInspectOptions(
+        IEnumerable<string> Container
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Container);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Container));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Container));
+            }
+
+            Container = materialized;
+        }
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Format the output to a Go template or json (default "json")
     /// </summary>
@@ -39,5 +65,11 @@ public record PodmanContainerInspectOptions(
     /// </summary>
     [CliFlag("--size", ShortForm = "-s")]
     public bool? Size { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Container { get; private init; }
 
 }

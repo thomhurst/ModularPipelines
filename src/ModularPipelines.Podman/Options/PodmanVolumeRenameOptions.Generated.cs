@@ -18,9 +18,40 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "rename")]
-public record PodmanVolumeRenameOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Volume,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Newname
-) : PodmanOptions
+public record PodmanVolumeRenameOptions : PodmanOptions
 {
+    /// <summary>
+    /// Rename a volume
+    /// </summary>
+    /// <param name="Volume">The VOLUME operand.</param>
+    /// <param name="Newname">The NEWNAME operand.</param>
+    public PodmanVolumeRenameOptions(
+        string Volume,
+        string Newname
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Volume);
+        this.Volume = Volume;
+        global::System.ArgumentNullException.ThrowIfNull(Newname);
+        this.Newname = Newname;
+    }
+
+    public void Deconstruct(out string Volume, out string Newname)
+    {
+        Volume = this.Volume;
+        Newname = this.Newname;
+    }
+
+    /// <summary>
+    /// The VOLUME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Volume { get; private init; }
+
+    /// <summary>
+    /// The NEWNAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Newname { get; private init; }
+
 }

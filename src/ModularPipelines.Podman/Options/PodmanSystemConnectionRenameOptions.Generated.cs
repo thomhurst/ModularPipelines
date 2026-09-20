@@ -18,9 +18,40 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "connection", "rename")]
-public record PodmanSystemConnectionRenameOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Old,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string New
-) : PodmanOptions
+public record PodmanSystemConnectionRenameOptions : PodmanOptions
 {
+    /// <summary>
+    /// Rename "old" to "new"
+    /// </summary>
+    /// <param name="Old">The OLD operand.</param>
+    /// <param name="New">The NEW operand.</param>
+    public PodmanSystemConnectionRenameOptions(
+        string Old,
+        string New
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Old);
+        this.Old = Old;
+        global::System.ArgumentNullException.ThrowIfNull(New);
+        this.New = New;
+    }
+
+    public void Deconstruct(out string Old, out string New)
+    {
+        Old = this.Old;
+        New = this.New;
+    }
+
+    /// <summary>
+    /// The OLD operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Old { get; private init; }
+
+    /// <summary>
+    /// The NEW operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string New { get; private init; }
+
 }

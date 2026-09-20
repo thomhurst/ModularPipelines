@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate", "systemd")]
-public record PodmanGenerateSystemdOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanGenerateSystemdOptions : PodmanOptions
 {
+    /// <summary>
+    /// [DEPRECATED] Generate systemd units
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanGenerateSystemdOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Add dependencies order to the generated unit file
     /// </summary>
@@ -123,5 +138,11 @@ public record PodmanGenerateSystemdOptions(
     /// </summary>
     [CliOption("--wants", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Wants { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

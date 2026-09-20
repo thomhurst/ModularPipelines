@@ -19,10 +19,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "play")]
-public record PodmanKubePlayOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Kubefile
-) : PodmanOptions
+public record PodmanKubePlayOptions : PodmanOptions
 {
+    /// <summary>
+    /// Play a pod or volume based on Kubernetes YAML
+    /// </summary>
+    /// <param name="Kubefile">The KUBEFILE operand.</param>
+    public PodmanKubePlayOptions(
+        string Kubefile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Kubefile);
+        this.Kubefile = Kubefile;
+    }
+
+    public void Deconstruct(out string Kubefile)
+    {
+        Kubefile = this.Kubefile;
+    }
+
     /// <summary>
     /// Add Podman-specific annotations to containers and pods created by Podman (key=value)
     /// </summary>
@@ -173,6 +188,12 @@ public record PodmanKubePlayOptions(
     /// </summary>
     [CliFlag("--wait", ShortForm = "-w")]
     public bool? Wait { get; set; }
+
+    /// <summary>
+    /// The KUBEFILE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Kubefile { get; private init; }
 
     /// <summary>
     /// The ADDITIONALKUBEFILES operand.

@@ -18,14 +18,35 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "export")]
-public record PodmanVolumeExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Volume
-) : PodmanOptions
+public record PodmanVolumeExportOptions : PodmanOptions
 {
+    /// <summary>
+    /// Export volumes
+    /// </summary>
+    /// <param name="Volume">The VOLUME operand.</param>
+    public PodmanVolumeExportOptions(
+        string Volume
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Volume);
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out string Volume)
+    {
+        Volume = this.Volume;
+    }
+
     /// <summary>
     /// Write to a specified file (default: stdout, which must be redirected)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
+
+    /// <summary>
+    /// The VOLUME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Volume { get; private init; }
 
 }
