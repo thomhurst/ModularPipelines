@@ -20,10 +20,25 @@ namespace ModularPipelines.Ansible.Options;
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record AnsibleExecuteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pattern
-) : AnsibleOptions
+public record AnsibleExecuteOptions : AnsibleOptions
 {
+    /// <summary>
+    /// Define and run a single task 'playbook' against a set of hosts
+    /// </summary>
+    /// <param name="Pattern">Host pattern</param>
+    public AnsibleExecuteOptions(
+        string Pattern
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pattern);
+        this.Pattern = Pattern;
+    }
+
+    public void Deconstruct(out string Pattern)
+    {
+        Pattern = this.Pattern;
+    }
+
     /// <summary>
     /// Become password file
     /// </summary>
@@ -142,12 +157,6 @@ public record AnsibleExecuteOptions(
     public int? Forks { get; set; }
 
     /// <summary>
-    /// show this help message and exit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// specify inventory host path or comma separated host list. This argument may be specified multiple times.
     /// </summary>
     [CliOption("--inventory", ShortForm = "-i")]
@@ -256,5 +265,11 @@ public record AnsibleExecuteOptions(
     /// </summary>
     [CliOption("--user", ShortForm = "-u")]
     public string? User { get; set; }
+
+    /// <summary>
+    /// Host pattern
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Pattern { get; private init; }
 
 }
