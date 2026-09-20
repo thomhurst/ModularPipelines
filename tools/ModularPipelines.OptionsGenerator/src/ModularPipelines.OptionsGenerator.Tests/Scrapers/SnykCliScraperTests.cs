@@ -13,6 +13,9 @@ public class SnykCliScraperTests
     [Arguments("The identifier is otherwise required.", false)]
     [Arguments("Not required.", false)]
     [Arguments("Required when no file path is provided.", false)]
+    [Arguments("Required: when no file path is supplied.", false)]
+    [Arguments("Required. Only if no file path is supplied.", false)]
+    [Arguments("Required: unless a file path is supplied.", false)]
     public async Task Only_Unconditional_Required_Markers_Require_Options(string description, bool required)
     {
         var command = (await new TestSnykCliScraper().Parse(["snyk", "ignore"], $"Options\n  --id=<ISSUE_ID>\n    {description}"))!;
@@ -24,6 +27,17 @@ public class SnykCliScraperTests
     {
         var command = (await new TestSnykCliScraper().Parse(["snyk", "test"], "Description\n  Scan the project.\n\nOptions\n  --json\n    Emit JSON."))!;
         await Assert.That(command.Description).IsEqualTo("Scan the project.");
+    }
+
+    [Test]
+    [Arguments("Test a project.\n\n", "Test a project.")]
+    [Arguments("", null)]
+    [Arguments("Test\n", null)]
+    public async Task Fallback_Description_Stops_Before_Options(string introduction, string? expected)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            introduction + "Options\n  --severity-threshold=<low|medium|high|critical>\n    Choose the minimum severity."))!;
+        await Assert.That(command.Description).IsEqualTo(expected);
     }
 
     [Test]

@@ -164,7 +164,7 @@ public partial class SnykCliScraper : CliScraperBase
 
         usage = NormalizeCommandGroupUsage(commandParts, usage);
 
-        var description = ExtractDescription(helpText);
+        var description = ExtractDescription(helpText, string.Join(' ', commandParts));
         var options = ParseOptions(helpText, commandParts);
         AddDocumentedOptions(commandParts, options);
         var positionalArguments = CliPositionalArgument.MergeDuplicates(
@@ -223,7 +223,7 @@ public partial class SnykCliScraper : CliScraperBase
     /// <summary>
     /// Extracts description from help text.
     /// </summary>
-    private static string? ExtractDescription(string helpText)
+    private static string? ExtractDescription(string helpText, string commandTitle)
     {
         var lines = helpText.ReplaceLineEndings("\n").Split('\n');
         var descriptionHeading = Array.FindIndex(lines, line => line.Trim().Equals("Description", StringComparison.OrdinalIgnoreCase));
@@ -234,6 +234,11 @@ public partial class SnykCliScraper : CliScraperBase
         for (var index = start; index < lines.Length; index++)
         {
             var trimmed = lines[index].Trim();
+            if (DescriptionBoundaryPattern().IsMatch(trimmed))
+            {
+                break;
+            }
+
             if (trimmed.Length == 0)
             {
                 if (summary.Count > 0)
@@ -251,7 +256,8 @@ public partial class SnykCliScraper : CliScraperBase
                 inSynopsis = true;
             }
 
-            if (inSynopsis || (descriptionHeading < 0 && summary.Count == 0 && (trimmed.Length <= 20 || trimmed.EndsWith(':'))))
+            if (inSynopsis || (descriptionHeading < 0 && summary.Count == 0
+                && (trimmed.Equals(commandTitle, StringComparison.OrdinalIgnoreCase) || trimmed.EndsWith(':'))))
             {
                 continue;
             }
@@ -261,6 +267,9 @@ public partial class SnykCliScraper : CliScraperBase
 
         return summary.Count > 0 ? string.Join(' ', summary) : null;
     }
+
+    [GeneratedRegex(@"^(?:Options(?:\s+.*)?|Usage:?(?:\s+.*)?|Examples(?:\s+.*)?|Prerequisites|Debug|Exit codes|Environment variables)$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex DescriptionBoundaryPattern();
 
     /// <summary>
     /// Parses options from Snyk help text.
