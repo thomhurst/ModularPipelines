@@ -134,12 +134,6 @@ public record MavenExecuteOptions : MavenOptions
     public string? GlobalToolchains { get; set; }
 
     /// <summary>
-    /// Display help information
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// If set, Maven will ignore remote repositories introduced by transitive dependencies.
     /// </summary>
     [CliFlag("--ignore-transitive-repositories", ShortForm = "-itr")]
