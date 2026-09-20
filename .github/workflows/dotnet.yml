@@ -33,6 +33,7 @@ jobs:
       integration_namespace_prefix: ${{ steps.generated_integration.outputs.namespace_prefix }}
       integration_package: ${{ steps.generated_integration.outputs.package }}
       integration_project: ${{ steps.generated_integration.outputs.project }}
+      integration_test_project: ${{ steps.generated_integration.outputs.test_project }}
     permissions:
       contents: read
     steps:
@@ -661,6 +662,7 @@ jobs:
         env:
           INTEGRATION_PACKAGE: ${{ needs.fast-fail.outputs.integration_package }}
           INTEGRATION_PROJECT: ${{ needs.fast-fail.outputs.integration_project }}
+          TEST_PROJECT: ${{ needs.fast-fail.outputs.integration_test_project }}
         run: |
           BUILD_ARGS=()
           if [[ "$INTEGRATION_PACKAGE" == "ModularPipelines.Google" ]]; then
@@ -669,8 +671,7 @@ jobs:
           # Project references compile the shared core and source generators automatically.
           dotnet build "$INTEGRATION_PROJECT" -c Release "${BUILD_ARGS[@]}"
 
-          TEST_PROJECT="test/$INTEGRATION_PACKAGE.UnitTests/$INTEGRATION_PACKAGE.UnitTests.csproj"
-          if [[ -f "$TEST_PROJECT" ]]; then
+          if [[ -n "$TEST_PROJECT" ]]; then
             dotnet build "$TEST_PROJECT" -c Release "${BUILD_ARGS[@]}"
             dotnet run --project "$TEST_PROJECT" -c Release --framework net10.0 --no-build
           fi
