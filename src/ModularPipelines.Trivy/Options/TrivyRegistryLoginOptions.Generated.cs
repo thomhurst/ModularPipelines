@@ -19,15 +19,24 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("registry", "login")]
-public record TrivyRegistryLoginOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Server
-) : TrivyOptions
+public record TrivyRegistryLoginOptions : TrivyOptions
 {
     /// <summary>
-    /// help for login
+    /// Log in to a registry
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Server">The SERVER operand.</param>
+    public TrivyRegistryLoginOptions(
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string Server)
+    {
+        Server = this.Server;
+    }
 
     /// <summary>
     /// password. Comma-separated passwords allowed. TRIVY_PASSWORD should be used for security reasons.
@@ -101,5 +110,11 @@ public record TrivyRegistryLoginOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The SERVER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Server { get; private init; }
 
 }

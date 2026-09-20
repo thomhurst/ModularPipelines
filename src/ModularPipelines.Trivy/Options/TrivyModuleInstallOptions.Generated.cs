@@ -18,15 +18,24 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("module", "install")]
-public record TrivyModuleInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Repository
-) : TrivyOptions
+public record TrivyModuleInstallOptions : TrivyOptions
 {
     /// <summary>
-    /// help for install
+    /// Install a module
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Repository">The REPOSITORY operand.</param>
+    public TrivyModuleInstallOptions(
+        string Repository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string Repository)
+    {
+        Repository = this.Repository;
+    }
 
     /// <summary>
     /// Path to PEM-encoded CA certificate file
@@ -93,5 +102,11 @@ public record TrivyModuleInstallOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The REPOSITORY operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Repository { get; private init; }
 
 }

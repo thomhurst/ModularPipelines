@@ -18,15 +18,24 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "run")]
-public record TrivyPluginRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source
-) : TrivyOptions
+public record TrivyPluginRunOptions : TrivyOptions
 {
     /// <summary>
-    /// help for run
+    /// Run a plugin on the fly
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Source">The NAME operand.</param>
+    public TrivyPluginRunOptions(
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Source)
+    {
+        Source = this.Source;
+    }
 
     /// <summary>
     /// Path to PEM-encoded CA certificate file
@@ -81,6 +90,12 @@ public record TrivyPluginRunOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Source { get; private init; }
 
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? PluginArguments { get; set; }

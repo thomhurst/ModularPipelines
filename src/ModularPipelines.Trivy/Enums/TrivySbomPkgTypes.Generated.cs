@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Trivy.Enums;
 
 /// <summary>
-/// Allowed values for the --pkgtypes option.
+/// Allowed values for --pkg-types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivySbomPkgTypes

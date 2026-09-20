@@ -18,15 +18,24 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("registry", "logout")]
-public record TrivyRegistryLogoutOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Server
-) : TrivyOptions
+public record TrivyRegistryLogoutOptions : TrivyOptions
 {
     /// <summary>
-    /// help for logout
+    /// Log out of a registry
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Server">The SERVER operand.</param>
+    public TrivyRegistryLogoutOptions(
+        string Server
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Server);
+        this.Server = Server;
+    }
+
+    public void Deconstruct(out string Server)
+    {
+        Server = this.Server;
+    }
 
     /// <summary>
     /// Path to PEM-encoded CA certificate file
@@ -81,5 +90,11 @@ public record TrivyRegistryLogoutOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The SERVER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Server { get; private init; }
 
 }

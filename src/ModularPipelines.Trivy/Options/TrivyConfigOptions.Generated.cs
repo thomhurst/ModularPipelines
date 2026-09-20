@@ -20,10 +20,25 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config")]
-public record TrivyConfigOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Dir
-) : TrivyOptions
+public record TrivyConfigOptions : TrivyOptions
 {
+    /// <summary>
+    /// Scan config files for misconfigurations
+    /// </summary>
+    /// <param name="Dir">The DIR operand.</param>
+    public TrivyConfigOptions(
+        string Dir
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Dir);
+        this.Dir = Dir;
+    }
+
+    public void Deconstruct(out string Dir)
+    {
+        Dir = this.Dir;
+    }
+
     /// <summary>
     /// [EXPERIMENTAL] cache backend (e.g. redis://localhost:6379) (default "memory")
     /// </summary>
@@ -403,5 +418,11 @@ public record TrivyConfigOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The DIR operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Dir { get; private init; }
 
 }

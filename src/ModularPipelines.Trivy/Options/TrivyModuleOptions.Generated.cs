@@ -27,12 +27,6 @@ public record TrivyModuleOptions : TrivyOptions
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>
-    /// help for module
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;/.trivy/modules")
     /// </summary>
     [CliOption("--module-dir", Format = OptionFormat.EqualsSeparated)]

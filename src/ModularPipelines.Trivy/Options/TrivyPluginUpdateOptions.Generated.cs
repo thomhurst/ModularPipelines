@@ -21,12 +21,6 @@ namespace ModularPipelines.Trivy.Options;
 public record TrivyPluginUpdateOptions : TrivyOptions
 {
     /// <summary>
-    /// help for update
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Path to PEM-encoded CA certificate file
     /// </summary>
     [CliOption("--cacert", Format = OptionFormat.EqualsSeparated)]
