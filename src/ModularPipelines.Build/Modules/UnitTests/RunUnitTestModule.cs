@@ -11,6 +11,7 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
+using ModularPipelines.Enums;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -26,6 +27,7 @@ namespace ModularPipelines.Build.Modules.UnitTests;
 [DependsOn<BuildSolutionsModule>]
 [RunIf<ModularPipelines.OnLinux>]
 [RequiresCapability("linux")]
+[ExecutionHint(ExecutionHint.CpuBound)]
 public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult>
 {
     private const int MaximumFailuresToDisplay = 10;
