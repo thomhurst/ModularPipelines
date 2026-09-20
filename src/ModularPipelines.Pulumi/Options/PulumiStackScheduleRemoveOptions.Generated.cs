@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "schedule", "remove")]
-public record PulumiStackScheduleRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ScheduleId
-) : PulumiOptions
+public record PulumiStackScheduleRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for remove
+    /// [EXPERIMENTAL] Delete a scheduled deployment action.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="ScheduleId">The &lt;schedule-id&gt; operand.</param>
+    public PulumiStackScheduleRemoveOptions(
+        string ScheduleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleId);
+        this.ScheduleId = ScheduleId;
+    }
+
+    public void Deconstruct(out string ScheduleId)
+    {
+        ScheduleId = this.ScheduleId;
+    }
 
     /// <summary>
     /// The name of the stack to operate on. Defaults to the current stack
@@ -117,5 +126,11 @@ public record PulumiStackScheduleRemoveOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;schedule-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ScheduleId { get; private init; }
 
 }

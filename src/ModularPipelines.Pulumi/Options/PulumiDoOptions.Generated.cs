@@ -27,12 +27,6 @@ public record PulumiDoOptions : PulumiOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// help for do
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Output format for resource operation results (supported: default, json)
     /// </summary>
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]

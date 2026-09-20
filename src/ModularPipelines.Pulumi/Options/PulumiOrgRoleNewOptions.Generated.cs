@@ -18,22 +18,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "role", "new")]
-public record PulumiOrgRoleNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DetailsFile
-) : PulumiOptions
+public record PulumiOrgRoleNewOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Create a new custom role for an organization.
+    /// </summary>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    /// <param name="DetailsFile">The &lt;details-file&gt; operand.</param>
+    public PulumiOrgRoleNewOptions(
+        string Name,
+        string DetailsFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DetailsFile);
+        this.DetailsFile = DetailsFile;
+    }
+
+    public void Deconstruct(out string Name, out string DetailsFile)
+    {
+        Name = this.Name;
+        DetailsFile = this.DetailsFile;
+    }
+
     /// <summary>
     /// A description for the role
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
-
-    /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The organization to create the role in. Defaults to the current default organization
@@ -130,5 +143,17 @@ public record PulumiOrgRoleNewOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The &lt;details-file&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DetailsFile { get; private init; }
 
 }

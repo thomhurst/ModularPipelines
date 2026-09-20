@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
-public record PulumiConfigSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
-) : PulumiOptions
+public record PulumiConfigSetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for set
+    /// Configuration values can be accessed when a stack is being deployed and used to configure behavior.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Key">The &lt;key&gt; operand.</param>
+    public PulumiConfigSetOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
 
     /// <summary>
     /// The key contains a path to a property in a map or list to set
@@ -147,6 +156,12 @@ public record PulumiConfigSetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;key&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
 
     /// <summary>
     /// The value operand.

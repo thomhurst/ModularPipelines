@@ -39,12 +39,6 @@ public record PulumiOrgAuditLogListOptions : PulumiOptions
     public string? EventType { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The organization to list audit logs for
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

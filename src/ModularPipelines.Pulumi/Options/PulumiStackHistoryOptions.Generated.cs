@@ -27,12 +27,6 @@ public record PulumiStackHistoryOptions : PulumiOptions
     public bool? FullDates { get; set; }
 
     /// <summary>
-    /// help for history
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Output format. Supported values are: default and json (default "default")
     /// </summary>
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]

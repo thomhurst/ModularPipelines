@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "webhook", "ping")]
-public record PulumiOrgWebhookPingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : PulumiOptions
+public record PulumiOrgWebhookPingOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ping
+    /// [EXPERIMENTAL] Send a test ping to an organization webhook.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Id">The &lt;id&gt; operand.</param>
+    public PulumiOrgWebhookPingOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
 
     /// <summary>
     /// The organization that owns the webhook. Defaults to the current org.
@@ -117,5 +126,11 @@ public record PulumiOrgWebhookPingOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

@@ -20,12 +20,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "gcp-login", "static")]
-public record PulumiEnvProviderGcpLoginStaticOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectNumber,
-    [property: SecretValue, CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AccessToken
-) : PulumiOptions
+public record PulumiEnvProviderGcpLoginStaticOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Add a GCP static-credentials login provider to an environment
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="ProjectNumber">The &lt;project-number&gt; operand.</param>
+    /// <param name="AccessToken">The &lt;access-token&gt; operand.</param>
+    public PulumiEnvProviderGcpLoginStaticOptions(
+        string EnvironmentName,
+        string ProjectNumber,
+        string AccessToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectNumber);
+        this.ProjectNumber = ProjectNumber;
+        global::System.ArgumentNullException.ThrowIfNull(AccessToken);
+        this.AccessToken = AccessToken;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string ProjectNumber, out string AccessToken)
+    {
+        EnvironmentName = this.EnvironmentName;
+        ProjectNumber = this.ProjectNumber;
+        AccessToken = this.AccessToken;
+    }
+
     /// <summary>
     /// create the environment if it does not already exist
     /// </summary>
@@ -45,12 +68,6 @@ public record PulumiEnvProviderGcpLoginStaticOptions(
     public bool? ExportEnvVars { get; set; }
 
     /// <summary>
-    /// help for static
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// property path under values where the provider block is written (default "gcp.login")
     /// </summary>
     [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
@@ -65,7 +82,6 @@ public record PulumiEnvProviderGcpLoginStaticOptions(
     /// <summary>
     /// optional lifetime for impersonated credentials, e.g. 1h30m
     /// </summary>
-    [SecretValue]
     [CliOption("--token-lifetime", Format = OptionFormat.EqualsSeparated)]
     public string? TokenLifetime { get; set; }
 
@@ -152,5 +168,24 @@ public record PulumiEnvProviderGcpLoginStaticOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;project-number&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectNumber { get; private init; }
+
+    /// <summary>
+    /// The &lt;access-token&gt; operand.
+    /// </summary>
+    [SecretValue]
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccessToken { get; private init; }
 
 }

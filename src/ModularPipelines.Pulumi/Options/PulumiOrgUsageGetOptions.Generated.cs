@@ -28,12 +28,6 @@ public record PulumiOrgUsageGetOptions : PulumiOptions
     public PulumiOrgUsageGetGranularity? Granularity { get; set; }
 
     /// <summary>
-    /// help for get
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Number of days to look back from --lookback-start (or the current time) (default 30)
     /// </summary>
     [CliOption("--lookback-days", Format = OptionFormat.EqualsSeparated)]

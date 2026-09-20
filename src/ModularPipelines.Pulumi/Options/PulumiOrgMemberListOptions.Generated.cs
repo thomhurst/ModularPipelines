@@ -33,12 +33,6 @@ public record PulumiOrgMemberListOptions : PulumiOptions
     public int? Count { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The organization to list members for. Defaults to the user's default organization
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

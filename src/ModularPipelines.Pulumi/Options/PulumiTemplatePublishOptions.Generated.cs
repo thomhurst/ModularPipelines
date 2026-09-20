@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("template", "publish")]
-public record PulumiTemplatePublishOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Directory
-) : PulumiOptions
+public record PulumiTemplatePublishOptions : PulumiOptions
 {
     /// <summary>
-    /// help for publish
+    /// Publish a template to the Private Registry.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Directory">The &lt;directory&gt; operand.</param>
+    public PulumiTemplatePublishOptions(
+        string Directory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Directory);
+        this.Directory = Directory;
+    }
+
+    public void Deconstruct(out string Directory)
+    {
+        Directory = this.Directory;
+    }
 
     /// <summary>
     /// The name of the template (required)
@@ -123,5 +132,11 @@ public record PulumiTemplatePublishOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;directory&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Directory { get; private init; }
 
 }

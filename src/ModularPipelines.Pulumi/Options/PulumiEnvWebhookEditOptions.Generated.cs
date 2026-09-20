@@ -19,11 +19,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "webhook", "edit")]
-public record PulumiEnvWebhookEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WebhookName
-) : PulumiOptions
+public record PulumiEnvWebhookEditOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Edit an environment webhook
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="WebhookName">The &lt;webhook-name&gt; operand.</param>
+    public PulumiEnvWebhookEditOptions(
+        string EnvironmentName,
+        string WebhookName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(WebhookName);
+        this.WebhookName = WebhookName;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string WebhookName)
+    {
+        EnvironmentName = this.EnvironmentName;
+        WebhookName = this.WebhookName;
+    }
+
     /// <summary>
     /// Whether the webhook is active (default true)
     /// </summary>
@@ -65,12 +84,6 @@ public record PulumiEnvWebhookEditOptions(
     /// </summary>
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Group { get; set; }
-
-    /// <summary>
-    /// help for edit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Unsubscribe from an event (repeatable)
@@ -186,5 +199,17 @@ public record PulumiEnvWebhookEditOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;webhook-name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WebhookName { get; private init; }
 
 }

@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "role", "edit")]
-public record PulumiOrgRoleEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleId
-) : PulumiOptions
+public record PulumiOrgRoleEditOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Update a custom role's name, description, or permissions.
+    /// </summary>
+    /// <param name="RoleId">The &lt;role-id&gt; operand.</param>
+    public PulumiOrgRoleEditOptions(
+        string RoleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleId);
+        this.RoleId = RoleId;
+    }
+
+    public void Deconstruct(out string RoleId)
+    {
+        RoleId = this.RoleId;
+    }
+
     /// <summary>
     /// Update the role's description
     /// </summary>
@@ -33,12 +48,6 @@ public record PulumiOrgRoleEditOptions(
     /// </summary>
     [CliOption("--details-file", Format = OptionFormat.EqualsSeparated)]
     public string? DetailsFile { get; set; }
-
-    /// <summary>
-    /// help for edit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Rename the role
@@ -135,5 +144,11 @@ public record PulumiOrgRoleEditOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;role-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleId { get; private init; }
 
 }

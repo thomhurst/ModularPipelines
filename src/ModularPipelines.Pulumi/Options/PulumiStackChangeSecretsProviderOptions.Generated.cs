@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "change-secrets-provider")]
-public record PulumiStackChangeSecretsProviderOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewSecretsProvider
-) : PulumiOptions
+public record PulumiStackChangeSecretsProviderOptions : PulumiOptions
 {
     /// <summary>
-    /// help for change-secrets-provider
+    /// Change the secrets provider for a stack. Valid secret providers types are `default`, `passphrase`, `awskms`, `azurekeyvault`, `gcpkms`, `hashivault`.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="NewSecretsProvider">The &lt;new-secrets-provider&gt; operand.</param>
+    public PulumiStackChangeSecretsProviderOptions(
+        string NewSecretsProvider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewSecretsProvider);
+        this.NewSecretsProvider = NewSecretsProvider;
+    }
+
+    public void Deconstruct(out string NewSecretsProvider)
+    {
+        NewSecretsProvider = this.NewSecretsProvider;
+    }
 
     /// <summary>
     /// The name of the stack to operate on. Defaults to the current stack
@@ -111,5 +120,11 @@ public record PulumiStackChangeSecretsProviderOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;new-secrets-provider&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NewSecretsProvider { get; private init; }
 
 }

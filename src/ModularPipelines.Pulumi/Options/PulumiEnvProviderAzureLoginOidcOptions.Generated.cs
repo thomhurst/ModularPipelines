@@ -19,13 +19,40 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "azure-login", "oidc")]
-public record PulumiEnvProviderAzureLoginOidcOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TenantId,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SubscriptionId,
-    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ClientId
-) : PulumiOptions
+public record PulumiEnvProviderAzureLoginOidcOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Add an Azure OIDC login provider to an environment
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="TenantId">The &lt;tenant-id&gt; operand.</param>
+    /// <param name="SubscriptionId">The &lt;subscription-id&gt; operand.</param>
+    /// <param name="ClientId">The &lt;client-id&gt; operand.</param>
+    public PulumiEnvProviderAzureLoginOidcOptions(
+        string EnvironmentName,
+        string TenantId,
+        string SubscriptionId,
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(TenantId);
+        this.TenantId = TenantId;
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionId);
+        this.SubscriptionId = SubscriptionId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string TenantId, out string SubscriptionId, out string ClientId)
+    {
+        EnvironmentName = this.EnvironmentName;
+        TenantId = this.TenantId;
+        SubscriptionId = this.SubscriptionId;
+        ClientId = this.ClientId;
+    }
+
     /// <summary>
     /// create the environment if it does not already exist
     /// </summary>
@@ -43,12 +70,6 @@ public record PulumiEnvProviderAzureLoginOidcOptions(
     /// </summary>
     [CliFlag("--export-env-vars")]
     public bool? ExportEnvVars { get; set; }
-
-    /// <summary>
-    /// help for oidc
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// property path under values where the provider block is written (default "azure.login")
@@ -145,5 +166,29 @@ public record PulumiEnvProviderAzureLoginOidcOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;tenant-id&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TenantId { get; private init; }
+
+    /// <summary>
+    /// The &lt;subscription-id&gt; operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SubscriptionId { get; private init; }
+
+    /// <summary>
+    /// The &lt;client-id&gt; operand.
+    /// </summary>
+    [CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ClientId { get; private init; }
 
 }

@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiTemplateListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Filter to templates whose name matches the given value
     /// </summary>
     [CliOption("--name", Format = OptionFormat.EqualsSeparated)]

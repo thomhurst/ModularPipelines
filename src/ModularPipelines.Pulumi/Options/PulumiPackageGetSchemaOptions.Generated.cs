@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "get-schema")]
-public record PulumiPackageGetSchemaOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SchemaSource
-) : PulumiOptions
+public record PulumiPackageGetSchemaOptions : PulumiOptions
 {
+    /// <summary>
+    /// Get the schema.json from a package.
+    /// </summary>
+    /// <param name="SchemaSource">The &lt;schema-source&gt; operand.</param>
+    public PulumiPackageGetSchemaOptions(
+        string SchemaSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaSource);
+        this.SchemaSource = SchemaSource;
+    }
+
+    public void Deconstruct(out string SchemaSource)
+    {
+        SchemaSource = this.SchemaSource;
+    }
+
     /// <summary>
     /// Add an extension layered onto a base provider rather than a replacement. The value is the extension's provider-defined parameters as one shell-quoted string, e.g. --extension "key=value ..."
     /// </summary>
     [CliOption("--extension", Format = OptionFormat.EqualsSeparated)]
     public string? Extension { get; set; }
-
-    /// <summary>
-    /// help for get-schema
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// A URL to download the plugin from. When set, the provider argument is used as the plugin name directly and no package resolution is performed.
@@ -117,6 +126,12 @@ public record PulumiPackageGetSchemaOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;schema-source&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SchemaSource { get; private init; }
 
     /// <summary>
     /// The [provider-parameter] operand.

@@ -19,10 +19,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "account", "new")]
-public record PulumiInsightsAccountNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : PulumiOptions
+public record PulumiInsightsAccountNewOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Create a new Pulumi Insights account.
+    /// </summary>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    public PulumiInsightsAccountNewOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// ID of the agent pool to run discovery workflows (defaults to the org's default pool)
     /// </summary>
@@ -34,12 +49,6 @@ public record PulumiInsightsAccountNewOptions(
     /// </summary>
     [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
     public string? Environment { get; set; }
-
-    /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Organization that will own the Insights account (defaults to the current default org)
@@ -154,5 +163,11 @@ public record PulumiInsightsAccountNewOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

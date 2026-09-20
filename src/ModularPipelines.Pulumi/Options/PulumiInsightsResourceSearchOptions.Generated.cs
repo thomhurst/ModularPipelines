@@ -40,12 +40,6 @@ public record PulumiInsightsResourceSearchOptions : PulumiOptions
     public string? Cursor { get; set; }
 
     /// <summary>
-    /// help for search
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Organization to search within (defaults to the current default org)
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

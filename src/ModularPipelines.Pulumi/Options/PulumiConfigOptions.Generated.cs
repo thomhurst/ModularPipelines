@@ -27,12 +27,6 @@ public record PulumiConfigOptions : PulumiOptions
     public string? ConfigFile { get; set; }
 
     /// <summary>
-    /// help for config
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Emit output as JSON
     /// </summary>
     [CliFlag("--json", ShortForm = "-j")]

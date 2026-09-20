@@ -18,22 +18,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "validate-config")]
-public record PulumiPolicyValidateConfigOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrPolicyPackName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : PulumiOptions
+public record PulumiPolicyValidateConfigOptions : PulumiOptions
 {
+    /// <summary>
+    /// Validate a Policy Pack configuration against the configuration schema of the specified version.
+    /// </summary>
+    /// <param name="OrgNameOrPolicyPackName">The org-name&gt; Or &lt;policy-pack-name operand.</param>
+    /// <param name="Version">The &lt;version&gt; operand.</param>
+    public PulumiPolicyValidateConfigOptions(
+        string OrgNameOrPolicyPackName,
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrgNameOrPolicyPackName);
+        this.OrgNameOrPolicyPackName = OrgNameOrPolicyPackName;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string OrgNameOrPolicyPackName, out string Version)
+    {
+        OrgNameOrPolicyPackName = this.OrgNameOrPolicyPackName;
+        Version = this.Version;
+    }
+
     /// <summary>
     /// The file path for the Policy Pack configuration file
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
-
-    /// <summary>
-    /// help for validate-config
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -112,5 +125,17 @@ public record PulumiPolicyValidateConfigOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The org-name&gt; Or &lt;policy-pack-name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrgNameOrPolicyPackName { get; private init; }
+
+    /// <summary>
+    /// The &lt;version&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

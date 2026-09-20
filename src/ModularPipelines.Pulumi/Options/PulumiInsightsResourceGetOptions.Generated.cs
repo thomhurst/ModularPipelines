@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "resource", "get")]
-public record PulumiInsightsResourceGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceTypeAndId
-) : PulumiOptions
+public record PulumiInsightsResourceGetOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Look up a single resource discovered by Pulumi Insights.
+    /// </summary>
+    /// <param name="ResourceTypeAndId">The &lt;resource-type-and-id&gt; operand.</param>
+    public PulumiInsightsResourceGetOptions(
+        string ResourceTypeAndId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceTypeAndId);
+        this.ResourceTypeAndId = ResourceTypeAndId;
+    }
+
+    public void Deconstruct(out string ResourceTypeAndId)
+    {
+        ResourceTypeAndId = this.ResourceTypeAndId;
+    }
+
     /// <summary>
     /// Insights account containing the resource
     /// </summary>
     [CliOption("--account", Format = OptionFormat.EqualsSeparated)]
     public string? Account { get; set; }
-
-    /// <summary>
-    /// help for get
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Organization that owns the Insights account (defaults to the current default org)
@@ -123,5 +132,11 @@ public record PulumiInsightsResourceGetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;resource-type-and-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceTypeAndId { get; private init; }
 
 }

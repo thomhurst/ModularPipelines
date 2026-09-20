@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "schedule", "get")]
-public record PulumiEnvScheduleGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ScheduleId
-) : PulumiOptions
+public record PulumiEnvScheduleGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for get
+    /// [EXPERIMENTAL] Show details for an environment scheduled action
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="ScheduleId">The &lt;schedule-id&gt; operand.</param>
+    public PulumiEnvScheduleGetOptions(
+        string EnvironmentName,
+        string ScheduleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleId);
+        this.ScheduleId = ScheduleId;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string ScheduleId)
+    {
+        EnvironmentName = this.EnvironmentName;
+        ScheduleId = this.ScheduleId;
+    }
 
     /// <summary>
     /// output format: "text" (default) or "json" (default "text")
@@ -124,5 +137,17 @@ public record PulumiEnvScheduleGetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;schedule-id&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ScheduleId { get; private init; }
 
 }

@@ -39,12 +39,6 @@ public record PulumiPolicyNewOptions : PulumiOptions
     public bool? GenerateOnly { get; set; }
 
     /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Use locally cached templates without making any network requests
     /// </summary>
     [CliFlag("--offline", ShortForm = "-o")]

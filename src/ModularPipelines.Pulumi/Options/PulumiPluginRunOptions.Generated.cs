@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "run")]
-public record PulumiPluginRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path
-) : PulumiOptions
+public record PulumiPluginRunOptions : PulumiOptions
 {
     /// <summary>
-    /// help for run
+    /// [EXPERIMENTAL] Run a command on a plugin binary.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Path">The path operand.</param>
+    public PulumiPluginRunOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
 
     /// <summary>
     /// The plugin kind (default "tool")
@@ -111,6 +120,12 @@ public record PulumiPluginRunOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The path operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path { get; private init; }
 
     /// <summary>
     /// The [args] operand.

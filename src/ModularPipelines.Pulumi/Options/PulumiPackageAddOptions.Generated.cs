@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "add")]
-public record PulumiPackageAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Provider
-) : PulumiOptions
+public record PulumiPackageAddOptions : PulumiOptions
 {
+    /// <summary>
+    /// Add a package to your Pulumi project, plugin, or current directory.
+    /// </summary>
+    /// <param name="Provider">The provider operand.</param>
+    public PulumiPackageAddOptions(
+        string Provider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+    }
+
+    public void Deconstruct(out string Provider)
+    {
+        Provider = this.Provider;
+    }
+
     /// <summary>
     /// Add an extension layered onto a base provider rather than a replacement. The value is the extension's provider-defined parameters as one shell-quoted string, e.g. --extension "key=value ..."
     /// </summary>
     [CliOption("--extension", Format = OptionFormat.EqualsSeparated)]
     public string? Extension { get; set; }
-
-    /// <summary>
-    /// help for add
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Run outside a Pulumi project or plugin: [nodejs|python|go|dotnet|java]
@@ -123,6 +132,12 @@ public record PulumiPackageAddOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The provider operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Provider { get; private init; }
 
     /// <summary>
     /// The [provider-parameter] operand.

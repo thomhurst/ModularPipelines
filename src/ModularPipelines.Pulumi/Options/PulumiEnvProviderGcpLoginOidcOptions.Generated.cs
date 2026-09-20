@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -20,11 +19,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "gcp-login", "oidc")]
-public record PulumiEnvProviderGcpLoginOidcOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectNumber
-) : PulumiOptions
+public record PulumiEnvProviderGcpLoginOidcOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Add a GCP OIDC login provider to an environment
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="ProjectNumber">The &lt;project-number&gt; operand.</param>
+    public PulumiEnvProviderGcpLoginOidcOptions(
+        string EnvironmentName,
+        string ProjectNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectNumber);
+        this.ProjectNumber = ProjectNumber;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string ProjectNumber)
+    {
+        EnvironmentName = this.EnvironmentName;
+        ProjectNumber = this.ProjectNumber;
+    }
+
     /// <summary>
     /// create the environment if it does not already exist
     /// </summary>
@@ -42,12 +60,6 @@ public record PulumiEnvProviderGcpLoginOidcOptions(
     /// </summary>
     [CliFlag("--export-env-vars")]
     public bool? ExportEnvVars { get; set; }
-
-    /// <summary>
-    /// help for oidc
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// property path under values where the provider block is written (default "gcp.login")
@@ -82,7 +94,6 @@ public record PulumiEnvProviderGcpLoginOidcOptions(
     /// <summary>
     /// optional lifetime for impersonated credentials, e.g. 1h30m
     /// </summary>
-    [SecretValue]
     [CliOption("--token-lifetime", Format = OptionFormat.EqualsSeparated)]
     public string? TokenLifetime { get; set; }
 
@@ -175,5 +186,17 @@ public record PulumiEnvProviderGcpLoginOidcOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;project-number&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectNumber { get; private init; }
 
 }

@@ -27,12 +27,6 @@ public record PulumiStackListOptions : PulumiOptions
     public bool? All { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Filter returned stacks to those in a specific organization
     /// </summary>
     [CliOption("--organization", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

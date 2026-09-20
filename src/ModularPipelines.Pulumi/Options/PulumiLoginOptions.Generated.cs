@@ -34,12 +34,6 @@ public record PulumiLoginOptions : PulumiOptions
     public string? DefaultOrg { get; set; }
 
     /// <summary>
-    /// help for login
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Allow insecure server connections when using SSL
     /// </summary>
     [CliFlag("--insecure")]

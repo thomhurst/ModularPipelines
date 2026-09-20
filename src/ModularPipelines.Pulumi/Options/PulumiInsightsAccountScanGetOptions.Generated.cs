@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "account", "scan", "get")]
-public record PulumiInsightsAccountScanGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Account,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ScanId
-) : PulumiOptions
+public record PulumiInsightsAccountScanGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for get
+    /// [EXPERIMENTAL] Get details for a specific Pulumi Insights scan.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Account">The &lt;account&gt; operand.</param>
+    /// <param name="ScanId">The &lt;scan-id&gt; operand.</param>
+    public PulumiInsightsAccountScanGetOptions(
+        string Account,
+        string ScanId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Account);
+        this.Account = Account;
+        global::System.ArgumentNullException.ThrowIfNull(ScanId);
+        this.ScanId = ScanId;
+    }
+
+    public void Deconstruct(out string Account, out string ScanId)
+    {
+        Account = this.Account;
+        ScanId = this.ScanId;
+    }
 
     /// <summary>
     /// Organization that owns the Insights account (defaults to the current default org)
@@ -118,5 +131,17 @@ public record PulumiInsightsAccountScanGetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;account&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Account { get; private init; }
+
+    /// <summary>
+    /// The &lt;scan-id&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ScanId { get; private init; }
 
 }

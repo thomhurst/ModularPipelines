@@ -18,15 +18,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "env", "add")]
-public record PulumiConfigEnvAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> EnvironmentName
-) : PulumiOptions
+public record PulumiConfigEnvAddOptions : PulumiOptions
 {
     /// <summary>
-    /// help for add
+    /// Adds environments to the end of a stack's import list. Imported environments are merged in order
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    public PulumiConfigEnvAddOptions(
+        IEnumerable<string> EnvironmentName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EnvironmentName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EnvironmentName));
+            }
+
+            EnvironmentName = materialized;
+        }
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
 
     /// <summary>
     /// Show secret values in plaintext instead of ciphertext
@@ -129,5 +149,11 @@ public record PulumiConfigEnvAddOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> EnvironmentName { get; private init; }
 
 }

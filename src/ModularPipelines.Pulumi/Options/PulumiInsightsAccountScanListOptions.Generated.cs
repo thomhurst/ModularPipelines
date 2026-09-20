@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "account", "scan", "list")]
-public record PulumiInsightsAccountScanListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Account
-) : PulumiOptions
+public record PulumiInsightsAccountScanListOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] List recent scans for a Pulumi Insights account.
+    /// </summary>
+    /// <param name="Account">The &lt;account&gt; operand.</param>
+    public PulumiInsightsAccountScanListOptions(
+        string Account
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Account);
+        this.Account = Account;
+    }
+
+    public void Deconstruct(out string Account)
+    {
+        Account = this.Account;
+    }
+
     /// <summary>
     /// Return every matching scan
     /// </summary>
@@ -33,12 +48,6 @@ public record PulumiInsightsAccountScanListOptions(
     /// </summary>
     [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
     public int? Count { get; set; }
-
-    /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Organization that owns the Insights account (defaults to the current default org)
@@ -129,5 +138,11 @@ public record PulumiInsightsAccountScanListOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;account&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Account { get; private init; }
 
 }

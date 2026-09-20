@@ -57,12 +57,6 @@ public record PulumiProjectNewOptions : PulumiOptions
     public bool? GenerateOnly { get; set; }
 
     /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// List locally installed templates and exit
     /// </summary>
     [CliFlag("--list-templates", ShortForm = "-l")]

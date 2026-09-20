@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiStackOutputOptions : PulumiOptions
 {
     /// <summary>
-    /// help for output
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Emit output as JSON
     /// </summary>
     [CliFlag("--json", ShortForm = "-j")]

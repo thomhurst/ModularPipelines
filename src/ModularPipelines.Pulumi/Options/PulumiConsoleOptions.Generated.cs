@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiConsoleOptions : PulumiOptions
 {
     /// <summary>
-    /// help for console
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The name of the stack to view
     /// </summary>
     [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]

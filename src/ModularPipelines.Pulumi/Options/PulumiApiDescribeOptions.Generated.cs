@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("api", "describe")]
-public record PulumiApiDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PathOrOperationId
-) : PulumiOptions
+public record PulumiApiDescribeOptions : PulumiOptions
 {
     /// <summary>
-    /// help for describe
+    /// Show the parameters, request body, and response schema for a Pulumi Cloud
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="PathOrOperationId">The &lt;path-or-operation-id&gt; operand.</param>
+    public PulumiApiDescribeOptions(
+        string PathOrOperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PathOrOperationId);
+        this.PathOrOperationId = PathOrOperationId;
+    }
+
+    public void Deconstruct(out string PathOrOperationId)
+    {
+        PathOrOperationId = this.PathOrOperationId;
+    }
 
     /// <summary>
     /// HTTP method to look up (a path can map to multiple ops by method) (default "GET")
@@ -123,5 +132,11 @@ public record PulumiApiDescribeOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;path-or-operation-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PathOrOperationId { get; private init; }
 
 }

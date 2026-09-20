@@ -33,12 +33,6 @@ public record PulumiLogoutOptions : PulumiOptions
     public string? CloudUrl { get; set; }
 
     /// <summary>
-    /// help for logout
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Log out of local-only mode (an alias for file://~)
     /// </summary>
     [CliOption("--local", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]

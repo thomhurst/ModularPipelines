@@ -27,12 +27,6 @@ public record PulumiStateUntaintOptions : PulumiOptions
     public bool? All { get; set; }
 
     /// <summary>
-    /// help for untaint
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The name of the stack to operate on. Defaults to the current stack
     /// </summary>
     [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]

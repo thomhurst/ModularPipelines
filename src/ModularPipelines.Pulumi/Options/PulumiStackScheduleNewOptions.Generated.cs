@@ -40,12 +40,6 @@ public record PulumiStackScheduleNewOptions : PulumiOptions
     public bool? DeleteAfterDestroy { get; set; }
 
     /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Schedule kind (required). One of: raw, drift, ttl
     /// </summary>
     [CliOption("--kind", Format = OptionFormat.EqualsSeparated)]

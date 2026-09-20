@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiEnvListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Filter returned environments to those in a specific organization
     /// </summary>
     [CliOption("--organization", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

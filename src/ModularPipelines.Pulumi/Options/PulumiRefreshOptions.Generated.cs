@@ -76,12 +76,6 @@ public record PulumiRefreshOptions : PulumiOptions
     public bool? ExpectNoChanges { get; set; }
 
     /// <summary>
-    /// help for refresh
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// A list of form [[URN ID]...] describing the provider IDs of pending creates
     /// </summary>
     [CliOption("--import-pending-creates", Format = OptionFormat.EqualsSeparated)]

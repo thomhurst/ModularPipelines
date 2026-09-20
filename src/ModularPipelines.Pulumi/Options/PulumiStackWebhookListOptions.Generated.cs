@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiStackWebhookListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Output format. Supported values are: default and json (default "default")
     /// </summary>
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]

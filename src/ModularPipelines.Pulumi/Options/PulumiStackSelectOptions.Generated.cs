@@ -27,12 +27,6 @@ public record PulumiStackSelectOptions : PulumiOptions
     public bool? Create { get; set; }
 
     /// <summary>
-    /// help for select
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Use with --create flag, The type of the provider that should be used to encrypt and decrypt secrets (possible choices: default, passphrase, awskms, azurekeyvault, gcpkms, hashivault) (default "default")
     /// </summary>
     [CliOption("--secrets-provider", Format = OptionFormat.EqualsSeparated)]

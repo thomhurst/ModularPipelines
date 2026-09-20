@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neo", "resume")]
-public record PulumiNeoResumeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TaskId
-) : PulumiOptions
+public record PulumiNeoResumeOptions : PulumiOptions
 {
+    /// <summary>
+    /// Reopens the local Neo TUI for an existing task and attaches the local tool loop from the current event tail. Historical chat is rendered in the TUI, but historical local shell, filesystem, and Pulumi tool calls are not re-executed.
+    /// </summary>
+    /// <param name="TaskId">The &lt;task-id&gt; operand.</param>
+    public PulumiNeoResumeOptions(
+        string TaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+    }
+
+    public void Deconstruct(out string TaskId)
+    {
+        TaskId = this.TaskId;
+    }
+
     /// <summary>
     /// Working directory for local tool execution (defaults to the current directory)
     /// </summary>
     [CliOption("--cwd", Format = OptionFormat.EqualsSeparated)]
     public string? Cwd { get; set; }
-
-    /// <summary>
-    /// help for resume
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The organization that owns the Neo task (defaults to the user's default org)
@@ -111,5 +120,11 @@ public record PulumiNeoResumeOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;task-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TaskId { get; private init; }
 
 }

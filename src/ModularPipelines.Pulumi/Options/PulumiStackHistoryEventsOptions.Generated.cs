@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "history", "events")]
-public record PulumiStackHistoryEventsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UpdateId
-) : PulumiOptions
+public record PulumiStackHistoryEventsOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Retrieve engine events for a specific update of a stack.
+    /// </summary>
+    /// <param name="UpdateId">The &lt;update-id&gt; operand.</param>
+    public PulumiStackHistoryEventsOptions(
+        string UpdateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UpdateId);
+        this.UpdateId = UpdateId;
+    }
+
+    public void Deconstruct(out string UpdateId)
+    {
+        UpdateId = this.UpdateId;
+    }
+
     /// <summary>
     /// Return every event for the update
     /// </summary>
@@ -39,12 +54,6 @@ public record PulumiStackHistoryEventsOptions(
     /// </summary>
     [CliOption("--event-type", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EventType { get; set; }
-
-    /// <summary>
-    /// help for events
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Include events not yet marked as activated
@@ -153,5 +162,11 @@ public record PulumiStackHistoryEventsOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;update-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UpdateId { get; private init; }
 
 }

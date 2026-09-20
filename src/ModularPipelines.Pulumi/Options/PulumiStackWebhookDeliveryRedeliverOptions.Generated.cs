@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "webhook", "delivery", "redeliver")]
-public record PulumiStackWebhookDeliveryRedeliverOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EventId
-) : PulumiOptions
+public record PulumiStackWebhookDeliveryRedeliverOptions : PulumiOptions
 {
     /// <summary>
-    /// help for redeliver
+    /// [EXPERIMENTAL] Redeliver a specific webhook event.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Id">The &lt;id&gt; operand.</param>
+    /// <param name="EventId">The &lt;event-id&gt; operand.</param>
+    public PulumiStackWebhookDeliveryRedeliverOptions(
+        string Id,
+        string EventId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(EventId);
+        this.EventId = EventId;
+    }
+
+    public void Deconstruct(out string Id, out string EventId)
+    {
+        Id = this.Id;
+        EventId = this.EventId;
+    }
 
     /// <summary>
     /// Output format. Supported values are: default and json (default "default")
@@ -118,5 +131,17 @@ public record PulumiStackWebhookDeliveryRedeliverOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
+
+    /// <summary>
+    /// The &lt;event-id&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EventId { get; private init; }
 
 }

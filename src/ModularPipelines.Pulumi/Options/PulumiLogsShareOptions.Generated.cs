@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiLogsShareOptions : PulumiOptions
 {
     /// <summary>
-    /// help for share
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Include secret values in the shared log (by default secrets are redacted)
     /// </summary>
     [CliFlag("--include-secrets")]

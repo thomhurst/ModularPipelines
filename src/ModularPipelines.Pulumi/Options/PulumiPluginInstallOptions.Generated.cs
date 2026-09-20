@@ -39,12 +39,6 @@ public record PulumiPluginInstallOptions : PulumiOptions
     public string? File { get; set; }
 
     /// <summary>
-    /// help for install
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The max number of concurrent installs to perform. Parallelism of less than 1 implies unbounded parallelism (default 4)
     /// </summary>
     [CliOption("--parallel", Format = OptionFormat.EqualsSeparated)]

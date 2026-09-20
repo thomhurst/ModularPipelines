@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "member", "edit")]
-public record PulumiOrgMemberEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UserLogin
-) : PulumiOptions
+public record PulumiOrgMemberEditOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Modify a member's role within an organization.
+    /// </summary>
+    /// <param name="UserLogin">The &lt;user-login&gt; operand.</param>
+    public PulumiOrgMemberEditOptions(
+        string UserLogin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserLogin);
+        this.UserLogin = UserLogin;
+    }
+
+    public void Deconstruct(out string UserLogin)
+    {
+        UserLogin = this.UserLogin;
+    }
+
     /// <summary>
     /// The custom role to assign (by ID)
     /// </summary>
@@ -33,12 +48,6 @@ public record PulumiOrgMemberEditOptions(
     /// </summary>
     [CliOption("--fga-role-name", Format = OptionFormat.EqualsSeparated)]
     public string? FgaRoleName { get; set; }
-
-    /// <summary>
-    /// help for edit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The organization that owns the member
@@ -135,5 +144,11 @@ public record PulumiOrgMemberEditOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;user-login&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserLogin { get; private init; }
 
 }

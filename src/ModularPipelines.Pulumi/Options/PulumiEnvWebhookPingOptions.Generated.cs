@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "webhook", "ping")]
-public record PulumiEnvWebhookPingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WebhookName
-) : PulumiOptions
+public record PulumiEnvWebhookPingOptions : PulumiOptions
 {
     /// <summary>
-    /// help for ping
+    /// [EXPERIMENTAL] Send a test delivery to an environment webhook
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="WebhookName">The &lt;webhook-name&gt; operand.</param>
+    public PulumiEnvWebhookPingOptions(
+        string EnvironmentName,
+        string WebhookName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(WebhookName);
+        this.WebhookName = WebhookName;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string WebhookName)
+    {
+        EnvironmentName = this.EnvironmentName;
+        WebhookName = this.WebhookName;
+    }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -112,5 +125,17 @@ public record PulumiEnvWebhookPingOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;webhook-name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WebhookName { get; private init; }
 
 }

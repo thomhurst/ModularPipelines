@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "webhook", "get")]
-public record PulumiEnvWebhookGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WebhookName
-) : PulumiOptions
+public record PulumiEnvWebhookGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for get
+    /// [EXPERIMENTAL] Get an environment webhook
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="WebhookName">The &lt;webhook-name&gt; operand.</param>
+    public PulumiEnvWebhookGetOptions(
+        string EnvironmentName,
+        string WebhookName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(WebhookName);
+        this.WebhookName = WebhookName;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string WebhookName)
+    {
+        EnvironmentName = this.EnvironmentName;
+        WebhookName = this.WebhookName;
+    }
 
     /// <summary>
     /// output format: "text" (default) or "json" (default "text")
@@ -118,5 +131,17 @@ public record PulumiEnvWebhookGetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;webhook-name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WebhookName { get; private init; }
 
 }

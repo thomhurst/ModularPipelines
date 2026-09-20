@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "disable")]
-public record PulumiPolicyDisableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrPolicyPackName
-) : PulumiOptions
+public record PulumiPolicyDisableOptions : PulumiOptions
 {
     /// <summary>
-    /// help for disable
+    /// Disable a Policy Pack for a Pulumi organization
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="OrgNameOrPolicyPackName">The org-name&gt; Or &lt;policy-pack-name operand.</param>
+    public PulumiPolicyDisableOptions(
+        string OrgNameOrPolicyPackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrgNameOrPolicyPackName);
+        this.OrgNameOrPolicyPackName = OrgNameOrPolicyPackName;
+    }
+
+    public void Deconstruct(out string OrgNameOrPolicyPackName)
+    {
+        OrgNameOrPolicyPackName = this.OrgNameOrPolicyPackName;
+    }
 
     /// <summary>
     /// The Policy Group for which the Policy Pack will be disabled; if not specified, the default Policy Group is used
@@ -117,5 +126,11 @@ public record PulumiPolicyDisableOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The org-name&gt; Or &lt;policy-pack-name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrgNameOrPolicyPackName { get; private init; }
 
 }

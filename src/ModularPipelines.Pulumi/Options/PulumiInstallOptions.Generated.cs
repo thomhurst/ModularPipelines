@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiInstallOptions : PulumiOptions
 {
     /// <summary>
-    /// help for install
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Skip installing dependencies
     /// </summary>
     [CliFlag("--no-dependencies")]

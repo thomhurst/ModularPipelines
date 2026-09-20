@@ -27,12 +27,6 @@ public record PulumiStackRemoveOptions : PulumiOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// help for remove
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Do not delete the corresponding Pulumi.&lt;stack-name&gt;.yaml configuration file for the stack
     /// </summary>
     [CliFlag("--preserve-config")]

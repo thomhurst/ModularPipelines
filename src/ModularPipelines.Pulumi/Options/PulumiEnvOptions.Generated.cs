@@ -27,12 +27,6 @@ public record PulumiEnvOptions : PulumiOptions
     public string? Env { get; set; }
 
     /// <summary>
-    /// help for env
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]

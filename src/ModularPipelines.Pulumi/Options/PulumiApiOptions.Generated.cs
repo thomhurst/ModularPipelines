@@ -51,12 +51,6 @@ public record PulumiApiOptions : PulumiOptions
     public IEnumerable<string>? Field { get; set; }
 
     /// <summary>
-    /// help for api
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Include HTTP status line and response headers in output
     /// </summary>
     [CliFlag("--include", ShortForm = "-i")]

@@ -40,12 +40,6 @@ public record PulumiOrgWebhookNewOptions : PulumiOptions
     public IEnumerable<string>? Group { get; set; }
 
     /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The webhook format: raw, slack, or ms_teams (default "raw")
     /// </summary>
     [CliOption("--hook-format", Format = OptionFormat.EqualsSeparated)]

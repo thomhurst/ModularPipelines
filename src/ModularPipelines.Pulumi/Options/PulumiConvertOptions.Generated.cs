@@ -33,12 +33,6 @@ public record PulumiConvertOptions : PulumiOptions
     public bool? GenerateOnly { get; set; }
 
     /// <summary>
-    /// help for convert
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Which language plugin to use to generate the Pulumi project
     /// </summary>
     [CliOption("--language", Format = OptionFormat.EqualsSeparated)]

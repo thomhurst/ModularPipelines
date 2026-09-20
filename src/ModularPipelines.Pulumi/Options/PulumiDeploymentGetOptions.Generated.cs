@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "get")]
-public record PulumiDeploymentGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DeploymentVersion
-) : PulumiOptions
+public record PulumiDeploymentGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for get
+    /// [EXPERIMENTAL] Get details for a specific deployment.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="DeploymentVersion">The &lt;deployment-version&gt; operand.</param>
+    public PulumiDeploymentGetOptions(
+        string DeploymentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentVersion);
+        this.DeploymentVersion = DeploymentVersion;
+    }
+
+    public void Deconstruct(out string DeploymentVersion)
+    {
+        DeploymentVersion = this.DeploymentVersion;
+    }
 
     /// <summary>
     /// Output format. Supported values are: default and json (default "default")
@@ -117,5 +126,11 @@ public record PulumiDeploymentGetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;deployment-version&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DeploymentVersion { get; private init; }
 
 }

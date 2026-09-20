@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "get-mapping")]
-public record PulumiPackageGetMappingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SchemaSource
-) : PulumiOptions
+public record PulumiPackageGetMappingOptions : PulumiOptions
 {
     /// <summary>
-    /// help for get-mapping
+    /// Get the mapping information for a given key from a package.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Key">The &lt;key&gt; operand.</param>
+    /// <param name="SchemaSource">The &lt;schema-source&gt; operand.</param>
+    public PulumiPackageGetMappingOptions(
+        string Key,
+        string SchemaSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaSource);
+        this.SchemaSource = SchemaSource;
+    }
+
+    public void Deconstruct(out string Key, out string SchemaSource)
+    {
+        Key = this.Key;
+        SchemaSource = this.SchemaSource;
+    }
 
     /// <summary>
     /// The file to write the mapping data to
@@ -120,10 +133,22 @@ public record PulumiPackageGetMappingOptions(
     public int? Verbose { get; set; }
 
     /// <summary>
+    /// The &lt;key&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
+
+    /// <summary>
     /// The [provider-parameter] operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
     public IEnumerable<string>? ProviderParameter { get; set; }
+
+    /// <summary>
+    /// The &lt;schema-source&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SchemaSource { get; private init; }
 
     /// <summary>
     /// The provider-key operand.

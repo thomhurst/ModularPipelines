@@ -33,12 +33,6 @@ public record PulumiPolicyComplianceListOptions : PulumiOptions
     public string? GroupBy { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The organization to fetch compliance results for
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

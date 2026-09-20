@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiLogsDecryptOptions : PulumiOptions
 {
     /// <summary>
-    /// help for decrypt
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Decrypt the most recent log file without prompting
     /// </summary>
     [CliFlag("--latest")]

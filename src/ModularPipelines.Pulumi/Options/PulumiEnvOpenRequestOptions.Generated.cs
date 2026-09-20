@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "open-request")]
-public record PulumiEnvOpenRequestOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName
-) : PulumiOptions
+public record PulumiEnvOpenRequestOptions : PulumiOptions
 {
+    /// <summary>
+    /// Create a request for opening a protected environment with the given name.
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    public PulumiEnvOpenRequestOptions(
+        string EnvironmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    public void Deconstruct(out string EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
+
     /// <summary>
     /// duration of access in seconds (default 72h0m0s)
     /// </summary>
@@ -33,12 +48,6 @@ public record PulumiEnvOpenRequestOptions(
     /// </summary>
     [CliOption("--grant-expiration-seconds", Format = OptionFormat.EqualsSeparated)]
     public string? GrantExpirationSeconds { get; set; }
-
-    /// <summary>
-    /// help for open-request
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// output format: "text" (default) or "json" (default "text")
@@ -135,5 +144,11 @@ public record PulumiEnvOpenRequestOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
 
 }

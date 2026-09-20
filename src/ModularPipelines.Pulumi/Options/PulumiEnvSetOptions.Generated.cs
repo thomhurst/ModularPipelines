@@ -19,12 +19,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "set")]
-public record PulumiEnvSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Value
-) : PulumiOptions
+public record PulumiEnvSetOptions : PulumiOptions
 {
+    /// <summary>
+    /// Set a value within an environment
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="Path">The &lt;path&gt; operand.</param>
+    /// <param name="Value">The &lt;value&gt; operand.</param>
+    public PulumiEnvSetOptions(
+        string EnvironmentName,
+        string Path,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string Path, out string Value)
+    {
+        EnvironmentName = this.EnvironmentName;
+        Path = this.Path;
+        Value = this.Value;
+    }
+
     /// <summary>
     /// set flag without a value (--draft) to create a draft rather than saving changes directly. --draft=&lt;change-request-id&gt; to update an existing change request.
     /// </summary>
@@ -36,12 +59,6 @@ public record PulumiEnvSetOptions(
     /// </summary>
     [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
-
-    /// <summary>
-    /// help for set
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// true to leave the value in plaintext
@@ -144,5 +161,23 @@ public record PulumiEnvSetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;path&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path { get; private init; }
+
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Value { get; private init; }
 
 }

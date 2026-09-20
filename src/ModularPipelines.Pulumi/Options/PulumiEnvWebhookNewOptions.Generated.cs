@@ -19,11 +19,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "webhook", "new")]
-public record PulumiEnvWebhookNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WebhookDisplayName
-) : PulumiOptions
+public record PulumiEnvWebhookNewOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Create a new environment webhook
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="WebhookDisplayName">The &lt;webhook-display-name&gt; operand.</param>
+    public PulumiEnvWebhookNewOptions(
+        string EnvironmentName,
+        string WebhookDisplayName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(WebhookDisplayName);
+        this.WebhookDisplayName = WebhookDisplayName;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string WebhookDisplayName)
+    {
+        EnvironmentName = this.EnvironmentName;
+        WebhookDisplayName = this.WebhookDisplayName;
+    }
+
     /// <summary>
     /// Whether the webhook is active (default true)
     /// </summary>
@@ -47,12 +66,6 @@ public record PulumiEnvWebhookNewOptions(
     /// </summary>
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Group { get; set; }
-
-    /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Shared secret used to sign deliveries
@@ -150,5 +163,17 @@ public record PulumiEnvWebhookNewOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;webhook-display-name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WebhookDisplayName { get; private init; }
 
 }

@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiOrgRoleListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The organization to list roles for. Defaults to the current default organization
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

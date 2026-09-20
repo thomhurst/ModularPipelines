@@ -42,7 +42,7 @@ public interface IPulumiPlugin
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// List plugins
+    /// List plugins.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
