@@ -20,10 +20,31 @@ namespace ModularPipelines.Snyk.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ignore")]
-public record SnykIgnoreOptions(
-    [property: CliOption("--id", Format = OptionFormat.EqualsSeparated)] string Id
-) : SnykOptions
+public record SnykIgnoreOptions : SnykOptions
 {
+    /// <summary>
+    /// Usage and description
+    /// </summary>
+    /// <param name="Id">Snyk ID for the issue to ignore, omitted if the ignore command used with --file-path, otherwise required.</param>
+    public SnykIgnoreOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Snyk ID for the issue to ignore, omitted if the ignore command used with --file-path, otherwise required.
+    /// </summary>
+    [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
+    public string Id { get; private init; }
+
     /// <summary>
     /// Expiry date in YYYY-MM-DD format.
     /// </summary>

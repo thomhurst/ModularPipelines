@@ -20,10 +20,25 @@ namespace ModularPipelines.Snyk.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "monitor")]
-public record SnykContainerMonitorOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : SnykOptions
+public record SnykContainerMonitorOptions : SnykOptions
 {
+    /// <summary>
+    /// The snyk container monitor command captures the container image layers and dependencies in a
+    /// </summary>
+    /// <param name="Image">Container image to scan</param>
+    public SnykContainerMonitorOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Specify the &lt;ORG_ID&gt; to run Snyk commands tied to a specific Snyk Organization. The &lt;ORG_ID&gt; influences some features availability and private test limits.
     /// </summary>
@@ -150,5 +165,11 @@ public record SnykContainerMonitorOptions(
     /// </summary>
     [CliFlag("-d")]
     public bool? Debug { get; set; }
+
+    /// <summary>
+    /// Container image to scan
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
 }
