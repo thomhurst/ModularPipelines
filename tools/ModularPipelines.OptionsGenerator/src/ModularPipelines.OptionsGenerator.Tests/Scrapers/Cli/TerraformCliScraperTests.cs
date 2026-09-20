@@ -96,6 +96,16 @@ public class TerraformCliScraperTests
     [Arguments("The name, for example \"(required).\".", false)]
     [Arguments("The name, for example '(required).'.", false)]
     [Arguments("The name, for example `(required).`.", false)]
+    [Arguments("Required. Specify the identifier.", true)]
+    [Arguments("Required: specify the identifier.", true)]
+    [Arguments("The identifier. Required: provide a valid name.", true)]
+    [Arguments("The identifier. Required when selecting a deployment.", false)]
+    [Arguments("The identifier is otherwise required.", false)]
+    [Arguments("Not required.", false)]
+    [Arguments("Required when no file path is provided.", false)]
+    [Arguments("Required: when no file path is supplied.", false)]
+    [Arguments("Required. Only if no file path is supplied.", false)]
+    [Arguments("Required: unless a file path is supplied.", false)]
     public async Task Only_Explicit_Required_Markers_Make_Options_Required(string description, bool expected)
     {
         var definition = await _scraper.Parse(

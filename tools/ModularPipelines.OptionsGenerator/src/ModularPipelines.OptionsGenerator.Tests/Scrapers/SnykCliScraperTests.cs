@@ -66,6 +66,26 @@ public class SnykCliScraperTests
     }
 
     [Test]
+    [Arguments("Options for authentication include OAuth and API tokens.")]
+    [Arguments("Usage of this flag disables auto-detection.")]
+    [Arguments("Examples below show how to scan a project.")]
+    public async Task Heading_Words_In_Description_Prose_Are_Preserved(string prose)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            $"Description\n{prose}\nAdditional details remain in the summary.\nOptions:\n  --json\n    Emit JSON."))!;
+        await Assert.That(command.Description).IsEqualTo(prose + " Additional details remain in the summary.");
+    }
+
+    [Test]
+    [Arguments("Usage: snyk test [<OPTIONS>]")]
+    [Arguments("Usage: $ snyk test [<OPTIONS>]")]
+    public async Task Inline_Usage_Is_Not_A_Description(string usage)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"], usage))!;
+        await Assert.That(command.Description).IsNull();
+    }
+
+    [Test]
     [Arguments("")]
     [Arguments(":")]
     public async Task Ignore_Uses_The_Complete_Description_And_Conditional_Id(string headingSuffix)
