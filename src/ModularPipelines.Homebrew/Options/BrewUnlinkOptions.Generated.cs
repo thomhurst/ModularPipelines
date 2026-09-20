@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unlink")]
-public record BrewUnlinkOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
-) : BrewOptions
+public record BrewUnlinkOptions : BrewOptions
 {
+    /// <summary>
+    /// Remove symlinks for formula from Homebrew's prefix. This can be useful for temporarily disabling a formula: brew unlink formula &amp;&amp; commands &amp;&amp; brew link formula
+    /// </summary>
+    /// <param name="InstalledFormula">The installedformula operand.</param>
+    public BrewUnlinkOptions(
+        IEnumerable<string> InstalledFormula
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstalledFormula);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstalledFormula));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstalledFormula));
+            }
+
+            InstalledFormula = materialized;
+        }
+        this.InstalledFormula = InstalledFormula;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstalledFormula)
+    {
+        InstalledFormula = this.InstalledFormula;
+    }
+
     /// <summary>
     /// List files which would be unlinked without actually unlinking or deleting any files.
     /// </summary>
@@ -47,9 +73,9 @@ public record BrewUnlinkOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The installedformula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> InstalledFormula { get; private init; }
 
 }

@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create")]
-public record BrewCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Url
-) : BrewOptions
+public record BrewCreateOptions : BrewOptions
 {
+    /// <summary>
+    /// Generate a formula or, with --cask, a cask for the downloadable file at URL and open it in the editor. Homebrew will attempt to automatically derive the formula name and version, but if it fails, you'll have to make your own template. The wget formula serves as a simple example. For the complete API, see: https://docs.brew.sh/rubydoc/Formula
+    /// </summary>
+    /// <param name="Url">The URL operand.</param>
+    public BrewCreateOptions(
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string Url)
+    {
+        Url = this.Url;
+    }
+
     /// <summary>
     /// Create a basic template for an Autotools-style build.
     /// </summary>
@@ -161,9 +176,9 @@ public record BrewCreateOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The URL operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Url { get; private init; }
 
 }

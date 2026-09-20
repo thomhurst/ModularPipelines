@@ -12,17 +12,51 @@ using ModularPipelines.Homebrew.Options;
 
 namespace ModularPipelines.Homebrew.Options;
 
+/// <summary>
+/// Options for brew services.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services")]
-public record BrewServicesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Restart,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string And,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Persist,
-    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Across,
-    [property: CliArgument(4, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Upgrades
-) : BrewOptions
+public record BrewServicesOptions : BrewOptions
 {
+    /// <summary>
+    /// Options for brew services.
+    /// </summary>
+    /// <param name="Restart">The restart operand.</param>
+    /// <param name="And">The and operand.</param>
+    /// <param name="Persist">The persist operand.</param>
+    /// <param name="Across">The across operand.</param>
+    /// <param name="Upgrades">The upgrades operand.</param>
+    public BrewServicesOptions(
+        string Restart,
+        string And,
+        string Persist,
+        string Across,
+        string Upgrades
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Restart);
+        this.Restart = Restart;
+        global::System.ArgumentNullException.ThrowIfNull(And);
+        this.And = And;
+        global::System.ArgumentNullException.ThrowIfNull(Persist);
+        this.Persist = Persist;
+        global::System.ArgumentNullException.ThrowIfNull(Across);
+        this.Across = Across;
+        global::System.ArgumentNullException.ThrowIfNull(Upgrades);
+        this.Upgrades = Upgrades;
+    }
+
+    public void Deconstruct(out string Restart, out string And, out string Persist, out string Across, out string Upgrades)
+    {
+        Restart = this.Restart;
+        And = this.And;
+        Persist = this.Persist;
+        Across = this.Across;
+        Upgrades = this.Upgrades;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -42,15 +76,39 @@ public record BrewServicesOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// When run as root on macOS, run the service(s) as this user.
     /// </summary>
     [CliOption("--sudo-service-user", Format = OptionFormat.EqualsSeparated)]
     public string? SudoServiceUser { get; set; }
+
+    /// <summary>
+    /// The restart operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Restart { get; private init; }
+
+    /// <summary>
+    /// The and operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string And { get; private init; }
+
+    /// <summary>
+    /// The persist operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Persist { get; private init; }
+
+    /// <summary>
+    /// The across operand.
+    /// </summary>
+    [CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Across { get; private init; }
+
+    /// <summary>
+    /// The upgrades operand.
+    /// </summary>
+    [CliArgument(4, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Upgrades { get; private init; }
 
 }

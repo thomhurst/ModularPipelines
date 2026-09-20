@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tap-new")]
-public record BrewTapNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string UserOrRepo
-) : BrewOptions
+public record BrewTapNewOptions : BrewOptions
 {
+    /// <summary>
+    /// Generate the template files for a new tap.
+    /// </summary>
+    /// <param name="UserOrRepo">The user Or repo operand.</param>
+    public BrewTapNewOptions(
+        string UserOrRepo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserOrRepo);
+        this.UserOrRepo = UserOrRepo;
+    }
+
+    public void Deconstruct(out string UserOrRepo)
+    {
+        UserOrRepo = this.UserOrRepo;
+    }
+
     /// <summary>
     /// Don't initialise a Git repository for the tap.
     /// </summary>
@@ -59,9 +74,9 @@ public record BrewTapNewOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The user Or repo operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string UserOrRepo { get; private init; }
 
 }

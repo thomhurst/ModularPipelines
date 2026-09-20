@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("link")]
-public record BrewLinkOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
-) : BrewOptions
+public record BrewLinkOptions : BrewOptions
 {
+    /// <summary>
+    /// Symlink all of formula's installed files into Homebrew's prefix. This is done automatically when you install formulae but can be useful for manual installations.
+    /// </summary>
+    /// <param name="InstalledFormula">The installed_formula operand.</param>
+    public BrewLinkOptions(
+        IEnumerable<string> InstalledFormula
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstalledFormula);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstalledFormula));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstalledFormula));
+            }
+
+            InstalledFormula = materialized;
+        }
+        this.InstalledFormula = InstalledFormula;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstalledFormula)
+    {
+        InstalledFormula = this.InstalledFormula;
+    }
+
     /// <summary>
     /// Delete files that already exist in the prefix while linking.
     /// </summary>
@@ -65,9 +91,9 @@ public record BrewLinkOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The installed_formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> InstalledFormula { get; private init; }
 
 }

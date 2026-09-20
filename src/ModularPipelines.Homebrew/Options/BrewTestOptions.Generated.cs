@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("test")]
-public record BrewTestOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
-) : BrewOptions
+public record BrewTestOptions : BrewOptions
 {
+    /// <summary>
+    /// Run the test method provided by an installed formula. There is no standard output or return code, but generally it should notify the user if something is wrong with the installed formula.
+    /// </summary>
+    /// <param name="InstalledFormula">The installed_formula operand.</param>
+    public BrewTestOptions(
+        IEnumerable<string> InstalledFormula
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstalledFormula);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstalledFormula));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstalledFormula));
+            }
+
+            InstalledFormula = materialized;
+        }
+        this.InstalledFormula = InstalledFormula;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstalledFormula)
+    {
+        InstalledFormula = this.InstalledFormula;
+    }
+
     /// <summary>
     /// Test formulae even if they are unlinked.
     /// </summary>
@@ -65,9 +91,9 @@ public record BrewTestOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The installed_formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> InstalledFormula { get; private init; }
 
 }

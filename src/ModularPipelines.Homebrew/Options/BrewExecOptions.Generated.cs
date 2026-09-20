@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
-public record BrewExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
-) : BrewOptions
+public record BrewExecOptions : BrewOptions
 {
+    /// <summary>
+    /// Run command in an environment populated by Homebrew formulae.
+    /// </summary>
+    /// <param name="Command">The command operand.</param>
+    public BrewExecOptions(
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string Command)
+    {
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Comma-separated formulae to install and add to PATH before running command.
     /// </summary>
@@ -59,10 +74,10 @@ public record BrewExecOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The command operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Command { get; private init; }
 
     /// <summary>
     /// The arguments operands.

@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bump-cask-pr")]
-public record BrewBumpCaskPrOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Cask
-) : BrewOptions
+public record BrewBumpCaskPrOptions : BrewOptions
 {
+    /// <summary>
+    /// Create a pull request to update cask with a new version.
+    /// </summary>
+    /// <param name="Cask">The cask operand.</param>
+    public BrewBumpCaskPrOptions(
+        string Cask
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cask);
+        this.Cask = Cask;
+    }
+
+    public void Deconstruct(out string Cask)
+    {
+        Cask = this.Cask;
+    }
+
     /// <summary>
     /// Print what would be done rather than doing it.
     /// </summary>
@@ -125,9 +140,9 @@ public record BrewBumpCaskPrOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The cask operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Cask { get; private init; }
 
 }

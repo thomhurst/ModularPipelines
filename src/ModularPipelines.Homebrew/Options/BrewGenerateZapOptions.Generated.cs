@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate-zap")]
-public record BrewGenerateZapOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string CaskOrName
-) : BrewOptions
+public record BrewGenerateZapOptions : BrewOptions
 {
+    /// <summary>
+    /// Generate a zap stanza for a cask by scanning the system for associated files and directories.
+    /// </summary>
+    /// <param name="CaskOrName">The caskorname operand.</param>
+    public BrewGenerateZapOptions(
+        string CaskOrName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaskOrName);
+        this.CaskOrName = CaskOrName;
+    }
+
+    public void Deconstruct(out string CaskOrName)
+    {
+        CaskOrName = this.CaskOrName;
+    }
+
     /// <summary>
     /// Treat the argument as a raw application name instead of a cask token.
     /// </summary>
@@ -47,9 +62,9 @@ public record BrewGenerateZapOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The caskorname operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string CaskOrName { get; private init; }
 
 }
