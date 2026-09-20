@@ -19,10 +19,25 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("list-tags")]
-public record SkopeoListTagsOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceImage
-) : SkopeoOptions
+public record SkopeoListTagsOptions : SkopeoOptions
 {
+    /// <summary>
+    /// Return the list of tags from the transport/repository "SOURCE-IMAGE"
+    /// </summary>
+    /// <param name="SourceImage">The SOURCE-IMAGE operand.</param>
+    public SkopeoListTagsOptions(
+        string SourceImage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceImage);
+        this.SourceImage = SourceImage;
+    }
+
+    public void Deconstruct(out string SourceImage)
+    {
+        SourceImage = this.SourceImage;
+    }
+
     /// <summary>
     /// path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
     /// </summary>
@@ -41,12 +56,6 @@ public record SkopeoListTagsOptions(
     [SecretValue]
     [CliOption("--creds", Format = OptionFormat.EqualsSeparated)]
     public string? Creds { get; set; }
-
-    /// <summary>
-    /// help for list-tags
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Access the registry anonymously
@@ -91,5 +100,11 @@ public record SkopeoListTagsOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? CommandOptions { get; set; }
+
+    /// <summary>
+    /// The SOURCE-IMAGE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SourceImage { get; private init; }
 
 }

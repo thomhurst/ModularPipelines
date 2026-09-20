@@ -21,12 +21,6 @@ namespace ModularPipelines.Skopeo.Options;
 public record SkopeoGenerateSigstoreKeyOptions : SkopeoOptions
 {
     /// <summary>
-    /// help for generate-sigstore-key
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Write the keys to PREFIX.pub and `PREFIX`.private
     /// </summary>
     [CliOption("--output-prefix", Format = OptionFormat.EqualsSeparated)]
