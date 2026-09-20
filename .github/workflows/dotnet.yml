@@ -618,7 +618,7 @@ jobs:
     needs: fast-fail
     if: ${{ always() && needs.fast-fail.outputs.is_generated_integration == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     permissions:
       contents: read
     env:

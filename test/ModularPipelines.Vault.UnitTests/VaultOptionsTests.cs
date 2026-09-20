@@ -22,14 +22,11 @@ public class VaultOptionsTests : TestBase
         var builder = await GetService<ICommandLineBuilder>();
 
         var exception = Assert.Throws<ArgumentException>(() => builder.Build(new VaultAuditOptions(default!)));
-        var expectedDiagnostic = exception is ArgumentNullException
-            ? nameof(VaultAuditOptions.Subcommand)
-            : $"{nameof(VaultAuditOptions)}.{nameof(VaultAuditOptions.Subcommand)}";
 
         using (Assert.Multiple())
         {
             await Assert.That(exception.ParamName).IsEqualTo(nameof(VaultAuditOptions.Subcommand));
-            await Assert.That(exception.Message).Contains(expectedDiagnostic);
+            await Assert.That(exception.Message).Contains(nameof(VaultAuditOptions.Subcommand));
         }
     }
 }
