@@ -180,6 +180,12 @@ jobs:
             --json-schema '{"type":"object","properties":{"summary":{"type":"string","minLength":40},"findings":{"type":"array","items":{"type":"string","minLength":20}},"notes":{"type":"array","items":{"type":"string","minLength":1}},"evidence":{"type":"array","minItems":${{ steps.review_context.outputs.minimum_evidence_count }},"items":{"type":"object","properties":{"path":{"type":"string","minLength":1},"assessment":{"type":"string","minLength":40}},"required":["path","assessment"],"additionalProperties":false}}},"required":["summary","findings","notes","evidence"],"additionalProperties":false}'
           allowed_bots: 'dependabot[bot]'
 
+      - name: Classify Claude execution failure without exposing output
+        if: ${{ failure() && steps.claude-review.outcome == 'failure' }}
+        env:
+          CLAUDE_EXECUTION_FILE: ${{ steps.claude-review.outputs.execution_file }}
+        run: node .github/scripts/diagnose-claude-failure.mjs
+
       - name: Publish validated review
         env:
           GH_TOKEN: ${{ github.token }}
