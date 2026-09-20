@@ -19,10 +19,25 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("init")]
-public record PackerInitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
-) : PackerOptions
+public record PackerInitOptions : PackerOptions
 {
+    /// <summary>
+    /// Install all the missing plugins required in a Packer config. Note that Packer
+    /// </summary>
+    /// <param name="Template">The TEMPLATE operand.</param>
+    public PackerInitOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
     /// <summary>
     /// On top of installing missing plugins, update installed plugins to the latest available version, if there is a new higher one. Note that this still takes into consideration the version constraint of the config.
     /// </summary>
@@ -34,5 +49,11 @@ public record PackerInitOptions(
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The TEMPLATE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Template { get; private init; }
 
 }

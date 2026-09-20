@@ -19,10 +19,25 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build")]
-public record PackerBuildOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
-) : PackerOptions
+public record PackerBuildOptions : PackerOptions
 {
+    /// <summary>
+    /// Will execute multiple builds in parallel as defined in the template.
+    /// </summary>
+    /// <param name="Template">The TEMPLATE operand.</param>
+    public PackerBuildOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
     /// <summary>
     /// Disable color output. (Default: color)
     /// </summary>
@@ -106,5 +121,11 @@ public record PackerBuildOptions(
     /// </summary>
     [CliFlag("--skip-enforcement")]
     public bool? SkipEnforcement { get; set; }
+
+    /// <summary>
+    /// The TEMPLATE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Template { get; private init; }
 
 }

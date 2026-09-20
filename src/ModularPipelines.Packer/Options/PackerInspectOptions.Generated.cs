@@ -19,10 +19,25 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspect")]
-public record PackerInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
-) : PackerOptions
+public record PackerInspectOptions : PackerOptions
 {
+    /// <summary>
+    /// Inspects a template, parsing and outputting the components a template
+    /// </summary>
+    /// <param name="Template">The TEMPLATE operand.</param>
+    public PackerInspectOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
     /// <summary>
     /// Machine-readable output
     /// </summary>
@@ -34,5 +49,11 @@ public record PackerInspectOptions(
     /// </summary>
     [CliFlag("--use-sequential-evaluation")]
     public bool? UseSequentialEvaluation { get; set; }
+
+    /// <summary>
+    /// The TEMPLATE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Template { get; private init; }
 
 }

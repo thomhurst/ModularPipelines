@@ -19,10 +19,25 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify-attestation")]
-public record PackerVerifyAttestationOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Attestation
-) : PackerOptions
+public record PackerVerifyAttestationOptions : PackerOptions
 {
+    /// <summary>
+    /// Verifies a signed DSSE attestation and optionally enforces policy checks
+    /// </summary>
+    /// <param name="Attestation">The ATTESTATION operand.</param>
+    public PackerVerifyAttestationOptions(
+        string Attestation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Attestation);
+        this.Attestation = Attestation;
+    }
+
+    public void Deconstruct(out string Attestation)
+    {
+        Attestation = this.Attestation;
+    }
+
     /// <summary>
     /// Signing mode: key, kms, keyless. Auto-detected when possible.
     /// </summary>
@@ -100,5 +115,11 @@ public record PackerVerifyAttestationOptions(
     /// </summary>
     [CliFlag("--require-timestamp")]
     public bool? RequireTimestamp { get; set; }
+
+    /// <summary>
+    /// The ATTESTATION operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Attestation { get; private init; }
 
 }
