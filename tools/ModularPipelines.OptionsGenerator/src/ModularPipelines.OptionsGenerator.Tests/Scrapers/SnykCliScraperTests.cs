@@ -16,6 +16,12 @@ public class SnykCliScraperTests
     [Arguments("Required: when no file path is supplied.", false)]
     [Arguments("Required. Only if no file path is supplied.", false)]
     [Arguments("Required: unless a file path is supplied.", false)]
+    [Arguments("Required: Conditional.", false)]
+    [Arguments("Required: No.", false)]
+    [Arguments("Required: false.", false)]
+    [Arguments("Required: optional.", false)]
+    [Arguments("Required: Yes.", true)]
+    [Arguments("Required: true.", true)]
     public async Task Only_Unconditional_Required_Markers_Require_Options(string description, bool required)
     {
         var command = (await new TestSnykCliScraper().Parse(["snyk", "ignore"], $"Options\n  --id=<ISSUE_ID>\n    {description}"))!;
