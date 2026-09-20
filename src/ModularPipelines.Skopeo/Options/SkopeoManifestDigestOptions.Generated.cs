@@ -18,14 +18,29 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest-digest")]
-public record SkopeoManifestDigestOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ManifestFile
-) : SkopeoOptions
+public record SkopeoManifestDigestOptions : SkopeoOptions
 {
     /// <summary>
-    /// help for manifest-digest
+    /// Compute a manifest digest of a file
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="ManifestFile">The MANIFEST-FILE operand.</param>
+    public SkopeoManifestDigestOptions(
+        string ManifestFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManifestFile);
+        this.ManifestFile = ManifestFile;
+    }
+
+    public void Deconstruct(out string ManifestFile)
+    {
+        ManifestFile = this.ManifestFile;
+    }
+
+    /// <summary>
+    /// The MANIFEST-FILE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ManifestFile { get; private init; }
 
 }

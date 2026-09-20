@@ -19,10 +19,25 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("login")]
-public record SkopeoLoginOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Registry
-) : SkopeoOptions
+public record SkopeoLoginOptions : SkopeoOptions
 {
+    /// <summary>
+    /// Login to a container registry on a specified server.
+    /// </summary>
+    /// <param name="Registry">The REGISTRY operand.</param>
+    public SkopeoLoginOptions(
+        string Registry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Registry);
+        this.Registry = Registry;
+    }
+
+    public void Deconstruct(out string Registry)
+    {
+        Registry = this.Registry;
+    }
+
     /// <summary>
     /// path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
     /// </summary>
@@ -46,12 +61,6 @@ public record SkopeoLoginOptions(
     /// </summary>
     [CliFlag("--get-login")]
     public bool? GetLogin { get; set; }
-
-    /// <summary>
-    /// help for login
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Password for registry
@@ -89,5 +98,11 @@ public record SkopeoLoginOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? CommandOptions { get; set; }
+
+    /// <summary>
+    /// The REGISTRY operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Registry { get; private init; }
 
 }
