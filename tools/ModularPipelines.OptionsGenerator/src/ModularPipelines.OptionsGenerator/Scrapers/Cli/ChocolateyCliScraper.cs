@@ -346,52 +346,39 @@ public partial class ChocolateyCliScraper : CliScraperBase
     /// </summary>
     private static string? ExtractDescription(string helpText)
     {
-        var lines = helpText.Split('\n');
-
-        // Look for description after Usage section
-        var foundUsage = false;
-        foreach (var line in lines)
+        var summary = new List<string>();
+        foreach (var line in helpText.Split('\n'))
         {
             var trimmed = line.Trim();
+            if (trimmed.Equals("Usage", StringComparison.OrdinalIgnoreCase)
+                || trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
+            {
+                break;
+            }
 
-            // Skip Chocolatey header
-            if (trimmed.StartsWith("Chocolatey v"))
+            if (trimmed.Length == 0)
+            {
+                if (summary.Count > 0)
+                {
+                    break;
+                }
+
+                continue;
+            }
+
+            // Chocolatey prints a banner and command title before the first prose paragraph.
+            if (summary.Count == 0
+                && (trimmed.StartsWith("Chocolatey v", StringComparison.OrdinalIgnoreCase)
+                    || trimmed.EndsWith(" Command", StringComparison.OrdinalIgnoreCase)
+                    || trimmed.All(c => c == '=')))
             {
                 continue;
             }
 
-            if (trimmed.StartsWith("Usage"))
-            {
-                foundUsage = true;
-                continue;
-            }
-
-            // Skip underlines and empty lines
-            if (string.IsNullOrEmpty(trimmed) || trimmed.All(c => c == '='))
-            {
-                continue;
-            }
-
-            // Skip command usage lines
-            if (trimmed.StartsWith("choco "))
-            {
-                continue;
-            }
-
-            // Skip section headers
-            if (trimmed.EndsWith(':') || NextSectionPattern().IsMatch(trimmed))
-            {
-                continue;
-            }
-
-            // Found a description line
-            if (foundUsage && trimmed.Length > 10)
-            {
-                return trimmed;
-            }
+            summary.Add(trimmed);
         }
 
-        return null;
+        return summary.Count > 0 ? string.Join(' ', summary) : null;
     }
 
     /// <summary>

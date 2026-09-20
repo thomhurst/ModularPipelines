@@ -8,6 +8,58 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class ChocolateyCliScraperTests
 {
     [Test]
+    public async Task Summary_Uses_Complete_Introductory_Paragraph()
+    {
+        const string helpText = """
+            Chocolatey v2.7.4
+            Install Command
+
+            Installs a package or a list of packages (sometimes specified as a
+             packages.config).
+
+            NOTE: Additional installation guidance.
+
+            Usage
+
+                choco install <pkg> [<options/switches>]
+
+            NOTE: Any package name ending with .config is considered a
+             packages.config file.
+
+            Options and Switches
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(["choco", "install"], helpText);
+
+        await Assert.That(command!.Description)
+            .IsEqualTo("Installs a package or a list of packages (sometimes specified as a packages.config).");
+    }
+
+    [Test]
+    public async Task New_Summary_Does_Not_Use_Property_Names_After_Usage()
+    {
+        const string helpText = """
+            Chocolatey v2.7.4
+            New Command
+
+            Chocolatey will generate package specification files for a new package.
+
+            Usage
+
+                choco new <name> [<options/switches>]
+
+            Possible properties to pass:
+                packageversion
+                maintainername
+
+            Options and Switches
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(["choco", "new"], helpText);
+
+        await Assert.That(command!.Description)
+            .IsEqualTo("Chocolatey will generate package specification files for a new package.");
+    }
+
+    [Test]
     [Arguments("[<options/switches>]")]
     [Arguments("[<options or switches>]")]
     public async Task Options_Section_Markers_Are_Not_Operands(string marker)
