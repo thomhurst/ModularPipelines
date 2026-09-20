@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "autolink", "delete")]
-public record GhRepoAutolinkDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : GhOptions
+public record GhRepoAutolinkDeleteOptions : GhOptions
 {
+    /// <summary>
+    /// Delete an autolink reference for a repository.
+    /// </summary>
+    /// <param name="Id">The &lt;id&gt; operand.</param>
+    public GhRepoAutolinkDeleteOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// Confirm deletion without prompting
     /// </summary>
@@ -29,15 +44,15 @@ public record GhRepoAutolinkDeleteOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("variable", "set")]
-public record GhVariableSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string VariableName
-) : GhOptions
+public record GhVariableSetOptions : GhOptions
 {
+    /// <summary>
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// </summary>
+    /// <param name="VariableName">The &lt;variable-name&gt; operand.</param>
+    public GhVariableSetOptions(
+        string VariableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VariableName);
+        this.VariableName = VariableName;
+    }
+
+    public void Deconstruct(out string VariableName)
+    {
+        VariableName = this.VariableName;
+    }
+
     /// <summary>
     /// The value for the variable (reads from standard input if not specified)
     /// </summary>
@@ -59,15 +74,15 @@ public record GhVariableSetOptions(
     public string? Visibility { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;variable-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string VariableName { get; private init; }
 
 }

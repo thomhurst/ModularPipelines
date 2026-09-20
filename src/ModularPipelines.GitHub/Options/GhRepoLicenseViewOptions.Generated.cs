@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "license", "view")]
-public record GhRepoLicenseViewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string LicenseKey
-) : GhOptions
+public record GhRepoLicenseViewOptions : GhOptions
 {
+    /// <summary>
+    /// View a specific repository license by license key or SPDX ID.
+    /// </summary>
+    /// <param name="LicenseKey">The &lt;license-key&gt; operand.</param>
+    public GhRepoLicenseViewOptions(
+        string LicenseKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LicenseKey);
+        this.LicenseKey = LicenseKey;
+    }
+
+    public void Deconstruct(out string LicenseKey)
+    {
+        LicenseKey = this.LicenseKey;
+    }
+
     /// <summary>
     /// Open https://choosealicense.com/ in the browser
     /// </summary>
@@ -29,9 +44,9 @@ public record GhRepoLicenseViewOptions(
     public bool? Web { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;license-key&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LicenseKey { get; private init; }
 
 }

@@ -50,10 +50,4 @@ public record GhProjectCreateOptions : GhOptions
     [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
     public string? Title { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

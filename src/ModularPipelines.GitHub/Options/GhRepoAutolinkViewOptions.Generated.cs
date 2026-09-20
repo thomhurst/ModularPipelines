@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "autolink", "view")]
-public record GhRepoAutolinkViewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : GhOptions
+public record GhRepoAutolinkViewOptions : GhOptions
 {
+    /// <summary>
+    /// View an autolink reference for a repository.
+    /// </summary>
+    /// <param name="Id">The &lt;id&gt; operand.</param>
+    public GhRepoAutolinkViewOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// Filter JSON output using a jq expression
     /// </summary>
@@ -41,15 +56,15 @@ public record GhRepoAutolinkViewOptions(
     public string? Template { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

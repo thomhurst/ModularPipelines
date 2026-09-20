@@ -40,12 +40,6 @@ public record GhExtensionUpgradeOptions : GhOptions, IValidatableObject
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The &lt;name&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
@@ -58,6 +52,7 @@ public record GhExtensionUpgradeOptions : GhOptions, IValidatableObject
         {
             yield return new ValidationResult("At least one of Name or All must be specified.", [nameof(Name), nameof(All)]);
         }
+        yield break;
     }
 
 }

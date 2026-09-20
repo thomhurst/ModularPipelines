@@ -18,14 +18,29 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "gitignore", "view")]
-public record GhRepoGitignoreViewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Template
-) : GhOptions
+public record GhRepoGitignoreViewOptions : GhOptions
 {
     /// <summary>
-    /// Show help for command
+    /// View an available repository `.gitignore` template.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    /// <param name="Template">The &lt;template&gt; operand.</param>
+    public GhRepoGitignoreViewOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// The &lt;template&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
 
 }

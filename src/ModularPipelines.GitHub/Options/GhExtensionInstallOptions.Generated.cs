@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("extension", "install")]
-public record GhExtensionInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Repository
-) : GhOptions
+public record GhExtensionInstallOptions : GhOptions
 {
+    /// <summary>
+    /// Install a GitHub CLI extension from a GitHub or local repository.
+    /// </summary>
+    /// <param name="Repository">The &lt;repository&gt; operand.</param>
+    public GhExtensionInstallOptions(
+        string Repository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string Repository)
+    {
+        Repository = this.Repository;
+    }
+
     /// <summary>
     /// Force upgrade extension, or ignore if latest already installed
     /// </summary>
@@ -35,9 +50,9 @@ public record GhExtensionInstallOptions(
     public string? Pin { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;repository&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Repository { get; private init; }
 
 }

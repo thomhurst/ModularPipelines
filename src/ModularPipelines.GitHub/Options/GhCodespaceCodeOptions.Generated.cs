@@ -50,10 +50,4 @@ public record GhCodespaceCodeOptions : GhOptions
     [CliFlag("--web", ShortForm = "-w")]
     public bool? Web { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

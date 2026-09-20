@@ -63,12 +63,6 @@ public record GhReleaseListOptions : GhOptions
     public string? Template { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]

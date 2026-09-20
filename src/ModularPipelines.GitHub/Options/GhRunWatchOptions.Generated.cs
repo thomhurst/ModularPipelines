@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "watch")]
-public record GhRunWatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RunId
-) : GhOptions
+public record GhRunWatchOptions : GhOptions
 {
+    /// <summary>
+    /// Watch a run until it completes, showing its progress.
+    /// </summary>
+    /// <param name="RunId">The &lt;run-id&gt; operand.</param>
+    public GhRunWatchOptions(
+        string RunId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RunId);
+        this.RunId = RunId;
+    }
+
+    public void Deconstruct(out string RunId)
+    {
+        RunId = this.RunId;
+    }
+
     /// <summary>
     /// Show only relevant/failed steps
     /// </summary>
@@ -41,15 +56,15 @@ public record GhRunWatchOptions(
     public int? Interval { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;run-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RunId { get; private init; }
 
 }

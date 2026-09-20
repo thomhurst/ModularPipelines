@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("skill", "search")]
-public record GhSkillSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Query
-) : GhOptions
+public record GhSkillSearchOptions : GhOptions
 {
+    /// <summary>
+    /// Search across all public GitHub repositories for skills matching a keyword.
+    /// </summary>
+    /// <param name="Query">The &lt;query&gt; operand.</param>
+    public GhSkillSearchOptions(
+        string Query
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Query);
+        this.Query = Query;
+    }
+
+    public void Deconstruct(out string Query)
+    {
+        Query = this.Query;
+    }
+
     /// <summary>
     /// Filter JSON output using a jq expression
     /// </summary>
@@ -59,9 +74,9 @@ public record GhSkillSearchOptions(
     public string? Template { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;query&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Query { get; private init; }
 
 }

@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssh-key", "delete")]
-public record GhSshKeyDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : GhOptions
+public record GhSshKeyDeleteOptions : GhOptions
 {
+    /// <summary>
+    /// Delete an SSH key from your GitHub account
+    /// </summary>
+    /// <param name="Id">The &lt;id&gt; operand.</param>
+    public GhSshKeyDeleteOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// Skip the confirmation prompt
     /// </summary>
@@ -29,9 +44,9 @@ public record GhSshKeyDeleteOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;id&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

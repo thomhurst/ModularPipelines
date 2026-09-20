@@ -18,16 +18,51 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist", "rename")]
-public record GhGistRenameOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IdOrUrl,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OldFilename,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewFilename
-) : GhOptions
+public record GhGistRenameOptions : GhOptions
 {
     /// <summary>
-    /// Show help for command
+    /// Rename a file in the given gist ID / URL.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    /// <param name="IdOrUrl">The &lt;id&gt; operand.</param>
+    /// <param name="OldFilename">The &lt;old-filename&gt; operand.</param>
+    /// <param name="NewFilename">The &lt;new-filename&gt; operand.</param>
+    public GhGistRenameOptions(
+        string IdOrUrl,
+        string OldFilename,
+        string NewFilename
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdOrUrl);
+        this.IdOrUrl = IdOrUrl;
+        global::System.ArgumentNullException.ThrowIfNull(OldFilename);
+        this.OldFilename = OldFilename;
+        global::System.ArgumentNullException.ThrowIfNull(NewFilename);
+        this.NewFilename = NewFilename;
+    }
+
+    public void Deconstruct(out string IdOrUrl, out string OldFilename, out string NewFilename)
+    {
+        IdOrUrl = this.IdOrUrl;
+        OldFilename = this.OldFilename;
+        NewFilename = this.NewFilename;
+    }
+
+    /// <summary>
+    /// The &lt;id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string IdOrUrl { get; private init; }
+
+    /// <summary>
+    /// The &lt;old-filename&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OldFilename { get; private init; }
+
+    /// <summary>
+    /// The &lt;new-filename&gt; operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NewFilename { get; private init; }
 
 }

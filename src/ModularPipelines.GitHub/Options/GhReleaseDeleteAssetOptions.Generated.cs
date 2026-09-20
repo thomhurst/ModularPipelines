@@ -18,11 +18,30 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("release", "delete-asset")]
-public record GhReleaseDeleteAssetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Tag,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AssetName
-) : GhOptions
+public record GhReleaseDeleteAssetOptions : GhOptions
 {
+    /// <summary>
+    /// Delete an asset from a release
+    /// </summary>
+    /// <param name="Tag">The &lt;tag&gt; operand.</param>
+    /// <param name="AssetName">The &lt;asset-name&gt; operand.</param>
+    public GhReleaseDeleteAssetOptions(
+        string Tag,
+        string AssetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Tag);
+        this.Tag = Tag;
+        global::System.ArgumentNullException.ThrowIfNull(AssetName);
+        this.AssetName = AssetName;
+    }
+
+    public void Deconstruct(out string Tag, out string AssetName)
+    {
+        Tag = this.Tag;
+        AssetName = this.AssetName;
+    }
+
     /// <summary>
     /// Skip the confirmation prompt
     /// </summary>
@@ -30,15 +49,21 @@ public record GhReleaseDeleteAssetOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;tag&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Tag { get; private init; }
+
+    /// <summary>
+    /// The &lt;asset-name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AssetName { get; private init; }
 
 }

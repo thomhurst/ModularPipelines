@@ -20,10 +20,4 @@ namespace ModularPipelines.GitHub.Options;
 [CliSubCommand("ssh-key", "list")]
 public record GhSshKeyListOptions : GhOptions
 {
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

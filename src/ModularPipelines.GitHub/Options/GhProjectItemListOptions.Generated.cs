@@ -69,12 +69,6 @@ public record GhProjectItemListOptions : GhOptions
     public string? Template { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The &lt;number&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]

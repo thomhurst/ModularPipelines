@@ -56,10 +56,4 @@ public record GhAuthRefreshOptions : GhOptions
     [CliOption("--scopes", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

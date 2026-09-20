@@ -18,11 +18,41 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("release", "upload")]
-public record GhReleaseUploadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Tag,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Files
-) : GhOptions
+public record GhReleaseUploadOptions : GhOptions
 {
+    /// <summary>
+    /// Upload asset files to a GitHub Release.
+    /// </summary>
+    /// <param name="Tag">The &lt;tag&gt; operand.</param>
+    /// <param name="Files">The &lt;files&gt; operand.</param>
+    public GhReleaseUploadOptions(
+        string Tag,
+        IEnumerable<string> Files
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Tag);
+        this.Tag = Tag;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Files);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Files));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Files));
+            }
+
+            Files = materialized;
+        }
+        this.Files = Files;
+    }
+
+    public void Deconstruct(out string Tag, out IEnumerable<string> Files)
+    {
+        Tag = this.Tag;
+        Files = this.Files;
+    }
+
     /// <summary>
     /// Delete and re-upload existing assets of the same name
     /// </summary>
@@ -30,15 +60,21 @@ public record GhReleaseUploadOptions(
     public bool? Clobber { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;tag&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Tag { get; private init; }
+
+    /// <summary>
+    /// The &lt;files&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Files { get; private init; }
 
 }

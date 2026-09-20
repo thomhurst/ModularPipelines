@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("issue", "reopen")]
-public record GhIssueReopenOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrUrl
-) : GhOptions
+public record GhIssueReopenOptions : GhOptions
 {
+    /// <summary>
+    /// Reopen issue
+    /// </summary>
+    /// <param name="NumberOrUrl">The &lt;number&gt; operand.</param>
+    public GhIssueReopenOptions(
+        string NumberOrUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrUrl);
+        this.NumberOrUrl = NumberOrUrl;
+    }
+
+    public void Deconstruct(out string NumberOrUrl)
+    {
+        NumberOrUrl = this.NumberOrUrl;
+    }
+
     /// <summary>
     /// Add a reopening comment
     /// </summary>
@@ -29,15 +44,15 @@ public record GhIssueReopenOptions(
     public string? Comment { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrUrl { get; private init; }
 
 }

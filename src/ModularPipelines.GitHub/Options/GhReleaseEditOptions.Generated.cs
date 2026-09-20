@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("release", "edit")]
-public record GhReleaseEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TagArgument
-) : GhOptions
+public record GhReleaseEditOptions : GhOptions
 {
+    /// <summary>
+    /// Edit a release
+    /// </summary>
+    /// <param name="TagArgument">The &lt;tag&gt; operand.</param>
+    public GhReleaseEditOptions(
+        string TagArgument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TagArgument);
+        this.TagArgument = TagArgument;
+    }
+
+    public void Deconstruct(out string TagArgument)
+    {
+        TagArgument = this.TagArgument;
+    }
+
     /// <summary>
     /// Start a discussion in the specified category when publishing a draft
     /// </summary>
@@ -83,15 +98,15 @@ public record GhReleaseEditOptions(
     public bool? VerifyTag { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;tag&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TagArgument { get; private init; }
 
 }

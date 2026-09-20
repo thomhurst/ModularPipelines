@@ -18,11 +18,30 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "autolink", "create")]
-public record GhRepoAutolinkCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyPrefix,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlTemplate
-) : GhOptions
+public record GhRepoAutolinkCreateOptions : GhOptions
 {
+    /// <summary>
+    /// Create a new autolink reference for a repository.
+    /// </summary>
+    /// <param name="KeyPrefix">The &lt;keyPrefix&gt; operand.</param>
+    /// <param name="UrlTemplate">The &lt;urlTemplate&gt; operand.</param>
+    public GhRepoAutolinkCreateOptions(
+        string KeyPrefix,
+        string UrlTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyPrefix);
+        this.KeyPrefix = KeyPrefix;
+        global::System.ArgumentNullException.ThrowIfNull(UrlTemplate);
+        this.UrlTemplate = UrlTemplate;
+    }
+
+    public void Deconstruct(out string KeyPrefix, out string UrlTemplate)
+    {
+        KeyPrefix = this.KeyPrefix;
+        UrlTemplate = this.UrlTemplate;
+    }
+
     /// <summary>
     /// Mark autolink as numeric
     /// </summary>
@@ -30,15 +49,21 @@ public record GhRepoAutolinkCreateOptions(
     public bool? Numeric { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;keyPrefix&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyPrefix { get; private init; }
+
+    /// <summary>
+    /// The &lt;urlTemplate&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UrlTemplate { get; private init; }
 
 }

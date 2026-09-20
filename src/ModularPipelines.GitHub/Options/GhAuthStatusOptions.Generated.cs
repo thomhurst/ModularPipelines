@@ -56,10 +56,4 @@ public record GhAuthStatusOptions : GhOptions
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

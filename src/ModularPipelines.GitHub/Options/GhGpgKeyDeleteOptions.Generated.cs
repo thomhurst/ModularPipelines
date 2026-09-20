@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gpg-key", "delete")]
-public record GhGpgKeyDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyId
-) : GhOptions
+public record GhGpgKeyDeleteOptions : GhOptions
 {
+    /// <summary>
+    /// Delete a GPG key from your GitHub account
+    /// </summary>
+    /// <param name="KeyId">The &lt;key-id&gt; operand.</param>
+    public GhGpgKeyDeleteOptions(
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    public void Deconstruct(out string KeyId)
+    {
+        KeyId = this.KeyId;
+    }
+
     /// <summary>
     /// Skip the confirmation prompt
     /// </summary>
@@ -29,9 +44,9 @@ public record GhGpgKeyDeleteOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;key-id&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyId { get; private init; }
 
 }

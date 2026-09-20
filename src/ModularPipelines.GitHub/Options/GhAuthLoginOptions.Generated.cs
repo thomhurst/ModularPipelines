@@ -68,10 +68,4 @@ public record GhAuthLoginOptions : GhOptions
     [CliFlag("--with-token")]
     public bool? WithToken { get; set; }
 
-    /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
 }

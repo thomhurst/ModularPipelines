@@ -18,15 +18,30 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist", "clone")]
-public record GhGistCloneOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Gist
-) : GhOptions
+public record GhGistCloneOptions : GhOptions
 {
     /// <summary>
-    /// Show help for command
+    /// Clone a GitHub gist locally.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    /// <param name="Gist">The &lt;gist&gt; operand.</param>
+    public GhGistCloneOptions(
+        string Gist
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Gist);
+        this.Gist = Gist;
+    }
+
+    public void Deconstruct(out string Gist)
+    {
+        Gist = this.Gist;
+    }
+
+    /// <summary>
+    /// The &lt;gist&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Gist { get; private init; }
 
     /// <summary>
     /// The &lt;gitflags&gt; operand.

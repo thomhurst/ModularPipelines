@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pr", "close")]
-public record GhPrCloseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrUrlOrBranch
-) : GhOptions
+public record GhPrCloseOptions : GhOptions
 {
+    /// <summary>
+    /// Close a pull request
+    /// </summary>
+    /// <param name="NumberOrUrlOrBranch">The &lt;number&gt; operand.</param>
+    public GhPrCloseOptions(
+        string NumberOrUrlOrBranch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrUrlOrBranch);
+        this.NumberOrUrlOrBranch = NumberOrUrlOrBranch;
+    }
+
+    public void Deconstruct(out string NumberOrUrlOrBranch)
+    {
+        NumberOrUrlOrBranch = this.NumberOrUrlOrBranch;
+    }
+
     /// <summary>
     /// Leave a closing comment
     /// </summary>
@@ -35,15 +50,15 @@ public record GhPrCloseOptions(
     public bool? DeleteBranch { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrUrlOrBranch { get; private init; }
 
 }

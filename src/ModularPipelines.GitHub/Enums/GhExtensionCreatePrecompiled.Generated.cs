@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.GitHub.Enums;
 
 /// <summary>
-/// Allowed values for the --precompiled option.
+/// Allowed values for --precompiled.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GhExtensionCreatePrecompiled

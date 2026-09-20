@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("issue", "comment")]
-public record GhIssueCommentOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrUrl
-) : GhOptions
+public record GhIssueCommentOptions : GhOptions
 {
+    /// <summary>
+    /// Add a comment to a GitHub issue.
+    /// </summary>
+    /// <param name="NumberOrUrl">The &lt;number&gt; operand.</param>
+    public GhIssueCommentOptions(
+        string NumberOrUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrUrl);
+        this.NumberOrUrl = NumberOrUrl;
+    }
+
+    public void Deconstruct(out string NumberOrUrl)
+    {
+        NumberOrUrl = this.NumberOrUrl;
+    }
+
     /// <summary>
     /// Attach an image or video file, in '&lt;file&gt;#&lt;image alt text&gt;' format
     /// </summary>
@@ -77,15 +92,15 @@ public record GhIssueCommentOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrUrl { get; private init; }
 
 }

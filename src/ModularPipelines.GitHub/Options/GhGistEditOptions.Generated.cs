@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist", "edit")]
-public record GhGistEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IdOrUrl
-) : GhOptions
+public record GhGistEditOptions : GhOptions
 {
+    /// <summary>
+    /// Edit one of your gists
+    /// </summary>
+    /// <param name="IdOrUrl">The &lt;id&gt; operand.</param>
+    public GhGistEditOptions(
+        string IdOrUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdOrUrl);
+        this.IdOrUrl = IdOrUrl;
+    }
+
+    public void Deconstruct(out string IdOrUrl)
+    {
+        IdOrUrl = this.IdOrUrl;
+    }
+
     /// <summary>
     /// Add a new file to the gist
     /// </summary>
@@ -47,10 +62,10 @@ public record GhGistEditOptions(
     public string? Remove { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;id&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string IdOrUrl { get; private init; }
 
     /// <summary>
     /// The &lt;filename&gt; operand.

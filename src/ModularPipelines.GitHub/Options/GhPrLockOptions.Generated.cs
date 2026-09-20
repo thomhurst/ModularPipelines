@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pr", "lock")]
-public record GhPrLockOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrUrl
-) : GhOptions
+public record GhPrLockOptions : GhOptions
 {
+    /// <summary>
+    /// Lock pull request conversation
+    /// </summary>
+    /// <param name="NumberOrUrl">The &lt;number&gt; operand.</param>
+    public GhPrLockOptions(
+        string NumberOrUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrUrl);
+        this.NumberOrUrl = NumberOrUrl;
+    }
+
+    public void Deconstruct(out string NumberOrUrl)
+    {
+        NumberOrUrl = this.NumberOrUrl;
+    }
+
     /// <summary>
     /// Optional reason for locking conversation (off_topic, resolved, spam, too_heated).
     /// </summary>
@@ -29,15 +44,15 @@ public record GhPrLockOptions(
     public string? Reason { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Select another repository using the [HOST/]OWNER/REPO format
     /// </summary>
     [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// The &lt;number&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrUrl { get; private init; }
 
 }

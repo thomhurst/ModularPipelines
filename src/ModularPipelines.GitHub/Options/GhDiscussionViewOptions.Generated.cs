@@ -18,10 +18,25 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("discussion", "view")]
-public record GhDiscussionViewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NumberOrDiscussionUrlOrCommentIdOrCommentUrl
-) : GhOptions
+public record GhDiscussionViewOptions : GhOptions
 {
+    /// <summary>
+    /// Display the title, body, and other information about a discussion.
+    /// </summary>
+    /// <param name="NumberOrDiscussionUrlOrCommentIdOrCommentUrl">The &lt;number&gt; operand.</param>
+    public GhDiscussionViewOptions(
+        string NumberOrDiscussionUrlOrCommentIdOrCommentUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NumberOrDiscussionUrlOrCommentIdOrCommentUrl);
+        this.NumberOrDiscussionUrlOrCommentIdOrCommentUrl = NumberOrDiscussionUrlOrCommentIdOrCommentUrl;
+    }
+
+    public void Deconstruct(out string NumberOrDiscussionUrlOrCommentIdOrCommentUrl)
+    {
+        NumberOrDiscussionUrlOrCommentIdOrCommentUrl = this.NumberOrDiscussionUrlOrCommentIdOrCommentUrl;
+    }
+
     /// <summary>
     /// Cursor for the next page
     /// </summary>
@@ -77,9 +92,9 @@ public record GhDiscussionViewOptions(
     public bool? Web { get; set; }
 
     /// <summary>
-    /// Show help for command
+    /// The &lt;number&gt; operand.
     /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NumberOrDiscussionUrlOrCommentIdOrCommentUrl { get; private init; }
 
 }

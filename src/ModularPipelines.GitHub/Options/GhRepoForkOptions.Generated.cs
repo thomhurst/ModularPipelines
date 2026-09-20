@@ -57,12 +57,6 @@ public record GhRepoForkOptions : GhOptions
     public string? RemoteName { get; set; }
 
     /// <summary>
-    /// Show help for command
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The &lt;repository&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
