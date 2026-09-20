@@ -3,5 +3,5 @@
   "toolName": "gh",
   "toolVersion": "gh version 2.100.0 (2026-09-03) https://github.com/cli/cli/releases/tag/v2.100.0",
   "commandTreeSha256": "3777cffcf304b41a18323a005d1f5bfd5dd24121249da59c9d985e6b8132d552",
-  "generatorSourceSha256": "3c04f8b39c6c54a9dac25bdc0684a2529905122e447265041337bfe69fc485b4"
+  "generatorSourceSha256": "b618ebba785210b052052b4a76870121813d7b3099c74e76c95b99501321ed98"
 }
