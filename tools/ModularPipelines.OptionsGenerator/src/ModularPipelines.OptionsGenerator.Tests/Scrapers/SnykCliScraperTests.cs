@@ -8,6 +8,80 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class SnykCliScraperTests
 {
     [Test]
+    [Arguments("Required. Specify the identifier.", true)]
+    [Arguments("Required: specify the identifier.", true)]
+    [Arguments("The identifier is otherwise required.", false)]
+    [Arguments("Not required.", false)]
+    [Arguments("Required when no file path is provided.", false)]
+    public async Task Only_Unconditional_Required_Markers_Require_Options(string description, bool required)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "ignore"], $"Options\n  --id=<ISSUE_ID>\n    {description}"))!;
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--id").IsRequired).IsEqualTo(required);
+    }
+
+    [Test]
+    public async Task Short_Explicit_Description_Is_Preserved()
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"], "Description\n  Scan the project.\n\nOptions\n  --json\n    Emit JSON."))!;
+        await Assert.That(command.Description).IsEqualTo("Scan the project.");
+    }
+
+    [Test]
+    public async Task Ignore_Uses_The_Complete_Description_And_Conditional_Id()
+    {
+        const string help = """
+            Ignore
+            Usage and description
+              Ignore
+                snyk ignore --id=<ISSUE_ID> [OPTIONS]
+
+                The snyk ignore command modifies the .snyk policy file to ignore a specified issue according to
+                its Snyk ID for all occurrences, its expiry date, a reason, or according to paths in the
+                filesystem for the policy, the issue, or both.
+
+              Exclude
+                snyk ignore [--file-path=<PATH_TO_RESOURCE>] [OPTIONS]
+
+                You can exclude directories or files from scanning using the --file-path option.
+
+            Options
+              --id=<ISSUE_ID>
+                Snyk ID for the issue to ignore, omitted if the ignore command used with --file-path, otherwise required.
+              --file-path=<PATH_TO_RESOURCE>
+                Filesystem for which to exclude directories or files from scanning.
+            """;
+
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "ignore"], help))!;
+        await Assert.That(command.Description).IsEqualTo("The snyk ignore command modifies the .snyk policy file to ignore a specified issue according to its Snyk ID for all occurrences, its expiry date, a reason, or according to paths in the filesystem for the policy, the issue, or both.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--id").IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Explicit_Description_Takes_Precedence_Over_Prerequisites()
+    {
+        const string help = """
+            SBOM
+            Prerequisites
+              Feature availability: This feature is available only to customers on Snyk Enterprise plans.
+
+            Usage
+              $ snyk sbom --format=<cyclonedx1.4+json|spdx2.3+json> [OPTIONS]
+
+            Description
+              The snyk sbom command generates an SBOM for a local software project in an ecosystem supported by
+              Snyk.
+
+            Options
+              --format=<cyclonedx1.4+json|spdx2.3+json>
+                Required. Specify the output format.
+            """;
+
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "sbom"], help))!;
+        await Assert.That(command.Description).IsEqualTo("The snyk sbom command generates an SBOM for a local software project in an ecosystem supported by Snyk.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--format").IsRequired).IsTrue();
+    }
+
+    [Test]
     public async Task Root_Help_Extracts_Only_Top_Level_Commands()
     {
         const string helpText = """

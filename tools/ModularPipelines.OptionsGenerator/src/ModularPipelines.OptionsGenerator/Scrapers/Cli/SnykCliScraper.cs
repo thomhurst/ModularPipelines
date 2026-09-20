@@ -225,36 +225,41 @@ public partial class SnykCliScraper : CliScraperBase
     /// </summary>
     private static string? ExtractDescription(string helpText)
     {
-        var lines = helpText.Split('\n');
-
-        foreach (var line in lines)
+        var lines = helpText.ReplaceLineEndings("\n").Split('\n');
+        var descriptionHeading = Array.FindIndex(lines, line => line.Trim().Equals("Description", StringComparison.OrdinalIgnoreCase));
+        var combinedHeading = Array.FindIndex(lines, line => line.Trim().Equals("Usage and description", StringComparison.OrdinalIgnoreCase));
+        var start = descriptionHeading >= 0 ? descriptionHeading + 1 : combinedHeading + 1;
+        var summary = new List<string>();
+        var inSynopsis = false;
+        for (var index = start; index < lines.Length; index++)
         {
-            var trimmed = line.Trim();
+            var trimmed = lines[index].Trim();
+            if (trimmed.Length == 0)
+            {
+                if (summary.Count > 0)
+                {
+                    break;
+                }
 
-            if (string.IsNullOrWhiteSpace(trimmed))
+                inSynopsis = false;
+                continue;
+            }
+
+            if (trimmed.StartsWith("snyk ", StringComparison.OrdinalIgnoreCase)
+                || trimmed.StartsWith("$ snyk ", StringComparison.OrdinalIgnoreCase))
+            {
+                inSynopsis = true;
+            }
+
+            if (inSynopsis || (descriptionHeading < 0 && summary.Count == 0 && (trimmed.Length <= 20 || trimmed.EndsWith(':'))))
             {
                 continue;
             }
 
-            // Skip section headers
-            if (trimmed.EndsWith(':') || trimmed.StartsWith("Usage:"))
-            {
-                continue;
-            }
-
-            // Skip command lines
-            if (trimmed.StartsWith("snyk"))
-            {
-                continue;
-            }
-
-            if (trimmed.Length > 20)
-            {
-                return trimmed;
-            }
+            summary.Add(trimmed);
         }
 
-        return null;
+        return summary.Count > 0 ? string.Join(' ', summary) : null;
     }
 
     /// <summary>
@@ -372,7 +377,7 @@ public partial class SnykCliScraper : CliScraperBase
             CSharpType = AsCSharpType(scalarType, acceptsMultipleValues),
             Description = description,
             IsFlag = isFlag,
-            IsRequired = description?.Contains("Required.", StringComparison.OrdinalIgnoreCase) == true,
+            IsRequired = description is not null && DescriptionDeclaresRequiredOption(description),
             AcceptsMultipleValues = acceptsMultipleValues,
             IsKeyValue = false,
             IsNumeric = isNumeric,

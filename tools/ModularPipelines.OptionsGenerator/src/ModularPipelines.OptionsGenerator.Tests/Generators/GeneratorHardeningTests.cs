@@ -16,6 +16,32 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 /// </summary>
 public class GeneratorHardeningTests
 {
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Required_Enums_Do_Not_Emit_Boxing_Null_Checks(bool includeRequiredString)
+    {
+        List<CliOptionDefinition> options =
+        [
+            new()
+            {
+                SwitchName = "--format", PropertyName = "Format", CSharpType = "ToolFormat?", IsRequired = true,
+                EnumDefinition = new() { EnumName = "ToolFormat", Values = [new() { MemberName = "Json", CliValue = "json" }] },
+            },
+        ];
+        if (includeRequiredString)
+        {
+            options.Add(new() { SwitchName = "--name", PropertyName = "Name", CSharpType = "string?", IsRequired = true });
+        }
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(Command("ToolRunOptions", "ToolOptions", options: options)))).Single().Content;
+        await Assert.That(generated).DoesNotContain("ThrowIfNull(Format)");
+        if (includeRequiredString)
+        {
+            await Assert.That(generated).Contains("ThrowIfNull(Name)");
+        }
+    }
+
     private static CliCommandDefinition Command(
         string className,
         string parentClassName,

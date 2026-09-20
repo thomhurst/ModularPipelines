@@ -50,7 +50,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var requiresValueValidation = constructorParameters.Any(parameter =>
             IsCollectionParameter(parameter)
             || (RequiresConstructorValue(parameter)
-                && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType)));
+                && (parameter.Option?.EnumDefinition is null && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType))));
         var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresValueValidation
             || command.RequiredOptions.Any(static option => option.IsFlag);
 
@@ -302,7 +302,7 @@ public class OptionsClassGenerator : ICodeGenerator
                 GenerateCollectionSnapshot(sb, parameter);
             }
             else if (RequiresConstructorValue(parameter)
-                     && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType))
+                     && (parameter.Option?.EnumDefinition is null && CliOptionDefinition.MayBeReferenceType(parameter.CSharpType)))
             {
                 sb.AppendLine($"        global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
             }
