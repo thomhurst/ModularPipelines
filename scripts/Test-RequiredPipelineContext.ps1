@@ -3,102 +3,39 @@ $ErrorActionPreference = 'Stop'
 $repositoryRoot = Split-Path $PSScriptRoot -Parent
 $assertScript = Join-Path $PSScriptRoot 'Assert-RequiredPipelineContext.ps1'
 
-function Assert-RoutePasses {
-    param(
-        [Parameter(Mandatory)][string]$Name,
-        [Parameter(Mandatory)][AllowEmptyString()][string]$IsGeneratedIntegration,
-        [Parameter(Mandatory)][string]$FastFailResult,
-        [Parameter(Mandatory)][string]$FullPipelineResult,
-        [Parameter(Mandatory)][string]$GeneratedIntegrationResult
-    )
-
-    & $assertScript `
-        -IsGeneratedIntegration $IsGeneratedIntegration `
-        -FastFailResult $FastFailResult `
-        -FullPipelineResult $FullPipelineResult `
-        -GeneratedIntegrationResult $GeneratedIntegrationResult
-}
-
-function Assert-RouteFails {
-    param(
-        [Parameter(Mandatory)][string]$Name,
-        [Parameter(Mandatory)][AllowEmptyString()][string]$IsGeneratedIntegration,
-        [Parameter(Mandatory)][string]$FastFailResult,
-        [Parameter(Mandatory)][string]$FullPipelineResult,
-        [Parameter(Mandatory)][string]$GeneratedIntegrationResult
-    )
-
-    try {
-        Assert-RoutePasses @PSBoundParameters
+# Only the selected validation route may pass. Missing routing outputs must fail closed.
+$caseCount = 0
+foreach ($runFull in @('true', 'false', '', 'invalid')) {
+    foreach ($generated in @('true', 'false', '', 'invalid')) {
+        foreach ($fastResult in @('success', 'failure', 'cancelled', 'skipped')) {
+            foreach ($fullResult in @('success', 'failure', 'cancelled', 'skipped')) {
+                foreach ($generatedResult in @('success', 'failure', 'cancelled', 'skipped')) {
+                    $shouldPass = $fastResult -eq 'success' -and (
+                        ($runFull -eq 'true' -and $generated -eq 'false' -and
+                            $fullResult -eq 'success' -and $generatedResult -eq 'skipped') -or
+                        ($runFull -eq 'false' -and $generated -eq 'true' -and
+                            $fullResult -eq 'skipped' -and $generatedResult -eq 'success') -or
+                        ($runFull -eq 'false' -and $generated -eq 'false' -and
+                            $fullResult -eq 'skipped' -and $generatedResult -eq 'skipped'))
+                    $passed = $true
+                    try {
+                        & $assertScript -RunFullPipeline $runFull -IsGeneratedIntegration $generated `
+                            -FastFailResult $fastResult -FullPipelineResult $fullResult `
+                            -GeneratedIntegrationResult $generatedResult *> $null
+                    }
+                    catch {
+                        $passed = $false
+                    }
+                    if ($passed -ne $shouldPass) {
+                        throw "Unexpected route result: full=$runFull generated=$generated fast=$fastResult fullResult=$fullResult generatedResult=$generatedResult"
+                    }
+                    $caseCount++
+                }
+            }
+        }
     }
-    catch {
-        return
-    }
-
-    throw "Route '$Name' unexpectedly passed."
 }
-
-Assert-RoutePasses `
-    -Name 'normal pull request' `
-    -IsGeneratedIntegration false `
-    -FastFailResult success `
-    -FullPipelineResult success `
-    -GeneratedIntegrationResult skipped
-Assert-RoutePasses `
-    -Name 'generated integration pull request' `
-    -IsGeneratedIntegration true `
-    -FastFailResult success `
-    -FullPipelineResult skipped `
-    -GeneratedIntegrationResult success
-Assert-RouteFails `
-    -Name 'generated validation skipped' `
-    -IsGeneratedIntegration true `
-    -FastFailResult success `
-    -FullPipelineResult skipped `
-    -GeneratedIntegrationResult skipped
-Assert-RouteFails `
-    -Name 'generated validation failed' `
-    -IsGeneratedIntegration true `
-    -FastFailResult success `
-    -FullPipelineResult skipped `
-    -GeneratedIntegrationResult failure
-Assert-RouteFails `
-    -Name 'generated validation canceled' `
-    -IsGeneratedIntegration true `
-    -FastFailResult success `
-    -FullPipelineResult skipped `
-    -GeneratedIntegrationResult cancelled
-Assert-RouteFails `
-    -Name 'fast-fail failed' `
-    -IsGeneratedIntegration false `
-    -FastFailResult failure `
-    -FullPipelineResult failure `
-    -GeneratedIntegrationResult skipped
-Assert-RouteFails `
-    -Name 'full pipeline failed' `
-    -IsGeneratedIntegration false `
-    -FastFailResult success `
-    -FullPipelineResult failure `
-    -GeneratedIntegrationResult skipped
-Assert-RouteFails `
-    -Name 'full pipeline canceled' `
-    -IsGeneratedIntegration false `
-    -FastFailResult success `
-    -FullPipelineResult cancelled `
-    -GeneratedIntegrationResult skipped
-Assert-RouteFails `
-    -Name 'routing output missing after fast-fail success' `
-    -IsGeneratedIntegration '' `
-    -FastFailResult success `
-    -FullPipelineResult skipped `
-    -GeneratedIntegrationResult skipped
-Assert-RouteFails `
-    -Name 'routing output missing after fast-fail failure' `
-    -IsGeneratedIntegration '' `
-    -FastFailResult failure `
-    -FullPipelineResult skipped `
-    -GeneratedIntegrationResult skipped
-
+Write-Host "Required pipeline routing: $caseCount cases passed."
 $workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
 $requiredJob = [regex]::Match(
     $workflow,
@@ -111,6 +48,7 @@ foreach ($requiredText in @(
              'name: pipeline (ubuntu-latest)',
              'needs: [fast-fail, pipeline, generated-integration]',
              'if: always()',
+             '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',
              './scripts/Assert-RequiredPipelineContext.ps1'
          )) {
     if (-not $requiredJob.Contains($requiredText, [StringComparison]::Ordinal)) {

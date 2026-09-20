@@ -342,7 +342,7 @@ foreach ($testCommand in @(
 }
 
 foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |\z)')) {
-    if ($step.Value -match 'actions/checkout@|uses: \./\.github/actions/detect-generated-integration|name: Reject stale generated snapshots') {
+    if ($step.Value -match 'actions/checkout@|uses: \./\.github/actions/detect-generated-integration|name: Reject stale generated snapshots|name: Detect core changes') {
         continue
     }
     if (-not $step.Value.Contains("steps.generated_integration.outputs.is_generated_integration != 'true'", [StringComparison]::Ordinal)) {
@@ -352,8 +352,8 @@ foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |
 
 foreach ($jobName in @('pipeline', 'cross-platform-build', 'analyzers', 'trim-aot')) {
     $job = [regex]::Match($workflow, "(?ms)^  ${jobName}:.*?(?=^  [a-z0-9-]+:|\z)").Value
-    if (-not $job.Contains("github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true'", [StringComparison]::Ordinal)) {
-        throw "Job '$jobName' must skip generated PRs and retain full validation on main."
+    if (-not $job.Contains("needs.fast-fail.outputs.run_full_pipeline == 'true'", [StringComparison]::Ordinal)) {
+        throw "Job '$jobName' must run only when core validation is required."
     }
 }
 
