@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using ModularPipelines.Attributes;
 using ModularPipelines.Google.Enums;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Secrets;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Google.UnitTests;
