@@ -1,11 +1,9 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
-using ModularPipelines.Enums;
 
 namespace ModularPipelines.Build.Modules.UnitTests;
 
-[ExecutionHint(ExecutionHint.CpuBound)]
 [DependsOn<RunCoreUnitTestsModule>]
 public abstract class RunGeneratedOptionsUnitTestsModule(
     IOptions<PipelineSettings> pipelineSettings)
