@@ -1,4 +1,0 @@
-dialects = ["TEXT"]
-rules = ["(?i)(?<=^|\\s)CREATE\\s+ROLE(?=$|\\s|;)"]
-passOnRegexMatch = false
-description = "CREATE ROLE statement"

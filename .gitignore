@@ -419,6 +419,7 @@ _build-staging/
 /*.tgz
 /*.tar.xz
 /cli-tools/
+/flyway-*/
 
 # Root-level agent workflow output; source-tree fixtures remain visible.
 /.artifacts/
