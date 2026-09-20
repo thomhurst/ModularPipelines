@@ -83,12 +83,6 @@ public record BuildahCommitOptions : BuildahOptions
     public string? Format { get; set; }
 
     /// <summary>
-    /// help for commit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// add default builder label (default true) (default true)
     /// </summary>
     [CliOption("--identity-label", Format = OptionFormat.EqualsSeparated)]

@@ -83,12 +83,6 @@ public record BuildahManifestPushOptions : BuildahOptions
     public string? Format { get; set; }
 
     /// <summary>
-    /// help for push
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// don't output progress information when pushing lists
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]

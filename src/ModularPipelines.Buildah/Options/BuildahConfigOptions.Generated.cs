@@ -99,12 +99,6 @@ public record BuildahConfigOptions : BuildahOptions
     public string? HealthcheckTimeout { get; set; }
 
     /// <summary>
-    /// help for config
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set a comment for the history of the target image
     /// </summary>
     [CliOption("--history-comment", Format = OptionFormat.EqualsSeparated)]

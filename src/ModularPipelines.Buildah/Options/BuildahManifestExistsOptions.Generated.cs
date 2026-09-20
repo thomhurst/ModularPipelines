@@ -20,10 +20,4 @@ namespace ModularPipelines.Buildah.Options;
 [CliSubCommand("manifest", "exists")]
 public record BuildahManifestExistsOptions : BuildahOptions
 {
-    /// <summary>
-    /// help for exists
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

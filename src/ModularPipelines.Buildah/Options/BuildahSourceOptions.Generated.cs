@@ -20,10 +20,4 @@ namespace ModularPipelines.Buildah.Options;
 [CliSubCommand("source")]
 public record BuildahSourceOptions : BuildahOptions
 {
-    /// <summary>
-    /// help for source
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

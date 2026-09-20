@@ -27,12 +27,6 @@ public record BuildahSourceCreateOptions : BuildahOptions
     public string? Author { get; set; }
 
     /// <summary>
-    /// help for create
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set the "created" time stamp (default true)
     /// </summary>
     [CliOption("--time-stamp", Format = OptionFormat.EqualsSeparated)]

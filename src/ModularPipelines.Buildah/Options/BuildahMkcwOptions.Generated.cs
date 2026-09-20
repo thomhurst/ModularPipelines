@@ -46,12 +46,6 @@ public record BuildahMkcwOptions : BuildahOptions
     public string? FirmwareLibrary { get; set; }
 
     /// <summary>
-    /// help for mkcw
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// amount of memory to expect (MB)
     /// </summary>
     [CliOption("--memory", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]

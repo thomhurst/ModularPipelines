@@ -32,10 +32,4 @@ public record BuildahPruneOptions : BuildahOptions
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
 
-    /// <summary>
-    /// help for prune
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

@@ -39,12 +39,6 @@ public record BuildahManifestAnnotateOptions : BuildahOptions
     public string? Features { get; set; }
 
     /// <summary>
-    /// help for annotate
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// override the OS of the specified image
     /// </summary>
     [CliOption("--os", Format = OptionFormat.EqualsSeparated)]

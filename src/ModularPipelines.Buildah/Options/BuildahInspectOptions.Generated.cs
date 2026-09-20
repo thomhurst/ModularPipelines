@@ -27,12 +27,6 @@ public record BuildahInspectOptions : BuildahOptions
     public string? Format { get; set; }
 
     /// <summary>
-    /// help for inspect
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// look at the item of the specified type (container or image) and name (default "container")
     /// </summary>
     [CliOption("--type", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]

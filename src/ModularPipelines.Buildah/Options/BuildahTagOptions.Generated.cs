@@ -20,10 +20,4 @@ namespace ModularPipelines.Buildah.Options;
 [CliSubCommand("tag")]
 public record BuildahTagOptions : BuildahOptions
 {
-    /// <summary>
-    /// help for tag
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

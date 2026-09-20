@@ -20,10 +20,4 @@ namespace ModularPipelines.Buildah.Options;
 [CliSubCommand("manifest", "remove")]
 public record BuildahManifestRemoveOptions : BuildahOptions
 {
-    /// <summary>
-    /// help for remove
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

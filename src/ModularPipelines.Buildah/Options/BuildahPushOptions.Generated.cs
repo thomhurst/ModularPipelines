@@ -96,12 +96,6 @@ public record BuildahPushOptions : BuildahOptions
     public BuildahPushFormat? Format { get; set; }
 
     /// <summary>
-    /// help for push
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// don't output progress information when pushing images
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]

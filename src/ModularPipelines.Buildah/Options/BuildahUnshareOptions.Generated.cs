@@ -21,12 +21,6 @@ namespace ModularPipelines.Buildah.Options;
 public record BuildahUnshareOptions : BuildahOptions
 {
     /// <summary>
-    /// help for unshare
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// mount the specified containers (default [])
     /// </summary>
     [CliOption("--mount", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]

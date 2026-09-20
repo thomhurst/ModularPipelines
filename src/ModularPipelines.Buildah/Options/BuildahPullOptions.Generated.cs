@@ -59,12 +59,6 @@ public record BuildahPullOptions : BuildahOptions
     public IEnumerable<string>? DecryptionKey { get; set; }
 
     /// <summary>
-    /// help for pull
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// prefer OS instead of the running OS for choosing images (default "linux")
     /// </summary>
     [CliOption("--os", Format = OptionFormat.EqualsSeparated)]

@@ -39,12 +39,6 @@ public record BuildahContainersOptions : BuildahOptions
     public string? Format { get; set; }
 
     /// <summary>
-    /// help for containers
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// output in JSON format
     /// </summary>
     [CliFlag("--json")]

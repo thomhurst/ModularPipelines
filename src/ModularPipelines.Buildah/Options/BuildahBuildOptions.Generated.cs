@@ -246,12 +246,6 @@ public record BuildahBuildOptions : BuildahOptions
     public IEnumerable<string>? GroupAdd { get; set; }
 
     /// <summary>
-    /// help for build
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set the OCI hooks directory path (may be set multiple times)
     /// </summary>
     [CliOption("--hooks-dir", Format = OptionFormat.EqualsSeparated)]

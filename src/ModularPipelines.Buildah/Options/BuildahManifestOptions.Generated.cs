@@ -20,10 +20,4 @@ namespace ModularPipelines.Buildah.Options;
 [CliSubCommand("manifest")]
 public record BuildahManifestOptions : BuildahOptions
 {
-    /// <summary>
-    /// help for manifest
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

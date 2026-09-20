@@ -26,10 +26,4 @@ public record BuildahRmOptions : BuildahOptions
     [CliFlag("--all", ShortForm = "-a")]
     public bool? All { get; set; }
 
-    /// <summary>
-    /// help for rm
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

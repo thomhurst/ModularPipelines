@@ -51,12 +51,6 @@ public record BuildahCopyOptions : BuildahOptions
     public string? From { get; set; }
 
     /// <summary>
-    /// help for copy
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// path to .containerignore file
     /// </summary>
     [CliOption("--ignorefile", Format = OptionFormat.EqualsSeparated)]

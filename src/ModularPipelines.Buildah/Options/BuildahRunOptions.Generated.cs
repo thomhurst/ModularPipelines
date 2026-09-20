@@ -57,12 +57,6 @@ public record BuildahRunOptions : BuildahOptions
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
-    /// help for run
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set the hostname inside of the container
     /// </summary>
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]

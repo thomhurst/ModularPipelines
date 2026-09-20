@@ -38,10 +38,4 @@ public record BuildahLogoutOptions : BuildahOptions
     [CliOption("--compat-auth-file", Format = OptionFormat.EqualsSeparated)]
     public string? CompatAuthFile { get; set; }
 
-    /// <summary>
-    /// help for logout
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }
