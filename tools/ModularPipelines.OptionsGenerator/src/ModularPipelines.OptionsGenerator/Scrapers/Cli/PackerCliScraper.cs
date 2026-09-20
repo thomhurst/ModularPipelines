@@ -35,6 +35,18 @@ public partial class PackerCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Packer";
 
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        var match = PackerVersionPattern().Match(result.CombinedOutput);
+        if (match.Success)
+        {
+            return match.Groups["identity"].Value;
+        }
+
+        Logger.LogWarning("Could not extract stable {Tool} version identity", ToolName);
+        return null;
+    }
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
@@ -301,6 +313,9 @@ public partial class PackerCliScraper : CliScraperBase
     }
 
     #region Regex Patterns
+
+    [GeneratedRegex(@"^[ \t]*(?<identity>Packer v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)[ \t]*\r?$", RegexOptions.Multiline)]
+    private static partial Regex PackerVersionPattern();
 
     /// <summary>
     /// Matches "Available commands are:" section.
