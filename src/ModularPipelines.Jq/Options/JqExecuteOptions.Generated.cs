@@ -190,12 +190,6 @@ public record JqExecuteOptions : JqOptions
     public bool? BuildConfiguration { get; set; }
 
     /// <summary>
-    /// show the help
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Run jq tests from standard input or the specified file
     /// </summary>
     [CliOption("--run-tests", ValueArity = CliOptionValueArity.Optional, Phase = CommandLinePhase.Terminal)]
