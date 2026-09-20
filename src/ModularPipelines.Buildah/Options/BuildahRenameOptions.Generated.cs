@@ -20,10 +20,4 @@ namespace ModularPipelines.Buildah.Options;
 [CliSubCommand("rename")]
 public record BuildahRenameOptions : BuildahOptions
 {
-    /// <summary>
-    /// help for rename
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

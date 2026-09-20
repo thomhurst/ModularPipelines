@@ -33,12 +33,6 @@ public record BuildahRmiOptions : BuildahOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// help for rmi
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// prune dangling images
     /// </summary>
     [CliFlag("--prune", ShortForm = "-p")]

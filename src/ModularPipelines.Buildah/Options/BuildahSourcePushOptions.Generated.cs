@@ -29,12 +29,6 @@ public record BuildahSourcePushOptions : BuildahOptions
     public string? Creds { get; set; }
 
     /// <summary>
-    /// help for push
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// don't output push progress information
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]

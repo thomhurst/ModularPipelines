@@ -21,12 +21,6 @@ namespace ModularPipelines.Buildah.Options;
 public record BuildahMountOptions : BuildahOptions
 {
     /// <summary>
-    /// help for mount
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// output in JSON format
     /// </summary>
     [CliFlag("--json")]

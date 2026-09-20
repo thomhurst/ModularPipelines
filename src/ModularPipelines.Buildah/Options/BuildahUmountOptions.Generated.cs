@@ -26,10 +26,4 @@ public record BuildahUmountOptions : BuildahOptions
     [CliFlag("--all", ShortForm = "-a")]
     public bool? All { get; set; }
 
-    /// <summary>
-    /// help for umount
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

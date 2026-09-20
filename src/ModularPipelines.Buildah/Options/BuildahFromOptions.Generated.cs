@@ -156,12 +156,6 @@ public record BuildahFromOptions : BuildahOptions
     public IEnumerable<string>? GroupAdd { get; set; }
 
     /// <summary>
-    /// help for from
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// pass through HTTP Proxy environment variables (default true)
     /// </summary>
     [CliOption("--http-proxy", Format = OptionFormat.EqualsSeparated)]

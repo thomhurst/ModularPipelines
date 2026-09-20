@@ -26,10 +26,4 @@ public record BuildahSourceAddOptions : BuildahOptions
     [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
 
-    /// <summary>
-    /// help for add
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
 }

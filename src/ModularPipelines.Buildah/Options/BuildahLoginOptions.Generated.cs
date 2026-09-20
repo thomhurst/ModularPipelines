@@ -46,12 +46,6 @@ public record BuildahLoginOptions : BuildahOptions
     public bool? GetLogin { get; set; }
 
     /// <summary>
-    /// help for login
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Password for registry
     /// </summary>
     [SecretValue]

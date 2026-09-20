@@ -45,12 +45,6 @@ public record BuildahImagesOptions : BuildahOptions
     public string? Format { get; set; }
 
     /// <summary>
-    /// help for images
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// display the image name history
     /// </summary>
     [CliFlag("--history")]

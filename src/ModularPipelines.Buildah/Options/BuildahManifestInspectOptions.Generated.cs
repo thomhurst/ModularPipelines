@@ -27,12 +27,6 @@ public record BuildahManifestInspectOptions : BuildahOptions
     public string? Authfile { get; set; }
 
     /// <summary>
-    /// help for inspect
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
     /// </summary>
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
