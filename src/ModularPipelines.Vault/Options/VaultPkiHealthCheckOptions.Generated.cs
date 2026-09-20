@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "health-check")]
-public record VaultPkiHealthCheckOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Mount
-) : VaultOptions
+public record VaultPkiHealthCheckOptions : VaultOptions
 {
+    /// <summary>
+    /// Reports status of the specified mount against best practices and pending
+    /// </summary>
+    /// <param name="Mount">The MOUNT operand.</param>
+    public VaultPkiHealthCheckOptions(
+        string Mount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Mount);
+        this.Mount = Mount;
+    }
+
+    public void Deconstruct(out string Mount)
+    {
+        Mount = this.Mount;
+    }
+
+    /// <summary>
+    /// The MOUNT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Mount { get; private init; }
+
 }

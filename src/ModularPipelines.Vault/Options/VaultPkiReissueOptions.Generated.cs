@@ -13,13 +13,57 @@ using ModularPipelines.Vault.Options;
 
 namespace ModularPipelines.Vault.Options;
 
+/// <summary>
+/// Options for vault pki reissue.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "reissue")]
-public record VaultPkiReissueOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parent,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Template,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ChildMount
-) : VaultOptions
+public record VaultPkiReissueOptions : VaultOptions
 {
+    /// <summary>
+    /// Options for vault pki reissue.
+    /// </summary>
+    /// <param name="Parent">The PARENT operand.</param>
+    /// <param name="Template">The TEMPLATE operand.</param>
+    /// <param name="ChildMount">The CHILD_MOUNT operand.</param>
+    public VaultPkiReissueOptions(
+        string Parent,
+        string Template,
+        string ChildMount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+        global::System.ArgumentNullException.ThrowIfNull(ChildMount);
+        this.ChildMount = ChildMount;
+    }
+
+    public void Deconstruct(out string Parent, out string Template, out string ChildMount)
+    {
+        Parent = this.Parent;
+        Template = this.Template;
+        ChildMount = this.ChildMount;
+    }
+
+    /// <summary>
+    /// The PARENT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Parent { get; private init; }
+
+    /// <summary>
+    /// The TEMPLATE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
+
+    /// <summary>
+    /// The CHILD_MOUNT operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ChildMount { get; private init; }
+
 }

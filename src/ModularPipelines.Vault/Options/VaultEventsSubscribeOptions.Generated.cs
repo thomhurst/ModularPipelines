@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "subscribe")]
-public record VaultEventsSubscribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string EventType
-) : VaultOptions
+public record VaultEventsSubscribeOptions : VaultOptions
 {
+    /// <summary>
+    /// Subscribe to events of the given event type (topic), which may be a glob
+    /// </summary>
+    /// <param name="EventType">The eventType operand.</param>
+    public VaultEventsSubscribeOptions(
+        string EventType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventType);
+        this.EventType = EventType;
+    }
+
+    public void Deconstruct(out string EventType)
+    {
+        EventType = this.EventType;
+    }
+
+    /// <summary>
+    /// The eventType operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string EventType { get; private init; }
+
 }

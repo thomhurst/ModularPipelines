@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "snapshot", "inspect")]
-public record VaultOperatorRaftSnapshotInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnapshotFile
-) : VaultOptions
+public record VaultOperatorRaftSnapshotInspectOptions : VaultOptions
 {
+    /// <summary>
+    /// Inspects a snapshot file.
+    /// </summary>
+    /// <param name="SnapshotFile">The &lt;snapshot_file&gt; operand.</param>
+    public VaultOperatorRaftSnapshotInspectOptions(
+        string SnapshotFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotFile);
+        this.SnapshotFile = SnapshotFile;
+    }
+
+    public void Deconstruct(out string SnapshotFile)
+    {
+        SnapshotFile = this.SnapshotFile;
+    }
+
+    /// <summary>
+    /// The &lt;snapshot_file&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SnapshotFile { get; private init; }
+
 }

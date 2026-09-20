@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lease", "revoke")]
-public record VaultLeaseRevokeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Id
-) : VaultOptions
+public record VaultLeaseRevokeOptions : VaultOptions
 {
+    /// <summary>
+    /// Revokes secrets by their lease ID. This command can revoke a single secret
+    /// </summary>
+    /// <param name="Id">The ID operand.</param>
+    public VaultLeaseRevokeOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// The ID operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Id { get; private init; }
+
 }

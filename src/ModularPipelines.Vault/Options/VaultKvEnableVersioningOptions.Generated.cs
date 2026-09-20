@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "enable-versioning")]
-public record VaultKvEnableVersioningOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Key
-) : VaultOptions
+public record VaultKvEnableVersioningOptions : VaultOptions
 {
+    /// <summary>
+    /// This command turns on versioning for the backend at the provided path.
+    /// </summary>
+    /// <param name="Key">The KEY operand.</param>
+    public VaultKvEnableVersioningOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// The KEY operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Key { get; private init; }
+
 }

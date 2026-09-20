@@ -19,8 +19,29 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "join")]
-public record VaultOperatorRaftJoinOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string LeaderApiAddr
-) : VaultOptions
+public record VaultOperatorRaftJoinOptions : VaultOptions
 {
+    /// <summary>
+    /// Join the current node as a peer to the Raft cluster by providing the address
+    /// </summary>
+    /// <param name="LeaderApiAddr">The leader-api-addr operand.</param>
+    public VaultOperatorRaftJoinOptions(
+        string LeaderApiAddr
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LeaderApiAddr);
+        this.LeaderApiAddr = LeaderApiAddr;
+    }
+
+    public void Deconstruct(out string LeaderApiAddr)
+    {
+        LeaderApiAddr = this.LeaderApiAddr;
+    }
+
+    /// <summary>
+    /// The leader-api-addr operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string LeaderApiAddr { get; private init; }
+
 }
