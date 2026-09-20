@@ -210,7 +210,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
         }
 
         // Parse description from help text
-        var description = ExtractDescription(helpText);
+        var description = ExtractDescription(helpText, commandPath[^1]);
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
@@ -344,7 +344,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
     /// <summary>
     /// Extracts description from help text.
     /// </summary>
-    private static string? ExtractDescription(string helpText)
+    private static string? ExtractDescription(string helpText, string commandName)
     {
         var summary = new List<string>();
         foreach (var line in helpText.Split('\n'))
@@ -368,9 +368,14 @@ public partial class ChocolateyCliScraper : CliScraperBase
 
             // Chocolatey prints a banner and command title before the first prose paragraph.
             if (summary.Count == 0
-                && (trimmed.StartsWith("Chocolatey v", StringComparison.OrdinalIgnoreCase)
-                    || trimmed.EndsWith(" Command", StringComparison.OrdinalIgnoreCase)
+                && (VersionBannerPattern().IsMatch(trimmed)
+                    || trimmed.Equals($"{commandName} Command", StringComparison.OrdinalIgnoreCase)
                     || trimmed.All(c => c == '=')))
+            {
+                continue;
+            }
+
+            if (trimmed.StartsWith("choco ", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -380,6 +385,9 @@ public partial class ChocolateyCliScraper : CliScraperBase
 
         return summary.Count > 0 ? string.Join(' ', summary) : null;
     }
+
+    [GeneratedRegex(@"^Chocolatey v\d+(?:\.\d+)+(?:[-+][0-9A-Za-z.-]+)?$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex VersionBannerPattern();
 
     /// <summary>
     /// Parses options from Chocolatey help text.

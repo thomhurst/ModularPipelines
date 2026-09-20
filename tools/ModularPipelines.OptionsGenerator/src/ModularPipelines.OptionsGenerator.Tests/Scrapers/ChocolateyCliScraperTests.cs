@@ -8,6 +8,24 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class ChocolateyCliScraperTests
 {
     [Test]
+    [Arguments("Chocolatey validates package signatures.")]
+    [Arguments("Inspect packages with this command")]
+    public async Task Summary_Does_Not_Discard_Prose_That_Resembles_A_Banner(string summary)
+    {
+        var command = await new TestChocolateyCliScraper().Parse(["choco", "info"],
+            $"Chocolatey v2.7.4\nInfo Command\n\n{summary}\n\nUsage\n    choco info <pkg>\n\nOptions and Switches");
+        await Assert.That(command!.Description).IsEqualTo(summary);
+    }
+
+    [Test]
+    public async Task Summary_Skips_Standalone_Command_Examples()
+    {
+        var command = await new TestChocolateyCliScraper().Parse(["choco", "info"],
+            "Chocolatey v2.7.4\nInfo Command\n\nDisplays package information.\nchoco info example\n\nUsage\n    choco info <pkg>\n\nOptions and Switches");
+        await Assert.That(command!.Description).IsEqualTo("Displays package information.");
+    }
+
+    [Test]
     public async Task Summary_Uses_Complete_Introductory_Paragraph()
     {
         const string helpText = """
