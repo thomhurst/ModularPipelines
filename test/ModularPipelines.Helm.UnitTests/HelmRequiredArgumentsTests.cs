@@ -8,14 +8,12 @@ public class HelmRequiredArgumentsTests
     [Test]
     public async Task Install_Rejects_Null_Chart()
     {
-        var options = new HelmInstallOptions(null!);
-
-        var exception = Assert.Throws<ArgumentException>(() => BuildArguments(options));
+        var exception = Assert.Throws<ArgumentException>(() => BuildArguments(new HelmInstallOptions(null!)));
 
         using (Assert.Multiple())
         {
-            await Assert.That(exception.ParamName).IsEqualTo(nameof(options.Chart));
-            await Assert.That(exception.Message).Contains("HelmInstallOptions.Chart");
+            await Assert.That(exception.ParamName).IsEqualTo(nameof(HelmInstallOptions.Chart));
+            await Assert.That(exception.Message).Contains(nameof(HelmInstallOptions.Chart));
         }
     }
 

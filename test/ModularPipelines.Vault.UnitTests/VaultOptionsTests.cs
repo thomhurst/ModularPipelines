@@ -21,8 +21,12 @@ public class VaultOptionsTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        await Assert.That(() => builder.Build(new VaultAuditOptions(default!)))
-            .Throws<ArgumentException>()
-            .And.HasMessageContaining("VaultAuditOptions.Subcommand");
+        var exception = Assert.Throws<ArgumentException>(() => builder.Build(new VaultAuditOptions(default!)));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception.ParamName).IsEqualTo(nameof(VaultAuditOptions.Subcommand));
+            await Assert.That(exception.Message).Contains(nameof(VaultAuditOptions.Subcommand));
+        }
     }
 }
