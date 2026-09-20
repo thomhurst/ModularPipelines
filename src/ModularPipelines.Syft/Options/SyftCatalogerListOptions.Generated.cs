@@ -21,12 +21,6 @@ namespace ModularPipelines.Syft.Options;
 public record SyftCatalogerListOptions : SyftOptions
 {
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// format to output the cataloger list (available: table, json)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

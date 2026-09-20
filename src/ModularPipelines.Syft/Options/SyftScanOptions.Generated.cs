@@ -51,12 +51,6 @@ public record SyftScanOptions : SyftOptions
     public IEnumerable<string>? From { get; set; }
 
     /// <summary>
-    /// help for scan
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// report output format (&lt;format&gt;=&lt;file&gt; to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json purls spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

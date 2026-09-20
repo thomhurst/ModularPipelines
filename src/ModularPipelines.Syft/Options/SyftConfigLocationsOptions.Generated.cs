@@ -27,12 +27,6 @@ public record SyftConfigLocationsOptions : SyftOptions
     public bool? All { get; set; }
 
     /// <summary>
-    /// help for locations
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// syft configuration file(s) to use
     /// </summary>
     [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]

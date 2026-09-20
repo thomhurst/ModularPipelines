@@ -21,12 +21,6 @@ namespace ModularPipelines.Syft.Options;
 public record SyftCatalogerOptions : SyftOptions
 {
     /// <summary>
-    /// help for cataloger
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// syft configuration file(s) to use
     /// </summary>
     [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
