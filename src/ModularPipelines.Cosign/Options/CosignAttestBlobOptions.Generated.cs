@@ -52,12 +52,6 @@ public record CosignAttestBlobOptions : CosignOptions
     public string? Hash { get; set; }
 
     /// <summary>
-    /// help for attest-blob
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// identity token to use for certificate from fulcio. the token or a path to a file containing the token is accepted.
     /// </summary>
     [SecretValue]

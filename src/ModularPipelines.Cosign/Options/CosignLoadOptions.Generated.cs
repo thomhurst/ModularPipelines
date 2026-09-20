@@ -19,10 +19,25 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("load")]
-public record CosignLoadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : CosignOptions
+public record CosignLoadOptions : CosignOptions
 {
+    /// <summary>
+    /// Load a signed image on disk to a remote registry
+    /// </summary>
+    /// <param name="Image"></param>
+    public CosignLoadOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// whether to allow using HTTP protocol while connecting to registries. Don't use this for anything but testing
     /// </summary>
@@ -40,12 +55,6 @@ public record CosignLoadOptions(
     /// </summary>
     [CliOption("--dir", Format = OptionFormat.EqualsSeparated)]
     public string? Dir { get; set; }
-
-    /// <summary>
-    /// help for load
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// whether to use the kubernetes keychain instead of the default keychain (supports workload identity).
@@ -114,5 +123,8 @@ public record CosignLoadOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
 }
