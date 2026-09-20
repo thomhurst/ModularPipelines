@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Minikube.Enums;
 
 /// <summary>
-/// Allowed values for the --driver option.
+/// Allowed values for --driver.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeStartDriver

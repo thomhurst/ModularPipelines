@@ -18,10 +18,25 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "enable")]
-public record MinikubeAddonsEnableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AddonName
-) : MinikubeOptions
+public record MinikubeAddonsEnableOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Enables the addon w/ADDON_NAME within minikube. For a list of available addons use: minikube addons list
+    /// </summary>
+    /// <param name="AddonName">The ADDON_NAME operand.</param>
+    public MinikubeAddonsEnableOptions(
+        string AddonName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AddonName);
+        this.AddonName = AddonName;
+    }
+
+    public void Deconstruct(out string AddonName)
+    {
+        AddonName = this.AddonName;
+    }
+
     /// <summary>
     /// If true, will perform potentially dangerous operations. Use with discretion.
     /// </summary>
@@ -45,5 +60,11 @@ public record MinikubeAddonsEnableOptions(
     /// </summary>
     [CliOption("--registries", Format = OptionFormat.EqualsSeparated)]
     public string? Registries { get; set; }
+
+    /// <summary>
+    /// The ADDON_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AddonName { get; private init; }
 
 }

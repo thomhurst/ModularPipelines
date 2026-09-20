@@ -19,14 +19,35 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "defaults")]
-public record MinikubeConfigDefaultsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyName
-) : MinikubeOptions
+public record MinikubeConfigDefaultsOptions : MinikubeOptions
 {
+    /// <summary>
+    /// list displays all valid default settings for PROPERTY_NAME
+    /// </summary>
+    /// <param name="PropertyName">The PROPERTY_NAME operand.</param>
+    public MinikubeConfigDefaultsOptions(
+        string PropertyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PropertyName);
+        this.PropertyName = PropertyName;
+    }
+
+    public void Deconstruct(out string PropertyName)
+    {
+        PropertyName = this.PropertyName;
+    }
+
     /// <summary>
     /// Output format. Accepted values: [json, yaml]
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public MinikubeConfigDefaultsOutput? Output { get; set; }
+
+    /// <summary>
+    /// The PROPERTY_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PropertyName { get; private init; }
 
 }

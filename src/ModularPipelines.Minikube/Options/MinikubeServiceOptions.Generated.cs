@@ -18,10 +18,25 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service")]
-public record MinikubeServiceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service
-) : MinikubeOptions
+public record MinikubeServiceOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Returns the Kubernetes URL(s) for service(s) in your local cluster. In the case of multiple URLs they will be printed one at a time.
+    /// </summary>
+    /// <param name="Service">The SERVICE operand.</param>
+    public MinikubeServiceOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
     /// <summary>
     /// Forwards all services in a namespace (defaults to "false")
     /// </summary>
@@ -57,5 +72,11 @@ public record MinikubeServiceOptions(
     /// </summary>
     [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
     public int? Wait { get; set; }
+
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Service { get; private init; }
 
 }

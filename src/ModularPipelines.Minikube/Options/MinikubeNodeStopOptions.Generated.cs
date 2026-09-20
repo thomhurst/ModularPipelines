@@ -18,8 +18,29 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("node", "stop")]
-public record MinikubeNodeStopOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NodeName
-) : MinikubeOptions
+public record MinikubeNodeStopOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Stops a node in a cluster.
+    /// </summary>
+    /// <param name="NodeName">The NODE_NAME operand.</param>
+    public MinikubeNodeStopOptions(
+        string NodeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeName);
+        this.NodeName = NodeName;
+    }
+
+    public void Deconstruct(out string NodeName)
+    {
+        NodeName = this.NodeName;
+    }
+
+    /// <summary>
+    /// The NODE_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodeName { get; private init; }
+
 }

@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Minikube.Enums;
 
 /// <summary>
-/// Allowed values for the --format option.
+/// Allowed values for --format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeImageLsFormat

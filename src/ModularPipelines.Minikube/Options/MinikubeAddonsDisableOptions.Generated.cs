@@ -18,8 +18,29 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "disable")]
-public record MinikubeAddonsDisableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AddonName
-) : MinikubeOptions
+public record MinikubeAddonsDisableOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Disables the addon w/ADDON_NAME within minikube (example: minikube addons disable dashboard). For a list of available addons use: minikube addons list
+    /// </summary>
+    /// <param name="AddonName">The ADDON_NAME operand.</param>
+    public MinikubeAddonsDisableOptions(
+        string AddonName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AddonName);
+        this.AddonName = AddonName;
+    }
+
+    public void Deconstruct(out string AddonName)
+    {
+        AddonName = this.AddonName;
+    }
+
+    /// <summary>
+    /// The ADDON_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AddonName { get; private init; }
+
 }
