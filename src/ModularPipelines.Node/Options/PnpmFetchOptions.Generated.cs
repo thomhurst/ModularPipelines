@@ -38,12 +38,6 @@ public record PnpmFetchOptions : PnpmOptions
     public bool? IgnorePnpmfile { get; set; }
 
     /// <summary>
-    /// Force colored output
-    /// </summary>
-    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Color { get; set; }
-
-    /// <summary>
     /// Automatically answer yes to prompts
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
@@ -74,6 +68,18 @@ public record PnpmFetchOptions : PnpmOptions
     public string? NpmrcAuthFile { get; set; }
 
     /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
     /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
     /// </summary>
     [CliOption("--registry")]
@@ -98,10 +104,10 @@ public record PnpmFetchOptions : PnpmOptions
     public string? NoProxy { get; set; }
 
     /// <summary>
-    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// Force colored output
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-r")]
-    public bool? Recursive { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Color { get; set; }
 
     /// <summary>
     /// Reporter output format [default: default]
@@ -114,6 +120,30 @@ public record PnpmFetchOptions : PnpmOptions
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmFetchLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// </summary>
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
+
+    /// <summary>
+    /// Hold each script's streamed output until the script exits, then print it as one block
+    /// </summary>
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-r")]
+    public bool? Recursive { get; set; }
 
     /// <summary>
     /// Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
@@ -192,35 +222,5 @@ public record PnpmFetchOptions : PnpmOptions
     /// </summary>
     [CliFlag("--parallel")]
     public bool? Parallel { get; set; }
-
-    /// <summary>
-    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
-    /// </summary>
-    [CliFlag("--stream")]
-    public bool? Stream { get; set; }
-
-    /// <summary>
-    /// Hold each script's streamed output until the script exits, then print it as one block
-    /// </summary>
-    [CliFlag("--aggregate-output")]
-    public bool? AggregateOutput { get; set; }
-
-    /// <summary>
-    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
-    /// </summary>
-    [CliFlag("--use-stderr")]
-    public bool? UseStderr { get; set; }
-
-    /// <summary>
-    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
-    /// </summary>
-    [CliFlag("--ignore-workspace")]
-    public bool? IgnoreWorkspace { get; set; }
-
-    /// <summary>
-    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
-    /// </summary>
-    [CliOption("--workspace-packages")]
-    public IEnumerable<string>? WorkspacePackages { get; set; }
 
 }

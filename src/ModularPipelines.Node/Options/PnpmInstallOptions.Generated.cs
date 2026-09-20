@@ -65,6 +65,48 @@ public record PnpmInstallOptions : PnpmOptions
     public IEnumerable<string>? Libc { get; set; }
 
     /// <summary>
+    /// Don't run lifecycle scripts of the project or its dependencies. Packages are still installed; only their build scripts are skipped, and the install won't fail because of it
+    /// </summary>
+    [CliFlag("--ignore-scripts")]
+    public bool? IgnoreScripts { get; set; }
+
+    /// <summary>
+    /// Run lifecycle scripts even when the configuration disables them
+    /// </summary>
+    [CliFlag("--no-ignore-scripts")]
+    public bool? NoIgnoreScripts { get; set; }
+
+    /// <summary>
+    /// Disable pnpm hooks defined in `.pnpmfile.cjs`, including the pnpmfiles of config dependencies
+    /// </summary>
+    [CliFlag("--ignore-pnpmfile")]
+    public bool? IgnorePnpmfile { get; set; }
+
+    /// <summary>
+    /// Fail on a cache miss instead of fetching from the registry, using only packages already in the store
+    /// </summary>
+    [CliFlag("--offline")]
+    public bool? Offline { get; set; }
+
+    /// <summary>
+    /// Allow network fetches even when the configuration enables offline mode
+    /// </summary>
+    [CliFlag("--no-offline")]
+    public bool? NoOffline { get; set; }
+
+    /// <summary>
+    /// Prefer packages already in the cache over the network, even past their freshness window
+    /// </summary>
+    [CliFlag("--prefer-offline")]
+    public bool? PreferOffline { get; set; }
+
+    /// <summary>
+    /// Don't prefer cached packages even when the configuration enables it
+    /// </summary>
+    [CliFlag("--no-prefer-offline")]
+    public bool? NoPreferOffline { get; set; }
+
+    /// <summary>
     /// Don't generate a lockfile, and fail if an update to it is needed. This setting is enabled by default in CI when a lockfile is present
     /// </summary>
     [CliFlag("--frozen-lockfile")]
@@ -95,30 +137,6 @@ public record PnpmInstallOptions : PnpmOptions
     public string? LockfileDir { get; set; }
 
     /// <summary>
-    /// Fold every per-branch lockfile (`pnpm-lock.&lt;branch&gt;.yaml`, written under the `gitBranchLockfile` setting) into `pnpm-lock.yaml` and delete them
-    /// </summary>
-    [CliFlag("--merge-git-branch-lockfiles")]
-    public bool? MergeGitBranchLockfiles { get; set; }
-
-    /// <summary>
-    /// Glob patterns naming the branches that merge the per-branch lockfiles, so a mainline branch does not have to pass `--merge-git-branch-lockfiles` by hand
-    /// </summary>
-    [CliOption("--merge-git-branch-lockfiles-branch-pattern")]
-    public string? MergeGitBranchLockfilesBranchPattern { get; set; }
-
-    /// <summary>
-    /// Show what an install would change without writing anything to disk
-    /// </summary>
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
-
-    /// <summary>
-    /// Reinstall every package the lockfile names: relink packages an earlier install already materialized, and install optional dependencies whose `cpu` / `os` / `libc` / `engines` don't match the host instead of skipping them
-    /// </summary>
-    [CliFlag("--force")]
-    public bool? Force { get; set; }
-
-    /// <summary>
     /// Prefer the existing lockfile over re-resolving, even when the manifest may have changed
     /// </summary>
     [CliFlag("--prefer-frozen-lockfile")]
@@ -137,70 +155,16 @@ public record PnpmInstallOptions : PnpmOptions
     public bool? IgnoreManifestCheck { get; set; }
 
     /// <summary>
-    /// Don't install runtime dependencies (`node`, `deno`, `bun`). Their archives aren't fetched and their bins aren't linked; the rest of the install proceeds normally
+    /// Fold every per-branch lockfile (`pnpm-lock.&lt;branch&gt;.yaml`, written under the `gitBranchLockfile` setting) into `pnpm-lock.yaml` and delete them
     /// </summary>
-    [CliFlag("--no-runtime")]
-    public bool? NoRuntime { get; set; }
+    [CliFlag("--merge-git-branch-lockfiles")]
+    public bool? MergeGitBranchLockfiles { get; set; }
 
     /// <summary>
-    /// Don't run lifecycle scripts of the project or its dependencies. Packages are still installed; only their build scripts are skipped, and the install won't fail because of it
+    /// Glob patterns naming the branches that merge the per-branch lockfiles, so a mainline branch does not have to pass `--merge-git-branch-lockfiles` by hand
     /// </summary>
-    [CliFlag("--ignore-scripts")]
-    public bool? IgnoreScripts { get; set; }
-
-    /// <summary>
-    /// Run lifecycle scripts even when the configuration disables them
-    /// </summary>
-    [CliFlag("--no-ignore-scripts")]
-    public bool? NoIgnoreScripts { get; set; }
-
-    /// <summary>
-    /// Disable pnpm hooks defined in `.pnpmfile.cjs`, including the pnpmfiles of config dependencies
-    /// </summary>
-    [CliFlag("--ignore-pnpmfile")]
-    public bool? IgnorePnpmfile { get; set; }
-
-    /// <summary>
-    /// Which node linker to use: `isolated` (the default, a symlinked store), `hoisted` (a flat `node_modules`), or `pnp` (Plug'n'Play). Overrides the configured value
-    /// </summary>
-    [CliOption("--node-linker")]
-    public PnpmInstallNodeLinker? NodeLinker { get; set; }
-
-    /// <summary>
-    /// Fail on a cache miss instead of fetching from the registry, using only packages already in the store
-    /// </summary>
-    [CliFlag("--offline")]
-    public bool? Offline { get; set; }
-
-    /// <summary>
-    /// Allow network fetches even when the configuration enables offline mode
-    /// </summary>
-    [CliFlag("--no-offline")]
-    public bool? NoOffline { get; set; }
-
-    /// <summary>
-    /// Open the store read-only and skip all store writes. For installing against a store on a read-only filesystem (e.g. a Nix store); pair with `--offline --frozen-lockfile`
-    /// </summary>
-    [CliFlag("--frozen-store")]
-    public bool? FrozenStore { get; set; }
-
-    /// <summary>
-    /// Allow store writes even when the configuration enables the read-only store
-    /// </summary>
-    [CliFlag("--no-frozen-store")]
-    public bool? NoFrozenStore { get; set; }
-
-    /// <summary>
-    /// Prefer packages already in the cache over the network, even past their freshness window
-    /// </summary>
-    [CliFlag("--prefer-offline")]
-    public bool? PreferOffline { get; set; }
-
-    /// <summary>
-    /// Don't prefer cached packages even when the configuration enables it
-    /// </summary>
-    [CliFlag("--no-prefer-offline")]
-    public bool? NoPreferOffline { get; set; }
+    [CliOption("--merge-git-branch-lockfiles-branch-pattern")]
+    public string? MergeGitBranchLockfilesBranchPattern { get; set; }
 
     /// <summary>
     /// Skip verifying the lockfile against supply-chain policies
@@ -257,10 +221,40 @@ public record PnpmInstallOptions : PnpmOptions
     public string? PnprServer { get; set; }
 
     /// <summary>
-    /// Force colored output
+    /// Show what an install would change without writing anything to disk
     /// </summary>
-    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Color { get; set; }
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Reinstall every package the lockfile names: relink packages an earlier install already materialized, and install optional dependencies whose `cpu` / `os` / `libc` / `engines` don't match the host instead of skipping them
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// Don't install runtime dependencies (`node`, `deno`, `bun`). Their archives aren't fetched and their bins aren't linked; the rest of the install proceeds normally
+    /// </summary>
+    [CliFlag("--no-runtime")]
+    public bool? NoRuntime { get; set; }
+
+    /// <summary>
+    /// Which node linker to use: `isolated` (the default, a symlinked store), `hoisted` (a flat `node_modules`), or `pnp` (Plug'n'Play). Overrides the configured value
+    /// </summary>
+    [CliOption("--node-linker")]
+    public PnpmInstallNodeLinker? NodeLinker { get; set; }
+
+    /// <summary>
+    /// Open the store read-only and skip all store writes. For installing against a store on a read-only filesystem (e.g. a Nix store); pair with `--offline --frozen-lockfile`
+    /// </summary>
+    [CliFlag("--frozen-store")]
+    public bool? FrozenStore { get; set; }
+
+    /// <summary>
+    /// Allow store writes even when the configuration enables the read-only store
+    /// </summary>
+    [CliFlag("--no-frozen-store")]
+    public bool? NoFrozenStore { get; set; }
 
     /// <summary>
     /// Automatically answer yes to prompts
@@ -293,6 +287,18 @@ public record PnpmInstallOptions : PnpmOptions
     public string? NpmrcAuthFile { get; set; }
 
     /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
     /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
     /// </summary>
     [CliOption("--registry")]
@@ -317,10 +323,10 @@ public record PnpmInstallOptions : PnpmOptions
     public string? NoProxy { get; set; }
 
     /// <summary>
-    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// Force colored output
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-r")]
-    public bool? Recursive { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Color { get; set; }
 
     /// <summary>
     /// Reporter output format [default: default]
@@ -333,6 +339,30 @@ public record PnpmInstallOptions : PnpmOptions
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmInstallLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// </summary>
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
+
+    /// <summary>
+    /// Hold each script's streamed output until the script exits, then print it as one block
+    /// </summary>
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-r")]
+    public bool? Recursive { get; set; }
 
     /// <summary>
     /// Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
@@ -411,35 +441,5 @@ public record PnpmInstallOptions : PnpmOptions
     /// </summary>
     [CliFlag("--parallel")]
     public bool? Parallel { get; set; }
-
-    /// <summary>
-    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
-    /// </summary>
-    [CliFlag("--stream")]
-    public bool? Stream { get; set; }
-
-    /// <summary>
-    /// Hold each script's streamed output until the script exits, then print it as one block
-    /// </summary>
-    [CliFlag("--aggregate-output")]
-    public bool? AggregateOutput { get; set; }
-
-    /// <summary>
-    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
-    /// </summary>
-    [CliFlag("--use-stderr")]
-    public bool? UseStderr { get; set; }
-
-    /// <summary>
-    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
-    /// </summary>
-    [CliFlag("--ignore-workspace")]
-    public bool? IgnoreWorkspace { get; set; }
-
-    /// <summary>
-    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
-    /// </summary>
-    [CliOption("--workspace-packages")]
-    public IEnumerable<string>? WorkspacePackages { get; set; }
 
 }

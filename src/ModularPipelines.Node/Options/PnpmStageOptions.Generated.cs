@@ -36,10 +36,22 @@ public record PnpmStageOptions : PnpmOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Print the per-package publish summary in JSON
+    /// Don't run publish-related lifecycle scripts
     /// </summary>
-    [CliFlag("--json")]
-    public bool? Json { get; set; }
+    [CliFlag("--ignore-scripts")]
+    public bool? IgnoreScripts { get; set; }
+
+    /// <summary>
+    /// Publish even if the version is already in the registry
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// Send all workspace packages in a single request (requires `--recursive`)
+    /// </summary>
+    [CliFlag("--batch")]
+    public bool? Batch { get; set; }
 
     /// <summary>
     /// Register the published package under this tag instead of `latest`
@@ -60,10 +72,11 @@ public record PnpmStageOptions : PnpmOptions
     public bool? Provenance { get; set; }
 
     /// <summary>
-    /// Don't run publish-related lifecycle scripts
+    /// One-time password for two-factor-authenticated registries
     /// </summary>
-    [CliFlag("--ignore-scripts")]
-    public bool? IgnoreScripts { get; set; }
+    [SecretValue]
+    [CliOption("--otp")]
+    public string? Otp { get; set; }
 
     /// <summary>
     /// Embed the README contents in the published manifest
@@ -78,13 +91,6 @@ public record PnpmStageOptions : PnpmOptions
     public bool? SkipManifestObfuscation { get; set; }
 
     /// <summary>
-    /// One-time password for two-factor-authenticated registries
-    /// </summary>
-    [SecretValue]
-    [CliOption("--otp")]
-    public string? Otp { get; set; }
-
-    /// <summary>
     /// The branch publishing is allowed from. Defaults to `master` / `main`
     /// </summary>
     [CliOption("--publish-branch")]
@@ -97,28 +103,16 @@ public record PnpmStageOptions : PnpmOptions
     public bool? NoGitChecks { get; set; }
 
     /// <summary>
-    /// Publish even if the version is already in the registry
+    /// Print the per-package publish summary in JSON
     /// </summary>
-    [CliFlag("--force")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Send all workspace packages in a single request (requires `--recursive`)
-    /// </summary>
-    [CliFlag("--batch")]
-    public bool? Batch { get; set; }
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Recursive only: write a `pnpm-publish-summary.json` report listing the packages that were published
     /// </summary>
     [CliFlag("--report-summary")]
     public bool? ReportSummary { get; set; }
-
-    /// <summary>
-    /// Force colored output
-    /// </summary>
-    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Color { get; set; }
 
     /// <summary>
     /// Automatically answer yes to prompts
@@ -151,6 +145,18 @@ public record PnpmStageOptions : PnpmOptions
     public string? NpmrcAuthFile { get; set; }
 
     /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
     /// Proxy for HTTPS registry and tarball requests
     /// </summary>
     [CliOption("--https-proxy")]
@@ -169,10 +175,10 @@ public record PnpmStageOptions : PnpmOptions
     public string? NoProxy { get; set; }
 
     /// <summary>
-    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// Force colored output
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-r")]
-    public bool? Recursive { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Color { get; set; }
 
     /// <summary>
     /// Reporter output format [default: default]
@@ -185,6 +191,30 @@ public record PnpmStageOptions : PnpmOptions
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmStageLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// </summary>
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
+
+    /// <summary>
+    /// Hold each script's streamed output until the script exits, then print it as one block
+    /// </summary>
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-r")]
+    public bool? Recursive { get; set; }
 
     /// <summary>
     /// Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
@@ -263,36 +293,6 @@ public record PnpmStageOptions : PnpmOptions
     /// </summary>
     [CliFlag("--parallel")]
     public bool? Parallel { get; set; }
-
-    /// <summary>
-    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
-    /// </summary>
-    [CliFlag("--stream")]
-    public bool? Stream { get; set; }
-
-    /// <summary>
-    /// Hold each script's streamed output until the script exits, then print it as one block
-    /// </summary>
-    [CliFlag("--aggregate-output")]
-    public bool? AggregateOutput { get; set; }
-
-    /// <summary>
-    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
-    /// </summary>
-    [CliFlag("--use-stderr")]
-    public bool? UseStderr { get; set; }
-
-    /// <summary>
-    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
-    /// </summary>
-    [CliFlag("--ignore-workspace")]
-    public bool? IgnoreWorkspace { get; set; }
-
-    /// <summary>
-    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
-    /// </summary>
-    [CliOption("--workspace-packages")]
-    public IEnumerable<string>? WorkspacePackages { get; set; }
 
     /// <summary>
     /// The [PARAMS] operand.

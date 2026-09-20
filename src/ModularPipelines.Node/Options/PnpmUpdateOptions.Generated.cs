@@ -65,6 +65,24 @@ public record PnpmUpdateOptions : PnpmOptions
     public IEnumerable<string>? Libc { get; set; }
 
     /// <summary>
+    /// Don't run lifecycle scripts of the project or its dependencies. Packages are still installed; only their build scripts are skipped, and the install won't fail because of it
+    /// </summary>
+    [CliFlag("--ignore-scripts")]
+    public bool? IgnoreScripts { get; set; }
+
+    /// <summary>
+    /// Run lifecycle scripts even when the configuration disables them
+    /// </summary>
+    [CliFlag("--no-ignore-scripts")]
+    public bool? NoIgnoreScripts { get; set; }
+
+    /// <summary>
+    /// Disable pnpm hooks defined in `.pnpmfile.cjs`, including the pnpmfiles of config dependencies
+    /// </summary>
+    [CliFlag("--ignore-pnpmfile")]
+    public bool? IgnorePnpmfile { get; set; }
+
+    /// <summary>
     /// Ignore version ranges in package.json: bump the matched packages to their latest version and rewrite the manifest ranges
     /// </summary>
     [CliFlag("--latest", ShortForm = "-L")]
@@ -77,34 +95,10 @@ public record PnpmUpdateOptions : PnpmOptions
     public bool? Patches { get; set; }
 
     /// <summary>
-    /// Write the resolved version without a range operator when rewriting the manifest under `--latest`
-    /// </summary>
-    [CliFlag("--save-exact", ShortForm = "-E")]
-    public bool? SaveExact { get; set; }
-
-    /// <summary>
-    /// Do not write the updated ranges back to package.json. The lockfile is still updated (the `--no-save` flag)
-    /// </summary>
-    [CliFlag("--no-save")]
-    public bool? NoSave { get; set; }
-
-    /// <summary>
     /// How deep to inspect dependencies. `0` means top-level dependencies only. Defaults to unlimited
     /// </summary>
     [CliOption("--depth")]
     public string? Depth { get; set; }
-
-    /// <summary>
-    /// Dependencies are not downloaded; only `pnpm-lock.yaml` is updated
-    /// </summary>
-    [CliFlag("--lockfile-only")]
-    public bool? LockfileOnly { get; set; }
-
-    /// <summary>
-    /// The directory in which `pnpm-lock.yaml` is created. Several projects may share a single lockfile
-    /// </summary>
-    [CliOption("--lockfile-dir")]
-    public string? LockfileDir { get; set; }
 
     /// <summary>
     /// Show outdated dependencies and select which ones to update
@@ -131,6 +125,18 @@ public record PnpmUpdateOptions : PnpmOptions
     public bool? Workspace { get; set; }
 
     /// <summary>
+    /// Write the resolved version without a range operator when rewriting the manifest under `--latest`
+    /// </summary>
+    [CliFlag("--save-exact", ShortForm = "-E")]
+    public bool? SaveExact { get; set; }
+
+    /// <summary>
+    /// Do not write the updated ranges back to package.json. The lockfile is still updated (the `--no-save` flag)
+    /// </summary>
+    [CliFlag("--no-save")]
+    public bool? NoSave { get; set; }
+
+    /// <summary>
     /// Generate a changeset file declaring a patch bump for every workspace package whose production dependencies were changed by the update
     /// </summary>
     [CliFlag("--changeset")]
@@ -143,34 +149,22 @@ public record PnpmUpdateOptions : PnpmOptions
     public bool? NoChangeSet { get; set; }
 
     /// <summary>
-    /// Disable pnpm hooks defined in `.pnpmfile.cjs`, including the pnpmfiles of config dependencies
+    /// Dependencies are not downloaded; only `pnpm-lock.yaml` is updated
     /// </summary>
-    [CliFlag("--ignore-pnpmfile")]
-    public bool? IgnorePnpmfile { get; set; }
+    [CliFlag("--lockfile-only")]
+    public bool? LockfileOnly { get; set; }
 
     /// <summary>
-    /// Don't run lifecycle scripts of the project or its dependencies
+    /// The directory in which `pnpm-lock.yaml` is created. Several projects may share a single lockfile
     /// </summary>
-    [CliFlag("--ignore-scripts")]
-    public bool? IgnoreScripts { get; set; }
-
-    /// <summary>
-    /// Run lifecycle scripts even when the configuration disables them
-    /// </summary>
-    [CliFlag("--no-ignore-scripts")]
-    public bool? NoIgnoreScripts { get; set; }
+    [CliOption("--lockfile-dir")]
+    public string? LockfileDir { get; set; }
 
     /// <summary>
     /// URL of a pnpr server to offload revision refresh resolution to
     /// </summary>
     [CliOption("--pnpr-server")]
     public string? PnprServer { get; set; }
-
-    /// <summary>
-    /// Force colored output
-    /// </summary>
-    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Color { get; set; }
 
     /// <summary>
     /// Automatically answer yes to prompts
@@ -203,6 +197,18 @@ public record PnpmUpdateOptions : PnpmOptions
     public string? NpmrcAuthFile { get; set; }
 
     /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
     /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
     /// </summary>
     [CliOption("--registry")]
@@ -227,10 +233,10 @@ public record PnpmUpdateOptions : PnpmOptions
     public string? NoProxy { get; set; }
 
     /// <summary>
-    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// Force colored output
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-r")]
-    public bool? Recursive { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Color { get; set; }
 
     /// <summary>
     /// Reporter output format [default: default]
@@ -243,6 +249,30 @@ public record PnpmUpdateOptions : PnpmOptions
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmUpdateLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// </summary>
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
+
+    /// <summary>
+    /// Hold each script's streamed output until the script exits, then print it as one block
+    /// </summary>
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-r")]
+    public bool? Recursive { get; set; }
 
     /// <summary>
     /// Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
@@ -321,36 +351,6 @@ public record PnpmUpdateOptions : PnpmOptions
     /// </summary>
     [CliFlag("--parallel")]
     public bool? Parallel { get; set; }
-
-    /// <summary>
-    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
-    /// </summary>
-    [CliFlag("--stream")]
-    public bool? Stream { get; set; }
-
-    /// <summary>
-    /// Hold each script's streamed output until the script exits, then print it as one block
-    /// </summary>
-    [CliFlag("--aggregate-output")]
-    public bool? AggregateOutput { get; set; }
-
-    /// <summary>
-    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
-    /// </summary>
-    [CliFlag("--use-stderr")]
-    public bool? UseStderr { get; set; }
-
-    /// <summary>
-    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
-    /// </summary>
-    [CliFlag("--ignore-workspace")]
-    public bool? IgnoreWorkspace { get; set; }
-
-    /// <summary>
-    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
-    /// </summary>
-    [CliOption("--workspace-packages")]
-    public IEnumerable<string>? WorkspacePackages { get; set; }
 
     /// <summary>
     /// The [PACKAGES] operand.
