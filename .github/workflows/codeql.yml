@@ -99,28 +99,6 @@ jobs:
       - name: Restore core solution
         if: matrix.language == 'csharp'
         run: dotnet restore ModularPipelines.slnx
-      - name: Select C# framework references
-        if: matrix.language == 'csharp'
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $sdkVersion = [version](Get-Content global.json -Raw | ConvertFrom-Json).sdk.version
-          $framework = "net$($sdkVersion.Major).0"
-          $references = foreach ($pack in @('Microsoft.NETCore.App.Ref', 'Microsoft.AspNetCore.App.Ref')) {
-            $version = Get-ChildItem (Join-Path $env:DOTNET_ROOT "packs/$pack") -Directory |
-              Where-Object { $_.Name -match "^$($sdkVersion.Major)\.0\.\d+$" } |
-              Sort-Object { [version]$_.Name } -Descending |
-              Select-Object -First 1
-            if (-not $version) { throw "Missing $pack for $framework" }
-            $path = Join-Path $version.FullName "ref/$framework"
-            if (-not (Test-Path $path -PathType Container)) { throw "Missing reference directory: $path" }
-            Write-Host "CodeQL framework references: $path"
-            $path
-          }
-          # Buildless extraction combines projects. Keep framework metadata coherent
-          # instead of resolving competing framework versions from restored packages.
-          "CODEQL_EXTRACTOR_CSHARP_BUILDLESS_DOTNET_FRAMEWORK_REFERENCES=$($references -join [IO.Path]::PathSeparator)" >> $env:GITHUB_ENV
-          'CODEQL_EXTRACTOR_CSHARP_OPTION_LOGGING_VERBOSITY=debug' >> $env:GITHUB_ENV
       - name: Analyze
         uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4.38.1
         with:

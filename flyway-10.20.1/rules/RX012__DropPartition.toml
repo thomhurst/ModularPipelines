@@ -1,4 +1,0 @@
-dialects = ["TEXT"]
-rules = ["(?i)(?<=^|\\s)DROP\\s+PARTITION(?=$|\\s|;)"]
-passOnRegexMatch = false
-description = "DROP PARTITION statement"
