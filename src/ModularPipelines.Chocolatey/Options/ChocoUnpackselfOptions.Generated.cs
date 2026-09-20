@@ -13,6 +13,9 @@ using ModularPipelines.Chocolatey.Options;
 
 namespace ModularPipelines.Chocolatey.Options;
 
+/// <summary>
+/// [DEPRECATED] UnpackSelf Command
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unpackself")]

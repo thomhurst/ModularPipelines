@@ -21,7 +21,7 @@ public partial interface IChoco
     #region Commands
 
     /// <summary>
-    /// For source location, this can be a folder/file share or an
+    /// This lists API keys that are set or sets an api key for a particular source so it doesn't need to be specified every time.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -31,7 +31,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// WARNING: This command was introduced in Chocolatey CLI v2.1.0
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -41,7 +41,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// Chocolatey will allow you to interact with the configuration file settings.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -51,7 +51,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// Export all currently installed packages to a file.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -61,7 +61,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// Chocolatey will allow you to interact with features.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -71,7 +71,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// Chocolatey will allow you to interact with features.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -81,7 +81,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// Chocolatey will perform a search for a package local or remote.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -91,7 +91,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// Chocolatey will perform a search for a package local or remote and provide detailed information about that package. This is a synonym for `choco search &lt;pkgname&gt; --exact --detailed`.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -101,7 +101,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: Any package name ending with .config is considered a
+    /// Installs a package or a list of packages (sometimes specified as a packages.config).
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -111,7 +111,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// WARNING: This command was introduced in Chocolatey CLI v2.5.0
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -120,18 +120,11 @@ public partial interface IChoco
     public Task<CommandResult> LicenseAsync(ChocoLicenseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
     public Task<CommandResult> ListAsync(ChocoListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// packageversion
+    /// Chocolatey will generate package specification files for a new package.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -141,7 +134,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// If you use `--source=https://somewhere/out/there`, it is
+    /// Returns a list of outdated packages.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -151,7 +144,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// Chocolatey will attempt to package a nuspec into a compiled nupkg.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -161,7 +154,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// Pin a package to suppress upgrades.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -171,7 +164,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: If there is more than one nupkg file in the folder, the command
+    /// Chocolatey will attempt to push a compiled nupkg to a package feed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -181,7 +174,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// WARNING: This command was introduced in Chocolatey CLI v2.3.0
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -191,7 +184,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// Chocolatey will perform a search for a package local or remote.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -201,7 +194,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// For source location, this can be a folder/file share or an
+    /// This lists API keys that are set or sets an api key for a particular source so it doesn't need to be specified every time.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -211,7 +204,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// When it comes to the source location, this can be a folder/file share or an http
+    /// Chocolatey will allow you to interact with sources.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -221,7 +214,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// When it comes to the source location, this can be a folder/file share or an http
+    /// Chocolatey will allow you to interact with sources.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -230,11 +223,18 @@ public partial interface IChoco
     public Task<CommandResult> SourcesAsync(ChocoSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
+    /// <summary>
+    /// As a user of Chocolatey CLI open-source, we are unable to provide private support. See https://chocolatey.org/support for details.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public Task<CommandResult> SupportAsync(ChocoSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// List information installed templates.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -244,7 +244,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: See scripting in the command reference (`choco --help`) for how to
+    /// List information installed templates.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -254,7 +254,7 @@ public partial interface IChoco
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: `all` is a special package keyword that will allow you to
+    /// Uninstalls a package or a list of packages.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -263,11 +263,18 @@ public partial interface IChoco
     public Task<CommandResult> UninstallAsync(ChocoUninstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
+    /// <summary>
+    /// [DEPRECATED] UnpackSelf Command
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public Task<CommandResult> UnpackselfAsync(ChocoUnpackselfOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// NOTE: `all` is a special package keyword that will allow you to upgrade
+    /// Upgrades a package or a list of packages. If you do not have a package installed, upgrade will install it.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
