@@ -18,14 +18,35 @@ namespace ModularPipelines.Yarn.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("patch-commit")]
-public record YarnPatchCommitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PatchFolder
-) : YarnOptions
+public record YarnPatchCommitOptions : YarnOptions
 {
+    /// <summary>
+    /// By default, this will print a patchfile on stdout based on the diff between the
+    /// </summary>
+    /// <param name="PatchFolder">The &lt;patchFolder&gt; operand.</param>
+    public YarnPatchCommitOptions(
+        string PatchFolder
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PatchFolder);
+        this.PatchFolder = PatchFolder;
+    }
+
+    public void Deconstruct(out string PatchFolder)
+    {
+        PatchFolder = this.PatchFolder;
+    }
+
     /// <summary>
     /// Add the patch to your resolution entries
     /// </summary>
     [CliFlag("--save", ShortForm = "-s")]
     public bool? Save { get; set; }
+
+    /// <summary>
+    /// The &lt;patchFolder&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PatchFolder { get; private init; }
 
 }

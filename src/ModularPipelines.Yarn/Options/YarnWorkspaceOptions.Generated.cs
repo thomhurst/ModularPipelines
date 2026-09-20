@@ -18,9 +18,51 @@ namespace ModularPipelines.Yarn.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace")]
-public record YarnWorkspaceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkspaceName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> CommandName
-) : YarnOptions
+public record YarnWorkspaceOptions : YarnOptions
 {
+    /// <summary>
+    /// This command will run a given sub-command on a single workspace.
+    /// </summary>
+    /// <param name="WorkspaceName">The &lt;workspaceName&gt; operand.</param>
+    /// <param name="CommandName">The &lt;commandName&gt; operand.</param>
+    public YarnWorkspaceOptions(
+        string WorkspaceName,
+        IEnumerable<string> CommandName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CommandName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CommandName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CommandName));
+            }
+
+            CommandName = materialized;
+        }
+        this.CommandName = CommandName;
+    }
+
+    public void Deconstruct(out string WorkspaceName, out IEnumerable<string> CommandName)
+    {
+        WorkspaceName = this.WorkspaceName;
+        CommandName = this.CommandName;
+    }
+
+    /// <summary>
+    /// The &lt;workspaceName&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The &lt;commandName&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> CommandName { get; private init; }
+
 }

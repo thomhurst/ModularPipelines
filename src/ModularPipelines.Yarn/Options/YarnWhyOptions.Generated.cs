@@ -18,10 +18,25 @@ namespace ModularPipelines.Yarn.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("why")]
-public record YarnWhyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
-) : YarnOptions
+public record YarnWhyOptions : YarnOptions
 {
+    /// <summary>
+    /// This command prints the exact reasons why a package appears in the dependency
+    /// </summary>
+    /// <param name="Package">The &lt;package&gt; operand.</param>
+    public YarnWhyOptions(
+        string Package
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+    }
+
+    public void Deconstruct(out string Package)
+    {
+        Package = this.Package;
+    }
+
     /// <summary>
     /// List, for each workspace, what are all the paths that lead to the dependency
     /// </summary>
@@ -39,5 +54,11 @@ public record YarnWhyOptions(
     /// </summary>
     [CliFlag("--peers")]
     public bool? Peers { get; set; }
+
+    /// <summary>
+    /// The &lt;package&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Package { get; private init; }
 
 }

@@ -18,10 +18,36 @@ namespace ModularPipelines.Yarn.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dlx")]
-public record YarnDlxOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Command
-) : YarnOptions
+public record YarnDlxOptions : YarnOptions
 {
+    /// <summary>
+    /// This command will install a package within a temporary environment, and run its
+    /// </summary>
+    /// <param name="Command">The &lt;command&gt; operand.</param>
+    public YarnDlxOptions(
+        IEnumerable<string> Command
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Command);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Command));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Command));
+            }
+
+            Command = materialized;
+        }
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Command)
+    {
+        Command = this.Command;
+    }
+
     /// <summary>
     /// The package(s) to install before running the command
     /// </summary>
@@ -33,5 +59,11 @@ public record YarnDlxOptions(
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// The &lt;command&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Command { get; private init; }
 
 }
