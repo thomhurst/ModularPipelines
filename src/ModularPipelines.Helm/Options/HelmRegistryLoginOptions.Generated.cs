@@ -34,12 +34,6 @@ public record HelmRegistryLoginOptions : HelmOptions
     public string? CertFile { get; set; }
 
     /// <summary>
-    /// help for login
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// allow connections to TLS registry without certs
     /// </summary>
     [CliFlag("--insecure")]

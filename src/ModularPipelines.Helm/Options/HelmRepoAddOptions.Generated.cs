@@ -46,12 +46,6 @@ public record HelmRepoAddOptions : HelmOptions
     public bool? ForceUpdate { get; set; }
 
     /// <summary>
-    /// help for add
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// skip tls certificate checks for the repository
     /// </summary>
     [CliFlag("--insecure-skip-tls-verify")]

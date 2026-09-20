@@ -28,12 +28,6 @@ public record HelmTestOptions : HelmOptions
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
-    /// help for test
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// if set, do not show notes in test output. Does not affect presence in chart metadata
     /// </summary>
     [CliFlag("--hide-notes")]

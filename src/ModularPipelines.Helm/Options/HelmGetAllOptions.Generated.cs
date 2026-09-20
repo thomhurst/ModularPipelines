@@ -19,15 +19,24 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get", "all")]
-public record HelmGetAllOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ReleaseName
-) : HelmOptions
+public record HelmGetAllOptions : HelmOptions
 {
     /// <summary>
-    /// help for all
+    /// This command prints a human readable collection of information about the
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="ReleaseName">The RELEASE_NAME operand.</param>
+    public HelmGetAllOptions(
+        string ReleaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReleaseName);
+        this.ReleaseName = ReleaseName;
+    }
+
+    public void Deconstruct(out string ReleaseName)
+    {
+        ReleaseName = this.ReleaseName;
+    }
 
     /// <summary>
     /// get the named release with revision
@@ -137,5 +146,11 @@ public record HelmGetAllOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The RELEASE_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ReleaseName { get; private init; }
 
 }

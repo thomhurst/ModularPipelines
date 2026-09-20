@@ -34,12 +34,6 @@ public record HelmPushOptions : HelmOptions
     public string? CertFile { get; set; }
 
     /// <summary>
-    /// help for push
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// skip tls certificate checks for the chart upload
     /// </summary>
     [CliFlag("--insecure-skip-tls-verify")]

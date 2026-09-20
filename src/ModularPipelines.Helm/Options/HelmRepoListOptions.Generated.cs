@@ -23,12 +23,6 @@ namespace ModularPipelines.Helm.Options;
 public record HelmRepoListOptions : HelmOptions
 {
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// prints the output in the specified format. Allowed values: table, json, yaml (default table)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
