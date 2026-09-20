@@ -42,6 +42,30 @@ public class GeneratorHardeningTests
         }
     }
 
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Required_Optional_Value_Enums_Retain_Null_Checks(bool includeRequiredString)
+    {
+        List<CliOptionDefinition> options =
+        [
+            new()
+            {
+                SwitchName = "--format", PropertyName = "Format", CSharpType = "ToolFormat?", IsRequired = true,
+                ValueArity = CliOptionValueArity.Optional,
+                EnumDefinition = new() { EnumName = "ToolFormat", Values = [new() { MemberName = "Json", CliValue = "json" }] },
+            },
+        ];
+        if (includeRequiredString)
+        {
+            options.Add(new() { SwitchName = "--name", PropertyName = "Name", CSharpType = "string?", IsRequired = true });
+        }
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(Command("ToolRunOptions", "ToolOptions", options: options)))).Single().Content;
+        await Assert.That(generated).Contains("CliOptionValue Format");
+        await Assert.That(generated).Contains("ThrowIfNull(Format)");
+    }
+
     private static CliCommandDefinition Command(
         string className,
         string parentClassName,
