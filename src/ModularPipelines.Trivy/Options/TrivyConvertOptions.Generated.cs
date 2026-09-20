@@ -19,10 +19,25 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("convert")]
-public record TrivyConvertOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ResultJson
-) : TrivyOptions
+public record TrivyConvertOptions : TrivyOptions
 {
+    /// <summary>
+    /// Convert Trivy JSON report into a different format
+    /// </summary>
+    /// <param name="ResultJson">The RESULT_JSON operand.</param>
+    public TrivyConvertOptions(
+        string ResultJson
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResultJson);
+        this.ResultJson = ResultJson;
+    }
+
+    public void Deconstruct(out string ResultJson)
+    {
+        ResultJson = this.ResultJson;
+    }
+
     /// <summary>
     /// List of scanners included when generating the json report. Used only for rendering the summary table. (allowed values: vuln,misconfig,secret,license)
     /// </summary>
@@ -172,5 +187,11 @@ public record TrivyConvertOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The RESULT_JSON operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string ResultJson { get; private init; }
 
 }

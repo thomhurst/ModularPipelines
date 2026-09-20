@@ -20,10 +20,25 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rootfs")]
-public record TrivyRootfsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Rootdir
-) : TrivyOptions
+public record TrivyRootfsOptions : TrivyOptions
 {
+    /// <summary>
+    /// Scan rootfs
+    /// </summary>
+    /// <param name="Rootdir">The ROOTDIR operand.</param>
+    public TrivyRootfsOptions(
+        string Rootdir
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rootdir);
+        this.Rootdir = Rootdir;
+    }
+
+    public void Deconstruct(out string Rootdir)
+    {
+        Rootdir = this.Rootdir;
+    }
+
     /// <summary>
     /// [EXPERIMENTAL] cache backend (e.g. redis://localhost:6379) (default "memory")
     /// </summary>
@@ -585,5 +600,11 @@ public record TrivyRootfsOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The ROOTDIR operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Rootdir { get; private init; }
 
 }

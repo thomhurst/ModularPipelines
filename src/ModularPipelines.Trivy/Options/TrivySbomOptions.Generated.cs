@@ -20,10 +20,25 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sbom")]
-public record TrivySbomOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string SbomPath
-) : TrivyOptions
+public record TrivySbomOptions : TrivyOptions
 {
+    /// <summary>
+    /// Scan SBOM for vulnerabilities and licenses
+    /// </summary>
+    /// <param name="SbomPath">The SBOM_PATH operand.</param>
+    public TrivySbomOptions(
+        string SbomPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SbomPath);
+        this.SbomPath = SbomPath;
+    }
+
+    public void Deconstruct(out string SbomPath)
+    {
+        SbomPath = this.SbomPath;
+    }
+
     /// <summary>
     /// [EXPERIMENTAL] cache backend (e.g. redis://localhost:6379) (default "memory")
     /// </summary>
@@ -387,5 +402,11 @@ public record TrivySbomOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The SBOM_PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string SbomPath { get; private init; }
 
 }

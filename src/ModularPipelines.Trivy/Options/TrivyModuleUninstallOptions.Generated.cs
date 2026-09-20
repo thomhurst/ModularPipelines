@@ -18,15 +18,24 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("module", "uninstall")]
-public record TrivyModuleUninstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Repository
-) : TrivyOptions
+public record TrivyModuleUninstallOptions : TrivyOptions
 {
     /// <summary>
-    /// help for uninstall
+    /// Uninstall a module
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Repository">The REPOSITORY operand.</param>
+    public TrivyModuleUninstallOptions(
+        string Repository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string Repository)
+    {
+        Repository = this.Repository;
+    }
 
     /// <summary>
     /// Path to PEM-encoded CA certificate file
@@ -93,5 +102,11 @@ public record TrivyModuleUninstallOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The REPOSITORY operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Repository { get; private init; }
 
 }

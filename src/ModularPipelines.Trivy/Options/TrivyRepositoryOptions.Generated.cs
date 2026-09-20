@@ -20,10 +20,25 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repository")]
-public record TrivyRepositoryOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string RepoPath
-) : TrivyOptions
+public record TrivyRepositoryOptions : TrivyOptions
 {
+    /// <summary>
+    /// Scan a repository
+    /// </summary>
+    /// <param name="RepoPath">The REPO_PATH operand.</param>
+    public TrivyRepositoryOptions(
+        string RepoPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepoPath);
+        this.RepoPath = RepoPath;
+    }
+
+    public void Deconstruct(out string RepoPath)
+    {
+        RepoPath = this.RepoPath;
+    }
+
     /// <summary>
     /// [EXPERIMENTAL] cache backend (e.g. redis://localhost:6379) (default "fs")
     /// </summary>
@@ -597,5 +612,11 @@ public record TrivyRepositoryOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The REPO_PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string RepoPath { get; private init; }
 
 }

@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Trivy.Enums;
 
 /// <summary>
-/// Allowed values for the --imageconfigscanners option.
+/// Allowed values for --image-config-scanners.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyImageImageConfigScanners

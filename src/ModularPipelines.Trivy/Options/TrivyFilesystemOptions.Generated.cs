@@ -20,10 +20,25 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filesystem")]
-public record TrivyFilesystemOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : TrivyOptions
+public record TrivyFilesystemOptions : TrivyOptions
 {
+    /// <summary>
+    /// Scan local filesystem
+    /// </summary>
+    /// <param name="Path">The PATH operand.</param>
+    public TrivyFilesystemOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
     /// <summary>
     /// [EXPERIMENTAL] cache backend (e.g. redis://localhost:6379) (default "memory")
     /// </summary>
@@ -597,5 +612,11 @@ public record TrivyFilesystemOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
 
 }

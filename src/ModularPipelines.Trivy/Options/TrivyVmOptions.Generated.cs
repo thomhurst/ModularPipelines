@@ -20,10 +20,25 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm")]
-public record TrivyVmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string VmImage
-) : TrivyOptions
+public record TrivyVmOptions : TrivyOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Scan a virtual machine image
+    /// </summary>
+    /// <param name="VmImage">The VM_IMAGE operand.</param>
+    public TrivyVmOptions(
+        string VmImage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VmImage);
+        this.VmImage = VmImage;
+    }
+
+    public void Deconstruct(out string VmImage)
+    {
+        VmImage = this.VmImage;
+    }
+
     /// <summary>
     /// [EXPERIMENTAL] cache backend (e.g. redis://localhost:6379) (default "fs")
     /// </summary>
@@ -499,5 +514,11 @@ public record TrivyVmOptions(
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
+
+    /// <summary>
+    /// The VM_IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string VmImage { get; private init; }
 
 }
