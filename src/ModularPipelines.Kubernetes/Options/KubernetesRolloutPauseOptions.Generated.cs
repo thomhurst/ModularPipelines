@@ -16,11 +16,12 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Mark the provided resource as paused.
 /// </summary>
+/// <param name="Resource">The RESOURCE operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "pause")]
 public record KubernetesRolloutPauseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Resource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string? Resource
 ) : KubernetesOptions
 {
     /// <summary>

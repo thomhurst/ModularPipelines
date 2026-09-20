@@ -19,11 +19,34 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("label")]
-public record KubernetesLabelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Key_1Val_1,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string KeyNValN
-) : KubernetesOptions
+public record KubernetesLabelOptions : KubernetesOptions
 {
+    /// <summary>
+    /// Update the labels on a resource.
+    /// </summary>
+    /// <param name="Key_1Val_1">The KEY_1=VAL_1 operand.</param>
+    /// <param name="KeyNValN">The KEY_N=VAL_N operand.</param>
+    public KubernetesLabelOptions(
+        IEnumerable<string>? Key_1Val_1,
+        string? KeyNValN
+    )
+    {
+        if (Key_1Val_1 is not null)
+        {
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Key_1Val_1));
+
+            Key_1Val_1 = materialized;
+        }
+        this.Key_1Val_1 = Key_1Val_1;
+        this.KeyNValN = KeyNValN;
+    }
+
+    public void Deconstruct(out IEnumerable<string>? Key_1Val_1, out string? KeyNValN)
+    {
+        Key_1Val_1 = this.Key_1Val_1;
+        KeyNValN = this.KeyNValN;
+    }
+
     /// <summary>
     /// Select all resources, in the namespace of the specified resource types
     /// </summary>
@@ -125,5 +148,17 @@ public record KubernetesLabelOptions(
     /// </summary>
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
+
+    /// <summary>
+    /// The KEY_1=VAL_1 operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Key_1Val_1 { get; private init; }
+
+    /// <summary>
+    /// The KEY_N=VAL_N operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public string? KeyNValN { get; private init; }
 
 }

@@ -18,9 +18,40 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "rename-context")]
-public record KubernetesConfigRenameContextOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ContextName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewName
-) : KubernetesOptions
+public record KubernetesConfigRenameContextOptions : KubernetesOptions
 {
+    /// <summary>
+    /// Renames a context from the kubeconfig file.
+    /// </summary>
+    /// <param name="ContextName">The CONTEXT_NAME operand.</param>
+    /// <param name="NewName">The NEW_NAME operand.</param>
+    public KubernetesConfigRenameContextOptions(
+        string ContextName,
+        string NewName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContextName);
+        this.ContextName = ContextName;
+        global::System.ArgumentNullException.ThrowIfNull(NewName);
+        this.NewName = NewName;
+    }
+
+    public void Deconstruct(out string ContextName, out string NewName)
+    {
+        ContextName = this.ContextName;
+        NewName = this.NewName;
+    }
+
+    /// <summary>
+    /// The CONTEXT_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ContextName { get; private init; }
+
+    /// <summary>
+    /// The NEW_NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NewName { get; private init; }
+
 }

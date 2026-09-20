@@ -18,8 +18,29 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "delete-cluster")]
-public record KubernetesConfigDeleteClusterOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : KubernetesOptions
+public record KubernetesConfigDeleteClusterOptions : KubernetesOptions
 {
+    /// <summary>
+    /// Delete the specified cluster from the kubeconfig.
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public KubernetesConfigDeleteClusterOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

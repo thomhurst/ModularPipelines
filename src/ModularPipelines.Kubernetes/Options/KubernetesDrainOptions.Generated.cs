@@ -16,11 +16,12 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Drain node in preparation for maintenance.
 /// </summary>
+/// <param name="Node">The NODE operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drain")]
 public record KubernetesDrainOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Node
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string? Node
 ) : KubernetesOptions
 {
     /// <summary>

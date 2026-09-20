@@ -18,10 +18,25 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attach")]
-public record KubernetesAttachOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Pod
-) : KubernetesOptions
+public record KubernetesAttachOptions : KubernetesOptions
 {
+    /// <summary>
+    /// Attach to a process that is already running inside an existing container.
+    /// </summary>
+    /// <param name="Pod">The POD operand.</param>
+    public KubernetesAttachOptions(
+        string Pod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pod);
+        this.Pod = Pod;
+    }
+
+    public void Deconstruct(out string Pod)
+    {
+        Pod = this.Pod;
+    }
+
     /// <summary>
     /// Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
     /// </summary>
@@ -57,5 +72,11 @@ public record KubernetesAttachOptions(
     /// </summary>
     [CliFlag("--tty", ShortForm = "-t")]
     public bool? Tty { get; set; }
+
+    /// <summary>
+    /// The POD operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Pod { get; private init; }
 
 }
