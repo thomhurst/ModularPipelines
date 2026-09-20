@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Kubernetes.Options;
@@ -54,10 +55,10 @@ public class KubernetesCommandRenderingTests : TestBase
     [Test]
     public async Task Debug_Does_Not_Require_A_Command()
     {
-        var result = await GetResult(new KubernetesDebugOptions("example-pod", null!)
-        {
-            Image = "busybox",
-        });
+        // Constructor requiredness follows current CLI help; assert the rendered contract.
+        var options = JsonSerializer.Deserialize<KubernetesDebugOptions>(
+            """{"Pod":"example-pod","Image":"busybox"}""")!;
+        var result = await GetResult(options);
 
         await Assert.That(result.CommandInput)
             .IsEqualTo("kubectl debug example-pod --image=busybox");
@@ -66,10 +67,9 @@ public class KubernetesCommandRenderingTests : TestBase
     [Test]
     public async Task Debug_Renders_A_Variadic_Command_Tail()
     {
-        var result = await GetResult(new KubernetesDebugOptions("example-pod", "sh")
-        {
-            Args = ["-c", "echo example"],
-        });
+        var options = JsonSerializer.Deserialize<KubernetesDebugOptions>(
+            """{"Pod":"example-pod","CommandArgs":"sh","Args":["-c","echo example"]}""")!;
+        var result = await GetResult(options);
 
         await Assert.That(result.CommandInput)
             .IsEqualTo("kubectl debug example-pod -- sh -c \"echo example\"");
@@ -78,11 +78,9 @@ public class KubernetesCommandRenderingTests : TestBase
     [Test]
     public async Task Debug_Filename_Does_Not_Require_A_Pod()
     {
-        var result = await GetResult(new KubernetesDebugOptions(null!, null!)
-        {
-            Filename = ["pod.yaml"],
-            Image = "busybox",
-        });
+        var options = JsonSerializer.Deserialize<KubernetesDebugOptions>(
+            """{"Filename":["pod.yaml"],"Image":"busybox"}""")!;
+        var result = await GetResult(options);
 
         await Assert.That(result.CommandInput)
             .IsEqualTo("kubectl debug --filename=pod.yaml --image=busybox");
