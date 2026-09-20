@@ -866,7 +866,14 @@ public partial interface IBrew
     public Task<CommandResult> ServicesListAsync(BrewServicesListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    public Task<CommandResult> ServicesAsync(BrewServicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Manage background services with macOS' launchctl(1) daemon manager or Linux's systemctl(1) service manager.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ServicesAsync(BrewServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

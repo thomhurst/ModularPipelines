@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bundle", "exec")]
-public record BrewBundleExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
-) : BrewOptions
+public record BrewBundleExecOptions : BrewOptions
 {
+    /// <summary>
+    /// Run an external command in an isolated build environment based on the Brewfile dependencies.
+    /// </summary>
+    /// <param name="Command">The command operand.</param>
+    public BrewBundleExecOptions(
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string Command)
+    {
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -39,12 +54,6 @@ public record BrewBundleExecOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Read from or write to the Brewfile from this location. Use --file=- to pipe to stdin/stdout.
@@ -93,5 +102,11 @@ public record BrewBundleExecOptions(
     /// </summary>
     [CliFlag("--deny-network")]
     public bool? DenyNetwork { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Command { get; private init; }
 
 }

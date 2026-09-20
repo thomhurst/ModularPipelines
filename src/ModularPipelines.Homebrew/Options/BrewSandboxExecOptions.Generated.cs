@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sandbox-exec")]
-public record BrewSandboxExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)] IEnumerable<string> Command
-) : BrewOptions
+public record BrewSandboxExecOptions : BrewOptions
 {
+    /// <summary>
+    /// Run command in Homebrew's sandbox, allowing writes to writable-path and Homebrew's temporary and cache directories.
+    /// </summary>
+    /// <param name="Command">The command operand.</param>
+    public BrewSandboxExecOptions(
+        IEnumerable<string> Command
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Command);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Command));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Command));
+            }
+
+            Command = materialized;
+        }
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Command)
+    {
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Deny network access from inside the sandbox.
     /// </summary>
@@ -47,9 +73,9 @@ public record BrewSandboxExecOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The command operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)]
+    public IEnumerable<string> Command { get; private init; }
 
 }

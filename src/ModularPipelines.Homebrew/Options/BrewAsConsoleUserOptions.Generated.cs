@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("as-console-user")]
-public record BrewAsConsoleUserOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Command
-) : BrewOptions
+public record BrewAsConsoleUserOptions : BrewOptions
 {
+    /// <summary>
+    /// Run a Homebrew command as the active macOS console user.
+    /// </summary>
+    /// <param name="Command">The command operand.</param>
+    public BrewAsConsoleUserOptions(
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string Command)
+    {
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -41,10 +56,10 @@ public record BrewAsConsoleUserOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The command operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Command { get; private init; }
 
     /// <summary>
     /// The args operand.

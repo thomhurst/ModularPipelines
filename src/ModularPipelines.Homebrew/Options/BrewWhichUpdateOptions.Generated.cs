@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("which-update")]
-public record BrewWhichUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Database
-) : BrewOptions
+public record BrewWhichUpdateOptions : BrewOptions
 {
+    /// <summary>
+    /// Database update for brew which-formula.
+    /// </summary>
+    /// <param name="Database">The database operand.</param>
+    public BrewWhichUpdateOptions(
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string Database)
+    {
+        Database = this.Database;
+    }
+
     /// <summary>
     /// Use generated bottle JSON files in the given directory to update formula entries.
     /// </summary>
@@ -71,9 +86,9 @@ public record BrewWhichUpdateOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The database operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Database { get; private init; }
 
 }

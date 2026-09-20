@@ -39,12 +39,6 @@ public record BrewBundleListOptions : BrewOptions
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Read from or write to the Brewfile from this location. Use --file=- to pipe to stdin/stdout.
     /// </summary>
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]

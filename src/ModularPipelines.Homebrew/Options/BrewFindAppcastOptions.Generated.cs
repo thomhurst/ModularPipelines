@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("find-appcast")]
-public record BrewFindAppcastOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AppPath
-) : BrewOptions
+public record BrewFindAppcastOptions : BrewOptions
 {
+    /// <summary>
+    /// Find the appcast of the app bundle at app_path, for use in a cask livecheck block.
+    /// </summary>
+    /// <param name="AppPath">The app_path operand.</param>
+    public BrewFindAppcastOptions(
+        string AppPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppPath);
+        this.AppPath = AppPath;
+    }
+
+    public void Deconstruct(out string AppPath)
+    {
+        AppPath = this.AppPath;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -41,9 +56,9 @@ public record BrewFindAppcastOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The app_path operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AppPath { get; private init; }
 
 }

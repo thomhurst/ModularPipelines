@@ -12,13 +12,42 @@ using ModularPipelines.Homebrew.Options;
 
 namespace ModularPipelines.Homebrew.Options;
 
+/// <summary>
+/// Options for brew command.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("command")]
-public record BrewCommandOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Cmd
-) : BrewOptions
+public record BrewCommandOptions : BrewOptions
 {
+    /// <summary>
+    /// Options for brew command.
+    /// </summary>
+    /// <param name="Cmd">The cmd operand.</param>
+    public BrewCommandOptions(
+        IEnumerable<string> Cmd
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Cmd);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Cmd));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Cmd));
+            }
+
+            Cmd = materialized;
+        }
+        this.Cmd = Cmd;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Cmd)
+    {
+        Cmd = this.Cmd;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -38,9 +67,9 @@ public record BrewCommandOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The cmd operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Cmd { get; private init; }
 
 }

@@ -40,12 +40,6 @@ public record BrewServicesRunOptions : BrewOptions, IValidatableObject
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// When run as root on macOS, run the service(s) as this user.
     /// </summary>
     [CliOption("--sudo-service-user", Format = OptionFormat.EqualsSeparated)]
@@ -76,6 +70,7 @@ public record BrewServicesRunOptions : BrewOptions, IValidatableObject
         {
             yield return new ValidationResult("At least one of Formula or All must be specified.", [nameof(Formula), nameof(All)]);
         }
+        yield break;
     }
 
 }

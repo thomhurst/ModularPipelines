@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bottle")]
-public record BrewBottleOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
-) : BrewOptions
+public record BrewBottleOptions : BrewOptions
 {
+    /// <summary>
+    /// Generate a bottle (binary package) from a formula that was installed with --build-bottle. If the formula specifies a rebuild version, it will be incremented in the generated DSL. Passing --keep-old will attempt to keep it at its original value, while --no-rebuild will remove it.
+    /// </summary>
+    /// <param name="InstalledFormula">The installed_formula operand.</param>
+    public BrewBottleOptions(
+        IEnumerable<string> InstalledFormula
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstalledFormula);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstalledFormula));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstalledFormula));
+            }
+
+            InstalledFormula = materialized;
+        }
+        this.InstalledFormula = InstalledFormula;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstalledFormula)
+    {
+        InstalledFormula = this.InstalledFormula;
+    }
+
     /// <summary>
     /// Do not check if the bottle can be marked as relocatable.
     /// </summary>
@@ -113,9 +139,9 @@ public record BrewBottleOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The installed_formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> InstalledFormula { get; private init; }
 
 }

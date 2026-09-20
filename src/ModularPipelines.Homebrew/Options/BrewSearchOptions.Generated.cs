@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
-public record BrewSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Text
-) : BrewOptions
+public record BrewSearchOptions : BrewOptions
 {
+    /// <summary>
+    /// Perform a substring search of cask tokens and formula names for text. If text is flanked by slashes, it is interpreted as a regular expression.
+    /// </summary>
+    /// <param name="Text">The text operand.</param>
+    public BrewSearchOptions(
+        IEnumerable<string> Text
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Text);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Text));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Text));
+            }
+
+            Text = materialized;
+        }
+        this.Text = Text;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Text)
+    {
+        Text = this.Text;
+    }
+
     /// <summary>
     /// Search for formulae.
     /// </summary>
@@ -131,9 +157,9 @@ public record BrewSearchOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The text operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Text { get; private init; }
 
 }

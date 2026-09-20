@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist-logs")]
-public record BrewGistLogsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Formula
-) : BrewOptions
+public record BrewGistLogsOptions : BrewOptions
 {
+    /// <summary>
+    /// Upload logs for a failed build of formula to a new Gist. Presents an error message if no logs are found.
+    /// </summary>
+    /// <param name="Formula">The formula operand.</param>
+    public BrewGistLogsOptions(
+        string Formula
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Formula);
+        this.Formula = Formula;
+    }
+
+    public void Deconstruct(out string Formula)
+    {
+        Formula = this.Formula;
+    }
+
     /// <summary>
     /// Automatically create a new issue in the appropriate GitHub repository after creating the Gist.
     /// </summary>
@@ -53,9 +68,9 @@ public record BrewGistLogsOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Formula { get; private init; }
 
 }

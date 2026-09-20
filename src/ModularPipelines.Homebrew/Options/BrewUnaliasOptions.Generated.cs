@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unalias")]
-public record BrewUnaliasOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Alias
-) : BrewOptions
+public record BrewUnaliasOptions : BrewOptions
 {
+    /// <summary>
+    /// Remove aliases.
+    /// </summary>
+    /// <param name="Alias">The alias operand.</param>
+    public BrewUnaliasOptions(
+        IEnumerable<string> Alias
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Alias);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Alias));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Alias));
+            }
+
+            Alias = materialized;
+        }
+        this.Alias = Alias;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Alias)
+    {
+        Alias = this.Alias;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -41,9 +67,9 @@ public record BrewUnaliasOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The alias operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Alias { get; private init; }
 
 }

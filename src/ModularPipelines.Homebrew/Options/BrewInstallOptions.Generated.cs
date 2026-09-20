@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
-public record BrewInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
-) : BrewOptions
+public record BrewInstallOptions : BrewOptions
 {
+    /// <summary>
+    /// Install a formula or cask. Additional options specific to a formula may be appended to the command.
+    /// </summary>
+    /// <param name="FormulaOperand">The formula operand.</param>
+    public BrewInstallOptions(
+        IEnumerable<string> FormulaOperand
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FormulaOperand);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FormulaOperand));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FormulaOperand));
+            }
+
+            FormulaOperand = materialized;
+        }
+        this.FormulaOperand = FormulaOperand;
+    }
+
+    public void Deconstruct(out IEnumerable<string> FormulaOperand)
+    {
+        FormulaOperand = this.FormulaOperand;
+    }
+
     /// <summary>
     /// If brewing fails, open an interactive debugging session with access to IRB or a shell inside the temporary build directory.
     /// </summary>
@@ -317,9 +343,9 @@ public record BrewInstallOptions(
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> FormulaOperand { get; private init; }
 
 }

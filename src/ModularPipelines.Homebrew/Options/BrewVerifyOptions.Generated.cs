@@ -18,10 +18,36 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify")]
-public record BrewVerifyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Formula
-) : BrewOptions
+public record BrewVerifyOptions : BrewOptions
 {
+    /// <summary>
+    /// Verify the build provenance of bottles using GitHub's attestation tools. This is done by first fetching the given bottles and then verifying their provenance.
+    /// </summary>
+    /// <param name="Formula">The formula operand.</param>
+    public BrewVerifyOptions(
+        IEnumerable<string> Formula
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Formula);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Formula));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Formula));
+            }
+
+            Formula = materialized;
+        }
+        this.Formula = Formula;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Formula)
+    {
+        Formula = this.Formula;
+    }
+
     /// <summary>
     /// Download for the given operating system. (Pass all to download for all operating systems.)
     /// </summary>
@@ -77,9 +103,9 @@ public record BrewVerifyOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The formula operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Formula { get; private init; }
 
 }

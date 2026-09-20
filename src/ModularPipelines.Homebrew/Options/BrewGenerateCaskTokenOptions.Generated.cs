@@ -18,10 +18,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate-cask-token")]
-public record BrewGenerateCaskTokenOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AppOrName
-) : BrewOptions
+public record BrewGenerateCaskTokenOptions : BrewOptions
 {
+    /// <summary>
+    /// Generate a cask token, filename and header line for an application, following the token conventions described in the Cask Cookbook.
+    /// </summary>
+    /// <param name="AppOrName">The app_or_name operand.</param>
+    public BrewGenerateCaskTokenOptions(
+        string AppOrName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppOrName);
+        this.AppOrName = AppOrName;
+    }
+
+    public void Deconstruct(out string AppOrName)
+    {
+        AppOrName = this.AppOrName;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -41,9 +56,9 @@ public record BrewGenerateCaskTokenOptions(
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// Show this message.
+    /// The app_or_name operand.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AppOrName { get; private init; }
 
 }

@@ -808,11 +808,11 @@ internal partial class Brew : IBrew
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ServicesAsync(
-        BrewServicesOptions options,
+        BrewServicesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

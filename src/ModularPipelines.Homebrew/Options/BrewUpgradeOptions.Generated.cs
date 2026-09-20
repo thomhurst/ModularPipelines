@@ -267,12 +267,6 @@ public record BrewUpgradeOptions : BrewOptions
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Show this message.
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The installed_formula operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
