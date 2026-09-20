@@ -210,7 +210,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
         }
 
         // Parse description from help text
-        var description = ExtractDescription(helpText);
+        var description = ExtractDescription(helpText, commandPath[^1]);
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
@@ -344,55 +344,67 @@ public partial class ChocolateyCliScraper : CliScraperBase
     /// <summary>
     /// Extracts description from help text.
     /// </summary>
-    private static string? ExtractDescription(string helpText)
+    private static string? ExtractDescription(string helpText, string commandName)
     {
-        var lines = helpText.Split('\n');
-
-        // Look for description after Usage section
-        var foundUsage = false;
-        foreach (var line in lines)
+        var summary = new List<string>();
+        var expectCommandTitle = false;
+        foreach (var line in helpText.Split('\n'))
         {
             var trimmed = line.Trim();
+            if (trimmed.Equals("Usage", StringComparison.OrdinalIgnoreCase)
+                || trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
+            {
+                break;
+            }
 
-            // Skip Chocolatey header
-            if (trimmed.StartsWith("Chocolatey v"))
+            if (trimmed.Length == 0)
+            {
+                if (summary.Count > 0)
+                {
+                    break;
+                }
+
+                continue;
+            }
+
+            if (summary.Count == 0 && VersionBannerPattern().IsMatch(trimmed))
+            {
+                expectCommandTitle = true;
+                continue;
+            }
+
+            // Alias help uses the canonical title immediately after the version banner.
+            if (expectCommandTitle)
+            {
+                expectCommandTitle = false;
+                if (CommandTitlePattern().IsMatch(trimmed))
+                {
+                    continue;
+                }
+            }
+
+            if (summary.Count == 0 && trimmed.All(c => c == '='))
             {
                 continue;
             }
 
-            if (trimmed.StartsWith("Usage"))
-            {
-                foundUsage = true;
-                continue;
-            }
-
-            // Skip underlines and empty lines
-            if (string.IsNullOrEmpty(trimmed) || trimmed.All(c => c == '='))
+            if (trimmed.Equals($"choco {commandName}", StringComparison.OrdinalIgnoreCase)
+                || trimmed.StartsWith($"choco {commandName} ", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
 
-            // Skip command usage lines
-            if (trimmed.StartsWith("choco "))
-            {
-                continue;
-            }
-
-            // Skip section headers
-            if (trimmed.EndsWith(':') || NextSectionPattern().IsMatch(trimmed))
-            {
-                continue;
-            }
-
-            // Found a description line
-            if (foundUsage && trimmed.Length > 10)
-            {
-                return trimmed;
-            }
+            summary.Add(trimmed);
         }
 
-        return null;
+        return summary.Count > 0 ? string.Join(' ', summary) : null;
     }
+
+    [GeneratedRegex(@"^Chocolatey v\d+(?:\.\d+)+(?:[-+][0-9A-Za-z.-]+)?$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex VersionBannerPattern();
+
+    [GeneratedRegex(@"^[\w-]+ Command$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex CommandTitlePattern();
 
     /// <summary>
     /// Parses options from Chocolatey help text.

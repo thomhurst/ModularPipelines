@@ -8,6 +8,88 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class ChocolateyCliScraperTests
 {
     [Test]
+    [Arguments("Chocolatey validates package signatures.")]
+    [Arguments("Inspect packages with this command")]
+    [Arguments("Choco commands support package management.")]
+    public async Task Summary_Does_Not_Discard_Prose_That_Resembles_A_Banner(string summary)
+    {
+        var command = await new TestChocolateyCliScraper().Parse(["choco", "info"],
+            $"Chocolatey v2.7.4\nInfo Command\n\n{summary}\n\nUsage\n    choco info <pkg>\n\nOptions and Switches");
+        await Assert.That(command!.Description).IsEqualTo(summary);
+    }
+
+    [Test]
+    public async Task Summary_Skips_Standalone_Command_Examples()
+    {
+        var command = await new TestChocolateyCliScraper().Parse(["choco", "info"],
+            "Chocolatey v2.7.4\nInfo Command\n\nDisplays package information.\nchoco info example\n\nUsage\n    choco info <pkg>\n\nOptions and Switches");
+        await Assert.That(command!.Description).IsEqualTo("Displays package information.");
+    }
+
+    [Test]
+    [Arguments("sources", "Source")]
+    [Arguments("features", "Feature")]
+    [Arguments("templates", "Template")]
+    public async Task Alias_Help_Skips_The_Canonical_Command_Title(string commandName, string title)
+    {
+        var command = await new TestChocolateyCliScraper().Parse(["choco", commandName],
+            $"Chocolatey v2.7.4\n{title} Command\n\nChocolatey will allow you to interact with {commandName}.\n\nUsage\n    choco {commandName} [<options/switches>]\n\nOptions and Switches");
+        await Assert.That(command!.Description).IsEqualTo($"Chocolatey will allow you to interact with {commandName}.");
+    }
+
+    [Test]
+    public async Task Summary_Uses_Complete_Introductory_Paragraph()
+    {
+        const string helpText = """
+            Chocolatey v2.7.4
+            Install Command
+
+            Installs a package or a list of packages (sometimes specified as a
+             packages.config).
+
+            NOTE: Additional installation guidance.
+
+            Usage
+
+                choco install <pkg> [<options/switches>]
+
+            NOTE: Any package name ending with .config is considered a
+             packages.config file.
+
+            Options and Switches
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(["choco", "install"], helpText);
+
+        await Assert.That(command!.Description)
+            .IsEqualTo("Installs a package or a list of packages (sometimes specified as a packages.config).");
+    }
+
+    [Test]
+    public async Task New_Summary_Does_Not_Use_Property_Names_After_Usage()
+    {
+        const string helpText = """
+            Chocolatey v2.7.4
+            New Command
+
+            Chocolatey will generate package specification files for a new package.
+
+            Usage
+
+                choco new <name> [<options/switches>]
+
+            Possible properties to pass:
+                packageversion
+                maintainername
+
+            Options and Switches
+            """;
+        var command = await new TestChocolateyCliScraper().Parse(["choco", "new"], helpText);
+
+        await Assert.That(command!.Description)
+            .IsEqualTo("Chocolatey will generate package specification files for a new package.");
+    }
+
+    [Test]
     [Arguments("[<options/switches>]")]
     [Arguments("[<options or switches>]")]
     public async Task Options_Section_Markers_Are_Not_Operands(string marker)
