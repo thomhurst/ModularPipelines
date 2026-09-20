@@ -184,6 +184,13 @@ public partial class BrewCliScraper : CliScraperBase
         string[] commandPath,
         string helpText)
     {
+        // An explicit Usage line already describes this command. Child headings
+        // in group help must not add their command names as parent operands.
+        if (UsageSynopsisParser.Parse(helpText, commandPath).CommandMatched)
+        {
+            yield break;
+        }
+
         var command = string.Join(' ', commandPath);
         var lines = NormalizeLines(helpText);
 
@@ -195,7 +202,13 @@ public partial class BrewCliScraper : CliScraperBase
                 continue;
             }
 
-            yield return ReadStandaloneSynopsis(lines, ref index, synopsis);
+            synopsis = ReadStandaloneSynopsis(lines, ref index, synopsis);
+            // Homebrew marks standalone command headings with a colon. Wrapped prose
+            // can also begin with the command name, but does not declare operands.
+            if (synopsis.EndsWith(':'))
+            {
+                yield return synopsis;
+            }
         }
     }
 

@@ -245,6 +245,39 @@ public class BrewCliScraperTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Services_Description_Command_References_Are_Not_Operand_Synopses(bool childCommand)
+    {
+        const string helpText = """
+            Usage: brew services [subcommand]
+
+            Manage background services.
+
+            [sudo] brew services restart (formula|--all) [--file=]:
+                Stop and start the service formula immediately.
+
+              --env-file
+                Load service environment variables. Changes take effect on the next
+                brew services restart and persist across upgrades.
+
+              --all
+                Restart all services.
+            """;
+
+        var path = childCommand ? new[] { "brew", "services", "restart" } : ["brew", "services"];
+        var command = (await new TestBrewCliScraper().Parse(path, helpText))!;
+        await Assert.That(command.PositionalArguments.Any(argument => argument.IsRequired)).IsFalse();
+        await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName)
+            .Intersect(["Restart", "And", "Persist", "Across", "Upgrades"]))
+            .IsEmpty();
+        if (childCommand)
+        {
+            await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("Formula");
+        }
+    }
+
+    [Test]
     public async Task Preserves_Multiline_Description_Containing_Option_And_Flag_File_Text()
     {
         const string helpText = """
