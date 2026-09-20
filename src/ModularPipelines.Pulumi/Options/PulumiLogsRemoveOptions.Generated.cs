@@ -33,12 +33,6 @@ public record PulumiLogsRemoveOptions : PulumiOptions
     public string? Before { get; set; }
 
     /// <summary>
-    /// help for remove
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Skip confirmation prompts
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]

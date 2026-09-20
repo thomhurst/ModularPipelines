@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "new")]
-public record PulumiStackNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrStackName
-) : PulumiOptions
+public record PulumiStackNewOptions : PulumiOptions
 {
+    /// <summary>
+    /// Create an empty stack with the given name, ready for updates
+    /// </summary>
+    /// <param name="OrgNameOrStackName">The [org-name Or ]&lt;stack-name&gt; operand.</param>
+    public PulumiStackNewOptions(
+        string OrgNameOrStackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrgNameOrStackName);
+        this.OrgNameOrStackName = OrgNameOrStackName;
+    }
+
+    public void Deconstruct(out string OrgNameOrStackName)
+    {
+        OrgNameOrStackName = this.OrgNameOrStackName;
+    }
+
     /// <summary>
     /// The name of the stack to copy existing config from
     /// </summary>
     [CliOption("--copy-config-from", Format = OptionFormat.EqualsSeparated)]
     public string? CopyConfigFrom { get; set; }
-
-    /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Do not select the stack
@@ -141,5 +150,11 @@ public record PulumiStackNewOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The [org-name Or ]&lt;stack-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrgNameOrStackName { get; private init; }
 
 }

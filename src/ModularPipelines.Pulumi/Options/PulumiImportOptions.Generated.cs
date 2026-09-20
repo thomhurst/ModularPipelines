@@ -64,12 +64,6 @@ public record PulumiImportOptions : PulumiOptions
     public string? GenerateResources { get; set; }
 
     /// <summary>
-    /// help for import
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Serialize the import diffs, operations, and overall output as JSON
     /// </summary>
     [CliFlag("--json", ShortForm = "-j")]

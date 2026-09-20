@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Pulumi.Enums;
 
 /// <summary>
-/// Allowed values for the --kind option.
+/// Allowed values for --kind.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiStackScheduleNewKind

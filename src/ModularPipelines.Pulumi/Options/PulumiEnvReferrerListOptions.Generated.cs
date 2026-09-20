@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "referrer", "list")]
-public record PulumiEnvReferrerListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName
-) : PulumiOptions
+public record PulumiEnvReferrerListOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] List entities that reference an environment
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    public PulumiEnvReferrerListOptions(
+        string EnvironmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    public void Deconstruct(out string EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
+
     /// <summary>
     /// return all referrers, paginating through every page. Mutually exclusive with --count
     /// </summary>
@@ -39,12 +54,6 @@ public record PulumiEnvReferrerListOptions(
     /// </summary>
     [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
     public int? Count { get; set; }
-
-    /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// only include the latest version of each referring stack
@@ -141,5 +150,11 @@ public record PulumiEnvReferrerListOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
 
 }

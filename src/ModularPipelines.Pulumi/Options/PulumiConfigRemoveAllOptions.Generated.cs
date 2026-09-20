@@ -18,15 +18,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "remove-all")]
-public record PulumiConfigRemoveAllOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Key
-) : PulumiOptions
+public record PulumiConfigRemoveAllOptions : PulumiOptions
 {
     /// <summary>
-    /// help for remove-all
+    /// Remove multiple configuration values.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Key">The &lt;key&gt; operand.</param>
+    public PulumiConfigRemoveAllOptions(
+        IEnumerable<string> Key
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Key);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Key));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Key));
+            }
+
+            Key = materialized;
+        }
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Key)
+    {
+        Key = this.Key;
+    }
 
     /// <summary>
     /// Parse the keys as paths in a map or list rather than raw strings
@@ -123,5 +143,11 @@ public record PulumiConfigRemoveAllOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;key&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Key { get; private init; }
 
 }

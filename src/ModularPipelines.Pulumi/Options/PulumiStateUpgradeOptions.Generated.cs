@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiStateUpgradeOptions : PulumiOptions
 {
     /// <summary>
-    /// help for upgrade
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Automatically approve and perform the upgrade
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]

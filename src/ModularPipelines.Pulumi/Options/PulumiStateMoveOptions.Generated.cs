@@ -18,21 +18,41 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "move")]
-public record PulumiStateMoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Urn
-) : PulumiOptions
+public record PulumiStateMoveOptions : PulumiOptions
 {
+    /// <summary>
+    /// Move resources from one stack to another
+    /// </summary>
+    /// <param name="Urn">The &lt;urn&gt; operand.</param>
+    public PulumiStateMoveOptions(
+        IEnumerable<string> Urn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Urn);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Urn));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Urn));
+            }
+
+            Urn = materialized;
+        }
+        this.Urn = Urn;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Urn)
+    {
+        Urn = this.Urn;
+    }
+
     /// <summary>
     /// The name of the stack to move resources to
     /// </summary>
     [CliOption("--dest", Format = OptionFormat.EqualsSeparated)]
     public string? Dest { get; set; }
-
-    /// <summary>
-    /// help for move
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Include all the parents of the moved resources as well
@@ -129,5 +149,11 @@ public record PulumiStateMoveOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;urn&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Urn { get; private init; }
 
 }

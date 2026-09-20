@@ -20,12 +20,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "aws-login", "static")]
-public record PulumiEnvProviderAwsLoginStaticOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AccessKeyId,
-    [property: SecretValue, CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecretAccessKey
-) : PulumiOptions
+public record PulumiEnvProviderAwsLoginStaticOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Add an AWS static-credentials login provider to an environment
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="AccessKeyId">The &lt;access-key-id&gt; operand.</param>
+    /// <param name="SecretAccessKey">The &lt;secret-access-key&gt; operand.</param>
+    public PulumiEnvProviderAwsLoginStaticOptions(
+        string EnvironmentName,
+        string AccessKeyId,
+        string SecretAccessKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(AccessKeyId);
+        this.AccessKeyId = AccessKeyId;
+        global::System.ArgumentNullException.ThrowIfNull(SecretAccessKey);
+        this.SecretAccessKey = SecretAccessKey;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string AccessKeyId, out string SecretAccessKey)
+    {
+        EnvironmentName = this.EnvironmentName;
+        AccessKeyId = this.AccessKeyId;
+        SecretAccessKey = this.SecretAccessKey;
+    }
+
     /// <summary>
     /// create the environment if it does not already exist
     /// </summary>
@@ -43,12 +66,6 @@ public record PulumiEnvProviderAwsLoginStaticOptions(
     /// </summary>
     [CliFlag("--export-env-vars")]
     public bool? ExportEnvVars { get; set; }
-
-    /// <summary>
-    /// help for static
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// property path under values where the provider block is written (default "aws.login")
@@ -146,5 +163,24 @@ public record PulumiEnvProviderAwsLoginStaticOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;access-key-id&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccessKeyId { get; private init; }
+
+    /// <summary>
+    /// The &lt;secret-access-key&gt; operand.
+    /// </summary>
+    [SecretValue]
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecretAccessKey { get; private init; }
 
 }

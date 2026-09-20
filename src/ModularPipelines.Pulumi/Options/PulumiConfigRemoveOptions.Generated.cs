@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "remove")]
-public record PulumiConfigRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
-) : PulumiOptions
+public record PulumiConfigRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for remove
+    /// Remove configuration value.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Key">The &lt;key&gt; operand.</param>
+    public PulumiConfigRemoveOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
 
     /// <summary>
     /// The key contains a path to a property in a map or list to remove
@@ -123,5 +132,11 @@ public record PulumiConfigRemoveOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;key&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
 
 }

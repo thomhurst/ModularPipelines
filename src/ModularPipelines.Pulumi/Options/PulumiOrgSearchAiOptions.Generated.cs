@@ -27,12 +27,6 @@ public record PulumiOrgSearchAiOptions : PulumiOptions
     public string? Delimiter { get; set; }
 
     /// <summary>
-    /// help for ai
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Organization name to search within
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

@@ -33,19 +33,13 @@ public record PulumiEnvSetupAwsOptions : PulumiOptions
     public string? Duration { get; set; }
 
     /// <summary>
-    /// help for aws
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the Pulumi organization to configure OIDC for
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
     public string? Org { get; set; }
 
     /// <summary>
-    /// the policy attached to the OIDC role: AdministratorAccess (required for Deployments), ReadOnlyAccess (required for Insights), or any other policy ARN; prompted for when omitted
+    /// the policy attached to the OIDC role: AdministratorAccess (required for Deployments), ReadOnlyAccess (required for Discovery), or any other policy ARN; prompted for when omitted
     /// </summary>
     [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public string? Policy { get; set; }

@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "set-default")]
-public record PulumiOrgSetDefaultOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : PulumiOptions
+public record PulumiOrgSetDefaultOptions : PulumiOptions
 {
     /// <summary>
-    /// help for set-default
+    /// Set the local default organization for the current backend.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    public PulumiOrgSetDefaultOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -105,5 +114,11 @@ public record PulumiOrgSetDefaultOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

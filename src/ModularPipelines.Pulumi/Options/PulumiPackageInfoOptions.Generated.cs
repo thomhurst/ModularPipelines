@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "info")]
-public record PulumiPackageInfoOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Provider
-) : PulumiOptions
+public record PulumiPackageInfoOptions : PulumiOptions
 {
+    /// <summary>
+    /// Show information about a package
+    /// </summary>
+    /// <param name="Provider">The provider operand.</param>
+    public PulumiPackageInfoOptions(
+        string Provider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+    }
+
+    public void Deconstruct(out string Provider)
+    {
+        Provider = this.Provider;
+    }
+
     /// <summary>
     /// Add an extension layered onto a base provider rather than a replacement. The value is the extension's provider-defined parameters as one shell-quoted string, e.g. --extension "key=value ..."
     /// </summary>
@@ -33,12 +48,6 @@ public record PulumiPackageInfoOptions(
     /// </summary>
     [CliOption("--function", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Function { get; set; }
-
-    /// <summary>
-    /// help for info
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Module name
@@ -135,6 +144,12 @@ public record PulumiPackageInfoOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The provider operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Provider { get; private init; }
 
     /// <summary>
     /// The [provider-parameter] operand.

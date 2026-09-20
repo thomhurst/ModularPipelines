@@ -21,19 +21,13 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiEnvSetupGcpOptions : PulumiOptions
 {
     /// <summary>
-    /// help for gcp
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the Pulumi organization to configure OIDC for
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
     public string? Org { get; set; }
 
     /// <summary>
-    /// the role granted to the service account: roles/editor (required for Deployments), roles/viewer (required for Insights), or any other role; prompted for when omitted
+    /// the role granted to the service account: roles/editor (required for Deployments), roles/viewer (required for Discovery), or any other role; prompted for when omitted
     /// </summary>
     [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public string? Policy { get; set; }

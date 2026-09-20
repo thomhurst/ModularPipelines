@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "get")]
-public record PulumiConfigGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
-) : PulumiOptions
+public record PulumiConfigGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for get
+    /// Get a single configuration value.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Key">The &lt;key&gt; operand.</param>
+    public PulumiConfigGetOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
 
     /// <summary>
     /// Emit output as JSON
@@ -135,5 +144,11 @@ public record PulumiConfigGetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;key&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
 
 }

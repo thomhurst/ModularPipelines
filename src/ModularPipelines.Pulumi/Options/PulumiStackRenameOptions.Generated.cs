@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "rename")]
-public record PulumiStackRenameOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewStackName
-) : PulumiOptions
+public record PulumiStackRenameOptions : PulumiOptions
 {
     /// <summary>
-    /// help for rename
+    /// Rename an existing stack.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="NewStackName">The &lt;new-stack-name&gt; operand.</param>
+    public PulumiStackRenameOptions(
+        string NewStackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewStackName);
+        this.NewStackName = NewStackName;
+    }
+
+    public void Deconstruct(out string NewStackName)
+    {
+        NewStackName = this.NewStackName;
+    }
 
     /// <summary>
     /// The name of the stack to operate on. Defaults to the current stack
@@ -111,5 +120,11 @@ public record PulumiStackRenameOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;new-stack-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NewStackName { get; private init; }
 
 }

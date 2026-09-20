@@ -18,17 +18,34 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "tag", "move")]
-public record PulumiEnvTagMoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewName
-) : PulumiOptions
+public record PulumiEnvTagMoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for move
+    /// Move an environment tag
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    /// <param name="NewName">The &lt;new-name&gt; operand.</param>
+    public PulumiEnvTagMoveOptions(
+        string EnvironmentName,
+        string Name,
+        string NewName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NewName);
+        this.NewName = NewName;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string Name, out string NewName)
+    {
+        EnvironmentName = this.EnvironmentName;
+        Name = this.Name;
+        NewName = this.NewName;
+    }
 
     /// <summary>
     /// display times in UTC
@@ -119,5 +136,23 @@ public record PulumiEnvTagMoveOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The &lt;new-name&gt; operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NewName { get; private init; }
 
 }

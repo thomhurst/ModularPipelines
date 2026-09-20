@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "tag", "list")]
-public record PulumiEnvTagListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName
-) : PulumiOptions
+public record PulumiEnvTagListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for list
+    /// List environment tags
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    public PulumiEnvTagListOptions(
+        string EnvironmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    public void Deconstruct(out string EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
 
     /// <summary>
     /// output format: "text" (default) or "json" (default "text")
@@ -129,5 +138,11 @@ public record PulumiEnvTagListOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
 
 }

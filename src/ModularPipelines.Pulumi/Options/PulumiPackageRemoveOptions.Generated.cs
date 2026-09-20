@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "remove")]
-public record PulumiPackageRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceOrPublisherOrNameVersion
-) : PulumiOptions
+public record PulumiPackageRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for remove
+    /// Delete a package version from the Pulumi Registry.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="SourceOrPublisherOrNameVersion">The source&gt; Or &lt;publisher&gt; Or &lt;name&gt;@&lt;version operand.</param>
+    public PulumiPackageRemoveOptions(
+        string SourceOrPublisherOrNameVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceOrPublisherOrNameVersion);
+        this.SourceOrPublisherOrNameVersion = SourceOrPublisherOrNameVersion;
+    }
+
+    public void Deconstruct(out string SourceOrPublisherOrNameVersion)
+    {
+        SourceOrPublisherOrNameVersion = this.SourceOrPublisherOrNameVersion;
+    }
 
     /// <summary>
     /// Skip confirmation prompts, and proceed with deletion anyway
@@ -111,5 +120,11 @@ public record PulumiPackageRemoveOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The source&gt; Or &lt;publisher&gt; Or &lt;name&gt;@&lt;version operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SourceOrPublisherOrNameVersion { get; private init; }
 
 }

@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "gen-sdk")]
-public record PulumiPackageGenSdkOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SchemaSource
-) : PulumiOptions
+public record PulumiPackageGenSdkOptions : PulumiOptions
 {
+    /// <summary>
+    /// Generate SDK(s) from a package or schema.
+    /// </summary>
+    /// <param name="SchemaSource">The &lt;schema-source&gt; operand.</param>
+    public PulumiPackageGenSdkOptions(
+        string SchemaSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaSource);
+        this.SchemaSource = SchemaSource;
+    }
+
+    public void Deconstruct(out string SchemaSource)
+    {
+        SchemaSource = this.SchemaSource;
+    }
+
     /// <summary>
     /// Add an extension layered onto a base provider rather than a replacement. The value is the extension's provider-defined parameters as one shell-quoted string, e.g. --extension "key=value ..."
     /// </summary>
     [CliOption("--extension", Format = OptionFormat.EqualsSeparated)]
     public string? Extension { get; set; }
-
-    /// <summary>
-    /// help for gen-sdk
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The SDK language to generate: [nodejs|python|go|dotnet|java|all] (default "all")
@@ -141,6 +150,12 @@ public record PulumiPackageGenSdkOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;schema-source&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SchemaSource { get; private init; }
 
     /// <summary>
     /// The [provider-parameter] operand.

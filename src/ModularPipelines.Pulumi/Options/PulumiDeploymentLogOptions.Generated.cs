@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "log")]
-public record PulumiDeploymentLogOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DeploymentVersion
-) : PulumiOptions
+public record PulumiDeploymentLogOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Retrieve execution logs for a deployment.
+    /// </summary>
+    /// <param name="DeploymentVersion">The &lt;deployment-version&gt; operand.</param>
+    public PulumiDeploymentLogOptions(
+        string DeploymentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentVersion);
+        this.DeploymentVersion = DeploymentVersion;
+    }
+
+    public void Deconstruct(out string DeploymentVersion)
+    {
+        DeploymentVersion = this.DeploymentVersion;
+    }
+
     /// <summary>
     /// Fetch every available log line, following server-side pagination; mutually exclusive with --count
     /// </summary>
@@ -33,12 +48,6 @@ public record PulumiDeploymentLogOptions(
     /// </summary>
     [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
     public int? Count { get; set; }
-
-    /// <summary>
-    /// help for log
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The job index to fetch step-level logs for (-1 to leave unset) (default -1)
@@ -147,5 +156,11 @@ public record PulumiDeploymentLogOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;deployment-version&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DeploymentVersion { get; private init; }
 
 }

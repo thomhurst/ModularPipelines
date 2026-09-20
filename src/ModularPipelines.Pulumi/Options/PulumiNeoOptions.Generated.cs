@@ -51,12 +51,6 @@ public record PulumiNeoOptions : PulumiOptions
     public bool? DisableIntegrations { get; set; }
 
     /// <summary>
-    /// help for neo
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The organization that owns the Neo task (defaults to the user's default org)
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

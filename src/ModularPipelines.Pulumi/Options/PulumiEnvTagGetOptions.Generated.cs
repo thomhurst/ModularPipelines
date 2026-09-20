@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "tag", "get")]
-public record PulumiEnvTagGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : PulumiOptions
+public record PulumiEnvTagGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for get
+    /// Get an environment tag
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    public PulumiEnvTagGetOptions(
+        string EnvironmentName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string Name)
+    {
+        EnvironmentName = this.EnvironmentName;
+        Name = this.Name;
+    }
 
     /// <summary>
     /// output format: "text" (default) or "json" (default "text")
@@ -124,5 +137,17 @@ public record PulumiEnvTagGetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

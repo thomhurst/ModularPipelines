@@ -70,12 +70,6 @@ public record PulumiDestroyOptions : PulumiOptions
     public bool? ExcludeProtected { get; set; }
 
     /// <summary>
-    /// help for destroy
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Ignore the protect resource option for this operation, allowing protected resources to be destroyed. Use with caution: deleted resources cannot be recovered
     /// </summary>
     [CliFlag("--ignore-protect")]

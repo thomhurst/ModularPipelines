@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Pulumi.Enums;
 
 /// <summary>
-/// Allowed values for the --sort option.
+/// Allowed values for --sort.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiInsightsResourceSearchSort

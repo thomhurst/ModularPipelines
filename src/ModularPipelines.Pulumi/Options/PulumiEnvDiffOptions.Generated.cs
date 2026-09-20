@@ -18,22 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "diff")]
-public record PulumiEnvDiffOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrProjectNameOrEnvironmentNameVersion
-) : PulumiOptions
+public record PulumiEnvDiffOptions : PulumiOptions
 {
+    /// <summary>
+    /// Show changes between versions
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    public PulumiEnvDiffOptions(
+        string EnvironmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    public void Deconstruct(out string EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
+
     /// <summary>
     /// the output format to use. May be 'dotenv', 'json', 'yaml', 'detailed', or 'shell'
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
-
-    /// <summary>
-    /// help for diff
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Show the diff for a specific path
@@ -130,5 +138,17 @@ public record PulumiEnvDiffOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The [[org-name Or ][&lt;project-name&gt; Or ]&lt;environment-name&gt;]@&lt;version&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? OrgNameOrProjectNameOrEnvironmentNameVersion { get; set; }
 
 }

@@ -22,12 +22,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiConfigSetAllOptions : PulumiOptions
 {
     /// <summary>
-    /// help for set-all
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Read values from a JSON string in the format produced by 'pulumi config --json'
     /// </summary>
     [CliOption("--json", Format = OptionFormat.EqualsSeparated)]

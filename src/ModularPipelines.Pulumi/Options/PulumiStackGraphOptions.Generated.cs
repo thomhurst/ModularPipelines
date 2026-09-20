@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "graph")]
-public record PulumiStackGraphOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Filename
-) : PulumiOptions
+public record PulumiStackGraphOptions : PulumiOptions
 {
+    /// <summary>
+    /// Export a stack's dependency graph to a file.
+    /// </summary>
+    /// <param name="Filename">The &lt;filename&gt; operand.</param>
+    public PulumiStackGraphOptions(
+        string Filename
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Filename);
+        this.Filename = Filename;
+    }
+
+    public void Deconstruct(out string Filename)
+    {
+        Filename = this.Filename;
+    }
+
     /// <summary>
     /// Sets the color of dependency edges in the graph (default "#246C60")
     /// </summary>
@@ -33,12 +48,6 @@ public record PulumiStackGraphOptions(
     /// </summary>
     [CliOption("--dot-fragment", Format = OptionFormat.EqualsSeparated)]
     public string? DotFragment { get; set; }
-
-    /// <summary>
-    /// help for graph
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Ignores edges introduced by dependency resource relationships
@@ -147,5 +156,11 @@ public record PulumiStackGraphOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;filename&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Filename { get; private init; }
 
 }

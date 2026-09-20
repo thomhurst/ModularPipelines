@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiStackDriftOptions : PulumiOptions
 {
     /// <summary>
-    /// help for drift
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]

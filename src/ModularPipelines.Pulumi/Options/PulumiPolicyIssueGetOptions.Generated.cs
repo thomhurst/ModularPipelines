@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "issue", "get")]
-public record PulumiPolicyIssueGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IssueId
-) : PulumiOptions
+public record PulumiPolicyIssueGetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for get
+    /// [EXPERIMENTAL] Get the details of a specific policy issue.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="IssueId">The &lt;issue-id&gt; operand.</param>
+    public PulumiPolicyIssueGetOptions(
+        string IssueId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IssueId);
+        this.IssueId = IssueId;
+    }
+
+    public void Deconstruct(out string IssueId)
+    {
+        IssueId = this.IssueId;
+    }
 
     /// <summary>
     /// The organization that owns the issue
@@ -117,5 +126,11 @@ public record PulumiPolicyIssueGetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;issue-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string IssueId { get; private init; }
 
 }

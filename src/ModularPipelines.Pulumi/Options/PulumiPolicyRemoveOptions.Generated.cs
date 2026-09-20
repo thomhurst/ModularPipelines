@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "remove")]
-public record PulumiPolicyRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrPolicyPackName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string All
-) : PulumiOptions
+public record PulumiPolicyRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for remove
+    /// Removes a Policy Pack from a Pulumi organization. The Policy Pack must be disabled from all Policy Groups before it can be removed.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="OrgNameOrPolicyPackName">The org-name&gt; Or &lt;policy-pack-name operand.</param>
+    /// <param name="All">The all operand.</param>
+    public PulumiPolicyRemoveOptions(
+        string OrgNameOrPolicyPackName,
+        string All
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrgNameOrPolicyPackName);
+        this.OrgNameOrPolicyPackName = OrgNameOrPolicyPackName;
+        global::System.ArgumentNullException.ThrowIfNull(All);
+        this.All = All;
+    }
+
+    public void Deconstruct(out string OrgNameOrPolicyPackName, out string All)
+    {
+        OrgNameOrPolicyPackName = this.OrgNameOrPolicyPackName;
+        All = this.All;
+    }
 
     /// <summary>
     /// Skip confirmation prompts, and proceed with removal anyway
@@ -112,5 +125,17 @@ public record PulumiPolicyRemoveOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The org-name&gt; Or &lt;policy-pack-name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrgNameOrPolicyPackName { get; private init; }
+
+    /// <summary>
+    /// The all operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string All { get; private init; }
 
 }

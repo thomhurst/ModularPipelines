@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "publish")]
-public record PulumiPackagePublishOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Provider
-) : PulumiOptions
+public record PulumiPackagePublishOptions : PulumiOptions
 {
     /// <summary>
-    /// help for publish
+    /// Publish a package to the Private Registry.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Provider">The provider operand.</param>
+    public PulumiPackagePublishOptions(
+        string Provider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+    }
+
+    public void Deconstruct(out string Provider)
+    {
+        Provider = this.Provider;
+    }
 
     /// <summary>
     /// Path to the installation configuration markdown file
@@ -129,6 +138,12 @@ public record PulumiPackagePublishOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The provider operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Provider { get; private init; }
 
     /// <summary>
     /// The [provider-parameter] operand.

@@ -33,12 +33,6 @@ public record PulumiInsightsAccountScanOptions : PulumiOptions
     public int? BatchSize { get; set; }
 
     /// <summary>
-    /// help for scan
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Parallelism for list operations during the scan (server default when 0)
     /// </summary>
     [CliOption("--list-concurrency", Format = OptionFormat.EqualsSeparated)]

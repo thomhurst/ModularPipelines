@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiDoShowResourcesOptions : PulumiOptions
 {
     /// <summary>
-    /// help for show-resources
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Output format (supported: text, json) (default "text")
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

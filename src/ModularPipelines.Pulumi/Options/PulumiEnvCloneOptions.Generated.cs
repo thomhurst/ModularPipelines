@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "clone")]
-public record PulumiEnvCloneOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SrcEnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DestEnvironmentName
-) : PulumiOptions
+public record PulumiEnvCloneOptions : PulumiOptions
 {
     /// <summary>
-    /// help for clone
+    /// Clone an existing environment into a new environment.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="SrcEnvironmentName">The &lt;src-environment-name&gt; operand.</param>
+    /// <param name="DestEnvironmentName">The &lt;dest-environment-name&gt; operand.</param>
+    public PulumiEnvCloneOptions(
+        string SrcEnvironmentName,
+        string DestEnvironmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SrcEnvironmentName);
+        this.SrcEnvironmentName = SrcEnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(DestEnvironmentName);
+        this.DestEnvironmentName = DestEnvironmentName;
+    }
+
+    public void Deconstruct(out string SrcEnvironmentName, out string DestEnvironmentName)
+    {
+        SrcEnvironmentName = this.SrcEnvironmentName;
+        DestEnvironmentName = this.DestEnvironmentName;
+    }
 
     /// <summary>
     /// preserve the same team access on the environment being cloned
@@ -136,5 +149,17 @@ public record PulumiEnvCloneOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;src-environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SrcEnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;dest-environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DestEnvironmentName { get; private init; }
 
 }

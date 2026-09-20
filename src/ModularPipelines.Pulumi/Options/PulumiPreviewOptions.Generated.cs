@@ -77,12 +77,6 @@ public record PulumiPreviewOptions : PulumiOptions
     public bool? ExpectNoChanges { get; set; }
 
     /// <summary>
-    /// help for preview
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Ignore the protect resource option for this operation, previewing the deletion or replacement of protected resources instead of failing
     /// </summary>
     [CliFlag("--ignore-protect")]

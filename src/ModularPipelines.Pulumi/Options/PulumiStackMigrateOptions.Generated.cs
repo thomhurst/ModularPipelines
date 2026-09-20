@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "migrate")]
-public record PulumiStackMigrateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : PulumiOptions
+public record PulumiStackMigrateOptions : PulumiOptions
 {
+    /// <summary>
+    /// Migrate a stack from another backend (e.g. a DIY backend) to the currently logged-in backend.
+    /// </summary>
+    /// <param name="Url">The &lt;url&gt; operand.</param>
+    public PulumiStackMigrateOptions(
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string Url)
+    {
+        Url = this.Url;
+    }
+
     /// <summary>
     /// Force the migration to proceed even if the source state fails integrity checks.
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
-
-    /// <summary>
-    /// help for migrate
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The type of the provider that should be used to encrypt and decrypt secrets (possible choices: default, passphrase, awskms, azurekeyvault, gcpkms, hashivault) (default "default")
@@ -135,6 +144,12 @@ public record PulumiStackMigrateOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;url&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
 
     /// <summary>
     /// The stack-name operand.

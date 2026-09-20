@@ -27,12 +27,6 @@ public record PulumiApiListOptions : PulumiOptions
     public string? Filter { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Include endpoints marked as deprecated
     /// </summary>
     [CliFlag("--include-deprecated")]

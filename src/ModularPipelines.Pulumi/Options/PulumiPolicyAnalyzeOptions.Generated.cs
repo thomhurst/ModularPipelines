@@ -27,12 +27,6 @@ public record PulumiPolicyAnalyzeOptions : PulumiOptions
     public bool? Diff { get; set; }
 
     /// <summary>
-    /// help for analyze
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Serialize policy analysis events as JSON
     /// </summary>
     [CliFlag("--json", ShortForm = "-j")]

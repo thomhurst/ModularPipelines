@@ -13,19 +13,13 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// List plugins
+/// List plugins.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "list")]
 public record PulumiPluginListOptions : PulumiOptions
 {
-    /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
     /// <summary>
     /// Output format. Supported values are: default and json (default "default")
     /// </summary>

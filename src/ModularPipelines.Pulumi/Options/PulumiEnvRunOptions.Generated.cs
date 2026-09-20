@@ -18,22 +18,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "run")]
-public record PulumiEnvRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)] string Command
-) : PulumiOptions
+public record PulumiEnvRunOptions : PulumiOptions
 {
+    /// <summary>
+    /// Open the environment with the given name and run a command
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="Command">The command operand.</param>
+    public PulumiEnvRunOptions(
+        string EnvironmentName,
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string Command)
+    {
+        EnvironmentName = this.EnvironmentName;
+        Command = this.Command;
+    }
+
     /// <summary>
     /// open an environment draft with --draft=&lt;change-request-id&gt;
     /// </summary>
     [CliOption("--draft", Format = OptionFormat.EqualsSeparated)]
     public string? Draft { get; set; }
-
-    /// <summary>
-    /// help for run
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// true to treat the command as interactive and disable output filters
@@ -130,6 +143,18 @@ public record PulumiEnvRunOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)]
+    public string Command { get; private init; }
 
     /// <summary>
     /// Arguments passed to the command.

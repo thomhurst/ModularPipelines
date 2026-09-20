@@ -19,12 +19,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "aws-login", "oidc")]
-public record PulumiEnvProviderAwsLoginOidcOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleArn,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SessionName
-) : PulumiOptions
+public record PulumiEnvProviderAwsLoginOidcOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Add an AWS OIDC login provider to an environment
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="RoleArn">The &lt;role-arn&gt; operand.</param>
+    /// <param name="SessionName">The &lt;session-name&gt; operand.</param>
+    public PulumiEnvProviderAwsLoginOidcOptions(
+        string EnvironmentName,
+        string RoleArn,
+        string SessionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(SessionName);
+        this.SessionName = SessionName;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string RoleArn, out string SessionName)
+    {
+        EnvironmentName = this.EnvironmentName;
+        RoleArn = this.RoleArn;
+        SessionName = this.SessionName;
+    }
+
     /// <summary>
     /// create the environment if it does not already exist
     /// </summary>
@@ -48,12 +71,6 @@ public record PulumiEnvProviderAwsLoginOidcOptions(
     /// </summary>
     [CliFlag("--export-env-vars")]
     public bool? ExportEnvVars { get; set; }
-
-    /// <summary>
-    /// help for oidc
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// property path under values where the provider block is written (default "aws.login")
@@ -156,5 +173,23 @@ public record PulumiEnvProviderAwsLoginOidcOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;role-arn&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleArn { get; private init; }
+
+    /// <summary>
+    /// The &lt;session-name&gt; operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SessionName { get; private init; }
 
 }

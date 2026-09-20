@@ -18,17 +18,34 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "settings", "set")]
-public record PulumiEnvSettingsSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SettingName,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SettingValue
-) : PulumiOptions
+public record PulumiEnvSettingsSetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for set
+    /// Set an environment setting
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="SettingName">The &lt;setting-name&gt; operand.</param>
+    /// <param name="SettingValue">The &lt;setting-value&gt; operand.</param>
+    public PulumiEnvSettingsSetOptions(
+        string EnvironmentName,
+        string SettingName,
+        string SettingValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(SettingName);
+        this.SettingName = SettingName;
+        global::System.ArgumentNullException.ThrowIfNull(SettingValue);
+        this.SettingValue = SettingValue;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string SettingName, out string SettingValue)
+    {
+        EnvironmentName = this.EnvironmentName;
+        SettingName = this.SettingName;
+        SettingValue = this.SettingValue;
+    }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -113,5 +130,23 @@ public record PulumiEnvSettingsSetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;setting-name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SettingName { get; private init; }
+
+    /// <summary>
+    /// The &lt;setting-value&gt; operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SettingValue { get; private init; }
 
 }

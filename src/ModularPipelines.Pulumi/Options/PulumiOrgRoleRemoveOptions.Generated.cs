@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "role", "remove")]
-public record PulumiOrgRoleRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleId
-) : PulumiOptions
+public record PulumiOrgRoleRemoveOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Delete a custom role from an organization.
+    /// </summary>
+    /// <param name="RoleId">The &lt;role-id&gt; operand.</param>
+    public PulumiOrgRoleRemoveOptions(
+        string RoleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleId);
+        this.RoleId = RoleId;
+    }
+
+    public void Deconstruct(out string RoleId)
+    {
+        RoleId = this.RoleId;
+    }
+
     /// <summary>
     /// Force deletion even if the role is currently assigned to members or teams
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
-
-    /// <summary>
-    /// help for remove
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The organization that owns the role. Defaults to the current default organization
@@ -129,5 +138,11 @@ public record PulumiOrgRoleRemoveOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;role-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleId { get; private init; }
 
 }

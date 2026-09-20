@@ -45,12 +45,6 @@ public record PulumiPackageNewOptions : PulumiOptions
     public bool? GenerateOnly { get; set; }
 
     /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The package name; if not specified, a prompt will request it
     /// </summary>
     [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]

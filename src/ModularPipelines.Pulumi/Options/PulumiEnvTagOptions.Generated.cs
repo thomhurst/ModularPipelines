@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiEnvTagOptions : PulumiOptions
 {
     /// <summary>
-    /// help for tag
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// display times in UTC
     /// </summary>
     [CliFlag("--utc")]

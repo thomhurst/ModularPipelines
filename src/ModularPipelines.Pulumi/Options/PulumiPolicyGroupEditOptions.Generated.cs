@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "group", "edit")]
-public record PulumiPolicyGroupEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NameArgument
-) : PulumiOptions
+public record PulumiPolicyGroupEditOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Update a Policy Group's configuration.
+    /// </summary>
+    /// <param name="NameArgument">The &lt;name&gt; operand.</param>
+    public PulumiPolicyGroupEditOptions(
+        string NameArgument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NameArgument);
+        this.NameArgument = NameArgument;
+    }
+
+    public void Deconstruct(out string NameArgument)
+    {
+        NameArgument = this.NameArgument;
+    }
+
     /// <summary>
     /// Add an Insights account to the Policy Group (repeatable)
     /// </summary>
@@ -39,12 +54,6 @@ public record PulumiPolicyGroupEditOptions(
     /// </summary>
     [CliOption("--add-stack", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddStack { get; set; }
-
-    /// <summary>
-    /// help for edit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Rename the Policy Group
@@ -159,5 +168,11 @@ public record PulumiPolicyGroupEditOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NameArgument { get; private init; }
 
 }

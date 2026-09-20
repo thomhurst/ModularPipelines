@@ -18,22 +18,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "enable")]
-public record PulumiPolicyEnableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrPolicyPackName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Latest
-) : PulumiOptions
+public record PulumiPolicyEnableOptions : PulumiOptions
 {
+    /// <summary>
+    /// Enable a Policy Pack for a Pulumi organization. Can specify latest to enable the latest version of the Policy Pack or a specific version number.
+    /// </summary>
+    /// <param name="OrgNameOrPolicyPackName">The org-name&gt; Or &lt;policy-pack-name operand.</param>
+    /// <param name="Latest">The latest operand.</param>
+    public PulumiPolicyEnableOptions(
+        string OrgNameOrPolicyPackName,
+        string Latest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrgNameOrPolicyPackName);
+        this.OrgNameOrPolicyPackName = OrgNameOrPolicyPackName;
+        global::System.ArgumentNullException.ThrowIfNull(Latest);
+        this.Latest = Latest;
+    }
+
+    public void Deconstruct(out string OrgNameOrPolicyPackName, out string Latest)
+    {
+        OrgNameOrPolicyPackName = this.OrgNameOrPolicyPackName;
+        Latest = this.Latest;
+    }
+
     /// <summary>
     /// The file path for the Policy Pack configuration file
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
-
-    /// <summary>
-    /// help for enable
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The Policy Group for which the Policy Pack will be enabled; if not specified, the default Policy Group is used
@@ -118,5 +131,17 @@ public record PulumiPolicyEnableOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The org-name&gt; Or &lt;policy-pack-name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrgNameOrPolicyPackName { get; private init; }
+
+    /// <summary>
+    /// The latest operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Latest { get; private init; }
 
 }

@@ -19,10 +19,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "run")]
-public record PulumiDeploymentRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operation
-) : PulumiOptions
+public record PulumiDeploymentRunOptions : PulumiOptions
 {
+    /// <summary>
+    /// Launch a deployment job on Pulumi Cloud
+    /// </summary>
+    /// <param name="Operation">The &lt;operation&gt; operand.</param>
+    public PulumiDeploymentRunOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
     /// <summary>
     /// The agent pool to use to run the deployment job. When empty, the Pulumi Cloud shared queue will be used.
     /// </summary>
@@ -98,12 +113,6 @@ public record PulumiDeploymentRunOptions(
     /// </summary>
     [CliOption("--git-repo-dir", Format = OptionFormat.EqualsSeparated)]
     public string? GitRepoDir { get; set; }
-
-    /// <summary>
-    /// help for run
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Inherit deployment settings from the current stack (default true)
@@ -218,6 +227,12 @@ public record PulumiDeploymentRunOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;operation&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
 
     /// <summary>
     /// The url operand.

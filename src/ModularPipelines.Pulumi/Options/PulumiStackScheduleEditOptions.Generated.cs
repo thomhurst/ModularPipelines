@@ -19,10 +19,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "schedule", "edit")]
-public record PulumiStackScheduleEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ScheduleId
-) : PulumiOptions
+public record PulumiStackScheduleEditOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Update the configuration of a scheduled deployment action.
+    /// </summary>
+    /// <param name="ScheduleId">The &lt;schedule-id&gt; operand.</param>
+    public PulumiStackScheduleEditOptions(
+        string ScheduleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleId);
+        this.ScheduleId = ScheduleId;
+    }
+
+    public void Deconstruct(out string ScheduleId)
+    {
+        ScheduleId = this.ScheduleId;
+    }
+
     /// <summary>
     /// (drift only) Automatically run a remediation update when drift is detected
     /// </summary>
@@ -40,12 +55,6 @@ public record PulumiStackScheduleEditOptions(
     /// </summary>
     [CliFlag("--delete-after-destroy")]
     public bool? DeleteAfterDestroy { get; set; }
-
-    /// <summary>
-    /// help for edit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// ISO 8601 timestamp for a one-time execution (raw and ttl)
@@ -148,5 +157,11 @@ public record PulumiStackScheduleEditOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;schedule-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ScheduleId { get; private init; }
 
 }

@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "schedule", "new")]
-public record PulumiEnvScheduleNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName
-) : PulumiOptions
+public record PulumiEnvScheduleNewOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Create a new scheduled action on an environment
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    public PulumiEnvScheduleNewOptions(
+        string EnvironmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    public void Deconstruct(out string EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
+
     /// <summary>
     /// a cron expression for a recurring schedule (minimum interval: once daily)
     /// </summary>
     [CliOption("--cron", Format = OptionFormat.EqualsSeparated)]
     public string? Cron { get; set; }
-
-    /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// an ISO 8601 / RFC 3339 timestamp in the future for a one-time schedule
@@ -123,5 +132,11 @@ public record PulumiEnvScheduleNewOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
 
 }

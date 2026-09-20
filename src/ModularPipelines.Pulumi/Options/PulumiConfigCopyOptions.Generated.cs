@@ -27,12 +27,6 @@ public record PulumiConfigCopyOptions : PulumiOptions
     public string? Dest { get; set; }
 
     /// <summary>
-    /// help for copy
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The key contains a path to a property in a map or list to set
     /// </summary>
     [CliFlag("--path")]

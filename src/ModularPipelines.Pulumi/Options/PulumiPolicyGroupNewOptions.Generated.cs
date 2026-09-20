@@ -18,10 +18,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "group", "new")]
-public record PulumiPolicyGroupNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : PulumiOptions
+public record PulumiPolicyGroupNewOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Create a new Policy Group.
+    /// </summary>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    public PulumiPolicyGroupNewOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Agent pool ID for policy evaluation (optional)
     /// </summary>
@@ -33,12 +48,6 @@ public record PulumiPolicyGroupNewOptions(
     /// </summary>
     [CliOption("--entity-type", Format = OptionFormat.EqualsSeparated)]
     public string? EntityType { get; set; }
-
-    /// <summary>
-    /// help for new
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// The enforcement mode: audit or preventative
@@ -141,5 +150,11 @@ public record PulumiPolicyGroupNewOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

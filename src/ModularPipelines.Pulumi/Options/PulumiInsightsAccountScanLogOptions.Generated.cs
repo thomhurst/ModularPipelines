@@ -18,11 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "account", "scan", "log")]
-public record PulumiInsightsAccountScanLogOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Account,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ScanId
-) : PulumiOptions
+public record PulumiInsightsAccountScanLogOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Retrieve log output for an Insights scan.
+    /// </summary>
+    /// <param name="Account">The &lt;account&gt; operand.</param>
+    /// <param name="ScanId">The &lt;scan-id&gt; operand.</param>
+    public PulumiInsightsAccountScanLogOptions(
+        string Account,
+        string ScanId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Account);
+        this.Account = Account;
+        global::System.ArgumentNullException.ThrowIfNull(ScanId);
+        this.ScanId = ScanId;
+    }
+
+    public void Deconstruct(out string Account, out string ScanId)
+    {
+        Account = this.Account;
+        ScanId = this.ScanId;
+    }
+
     /// <summary>
     /// Fetch every entry (mutually exclusive with --count)
     /// </summary>
@@ -34,12 +53,6 @@ public record PulumiInsightsAccountScanLogOptions(
     /// </summary>
     [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
     public int? Count { get; set; }
-
-    /// <summary>
-    /// help for log
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Switch to step mode and select this job index (combine with --step)
@@ -142,5 +155,17 @@ public record PulumiInsightsAccountScanLogOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;account&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Account { get; private init; }
+
+    /// <summary>
+    /// The &lt;scan-id&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ScanId { get; private init; }
 
 }

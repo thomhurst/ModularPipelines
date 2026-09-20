@@ -45,12 +45,6 @@ public record PulumiWatchOptions : PulumiOptions
     public bool? Debug { get; set; }
 
     /// <summary>
-    /// help for watch
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Optional message to associate with each update operation
     /// </summary>
     [CliOption("--message", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]

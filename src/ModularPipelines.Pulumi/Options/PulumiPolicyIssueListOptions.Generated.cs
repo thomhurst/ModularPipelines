@@ -33,12 +33,6 @@ public record PulumiPolicyIssueListOptions : PulumiOptions
     public int? Count { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The organization to list policy issues for
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

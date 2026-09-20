@@ -27,12 +27,6 @@ public record PulumiConfigEnvInitOptions : PulumiOptions
     public string? Env { get; set; }
 
     /// <summary>
-    /// help for init
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Do not remove configuration values from the stack after creating the environment
     /// </summary>
     [CliFlag("--keep-config")]

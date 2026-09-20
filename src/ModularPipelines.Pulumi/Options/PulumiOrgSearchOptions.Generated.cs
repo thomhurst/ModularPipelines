@@ -27,12 +27,6 @@ public record PulumiOrgSearchOptions : PulumiOptions
     public string? Delimiter { get; set; }
 
     /// <summary>
-    /// help for search
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Name of the organization to search. Defaults to the current user's default organization.
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

@@ -18,21 +18,30 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "webhook", "delivery", "list")]
-public record PulumiStackWebhookDeliveryListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : PulumiOptions
+public record PulumiStackWebhookDeliveryListOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] List recent deliveries for a stack webhook.
+    /// </summary>
+    /// <param name="Id">The &lt;id&gt; operand.</param>
+    public PulumiStackWebhookDeliveryListOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// Number of deliveries to display (default: all)
     /// </summary>
     [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
     public int? Count { get; set; }
-
-    /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Output format. Supported values are: default and json (default "default")
@@ -123,5 +132,11 @@ public record PulumiStackWebhookDeliveryListOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

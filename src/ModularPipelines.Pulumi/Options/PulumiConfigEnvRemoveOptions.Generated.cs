@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "env", "remove")]
-public record PulumiConfigEnvRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName
-) : PulumiOptions
+public record PulumiConfigEnvRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for remove
+    /// Removes an environment from a stack's import list.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    public PulumiConfigEnvRemoveOptions(
+        string EnvironmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    public void Deconstruct(out string EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
 
     /// <summary>
     /// Show secret values in plaintext instead of ciphertext
@@ -129,5 +138,11 @@ public record PulumiConfigEnvRemoveOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
 
 }

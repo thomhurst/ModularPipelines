@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "tag", "set")]
-public record PulumiStackTagSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Value
-) : PulumiOptions
+public record PulumiStackTagSetOptions : PulumiOptions
 {
     /// <summary>
-    /// help for set
+    /// Set a stack tag
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    /// <param name="Value">The &lt;value&gt; operand.</param>
+    public PulumiStackTagSetOptions(
+        string Name,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string Name, out string Value)
+    {
+        Name = this.Name;
+        Value = this.Value;
+    }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -112,5 +125,17 @@ public record PulumiStackTagSetOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Value { get; private init; }
 
 }

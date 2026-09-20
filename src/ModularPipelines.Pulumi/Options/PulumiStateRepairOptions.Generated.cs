@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiStateRepairOptions : PulumiOptions
 {
     /// <summary>
-    /// help for repair
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The name of the stack to operate on. Defaults to the current stack
     /// </summary>
     [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]

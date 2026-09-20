@@ -18,22 +18,35 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "schedule", "history")]
-public record PulumiEnvScheduleHistoryOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ScheduleId
-) : PulumiOptions
+public record PulumiEnvScheduleHistoryOptions : PulumiOptions
 {
+    /// <summary>
+    /// [EXPERIMENTAL] Show the execution history of an environment scheduled action
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    /// <param name="ScheduleId">The &lt;schedule-id&gt; operand.</param>
+    public PulumiEnvScheduleHistoryOptions(
+        string EnvironmentName,
+        string ScheduleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleId);
+        this.ScheduleId = ScheduleId;
+    }
+
+    public void Deconstruct(out string EnvironmentName, out string ScheduleId)
+    {
+        EnvironmentName = this.EnvironmentName;
+        ScheduleId = this.ScheduleId;
+    }
+
     /// <summary>
     /// the maximum number of events to return (all if unset)
     /// </summary>
     [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
     public int? Count { get; set; }
-
-    /// <summary>
-    /// help for history
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// output format: "text" (default) or "json" (default "text")
@@ -130,5 +143,17 @@ public record PulumiEnvScheduleHistoryOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The &lt;schedule-id&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ScheduleId { get; private init; }
 
 }

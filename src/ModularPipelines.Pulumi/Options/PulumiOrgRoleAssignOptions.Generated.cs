@@ -18,16 +18,29 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "role", "assign")]
-public record PulumiOrgRoleAssignOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleId,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Team
-) : PulumiOptions
+public record PulumiOrgRoleAssignOptions : PulumiOptions
 {
     /// <summary>
-    /// help for assign
+    /// [EXPERIMENTAL] Assign a custom role to a team.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="RoleId">The &lt;role-id&gt; operand.</param>
+    /// <param name="Team">The &lt;team&gt; operand.</param>
+    public PulumiOrgRoleAssignOptions(
+        string RoleId,
+        string Team
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleId);
+        this.RoleId = RoleId;
+        global::System.ArgumentNullException.ThrowIfNull(Team);
+        this.Team = Team;
+    }
+
+    public void Deconstruct(out string RoleId, out string Team)
+    {
+        RoleId = this.RoleId;
+        Team = this.Team;
+    }
 
     /// <summary>
     /// The organization that owns the role. Defaults to the current default organization
@@ -118,5 +131,17 @@ public record PulumiOrgRoleAssignOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;role-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleId { get; private init; }
+
+    /// <summary>
+    /// The &lt;team&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Team { get; private init; }
 
 }

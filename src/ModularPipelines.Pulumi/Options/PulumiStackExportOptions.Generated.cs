@@ -28,12 +28,6 @@ public record PulumiStackExportOptions : PulumiOptions
     public string? File { get; set; }
 
     /// <summary>
-    /// help for export
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Emit secrets in plaintext in exported stack. Defaults to false
     /// </summary>
     [SecretValue]

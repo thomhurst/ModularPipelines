@@ -27,19 +27,13 @@ public record PulumiEnvSetupAzureOptions : PulumiOptions
     public bool? Browser { get; set; }
 
     /// <summary>
-    /// help for azure
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the Pulumi organization to configure OIDC for
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
     public string? Org { get; set; }
 
     /// <summary>
-    /// the role assigned per subscription: Contributor (required for Deployments), Reader (required for Insights), or any other role definition ID; prompted for when omitted
+    /// the role assigned per subscription: Contributor (required for Deployments), Reader (required for Discovery), or any other role definition ID; prompted for when omitted
     /// </summary>
     [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public string? Policy { get; set; }

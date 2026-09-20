@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "member", "remove")]
-public record PulumiOrgMemberRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UserLogin
-) : PulumiOptions
+public record PulumiOrgMemberRemoveOptions : PulumiOptions
 {
     /// <summary>
-    /// help for remove
+    /// [EXPERIMENTAL] Remove a member from an organization.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="UserLogin">The &lt;user-login&gt; operand.</param>
+    public PulumiOrgMemberRemoveOptions(
+        string UserLogin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserLogin);
+        this.UserLogin = UserLogin;
+    }
+
+    public void Deconstruct(out string UserLogin)
+    {
+        UserLogin = this.UserLogin;
+    }
 
     /// <summary>
     /// The organization that owns the member
@@ -123,5 +132,11 @@ public record PulumiOrgMemberRemoveOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;user-login&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserLogin { get; private init; }
 
 }

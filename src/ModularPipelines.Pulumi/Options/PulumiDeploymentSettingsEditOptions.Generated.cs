@@ -64,22 +64,10 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public string? Folder { get; set; }
 
     /// <summary>
-    /// Git source: full repository URL (mutually exclusive with --github-repo)
+    /// Git source: full repository URL (mutually exclusive with --repo)
     /// </summary>
     [CliOption("--git-url", Format = OptionFormat.EqualsSeparated)]
     public string? GitUrl { get; set; }
-
-    /// <summary>
-    /// GitHub source: organization/repository (mutually exclusive with --git-url)
-    /// </summary>
-    [CliOption("--github-repo", Format = OptionFormat.EqualsSeparated)]
-    public string? GithubRepo { get; set; }
-
-    /// <summary>
-    /// help for edit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// AWS OIDC: assume-role session duration (e.g. 30m, 1h)
@@ -150,7 +138,6 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// <summary>
     /// GCP OIDC: lifetime of the temporary credentials (e.g. 30m, 1h)
     /// </summary>
-    [SecretValue]
     [CliOption("--oidc-gcp-token-lifetime", Format = OptionFormat.EqualsSeparated)]
     public string? OidcGcpTokenLifetime { get; set; }
 
@@ -167,13 +154,13 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public string? Output { get; set; }
 
     /// <summary>
-    /// GitHub: replace the path filter list (repeatable, comma-separated)
+    /// Replace the path filter list (repeatable; pass once per filter); empty string clears it
     /// </summary>
     [CliOption("--path-filter", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PathFilter { get; set; }
 
     /// <summary>
-    /// GitHub: use this stack as a template for PR review stacks
+    /// Use this stack as a template for PR review stacks
     /// </summary>
     [CliFlag("--pr-template")]
     public bool? PrTemplate { get; set; }
@@ -185,13 +172,13 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public IEnumerable<string>? PreRunCommand { get; set; }
 
     /// <summary>
-    /// GitHub: run previews for pull requests
+    /// Run previews for pull requests
     /// </summary>
     [CliFlag("--preview-prs")]
     public bool? PreviewPrs { get; set; }
 
     /// <summary>
-    /// GitHub: run updates for pushed commits
+    /// Run updates for pushed commits
     /// </summary>
     [CliFlag("--push-to-deploy")]
     public bool? PushToDeploy { get; set; }
@@ -225,6 +212,12 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// </summary>
     [CliFlag("--remove-oidc-gcp")]
     public bool? RemoveOidcGcp { get; set; }
+
+    /// <summary>
+    /// Version control source: repository reference, e.g. organization/repository (mutually exclusive with --git-url)
+    /// </summary>
+    [CliOption("--repo", Format = OptionFormat.EqualsSeparated)]
+    public string? Repo { get; set; }
 
     /// <summary>
     /// Deployment runner pool ID; empty string clears it to the Pulumi-hosted pool
@@ -262,6 +255,12 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// </summary>
     [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Stack { get; set; }
+
+    /// <summary>
+    /// Version control provider: github, gitlab, azure_devops, bitbucket or custom
+    /// </summary>
+    [CliOption("--vcs-provider", Format = OptionFormat.EqualsSeparated)]
+    public string? VcsProvider { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")

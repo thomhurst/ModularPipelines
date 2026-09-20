@@ -33,12 +33,6 @@ public record PulumiInsightsAccountListOptions : PulumiOptions
     public int? Count { get; set; }
 
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Organization to list accounts for (defaults to the current default org)
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]

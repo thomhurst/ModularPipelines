@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "cancel")]
-public record PulumiDeploymentCancelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DeploymentId
-) : PulumiOptions
+public record PulumiDeploymentCancelOptions : PulumiOptions
 {
     /// <summary>
-    /// help for cancel
+    /// [EXPERIMENTAL] Cancel an in-progress deployment.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="DeploymentId">The &lt;deployment-id&gt; operand.</param>
+    public PulumiDeploymentCancelOptions(
+        string DeploymentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentId);
+        this.DeploymentId = DeploymentId;
+    }
+
+    public void Deconstruct(out string DeploymentId)
+    {
+        DeploymentId = this.DeploymentId;
+    }
 
     /// <summary>
     /// Output format. Supported values are: default and json (default "default")
@@ -123,5 +132,11 @@ public record PulumiDeploymentCancelOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;deployment-id&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DeploymentId { get; private init; }
 
 }

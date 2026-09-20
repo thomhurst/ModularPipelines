@@ -18,15 +18,24 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "promote")]
-public record PulumiStatePromoteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnippetName
-) : PulumiOptions
+public record PulumiStatePromoteOptions : PulumiOptions
 {
     /// <summary>
-    /// help for promote
+    /// Promote a snippet from state into Pulumi program code
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="SnippetName">The &lt;snippet-name&gt; operand.</param>
+    public PulumiStatePromoteOptions(
+        string SnippetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnippetName);
+        this.SnippetName = SnippetName;
+    }
+
+    public void Deconstruct(out string SnippetName)
+    {
+        SnippetName = this.SnippetName;
+    }
 
     /// <summary>
     /// The name of the stack to operate on. Defaults to the current stack
@@ -117,5 +126,11 @@ public record PulumiStatePromoteOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;snippet-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SnippetName { get; private init; }
 
 }

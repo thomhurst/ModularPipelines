@@ -19,10 +19,25 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "edit")]
-public record PulumiEnvEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName
-) : PulumiOptions
+public record PulumiEnvEditOptions : PulumiOptions
 {
+    /// <summary>
+    /// Edit an environment definition
+    /// </summary>
+    /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
+    public PulumiEnvEditOptions(
+        string EnvironmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    public void Deconstruct(out string EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
+
     /// <summary>
     /// set flag without a value (--draft) to create a draft rather than saving changes directly. --draft=&lt;change-request-id&gt; to update an existing change request.
     /// </summary>
@@ -40,12 +55,6 @@ public record PulumiEnvEditOptions(
     /// </summary>
     [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
-
-    /// <summary>
-    /// help for edit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Show static secrets in plaintext rather than ciphertext
@@ -136,5 +145,11 @@ public record PulumiEnvEditOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnvironmentName { get; private init; }
 
 }

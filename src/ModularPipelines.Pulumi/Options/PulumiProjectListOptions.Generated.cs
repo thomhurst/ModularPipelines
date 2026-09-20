@@ -21,12 +21,6 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiProjectListOptions : PulumiOptions
 {
     /// <summary>
-    /// help for list
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The organization whose projects to list
     /// </summary>
     [CliOption("--organization", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

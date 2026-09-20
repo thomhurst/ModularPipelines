@@ -40,12 +40,6 @@ public record PulumiOrgAuditLogExportOptions : PulumiOptions
     public PulumiOrgAuditLogExportFormat? Format { get; set; }
 
     /// <summary>
-    /// help for export
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// The organization to export audit logs for
     /// </summary>
     [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
