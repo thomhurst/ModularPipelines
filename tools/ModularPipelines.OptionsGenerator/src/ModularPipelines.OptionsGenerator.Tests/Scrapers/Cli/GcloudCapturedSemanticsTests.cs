@@ -30,6 +30,8 @@ public class GcloudCapturedSemanticsTests
     [Arguments("∞")]
     [Arguments("Φ")]
     [Arguments("·")]
+    [Arguments("•")]
+    [Arguments("◦")]
     public async Task Captured_Resource_References_Do_Not_Declare_Boolean_Flags(string bullet)
     {
         var command = await Scrape("oracle-database goldengate-connections create", bullet);
