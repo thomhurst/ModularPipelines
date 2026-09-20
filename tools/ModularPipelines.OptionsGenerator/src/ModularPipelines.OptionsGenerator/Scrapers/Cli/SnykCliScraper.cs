@@ -226,8 +226,8 @@ public partial class SnykCliScraper : CliScraperBase
     private static string? ExtractDescription(string helpText, string commandTitle)
     {
         var lines = helpText.ReplaceLineEndings("\n").Split('\n');
-        var descriptionHeading = Array.FindIndex(lines, line => line.Trim().Equals("Description", StringComparison.OrdinalIgnoreCase));
-        var combinedHeading = Array.FindIndex(lines, line => line.Trim().Equals("Usage and description", StringComparison.OrdinalIgnoreCase));
+        var descriptionHeading = Array.FindIndex(lines, line => line.Trim().TrimEnd(':').Equals("Description", StringComparison.OrdinalIgnoreCase));
+        var combinedHeading = Array.FindIndex(lines, line => line.Trim().TrimEnd(':').Equals("Usage and description", StringComparison.OrdinalIgnoreCase));
         var start = descriptionHeading >= 0 ? descriptionHeading + 1 : combinedHeading + 1;
         var summary = new List<string>();
         var inSynopsis = false;

@@ -66,11 +66,13 @@ public class SnykCliScraperTests
     }
 
     [Test]
-    public async Task Ignore_Uses_The_Complete_Description_And_Conditional_Id()
+    [Arguments("")]
+    [Arguments(":")]
+    public async Task Ignore_Uses_The_Complete_Description_And_Conditional_Id(string headingSuffix)
     {
-        const string help = """
+        var help = $"""
             Ignore
-            Usage and description
+            Usage and description{headingSuffix}
               Ignore
                 snyk ignore --id=<ISSUE_ID> [OPTIONS]
 
@@ -96,9 +98,11 @@ public class SnykCliScraperTests
     }
 
     [Test]
-    public async Task Explicit_Description_Takes_Precedence_Over_Prerequisites()
+    [Arguments("")]
+    [Arguments(":")]
+    public async Task Explicit_Description_Takes_Precedence_Over_Prerequisites(string headingSuffix)
     {
-        const string help = """
+        var help = $"""
             SBOM
             Prerequisites
               Feature availability: This feature is available only to customers on Snyk Enterprise plans.
@@ -106,7 +110,7 @@ public class SnykCliScraperTests
             Usage
               $ snyk sbom --format=<cyclonedx1.4+json|spdx2.3+json> [OPTIONS]
 
-            Description
+            Description{headingSuffix}
               The snyk sbom command generates an SBOM for a local software project in an ecosystem supported by
               Snyk.
 
