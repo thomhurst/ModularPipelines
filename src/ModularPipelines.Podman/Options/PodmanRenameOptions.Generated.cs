@@ -18,9 +18,40 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rename")]
-public record PodmanRenameOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Container,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : PodmanOptions
+public record PodmanRenameOptions : PodmanOptions
 {
+    /// <summary>
+    /// Rename an existing container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    /// <param name="Name">The NAME operand.</param>
+    public PodmanRenameOptions(
+        string Container,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Container, out string Name)
+    {
+        Container = this.Container;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Container { get; private init; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

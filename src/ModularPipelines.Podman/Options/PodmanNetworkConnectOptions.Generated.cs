@@ -18,11 +18,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "connect")]
-public record PodmanNetworkConnectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Network,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanNetworkConnectOptions : PodmanOptions
 {
+    /// <summary>
+    /// Add container to a network
+    /// </summary>
+    /// <param name="Network">The NETWORK operand.</param>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanNetworkConnectOptions(
+        string Network,
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Network, out string Container)
+    {
+        Network = this.Network;
+        Container = this.Container;
+    }
+
     /// <summary>
     /// network scoped alias for container
     /// </summary>
@@ -46,5 +65,17 @@ public record PodmanNetworkConnectOptions(
     /// </summary>
     [CliOption("--mac-address", Format = OptionFormat.EqualsSeparated)]
     public string? MacAddress { get; set; }
+
+    /// <summary>
+    /// The NETWORK operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

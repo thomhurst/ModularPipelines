@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("farm", "update")]
-public record PodmanFarmUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Farm
-) : PodmanOptions
+public record PodmanFarmUpdateOptions : PodmanOptions
 {
+    /// <summary>
+    /// Update an existing farm
+    /// </summary>
+    /// <param name="Farm">The FARM operand.</param>
+    public PodmanFarmUpdateOptions(
+        string Farm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Farm);
+        this.Farm = Farm;
+    }
+
+    public void Deconstruct(out string Farm)
+    {
+        Farm = this.Farm;
+    }
+
     /// <summary>
     /// add system connection(s) to farm
     /// </summary>
@@ -39,5 +54,11 @@ public record PodmanFarmUpdateOptions(
     /// </summary>
     [CliOption("--remove", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// The FARM operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Farm { get; private init; }
 
 }

@@ -18,8 +18,29 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quadlet", "print")]
-public record PodmanQuadletPrintOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Quadlet
-) : PodmanOptions
+public record PodmanQuadletPrintOptions : PodmanOptions
 {
+    /// <summary>
+    /// Display the contents of a quadlet
+    /// </summary>
+    /// <param name="Quadlet">The QUADLET operand.</param>
+    public PodmanQuadletPrintOptions(
+        string Quadlet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Quadlet);
+        this.Quadlet = Quadlet;
+    }
+
+    public void Deconstruct(out string Quadlet)
+    {
+        Quadlet = this.Quadlet;
+    }
+
+    /// <summary>
+    /// The QUADLET operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Quadlet { get; private init; }
+
 }

@@ -18,9 +18,51 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tag")]
-public record PodmanTagOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> TargetName
-) : PodmanOptions
+public record PodmanTagOptions : PodmanOptions
 {
+    /// <summary>
+    /// Add an additional name to a local image
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    /// <param name="TargetName">The TARGET_NAME operand.</param>
+    public PodmanTagOptions(
+        string Image,
+        IEnumerable<string> TargetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetName));
+            }
+
+            TargetName = materialized;
+        }
+        this.TargetName = TargetName;
+    }
+
+    public void Deconstruct(out string Image, out IEnumerable<string> TargetName)
+    {
+        Image = this.Image;
+        TargetName = this.TargetName;
+    }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
+
+    /// <summary>
+    /// The TARGET_NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> TargetName { get; private init; }
+
 }

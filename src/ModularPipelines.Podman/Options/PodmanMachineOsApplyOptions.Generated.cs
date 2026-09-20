@@ -18,15 +18,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machine", "os", "apply")]
-public record PodmanMachineOsApplyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Uri
-) : PodmanOptions
+public record PodmanMachineOsApplyOptions : PodmanOptions
 {
+    /// <summary>
+    /// Apply an OCI image to a Podman Machine's OS
+    /// </summary>
+    /// <param name="Uri">The URI operand.</param>
+    public PodmanMachineOsApplyOptions(
+        string Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Uri);
+        this.Uri = Uri;
+    }
+
+    public void Deconstruct(out string Uri)
+    {
+        Uri = this.Uri;
+    }
+
     /// <summary>
     /// Restart VM to apply changes
     /// </summary>
     [CliFlag("--restart")]
     public bool? Restart { get; set; }
+
+    /// <summary>
+    /// The URI operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Uri { get; private init; }
 
     /// <summary>
     /// The MACHINE operand.

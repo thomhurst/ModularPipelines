@@ -18,9 +18,40 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "remove")]
-public record PodmanManifestRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string List,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : PodmanOptions
+public record PodmanManifestRemoveOptions : PodmanOptions
 {
+    /// <summary>
+    /// Remove an item from a manifest list or image index
+    /// </summary>
+    /// <param name="List">The LIST operand.</param>
+    /// <param name="Image">The IMAGE operand.</param>
+    public PodmanManifestRemoveOptions(
+        string List,
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(List);
+        this.List = List;
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string List, out string Image)
+    {
+        List = this.List;
+        Image = this.Image;
+    }
+
+    /// <summary>
+    /// The LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string List { get; private init; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
+
 }

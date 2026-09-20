@@ -18,11 +18,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
-public record PodmanExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
-) : PodmanOptions
+public record PodmanExecOptions : PodmanOptions
 {
+    /// <summary>
+    /// Run a process in a running container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    /// <param name="Command">The COMMAND operand.</param>
+    public PodmanExecOptions(
+        string Container,
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string Container, out string Command)
+    {
+        Container = this.Container;
+        Command = this.Command;
+    }
+
     /// <summary>
     /// File to read the container ID from
     /// </summary>
@@ -106,6 +125,18 @@ public record PodmanExecOptions(
     /// </summary>
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
+
+    /// <summary>
+    /// The COMMAND operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Command { get; private init; }
 
     /// <summary>
     /// The ARG operand.

@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
-public record PodmanImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : PodmanOptions
+public record PodmanImportOptions : PodmanOptions
 {
+    /// <summary>
+    /// Import a tarball to create a filesystem image
+    /// </summary>
+    /// <param name="Path">The PATH operand.</param>
+    public PodmanImportOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
     /// <summary>
     /// Set the architecture of the imported image
     /// </summary>
@@ -57,6 +72,12 @@ public record PodmanImportOptions(
     /// </summary>
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
 
     /// <summary>
     /// The REFERENCE operand.

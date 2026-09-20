@@ -18,14 +18,35 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "connection", "remove")]
-public record PodmanSystemConnectionRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : PodmanOptions
+public record PodmanSystemConnectionRemoveOptions : PodmanOptions
 {
+    /// <summary>
+    /// Delete named destination
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public PodmanSystemConnectionRemoveOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Remove all connections
     /// </summary>
     [CliFlag("--all", ShortForm = "-a")]
     public bool? All { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
 
 }

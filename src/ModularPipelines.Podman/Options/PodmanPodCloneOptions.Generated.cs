@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "clone")]
-public record PodmanPodCloneOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Pod
-) : PodmanOptions
+public record PodmanPodCloneOptions : PodmanOptions
 {
+    /// <summary>
+    /// Clone an existing pod
+    /// </summary>
+    /// <param name="Pod">The POD operand.</param>
+    public PodmanPodCloneOptions(
+        string Pod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pod);
+        this.Pod = Pod;
+    }
+
+    public void Deconstruct(out string Pod)
+    {
+        Pod = this.Pod;
+    }
+
     /// <summary>
     /// Block IO weight (relative weight) accepts a weight value between 10 and 1000.
     /// </summary>
@@ -99,9 +114,6 @@ public record PodmanPodCloneOptions(
     /// </summary>
     [CliOption("--gpus", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gpus { get; set; }
-
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Set container hostname
@@ -240,6 +252,12 @@ public record PodmanPodCloneOptions(
     /// </summary>
     [CliOption("--volumes-from", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VolumesFrom { get; set; }
+
+    /// <summary>
+    /// The POD operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Pod { get; private init; }
 
     /// <summary>
     /// The NAME operand.

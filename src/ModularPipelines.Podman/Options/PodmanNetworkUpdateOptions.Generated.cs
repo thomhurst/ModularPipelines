@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "update")]
-public record PodmanNetworkUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Network
-) : PodmanOptions
+public record PodmanNetworkUpdateOptions : PodmanOptions
 {
+    /// <summary>
+    /// Update an existing podman network
+    /// </summary>
+    /// <param name="Network">The NETWORK operand.</param>
+    public PodmanNetworkUpdateOptions(
+        string Network
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out string Network)
+    {
+        Network = this.Network;
+    }
+
     /// <summary>
     /// add network level nameservers
     /// </summary>
@@ -33,5 +48,11 @@ public record PodmanNetworkUpdateOptions(
     /// </summary>
     [CliOption("--dns-drop", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsDrop { get; set; }
+
+    /// <summary>
+    /// The NETWORK operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Network { get; private init; }
 
 }

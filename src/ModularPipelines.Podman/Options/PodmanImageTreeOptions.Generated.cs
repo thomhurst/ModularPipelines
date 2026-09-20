@@ -18,14 +18,35 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "tree")]
-public record PodmanImageTreeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
-) : PodmanOptions
+public record PodmanImageTreeOptions : PodmanOptions
 {
+    /// <summary>
+    /// Print layer hierarchy of an image in a tree format
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    public PodmanImageTreeOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Show all child images and layers of the specified image
     /// </summary>
     [CliFlag("--whatrequires")]
     public bool? Whatrequires { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Image { get; private init; }
 
 }

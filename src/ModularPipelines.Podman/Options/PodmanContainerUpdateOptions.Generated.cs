@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "update")]
-public record PodmanContainerUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanContainerUpdateOptions : PodmanOptions
 {
+    /// <summary>
+    /// Update an existing container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanContainerUpdateOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Block IO weight (relative weight) accepts a weight value between 10 and 1000.
     /// </summary>
@@ -255,5 +270,11 @@ public record PodmanContainerUpdateOptions(
     /// </summary>
     [CliOption("--unsetenv", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Unsetenv { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

@@ -18,11 +18,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "cp")]
-public record PodmanContainerCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ContainerSrcPath,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string ContainerDestPath
-) : PodmanOptions
+public record PodmanContainerCpOptions : PodmanOptions
 {
+    /// <summary>
+    /// Copy files/folders between a container and the local filesystem
+    /// </summary>
+    /// <param name="ContainerSrcPath">The [CONTAINER:]SRC_PATH operand.</param>
+    /// <param name="ContainerDestPath">The [CONTAINER:]DEST_PATH operand.</param>
+    public PodmanContainerCpOptions(
+        string ContainerSrcPath,
+        string ContainerDestPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerSrcPath);
+        this.ContainerSrcPath = ContainerSrcPath;
+        global::System.ArgumentNullException.ThrowIfNull(ContainerDestPath);
+        this.ContainerDestPath = ContainerDestPath;
+    }
+
+    public void Deconstruct(out string ContainerSrcPath, out string ContainerDestPath)
+    {
+        ContainerSrcPath = this.ContainerSrcPath;
+        ContainerDestPath = this.ContainerDestPath;
+    }
+
     /// <summary>
     /// Chown copied files to the primary uid/gid of the destination container. (default true)
     /// </summary>
@@ -34,5 +53,17 @@ public record PodmanContainerCpOptions(
     /// </summary>
     [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
+
+    /// <summary>
+    /// The [CONTAINER:]SRC_PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string ContainerSrcPath { get; private init; }
+
+    /// <summary>
+    /// The [CONTAINER:]DEST_PATH operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string ContainerDestPath { get; private init; }
 
 }

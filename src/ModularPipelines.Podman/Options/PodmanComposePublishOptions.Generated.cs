@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "publish")]
-public record PodmanComposePublishOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string RepositoryTag
-) : PodmanOptions
+public record PodmanComposePublishOptions : PodmanOptions
 {
+    /// <summary>
+    /// Publish compose application
+    /// </summary>
+    /// <param name="RepositoryTag">The REPOSITORY[:TAG] operand.</param>
+    public PodmanComposePublishOptions(
+        string RepositoryTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryTag);
+        this.RepositoryTag = RepositoryTag;
+    }
+
+    public void Deconstruct(out string RepositoryTag)
+    {
+        RepositoryTag = this.RepositoryTag;
+    }
+
     /// <summary>
     /// Execute command in dry run mode
     /// </summary>
@@ -51,5 +66,11 @@ public record PodmanComposePublishOptions(
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// The REPOSITORY[:TAG] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string RepositoryTag { get; private init; }
 
 }

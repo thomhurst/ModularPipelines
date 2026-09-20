@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "create")]
-public record PodmanManifestCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string List
-) : PodmanOptions
+public record PodmanManifestCreateOptions : PodmanOptions
 {
+    /// <summary>
+    /// Create manifest list or image index
+    /// </summary>
+    /// <param name="List">The LIST operand.</param>
+    public PodmanManifestCreateOptions(
+        string List
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(List);
+        this.List = List;
+    }
+
+    public void Deconstruct(out string List)
+    {
+        List = this.List;
+    }
+
     /// <summary>
     /// add all of the lists' images if the images to add are lists
     /// </summary>
@@ -45,6 +60,12 @@ public record PodmanManifestCreateOptions(
     /// </summary>
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
+
+    /// <summary>
+    /// The LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string List { get; private init; }
 
     /// <summary>
     /// The IMAGE operand.

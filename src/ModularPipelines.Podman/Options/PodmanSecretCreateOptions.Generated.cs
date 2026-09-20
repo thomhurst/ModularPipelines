@@ -19,11 +19,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "create")]
-public record PodmanSecretCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string File
-) : PodmanOptions
+public record PodmanSecretCreateOptions : PodmanOptions
 {
+    /// <summary>
+    /// Create a new secret
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    /// <param name="File">The FILE operand.</param>
+    public PodmanSecretCreateOptions(
+        string Name,
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string Name, out string File)
+    {
+        Name = this.Name;
+        File = this.File;
+    }
+
     /// <summary>
     /// Specify secret driver (default "file")
     /// </summary>
@@ -59,5 +78,17 @@ public record PodmanSecretCreateOptions(
     /// </summary>
     [CliFlag("--replace")]
     public bool? Replace { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The FILE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string File { get; private init; }
 
 }

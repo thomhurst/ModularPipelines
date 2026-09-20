@@ -18,11 +18,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifact", "extract")]
-public record PodmanArtifactExtractOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Artifact,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : PodmanOptions
+public record PodmanArtifactExtractOptions : PodmanOptions
 {
+    /// <summary>
+    /// Extract an OCI artifact to a local path
+    /// </summary>
+    /// <param name="Artifact">The ARTIFACT operand.</param>
+    /// <param name="Path">The PATH operand.</param>
+    public PodmanArtifactExtractOptions(
+        string Artifact,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Artifact);
+        this.Artifact = Artifact;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Artifact, out string Path)
+    {
+        Artifact = this.Artifact;
+        Path = this.Path;
+    }
+
     /// <summary>
     /// Only extract blob with the given digest
     /// </summary>
@@ -34,5 +53,17 @@ public record PodmanArtifactExtractOptions(
     /// </summary>
     [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
     public string? Title { get; set; }
+
+    /// <summary>
+    /// The ARTIFACT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Artifact { get; private init; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
 
 }

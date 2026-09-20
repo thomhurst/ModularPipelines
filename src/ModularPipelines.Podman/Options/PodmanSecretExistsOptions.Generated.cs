@@ -18,8 +18,29 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "exists")]
-public record PodmanSecretExistsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Secret
-) : PodmanOptions
+public record PodmanSecretExistsOptions : PodmanOptions
 {
+    /// <summary>
+    /// Check if a secret exists in local storage
+    /// </summary>
+    /// <param name="Secret">The SECRET operand.</param>
+    public PodmanSecretExistsOptions(
+        string Secret
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Secret);
+        this.Secret = Secret;
+    }
+
+    public void Deconstruct(out string Secret)
+    {
+        Secret = this.Secret;
+    }
+
+    /// <summary>
+    /// The SECRET operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Secret { get; private init; }
+
 }

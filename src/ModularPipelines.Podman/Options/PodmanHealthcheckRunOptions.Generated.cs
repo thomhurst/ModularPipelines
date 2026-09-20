@@ -18,14 +18,35 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcheck", "run")]
-public record PodmanHealthcheckRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : PodmanOptions
+public record PodmanHealthcheckRunOptions : PodmanOptions
 {
+    /// <summary>
+    /// Run the health check of a container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public PodmanHealthcheckRunOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Exit with code 0 regardless of healthcheck result or if the container is still in startup period
     /// </summary>
     [CliFlag("--ignore-result")]
     public bool? IgnoreResult { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

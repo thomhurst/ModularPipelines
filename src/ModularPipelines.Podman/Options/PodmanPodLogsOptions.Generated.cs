@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "logs")]
-public record PodmanPodLogsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Pod
-) : PodmanOptions
+public record PodmanPodLogsOptions : PodmanOptions
 {
+    /// <summary>
+    /// Fetch logs for pod with one or more containers
+    /// </summary>
+    /// <param name="Pod">The POD operand.</param>
+    public PodmanPodLogsOptions(
+        string Pod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pod);
+        this.Pod = Pod;
+    }
+
+    public void Deconstruct(out string Pod)
+    {
+        Pod = this.Pod;
+    }
+
     /// <summary>
     /// Output the containers within a pod with different colors in the log
     /// </summary>
@@ -75,5 +90,11 @@ public record PodmanPodLogsOptions(
     /// </summary>
     [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
     public string? Until { get; set; }
+
+    /// <summary>
+    /// The POD operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Pod { get; private init; }
 
 }

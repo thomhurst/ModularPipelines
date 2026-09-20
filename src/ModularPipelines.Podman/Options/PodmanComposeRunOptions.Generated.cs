@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "run")]
-public record PodmanComposeRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service
-) : PodmanOptions
+public record PodmanComposeRunOptions : PodmanOptions
 {
+    /// <summary>
+    /// Run a one-off command on a service
+    /// </summary>
+    /// <param name="Service">The SERVICE operand.</param>
+    public PodmanComposeRunOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
     /// <summary>
     /// Build image before starting container
     /// </summary>
@@ -171,6 +186,12 @@ public record PodmanComposeRunOptions(
     /// </summary>
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
+
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Service { get; private init; }
 
     /// <summary>
     /// The COMMAND operand.

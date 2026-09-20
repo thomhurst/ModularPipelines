@@ -19,11 +19,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "push")]
-public record PodmanManifestPushOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string List,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
-) : PodmanOptions
+public record PodmanManifestPushOptions : PodmanOptions
 {
+    /// <summary>
+    /// Push a manifest list or image index to a registry
+    /// </summary>
+    /// <param name="List">The LIST operand.</param>
+    /// <param name="Destination">The DESTINATION operand.</param>
+    public PodmanManifestPushOptions(
+        string List,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(List);
+        this.List = List;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string List, out string Destination)
+    {
+        List = this.List;
+        Destination = this.Destination;
+    }
+
     /// <summary>
     /// add instances with selected compression while pushing
     /// </summary>
@@ -151,5 +170,17 @@ public record PodmanManifestPushOptions(
     /// </summary>
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
+
+    /// <summary>
+    /// The LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string List { get; private init; }
+
+    /// <summary>
+    /// The DESTINATION operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Destination { get; private init; }
 
 }

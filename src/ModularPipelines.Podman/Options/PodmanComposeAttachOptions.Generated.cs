@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "attach")]
-public record PodmanComposeAttachOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service
-) : PodmanOptions
+public record PodmanComposeAttachOptions : PodmanOptions
 {
+    /// <summary>
+    /// Attach local standard input, output, and error streams to a service's running container
+    /// </summary>
+    /// <param name="Service">The SERVICE operand.</param>
+    public PodmanComposeAttachOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
     /// <summary>
     /// Override the key sequence for detaching from a container.
     /// </summary>
@@ -51,5 +66,11 @@ public record PodmanComposeAttachOptions(
     /// </summary>
     [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
+
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Service { get; private init; }
 
 }

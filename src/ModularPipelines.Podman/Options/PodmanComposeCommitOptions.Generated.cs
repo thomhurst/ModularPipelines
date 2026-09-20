@@ -18,10 +18,25 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "commit")]
-public record PodmanComposeCommitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service
-) : PodmanOptions
+public record PodmanComposeCommitOptions : PodmanOptions
 {
+    /// <summary>
+    /// Create a new image from a service container's changes
+    /// </summary>
+    /// <param name="Service">The SERVICE operand.</param>
+    public PodmanComposeCommitOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
     /// <summary>
     /// Author (e.g., "John Hannibal Smith &lt;hannibal@a-team.com&gt;")
     /// </summary>
@@ -57,6 +72,12 @@ public record PodmanComposeCommitOptions(
     /// </summary>
     [CliOption("--pause", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public bool? Pause { get; set; }
+
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Service { get; private init; }
 
     /// <summary>
     /// The REPOSITORY[:TAG] operand.

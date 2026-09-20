@@ -19,11 +19,30 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "runlabel")]
-public record PodmanContainerRunlabelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Label,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
-) : PodmanOptions
+public record PodmanContainerRunlabelOptions : PodmanOptions
 {
+    /// <summary>
+    /// Execute the command described by an image label
+    /// </summary>
+    /// <param name="Label">The LABEL operand.</param>
+    /// <param name="Image">The IMAGE operand.</param>
+    public PodmanContainerRunlabelOptions(
+        string Label,
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Label);
+        this.Label = Label;
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Label, out string Image)
+    {
+        Label = this.Label;
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
     /// </summary>
@@ -72,6 +91,18 @@ public record PodmanContainerRunlabelOptions(
     /// </summary>
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
+
+    /// <summary>
+    /// The LABEL operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Label { get; private init; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Image { get; private init; }
 
     /// <summary>
     /// The ARG operand.
