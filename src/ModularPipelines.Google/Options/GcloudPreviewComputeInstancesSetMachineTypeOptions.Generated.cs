@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "set-machine-type")]
-public record GcloudPreviewComputeInstancesSetMachineTypeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudPreviewComputeInstancesSetMachineTypeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set machine type for     Compute Engine virtual machines
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudPreviewComputeInstancesSetMachineTypeOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     /// <summary>
     /// Specifies the machine type used for the instances. To get a list of available machine types, run 'gcloud compute machine-types list'. Either this flag, --custom-cpu, or --custom-memory must be specified.
     /// </summary>
@@ -58,5 +74,25 @@ public record GcloudPreviewComputeInstancesSetMachineTypeOptions(
     /// </summary>
     [CliOption("--custom-vm-type", Format = OptionFormat.EqualsSeparated)]
     public string? CustomVmType { get; set; }
+
+    /// <summary>
+    /// Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType)) && (!(!string.IsNullOrWhiteSpace(CustomCpu))))
+        {
+            yield return new ValidationResult("CustomCpu must be specified when other arguments in this group are specified.", [nameof(CustomCpu)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType)) && (!(!string.IsNullOrWhiteSpace(CustomMemory))))
+        {
+            yield return new ValidationResult("CustomMemory must be specified when other arguments in this group are specified.", [nameof(CustomMemory)]);
+        }
+        yield break;
+    }
 
 }

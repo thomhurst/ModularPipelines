@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,64 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "files", "upload")]
-public record GcloudArtifactsFilesUploadOptions : GcloudOptions
+public record GcloudArtifactsFilesUploadOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The path to the file you are uploading.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The directory you are uploading.
+    /// </summary>
+    [CliOption("--source-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDirectory { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The name under which the file will be uploaded. If not specified, the name of the local file is used.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// The type of the file to upload. FILE_TYPE must be one of: attachment The file represents an attachment file. artifact The file represents an artifact.
+    /// </summary>
+    [CliOption("--file-type", Format = OptionFormat.EqualsSeparated)]
+    public string? FileType { get; set; }
+
+    /// <summary>
+    /// If specified, skip uploading files that already exist in the repository, and continue to upload the remaining files.
+    /// </summary>
+    [CliFlag("--skip-existing")]
+    public bool? SkipExisting { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the repository. To set the location attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ◆ provide the argument --repository on the command line; ◆ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Source) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceDirectory) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Source or SourceDirectory must be specified.", [nameof(Source), nameof(SourceDirectory)]);
+        }
+        yield break;
+    }
+
 }

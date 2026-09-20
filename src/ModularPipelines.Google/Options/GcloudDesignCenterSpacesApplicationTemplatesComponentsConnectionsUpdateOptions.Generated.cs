@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "components", "connections", "update")]
-public record GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsUpdateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// templates components connections     update - update a connection
+    /// </summary>
+    /// <param name="Connection">Connection resource - Identifier. The connection name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsUpdateOptions(
+        string Connection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Connection);
+        this.Connection = Connection;
+    }
+
+    public void Deconstruct(out string Connection)
+    {
+        Connection = this.Connection;
+    }
+
+    /// <summary>
+    /// Connection resource - Identifier. The connection name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. This must be specified. The component id of the connection resource. To set the component attribute: ▸ provide the argument connection on the command line with a fully specified name; ▸ provide the argument --component on the command line.
+    /// </summary>
+    [CliOption("--component", Format = OptionFormat.EqualsSeparated)]
+    public string? Component { get; set; }
+
     /// <summary>
     /// For resources [connection, destination-component-uri], provides fallback value for resource application-template attribute. When the resource's full URI path is not provided, application-template will fallback to this flag value.
     /// </summary>
@@ -49,13 +73,93 @@ public record GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsU
     /// Component resource - The destination component URI used to generate the connection. Format is projects/$project/locations/$location/spaces/$space/applicationTemplates/$application_template/components/$component This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. Update destination_component_parameters. At most one of these can be specified: Set destination_component_parameters to new value. The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. Shorthand Example: --destination-component-parameters=key=string,value={...} --destination-component-parameters=key=string,value={...} JSON Example: --destination-component-parameters='[{"key": "string", "value": {...}}]' File Example: --destination-component-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--destination-component-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DestinationComponentParameters { get; set; }
+    public IEnumerable<string>? DestinationComponentParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __DestinationComponentParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DestinationComponentParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DestinationComponentParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __DestinationComponentParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Component resource - The destination component URI used to generate the connection. Format is projects/$project/locations/$location/spaces/$space/applicationTemplates/$application_template/components/$component This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. Update destination_component_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to destination_component_parameters list. The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-destination-component-parameters=key=string,value={...} --add-destination-component-parameters=key=string,value={...} JSON Example: --add-destination-component-parameters='[{"key": "string", "value": {...}}]' File Example: --add-destination-component-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-destination-component-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddDestinationComponentParameters { get; set; }
+    public IEnumerable<string>? AddDestinationComponentParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddDestinationComponentParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddDestinationComponentParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddDestinationComponentParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddDestinationComponentParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Component resource - The destination component URI used to generate the connection. Format is projects/$project/locations/$location/spaces/$space/applicationTemplates/$application_template/components/$component This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. Update destination_component_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear destination_component_parameters value and set to empty list.
@@ -67,19 +171,139 @@ public record GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsU
     /// Component resource - The destination component URI used to generate the connection. Format is projects/$project/locations/$location/spaces/$space/applicationTemplates/$application_template/components/$component This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. Update destination_component_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from destination_component_parameters list. The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-destination-component-parameters=key=string,value={...} --remove-destination-component-parameters=key=string,value={...} JSON Example: --remove-destination-component-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-destination-component-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-destination-component-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveDestinationComponentParameters { get; set; }
+    public IEnumerable<string>? RemoveDestinationComponentParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveDestinationComponentParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveDestinationComponentParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveDestinationComponentParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveDestinationComponentParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Component resource - The destination component URI used to generate the connection. Format is projects/$project/locations/$location/spaces/$space/applicationTemplates/$application_template/components/$component This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. Update source_component_parameters. At most one of these can be specified: Set source_component_parameters to new value. The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --source-component-parameters=key=string,value={...} --source-component-parameters=key=string,value={...} JSON Example: --source-component-parameters='[{"key": "string", "value": {...}}]' File Example: --source-component-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--source-component-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SourceComponentParameters { get; set; }
+    public IEnumerable<string>? SourceComponentParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __SourceComponentParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SourceComponentParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SourceComponentParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __SourceComponentParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Component resource - The destination component URI used to generate the connection. Format is projects/$project/locations/$location/spaces/$space/applicationTemplates/$application_template/components/$component This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. Update source_component_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to source_component_parameters list. The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-source-component-parameters=key=string,value={...} --add-source-component-parameters=key=string,value={...} JSON Example: --add-source-component-parameters='[{"key": "string", "value": {...}}]' File Example: --add-source-component-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-source-component-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddSourceComponentParameters { get; set; }
+    public IEnumerable<string>? AddSourceComponentParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddSourceComponentParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddSourceComponentParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddSourceComponentParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddSourceComponentParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Component resource - The destination component URI used to generate the connection. Format is projects/$project/locations/$location/spaces/$space/applicationTemplates/$application_template/components/$component This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. Update source_component_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear source_component_parameters value and set to empty list.
@@ -91,6 +315,74 @@ public record GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsU
     /// Component resource - The destination component URI used to generate the connection. Format is projects/$project/locations/$location/spaces/$space/applicationTemplates/$application_template/components/$component This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument --destination-component-uri on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. Update source_component_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from source_component_parameters list. The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-source-component-parameters=key=string,value={...} --remove-source-component-parameters=key=string,value={...} JSON Example: --remove-source-component-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-source-component-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-source-component-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveSourceComponentParameters { get; set; }
+    public IEnumerable<string>? RemoveSourceComponentParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveSourceComponentParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveSourceComponentParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveSourceComponentParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveSourceComponentParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Connection resource - Identifier. The connection name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the space attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --space on the command line. To set the application-template attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --application-template on the command line. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Connection { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)DestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DestinationComponentParameters, static item => item is not null) : ((object?)DestinationComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)DestinationComponentParameters is not string || !string.IsNullOrWhiteSpace(DestinationComponentParameters?.ToString()) : ((object?)DestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DestinationComponentParameters, static item => item is not null) : (DestinationComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DestinationComponentParameters), static item => item is not null))))) ? 1 : 0) + ((((object?)AddDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddDestinationComponentParameters, static item => item is not null) : ((object?)AddDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddDestinationComponentParameters is not string || !string.IsNullOrWhiteSpace(AddDestinationComponentParameters?.ToString()) : ((object?)AddDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddDestinationComponentParameters, static item => item is not null) : (AddDestinationComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddDestinationComponentParameters), static item => item is not null))))) || ClearDestinationComponentParameters == true || ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveDestinationComponentParameters, static item => item is not null) : ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveDestinationComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveDestinationComponentParameters?.ToString()) : ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveDestinationComponentParameters, static item => item is not null) : (RemoveDestinationComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveDestinationComponentParameters), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DestinationComponentParameters or (AddDestinationComponentParameters, ClearDestinationComponentParameters, or RemoveDestinationComponentParameters) may be specified.", [nameof(DestinationComponentParameters), nameof(AddDestinationComponentParameters), nameof(ClearDestinationComponentParameters), nameof(RemoveDestinationComponentParameters)]);
+        }
+        if ((((object?)DestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DestinationComponentParameters, static item => item is not null) : ((object?)DestinationComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)DestinationComponentParameters is not string || !string.IsNullOrWhiteSpace(DestinationComponentParameters?.ToString()) : ((object?)DestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DestinationComponentParameters, static item => item is not null) : (DestinationComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DestinationComponentParameters), static item => item is not null))))) || ((object?)AddDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddDestinationComponentParameters, static item => item is not null) : ((object?)AddDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddDestinationComponentParameters is not string || !string.IsNullOrWhiteSpace(AddDestinationComponentParameters?.ToString()) : ((object?)AddDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddDestinationComponentParameters, static item => item is not null) : (AddDestinationComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddDestinationComponentParameters), static item => item is not null))))) || ClearDestinationComponentParameters == true || ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveDestinationComponentParameters, static item => item is not null) : ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveDestinationComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveDestinationComponentParameters?.ToString()) : ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveDestinationComponentParameters, static item => item is not null) : (RemoveDestinationComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveDestinationComponentParameters), static item => item is not null)))))) && (((object?)AddDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddDestinationComponentParameters, static item => item is not null) : ((object?)AddDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddDestinationComponentParameters is not string || !string.IsNullOrWhiteSpace(AddDestinationComponentParameters?.ToString()) : ((object?)AddDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddDestinationComponentParameters, static item => item is not null) : (AddDestinationComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddDestinationComponentParameters), static item => item is not null))))) || ClearDestinationComponentParameters == true || ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveDestinationComponentParameters, static item => item is not null) : ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveDestinationComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveDestinationComponentParameters?.ToString()) : ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveDestinationComponentParameters, static item => item is not null) : (RemoveDestinationComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveDestinationComponentParameters), static item => item is not null)))))) && ((ClearDestinationComponentParameters == true ? 1 : 0) + (((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveDestinationComponentParameters, static item => item is not null) : ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveDestinationComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveDestinationComponentParameters?.ToString()) : ((object?)RemoveDestinationComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveDestinationComponentParameters, static item => item is not null) : (RemoveDestinationComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveDestinationComponentParameters), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearDestinationComponentParameters or RemoveDestinationComponentParameters may be specified.", [nameof(ClearDestinationComponentParameters), nameof(RemoveDestinationComponentParameters)]);
+        }
+        if ((((object?)SourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)SourceComponentParameters, static item => item is not null) : ((object?)SourceComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)SourceComponentParameters is not string || !string.IsNullOrWhiteSpace(SourceComponentParameters?.ToString()) : ((object?)SourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SourceComponentParameters, static item => item is not null) : (SourceComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SourceComponentParameters), static item => item is not null))))) ? 1 : 0) + ((((object?)AddSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddSourceComponentParameters, static item => item is not null) : ((object?)AddSourceComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSourceComponentParameters is not string || !string.IsNullOrWhiteSpace(AddSourceComponentParameters?.ToString()) : ((object?)AddSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSourceComponentParameters, static item => item is not null) : (AddSourceComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSourceComponentParameters), static item => item is not null))))) || ClearSourceComponentParameters == true || ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveSourceComponentParameters, static item => item is not null) : ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSourceComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveSourceComponentParameters?.ToString()) : ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSourceComponentParameters, static item => item is not null) : (RemoveSourceComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSourceComponentParameters), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SourceComponentParameters or (AddSourceComponentParameters, ClearSourceComponentParameters, or RemoveSourceComponentParameters) may be specified.", [nameof(SourceComponentParameters), nameof(AddSourceComponentParameters), nameof(ClearSourceComponentParameters), nameof(RemoveSourceComponentParameters)]);
+        }
+        if ((((object?)SourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)SourceComponentParameters, static item => item is not null) : ((object?)SourceComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)SourceComponentParameters is not string || !string.IsNullOrWhiteSpace(SourceComponentParameters?.ToString()) : ((object?)SourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SourceComponentParameters, static item => item is not null) : (SourceComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SourceComponentParameters), static item => item is not null))))) || ((object?)AddSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddSourceComponentParameters, static item => item is not null) : ((object?)AddSourceComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSourceComponentParameters is not string || !string.IsNullOrWhiteSpace(AddSourceComponentParameters?.ToString()) : ((object?)AddSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSourceComponentParameters, static item => item is not null) : (AddSourceComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSourceComponentParameters), static item => item is not null))))) || ClearSourceComponentParameters == true || ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveSourceComponentParameters, static item => item is not null) : ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSourceComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveSourceComponentParameters?.ToString()) : ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSourceComponentParameters, static item => item is not null) : (RemoveSourceComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSourceComponentParameters), static item => item is not null)))))) && (((object?)AddSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddSourceComponentParameters, static item => item is not null) : ((object?)AddSourceComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSourceComponentParameters is not string || !string.IsNullOrWhiteSpace(AddSourceComponentParameters?.ToString()) : ((object?)AddSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSourceComponentParameters, static item => item is not null) : (AddSourceComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSourceComponentParameters), static item => item is not null))))) || ClearSourceComponentParameters == true || ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveSourceComponentParameters, static item => item is not null) : ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSourceComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveSourceComponentParameters?.ToString()) : ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSourceComponentParameters, static item => item is not null) : (RemoveSourceComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSourceComponentParameters), static item => item is not null)))))) && ((ClearSourceComponentParameters == true ? 1 : 0) + (((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveSourceComponentParameters, static item => item is not null) : ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSourceComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveSourceComponentParameters?.ToString()) : ((object?)RemoveSourceComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSourceComponentParameters, static item => item is not null) : (RemoveSourceComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSourceComponentParameters), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearSourceComponentParameters or RemoveSourceComponentParameters may be specified.", [nameof(ClearSourceComponentParameters), nameof(RemoveSourceComponentParameters)]);
+        }
+        yield break;
+    }
 
 }

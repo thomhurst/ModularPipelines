@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,82 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "buckets", "create")]
-public record GcloudLoggingBucketsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BucketId
-) : GcloudOptions
+public record GcloudLoggingBucketsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a bucket
+    /// </summary>
+    /// <param name="Location">Location in which to create the bucket. Once the bucket is created, the location cannot be changed.</param>
+    /// <param name="BucketId">ID of the bucket to create.</param>
+    public GcloudLoggingBucketsCreateOptions(
+        string Location,
+        string BucketId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(BucketId);
+        this.BucketId = BucketId;
+    }
+
+    public void Deconstruct(out string Location, out string BucketId)
+    {
+        Location = this.Location;
+        BucketId = this.BucketId;
+    }
+
+    /// <summary>
+    /// Location in which to create the bucket. Once the bucket is created, the location cannot be changed.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A valid kms_key_name will enable CMEK for the bucket.
+    /// </summary>
+    [CliOption("--cmek-kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? CmekKmsKeyName { get; set; }
+
+    /// <summary>
+    /// A textual description for the bucket.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether to opt the bucket into Log Analytics. Once opted in, the bucket cannot be opted out of Log Analytics.
+    /// </summary>
+    [CliFlag("--enable-analytics")]
+    public bool? EnableAnalytics { get; set; }
+
+    /// <summary>
+    /// Specify an index to be added to the log bucket. This flag can be repeated. The fieldPath and type attributes are required. For example: --index=fieldPath=jsonPayload.foo,type=INDEX_TYPE_STRING. The following keys are accepted: fieldPath The LogEntry field path to index. For example: jsonPayload.request.status. Paths are limited to 800 characters and can include only letters, digits, underscores, hyphens, and periods. type The type of data in this index. For example: INDEX_TYPE_STRING Supported types are INDEX_TYPE_STRING and INDEX_TYPE_INTEGER.
+    /// </summary>
+    [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Index { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of field paths that require permission checks in this bucket. The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--restricted-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RestrictedFields { get; set; }
+
+    /// <summary>
+    /// The period logs will be retained, after which logs will automatically be deleted. The default is 30 days.
+    /// </summary>
+    [CliOption("--retention-days", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionDays { get; set; }
+
+    /// <summary>
+    /// ID of the bucket to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BucketId { get; private init; }
+
 }

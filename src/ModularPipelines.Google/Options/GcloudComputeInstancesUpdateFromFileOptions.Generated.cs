@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "update-from-file")]
-public record GcloudComputeInstancesUpdateFromFileOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudComputeInstancesUpdateFromFileOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute Engine virtual     machine instance using a configuration file
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to update. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudComputeInstancesUpdateFromFileOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     /// <summary>
     /// If specified, all local SSDs data attached to this instance will be discarded. This is only used with most-disruptive-allowed-action set to RESTART.
     /// </summary>
@@ -52,5 +67,11 @@ public record GcloudComputeInstancesUpdateFromFileOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the instance to update. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
 
 }

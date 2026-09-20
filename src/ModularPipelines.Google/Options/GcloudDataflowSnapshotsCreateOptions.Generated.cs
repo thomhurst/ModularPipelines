@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataflow", "snapshots", "create")]
 public record GcloudDataflowSnapshotsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a snapshot for a Cloud Dataflow     job
+    /// </summary>
+    /// <param name="JobId">The job ID to snapshot.</param>
+    /// <param name="Region">The region ID of the snapshot and job's regional endpoint.</param>
+    public GcloudDataflowSnapshotsCreateOptions(
+        string JobId,
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string JobId, out string Region)
+    {
+        JobId = this.JobId;
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// The job ID to snapshot.
+    /// </summary>
+    [CliOption("--job-id", Format = OptionFormat.EqualsSeparated)]
+    public string JobId { get; private init; }
+
+    /// <summary>
+    /// The region ID of the snapshot and job's regional endpoint.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// If true, snapshots will also be created for the Cloud Pub/Sub sources of the Cloud Dataflow job.
+    /// </summary>
+    [CliOption("--snapshot-sources", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotSources { get; set; }
+
+    /// <summary>
+    /// Time to live for the snapshot.
+    /// </summary>
+    [CliOption("--snapshot-ttl", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotTtl { get; set; }
+
 }

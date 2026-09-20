@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "composite-health-checks", "test-iam-permissions")]
 public record GcloudComputeCompositeHealthChecksTestIamPermissionsOptions : GcloudOptions
 {
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine composite health check
+    /// </summary>
+    /// <param name="Permissions">Permissions to be tested. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="CompositeHealthCheck">Composite health check resource - The composite health check for which to test permissions. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument composite_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the composite health check or fully qualified identifier for the composite health check. To set the composite_health_check attribute: ▸ provide the argument composite_health_check on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeCompositeHealthChecksTestIamPermissionsOptions(
+        IEnumerable<string> Permissions,
+        string CompositeHealthCheck
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Permissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Permissions));
+            }
+
+            Permissions = materialized;
+        }
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(CompositeHealthCheck);
+        this.CompositeHealthCheck = CompositeHealthCheck;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Permissions, out string CompositeHealthCheck)
+    {
+        Permissions = this.Permissions;
+        CompositeHealthCheck = this.CompositeHealthCheck;
+    }
+
+    /// <summary>
+    /// Permissions to be tested. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Permissions { get; private init; }
+
+    /// <summary>
+    /// Composite health check resource - The composite health check for which to test permissions. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument composite_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine region. To set the region attribute: ▸ provide the argument composite_health_check on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Composite health check resource - The composite health check for which to test permissions. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument composite_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the composite health check or fully qualified identifier for the composite health check. To set the composite_health_check attribute: ▸ provide the argument composite_health_check on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CompositeHealthCheck { get; private init; }
+
 }

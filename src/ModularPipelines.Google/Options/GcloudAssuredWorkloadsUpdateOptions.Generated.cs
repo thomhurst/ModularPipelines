@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,79 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("assured", "workloads", "update")]
-public record GcloudAssuredWorkloadsUpdateOptions : GcloudOptions
+public record GcloudAssuredWorkloadsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update Assured Workloads environments
+    /// </summary>
+    /// <param name="Workload">Workload resource - The Assured Workloads environment resource to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workload or fully qualified identifier for the workload. To set the workload attribute: ▸ provide the argument workload on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAssuredWorkloadsUpdateOptions(
+        string Workload
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Workload);
+        this.Workload = Workload;
+    }
+
+    public void Deconstruct(out string Workload)
+    {
+        Workload = this.Workload;
+    }
+
+    /// <summary>
+    /// Workload resource - The Assured Workloads environment resource to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workload. To set the location attribute: ▸ provide the argument workload on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workload resource - The Assured Workloads environment resource to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The parent organization for the workload. To set the organization attribute: ▸ provide the argument workload on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Settings that can be updated on the Assured Workloads environment. At least one of these must be specified: The new display name of the Assured Workloads environment.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Settings that can be updated on the Assured Workloads environment. At least one of these must be specified: The new labels of the Assured Workloads environment, for example, LabelKey1=LabelValue1,LabelKey2=LabelValue2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Settings that can be updated on the Assured Workloads environment. At least one of these must be specified: The notification setting of the Assured Workloads environment.
+    /// </summary>
+    [CliOption("--violation-notifications-enabled", Format = OptionFormat.EqualsSeparated)]
+    public string? ViolationNotificationsEnabled { get; set; }
+
+    /// <summary>
+    /// The etag acquired by reading the Assured Workloads environment before updating.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// Workload resource - The Assured Workloads environment resource to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workload or fully qualified identifier for the workload. To set the workload attribute: ▸ provide the argument workload on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Workload { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(DisplayName) || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ViolationNotificationsEnabled)))
+        {
+            yield return new ValidationResult("At least one of DisplayName, Labels, or ViolationNotificationsEnabled must be specified.", [nameof(DisplayName), nameof(Labels), nameof(ViolationNotificationsEnabled)]);
+        }
+        yield break;
+    }
+
 }

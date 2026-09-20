@@ -35,10 +35,10 @@ public record GcloudSccAssetsGroupOptions : GcloudOptions
     public string? Filter { get; set; }
 
     /// <summary>
-    /// Expression that defines what asset fields to use for grouping (including 'state'). String value should follow SQL syntax: comma separated list of fields. For example: "parent,resource_name". The following fields are supported: ◆ security_center_properties.resource_project ◆ security_center_properties.resource_type ◆ security_center_properties.resource_parent ◆ state_change
+    /// Expression that defines what asset fields to use for grouping (including 'state'). String value should follow SQL syntax: comma separated list of fields. For example: "parent,resource_name". The following fields are supported: ◆ security_center_properties.resource_project ◆ security_center_properties.resource_type ◆ security_center_properties.resource_parent ◆ state_change Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--group-by", Format = OptionFormat.EqualsSeparated)]
-    public string? GroupBy { get; set; }
+    [CliOption("--group-by", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>
     /// The maximum number of results to return in a single response. Default is 10, minimum is 1, maximum is 1000.
@@ -58,5 +58,11 @@ public record GcloudSccAssetsGroupOptions : GcloudOptions
     /// </summary>
     [CliOption("--read-time", Format = OptionFormat.EqualsSeparated)]
     public string? ReadTime { get; set; }
+
+    /// <summary>
+    /// Parent resource - parent organization, folder, or project in the Google Cloud resource hierarchy to be used for the gcloud scc command. Specify the argument as either [RESOURCE_TYPE/RESOURCE_ID] or [RESOURCE_ID], as shown in the preceding examples. This represents a Cloud resource. ID of the parent or fully qualified identifier for the parent. To set the parent attribute: ◆ provide the argument parent on the command line; ◆ Set the parent property in configuration using gcloud config set scc/parent if it is not specified in command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Parent { get; set; }
 
 }

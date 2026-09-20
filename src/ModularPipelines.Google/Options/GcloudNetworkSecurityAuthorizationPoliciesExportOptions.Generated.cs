@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityAuthorizationPoliciesExportOptions : GcloudOptions
 {
     /// <summary>
+    /// export     authorization policy
+    /// </summary>
+    /// <param name="AuthorizationPolicy">Authorization policy resource - Name of the authorization policy to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authorization policy or fully qualified identifier for the authorization policy. To set the authorization_policy attribute: ▸ provide the argument authorization_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityAuthorizationPoliciesExportOptions(
+        string AuthorizationPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizationPolicy);
+        this.AuthorizationPolicy = AuthorizationPolicy;
+    }
+
+    public void Deconstruct(out string AuthorizationPolicy)
+    {
+        AuthorizationPolicy = this.AuthorizationPolicy;
+    }
+
+    /// <summary>
+    /// Authorization policy resource - Name of the authorization policy to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument authorization_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Path to a YAML file where the configuration will be exported. The exported data will not contain any output-only fields. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see $CLOUDSDKROOT/lib/googlecloudsdk/schemas/...
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
+
+    /// <summary>
+    /// Authorization policy resource - Name of the authorization policy to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authorization policy or fully qualified identifier for the authorization policy. To set the authorization_policy attribute: ▸ provide the argument authorization_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthorizationPolicy { get; private init; }
 
 }

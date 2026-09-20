@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAssuredWorkloadsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete Assured Workloads environment
+    /// </summary>
+    /// <param name="Workload">Workload resource - The Assured Workloads environment resource to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workload or fully qualified identifier for the workload. To set the workload attribute: ▸ provide the argument workload on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAssuredWorkloadsDeleteOptions(
+        string Workload
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Workload);
+        this.Workload = Workload;
+    }
+
+    public void Deconstruct(out string Workload)
+    {
+        Workload = this.Workload;
+    }
+
+    /// <summary>
+    /// Workload resource - The Assured Workloads environment resource to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workload. To set the location attribute: ▸ provide the argument workload on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workload resource - The Assured Workloads environment resource to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The parent organization for the workload. To set the organization attribute: ▸ provide the argument workload on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// The etag acquired by reading the Assured Workloads environment or AW "resource".
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// Workload resource - The Assured Workloads environment resource to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workload or fully qualified identifier for the workload. To set the workload attribute: ▸ provide the argument workload on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Workload { get; private init; }
 
 }

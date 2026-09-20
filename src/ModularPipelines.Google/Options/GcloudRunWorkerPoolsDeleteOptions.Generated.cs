@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunWorkerPoolsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// pool
+    /// </summary>
+    /// <param name="WorkerPool">WorkerPool resource - WorkerPool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WorkerPool or fully qualified identifier for the WorkerPool. To set the worker-pool attribute: ▸ provide the argument WORKER_POOL on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRunWorkerPoolsDeleteOptions(
+        string WorkerPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerPool);
+        this.WorkerPool = WorkerPool;
+    }
+
+    public void Deconstruct(out string WorkerPool)
+    {
+        WorkerPool = this.WorkerPool;
+    }
+
+    /// <summary>
+    /// WorkerPool resource - WorkerPool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the WorkerPool. Overrides the default run/region property value for this command invocation. To set the region attribute: ▸ provide the argument WORKER_POOL on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property run/region; ▸ specify the region from an interactive prompt.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// WorkerPool resource - WorkerPool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WorkerPool or fully qualified identifier for the WorkerPool. To set the worker-pool attribute: ▸ provide the argument WORKER_POOL on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkerPool { get; private init; }
 
 }

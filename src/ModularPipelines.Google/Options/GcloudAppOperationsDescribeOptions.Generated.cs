@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "operations", "describe")]
-public record GcloudAppOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operation
-) : GcloudOptions
+public record GcloudAppOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes the operation
+    /// </summary>
+    /// <param name="Operation">ID of operation.</param>
+    public GcloudAppOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// ID of operation.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

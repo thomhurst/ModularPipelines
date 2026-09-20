@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "migration", "machine-image-imports", "describe")]
 public record GcloudComputeMigrationMachineImageImportsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Image     Import
+    /// </summary>
+    /// <param name="ImageImportName">Image import resource - The Image Import you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument image_import_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the image_import or fully qualified identifier for the image_import. To set the image_import_name attribute: ▸ provide the argument image_import_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeMigrationMachineImageImportsDescribeOptions(
+        string ImageImportName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageImportName);
+        this.ImageImportName = ImageImportName;
+    }
+
+    public void Deconstruct(out string ImageImportName)
+    {
+        ImageImportName = this.ImageImportName;
+    }
+
+    /// <summary>
+    /// Image import resource - The Image Import you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument image_import_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Resource location. To set the location attribute: ▸ provide the argument image_import_name on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Image import resource - The Image Import you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument image_import_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the image_import or fully qualified identifier for the image_import. To set the image_import_name attribute: ▸ provide the argument image_import_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageImportName { get; private init; }
+
 }

@@ -21,4 +21,84 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "volumes", "replications", "establish-peering")]
 public record GcloudNetappVolumesReplicationsEstablishPeeringOptions : GcloudOptions
 {
+    /// <summary>
+    /// establish peering     for Hybrid replication
+    /// </summary>
+    /// <param name="PeerClusterName">Name of the destination cluster to be peered with the source cluster.</param>
+    /// <param name="PeerSvmName">Name of the local source vserver svm to be peered with the destination cluster.</param>
+    /// <param name="PeerVolumeName">Name of the source volume to be peered with the destination volume.</param>
+    /// <param name="Replication">Replication resource - The Hybrid replication to establish peering for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. ID of the replication or fully qualified identifier for the replication. To set the replication attribute: ▸ provide the argument replication on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappVolumesReplicationsEstablishPeeringOptions(
+        string PeerClusterName,
+        string PeerSvmName,
+        string PeerVolumeName,
+        string Replication
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PeerClusterName);
+        this.PeerClusterName = PeerClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(PeerSvmName);
+        this.PeerSvmName = PeerSvmName;
+        global::System.ArgumentNullException.ThrowIfNull(PeerVolumeName);
+        this.PeerVolumeName = PeerVolumeName;
+        global::System.ArgumentNullException.ThrowIfNull(Replication);
+        this.Replication = Replication;
+    }
+
+    public void Deconstruct(out string PeerClusterName, out string PeerSvmName, out string PeerVolumeName, out string Replication)
+    {
+        PeerClusterName = this.PeerClusterName;
+        PeerSvmName = this.PeerSvmName;
+        PeerVolumeName = this.PeerVolumeName;
+        Replication = this.Replication;
+    }
+
+    /// <summary>
+    /// Name of the destination cluster to be peered with the source cluster.
+    /// </summary>
+    [CliOption("--peer-cluster-name", Format = OptionFormat.EqualsSeparated)]
+    public string PeerClusterName { get; private init; }
+
+    /// <summary>
+    /// Name of the local source vserver svm to be peered with the destination cluster.
+    /// </summary>
+    [CliOption("--peer-svm-name", Format = OptionFormat.EqualsSeparated)]
+    public string PeerSvmName { get; private init; }
+
+    /// <summary>
+    /// Name of the source volume to be peered with the destination volume.
+    /// </summary>
+    [CliOption("--peer-volume-name", Format = OptionFormat.EqualsSeparated)]
+    public string PeerVolumeName { get; private init; }
+
+    /// <summary>
+    /// Replication resource - The Hybrid replication to establish peering for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. The location of the replication. To set the location attribute: ▸ provide the argument replication on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of ip addresses to be used for peering. This is required for cluster peering, not required for svm peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--peer-ip-addresses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PeerIpAddresses { get; set; }
+
+    /// <summary>
+    /// Volume resource - The Volume that the Replication is based on This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ◆ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
+    public string? Volume { get; set; }
+
+    /// <summary>
+    /// Replication resource - The Hybrid replication to establish peering for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. ID of the replication or fully qualified identifier for the replication. To set the replication attribute: ▸ provide the argument replication on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Replication { get; private init; }
+
 }

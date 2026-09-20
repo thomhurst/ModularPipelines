@@ -22,6 +22,23 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamServiceAccountsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update an IAM service account
+    /// </summary>
+    /// <param name="ServiceAccount">ServiceAccount resource - The service account to update. The account should be formatted either as a numeric service account ID or as an email, like this: 123456789876543212345 or my-iam-account@somedomain.com. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_account on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the serviceAccount or fully qualified identifier for the serviceAccount. To set the service_account attribute: ▸ provide the argument service_account on the command line.</param>
+    public GcloudIamServiceAccountsUpdateOptions(
+        string ServiceAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccount);
+        this.ServiceAccount = ServiceAccount;
+    }
+
+    public void Deconstruct(out string ServiceAccount)
+    {
+        ServiceAccount = this.ServiceAccount;
+    }
+
+    /// <summary>
     /// The new textual description for the account.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
@@ -32,5 +49,11 @@ public record GcloudIamServiceAccountsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// ServiceAccount resource - The service account to update. The account should be formatted either as a numeric service account ID or as an email, like this: 123456789876543212345 or my-iam-account@somedomain.com. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_account on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the serviceAccount or fully qualified identifier for the serviceAccount. To set the service_account attribute: ▸ provide the argument service_account on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceAccount { get; private init; }
 
 }

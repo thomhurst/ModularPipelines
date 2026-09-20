@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,91 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "data-product-sharing", "publish")]
-public record GcloudBiglakeDataProductSharingPublishOptions : GcloudOptions
+public record GcloudBiglakeDataProductSharingPublishOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// publish a Knowledge Catalog     Data Product or BigLake tables to external partners
+    /// </summary>
+    /// <param name="ConnectionCatalog">Catalog resource - The delta sharing catalog that contains information about where the data product is published. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --connection-catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument --connection-catalog on the command line.</param>
+    /// <param name="SapFederatedIdentityProvider">The resource name of the Workload Identity Federation (WIF) provider resource representing the SAP federated identity. You must manually grant this identity the necessary IAM permissions (e.g., roles/biglake.viewer) on the underlying catalog.</param>
+    /// <param name="Share">The desired name of the Share as it will be published to</param>
+    public GcloudBiglakeDataProductSharingPublishOptions(
+        string ConnectionCatalog,
+        string SapFederatedIdentityProvider,
+        string Share
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionCatalog);
+        this.ConnectionCatalog = ConnectionCatalog;
+        global::System.ArgumentNullException.ThrowIfNull(SapFederatedIdentityProvider);
+        this.SapFederatedIdentityProvider = SapFederatedIdentityProvider;
+        global::System.ArgumentNullException.ThrowIfNull(Share);
+        this.Share = Share;
+    }
+
+    public void Deconstruct(out string ConnectionCatalog, out string SapFederatedIdentityProvider, out string Share)
+    {
+        ConnectionCatalog = this.ConnectionCatalog;
+        SapFederatedIdentityProvider = this.SapFederatedIdentityProvider;
+        Share = this.Share;
+    }
+
+    /// <summary>
+    /// Catalog resource - The delta sharing catalog that contains information about where the data product is published. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --connection-catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument --connection-catalog on the command line.
+    /// </summary>
+    [CliOption("--connection-catalog", Format = OptionFormat.EqualsSeparated)]
+    public string ConnectionCatalog { get; private init; }
+
+    /// <summary>
+    /// The resource name of the Workload Identity Federation (WIF) provider resource representing the SAP federated identity. You must manually grant this identity the necessary IAM permissions (e.g., roles/biglake.viewer) on the underlying catalog.
+    /// </summary>
+    [CliOption("--sap-federated-identity-provider", Format = OptionFormat.EqualsSeparated)]
+    public string SapFederatedIdentityProvider { get; private init; }
+
+    /// <summary>
+    /// The desired name of the Share as it will be published to
+    /// </summary>
+    [CliOption("--share", Format = OptionFormat.EqualsSeparated)]
+    public string Share { get; private init; }
+
+    /// <summary>
+    /// source Exactly one of these must be specified: The Knowledge Catalog Data Product to publish.
+    /// </summary>
+    [CliOption("--data-product", Format = OptionFormat.EqualsSeparated)]
+    public string? DataProduct { get; set; }
+
+    /// <summary>
+    /// source Exactly one of these must be specified: Or at least one of these can be specified: Catalog resource - The BigLake Iceberg REST Catalog whose tables will be published. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --iceberg-catalog on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▫ provide the argument --iceberg-catalog on the command line.
+    /// </summary>
+    [CliOption("--iceberg-catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? IcebergCatalog { get; set; }
+
+    /// <summary>
+    /// The optional detailed description of the published share.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The short, concise description of the published share. Required when publishing an Iceberg catalog.
+    /// </summary>
+    [CliOption("--short-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ShortDescription { get; set; }
+
+    /// <summary>
+    /// The title of the published share. Required when publishing an Iceberg catalog.
+    /// </summary>
+    [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
+    public string? Title { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DataProduct) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(IcebergCatalog)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DataProduct or (IcebergCatalog) must be specified.", [nameof(DataProduct), nameof(IcebergCatalog)]);
+        }
+        yield break;
+    }
+
 }

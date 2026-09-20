@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "list")]
-public record GcloudSccFindingsListOptions : GcloudOptions
+public record GcloudSccFindingsListOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// (DEPRECATED) When compare_duration is set, the result's "state_change" attribute is updated to indicate whether the finding had its state changed, the finding's state remained unchanged, or if the finding was added during the compare_duration period of time that precedes the read_time. This is the time between (read_time - compare_duration) and read_time. The state_change value is derived based on the presence and state of the finding at the two points in time. Intermediate state changes between the two times don't affect the result. For example, the results aren't affected if the finding is made inactive and then active again. Possible "state_change" values when compare_duration is specified: ◆ 'CHANGED': indicates that the finding was present at the start of compare_duration, but changed its state at read_time. ◆ 'UNCHANGED': indicates that the finding was present at the start of compare_duration and did not change state at read_time. ◆ 'ADDED': indicates that the finding was not present at the start of compare_duration, but was present at read_time. ◆ 'REMOVED': indicates that the finding was present at the start of compare_duration, but was not present at read_time. If compare_duration is not specified, then the only possible state_change is 'UNUSED', which will be the state_change set for all findings present at read_time. If this field is set then 'state_change' must be a specified field in 'group_by'. See $ gcloud topic datetimes for information on supported duration formats. The --compare-duration option is deprecated. For more information, see the deprecation notice (https://cloud.google.com/security-command-center/docs/release-notes#April_15_2024) on the SCC release notes page.
@@ -41,10 +42,10 @@ public record GcloudSccFindingsListOptions : GcloudOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Expression that defines what fields and order to use for sorting. String value should follow SQL syntax: comma separated list of fields. For example: "name,resource_properties.a_property". The default sorting order is ascending. To specify descending order for a field, a suffix " desc" should be appended to the field name. For example: --order-by="name desc,source_properties.a_property" will order by name in descending order while source_properties.a_property in ascending order.
+    /// Expression that defines what fields and order to use for sorting. String value should follow SQL syntax: comma separated list of fields. For example: "name,resource_properties.a_property". The default sorting order is ascending. To specify descending order for a field, a suffix " desc" should be appended to the field name. For example: --order-by="name desc,source_properties.a_property" will order by name in descending order while source_properties.a_property in ascending order. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--order-by", Format = OptionFormat.EqualsSeparated)]
-    public string? OrderBy { get; set; }
+    [CliOption("--order-by", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? OrderBy { get; set; }
 
     /// <summary>
     /// Response objects will return a non-null value for page-token to indicate that there is at least one additional page of data. User can either directly request that page by specifying the page-token explicitly or let gcloud fetch one-page-at-a-time.
@@ -82,5 +83,21 @@ public record GcloudSccFindingsListOptions : GcloudOptions
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// Parent resource - parent organization, folder, or project in the Google Cloud resource hierarchy to be used for the gcloud scc command. Specify the argument as either [RESOURCE_TYPE/RESOURCE_ID] or [RESOURCE_ID], as shown in the preceding examples. This represents a Cloud resource. ID of the parent or fully qualified identifier for the parent. To set the parent attribute: ◆ provide the argument parent on the command line; ◆ Set the parent property in configuration using gcloud config set scc/parent if it is not specified in command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Parent { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

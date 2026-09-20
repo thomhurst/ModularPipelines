@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("parametermanager", "parameters", "describe")]
 public record GcloudParameterManagerParametersDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// gets a single Parameter     Manager parameter
+    /// </summary>
+    /// <param name="Parameter">Parameter resource - Name of the resource in the format projects/*/locations/*/parameters/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the parameter or fully qualified identifier for the parameter. To set the parameter attribute: ▸ provide the argument parameter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudParameterManagerParametersDescribeOptions(
+        string Parameter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parameter);
+        this.Parameter = Parameter;
+    }
+
+    public void Deconstruct(out string Parameter)
+    {
+        Parameter = this.Parameter;
+    }
+
+    /// <summary>
+    /// Parameter resource - Name of the resource in the format projects/*/locations/*/parameters/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the parameter resource. To set the location attribute: ▸ provide the argument parameter on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Parameter resource - Name of the resource in the format projects/*/locations/*/parameters/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the parameter or fully qualified identifier for the parameter. To set the parameter attribute: ▸ provide the argument parameter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Parameter { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "addresses", "create")]
-public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions
+public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// An optional textual description for the addresses.
@@ -32,7 +33,7 @@ public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions
     /// The endpoint type of the external IPv6 address to be reserved. ENDPOINT_TYPE must be one of: VM, NETLB.
     /// </summary>
     [CliOption("--endpoint-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudEndpointType? EndpointType { get; set; }
+    public GcloudPreviewComputeAddressesCreateEndpointType? EndpointType { get; set; }
 
     /// <summary>
     /// If specified, the network resource in which the address(es) should be reserved. This is only available for global internal address, which represents an internal IP range reservation from within the network.
@@ -44,7 +45,7 @@ public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions
     /// The network tier to assign to the reserved IP addresses. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM. While regional external addresses (--region specified, --subnet omitted) can use either PREMIUM or STANDARD, global external addresses (--global specified, --subnet omitted) can only use PREMIUM. Internal addresses can only use PREMIUM.
     /// </summary>
     [CliOption("--network-tier", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNetworkTier? NetworkTier { get; set; }
+    public GcloudPreviewComputeAddressesCreateNetworkTier? NetworkTier { get; set; }
 
     /// <summary>
     /// The prefix length of the IP range. If the address is an IPv4 address, it must be a value between 8 and 30 inclusive. If the address is an IPv6 address, the only allowed value is 96. If not present, it means the address field is a single IP address. This field is not applicable to external IPv4 addresses or global IPv6 addresses.
@@ -56,7 +57,7 @@ public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions
     /// The purpose of the address resource. This field is not applicable to external addresses. PURPOSE must be one of: VPC_PEERING, SHARED_LOADBALANCER_VIP, GCE_ENDPOINT, IPSEC_INTERCONNECT, PRIVATE_SERVICE_CONNECT.
     /// </summary>
     [CliOption("--purpose", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPurpose? Purpose { get; set; }
+    public GcloudPreviewComputeAddressesCreatePurpose? Purpose { get; set; }
 
     /// <summary>
     /// If specified, the subnet name in which the address(es) should be reserved. The subnet must be in the same region as the address. The address will represent an internal IP reservation from within the subnet. If --address is specified, it must be within the subnet's IP range. May not be specified with --global.
@@ -65,16 +66,38 @@ public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Ephemeral IP addresses to promote to reserved status. Only addresses that are being used by resources in the project can be promoted. When providing this flag, a parallel list of names for the addresses can be provided. For example, $ gcloud preview compute addresses create ADDRESS-1 ADDRESS-2 \ --addresses 162.222.181.197,162.222.181.198 \ --region us-central1 will result in 162.222.181.197 being reserved as 'ADDRESS-1' and 162.222.181.198 as 'ADDRESS-2'. If no names are given, server-generated names will be assigned to the IP addresses.
+    /// At most one of these can be specified: Ephemeral IP addresses to promote to reserved status. Only addresses that are being used by resources in the project can be promoted. When providing this flag, a parallel list of names for the addresses can be provided. For example, $ gcloud preview compute addresses create ADDRESS-1 ADDRESS-2 \ --addresses 162.222.181.197,162.222.181.198 \ --region us-central1 will result in 162.222.181.197 being reserved as 'ADDRESS-1' and 162.222.181.198 as 'ADDRESS-2'. If no names are given, server-generated names will be assigned to the IP addresses. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--addresses", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Addresses { get; set; }
+    [CliOption("--addresses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Addresses
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddressesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddressesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Version of the IP address to be allocated and reserved. The default is IPV4. IP version can only be specified for global addresses that are generated automatically (i.e., along with the --global flag, given --addresses is not specified) and if the --network-tier is PREMIUM. IP_VERSION must be one of: IPV4, IPV6.
     /// </summary>
     [CliOption("--ip-version", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIpVersion? IpVersion { get; set; }
+    public GcloudPreviewComputeAddressesCreateIpVersion? IpVersion { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: If set, the addresses are global.
@@ -99,5 +122,29 @@ public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--ip-collection", Format = OptionFormat.EqualsSeparated)]
     public string? IpCollection { get; set; }
+
+    /// <summary>
+    /// Names of the addresses to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Name { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Addresses is global::System.Collections.Generic.IEnumerable<char> ? (object?)Addresses is not string || !string.IsNullOrWhiteSpace(Addresses?.ToString()) : ((object?)Addresses is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Addresses, static item => item is not null) : (Addresses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Addresses), static item => item is not null)))) ? 1 : 0) + ((object?)IpVersion is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Addresses or IpVersion may be specified.", [nameof(Addresses), nameof(IpVersion)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(InternalRange) ? 1 : 0) + (!string.IsNullOrWhiteSpace(IpCollection) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InternalRange or IpCollection may be specified.", [nameof(InternalRange), nameof(IpCollection)]);
+        }
+        yield break;
+    }
 
 }

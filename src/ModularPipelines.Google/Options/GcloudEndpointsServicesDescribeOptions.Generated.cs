@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("endpoints", "services", "describe")]
-public record GcloudEndpointsServicesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Service
-) : GcloudOptions
+public record GcloudEndpointsServicesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a service given a service     name
+    /// </summary>
+    /// <param name="Service">The name of the service to describe.</param>
+    public GcloudEndpointsServicesDescribeOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// The name of the service to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
 }

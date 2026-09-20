@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,111 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "spokes", "gateways", "create")]
 public record GcloudNetworkConnectivitySpokesGatewaysCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new Gateway     spoke
+    /// </summary>
+    /// <param name="Capacity">Set the capacity of the gateway in Gbps. CAPACITY must be one of: 10g Gateway will have capacity of 10 Gbps 1g Gateway will have capacity of 1 Gbps</param>
+    /// <param name="Group">Group that the spoke will be part of. The group must already exist.</param>
+    /// <param name="Hub">Hub that the spoke will attach to. The hub must already exist.</param>
+    /// <param name="IpRangeReservations">The IP range reservation for the spoke. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Region">A Google Cloud region. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).</param>
+    /// <param name="Spoke">Spoke resource - Name of the spoke to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the spoke or fully qualified identifier for the spoke. To set the spoke attribute: ▸ provide the argument spoke on the command line.</param>
+    public GcloudNetworkConnectivitySpokesGatewaysCreateOptions(
+        string Capacity,
+        string Group,
+        string Hub,
+        IEnumerable<string> IpRangeReservations,
+        string Region,
+        string Spoke
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Capacity);
+        this.Capacity = Capacity;
+        global::System.ArgumentNullException.ThrowIfNull(Group);
+        this.Group = Group;
+        global::System.ArgumentNullException.ThrowIfNull(Hub);
+        this.Hub = Hub;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IpRangeReservations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(IpRangeReservations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IpRangeReservations));
+            }
+
+            IpRangeReservations = materialized;
+        }
+        this.IpRangeReservations = IpRangeReservations;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Spoke);
+        this.Spoke = Spoke;
+    }
+
+    public void Deconstruct(out string Capacity, out string Group, out string Hub, out IEnumerable<string> IpRangeReservations, out string Region, out string Spoke)
+    {
+        Capacity = this.Capacity;
+        Group = this.Group;
+        Hub = this.Hub;
+        IpRangeReservations = this.IpRangeReservations;
+        Region = this.Region;
+        Spoke = this.Spoke;
+    }
+
+    /// <summary>
+    /// Set the capacity of the gateway in Gbps. CAPACITY must be one of: 10g Gateway will have capacity of 10 Gbps 1g Gateway will have capacity of 1 Gbps
+    /// </summary>
+    [CliOption("--capacity", Format = OptionFormat.EqualsSeparated)]
+    public string Capacity { get; private init; }
+
+    /// <summary>
+    /// Group that the spoke will be part of. The group must already exist.
+    /// </summary>
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
+    public string Group { get; private init; }
+
+    /// <summary>
+    /// Hub that the spoke will attach to. The hub must already exist.
+    /// </summary>
+    [CliOption("--hub", Format = OptionFormat.EqualsSeparated)]
+    public string Hub { get; private init; }
+
+    /// <summary>
+    /// The IP range reservation for the spoke. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ip-range-reservations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> IpRangeReservations { get; private init; }
+
+    /// <summary>
+    /// A Google Cloud region. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the spoke to create.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Spoke resource - Name of the spoke to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the spoke or fully qualified identifier for the spoke. To set the spoke attribute: ▸ provide the argument spoke on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Spoke { get; private init; }
+
 }

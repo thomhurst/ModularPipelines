@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("spanner", "databases", "sessions", "delete")]
 public record GcloudSpannerDatabasesSessionsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Cloud Spanner session
+    /// </summary>
+    /// <param name="Session">Session resource - The Cloud Spanner session to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument session on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the session or fully qualified identifier for the session. To set the session attribute: ▸ provide the argument session on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerDatabasesSessionsDeleteOptions(
+        string Session
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Session);
+        this.Session = Session;
+    }
+
+    public void Deconstruct(out string Session)
+    {
+        Session = this.Session;
+    }
+
+    /// <summary>
+    /// Session resource - The Cloud Spanner session to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument session on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner database for the session. To set the database attribute: ▸ provide the argument session on the command line with a fully specified name; ▸ provide the argument --database on the command line.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Session resource - The Cloud Spanner session to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument session on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the session. To set the instance attribute: ▸ provide the argument session on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Session resource - The Cloud Spanner session to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument session on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the session or fully qualified identifier for the session. To set the session attribute: ▸ provide the argument session on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Session { get; private init; }
+
 }

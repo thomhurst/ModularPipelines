@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cache", "operations", "describe")]
 public record GcloudEdgeCacheOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// running operation
+    /// </summary>
+    /// <param name="Operation">Operation resource - operation to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ use global location. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line.</param>
+    public GcloudEdgeCacheOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Operation resource - operation to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ use global location. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

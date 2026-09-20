@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vmware", "network-peerings", "routes", "list")]
 public record GcloudVmwareNetworkPeeringsRoutesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Google Cloud VMware     Engine VPC network peering routes
+    /// </summary>
+    /// <param name="NetworkPeering">VMware Engine VPC network peering resource - network_peering. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network-peering on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine VPC network peering or fully qualified identifier for the VMware Engine VPC network peering. To set the network-peering attribute: ▸ provide the argument --network-peering on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwareNetworkPeeringsRoutesListOptions(
+        string NetworkPeering
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkPeering);
+        this.NetworkPeering = NetworkPeering;
+    }
+
+    public void Deconstruct(out string NetworkPeering)
+    {
+        NetworkPeering = this.NetworkPeering;
+    }
+
+    /// <summary>
+    /// VMware Engine VPC network peering resource - network_peering. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network-peering on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine VPC network peering or fully qualified identifier for the VMware Engine VPC network peering. To set the network-peering attribute: ▸ provide the argument --network-peering on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--network-peering", Format = OptionFormat.EqualsSeparated)]
+    public string NetworkPeering { get; private init; }
+
+    /// <summary>
+    /// VMware Engine VPC network peering resource - network_peering. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network-peering on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The resource name of the location. To set the location attribute: ▸ provide the argument --network-peering on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set location as 'global' (default).
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workstations", "configs", "update")]
-public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
+public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates a workstation configuration
+    /// </summary>
+    /// <param name="Config">Config resource - The group of arguments defining a config The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the config or fully qualified identifier for the config. To set the config attribute: ▸ provide the argument config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkstationsConfigsUpdateOptions(
+        string Config
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Config);
+        this.Config = Config;
+    }
+
+    public void Deconstruct(out string Config)
+    {
+        Config = this.Config;
+    }
+
+    /// <summary>
+    /// Config resource - The group of arguments defining a config The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The cluster for the config. To set the cluster attribute: ▸ provide the argument config on the command line with a fully specified name; ▸ provide the argument --cluster on the command line; ▸ set the property workstations/cluster.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Config resource - The group of arguments defining a config The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The region for the config. To set the region attribute: ▸ provide the argument config on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property workstations/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// A Single or Range of ports externally accessible in the workstation. If not specified defaults to ports 22, 80 and ports 1024-65535. To specify a single port, both first and last should be same. Example: $ gcloud workstations configs update \ --allowed-ports=first=9000,last=9090 $ gcloud workstations configs update --allowed-ports=first=80,last=80 Sets allowed_ports value. first Required, sets first value. last Required, sets last value. Shorthand Example: --allowed-ports=first=int,last=int JSON Example: --allowed-ports='{"first": int, "last": int}' File Example: --allowed-ports=path_to_file.(yaml|json)
     /// </summary>
@@ -41,21 +71,21 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     public int? BootDiskSize { get; set; }
 
     /// <summary>
-    /// Arguments passed to the entrypoint. Example: $ gcloud workstations configs update --container-args=arg_1,arg_2
+    /// Arguments passed to the entrypoint. Example: $ gcloud workstations configs update --container-args=arg_1,arg_2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ContainerArgs { get; set; }
 
     /// <summary>
-    /// If set, overrides the default ENTRYPOINT specified by the image. Example: $ gcloud workstations configs update \ --container-command=executable,parameter_1,parameter_2
+    /// If set, overrides the default ENTRYPOINT specified by the image. Example: $ gcloud workstations configs update \ --container-command=executable,parameter_1,parameter_2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ContainerCommand { get; set; }
 
     /// <summary>
-    /// Environment variables passed to the container. Example: $ gcloud workstations configs update \ --container-env=key1=value1,key2=value2
+    /// Environment variables passed to the container. Example: $ gcloud workstations configs update \ --container-env=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ContainerEnv { get; set; }
 
     /// <summary>
@@ -113,15 +143,15 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     public int? IdleTimeout { get; set; }
 
     /// <summary>
-    /// Custom metadata to apply to Compute Engine instances. Example: $ gcloud workstations configs update \ --instance-metadata=key1=value1,key2=value2
+    /// Custom metadata to apply to Compute Engine instances. Example: $ gcloud workstations configs update \ --instance-metadata=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? InstanceMetadata { get; set; }
 
     /// <summary>
-    /// Labels that are applied to the configuration and propagated to the underlying Compute Engine resources. Example: $ gcloud workstations configs update \ --labels=label1=value1,label2=value2
+    /// Labels that are applied to the configuration and propagated to the underlying Compute Engine resources. Example: $ gcloud workstations configs update \ --labels=label1=value1,label2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
@@ -137,9 +167,9 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     public int? MaxUsableWorkstationsCount { get; set; }
 
     /// <summary>
-    /// Network tags to add to the Google Compute Engine machines backing the Workstations. Example: $ gcloud workstations configs update --network-tags=tag_1,tag_2
+    /// Network tags to add to the Google Compute Engine machines backing the Workstations. Example: $ gcloud workstations configs update --network-tags=tag_1,tag_2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
@@ -191,9 +221,9 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     public string? StartupScriptUri { get; set; }
 
     /// <summary>
-    /// Resource manager tags to be bound to the instance. Tag keys and values have the same definition as https://cloud.google.com/resource-manager/docs/tags/tags-overview Example: $ gcloud workstations configs update \ --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\ value2
+    /// Resource manager tags to be bound to the instance. Tag keys and values have the same definition as https://cloud.google.com/resource-manager/docs/tags/tags-overview Example: $ gcloud workstations configs update \ --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\ value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? VmTags { get; set; }
 
     /// <summary>
@@ -266,7 +296,7 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     /// Accelerator settings At most one of these can be specified: Or at least one of these can be specified: Type of the persistent directory. DISK_TYPE must be one of: pd-standard, pd-balanced, pd-ssd, hyperdisk-balanced-ha.
     /// </summary>
     [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDiskType? DiskType { get; set; }
+    public GcloudWorkstationsConfigsUpdateDiskType? DiskType { get; set; }
 
     /// <summary>
     /// Accelerator settings At most one of these can be specified: Or at least one of these can be specified: Size of the persistent directory in GB. PD_DISK_SIZE must be one of: 10, 50, 100, 200, 500, 1000.
@@ -278,6 +308,38 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     /// Accelerator settings At most one of these can be specified: Or at least one of these can be specified: Type of the persistent directory. PD_DISK_TYPE must be one of: pd-standard, pd-balanced, pd-ssd.
     /// </summary>
     [CliOption("--pd-disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPdDiskType? PdDiskType { get; set; }
+    public GcloudWorkstationsConfigsUpdatePdDiskType? PdDiskType { get; set; }
+
+    /// <summary>
+    /// Config resource - The group of arguments defining a config The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the config or fully qualified identifier for the config. To set the config attribute: ▸ provide the argument config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Config { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((object?)AcceleratorCount is not null || !string.IsNullOrWhiteSpace(AcceleratorType) || !string.IsNullOrWhiteSpace(ContainerCustomImage) || !string.IsNullOrWhiteSpace(ContainerPredefinedImage) || DisableSshToVm == true || EnableSshToVm == true || DisableTcpConnections == true || EnableTcpConnections == true || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || !string.IsNullOrWhiteSpace(PdSourceSnapshot) || (object?)DiskSize is not null || (object?)DiskType is not null || (object?)PdDiskSize is not null || (object?)PdDiskType is not null) && (!((object?)AcceleratorCount is not null)))
+        {
+            yield return new ValidationResult("AcceleratorCount must be specified when other arguments in this group are specified.", [nameof(AcceleratorCount)]);
+        }
+        if (((object?)AcceleratorCount is not null || !string.IsNullOrWhiteSpace(AcceleratorType) || !string.IsNullOrWhiteSpace(ContainerCustomImage) || !string.IsNullOrWhiteSpace(ContainerPredefinedImage) || DisableSshToVm == true || EnableSshToVm == true || DisableTcpConnections == true || EnableTcpConnections == true || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || !string.IsNullOrWhiteSpace(PdSourceSnapshot) || (object?)DiskSize is not null || (object?)DiskType is not null || (object?)PdDiskSize is not null || (object?)PdDiskType is not null) && ((!string.IsNullOrWhiteSpace(ContainerCustomImage) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerPredefinedImage) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ContainerCustomImage or ContainerPredefinedImage may be specified.", [nameof(ContainerCustomImage), nameof(ContainerPredefinedImage)]);
+        }
+        if (((object?)AcceleratorCount is not null || !string.IsNullOrWhiteSpace(AcceleratorType) || !string.IsNullOrWhiteSpace(ContainerCustomImage) || !string.IsNullOrWhiteSpace(ContainerPredefinedImage) || DisableSshToVm == true || EnableSshToVm == true || DisableTcpConnections == true || EnableTcpConnections == true || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || !string.IsNullOrWhiteSpace(PdSourceSnapshot) || (object?)DiskSize is not null || (object?)DiskType is not null || (object?)PdDiskSize is not null || (object?)PdDiskType is not null) && ((DisableSshToVm == true ? 1 : 0) + (EnableSshToVm == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of DisableSshToVm or EnableSshToVm may be specified.", [nameof(DisableSshToVm), nameof(EnableSshToVm)]);
+        }
+        if (((object?)AcceleratorCount is not null || !string.IsNullOrWhiteSpace(AcceleratorType) || !string.IsNullOrWhiteSpace(ContainerCustomImage) || !string.IsNullOrWhiteSpace(ContainerPredefinedImage) || DisableSshToVm == true || EnableSshToVm == true || DisableTcpConnections == true || EnableTcpConnections == true || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || !string.IsNullOrWhiteSpace(PdSourceSnapshot) || (object?)DiskSize is not null || (object?)DiskType is not null || (object?)PdDiskSize is not null || (object?)PdDiskType is not null) && ((DisableTcpConnections == true ? 1 : 0) + (EnableTcpConnections == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of DisableTcpConnections or EnableTcpConnections may be specified.", [nameof(DisableTcpConnections), nameof(EnableTcpConnections)]);
+        }
+        if (((object?)AcceleratorCount is not null || !string.IsNullOrWhiteSpace(AcceleratorType) || !string.IsNullOrWhiteSpace(ContainerCustomImage) || !string.IsNullOrWhiteSpace(ContainerPredefinedImage) || DisableSshToVm == true || EnableSshToVm == true || DisableTcpConnections == true || EnableTcpConnections == true || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || !string.IsNullOrWhiteSpace(PdSourceSnapshot) || (object?)DiskSize is not null || (object?)DiskType is not null || (object?)PdDiskSize is not null || (object?)PdDiskType is not null) && ((!string.IsNullOrWhiteSpace(DiskSourceSnapshot) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PdSourceSnapshot) ? 1 : 0) + (((object?)DiskSize is not null || (object?)DiskType is not null) ? 1 : 0) + (((object?)PdDiskSize is not null || (object?)PdDiskType is not null) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of DiskSourceSnapshot, PdSourceSnapshot, (DiskSize or DiskType), or (PdDiskSize or PdDiskType) may be specified.", [nameof(DiskSourceSnapshot), nameof(PdSourceSnapshot), nameof(DiskSize), nameof(DiskType), nameof(PdDiskSize), nameof(PdDiskType)]);
+        }
+        yield break;
+    }
 
 }

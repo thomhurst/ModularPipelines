@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer-connect", "account-connectors", "update")]
-public record GcloudDeveloperConnectAccountConnectorsUpdateOptions : GcloudOptions
+public record GcloudDeveloperConnectAccountConnectorsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update     accountConnectors
+    /// </summary>
+    /// <param name="AccountConnector">AccountConnector resource - Identifier. The resource name of the accountConnector, in the format projects/{project}/locations/{location}/accountConnectors/{account_connector_id}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument account_connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument account_connector on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the accountConnector or fully qualified identifier for the accountConnector. To set the account_connector attribute: ▸ provide the argument account_connector on the command line.</param>
+    public GcloudDeveloperConnectAccountConnectorsUpdateOptions(
+        string AccountConnector
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountConnector);
+        this.AccountConnector = AccountConnector;
+    }
+
+    public void Deconstruct(out string AccountConnector)
+    {
+        AccountConnector = this.AccountConnector;
+    }
+
     /// <summary>
     /// If set to true, and the accountConnector is not found a new accountConnector will be created. In this situation update_mask is ignored. The creation will succeed only if the input accountConnector has all the necessary. Use --allow-missing to enable and --no-allow-missing to disable.
     /// </summary>
@@ -74,13 +92,93 @@ public record GcloudDeveloperConnectAccountConnectorsUpdateOptions : GcloudOptio
     /// Update annotations. At most one of these can be specified: Set annotations to new value. Allows users to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Annotations { get; set; }
+    public IEnumerable<string>? Annotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AnnotationsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update annotations. At most one of these can be specified: Or at least one of these can be specified: Update annotations value or add key value pair. Allows users to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-annotations=string=string JSON Example: --update-annotations='{"string": "string"}' File Example: --update-annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateAnnotations { get; set; }
+    public IEnumerable<string>? UpdateAnnotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateAnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateAnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateAnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateAnnotationsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear annotations value and set to empty map.
@@ -138,10 +236,32 @@ public record GcloudDeveloperConnectAccountConnectorsUpdateOptions : GcloudOptio
     public string? CustomOauthConfigScmProvider { get; set; }
 
     /// <summary>
-    /// Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Scopes to be requested during OAuth.
+    /// Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Scopes to be requested during OAuth. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--custom-oauth-config-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CustomOauthConfigScopes { get; set; }
+    [CliOption("--custom-oauth-config-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CustomOauthConfigScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CustomOauthConfigScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CustomOauthConfigScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. SSL certificate to use for requests to a private service.
@@ -150,28 +270,50 @@ public record GcloudDeveloperConnectAccountConnectorsUpdateOptions : GcloudOptio
     public string? CustomOauthConfigSslCaCertificate { get; set; }
 
     /// <summary>
-    /// ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Arguments for the account connector config. At most one of these can be specified: ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. ProviderOAuthConfig is the OAuth config for a provider. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-oauth-config-service-directory", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigServiceDirectory { get; set; }
 
     /// <summary>
-    /// ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. The namespace id of the service resource. To set the namespace attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --namespace on the command line.
+    /// Arguments for the account connector config. At most one of these can be specified: ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. ProviderOAuthConfig is the OAuth config for a provider. The namespace id of the service resource. To set the namespace attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --namespace on the command line.
     /// </summary>
     [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// ProviderOAuthConfig is the OAuth config for a provider. Set accountConnector.providerOauthConfig back to default value.
+    /// Arguments for the account connector config. At most one of these can be specified: ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. ProviderOAuthConfig is the OAuth config for a provider. Set accountConnector.providerOauthConfig back to default value.
     /// </summary>
     [CliFlag("--clear-provider-oauth-config")]
     public bool? ClearProviderOauthConfig { get; set; }
 
     /// <summary>
-    /// ProviderOAuthConfig is the OAuth config for a provider. User selected scopes to apply to the Oauth config In the event of changing scopes, user records under AccountConnector will be deleted and users will re-auth again.
+    /// Arguments for the account connector config. At most one of these can be specified: ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. ProviderOAuthConfig is the OAuth config for a provider. User selected scopes to apply to the Oauth config In the event of changing scopes, user records under AccountConnector will be deleted and users will re-auth again. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--provider-oauth-config-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ProviderOauthConfigScopes { get; set; }
+    [CliOption("--provider-oauth-config-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ProviderOauthConfigScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ProviderOauthConfigScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ProviderOauthConfigScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Proxy configuration. Set accountConnector.proxyConfig back to default value.
@@ -195,13 +337,93 @@ public record GcloudDeveloperConnectAccountConnectorsUpdateOptions : GcloudOptio
     /// Proxy configuration. Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Labels { get; set; }
+    public IEnumerable<string>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __LabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Proxy configuration. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateLabels { get; set; }
+    public IEnumerable<string>? UpdateLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateLabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateLabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Proxy configuration. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
@@ -214,5 +436,45 @@ public record GcloudDeveloperConnectAccountConnectorsUpdateOptions : GcloudOptio
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// AccountConnector resource - Identifier. The resource name of the accountConnector, in the format projects/{project}/locations/{location}/accountConnectors/{account_connector_id}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument account_connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument account_connector on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the accountConnector or fully qualified identifier for the accountConnector. To set the account_connector attribute: ▸ provide the argument account_connector on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccountConnector { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Annotations or (UpdateAnnotations, ClearAnnotations, or RemoveAnnotations) may be specified.", [nameof(Annotations), nameof(UpdateAnnotations), nameof(ClearAnnotations), nameof(RemoveAnnotations)]);
+        }
+        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) || ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && (((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && ((ClearAnnotations == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveAnnotations) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAnnotations or RemoveAnnotations may be specified.", [nameof(ClearAnnotations), nameof(RemoveAnnotations)]);
+        }
+        if (((ClearCustomOauthConfig == true || !string.IsNullOrWhiteSpace(CustomOauthConfigClientId) || !string.IsNullOrWhiteSpace(CustomOauthConfigClientSecret) || !string.IsNullOrWhiteSpace(CustomOauthConfigHostUri) || !string.IsNullOrWhiteSpace(CustomOauthConfigScmProvider) || ((object?)CustomOauthConfigScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomOauthConfigScopes is not string || !string.IsNullOrWhiteSpace(CustomOauthConfigScopes?.ToString()) : ((object?)CustomOauthConfigScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomOauthConfigScopes, static item => item is not null) : (CustomOauthConfigScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomOauthConfigScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(CustomOauthConfigSslCaCertificate) || CustomOauthConfigPkceDisabled == true || NoCustomOauthConfigPkceDisabled == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CustomOauthConfigServiceDirectory) || !string.IsNullOrWhiteSpace(Namespace) || ClearProviderOauthConfig == true || ((object?)ProviderOauthConfigScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProviderOauthConfigScopes is not string || !string.IsNullOrWhiteSpace(ProviderOauthConfigScopes?.ToString()) : ((object?)ProviderOauthConfigScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProviderOauthConfigScopes, static item => item is not null) : (ProviderOauthConfigScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProviderOauthConfigScopes), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (ClearCustomOauthConfig, CustomOauthConfigClientId, CustomOauthConfigClientSecret, CustomOauthConfigHostUri, CustomOauthConfigScmProvider, CustomOauthConfigScopes, CustomOauthConfigSslCaCertificate, CustomOauthConfigPkceDisabled, or NoCustomOauthConfigPkceDisabled) or (CustomOauthConfigServiceDirectory, Namespace, ClearProviderOauthConfig, or ProviderOauthConfigScopes) may be specified.", [nameof(ClearCustomOauthConfig), nameof(CustomOauthConfigClientId), nameof(CustomOauthConfigClientSecret), nameof(CustomOauthConfigHostUri), nameof(CustomOauthConfigScmProvider), nameof(CustomOauthConfigScopes), nameof(CustomOauthConfigSslCaCertificate), nameof(CustomOauthConfigPkceDisabled), nameof(NoCustomOauthConfigPkceDisabled), nameof(CustomOauthConfigServiceDirectory), nameof(Namespace), nameof(ClearProviderOauthConfig), nameof(ProviderOauthConfigScopes)]);
+        }
+        if ((ClearCustomOauthConfig == true || !string.IsNullOrWhiteSpace(CustomOauthConfigClientId) || !string.IsNullOrWhiteSpace(CustomOauthConfigClientSecret) || !string.IsNullOrWhiteSpace(CustomOauthConfigHostUri) || !string.IsNullOrWhiteSpace(CustomOauthConfigScmProvider) || ((object?)CustomOauthConfigScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomOauthConfigScopes is not string || !string.IsNullOrWhiteSpace(CustomOauthConfigScopes?.ToString()) : ((object?)CustomOauthConfigScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomOauthConfigScopes, static item => item is not null) : (CustomOauthConfigScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomOauthConfigScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(CustomOauthConfigSslCaCertificate) || CustomOauthConfigPkceDisabled == true || NoCustomOauthConfigPkceDisabled == true || !string.IsNullOrWhiteSpace(CustomOauthConfigServiceDirectory) || !string.IsNullOrWhiteSpace(Namespace) || ClearProviderOauthConfig == true || ((object?)ProviderOauthConfigScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProviderOauthConfigScopes is not string || !string.IsNullOrWhiteSpace(ProviderOauthConfigScopes?.ToString()) : ((object?)ProviderOauthConfigScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProviderOauthConfigScopes, static item => item is not null) : (ProviderOauthConfigScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProviderOauthConfigScopes), static item => item is not null))))) && (ClearCustomOauthConfig == true || !string.IsNullOrWhiteSpace(CustomOauthConfigClientId) || !string.IsNullOrWhiteSpace(CustomOauthConfigClientSecret) || !string.IsNullOrWhiteSpace(CustomOauthConfigHostUri) || !string.IsNullOrWhiteSpace(CustomOauthConfigScmProvider) || ((object?)CustomOauthConfigScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomOauthConfigScopes is not string || !string.IsNullOrWhiteSpace(CustomOauthConfigScopes?.ToString()) : ((object?)CustomOauthConfigScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomOauthConfigScopes, static item => item is not null) : (CustomOauthConfigScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomOauthConfigScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(CustomOauthConfigSslCaCertificate) || CustomOauthConfigPkceDisabled == true || NoCustomOauthConfigPkceDisabled == true) && ((CustomOauthConfigPkceDisabled == true ? 1 : 0) + (NoCustomOauthConfigPkceDisabled == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of CustomOauthConfigPkceDisabled or NoCustomOauthConfigPkceDisabled may be specified.", [nameof(CustomOauthConfigPkceDisabled), nameof(NoCustomOauthConfigPkceDisabled)]);
+        }
+        if ((ClearCustomOauthConfig == true || !string.IsNullOrWhiteSpace(CustomOauthConfigClientId) || !string.IsNullOrWhiteSpace(CustomOauthConfigClientSecret) || !string.IsNullOrWhiteSpace(CustomOauthConfigHostUri) || !string.IsNullOrWhiteSpace(CustomOauthConfigScmProvider) || ((object?)CustomOauthConfigScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomOauthConfigScopes is not string || !string.IsNullOrWhiteSpace(CustomOauthConfigScopes?.ToString()) : ((object?)CustomOauthConfigScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomOauthConfigScopes, static item => item is not null) : (CustomOauthConfigScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomOauthConfigScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(CustomOauthConfigSslCaCertificate) || CustomOauthConfigPkceDisabled == true || NoCustomOauthConfigPkceDisabled == true || !string.IsNullOrWhiteSpace(CustomOauthConfigServiceDirectory) || !string.IsNullOrWhiteSpace(Namespace) || ClearProviderOauthConfig == true || ((object?)ProviderOauthConfigScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProviderOauthConfigScopes is not string || !string.IsNullOrWhiteSpace(ProviderOauthConfigScopes?.ToString()) : ((object?)ProviderOauthConfigScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProviderOauthConfigScopes, static item => item is not null) : (ProviderOauthConfigScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProviderOauthConfigScopes), static item => item is not null))))) && (!string.IsNullOrWhiteSpace(CustomOauthConfigServiceDirectory) || !string.IsNullOrWhiteSpace(Namespace) || ClearProviderOauthConfig == true || ((object?)ProviderOauthConfigScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProviderOauthConfigScopes is not string || !string.IsNullOrWhiteSpace(ProviderOauthConfigScopes?.ToString()) : ((object?)ProviderOauthConfigScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProviderOauthConfigScopes, static item => item is not null) : (ProviderOauthConfigScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProviderOauthConfigScopes), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(CustomOauthConfigServiceDirectory))))
+        {
+            yield return new ValidationResult("CustomOauthConfigServiceDirectory must be specified when other arguments in this group are specified.", [nameof(CustomOauthConfigServiceDirectory)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Labels or (UpdateLabels, ClearLabels, or RemoveLabels) may be specified.", [nameof(Labels), nameof(UpdateLabels), nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveLabels) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        yield break;
+    }
 
 }

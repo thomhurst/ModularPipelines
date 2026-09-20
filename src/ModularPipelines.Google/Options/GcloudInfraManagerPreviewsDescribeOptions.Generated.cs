@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("infra-manager", "previews", "describe")]
 public record GcloudInfraManagerPreviewsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe previews
+    /// </summary>
+    /// <param name="Preview">Preview resource - The preview to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument preview on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the preview or fully qualified identifier for the preview. To set the preview attribute: ▸ provide the argument preview on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudInfraManagerPreviewsDescribeOptions(
+        string Preview
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Preview);
+        this.Preview = Preview;
+    }
+
+    public void Deconstruct(out string Preview)
+    {
+        Preview = this.Preview;
+    }
+
+    /// <summary>
+    /// Preview resource - The preview to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument preview on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. locations TBD To set the location attribute: ▸ provide the argument preview on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property infra-manager/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Preview resource - The preview to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument preview on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the preview or fully qualified identifier for the preview. To set the preview attribute: ▸ provide the argument preview on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Preview { get; private init; }
+
 }

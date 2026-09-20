@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "remove-layer7-ddos-defense-threshold-config")]
-public record GcloudPreviewComputeSecurityPoliciesRemoveLayer7DdosDefenseThresholdConfigOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeSecurityPoliciesRemoveLayer7DdosDefenseThresholdConfigOptions : GcloudOptions
 {
+    /// <summary>
+    /// policies     remove-layer7-ddos-defense-threshold-config - remove a layer7 ddos     defense threshold config from a Compute Engine security policy
+    /// </summary>
+    /// <param name="ThresholdConfigName">The name for the threshold config.</param>
+    /// <param name="Name">Name of the security policy to update.</param>
+    public GcloudPreviewComputeSecurityPoliciesRemoveLayer7DdosDefenseThresholdConfigOptions(
+        string ThresholdConfigName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThresholdConfigName);
+        this.ThresholdConfigName = ThresholdConfigName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string ThresholdConfigName, out string Name)
+    {
+        ThresholdConfigName = this.ThresholdConfigName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name for the threshold config.
+    /// </summary>
+    [CliOption("--threshold-config-name", Format = OptionFormat.EqualsSeparated)]
+    public string ThresholdConfigName { get; private init; }
+
+    /// <summary>
+    /// Name of the security policy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

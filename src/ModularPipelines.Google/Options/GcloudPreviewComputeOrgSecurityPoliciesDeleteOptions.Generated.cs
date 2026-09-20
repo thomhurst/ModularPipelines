@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "delete")]
-public record GcloudPreviewComputeOrgSecurityPoliciesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecurityPolicy
-) : GcloudOptions
+public record GcloudPreviewComputeOrgSecurityPoliciesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Compute     Engine organization security policy
+    /// </summary>
+    /// <param name="SecurityPolicy">Short name or ID of the security policy to delete.</param>
+    public GcloudPreviewComputeOrgSecurityPoliciesDeleteOptions(
+        string SecurityPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicy);
+        this.SecurityPolicy = SecurityPolicy;
+    }
+
+    public void Deconstruct(out string SecurityPolicy)
+    {
+        SecurityPolicy = this.SecurityPolicy;
+    }
+
     /// <summary>
     /// Organization in which the organization security policy is to be deleted. Must be set if SECURITY_POLICY is short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the security policy to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityPolicy { get; private init; }
 
 }

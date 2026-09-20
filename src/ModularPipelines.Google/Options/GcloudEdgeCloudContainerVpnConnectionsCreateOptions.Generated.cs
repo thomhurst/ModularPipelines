@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,91 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "container", "vpn-connections", "create")]
 public record GcloudEdgeCloudContainerVpnConnectionsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a VPN     connection between an Edge Container cluster and a VPC network
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - The name of the cluster to be connected under current project. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --cluster on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property edge_container/location. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument --cluster on the command line.</param>
+    /// <param name="VpcNetwork">The name of the VPC network to be connected. By default it is assumed to be under the same project as cluster. If this VPC network is under a different project, vpc-project is required.</param>
+    /// <param name="VpnConnection">Vpn connection resource - VPN connection to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpn_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument vpn_connection on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property edge_container/location. This must be specified. ID of the vpn connection or fully qualified identifier for the vpn connection. To set the vpn_connection attribute: ▸ provide the argument vpn_connection on the command line.</param>
+    public GcloudEdgeCloudContainerVpnConnectionsCreateOptions(
+        string Cluster,
+        string VpcNetwork,
+        string VpnConnection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        global::System.ArgumentNullException.ThrowIfNull(VpcNetwork);
+        this.VpcNetwork = VpcNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(VpnConnection);
+        this.VpnConnection = VpnConnection;
+    }
+
+    public void Deconstruct(out string Cluster, out string VpcNetwork, out string VpnConnection)
+    {
+        Cluster = this.Cluster;
+        VpcNetwork = this.VpcNetwork;
+        VpnConnection = this.VpnConnection;
+    }
+
+    /// <summary>
+    /// Cluster resource - The name of the cluster to be connected under current project. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --cluster on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property edge_container/location. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string Cluster { get; private init; }
+
+    /// <summary>
+    /// The name of the VPC network to be connected. By default it is assumed to be under the same project as cluster. If this VPC network is under a different project, vpc-project is required.
+    /// </summary>
+    [CliOption("--vpc-network", Format = OptionFormat.EqualsSeparated)]
+    public string VpcNetwork { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Enables high availability on cluster side. This creates an additional VPN endpoint in cluster. Multiple Nodes/NodePools are required to enable this feature.
+    /// </summary>
+    [CliFlag("--high-availability")]
+    public bool? HighAvailability { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// For resources [cluster, vpn_connection], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The NAT gateway IP for the gateway floating IPs. Required if cluster sits behind NAT.
+    /// </summary>
+    [CliOption("--nat-gateway-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? NatGatewayIp { get; set; }
+
+    /// <summary>
+    /// Name of the Cloud Router to use when creating the VPN connection. This Cloud Router must be in the same region as the cluster and connected to the provided VPC network. If not provided, a service-managed Cloud Router will either be created or reused to create the VPN connection.
+    /// </summary>
+    [CliOption("--router", Format = OptionFormat.EqualsSeparated)]
+    public string? Router { get; set; }
+
+    /// <summary>
+    /// The project of the VPC network. Required if the project of VPC network differs from the project of the cluster.
+    /// </summary>
+    [CliOption("--vpc-project", Format = OptionFormat.EqualsSeparated)]
+    public string? VpcProject { get; set; }
+
+    /// <summary>
+    /// Vpn connection resource - VPN connection to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpn_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument vpn_connection on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property edge_container/location. This must be specified. ID of the vpn connection or fully qualified identifier for the vpn connection. To set the vpn_connection attribute: ▸ provide the argument vpn_connection on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string VpnConnection { get; private init; }
+
 }

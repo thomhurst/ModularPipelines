@@ -21,4 +21,98 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "os-config", "policy-orchestrators", "create")]
 public record GcloudComputeOsConfigPolicyOrchestratorsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a policy     orchestrator
+    /// </summary>
+    /// <param name="PolicyType">Policy type to use. POLICY_TYPE must be (only one value is supported): os_policy_assignment_v1 OS policy assignment v1.</param>
+    /// <param name="PolicyOrchestrator">Policy orchestrator resource - Policy orchestrator to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. ID of the policy_orchestrator or fully qualified identifier for the policy_orchestrator. To set the policy_orchestrator attribute: ▸ provide the argument policy_orchestrator on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeOsConfigPolicyOrchestratorsCreateOptions(
+        string PolicyType,
+        string PolicyOrchestrator
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
+        this.PolicyType = PolicyType;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyOrchestrator);
+        this.PolicyOrchestrator = PolicyOrchestrator;
+    }
+
+    public void Deconstruct(out string PolicyType, out string PolicyOrchestrator)
+    {
+        PolicyType = this.PolicyType;
+        PolicyOrchestrator = this.PolicyOrchestrator;
+    }
+
+    /// <summary>
+    /// Policy type to use. POLICY_TYPE must be (only one value is supported): os_policy_assignment_v1 OS policy assignment v1.
+    /// </summary>
+    [CliOption("--policy-type", Format = OptionFormat.EqualsSeparated)]
+    public string PolicyType { get; private init; }
+
+    /// <summary>
+    /// Policy orchestrator resource - Policy orchestrator to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. Folder of the policy_orchestrator. To set the folder attribute: ▸ provide the argument policy_orchestrator on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [policy_orchestrator_folder].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Policy orchestrator resource - Policy orchestrator to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. Organization of the policy_orchestrator. To set the organization attribute: ▸ provide the argument policy_orchestrator on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [policy_orchestrator_organization].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Action to be taken on policy. ACTION must be one of: delete Delete a policy with a given name. policy-id must be specified. upsert Create or update a policy. policy-file must be specified.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public string? Action { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Applies policy to selected folders. Comma-separated list of folder numbers. Can beused together with --include-projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--include-folders", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IncludeFolders { get; set; }
+
+    /// <summary>
+    /// Applies policy to selected locations, e.g. us-central1-a.
+    /// </summary>
+    [CliOption("--include-locations", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeLocations { get; set; }
+
+    /// <summary>
+    /// Applies policy to selected projects. Comma-separated list of project numbers. Can be used together with --include-folders. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--include-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IncludeProjects { get; set; }
+
+    /// <summary>
+    /// Absolute path to the OS policy assignment file on your local client. File must be in either JSON or YAML format. This file defines the OS policies that you want to apply to your VMs, the target VMs that you want to apply the policies to, and the rollout rate at which to apply the OS policies on a zonal level. For more information about this resource and sample OS policy assignment files, see https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies#os-policy-assignment.
+    /// </summary>
+    [CliOption("--policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PolicyFile { get; set; }
+
+    /// <summary>
+    /// Policy id. Must be specified for DELETE action.
+    /// </summary>
+    [CliOption("--policy-id", Format = OptionFormat.EqualsSeparated)]
+    public string? PolicyId { get; set; }
+
+    /// <summary>
+    /// State of the policy orchestrator. STATE must be one of: active Creates a policy orchestrator in ACTIVE state. stopped Creates a policy orchestrator in STOPPED state.
+    /// </summary>
+    [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// Policy orchestrator resource - Policy orchestrator to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. ID of the policy_orchestrator or fully qualified identifier for the policy_orchestrator. To set the policy_orchestrator attribute: ▸ provide the argument policy_orchestrator on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyOrchestrator { get; private init; }
+
 }

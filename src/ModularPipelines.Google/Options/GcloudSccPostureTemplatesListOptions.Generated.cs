@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,42 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "posture-templates", "list")]
-public record GcloudSccPostureTemplatesListOptions : GcloudOptions
+public record GcloudSccPostureTemplatesListOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Specify organization and location using flags. When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Specify organization and location using flags. The organization ID (e.g., 123) that contains the resource. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Parent of Cloud Security Command Center posture templates. Formatted as organizations/&lt;organizationID&gt;/locations/&lt;location&gt;.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Parent { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Parent) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Organization)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Parent or (Location or Organization) must be specified.", [nameof(Parent), nameof(Location), nameof(Organization)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Parent) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Organization)) && (!string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Organization)) && (!string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Organization)) && (!(!string.IsNullOrWhiteSpace(Location))))
+        {
+            yield return new ValidationResult("Location must be specified when other arguments in this group are specified.", [nameof(Location)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Parent) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Organization)) && (!string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Organization)) && (!string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Organization)) && (!(!string.IsNullOrWhiteSpace(Organization))))
+        {
+            yield return new ValidationResult("Organization must be specified when other arguments in this group are specified.", [nameof(Organization)]);
+        }
+        yield break;
+    }
+
 }

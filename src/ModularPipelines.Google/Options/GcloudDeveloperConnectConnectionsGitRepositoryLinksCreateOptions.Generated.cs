@@ -21,4 +21,86 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("developer-connect", "connections", "git-repository-links", "create")]
 public record GcloudDeveloperConnectConnectionsGitRepositoryLinksCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a     git repository link
+    /// </summary>
+    /// <param name="CloneUri">Git Clone URI.</param>
+    /// <param name="GitRepositoryLink">GitRepositoryLink resource - Identifier. Resource name of the repository, in the format projects/*/locations/*/connections/*/gitRepositoryLinks/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument git_repository_link on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gitRepositoryLink or fully qualified identifier for the gitRepositoryLink. To set the git_repository_link attribute: ▸ provide the argument git_repository_link on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeveloperConnectConnectionsGitRepositoryLinksCreateOptions(
+        string CloneUri,
+        string GitRepositoryLink
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloneUri);
+        this.CloneUri = CloneUri;
+        global::System.ArgumentNullException.ThrowIfNull(GitRepositoryLink);
+        this.GitRepositoryLink = GitRepositoryLink;
+    }
+
+    public void Deconstruct(out string CloneUri, out string GitRepositoryLink)
+    {
+        CloneUri = this.CloneUri;
+        GitRepositoryLink = this.GitRepositoryLink;
+    }
+
+    /// <summary>
+    /// Git Clone URI.
+    /// </summary>
+    [CliOption("--clone-uri", Format = OptionFormat.EqualsSeparated)]
+    public string CloneUri { get; private init; }
+
+    /// <summary>
+    /// GitRepositoryLink resource - Identifier. Resource name of the repository, in the format projects/*/locations/*/connections/*/gitRepositoryLinks/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument git_repository_link on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The connection id of the gitRepositoryLink resource. To set the connection attribute: ▸ provide the argument git_repository_link on the command line with a fully specified name; ▸ provide the argument --connection on the command line.
+    /// </summary>
+    [CliOption("--connection", Format = OptionFormat.EqualsSeparated)]
+    public string? Connection { get; set; }
+
+    /// <summary>
+    /// GitRepositoryLink resource - Identifier. Resource name of the repository, in the format projects/*/locations/*/connections/*/gitRepositoryLinks/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument git_repository_link on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the gitRepositoryLink resource. To set the location attribute: ▸ provide the argument git_repository_link on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Allows clients to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// If set, validate the request, but do not actually post it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// GitRepositoryLink resource - Identifier. Resource name of the repository, in the format projects/*/locations/*/connections/*/gitRepositoryLinks/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument git_repository_link on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gitRepositoryLink or fully qualified identifier for the gitRepositoryLink. To set the git_repository_link attribute: ▸ provide the argument git_repository_link on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GitRepositoryLink { get; private init; }
+
 }

@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "wire-groups", "delete")]
-public record GcloudComputeInterconnectsWireGroupsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Name
-) : GcloudOptions
+public record GcloudComputeInterconnectsWireGroupsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete Compute Engine     wire groups
+    /// </summary>
+    /// <param name="CrossSiteNetwork">Name of the crossSiteNetwork to operate on.</param>
+    /// <param name="Name">Names of the wire groups to delete.</param>
+    public GcloudComputeInterconnectsWireGroupsDeleteOptions(
+        string CrossSiteNetwork,
+        IEnumerable<string> Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CrossSiteNetwork);
+        this.CrossSiteNetwork = CrossSiteNetwork;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Name);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Name));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Name));
+            }
+
+            Name = materialized;
+        }
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string CrossSiteNetwork, out IEnumerable<string> Name)
+    {
+        CrossSiteNetwork = this.CrossSiteNetwork;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the crossSiteNetwork to operate on.
+    /// </summary>
+    [CliOption("--cross-site-network", Format = OptionFormat.EqualsSeparated)]
+    public string CrossSiteNetwork { get; private init; }
+
+    /// <summary>
+    /// Names of the wire groups to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Name { get; private init; }
+
 }

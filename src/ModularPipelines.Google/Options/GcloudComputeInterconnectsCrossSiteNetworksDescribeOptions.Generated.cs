@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "cross-site-networks", "describe")]
-public record GcloudComputeInterconnectsCrossSiteNetworksDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInterconnectsCrossSiteNetworksDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     Compute Engine cross site network
+    /// </summary>
+    /// <param name="Name">Name of the crossSiteNetwork to describe.</param>
+    public GcloudComputeInterconnectsCrossSiteNetworksDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the crossSiteNetwork to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

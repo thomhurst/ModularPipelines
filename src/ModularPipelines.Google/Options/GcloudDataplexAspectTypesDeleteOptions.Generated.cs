@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexAspectTypesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Dataplex Aspect Type
+    /// </summary>
+    /// <param name="AspectType">Aspect type resource - Arguments and flags that define the Dataplex Aspect Type you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument aspect_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aspect type or fully qualified identifier for the aspect type. To set the aspect_type attribute: ▸ provide the argument aspect_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexAspectTypesDeleteOptions(
+        string AspectType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AspectType);
+        this.AspectType = AspectType;
+    }
+
+    public void Deconstruct(out string AspectType)
+    {
+        AspectType = this.AspectType;
+    }
+
+    /// <summary>
+    /// Aspect type resource - Arguments and flags that define the Dataplex Aspect Type you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument aspect_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument aspect_type on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudDataplexAspectTypesDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// Aspect type resource - Arguments and flags that define the Dataplex Aspect Type you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument aspect_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aspect type or fully qualified identifier for the aspect type. To set the aspect_type attribute: ▸ provide the argument aspect_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AspectType { get; private init; }
 
 }

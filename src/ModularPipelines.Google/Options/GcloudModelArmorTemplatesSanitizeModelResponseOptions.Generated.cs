@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("model-armor", "templates", "sanitize-model-response")]
-public record GcloudModelArmorTemplatesSanitizeModelResponseOptions : GcloudOptions
+public record GcloudModelArmorTemplatesSanitizeModelResponseOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// sanitize Model     Response
+    /// </summary>
+    /// <param name="Template">Template resource - Represents resource name of template e.g. name=projects/sample-project/locations/us-central1/templates/templ01 The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudModelArmorTemplatesSanitizeModelResponseOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// Template resource - Represents resource name of template e.g. name=projects/sample-project/locations/us-central1/templates/templ01 The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the template resource. To set the location attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// User Prompt associated with Model response.
     /// </summary>
@@ -44,5 +68,29 @@ public record GcloudModelArmorTemplatesSanitizeModelResponseOptions : GcloudOpti
     /// </summary>
     [CliOption("--model-response-data-byte-item-type", Format = OptionFormat.EqualsSeparated)]
     public string? ModelResponseDataByteItemType { get; set; }
+
+    /// <summary>
+    /// Template resource - Represents resource name of template e.g. name=projects/sample-project/locations/us-central1/templates/templ01 The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ModelResponseDataText) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ModelResponseDataByteItemFromFile) || !string.IsNullOrWhiteSpace(ModelResponseDataByteItemType)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ModelResponseDataText or (ModelResponseDataByteItemFromFile or ModelResponseDataByteItemType) may be specified.", [nameof(ModelResponseDataText), nameof(ModelResponseDataByteItemFromFile), nameof(ModelResponseDataByteItemType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ModelResponseDataText) || !string.IsNullOrWhiteSpace(ModelResponseDataByteItemFromFile) || !string.IsNullOrWhiteSpace(ModelResponseDataByteItemType)) && (!string.IsNullOrWhiteSpace(ModelResponseDataByteItemFromFile) || !string.IsNullOrWhiteSpace(ModelResponseDataByteItemType)) && (!string.IsNullOrWhiteSpace(ModelResponseDataByteItemFromFile) || !string.IsNullOrWhiteSpace(ModelResponseDataByteItemType)) && (!(!string.IsNullOrWhiteSpace(ModelResponseDataByteItemFromFile))))
+        {
+            yield return new ValidationResult("ModelResponseDataByteItemFromFile must be specified when other arguments in this group are specified.", [nameof(ModelResponseDataByteItemFromFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ModelResponseDataText) || !string.IsNullOrWhiteSpace(ModelResponseDataByteItemFromFile) || !string.IsNullOrWhiteSpace(ModelResponseDataByteItemType)) && (!string.IsNullOrWhiteSpace(ModelResponseDataByteItemFromFile) || !string.IsNullOrWhiteSpace(ModelResponseDataByteItemType)) && (!string.IsNullOrWhiteSpace(ModelResponseDataByteItemFromFile) || !string.IsNullOrWhiteSpace(ModelResponseDataByteItemType)) && (!(!string.IsNullOrWhiteSpace(ModelResponseDataByteItemType))))
+        {
+            yield return new ValidationResult("ModelResponseDataByteItemType must be specified when other arguments in this group are specified.", [nameof(ModelResponseDataByteItemType)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,74 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("composer", "environments", "snapshots", "load")]
 public record GcloudComposerEnvironmentsSnapshotsLoadOptions : GcloudOptions
 {
+    /// <summary>
+    /// load a snapshot into the     environment
+    /// </summary>
+    /// <param name="SnapshotPath">The Cloud Storage path to load the snapshot from. It must start with prefix gs:// and one needs to specify a single snapshot that should be loaded.</param>
+    /// <param name="Environment">Environment resource - The environment where to load a snapshot. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComposerEnvironmentsSnapshotsLoadOptions(
+        string SnapshotPath,
+        string Environment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotPath);
+        this.SnapshotPath = SnapshotPath;
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+    }
+
+    public void Deconstruct(out string SnapshotPath, out string Environment)
+    {
+        SnapshotPath = this.SnapshotPath;
+        Environment = this.Environment;
+    }
+
+    /// <summary>
+    /// The Cloud Storage path to load the snapshot from. It must start with prefix gs:// and one needs to specify a single snapshot that should be loaded.
+    /// </summary>
+    [CliOption("--snapshot-path", Format = OptionFormat.EqualsSeparated)]
+    public string SnapshotPath { get; private init; }
+
+    /// <summary>
+    /// Environment resource - The environment where to load a snapshot. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region where Composer environment runs or in which to create the environment. To set the location attribute: ▸ provide the argument environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property composer/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// When specified, skips setting Airflow overrides from the snapshot.
+    /// </summary>
+    [CliFlag("--skip-airflow-overrides-setting")]
+    public bool? SkipAirflowOverridesSetting { get; set; }
+
+    /// <summary>
+    /// When specified, skips setting environment variables from the snapshot.
+    /// </summary>
+    [CliFlag("--skip-environment-variables-setting")]
+    public bool? SkipEnvironmentVariablesSetting { get; set; }
+
+    /// <summary>
+    /// When specified, skips copying dags, plugins and data folders from the snapshot.
+    /// </summary>
+    [CliFlag("--skip-gcs-data-copying")]
+    public bool? SkipGcsDataCopying { get; set; }
+
+    /// <summary>
+    /// When specified, skips the installation of custom PyPI packages from the snapshot.
+    /// </summary>
+    [CliFlag("--skip-pypi-packages-installation")]
+    public bool? SkipPypiPackagesInstallation { get; set; }
+
+    /// <summary>
+    /// Environment resource - The environment where to load a snapshot. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Environment { get; private init; }
+
 }

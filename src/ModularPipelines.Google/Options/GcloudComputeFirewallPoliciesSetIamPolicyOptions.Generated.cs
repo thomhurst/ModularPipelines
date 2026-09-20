@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-policies", "set-iam-policy")]
-public record GcloudComputeFirewallPoliciesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
-) : GcloudOptions
+public record GcloudComputeFirewallPoliciesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for a     Compute Engine organization firewall policy
+    /// </summary>
+    /// <param name="FirewallPolicy">Short name or ID of the firewall policy to set IAM policy.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudComputeFirewallPoliciesSetIamPolicyOptions(
+        string FirewallPolicy,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string FirewallPolicy, out string PolicyFile)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+        PolicyFile = this.PolicyFile;
+    }
+
     /// <summary>
     /// Organization ID in which the organization firewall policy is to be set. Must be set if FIREWALL_POLICY is short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the firewall policy to set IAM policy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
 
 }

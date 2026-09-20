@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,8 +22,14 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "worker-pools", "deploy")]
-public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
+public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// WorkerPool resource - WorkerPool to deploy to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ specify the workerpool name from an interactive prompt with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The Cloud region for the WorkerPool. Overrides the default run/region property value for this command invocation. To set the region attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ specify the workerpool name from an interactive prompt with a fully specified name; ◆ provide the argument --region on the command line; ◆ set the property run/region; ◆ specify the region from an interactive prompt.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -78,9 +85,9 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public bool? NoPromote { get; set; }
 
     /// <summary>
-    /// List of containers to remove.
+    /// List of containers to remove. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-containers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-containers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveContainers { get; set; }
 
     /// <summary>
@@ -102,10 +109,32 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public string? VpcEgress { get; set; }
 
     /// <summary>
-    /// These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Append the given values to the current Cloud SQL instances.
+    /// These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Append the given values to the current Cloud SQL instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddCloudsqlInstances { get; set; }
+    [CliOption("--add-cloudsql-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddCloudsqlInstances
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddCloudsqlInstancesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddCloudsqlInstancesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Empty the current Cloud SQL instances.
@@ -114,16 +143,60 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public bool? ClearCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Remove the given values from the current Cloud SQL instances.
+    /// These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Remove the given values from the current Cloud SQL instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveCloudsqlInstances { get; set; }
+    [CliOption("--remove-cloudsql-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveCloudsqlInstances
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveCloudsqlInstancesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveCloudsqlInstancesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Completely replace the current Cloud SQL instances with the given values.
+    /// These flags modify the Cloud SQL instances this WorkerPool connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run worker pool; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Completely replace the current Cloud SQL instances with the given values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetCloudsqlInstances { get; set; }
+    [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetCloudsqlInstances
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SetCloudsqlInstancesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SetCloudsqlInstancesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a type key. Volumes must have a name key if mount-path is not specified. A name key is optional if mount-path is specified.Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: ◆ bucket: (required) the name of the bucket to use as the source of this volume ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: ◆ location: (required) The location of the NFS Server, in the form SERVER:/PATH ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
@@ -138,9 +211,9 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public bool? ClearVolumes { get; set; }
 
     /// <summary>
-    /// Removes volumes from the Cloud Run resource.
+    /// Removes volumes from the Cloud Run resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveVolume { get; set; }
 
     /// <summary>
@@ -150,9 +223,9 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public string? AddVolumeMount { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
+    /// Container Flags The following flags apply to the container. Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Args { get; set; }
 
     /// <summary>
@@ -162,21 +235,21 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public bool? ClearVolumeMounts { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string.
+    /// Container Flags The following flags apply to the container. Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--command", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Command { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. Set a CPU limit in Kubernetes cpu units. Cloud Run supports values fractional values below 1, 1, 2, 4, and 8. Some CPU values requires a minimum Memory --memory value.
+    /// Container Flags The following flags apply to the container. Set a CPU limit in Kubernetes cpu units. Cloud Run supports values 1, 2, 4, and 8. Some CPU values requires a minimum Memory --memory value.
     /// </summary>
     [CliOption("--cpu", Format = OptionFormat.EqualsSeparated)]
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. List of container dependencies to add to the current container.
+    /// Container Flags The following flags apply to the container. List of container dependencies to add to the current container. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DependsOn { get; set; }
 
     /// <summary>
@@ -192,9 +265,9 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public string? Memory { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. Removes the volume mounted at the specified path from the current container.
+    /// Container Flags The following flags apply to the container. Removes the volume mounted at the specified path from the current container. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveVolumeMount { get; set; }
 
     /// <summary>
@@ -216,22 +289,52 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public string? EnvVarsFile { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of key-value pairs to set as environment variables. All existing environment variables will be removed first.
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of key-value pairs to set as environment variables. All existing environment variables will be removed first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
+    [CliOption("--set-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? SetEnvVars
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveEnvVars { get; set; }
+    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveEnvVars
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveEnvVarsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveEnvVarsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
+    [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UpdateEnvVars
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: Remove all secrets.
@@ -240,25 +343,55 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public bool? ClearSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: List of key-value pairs to set as secrets. All existing secrets will be removed first.
+    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: List of key-value pairs to set as secrets. All existing secrets will be removed first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [SecretValue]
-    [CliOption("--set-secrets", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? SetSecrets { get; set; }
+    [CliOption("--set-secrets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? SetSecrets
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed.
+    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [SecretValue]
-    [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveSecrets { get; set; }
+    [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveSecrets
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveSecretsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveSecretsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of key-value pairs to set as secrets.
+    /// Container Flags The following flags apply to the container. Specify secrets to provide as environment variables. For example: '--set-secrets=ENV=mysecret:latest,OTHER_ENV=othersecret:1' will create an environment variable named ENV whose value is the latest version of secret 'mysecret' and an environment variable OTHER_ENV whose value is version of 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of key-value pairs to set as secrets. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [SecretValue]
-    [CliOption("--update-secrets", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? UpdateSecrets { get; set; }
+    [CliOption("--update-secrets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UpdateSecrets
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// Container Flags The following flags apply to the container. At most one of these can be specified: Name of the container image to deploy (e.g. us-docker.pkg.dev/cloudrun/container/hello:latest).
@@ -315,22 +448,52 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of label KEY=VALUE pairs to add. An alias to --update-labels.
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of label KEY=VALUE pairs to add. An alias to --update-labels. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UpdateLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// Container Flags The following flags apply to the container. At most one of these can be specified: Disconnect this Cloud Run worker from the VPC network it is connected to.
@@ -357,10 +520,32 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     public bool? ClearNetworkTags { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Run worker. To clear existing tags, use --clear-network-tags.
+    /// Container Flags The following flags apply to the container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Run worker. To clear existing tags, use --clear-network-tags. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? NetworkTags { get; set; }
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NetworkTags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NetworkTagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NetworkTagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Container Flags The following flags apply to the container. At most one of these can be specified: Remove any previously set post CMEK key revocation action type.
@@ -373,5 +558,69 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions
     /// </summary>
     [CliOption("--post-key-revocation-action-type", Format = OptionFormat.EqualsSeparated)]
     public string? PostKeyRevocationActionType { get; set; }
+
+    /// <summary>
+    /// WorkerPool resource - WorkerPool to deploy to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ specify the workerpool name from an interactive prompt with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the WorkerPool or fully qualified identifier for the WorkerPool. To set the worker-pool attribute: ◆ provide the argument WORKER_POOL on the command line; ◆ specify the workerpool name from an interactive prompt.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? WorkerPool { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddCloudsqlInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddCloudsqlInstances is not string || !string.IsNullOrWhiteSpace(AddCloudsqlInstances?.ToString()) : ((object?)AddCloudsqlInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddCloudsqlInstances, static item => item is not null) : (AddCloudsqlInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddCloudsqlInstances), static item => item is not null)))) ? 1 : 0) + (ClearCloudsqlInstances == true ? 1 : 0) + (((object?)RemoveCloudsqlInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveCloudsqlInstances is not string || !string.IsNullOrWhiteSpace(RemoveCloudsqlInstances?.ToString()) : ((object?)RemoveCloudsqlInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveCloudsqlInstances, static item => item is not null) : (RemoveCloudsqlInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveCloudsqlInstances), static item => item is not null)))) ? 1 : 0) + (((object?)SetCloudsqlInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetCloudsqlInstances is not string || !string.IsNullOrWhiteSpace(SetCloudsqlInstances?.ToString()) : ((object?)SetCloudsqlInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetCloudsqlInstances, static item => item is not null) : (SetCloudsqlInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetCloudsqlInstances), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddCloudsqlInstances, ClearCloudsqlInstances, RemoveCloudsqlInstances, or SetCloudsqlInstances may be specified.", [nameof(AddCloudsqlInstances), nameof(ClearCloudsqlInstances), nameof(RemoveCloudsqlInstances), nameof(SetCloudsqlInstances)]);
+        }
+        if ((ClearEnvVars == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(EnvVarsFile) ? 1 : 0) + (((object?)SetEnvVars is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetEnvVars is not string || !string.IsNullOrWhiteSpace(SetEnvVars?.ToString()) : ((object?)SetEnvVars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetEnvVars, static item => item is not null) : (SetEnvVars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetEnvVars), static item => item is not null)))) ? 1 : 0) + ((((object?)RemoveEnvVars is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEnvVars is not string || !string.IsNullOrWhiteSpace(RemoveEnvVars?.ToString()) : ((object?)RemoveEnvVars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEnvVars, static item => item is not null) : (RemoveEnvVars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEnvVars), static item => item is not null)))) || ((object?)UpdateEnvVars is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateEnvVars is not string || !string.IsNullOrWhiteSpace(UpdateEnvVars?.ToString()) : ((object?)UpdateEnvVars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateEnvVars, static item => item is not null) : (UpdateEnvVars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateEnvVars), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearEnvVars, EnvVarsFile, SetEnvVars, or (RemoveEnvVars or UpdateEnvVars) may be specified.", [nameof(ClearEnvVars), nameof(EnvVarsFile), nameof(SetEnvVars), nameof(RemoveEnvVars), nameof(UpdateEnvVars)]);
+        }
+        if ((ClearSecrets == true ? 1 : 0) + (((object?)SetSecrets is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetSecrets is not string || !string.IsNullOrWhiteSpace(SetSecrets?.ToString()) : ((object?)SetSecrets is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetSecrets, static item => item is not null) : (SetSecrets is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetSecrets), static item => item is not null)))) ? 1 : 0) + ((((object?)RemoveSecrets is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSecrets is not string || !string.IsNullOrWhiteSpace(RemoveSecrets?.ToString()) : ((object?)RemoveSecrets is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSecrets, static item => item is not null) : (RemoveSecrets is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSecrets), static item => item is not null)))) || ((object?)UpdateSecrets is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateSecrets is not string || !string.IsNullOrWhiteSpace(UpdateSecrets?.ToString()) : ((object?)UpdateSecrets is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateSecrets, static item => item is not null) : (UpdateSecrets is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateSecrets), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSecrets, SetSecrets, or (RemoveSecrets or UpdateSecrets) may be specified.", [nameof(ClearSecrets), nameof(SetSecrets), nameof(RemoveSecrets), nameof(UpdateSecrets)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Image) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Source) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Image or Source may be specified.", [nameof(Image), nameof(Source)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BinaryAuthorization) ? 1 : 0) + (ClearBinaryAuthorization == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BinaryAuthorization or ClearBinaryAuthorization may be specified.", [nameof(BinaryAuthorization), nameof(ClearBinaryAuthorization)]);
+        }
+        if ((ClearEncryptionKeyShutdownHours == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(EncryptionKeyShutdownHours) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearEncryptionKeyShutdownHours or EncryptionKeyShutdownHours may be specified.", [nameof(ClearEncryptionKeyShutdownHours), nameof(EncryptionKeyShutdownHours)]);
+        }
+        if ((ClearKey == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Key) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearKey or Key may be specified.", [nameof(ClearKey), nameof(Key)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) ? 1 : 0) + (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Labels or UpdateLabels may be specified.", [nameof(Labels), nameof(UpdateLabels)]);
+        }
+        if ((ClearNetwork == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Subnet) || ClearNetworkTags == true || ((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkTags is not string || !string.IsNullOrWhiteSpace(NetworkTags?.ToString()) : ((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkTags, static item => item is not null) : (NetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkTags), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearNetwork or (Network, Subnet, ClearNetworkTags, or NetworkTags) may be specified.", [nameof(ClearNetwork), nameof(Network), nameof(Subnet), nameof(ClearNetworkTags), nameof(NetworkTags)]);
+        }
+        if ((ClearNetwork == true || !string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Subnet) || ClearNetworkTags == true || ((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkTags is not string || !string.IsNullOrWhiteSpace(NetworkTags?.ToString()) : ((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkTags, static item => item is not null) : (NetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkTags), static item => item is not null))))) && (!string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Subnet) || ClearNetworkTags == true || ((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkTags is not string || !string.IsNullOrWhiteSpace(NetworkTags?.ToString()) : ((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkTags, static item => item is not null) : (NetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkTags), static item => item is not null))))) && (!string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Subnet) || ClearNetworkTags == true || ((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkTags is not string || !string.IsNullOrWhiteSpace(NetworkTags?.ToString()) : ((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkTags, static item => item is not null) : (NetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkTags), static item => item is not null))))) && ((ClearNetworkTags == true ? 1 : 0) + (((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkTags is not string || !string.IsNullOrWhiteSpace(NetworkTags?.ToString()) : ((object?)NetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkTags, static item => item is not null) : (NetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkTags), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearNetworkTags or NetworkTags may be specified.", [nameof(ClearNetworkTags), nameof(NetworkTags)]);
+        }
+        if ((ClearPostKeyRevocationActionType == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(PostKeyRevocationActionType) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPostKeyRevocationActionType or PostKeyRevocationActionType may be specified.", [nameof(ClearPostKeyRevocationActionType), nameof(PostKeyRevocationActionType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(WorkerPool) || !string.IsNullOrWhiteSpace(Region)) && (!(!string.IsNullOrWhiteSpace(Region))))
+        {
+            yield return new ValidationResult("Region must be specified when other arguments in this group are specified.", [nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

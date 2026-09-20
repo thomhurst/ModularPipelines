@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApihubApisVersionsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Version
+    /// </summary>
+    /// <param name="Version">Version resource - The name of the version to delete. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the version or fully qualified identifier for the version. To set the version attribute: ▸ provide the argument version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubApisVersionsDeleteOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// Version resource - The name of the version to delete. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The api id of the version resource. To set the api attribute: ▸ provide the argument version on the command line with a fully specified name; ▸ provide the argument --api on the command line.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
+    /// <summary>
+    /// Version resource - The name of the version to delete. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the version resource. To set the location attribute: ▸ provide the argument version on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// If set to true, any specs from this version will also be deleted. Otherwise, the request will only work if the version has no specs.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// Version resource - The name of the version to delete. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the version or fully qualified identifier for the version. To set the version attribute: ▸ provide the argument version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

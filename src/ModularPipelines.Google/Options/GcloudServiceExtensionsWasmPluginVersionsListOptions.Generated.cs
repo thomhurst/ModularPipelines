@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("service-extensions", "wasm-plugin-versions", "list")]
 public record GcloudServiceExtensionsWasmPluginVersionsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list all     WasmPluginVersion resources for a WasmPlugin
+    /// </summary>
+    /// <param name="WasmPlugin">WasmPlugin resource - The parent WasmPlugin. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --wasm-plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPlugin or fully qualified identifier for the WasmPlugin. To set the wasm-plugin attribute: ▸ provide the argument --wasm-plugin on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceExtensionsWasmPluginVersionsListOptions(
+        string WasmPlugin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WasmPlugin);
+        this.WasmPlugin = WasmPlugin;
+    }
+
+    public void Deconstruct(out string WasmPlugin)
+    {
+        WasmPlugin = this.WasmPlugin;
+    }
+
+    /// <summary>
+    /// WasmPlugin resource - The parent WasmPlugin. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --wasm-plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPlugin or fully qualified identifier for the WasmPlugin. To set the wasm-plugin attribute: ▸ provide the argument --wasm-plugin on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--wasm-plugin", Format = OptionFormat.EqualsSeparated)]
+    public string WasmPlugin { get; private init; }
+
+    /// <summary>
+    /// WasmPlugin resource - The parent WasmPlugin. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --wasm-plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location ID. To set the location attribute: ▸ provide the argument --wasm-plugin on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

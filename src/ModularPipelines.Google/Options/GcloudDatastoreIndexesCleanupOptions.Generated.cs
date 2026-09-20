@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastore", "indexes", "cleanup")]
-public record GcloudDatastoreIndexesCleanupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string IndexFile
-) : GcloudOptions
+public record GcloudDatastoreIndexesCleanupOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove unused datastore indexes based on     your local index configuration
+    /// </summary>
+    /// <param name="IndexFile">The path to your index.yaml file. For a detailed look into defining your index.yaml file, refer to this configuration guide: https://cloud.google.com/datastore/docs/tools/indexconfig#Datastore_About_index_yaml</param>
+    public GcloudDatastoreIndexesCleanupOptions(
+        string IndexFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexFile);
+        this.IndexFile = IndexFile;
+    }
+
+    public void Deconstruct(out string IndexFile)
+    {
+        IndexFile = this.IndexFile;
+    }
+
     /// <summary>
     /// The database to operate on. If not specified, the CLI refers the (default) database by default. For example, to operate on database testdb: $ gcloud datastore indexes cleanup --database='testdb'
     /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
+
+    /// <summary>
+    /// The path to your index.yaml file. For a detailed look into defining your index.yaml file, refer to this configuration guide: https://cloud.google.com/datastore/docs/tools/indexconfig#Datastore_About_index_yaml
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string IndexFile { get; private init; }
 
 }

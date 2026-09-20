@@ -23,9 +23,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceDirectoryNamespacesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Resource labels associated with the namespace.
+    /// updates a namespace
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Namespace">Namespace resource - The Service Directory namespace to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument namespace on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument namespace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceDirectoryNamespacesUpdateOptions(
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Namespace)
+    {
+        Namespace = this.Namespace;
+    }
+
+    /// <summary>
+    /// Namespace resource - The Service Directory namespace to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument namespace on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the region for the namespace. To set the location attribute: ▸ provide the argument namespace on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource labels associated with the namespace. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Namespace resource - The Service Directory namespace to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument namespace on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument namespace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Namespace { get; private init; }
 
 }

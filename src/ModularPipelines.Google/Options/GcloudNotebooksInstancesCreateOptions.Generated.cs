@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +22,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notebooks", "instances", "create")]
-public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
+public record GcloudNotebooksInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// request for creating an instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNotebooksInstancesCreateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location of this environment https://cloud.google.com/compute/docs/regions-zones/#locations. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property notebooks/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -36,9 +60,9 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public string? InstanceOwners { get; set; }
 
     /// <summary>
-    /// Labels to apply to this instance. These can be later modified by the setLabels method.
+    /// Labels to apply to this instance. These can be later modified by the setLabels method. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -48,9 +72,9 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Custom metadata to apply to this instance. For example, to specify a Cloud Storage bucket for automatic backup, you can use the gcs-data-bucket metadata tag. Format: "--metadata=gcs-data-bucket=BUCKET".
+    /// Custom metadata to apply to this instance. For example, to specify a Cloud Storage bucket for automatic backup, you can use the gcs-data-bucket metadata tag. Format: "--metadata=gcs-data-bucket=BUCKET". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
@@ -96,9 +120,9 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public bool? NoShieldedVtpm { get; set; }
 
     /// <summary>
-    /// Tags to apply to this instance.
+    /// Tags to apply to this instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -123,7 +147,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     /// Boot disk configurations. Type of boot disk attached to this instance, defaults to standard persistent disk (PD_STANDARD). BOOT_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
     /// </summary>
     [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBootDiskType? BootDiskType { get; set; }
+    public GcloudNotebooksInstancesCreateBootDiskType? BootDiskType { get; set; }
 
     /// <summary>
     /// Boot disk configurations. At most one of these can be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -189,7 +213,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     /// Data disk configurations. Type of data disk attached to this instance, defaults to standard persistent disk (PD_STANDARD). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
     /// </summary>
     [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDataDiskType? DataDiskType { get; set; }
+    public GcloudNotebooksInstancesCreateDataDiskType? DataDiskType { get; set; }
 
     /// <summary>
     /// Data disk configurations. If true, the data disk will not be auto deleted when deleting the instance.
@@ -201,7 +225,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     /// Disk encryption configurations. Disk encryption method used on the boot disk, defaults to GMEK. DISK_ENCRYPTION must be one of: GMEK, CMEK.
     /// </summary>
     [CliOption("--disk-encryption", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDiskEncryption? DiskEncryption { get; set; }
+    public GcloudNotebooksInstancesCreateDiskEncryption? DiskEncryption { get; set; }
 
     /// <summary>
     /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -246,27 +270,59 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public bool? NoPublicIp { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: ◆ provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specifies the reservation for the instance. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: ◆ provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --subnet-region on the command line.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specifies the reservation for the instance. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --subnet-region on the command line.
     /// </summary>
     [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetRegion { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=SPECIFIC_RESERVATION.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=SPECIFIC_RESERVATION.
     /// </summary>
     [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
     public string? Reservation { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.
     /// </summary>
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
-    public GcloudReservationAffinity? ReservationAffinity { get; set; }
+    public GcloudNotebooksInstancesCreateReservationAffinity? ReservationAffinity { get; set; }
+
+    /// <summary>
+    /// Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ContainerRepository) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerTag) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ContainerRepository or ContainerTag may be specified.", [nameof(ContainerRepository), nameof(ContainerTag)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Environment) || !string.IsNullOrWhiteSpace(EnvironmentLocation) || !string.IsNullOrWhiteSpace(VmImageProject) || !string.IsNullOrWhiteSpace(VmImageFamily) || !string.IsNullOrWhiteSpace(VmImageName)) && (!(!string.IsNullOrWhiteSpace(Environment))))
+        {
+            yield return new ValidationResult("Environment must be specified when other arguments in this group are specified.", [nameof(Environment)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Environment) || !string.IsNullOrWhiteSpace(EnvironmentLocation) || !string.IsNullOrWhiteSpace(VmImageProject) || !string.IsNullOrWhiteSpace(VmImageFamily) || !string.IsNullOrWhiteSpace(VmImageName)) && ((!string.IsNullOrWhiteSpace(VmImageFamily) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VmImageName) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of VmImageFamily or VmImageName may be specified.", [nameof(VmImageFamily), nameof(VmImageName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Subnet) || !string.IsNullOrWhiteSpace(SubnetRegion) || !string.IsNullOrWhiteSpace(Reservation) || (object?)ReservationAffinity is not null) && (!(!string.IsNullOrWhiteSpace(Subnet))))
+        {
+            yield return new ValidationResult("Subnet must be specified when other arguments in this group are specified.", [nameof(Subnet)]);
+        }
+        yield break;
+    }
 
 }

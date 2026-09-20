@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "storage-pools", "update-backup-config")]
 public record GcloudNetappStoragePoolsUpdateBackupConfigOptions : GcloudOptions
 {
+    /// <summary>
+    /// update backup config of     a volume in an ONTAP-mode Storage Pool
+    /// </summary>
+    /// <param name="BackupConfig">Backup Config contains backup related config on a volume in ONTAP-mode Storage Pool. Backup Config will have the following format: --backup-config=backup-policies=BACKUP_POLICIES,backup-vault=BACKUP_VAULT_NAME,enable-scheduled-backups=ENABLE_SCHEDULED_BACKUPS backup-policies is a pound-separated (#) list of backup policy names, backup-vault can include a single backup-vault resource name, and enable-scheduled-backups is a Boolean value indicating whether or not scheduled backups are enabled on the volume in the ONTAP-mode Storage Pool.</param>
+    /// <param name="VolumeUuid">The UUID of the volume to update backup config for.</param>
+    /// <param name="StoragePool">Storage pool resource - The Storage Pool. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the storage_pool or fully qualified identifier for the storage_pool. To set the storage_pool attribute: ▸ provide the argument storage_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappStoragePoolsUpdateBackupConfigOptions(
+        string BackupConfig,
+        string VolumeUuid,
+        string StoragePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupConfig);
+        this.BackupConfig = BackupConfig;
+        global::System.ArgumentNullException.ThrowIfNull(VolumeUuid);
+        this.VolumeUuid = VolumeUuid;
+        global::System.ArgumentNullException.ThrowIfNull(StoragePool);
+        this.StoragePool = StoragePool;
+    }
+
+    public void Deconstruct(out string BackupConfig, out string VolumeUuid, out string StoragePool)
+    {
+        BackupConfig = this.BackupConfig;
+        VolumeUuid = this.VolumeUuid;
+        StoragePool = this.StoragePool;
+    }
+
+    /// <summary>
+    /// Backup Config contains backup related config on a volume in ONTAP-mode Storage Pool. Backup Config will have the following format: --backup-config=backup-policies=BACKUP_POLICIES,backup-vault=BACKUP_VAULT_NAME,enable-scheduled-backups=ENABLE_SCHEDULED_BACKUPS backup-policies is a pound-separated (#) list of backup policy names, backup-vault can include a single backup-vault resource name, and enable-scheduled-backups is a Boolean value indicating whether or not scheduled backups are enabled on the volume in the ONTAP-mode Storage Pool.
+    /// </summary>
+    [CliOption("--backup-config", Format = OptionFormat.EqualsSeparated)]
+    public string BackupConfig { get; private init; }
+
+    /// <summary>
+    /// The UUID of the volume to update backup config for.
+    /// </summary>
+    [CliOption("--volume-uuid", Format = OptionFormat.EqualsSeparated)]
+    public string VolumeUuid { get; private init; }
+
+    /// <summary>
+    /// Storage pool resource - The Storage Pool. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the storage_pool. To set the location attribute: ▸ provide the argument storage_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Storage pool resource - The Storage Pool. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the storage_pool or fully qualified identifier for the storage_pool. To set the storage_pool attribute: ▸ provide the argument storage_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string StoragePool { get; private init; }
+
 }

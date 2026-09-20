@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "iac-validation-reports", "create")]
-public record GcloudSccIacValidationReportsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parent
-) : GcloudOptions
+public record GcloudSccIacValidationReportsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud Security Command     Center IaC Validation Report
+    /// </summary>
+    /// <param name="TfPlanFile">Path to a JSON file containing the IaC plan to be validated. Use a full or relative path to a local file containing the value of tf_plan_file.</param>
+    /// <param name="Parent">Name of the organization where IaC Validation Report is to be created. Format: organizations/&lt;organizationID&gt;/locations/&lt;location&gt;</param>
+    public GcloudSccIacValidationReportsCreateOptions(
+        string TfPlanFile,
+        string Parent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TfPlanFile);
+        this.TfPlanFile = TfPlanFile;
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+    }
+
+    public void Deconstruct(out string TfPlanFile, out string Parent)
+    {
+        TfPlanFile = this.TfPlanFile;
+        Parent = this.Parent;
+    }
+
+    /// <summary>
+    /// Path to a JSON file containing the IaC plan to be validated. Use a full or relative path to a local file containing the value of tf_plan_file.
+    /// </summary>
+    [CliOption("--tf-plan-file", Format = OptionFormat.EqualsSeparated)]
+    public string TfPlanFile { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Name of the organization where IaC Validation Report is to be created. Format: organizations/&lt;organizationID&gt;/locations/&lt;location&gt;
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Parent { get; private init; }
+
 }

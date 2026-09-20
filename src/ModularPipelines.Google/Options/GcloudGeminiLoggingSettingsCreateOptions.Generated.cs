@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudGeminiLoggingSettingsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create loggingSettings
+    /// </summary>
+    /// <param name="LoggingSetting">LoggingSetting resource - Identifier. Name of the resource. Format:projects/{project}/locations/{location}/loggingsettings/{loggingsetting} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logging_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the loggingSetting or fully qualified identifier for the loggingSetting. To set the logging_setting attribute: ▸ provide the argument logging_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiLoggingSettingsCreateOptions(
+        string LoggingSetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoggingSetting);
+        this.LoggingSetting = LoggingSetting;
+    }
+
+    public void Deconstruct(out string LoggingSetting)
+    {
+        LoggingSetting = this.LoggingSetting;
+    }
+
+    /// <summary>
+    /// LoggingSetting resource - Identifier. Name of the resource. Format:projects/{project}/locations/{location}/loggingsettings/{loggingsetting} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logging_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the loggingSetting resource. To set the location attribute: ▸ provide the argument logging_setting on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
@@ -44,5 +67,11 @@ public record GcloudGeminiLoggingSettingsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// LoggingSetting resource - Identifier. Name of the resource. Format:projects/{project}/locations/{location}/loggingsettings/{loggingsetting} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logging_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the loggingSetting or fully qualified identifier for the loggingSetting. To set the logging_setting attribute: ▸ provide the argument logging_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LoggingSetting { get; private init; }
 
 }

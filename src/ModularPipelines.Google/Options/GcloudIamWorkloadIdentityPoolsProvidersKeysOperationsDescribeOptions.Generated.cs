@@ -21,4 +21,51 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "workload-identity-pools", "providers", "keys", "operations", "describe")]
 public record GcloudIamWorkloadIdentityPoolsProvidersKeysOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a workload identity pool provider key operation
+    /// </summary>
+    /// <param name="Operation">Workload identity pool provider key operation resource - The workload identity pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool provider key operation or fully qualified identifier for the workload identity pool provider key operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkloadIdentityPoolsProvidersKeysOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Workload identity pool provider key operation resource - The workload identity pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID for the key, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the key attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --key on the command line.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider key operation resource - The workload identity pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider key operation resource - The workload identity pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID for the provider, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the provider attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --provider on the command line.
+    /// </summary>
+    [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
+    public string? Provider { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider key operation resource - The workload identity pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID to use for the pool, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the workload-identity-pool attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --workload-identity-pool on the command line.
+    /// </summary>
+    [CliOption("--workload-identity-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadIdentityPool { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider key operation resource - The workload identity pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool provider key operation or fully qualified identifier for the workload identity pool provider key operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

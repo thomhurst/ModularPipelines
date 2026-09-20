@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,86 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "networking", "subnets", "create")]
 public record GcloudEdgeCloudNetworkingSubnetsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Distributed Cloud     Edge Network subnet
+    /// </summary>
+    /// <param name="Network">The network that this subnetwork belongs to.</param>
+    /// <param name="Subnet">Subnet resource - Distributed Cloud Edge Network subnet to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subnet or fully qualified identifier for the subnet. To set the subnet attribute: ▸ provide the argument subnet on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudNetworkingSubnetsCreateOptions(
+        string Network,
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string Network, out string Subnet)
+    {
+        Network = this.Network;
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// The network that this subnetwork belongs to.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Subnet resource - Distributed Cloud Edge Network subnet to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The global location name. To set the location attribute: ▸ provide the argument subnet on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Subnet resource - Distributed Cloud Edge Network subnet to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Distributed Cloud Edge zone. To set the zone attribute: ▸ provide the argument subnet on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the subnet.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The ranges of ipv4 addresses that are owned by this subnetwork in CIDR format. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ipv4-range", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Ipv4Range { get; set; }
+
+    /// <summary>
+    /// The ranges of ipv6 addresses that are owned by this subnetwork in CIDR format. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ipv6-range", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Ipv6Range { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The ID of the VLAN to tag the subnetwork. If not specified we assign one automatically.
+    /// </summary>
+    [CliOption("--vlan-id", Format = OptionFormat.EqualsSeparated)]
+    public string? VlanId { get; set; }
+
+    /// <summary>
+    /// Subnet resource - Distributed Cloud Edge Network subnet to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subnet or fully qualified identifier for the subnet. To set the subnet attribute: ▸ provide the argument subnet on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subnet { get; private init; }
+
 }

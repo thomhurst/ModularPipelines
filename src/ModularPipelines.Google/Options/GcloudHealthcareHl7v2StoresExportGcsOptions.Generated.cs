@@ -21,4 +21,74 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "hl7v2-stores", "export", "gcs")]
 public record GcloudHealthcareHl7v2StoresExportGcsOptions : GcloudOptions
 {
+    /// <summary>
+    /// export Cloud Healthcare API     HL7v2 messages to Google Cloud Storage
+    /// </summary>
+    /// <param name="GcsUri">The Cloud Storage destination location. Specify a path to a Cloud Storage bucket or folder rather than a concrete object. The exported messages are ordered by the message send_time (MSH.7) in ascending order. The server will create one or more objects. Each object contains newline delimited JSON, and each line is an HL7v2 message.</param>
+    /// <param name="Hl7V2Store">Hl7v2Store resource - Cloud Healthcare API HL7v2 store to export messages from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hl7v2Store or fully qualified identifier for the hl7v2Store. To set the hl7v2_store attribute: ▸ provide the argument hl7v2_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareHl7v2StoresExportGcsOptions(
+        string GcsUri,
+        string Hl7V2Store
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcsUri);
+        this.GcsUri = GcsUri;
+        global::System.ArgumentNullException.ThrowIfNull(Hl7V2Store);
+        this.Hl7V2Store = Hl7V2Store;
+    }
+
+    public void Deconstruct(out string GcsUri, out string Hl7V2Store)
+    {
+        GcsUri = this.GcsUri;
+        Hl7V2Store = this.Hl7V2Store;
+    }
+
+    /// <summary>
+    /// The Cloud Storage destination location. Specify a path to a Cloud Storage bucket or folder rather than a concrete object. The exported messages are ordered by the message send_time (MSH.7) in ascending order. The server will create one or more objects. Each object contains newline delimited JSON, and each line is an HL7v2 message.
+    /// </summary>
+    [CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string GcsUri { get; private init; }
+
+    /// <summary>
+    /// Hl7v2Store resource - Cloud Healthcare API HL7v2 store to export messages from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument hl7v2_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// Hl7v2Store resource - Cloud Healthcare API HL7v2 store to export messages from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument hl7v2_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The end of the range in message send_time (MSH.7) to process. If not specified, the time when the export is scheduled is used.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// Specifies the parts of the Message resource to include in the export. The default is FULL. MESSAGE_VIEW must be one of: basic Exported resources include only the name field. full Exported resources include all the message fields. parsed-only Exported resources include all the message fields except data and schematizedData fields. raw-only Exported resources include all the message fields except parsedData and schematizedData fields. schematized-only Exported resources include all the message fields except data and parsedData fields.
+    /// </summary>
+    [CliOption("--message-view", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageView { get; set; }
+
+    /// <summary>
+    /// The start of the range in message send_time (MSH.7) to process. If not specified, the UNIX epoch (1970-01-01T00:00:00Z) is used.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
+    /// <summary>
+    /// Hl7v2Store resource - Cloud Healthcare API HL7v2 store to export messages from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hl7v2Store or fully qualified identifier for the hl7v2Store. To set the hl7v2_store attribute: ▸ provide the argument hl7v2_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Hl7V2Store { get; private init; }
+
 }

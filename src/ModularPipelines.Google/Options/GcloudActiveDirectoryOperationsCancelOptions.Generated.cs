@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "operations", "cancel")]
 public record GcloudActiveDirectoryOperationsCancelOptions : GcloudOptions
 {
+    /// <summary>
+    /// cancel a Managed Microsoft AD     operation
+    /// </summary>
+    /// <param name="Name">Operation resource - The operation name to cancel. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument NAME on the command line.</param>
+    public GcloudActiveDirectoryOperationsCancelOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Operation resource - The operation name to cancel. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument NAME on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

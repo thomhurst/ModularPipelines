@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,43 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "apis", "versions", "operations", "create")]
-public record GcloudApihubApisVersionsOperationsCreateOptions : GcloudOptions
+public record GcloudApihubApisVersionsOperationsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create apiOperations
+    /// </summary>
+    /// <param name="Operation">Operation resource - Identifier. The name of the operation. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubApisVersionsOperationsCreateOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Operation resource - Identifier. The name of the operation. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The api id of the operation resource. To set the api attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --api on the command line.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
+    /// <summary>
+    /// Operation resource - Identifier. The name of the operation. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the operation resource. To set the location attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Operation resource - Identifier. The name of the operation. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The version id of the operation resource. To set the version attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --version on the command line.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
     /// <summary>
     /// The list of user defined attributes associated with the API operation resource. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▹ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▹ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --attributes=path_to_file.(yaml|json)
     /// </summary>
@@ -52,81 +88,141 @@ public record GcloudApihubApisVersionsOperationsCreateOptions : GcloudOptions
     public string? HttpOperationMethod { get; set; }
 
     /// <summary>
-    /// Documentation details. The path details derived from the spec. Complete path relative to server endpoint. Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The path details derived from the spec. Complete path relative to server endpoint. Note: Even though this field is optional, it is required for [CreateApiOperation][google.cloud.apihub.v1.ApiHub.CreateApiOperation] API and we will fail the request if not provided.
     /// </summary>
     [CliOption("--http-operation-path", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOperationPath { get; set; }
 
     /// <summary>
-    /// Documentation details. The path details derived from the spec. A short description for the path applicable to all operations.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The path details derived from the spec. A short description for the path applicable to all operations.
     /// </summary>
     [CliOption("--http-operation-path-description", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOperationPathDescription { get; set; }
 
     /// <summary>
-    /// Documentation details. Details describing an MCP Tool. The name of the tool, unique within its parent scope (version). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: Details describing an MCP Tool. The name of the tool, unique within its parent scope (version). This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--mcp-tool-name", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolName { get; set; }
 
     /// <summary>
-    /// Documentation details. Details describing an MCP Tool. Description of what the tool does.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: Details describing an MCP Tool. Description of what the tool does.
     /// </summary>
     [CliOption("--mcp-tool-description", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolDescription { get; set; }
 
     /// <summary>
-    /// Documentation details. The operation schema needed for an operation. Arguments for the value. The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The operation schema needed for an operation. Arguments for the value. The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
     /// </summary>
     [CliOption("--mcp-tool-input-schema-json", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolInputSchemaJson { get; set; }
 
     /// <summary>
-    /// Documentation details. The operation schema needed for an operation. Arguments for the value. The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The operation schema needed for an operation. Arguments for the value. Annotations for a Tool. The JSON schema. Only valid JSON is accepted but semantic validation of schema is not supported right now.
     /// </summary>
     [CliOption("--mcp-tool-output-schema-json", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolOutputSchemaJson { get; set; }
 
     /// <summary>
-    /// Documentation details. The operation schema needed for an operation. Arguments for the value. Optional title for the tool.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The operation schema needed for an operation. Arguments for the value. Annotations for a Tool. Optional title for the tool.
     /// </summary>
     [CliOption("--mcp-tool-title", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolTitle { get; set; }
 
     /// <summary>
-    /// Documentation details. Annotations for a Tool. Additional hints which may help tools and not covered in defaults. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --mcp-tool-annotations-additional-hints=string=string JSON Example: --mcp-tool-annotations-additional-hints='{"string": "string"}' File Example: --mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: The operation schema needed for an operation. Arguments for the value. Annotations for a Tool. Additional hints which may help tools and not covered in defaults. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --mcp-tool-annotations-additional-hints=string=string JSON Example: --mcp-tool-annotations-additional-hints='{"string": "string"}' File Example: --mcp-tool-annotations-additional-hints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--mcp-tool-annotations-additional-hints", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? McpToolAnnotationsAdditionalHints { get; set; }
+    public IEnumerable<string>? McpToolAnnotationsAdditionalHints
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __McpToolAnnotationsAdditionalHintsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __McpToolAnnotationsAdditionalHintsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __McpToolAnnotationsAdditionalHintsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __McpToolAnnotationsAdditionalHintsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Documentation details. Arguments for the destructive hint. Hint indicating if the tool may have destructive side effects.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: Arguments for the destructive hint. Hint indicating if the tool may have destructive side effects.
     /// </summary>
     [CliFlag("--mcp-tool-annotations-destructive-hint")]
     public bool? McpToolAnnotationsDestructiveHint { get; set; }
 
     /// <summary>
-    /// Documentation details. Arguments for the idempotent hint. Hint indicating if the tool is idempotent.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: Arguments for the idempotent hint. Hint indicating if the tool is idempotent.
     /// </summary>
     [CliFlag("--mcp-tool-annotations-idempotent-hint")]
     public bool? McpToolAnnotationsIdempotentHint { get; set; }
 
     /// <summary>
-    /// Documentation details. Arguments for the open world hint. Hint indicating if the tool interacts with the open world (e.g., internet).
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: Arguments for the open world hint. Hint indicating if the tool interacts with the open world (e.g., internet).
     /// </summary>
     [CliFlag("--mcp-tool-annotations-open-world-hint")]
     public bool? McpToolAnnotationsOpenWorldHint { get; set; }
 
     /// <summary>
-    /// Documentation details. Arguments for the read only hint. Hint indicating if the tool is read-only.
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: Arguments for the read only hint. Hint indicating if the tool is read-only.
     /// </summary>
     [CliFlag("--mcp-tool-annotations-read-only-hint")]
     public bool? McpToolAnnotationsReadOnlyHint { get; set; }
 
     /// <summary>
-    /// Documentation details. Arguments for the read only hint. A human-readable title for the tool (if different from Tool.title).
+    /// Documentation details. Arguments for the operation. At most one of these can be specified: Arguments for the read only hint. A human-readable title for the tool (if different from Tool.title).
     /// </summary>
     [CliOption("--mcp-tool-annotations-title", Format = OptionFormat.EqualsSeparated)]
     public string? McpToolAnnotationsTitle { get; set; }
+
+    /// <summary>
+    /// Operation resource - Identifier. The name of the operation. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(HttpOperationMethod)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(HttpOperationPath) || !string.IsNullOrWhiteSpace(HttpOperationPathDescription)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(McpToolName) || !string.IsNullOrWhiteSpace(McpToolDescription)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(McpToolInputSchemaJson)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(McpToolOutputSchemaJson) || !string.IsNullOrWhiteSpace(McpToolTitle) || ((object?)McpToolAnnotationsAdditionalHints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)McpToolAnnotationsAdditionalHints, static item => item is not null) : ((object?)McpToolAnnotationsAdditionalHints is global::System.Collections.Generic.IEnumerable<char> ? (object?)McpToolAnnotationsAdditionalHints is not string || !string.IsNullOrWhiteSpace(McpToolAnnotationsAdditionalHints?.ToString()) : ((object?)McpToolAnnotationsAdditionalHints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)McpToolAnnotationsAdditionalHints, static item => item is not null) : (McpToolAnnotationsAdditionalHints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)McpToolAnnotationsAdditionalHints), static item => item is not null)))))) ? 1 : 0) + ((McpToolAnnotationsDestructiveHint == true) ? 1 : 0) + ((McpToolAnnotationsIdempotentHint == true) ? 1 : 0) + ((McpToolAnnotationsOpenWorldHint == true) ? 1 : 0) + ((McpToolAnnotationsReadOnlyHint == true || !string.IsNullOrWhiteSpace(McpToolAnnotationsTitle)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (HttpOperationMethod), (HttpOperationPath or HttpOperationPathDescription), (McpToolName or McpToolDescription), (McpToolInputSchemaJson), (McpToolOutputSchemaJson, McpToolTitle, or McpToolAnnotationsAdditionalHints), (McpToolAnnotationsDestructiveHint), (McpToolAnnotationsIdempotentHint), (McpToolAnnotationsOpenWorldHint), or (McpToolAnnotationsReadOnlyHint or McpToolAnnotationsTitle) may be specified.", [nameof(HttpOperationMethod), nameof(HttpOperationPath), nameof(HttpOperationPathDescription), nameof(McpToolName), nameof(McpToolDescription), nameof(McpToolInputSchemaJson), nameof(McpToolOutputSchemaJson), nameof(McpToolTitle), nameof(McpToolAnnotationsAdditionalHints), nameof(McpToolAnnotationsDestructiveHint), nameof(McpToolAnnotationsIdempotentHint), nameof(McpToolAnnotationsOpenWorldHint), nameof(McpToolAnnotationsReadOnlyHint), nameof(McpToolAnnotationsTitle)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(HttpOperationMethod) || !string.IsNullOrWhiteSpace(HttpOperationPath) || !string.IsNullOrWhiteSpace(HttpOperationPathDescription) || !string.IsNullOrWhiteSpace(McpToolName) || !string.IsNullOrWhiteSpace(McpToolDescription) || !string.IsNullOrWhiteSpace(McpToolInputSchemaJson) || !string.IsNullOrWhiteSpace(McpToolOutputSchemaJson) || !string.IsNullOrWhiteSpace(McpToolTitle) || ((object?)McpToolAnnotationsAdditionalHints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)McpToolAnnotationsAdditionalHints, static item => item is not null) : ((object?)McpToolAnnotationsAdditionalHints is global::System.Collections.Generic.IEnumerable<char> ? (object?)McpToolAnnotationsAdditionalHints is not string || !string.IsNullOrWhiteSpace(McpToolAnnotationsAdditionalHints?.ToString()) : ((object?)McpToolAnnotationsAdditionalHints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)McpToolAnnotationsAdditionalHints, static item => item is not null) : (McpToolAnnotationsAdditionalHints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)McpToolAnnotationsAdditionalHints), static item => item is not null))))) || McpToolAnnotationsDestructiveHint == true || McpToolAnnotationsIdempotentHint == true || McpToolAnnotationsOpenWorldHint == true || McpToolAnnotationsReadOnlyHint == true || !string.IsNullOrWhiteSpace(McpToolAnnotationsTitle)) && (!string.IsNullOrWhiteSpace(McpToolName) || !string.IsNullOrWhiteSpace(McpToolDescription)) && (!(!string.IsNullOrWhiteSpace(McpToolName))))
+        {
+            yield return new ValidationResult("McpToolName must be specified when other arguments in this group are specified.", [nameof(McpToolName)]);
+        }
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,75 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "fields", "ttls", "update")]
-public record GcloudFirestoreFieldsTtlsUpdateOptions : GcloudOptions
+public record GcloudFirestoreFieldsTtlsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the TTL configuration of the     given field
+    /// </summary>
+    /// <param name="Field">Field resource - Field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the field or fully qualified identifier for the field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFirestoreFieldsTtlsUpdateOptions(
+        string Field
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Field);
+        this.Field = Field;
+    }
+
+    public void Deconstruct(out string Field)
+    {
+        Field = this.Field;
+    }
+
+    /// <summary>
+    /// Field resource - Field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Collection group of the field. To set the collection-group attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --collection-group on the command line.
+    /// </summary>
+    [CliOption("--collection-group", Format = OptionFormat.EqualsSeparated)]
+    public string? CollectionGroup { get; set; }
+
+    /// <summary>
+    /// Field resource - Field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Database of the field. To set the database attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --database on the command line; ▸ the default value of argument [--database] is (default).
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Set to make this field no longer the TTL for its collection group.
+    /// </summary>
+    [CliFlag("--disable-ttl")]
+    public bool? DisableTtl { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Set to enable this field as the TTL for its collection group. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--enable-ttl")]
+    public bool? EnableTtl { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: The offset, relative to the timestamp value from the TTL-enabled field, used to determine the document's expiration time. If unset, defaults to 0.
+    /// </summary>
+    [CliOption("--expiration-offset", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpirationOffset { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Field resource - Field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the field or fully qualified identifier for the field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Field { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((DisableTtl == true ? 1 : 0) + ((EnableTtl == true || !string.IsNullOrWhiteSpace(ExpirationOffset)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DisableTtl or (EnableTtl or ExpirationOffset) must be specified.", [nameof(DisableTtl), nameof(EnableTtl), nameof(ExpirationOffset)]);
+        }
+        yield break;
+    }
+
 }

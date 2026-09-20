@@ -19,14 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "instances", "import")]
-public record GcloudRedisInstancesImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source
-) : GcloudOptions
+public record GcloudRedisInstancesImportOptions : GcloudOptions
 {
+    /// <summary>
+    /// import data to a Memorystore Redis instance     from Google Cloud Storage
+    /// </summary>
+    /// <param name="Source">The Cloud Storage object path to import the instance from. Must have the redis DB file extension *.rdb.</param>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Memorystore Redis instance you want to import to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisInstancesImportOptions(
+        string Source,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Source, out string Instance)
+    {
+        Source = this.Source;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memorystore Redis instance you want to import to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the instance. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// The Cloud Storage object path to import the instance from. Must have the redis DB file extension *.rdb.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memorystore Redis instance you want to import to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
 
 }

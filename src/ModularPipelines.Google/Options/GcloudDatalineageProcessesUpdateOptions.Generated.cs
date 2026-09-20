@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatalineageProcessesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The new attributes of the process. This will replace any existing attributes.
+    /// update a data lineage process
     /// </summary>
-    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Process">Process resource - The process to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument process on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the process or fully qualified identifier for the process. To set the process attribute: ▸ provide the argument process on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatalineageProcessesUpdateOptions(
+        string Process
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Process);
+        this.Process = Process;
+    }
+
+    public void Deconstruct(out string Process)
+    {
+        Process = this.Process;
+    }
+
+    /// <summary>
+    /// Process resource - The process to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument process on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the process. To set the location attribute: ▸ provide the argument process on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The new attributes of the process. This will replace any existing attributes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Attributes { get; set; }
 
     /// <summary>
@@ -32,5 +55,11 @@ public record GcloudDatalineageProcessesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Process resource - The process to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument process on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the process or fully qualified identifier for the process. To set the process attribute: ▸ provide the argument process on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Process { get; private init; }
 
 }

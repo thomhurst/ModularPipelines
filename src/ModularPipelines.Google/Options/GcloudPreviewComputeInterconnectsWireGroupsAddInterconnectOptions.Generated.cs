@@ -19,8 +19,84 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "wire-groups", "add-interconnect")]
-public record GcloudPreviewComputeInterconnectsWireGroupsAddInterconnectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsWireGroupsAddInterconnectOptions : GcloudOptions
 {
+    /// <summary>
+    /// add     interconnect to a Compute Engine wire group
+    /// </summary>
+    /// <param name="CrossSiteNetwork">Name of the crossSiteNetwork to operate on.</param>
+    /// <param name="EndpointLabel">The endpoint label for the wire group.</param>
+    /// <param name="Interconnect">The interconnect for the wire group endpoint.</param>
+    /// <param name="InterconnectLabel">The interconnect label for the wire group endpoint.</param>
+    /// <param name="VlanTags">The vlan tags for the interconnect on the wire group endpoint.</param>
+    /// <param name="Name">Name of the wire group to update.</param>
+    public GcloudPreviewComputeInterconnectsWireGroupsAddInterconnectOptions(
+        string CrossSiteNetwork,
+        string EndpointLabel,
+        string Interconnect,
+        string InterconnectLabel,
+        string VlanTags,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CrossSiteNetwork);
+        this.CrossSiteNetwork = CrossSiteNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointLabel);
+        this.EndpointLabel = EndpointLabel;
+        global::System.ArgumentNullException.ThrowIfNull(Interconnect);
+        this.Interconnect = Interconnect;
+        global::System.ArgumentNullException.ThrowIfNull(InterconnectLabel);
+        this.InterconnectLabel = InterconnectLabel;
+        global::System.ArgumentNullException.ThrowIfNull(VlanTags);
+        this.VlanTags = VlanTags;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string CrossSiteNetwork, out string EndpointLabel, out string Interconnect, out string InterconnectLabel, out string VlanTags, out string Name)
+    {
+        CrossSiteNetwork = this.CrossSiteNetwork;
+        EndpointLabel = this.EndpointLabel;
+        Interconnect = this.Interconnect;
+        InterconnectLabel = this.InterconnectLabel;
+        VlanTags = this.VlanTags;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the crossSiteNetwork to operate on.
+    /// </summary>
+    [CliOption("--cross-site-network", Format = OptionFormat.EqualsSeparated)]
+    public string CrossSiteNetwork { get; private init; }
+
+    /// <summary>
+    /// The endpoint label for the wire group.
+    /// </summary>
+    [CliOption("--endpoint-label", Format = OptionFormat.EqualsSeparated)]
+    public string EndpointLabel { get; private init; }
+
+    /// <summary>
+    /// The interconnect for the wire group endpoint.
+    /// </summary>
+    [CliOption("--interconnect", Format = OptionFormat.EqualsSeparated)]
+    public string Interconnect { get; private init; }
+
+    /// <summary>
+    /// The interconnect label for the wire group endpoint.
+    /// </summary>
+    [CliOption("--interconnect-label", Format = OptionFormat.EqualsSeparated)]
+    public string InterconnectLabel { get; private init; }
+
+    /// <summary>
+    /// The vlan tags for the interconnect on the wire group endpoint.
+    /// </summary>
+    [CliOption("--vlan-tags", Format = OptionFormat.EqualsSeparated)]
+    public string VlanTags { get; private init; }
+
+    /// <summary>
+    /// Name of the wire group to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

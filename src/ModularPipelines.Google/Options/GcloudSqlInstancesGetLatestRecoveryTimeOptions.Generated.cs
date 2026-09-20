@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "get-latest-recovery-time")]
-public record GcloudSqlInstancesGetLatestRecoveryTimeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlInstancesGetLatestRecoveryTimeOptions : GcloudOptions
 {
+    /// <summary>
+    /// displays the latest     recovery time to which a Cloud SQL instance can be restored to
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlInstancesGetLatestRecoveryTimeOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// The deletion time of the source instance. This is used to identify the instance if it has been deleted.
     /// </summary>
     [CliOption("--source-instance-deletion-time", Format = OptionFormat.EqualsSeparated)]
     public string? SourceInstanceDeletionTime { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
 
 }

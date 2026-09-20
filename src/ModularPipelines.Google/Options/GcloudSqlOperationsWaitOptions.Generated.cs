@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "operations", "wait")]
-public record GcloudSqlOperationsWaitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Operation
-) : GcloudOptions
+public record GcloudSqlOperationsWaitOptions : GcloudOptions
 {
+    /// <summary>
+    /// waits for one or more operations to complete
+    /// </summary>
+    /// <param name="Operation">An identifier that uniquely identifies the operation.</param>
+    public GcloudSqlOperationsWaitOptions(
+        IEnumerable<string> Operation
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Operation);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Operation));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Operation));
+            }
+
+            Operation = materialized;
+        }
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Operation)
+    {
+        Operation = this.Operation;
+    }
+
     /// <summary>
     /// Maximum number of seconds to wait for an operation to complete. By default, wait for 300s. Set to unlimited to wait indefinitely.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
+
+    /// <summary>
+    /// An identifier that uniquely identifies the operation.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Operation { get; private init; }
 
 }

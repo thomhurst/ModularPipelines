@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("managed-kafka", "acls", "delete")]
 public record GcloudManagedKafkaAclsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Managed Service for Apache     Kafka ACL
+    /// </summary>
+    /// <param name="Acl">Acl resource - Identifies the acl for deletion. The structure of the acl ID defines the Resource Pattern for which the acl entries apply in the Kafka cluster. The acl ID must be structured like one of the following: For acls on the cluster: cluster For acls on a single resource within the cluster: topic/{resource_name} consumerGroup/{resource_name} transactionalId/{resource_name} For acls on all resources that match a prefix: topicPrefixed/{resource_name} consumerGroupPrefixed/{resource_name} transactionalIdPrefixed/{resource_name} For acls on all resources of a given type (i.e. the wildcard literal "*"): allTopics (represents topic/*) allConsumerGroups (represents consumerGroup/*) allTransactionalIds (represents transactionalId/*) The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the acl or fully qualified identifier for the acl. To set the acl attribute: ▸ provide the argument acl on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudManagedKafkaAclsDeleteOptions(
+        string Acl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Acl);
+        this.Acl = Acl;
+    }
+
+    public void Deconstruct(out string Acl)
+    {
+        Acl = this.Acl;
+    }
+
+    /// <summary>
+    /// Acl resource - Identifies the acl for deletion. The structure of the acl ID defines the Resource Pattern for which the acl entries apply in the Kafka cluster. The acl ID must be structured like one of the following: For acls on the cluster: cluster For acls on a single resource within the cluster: topic/{resource_name} consumerGroup/{resource_name} transactionalId/{resource_name} For acls on all resources that match a prefix: topicPrefixed/{resource_name} consumerGroupPrefixed/{resource_name} transactionalIdPrefixed/{resource_name} For acls on all resources of a given type (i.e. the wildcard literal "*"): allTopics (represents topic/*) allConsumerGroups (represents consumerGroup/*) allTransactionalIds (represents transactionalId/*) The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The cluster name. To set the cluster attribute: ▸ provide the argument acl on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Acl resource - Identifies the acl for deletion. The structure of the acl ID defines the Resource Pattern for which the acl entries apply in the Kafka cluster. The acl ID must be structured like one of the following: For acls on the cluster: cluster For acls on a single resource within the cluster: topic/{resource_name} consumerGroup/{resource_name} transactionalId/{resource_name} For acls on all resources that match a prefix: topicPrefixed/{resource_name} consumerGroupPrefixed/{resource_name} transactionalIdPrefixed/{resource_name} For acls on all resources of a given type (i.e. the wildcard literal "*"): allTopics (represents topic/*) allConsumerGroups (represents consumerGroup/*) allTransactionalIds (represents transactionalId/*) The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Managed Service for Apache Kafka resource. See https://cloud.google.com/managed-service-for-apache-kafka/docs/locations for a list of supported locations. To set the location attribute: ▸ provide the argument acl on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Acl resource - Identifies the acl for deletion. The structure of the acl ID defines the Resource Pattern for which the acl entries apply in the Kafka cluster. The acl ID must be structured like one of the following: For acls on the cluster: cluster For acls on a single resource within the cluster: topic/{resource_name} consumerGroup/{resource_name} transactionalId/{resource_name} For acls on all resources that match a prefix: topicPrefixed/{resource_name} consumerGroupPrefixed/{resource_name} transactionalIdPrefixed/{resource_name} For acls on all resources of a given type (i.e. the wildcard literal "*"): allTopics (represents topic/*) allConsumerGroups (represents consumerGroup/*) allTransactionalIds (represents transactionalId/*) The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the acl or fully qualified identifier for the acl. To set the acl attribute: ▸ provide the argument acl on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Acl { get; private init; }
+
 }

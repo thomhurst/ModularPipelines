@@ -19,8 +19,58 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "certificates", "export")]
-public record GcloudPrivatecaCertificatesExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+public record GcloudPrivatecaCertificatesExportOptions : GcloudOptions
 {
+    /// <summary>
+    /// encoded certificate to     a file
+    /// </summary>
+    /// <param name="OutputFile">The path where the resulting PEM-encoded certificate will be written.</param>
+    /// <param name="Certificate">CERTIFICATE resource - The certificate to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE or fully qualified identifier for the CERTIFICATE. To set the certificate attribute: ▸ provide the argument CERTIFICATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaCertificatesExportOptions(
+        string OutputFile,
+        string Certificate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+    }
+
+    public void Deconstruct(out string OutputFile, out string Certificate)
+    {
+        OutputFile = this.OutputFile;
+        Certificate = this.Certificate;
+    }
+
+    /// <summary>
+    /// The path where the resulting PEM-encoded certificate will be written.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string OutputFile { get; private init; }
+
+    /// <summary>
+    /// CERTIFICATE resource - The certificate to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CERTIFICATE. To set the issuer-location attribute: ▸ provide the argument CERTIFICATE on the command line with a fully specified name; ▸ provide the argument --issuer-location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--issuer-location", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerLocation { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE resource - The certificate to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The parent CA Pool of the CERTIFICATE. To set the issuer-pool attribute: ▸ provide the argument CERTIFICATE on the command line with a fully specified name; ▸ provide the argument --issuer-pool on the command line.
+    /// </summary>
+    [CliOption("--issuer-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerPool { get; set; }
+
+    /// <summary>
+    /// Whether to include the certificate's issuer chain in the exported file. If this is set, the resulting file will contain the pem-encoded certificate and its issuing chain, ordered from leaf to root.
+    /// </summary>
+    [CliFlag("--include-chain")]
+    public bool? IncludeChain { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE resource - The certificate to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE or fully qualified identifier for the CERTIFICATE. To set the certificate attribute: ▸ provide the argument CERTIFICATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Certificate { get; private init; }
+
 }

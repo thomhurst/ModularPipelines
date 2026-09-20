@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,263 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "volumes", "create")]
-public record GcloudNetappVolumesCreateOptions : GcloudOptions
+public record GcloudNetappVolumesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Cloud NetApp Volume
+    /// </summary>
+    /// <param name="Capacity">The desired capacity of the Volume in GiB or TiB units.If no capacity unit is specified, GiB is assumed.</param>
+    /// <param name="Protocols">Type of File System protocols for the Cloud NetApp Volume. Valid component values are: NFSV3, NFSV4, SMB, ISCSI. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="StoragePool">Storage pool resource - The Storage Pool to associate with Volume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. This must be specified. ID of the storage_pool or fully qualified identifier for the storage_pool. To set the storage_pool attribute: ▸ provide the argument --storage-pool on the command line.</param>
+    /// <param name="Volume">Volume resource - The Volume to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappVolumesCreateOptions(
+        string Capacity,
+        IEnumerable<string> Protocols,
+        string StoragePool,
+        string Volume
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Capacity);
+        this.Capacity = Capacity;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Protocols);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Protocols));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Protocols));
+            }
+
+            Protocols = materialized;
+        }
+        this.Protocols = Protocols;
+        global::System.ArgumentNullException.ThrowIfNull(StoragePool);
+        this.StoragePool = StoragePool;
+        global::System.ArgumentNullException.ThrowIfNull(Volume);
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out string Capacity, out IEnumerable<string> Protocols, out string StoragePool, out string Volume)
+    {
+        Capacity = this.Capacity;
+        Protocols = this.Protocols;
+        StoragePool = this.StoragePool;
+        Volume = this.Volume;
+    }
+
+    /// <summary>
+    /// The desired capacity of the Volume in GiB or TiB units.If no capacity unit is specified, GiB is assumed.
+    /// </summary>
+    [CliOption("--capacity", Format = OptionFormat.EqualsSeparated)]
+    public string Capacity { get; private init; }
+
+    /// <summary>
+    /// Type of File System protocols for the Cloud NetApp Volume. Valid component values are: NFSV3, NFSV4, SMB, ISCSI. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--protocols", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Protocols { get; private init; }
+
+    /// <summary>
+    /// Storage pool resource - The Storage Pool to associate with Volume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. This must be specified. ID of the storage_pool or fully qualified identifier for the storage_pool. To set the storage_pool attribute: ▸ provide the argument --storage-pool on the command line.
+    /// </summary>
+    [CliOption("--storage-pool", Format = OptionFormat.EqualsSeparated)]
+    public string StoragePool { get; private init; }
+
+    /// <summary>
+    /// Volume resource - The Volume to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the volume. To set the location attribute: ▸ provide the argument volume on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Backup Config contains backup related config on a volume. Backup Config will have the following format: `--backup-config=backup-policies=BACKUP_POLICIES,backup-vault=BACKUP_VAULT_NAME,enable-scheduled-backups=ENABLE_SCHEDULED_BACKUPS` backup-policies is a pound-separated (#) list of backup policy names, backup-vault can include a single backup-vault resource name, and enable-scheduled-backups is a Boolean value indicating whether or not scheduled backups are enabled on the volume.
+    /// </summary>
+    [CliOption("--backup-config", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupConfig { get; set; }
+
+    /// <summary>
+    /// A block device to be created with the volume. This flag can be repeated to specify multiple block devices. The following keys are available: name A user-defined name for the block device. host-groups A comma-separated list of host groups that can mount the block volume. os-type The OS type of the volume. Allowed values are OS_TYPE_UNSPECIFIED, LINUX, WINDOWS. size-gib The size of the block device in GiB. Note that this value is ignored during volume creation and is system-managed.
+    /// </summary>
+    [CliOption("--block-devices", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? BlockDevices { get; set; }
+
+    /// <summary>
+    /// Cache Parameters contains cache parameters of a volume. Cache Parameters will have the following format: `--cache-parameters=peer-volume-name=PEER_VOLUME_NAME,peer-cluster-name=PEER_CLUSTER_NAME,peer-svm-name=PEER_SVM_NAME,peer-ip-addresses=[PEER-IP-ADDRESS1#PEER-IP-ADDRESS2#...],enable-global-file-lock=ENABLE_GLOBAL_FILE_LOCK,cache-config=CACHE_CONFIG` *peer-volume-name*::: Name of the user's local source volume *peer-cluster-name*::: Name of the user's local source cluster *peer-svm-name*::: Name of the user's local source vserver svm *peer-ip-addresses*::: Hashtag-separated(#) list of IP addresses *enable-global-file-lock*::: If true, enable global file lock *cache-config*::: Cache-config as a hashtag-separated(#) list of key-value pairs
+    /// </summary>
+    [CliOption("--cache-parameters", Format = OptionFormat.EqualsSeparated)]
+    public string? CacheParameters { get; set; }
+
+    /// <summary>
+    /// Cache Pre-populate contains cache pre-populate parameters of a volume. Cache Pre-populate will have the following format: --cache-pre-populate=path-list=PATH_LIST1#PATH_LIST2,exclude-path-list=EXCLUDE_PATH_LIST1#EXCLUDE_PATH_LIST2,recursion=RECURSION path-list Hashtag-separated(#) list of paths to be pre-populated exclude-path-list Hashtag-separated(#) list of paths to be excluded from pre-population recursion Boolean value indicating pre-populate recursion.
+    /// </summary>
+    [CliOption("--cache-pre-populate", Format = OptionFormat.EqualsSeparated)]
+    public string? CachePrePopulate { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud NetApp Volume
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Boolean flag indicating whether Volume is a kerberos Volume or not
+    /// </summary>
+    [CliOption("--enable-kerberos", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableKerberos { get; set; }
+
+    /// <summary>
+    /// Export Policy of a Cloud NetApp Files Volume. This will be a field similar to network in which export policy fields can be specified as such: --export-policy=allowed-clients=ALLOWED_CLIENTS_IP_ADDRESSES,has-root-access=HAS_ROOT_ACCESS_BOOL,access-type=ACCESS_TYPE,nfsv3=NFSV3,nfsv4=NFSV4,kerberos-5-read-only=KERBEROS_5_READ_ONLY,kerberos-5-read-write=KERBEROS_5_READ_WRITE,kerberos-5i-read-only=KERBEROS_5I_READ_ONLY,kerberos-5i-read-write=KERBEROS_5I_READ_WRITE,kerberos-5p-read-only=KERBEROS_5P_READ_ONLY,kerberos-5p-read-write=KERBEROS_5P_READ_WRITE,squash-mode=SQUASH_MODE,anon-uid=ANON_UID
+    /// </summary>
+    [CliOption("--export-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportPolicy { get; set; }
+
+    /// <summary>
+    /// Hybrid Replication Parameters contains hybrid replication parameters on a volume. Hybrid Replication Parameters will have the following format: `--hybrid-replication-parameters=replication=REPLICATION,peer-volume-name=PEER_VOLUME_NAME,peer-cluster-name=PEER_CLUSTER_NAME,peer-svm-name=PEER_SVM_NAME,peer-ip-addresses=[PEER-IP-ADDRESS1#PEER-IP-ADDRESS2#...],cluster-location=CLUSTER_LOCATION,description=DESCRIPTION,replication-schedule=REPLICATION_SCHEDULE,hybrid-replication-type=HYBRID_REPLICATION_TYPE,large-volume-constituent-count=LARGE_VOLUME_CONSTITUENT_COUNT,labels=[KEY1:VALUE1#KEY2:VALUE2#...]` replication is the desired name for the replication of the volume, peer-volume-name is the name of the user's local source volume, peer-cluster-name is the name of the user's local source cluster, peer-svm-name is the name of the user's local source vserver svm, peer-ip-addresses is a ampersand-separated(#) list of ip addresses, cluster-location is the name of the source cluster location, description is the description of the replication, replication-schedule is the schedule of corresponding hybrid replication created, hybrid-replication-type is the hybrid replication type of the corresponding hybrid replication created, large-volume-constituent-count is the number of constituent volumes in the large volume, and labels is an hashtag-separated(#) key value pair of labels with key and value separated by colon(:) for the replication.
+    /// </summary>
+    [CliOption("--hybrid-replication-parameters", Format = OptionFormat.EqualsSeparated)]
+    public string? HybridReplicationParameters { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Boolean flag indicating whether Volume is a large capacity Volume or not
+    /// </summary>
+    [CliOption("--large-capacity", Format = OptionFormat.EqualsSeparated)]
+    public string? LargeCapacity { get; set; }
+
+    /// <summary>
+    /// --large-capacity-config[=[constituent-count=CONSTITUENT-COUNT]] Large Capacity Config contains configuration for large capacity volumes. Large Capacity Config has the following format:
+    /// </summary>
+    [CliOption("--large-capacity-config", Format = OptionFormat.EqualsSeparated)]
+    public int? LargeCapacityConfig { get; set; }
+
+    /// <summary>
+    /// Boolean flag indicating whether Volume is a multiple endpoints Volume or not
+    /// </summary>
+    [CliOption("--multiple-endpoints", Format = OptionFormat.EqualsSeparated)]
+    public string? MultipleEndpoints { get; set; }
+
+    /// <summary>
+    /// Actions to be restricted for a volume. Valid restricted action options are: 'DELETE'. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--restricted-actions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RestrictedActions { get; set; }
+
+    /// <summary>
+    /// The security style of the Volume. This can either be UNIX or NTFS. SECURITY_STYLE must be one of: ntfs NTFS security style for Volume. unix UNIX security style for Volume
+    /// </summary>
+    [CliOption("--security-style", Format = OptionFormat.EqualsSeparated)]
+    public string? SecurityStyle { get; set; }
+
+    /// <summary>
+    /// Share name of the Mount path clients will use.
+    /// </summary>
+    [CliOption("--share-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ShareName { get; set; }
+
+    /// <summary>
+    /// List of settings specific to SMB protocol for a Cloud NetApp Files Volume. Valid component values are: ENCRYPT_DATA, BROWSABLE, CHANGE_NOTIFY, NON_BROWSABLE, OPLOCKS, SHOW_SNAPSHOT, SHOW_PREVIOUS_VERSIONS, ACCESS_BASED_ENUMERATION, CONTINUOUSLY_AVAILABLE. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--smb-settings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SmbSettings { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) The percentage of volume storage reserved for snapshot storage. The default value for this is 0 percent The snap-reserve option is deprecated
+    /// </summary>
+    [CliOption("--snap-reserve", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapReserve { get; set; }
+
+    /// <summary>
+    /// Make a snapshot every day e.g. at 06:00, 05:20, 23:50
+    /// </summary>
+    [CliOption("--snapshot-daily", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotDaily { get; set; }
+
+    /// <summary>
+    /// Snapshot Directory if enabled (true) makes the Volume contain a read-only .snapshot directory which provides access to each of the volume's snapshots
+    /// </summary>
+    [CliOption("--snapshot-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotDirectory { get; set; }
+
+    /// <summary>
+    /// Make a snapshot every hour e.g. at 04:00, 05:20, 06:00
+    /// </summary>
+    [CliOption("--snapshot-hourly", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotHourly { get; set; }
+
+    /// <summary>
+    /// Make a snapshot once a month e.g. at 2nd 04:00, 7th 05:20, 24th 23:50
+    /// </summary>
+    [CliOption("--snapshot-monthly", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotMonthly { get; set; }
+
+    /// <summary>
+    /// Make a snapshot every week e.g. at Monday 04:00, Wednesday 05:20, Sunday 23:50
+    /// </summary>
+    [CliOption("--snapshot-weekly", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotWeekly { get; set; }
+
+    /// <summary>
+    /// Snapshot resource - The source Snapshot to create the Volume from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name; ◆ set the property netapp/location. To set the volume attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name. ID of the snapshot or fully qualified identifier for the snapshot. To set the snapshot attribute: ◆ provide the argument --source-snapshot on the command line.
+    /// </summary>
+    [CliOption("--source-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSnapshot { get; set; }
+
+    /// <summary>
+    /// Snapshot resource - The source Snapshot to create the Volume from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name; ◆ set the property netapp/location. To set the volume attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name. The desired throughput of the volume in MiB/s.
+    /// </summary>
+    [CliOption("--throughput-mibps", Format = OptionFormat.EqualsSeparated)]
+    public string? ThroughputMibps { get; set; }
+
+    /// <summary>
+    /// Snapshot resource - The source Snapshot to create the Volume from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name; ◆ set the property netapp/location. To set the volume attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name. Tiering Policy contains auto tiering policy on a volume. Tiering Policy will have the following format: `--tiering-policy=tier-action=TIER_ACTION,cooling-threshold-days=COOLING_THRESHOLD_DAYS` tier-action is an enum, supported values are ENABLED or PAUSED, cooling-threshold-days is an integer represents time in days to mark the volume's data block as cold and make it eligible for tiering, can be range from 7-183. Default is 31.
+    /// </summary>
+    [CliOption("--tiering-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? TieringPolicy { get; set; }
+
+    /// <summary>
+    /// Snapshot resource - The source Snapshot to create the Volume from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name; ◆ set the property netapp/location. To set the volume attribute: ◆ provide the argument --source-snapshot on the command line with a fully specified name. Unix permissions the mount point will be created with. Unix permissions are only applicable with NFS protocol only
+    /// </summary>
+    [CliOption("--unix-permissions", Format = OptionFormat.EqualsSeparated)]
+    public string? UnixPermissions { get; set; }
+
+    /// <summary>
+    /// Backup resource - The source Backup to create the Volume from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ set the property netapp/location. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ◆ provide the argument --source-backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--source-backup", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceBackup { get; set; }
+
+    /// <summary>
+    /// Backup resource - The source Backup to create the Volume from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ set the property netapp/location. The Backup Vault of the backup. To set the backup_vault attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ provide the argument --backup_vault on the command line; ◆ provide the argument --backup-vault on the command line.
+    /// </summary>
+    [CliOption("--backup_vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// Volume resource - The Volume to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Volume { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SourceBackup) || !string.IsNullOrWhiteSpace(BackupVault)) && (!(!string.IsNullOrWhiteSpace(SourceBackup))))
+        {
+            yield return new ValidationResult("SourceBackup must be specified when other arguments in this group are specified.", [nameof(SourceBackup)]);
+        }
+        yield break;
+    }
+
 }

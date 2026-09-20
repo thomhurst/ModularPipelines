@@ -21,4 +21,45 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("batch", "tasks", "describe")]
 public record GcloudBatchTasksDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details of a task
+    /// </summary>
+    /// <param name="Task">Task resource - The Batch task resource. If not specified,the current batch/location is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TASK on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the task or fully qualified identifier for the task. To set the task attribute: ▸ provide the argument TASK on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBatchTasksDescribeOptions(
+        string Task
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Task);
+        this.Task = Task;
+    }
+
+    public void Deconstruct(out string Task)
+    {
+        Task = this.Task;
+    }
+
+    /// <summary>
+    /// Task resource - The Batch task resource. If not specified,the current batch/location is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TASK on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The job ID for the task. To set the job attribute: ▸ provide the argument TASK on the command line with a fully specified name; ▸ provide the argument --job on the command line.
+    /// </summary>
+    [CliOption("--job", Format = OptionFormat.EqualsSeparated)]
+    public string? Job { get; set; }
+
+    /// <summary>
+    /// Task resource - The Batch task resource. If not specified,the current batch/location is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TASK on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the task. To set the location attribute: ▸ provide the argument TASK on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property batch/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Task resource - The Batch task resource. If not specified,the current batch/location is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TASK on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The task_group ID for the task. To set the task_group attribute: ▸ provide the argument TASK on the command line with a fully specified name; ▸ provide the argument --task_group on the command line.
+    /// </summary>
+    [CliOption("--task_group", Format = OptionFormat.EqualsSeparated)]
+    public string? TaskGroup { get; set; }
+
+    /// <summary>
+    /// Task resource - The Batch task resource. If not specified,the current batch/location is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TASK on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the task or fully qualified identifier for the task. To set the task attribute: ▸ provide the argument TASK on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Task { get; private init; }
+
 }

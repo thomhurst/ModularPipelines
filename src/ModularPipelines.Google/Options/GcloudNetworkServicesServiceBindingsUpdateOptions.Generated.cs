@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesServiceBindingsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a service binding
+    /// </summary>
+    /// <param name="ServiceBinding">Service binding resource - Name of the service binding to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service binding or fully qualified identifier for the service binding. To set the service_binding attribute: ▸ provide the argument service_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesServiceBindingsUpdateOptions(
+        string ServiceBinding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceBinding);
+        this.ServiceBinding = ServiceBinding;
+    }
+
+    public void Deconstruct(out string ServiceBinding)
+    {
+        ServiceBinding = this.ServiceBinding;
+    }
+
+    /// <summary>
+    /// Service binding resource - Name of the service binding to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument service_binding on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudNetworkServicesServiceBindingsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// Service binding resource - Name of the service binding to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service binding or fully qualified identifier for the service binding. To set the service_binding attribute: ▸ provide the argument service_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceBinding { get; private init; }
 
 }

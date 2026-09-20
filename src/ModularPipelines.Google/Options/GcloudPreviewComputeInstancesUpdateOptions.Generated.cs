@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "update")]
-public record GcloudPreviewComputeInstancesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudPreviewComputeInstancesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Compute Engine virtual     machine
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to update. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudPreviewComputeInstancesUpdateOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     /// <summary>
     /// Enables deletion protection for the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
@@ -107,7 +123,7 @@ public record GcloudPreviewComputeInstancesUpdateOptions(
     /// If specified, Compute Engine returns an error if the update requires a higher action to be applied to the instance. If not specified, the default will be REFRESH. MOST_DISRUPTIVE_ALLOWED_ACTION must be one of: NO_EFFECT, REFRESH, RESTART.
     /// </summary>
     [CliOption("--most-disruptive-allowed-action", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMostDisruptiveAllowedAction? MostDisruptiveAllowedAction { get; set; }
+    public GcloudPreviewComputeInstancesUpdateMostDisruptiveAllowedAction? MostDisruptiveAllowedAction { get; set; }
 
     /// <summary>
     /// Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
@@ -152,9 +168,9 @@ public record GcloudPreviewComputeInstancesUpdateOptions(
     public bool? NoShieldedVtpm { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -170,10 +186,32 @@ public record GcloudPreviewComputeInstancesUpdateOptions(
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Sole Tenancy. At most one of these can be specified: Removes the node affinities field from the instance. If specified, the instance node settings will be cleared. The instance will not be scheduled onto a sole-tenant node.
@@ -198,5 +236,25 @@ public record GcloudPreviewComputeInstancesUpdateOptions(
     /// </summary>
     [CliOption("--node-group", Format = OptionFormat.EqualsSeparated)]
     public string? NodeGroup { get; set; }
+
+    /// <summary>
+    /// Name of the instance to update. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((ClearNodeAffinities == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Node) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodeAffinityFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodeGroup) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearNodeAffinities, Node, NodeAffinityFile, or NodeGroup may be specified.", [nameof(ClearNodeAffinities), nameof(Node), nameof(NodeAffinityFile), nameof(NodeGroup)]);
+        }
+        yield break;
+    }
 
 }

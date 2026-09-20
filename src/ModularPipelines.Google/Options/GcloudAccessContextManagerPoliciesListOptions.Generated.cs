@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "policies", "list")]
 public record GcloudAccessContextManagerPoliciesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list access policies
+    /// </summary>
+    /// <param name="Organization">Organization resource - The parent organization of the policies you want to list. This represents a Cloud resource. This must be specified. ID of the organization or fully qualified identifier for the organization. To set the organization attribute: ▸ provide the argument --organization on the command line.</param>
+    public GcloudAccessContextManagerPoliciesListOptions(
+        string Organization
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Organization);
+        this.Organization = Organization;
+    }
+
+    public void Deconstruct(out string Organization)
+    {
+        Organization = this.Organization;
+    }
+
+    /// <summary>
+    /// Organization resource - The parent organization of the policies you want to list. This represents a Cloud resource. This must be specified. ID of the organization or fully qualified identifier for the organization. To set the organization attribute: ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string Organization { get; private init; }
+
 }

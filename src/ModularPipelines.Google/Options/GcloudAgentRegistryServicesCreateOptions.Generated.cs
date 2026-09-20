@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-registry", "services", "create")]
-public record GcloudAgentRegistryServicesCreateOptions : GcloudOptions
+public record GcloudAgentRegistryServicesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// register a new service
+    /// </summary>
+    /// <param name="Service">Service resource - Identifier. The resource name of the Service. Format: projects/{project}/locations/{location}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentRegistryServicesCreateOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// Service resource - Identifier. The resource name of the Service. Format: projects/{project}/locations/{location}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the service resource. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -64,27 +88,55 @@ public record GcloudAgentRegistryServicesCreateOptions : GcloudOptions
     public string? AgentSpecContent { get; set; }
 
     /// <summary>
-    /// The spec of the endpoint. The type of the endpoint spec content. ENDPOINT_SPEC_TYPE must be (only one value is supported): no-spec There is no spec for the Endpoint. The content field must be empty. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the endpoint. The type of the endpoint spec content. ENDPOINT_SPEC_TYPE must be (only one value is supported): no-spec There is no spec for the Endpoint. The content field must be empty. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--endpoint-spec-type", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointSpecType { get; set; }
 
     /// <summary>
-    /// The spec of the endpoint. The content of the endpoint spec. Reserved for future use.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the endpoint. The content of the endpoint spec. Reserved for future use.
     /// </summary>
     [CliOption("--endpoint-spec-content", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointSpecContent { get; set; }
 
     /// <summary>
-    /// The spec of the MCP Server. The type of the MCP Server spec content. MCP_SERVER_SPEC_TYPE must be one of: no-spec There is no spec for the MCP Server. The content field must be empty. tool-spec The content is a MCP Tool Spec following the One MCP specification. The payload is the same as the tools/list response. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the MCP Server. The type of the MCP Server spec content. MCP_SERVER_SPEC_TYPE must be one of: no-spec There is no spec for the MCP Server. The content field must be empty. tool-spec The content is a MCP Tool Spec following the One MCP specification. The payload is the same as the tools/list response. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--mcp-server-spec-type", Format = OptionFormat.EqualsSeparated)]
     public string? McpServerSpecType { get; set; }
 
     /// <summary>
-    /// The spec of the MCP Server. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to 10KB.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the MCP Server. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to 10KB.
     /// </summary>
     [CliOption("--mcp-server-spec-content", Format = OptionFormat.EqualsSeparated)]
     public string? McpServerSpecContent { get; set; }
+
+    /// <summary>
+    /// Service resource - Identifier. The resource name of the Service. Format: projects/{project}/locations/{location}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(AgentSpecType) || !string.IsNullOrWhiteSpace(AgentSpecContent)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(EndpointSpecType) || !string.IsNullOrWhiteSpace(EndpointSpecContent)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(McpServerSpecType) || !string.IsNullOrWhiteSpace(McpServerSpecContent)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (AgentSpecType or AgentSpecContent), (EndpointSpecType or EndpointSpecContent), or (McpServerSpecType or McpServerSpecContent) may be specified.", [nameof(AgentSpecType), nameof(AgentSpecContent), nameof(EndpointSpecType), nameof(EndpointSpecContent), nameof(McpServerSpecType), nameof(McpServerSpecContent)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AgentSpecType) || !string.IsNullOrWhiteSpace(AgentSpecContent) || !string.IsNullOrWhiteSpace(EndpointSpecType) || !string.IsNullOrWhiteSpace(EndpointSpecContent) || !string.IsNullOrWhiteSpace(McpServerSpecType) || !string.IsNullOrWhiteSpace(McpServerSpecContent)) && (!string.IsNullOrWhiteSpace(AgentSpecType) || !string.IsNullOrWhiteSpace(AgentSpecContent)) && (!(!string.IsNullOrWhiteSpace(AgentSpecType))))
+        {
+            yield return new ValidationResult("AgentSpecType must be specified when other arguments in this group are specified.", [nameof(AgentSpecType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AgentSpecType) || !string.IsNullOrWhiteSpace(AgentSpecContent) || !string.IsNullOrWhiteSpace(EndpointSpecType) || !string.IsNullOrWhiteSpace(EndpointSpecContent) || !string.IsNullOrWhiteSpace(McpServerSpecType) || !string.IsNullOrWhiteSpace(McpServerSpecContent)) && (!string.IsNullOrWhiteSpace(EndpointSpecType) || !string.IsNullOrWhiteSpace(EndpointSpecContent)) && (!(!string.IsNullOrWhiteSpace(EndpointSpecType))))
+        {
+            yield return new ValidationResult("EndpointSpecType must be specified when other arguments in this group are specified.", [nameof(EndpointSpecType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AgentSpecType) || !string.IsNullOrWhiteSpace(AgentSpecContent) || !string.IsNullOrWhiteSpace(EndpointSpecType) || !string.IsNullOrWhiteSpace(EndpointSpecContent) || !string.IsNullOrWhiteSpace(McpServerSpecType) || !string.IsNullOrWhiteSpace(McpServerSpecContent)) && (!string.IsNullOrWhiteSpace(McpServerSpecType) || !string.IsNullOrWhiteSpace(McpServerSpecContent)) && (!(!string.IsNullOrWhiteSpace(McpServerSpecType))))
+        {
+            yield return new ValidationResult("McpServerSpecType must be specified when other arguments in this group are specified.", [nameof(McpServerSpecType)]);
+        }
+        yield break;
+    }
 
 }

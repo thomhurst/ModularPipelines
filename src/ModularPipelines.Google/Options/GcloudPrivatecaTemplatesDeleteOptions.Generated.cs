@@ -19,8 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "templates", "delete")]
-public record GcloudPrivatecaTemplatesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+public record GcloudPrivatecaTemplatesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a certificate template
+    /// </summary>
+    /// <param name="CertificateTemplate">CERTIFICATE TEMPLATE resource - The template to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_TEMPLATE or fully qualified identifier for the CERTIFICATE_TEMPLATE. To set the certificate template attribute: ▸ provide the argument CERTIFICATE_TEMPLATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaTemplatesDeleteOptions(
+        string CertificateTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateTemplate);
+        this.CertificateTemplate = CertificateTemplate;
+    }
+
+    public void Deconstruct(out string CertificateTemplate)
+    {
+        CertificateTemplate = this.CertificateTemplate;
+    }
+
+    /// <summary>
+    /// CERTIFICATE TEMPLATE resource - The template to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CERTIFICATE_TEMPLATE. To set the location attribute: ▸ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE TEMPLATE resource - The template to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_TEMPLATE or fully qualified identifier for the CERTIFICATE_TEMPLATE. To set the certificate template attribute: ▸ provide the argument CERTIFICATE_TEMPLATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CertificateTemplate { get; private init; }
+
 }

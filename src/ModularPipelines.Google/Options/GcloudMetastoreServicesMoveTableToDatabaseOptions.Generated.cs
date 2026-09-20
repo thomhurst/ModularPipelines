@@ -21,4 +21,72 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("metastore", "services", "move-table-to-database")]
 public record GcloudMetastoreServicesMoveTableToDatabaseOptions : GcloudOptions
 {
+    /// <summary>
+    /// move table to another     database
+    /// </summary>
+    /// <param name="DestinationDbName">The name of the database where the table should be moved.</param>
+    /// <param name="SourceDbName">The name of the database where the table resides.</param>
+    /// <param name="TableName">The name of the table to be moved.</param>
+    /// <param name="Service">Service resource - Arguments and flags that specify the table and the destination database you want to move to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreServicesMoveTableToDatabaseOptions(
+        string DestinationDbName,
+        string SourceDbName,
+        string TableName,
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationDbName);
+        this.DestinationDbName = DestinationDbName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbName);
+        this.SourceDbName = SourceDbName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string DestinationDbName, out string SourceDbName, out string TableName, out string Service)
+    {
+        DestinationDbName = this.DestinationDbName;
+        SourceDbName = this.SourceDbName;
+        TableName = this.TableName;
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// The name of the database where the table should be moved.
+    /// </summary>
+    [CliOption("--destination_db_name", Format = OptionFormat.EqualsSeparated)]
+    public string DestinationDbName { get; private init; }
+
+    /// <summary>
+    /// The name of the database where the table resides.
+    /// </summary>
+    [CliOption("--source_db_name", Format = OptionFormat.EqualsSeparated)]
+    public string SourceDbName { get; private init; }
+
+    /// <summary>
+    /// The name of the table to be moved.
+    /// </summary>
+    [CliOption("--table_name", Format = OptionFormat.EqualsSeparated)]
+    public string TableName { get; private init; }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the table and the destination database you want to move to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataproc Metastore service. If not specified, will use default metastore/location. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the table and the destination database you want to move to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
 }

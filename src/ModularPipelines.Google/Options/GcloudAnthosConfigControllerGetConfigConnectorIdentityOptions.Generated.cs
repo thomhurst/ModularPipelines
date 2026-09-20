@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("anthos", "config", "controller", "get-config-connector-identity")]
-public record GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions : GcloudOptions
 {
+    /// <summary>
+    /// fetch     default Config Connector identity
+    /// </summary>
+    /// <param name="Location">The location (region) of the Anthos Config Controller.</param>
+    /// <param name="Name">Name of the Anthos Config Controller.</param>
+    public GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions(
+        string Location,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Location, out string Name)
+    {
+        Location = this.Location;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The location (region) of the Anthos Config Controller.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Name of the Anthos Config Controller.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "logs", "delete")]
-public record GcloudLoggingLogsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string LogName
-) : GcloudOptions
+public record GcloudLoggingLogsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete all entries from a log in the global     _Default log bucket
+    /// </summary>
+    /// <param name="LogName">Log name.</param>
+    public GcloudLoggingLogsDeleteOptions(
+        string LogName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogName);
+        this.LogName = LogName;
+    }
+
+    public void Deconstruct(out string LogName)
+    {
+        LogName = this.LogName;
+    }
+
+    /// <summary>
+    /// Log name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LogName { get; private init; }
+
 }

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("builds", "triggers", "import")]
 public record GcloudBuildsTriggersImportOptions : GcloudOptions
 {
+    /// <summary>
+    /// import a build trigger
+    /// </summary>
+    /// <param name="Source">File path where trigger should be imported from.</param>
+    public GcloudBuildsTriggersImportOptions(
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Source)
+    {
+        Source = this.Source;
+    }
+
+    /// <summary>
+    /// File path where trigger should be imported from.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// The region of the Cloud Build Service to use. Must be set to a supported region name (e.g. us-central1). If unset, builds/region, which is the default region to use when working with Cloud Build resources, is used. If builds/region is unset, region is set to global. Note: Region must be specified in 2nd gen repo; global is not supported.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

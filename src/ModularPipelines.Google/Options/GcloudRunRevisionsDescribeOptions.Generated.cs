@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunRevisionsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// obtain details about revisions
+    /// </summary>
+    /// <param name="Revision">Revision resource - Revision to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument REVISION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRunRevisionsDescribeOptions(
+        string Revision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+    }
+
+    public void Deconstruct(out string Revision)
+    {
+        Revision = this.Revision;
+    }
+
+    /// <summary>
+    /// Revision resource - Revision to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Specific to Cloud Run for Anthos: Kubernetes namespace for the revision. To set the namespace attribute: ▸ provide the argument REVISION on the command line with a fully specified name; ▸ provide the argument --namespace on the command line; ▸ set the property run/namespace; ▸ For Cloud Run on Kubernetes Engine, defaults to "default". Otherwise, defaults to project ID.; ▸ provide the argument project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
     /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Revision resource - Revision to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument REVISION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Revision { get; private init; }
 
 }

@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("assured", "operations", "describe")]
 public record GcloudAssuredOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe Assured Workloads operations
+    /// </summary>
+    /// <param name="Operation">Operation resource - The Assured Workloads operation resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAssuredOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Operation resource - The Assured Workloads operation resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the operation. To set the location attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Operation resource - The Assured Workloads operation resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The parent organization for the operation. To set the organization attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Operation resource - The Assured Workloads operation resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

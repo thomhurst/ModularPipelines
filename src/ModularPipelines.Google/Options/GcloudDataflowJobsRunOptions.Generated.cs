@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,188 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "jobs", "run")]
-public record GcloudDataflowJobsRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string JobName
-) : GcloudOptions
+public record GcloudDataflowJobsRunOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// runs a job from the specified path
+    /// </summary>
+    /// <param name="GcsLocation">The Google Cloud Storage location of the job template to run. (Must be a URL beginning with 'gs://'.)</param>
+    /// <param name="JobName">The unique name to assign to the job.</param>
+    public GcloudDataflowJobsRunOptions(
+        string GcsLocation,
+        string JobName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcsLocation);
+        this.GcsLocation = GcsLocation;
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+    }
+
+    public void Deconstruct(out string GcsLocation, out string JobName)
+    {
+        GcsLocation = this.GcsLocation;
+        JobName = this.JobName;
+    }
+
+    /// <summary>
+    /// The Google Cloud Storage location of the job template to run. (Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--gcs-location", Format = OptionFormat.EqualsSeparated)]
+    public string GcsLocation { get; private init; }
+
+    /// <summary>
+    /// Additional experiments to pass to the job. These experiments are appended to any experiments already set by the template. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-experiments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalExperiments { get; set; }
+
+    /// <summary>
+    /// Additional pipeline options to pass to the job for launching a Dataflow template. Example: --additional-pipeline-options=option1=value1,option2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-pipeline-options", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalPipelineOptions { get; set; }
+
+    /// <summary>
+    /// Additional user labels to pass to the job. Example: --additional-user-labels='key1=value1,key2=value2' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-user-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalUserLabels { get; set; }
+
+    /// <summary>
+    /// The Cloud KMS key to protect the job resources.
+    /// </summary>
+    [CliOption("--dataflow-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? DataflowKmsKey { get; set; }
+
+    /// <summary>
+    /// The Cloud Dataflow workers must not use public IP addresses. Overrides the default dataflow/disable_public_ips property value for this command invocation.
+    /// </summary>
+    [CliFlag("--disable-public-ips")]
+    public bool? DisablePublicIps { get; set; }
+
+    /// <summary>
+    /// Enabling Streaming Engine for the streaming job. Overrides the default dataflow/enable_streaming_engine property value for this command invocation.
+    /// </summary>
+    [CliFlag("--enable-streaming-engine")]
+    public bool? EnableStreamingEngine { get; set; }
+
+    /// <summary>
+    /// Enable Turnkey Alerts for this job. Disabled by default. Use --enable-turnkey-alerts to enable and --no-enable-turnkey-alerts to disable.
+    /// </summary>
+    [CliFlag("--enable-turnkey-alerts")]
+    public bool? EnableTurnkeyAlerts { get; set; }
+
+    /// <summary>
+    /// Negates --enable-turnkey-alerts. Enable Turnkey Alerts for this job. Disabled by default. Use --enable-turnkey-alerts to enable and --no-enable-turnkey-alerts to disable.
+    /// </summary>
+    [CliFlag("--no-enable-turnkey-alerts")]
+    public bool? NoEnableTurnkeyAlerts { get; set; }
+
+    /// <summary>
+    /// The maximum number of workers to run.
+    /// </summary>
+    [CliOption("--max-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWorkers { get; set; }
+
+    /// <summary>
+    /// The Compute Engine network for launching instances to run your pipeline.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The initial number of workers to use.
+    /// </summary>
+    [CliOption("--num-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? NumWorkers { get; set; }
+
+    /// <summary>
+    /// The parameters to pass to the job. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--parameters", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Parameters { get; set; }
+
+    /// <summary>
+    /// Region ID of the job's regional endpoint. Defaults to 'us-central1'.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The service account to run the workers as.
+    /// </summary>
+    [CliOption("--service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccountEmail { get; set; }
+
+    /// <summary>
+    /// The Google Cloud Storage location to stage temporary files. (Must be a URL beginning with 'gs://'.)
+    /// </summary>
+    [CliOption("--staging-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StagingLocation { get; set; }
+
+    /// <summary>
+    /// The Compute Engine subnetwork for launching instances to run your pipeline.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// The type of machine to use for workers. Defaults to server-specified.
+    /// </summary>
+    [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerMachineType { get; set; }
+
+    /// <summary>
+    /// Set this to true for streaming update jobs. Use --update to enable and --no-update to disable.
+    /// </summary>
+    [CliFlag("--update")]
+    public bool? Update { get; set; }
+
+    /// <summary>
+    /// Negates --update. Set this to true for streaming update jobs. Use --update to enable and --no-update to disable.
+    /// </summary>
+    [CliFlag("--no-update")]
+    public bool? NoUpdate { get; set; }
+
+    /// <summary>
+    /// Transform name mappings for the streaming update job. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--transform-name-mappings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TransformNameMappings { get; set; }
+
+    /// <summary>
+    /// Worker location options. At most one of these can be specified: The region to run the workers in.
+    /// </summary>
+    [CliOption("--worker-region", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerRegion { get; set; }
+
+    /// <summary>
+    /// Worker location options. At most one of these can be specified: The zone to run the workers in.
+    /// </summary>
+    [CliOption("--worker-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerZone { get; set; }
+
+    /// <summary>
+    /// Worker location options. At most one of these can be specified: (DEPRECATED) The zone to run the workers in. The --zone option is deprecated; use --worker-region or --worker-zone instead.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// The unique name to assign to the job.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string JobName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(WorkerRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerZone) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of WorkerRegion, WorkerZone, or Zone may be specified.", [nameof(WorkerRegion), nameof(WorkerZone), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

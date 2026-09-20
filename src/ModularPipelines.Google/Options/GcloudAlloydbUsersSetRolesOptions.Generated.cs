@@ -19,8 +19,79 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "users", "set-roles")]
-public record GcloudAlloydbUsersSetRolesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
-) : GcloudOptions
+public record GcloudAlloydbUsersSetRolesOptions : GcloudOptions
 {
+    /// <summary>
+    /// update an AlloyDB user's database roles     within a given cluster and region
+    /// </summary>
+    /// <param name="Cluster">AlloyDB cluster ID</param>
+    /// <param name="DbRoles">Comma separated list of database roles this new user will be granted upon creation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+    /// <param name="Username">AlloyDB username</param>
+    public GcloudAlloydbUsersSetRolesOptions(
+        string Cluster,
+        IEnumerable<string> DbRoles,
+        string Region,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DbRoles);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DbRoles));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DbRoles));
+            }
+
+            DbRoles = materialized;
+        }
+        this.DbRoles = DbRoles;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    public void Deconstruct(out string Cluster, out IEnumerable<string> DbRoles, out string Region, out string Username)
+    {
+        Cluster = this.Cluster;
+        DbRoles = this.DbRoles;
+        Region = this.Region;
+        Username = this.Username;
+    }
+
+    /// <summary>
+    /// AlloyDB cluster ID
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string Cluster { get; private init; }
+
+    /// <summary>
+    /// Comma separated list of database roles this new user will be granted upon creation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--db-roles", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> DbRoles { get; private init; }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// If the user already exists and has extra roles, keep them.
+    /// </summary>
+    [CliOption("--keep-extra-roles", Format = OptionFormat.EqualsSeparated)]
+    public string? KeepExtraRoles { get; set; }
+
+    /// <summary>
+    /// AlloyDB username
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Username { get; private init; }
+
 }

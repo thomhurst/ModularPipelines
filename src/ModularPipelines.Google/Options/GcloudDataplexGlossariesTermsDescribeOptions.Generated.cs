@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "glossaries", "terms", "describe")]
 public record GcloudDataplexGlossariesTermsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a glossary term
+    /// </summary>
+    /// <param name="GlossaryTerm">Glossary term resource - Arguments and flags that define the glossary term you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_term on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary term or fully qualified identifier for the glossary term. To set the glossary_term attribute: ▸ provide the argument glossary_term on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexGlossariesTermsDescribeOptions(
+        string GlossaryTerm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlossaryTerm);
+        this.GlossaryTerm = GlossaryTerm;
+    }
+
+    public void Deconstruct(out string GlossaryTerm)
+    {
+        GlossaryTerm = this.GlossaryTerm;
+    }
+
+    /// <summary>
+    /// Glossary term resource - Arguments and flags that define the glossary term you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_term on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Identifier of the Dataplex Glossary resource. To set the glossary attribute: ▸ provide the argument glossary_term on the command line with a fully specified name; ▸ provide the argument --glossary on the command line.
+    /// </summary>
+    [CliOption("--glossary", Format = OptionFormat.EqualsSeparated)]
+    public string? Glossary { get; set; }
+
+    /// <summary>
+    /// Glossary term resource - Arguments and flags that define the glossary term you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_term on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument glossary_term on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Glossary term resource - Arguments and flags that define the glossary term you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_term on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary term or fully qualified identifier for the glossary term. To set the glossary_term attribute: ▸ provide the argument glossary_term on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GlossaryTerm { get; private init; }
+
 }

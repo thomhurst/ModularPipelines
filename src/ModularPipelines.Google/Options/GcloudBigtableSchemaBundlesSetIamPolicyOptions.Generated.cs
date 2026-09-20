@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "schema-bundles", "set-iam-policy")]
-public record GcloudBigtableSchemaBundlesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudBigtableSchemaBundlesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set an IAM policy on a     Bigtable schema bundle
+    /// </summary>
+    /// <param name="SchemaBundle">Schema bundle resource - Bigtable schema bundle to set the IAM policy on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema-bundle or fully qualified identifier for the schema-bundle. To set the schema_bundle attribute: ▸ provide the argument schema_bundle on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudBigtableSchemaBundlesSetIamPolicyOptions(
+        string SchemaBundle,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaBundle);
+        this.SchemaBundle = SchemaBundle;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string SchemaBundle, out string PolicyFile)
+    {
+        SchemaBundle = this.SchemaBundle;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to set the IAM policy on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument schema_bundle on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to set the IAM policy on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable table. To set the table attribute: ▸ provide the argument schema_bundle on the command line with a fully specified name; ▸ provide the argument --table on the command line.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string? Table { get; set; }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to set the IAM policy on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema-bundle or fully qualified identifier for the schema-bundle. To set the schema_bundle attribute: ▸ provide the argument schema_bundle on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SchemaBundle { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

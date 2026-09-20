@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("telco-automation", "orchestration-cluster", "describe")]
 public record GcloudTelcoAutomationOrchestrationClusterDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about     the orchestration cluster
+    /// </summary>
+    /// <param name="OrchestrationCluster">Orchestration Cluster resource - The orchestration cluster you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument orchestration_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Orchestration Cluster or fully qualified identifier for the Orchestration Cluster. To set the orchestration_cluster attribute: ▸ provide the argument orchestration_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudTelcoAutomationOrchestrationClusterDescribeOptions(
+        string OrchestrationCluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrchestrationCluster);
+        this.OrchestrationCluster = OrchestrationCluster;
+    }
+
+    public void Deconstruct(out string OrchestrationCluster)
+    {
+        OrchestrationCluster = this.OrchestrationCluster;
+    }
+
+    /// <summary>
+    /// Orchestration Cluster resource - The orchestration cluster you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument orchestration_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument orchestration_cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Orchestration Cluster resource - The orchestration cluster you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument orchestration_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Orchestration Cluster or fully qualified identifier for the Orchestration Cluster. To set the orchestration_cluster attribute: ▸ provide the argument orchestration_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrchestrationCluster { get; private init; }
+
 }

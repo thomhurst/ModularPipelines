@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "attachments", "groups", "get-operational-status")]
-public record GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the operational status of a Compute Engine interconnect attachment     group
+    /// </summary>
+    /// <param name="Name">Name of the interconnect attachment group to get operational status.</param>
+    public GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the interconnect attachment group to get operational status.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

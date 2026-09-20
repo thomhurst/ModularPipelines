@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeploymentManagerManifestsListOptions : GcloudOptions
 {
     /// <summary>
+    /// list manifests in a deployment
+    /// </summary>
+    /// <param name="Deployment">Deployment name.</param>
+    public GcloudDeploymentManagerManifestsListOptions(
+        string Deployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Deployment);
+        this.Deployment = Deployment;
+    }
+
+    public void Deconstruct(out string Deployment)
+    {
+        Deployment = this.Deployment;
+    }
+
+    /// <summary>
+    /// Deployment name.
+    /// </summary>
+    [CliOption("--deployment", Format = OptionFormat.EqualsSeparated)]
+    public string Deployment { get; private init; }
+
+    /// <summary>
     /// Changes the --format flag to print the resource IDs. Otherwise either the --format value or the default format is used.
     /// </summary>
     [CliFlag("--simple-list")]

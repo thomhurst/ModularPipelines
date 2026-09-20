@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "ai", "profiles", "model-servers", "list")]
 public record GcloudContainerAiProfilesModelServersListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list supported model     servers for a given model
+    /// </summary>
+    /// <param name="Model">The model.</param>
+    public GcloudContainerAiProfilesModelServersListOptions(
+        string Model
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+    }
+
+    public void Deconstruct(out string Model)
+    {
+        Model = this.Model;
+    }
+
+    /// <summary>
+    /// The model.
+    /// </summary>
+    [CliOption("--model", Format = OptionFormat.EqualsSeparated)]
+    public string Model { get; private init; }
+
 }

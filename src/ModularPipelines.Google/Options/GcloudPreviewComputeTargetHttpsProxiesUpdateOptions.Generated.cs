@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-https-proxies", "update")]
-public record GcloudPreviewComputeTargetHttpsProxiesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeTargetHttpsProxiesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a target HTTPS     proxy
+    /// </summary>
+    /// <param name="Name">Name of the target HTTPS proxy to update.</param>
+    public GcloudPreviewComputeTargetHttpsProxiesUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Controls whether load balancer may negotiate QUIC with clients. QUIC is a new transport which reduces latency compared to that of TCP. See https://www.chromium.org/quic for more details. QUIC_OVERRIDE must be one of: DISABLE Disallows load balancer to negotiate QUIC with clients. ENABLE Allows load balancer to negotiate QUIC with clients. NONE Allows Google to control when QUIC is rolled out.
     /// </summary>
@@ -42,43 +58,87 @@ public record GcloudPreviewComputeTargetHttpsProxiesUpdateOptions(
     public string? UrlMap { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Certificate resource - certificate-manager-certificates to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the location attribute: ▫ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▫ default value of location is [global]. IDs of the certificates or fully qualified identifiers for the certificates. To set the certificate attribute:
+    /// At most one of these can be specified: At most one of these can be specified: Certificate resource - certificate-manager-certificates to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the location attribute: ▫ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▫ default value of location is [global]. IDs of the certificates or fully qualified identifiers for the certificates. To set the certificate attribute: Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--certificate-manager-certificates", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CertificateManagerCertificates { get; set; }
+    [CliOption("--certificate-manager-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CertificateManagerCertificates
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CertificateManagerCertificatesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CertificateManagerCertificatesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// ▫ provide the argument --certificate-manager-certificates on the command line. Remove any attached SSL certificates from the HTTPS proxy.
+    /// At most one of these can be specified: At most one of these can be specified: ▫ provide the argument --certificate-manager-certificates on the command line. Remove any attached SSL certificates from the HTTPS proxy.
     /// </summary>
     [CliFlag("--clear-ssl-certificates")]
     public bool? ClearSslCertificates { get; set; }
 
     /// <summary>
-    /// ▫ provide the argument --certificate-manager-certificates on the command line. References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target HTTPS proxy.
+    /// At most one of these can be specified: At most one of these can be specified: ▫ provide the argument --certificate-manager-certificates on the command line. References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target HTTPS proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SslCertificates { get; set; }
+    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SslCertificates
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SslCertificatesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SslCertificatesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: If set, the ssl certificates are global.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: If set, the ssl certificates are global.
     /// </summary>
     [CliFlag("--global-ssl-certificates")]
     public bool? GlobalSslCertificates { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Region of the ssl certificates to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Region of the ssl certificates to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--ssl-certificates-region", Format = OptionFormat.EqualsSeparated)]
     public string? SslCertificatesRegion { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ default value of location is [global]. ID of the certificate map or fully qualified identifier for the certificate map. To set the map attribute:
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ default value of location is [global]. ID of the certificate map or fully qualified identifier for the certificate map. To set the map attribute:
     /// </summary>
     [CliOption("--certificate-map", Format = OptionFormat.EqualsSeparated)]
     public string? CertificateMap { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --certificate-map on the command line. Removes any attached certificate map from the HTTPS proxy.
+    /// At most one of these can be specified: At most one of these can be specified: ▸ provide the argument --certificate-map on the command line. Removes any attached certificate map from the HTTPS proxy.
     /// </summary>
     [CliFlag("--clear-certificate-map")]
     public bool? ClearCertificateMap { get; set; }
@@ -154,5 +214,53 @@ public record GcloudPreviewComputeTargetHttpsProxiesUpdateOptions(
     /// </summary>
     [CliOption("--url-map-region", Format = OptionFormat.EqualsSeparated)]
     public string? UrlMapRegion { get; set; }
+
+    /// <summary>
+    /// Name of the target HTTPS proxy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((((object?)CertificateManagerCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)CertificateManagerCertificates is not string || !string.IsNullOrWhiteSpace(CertificateManagerCertificates?.ToString()) : ((object?)CertificateManagerCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CertificateManagerCertificates, static item => item is not null) : (CertificateManagerCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CertificateManagerCertificates), static item => item is not null))))) ? 1 : 0) + ((ClearSslCertificates == true || ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)SslCertificates is not string || !string.IsNullOrWhiteSpace(SslCertificates?.ToString()) : ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SslCertificates, static item => item is not null) : (SslCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SslCertificates), static item => item is not null))))) ? 1 : 0) + ((GlobalSslCertificates == true || !string.IsNullOrWhiteSpace(SslCertificatesRegion)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CertificateMap)) ? 1 : 0) + ((ClearCertificateMap == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (CertificateManagerCertificates), (ClearSslCertificates or SslCertificates), (GlobalSslCertificates or SslCertificatesRegion), (CertificateMap), or (ClearCertificateMap) may be specified.", [nameof(CertificateManagerCertificates), nameof(ClearSslCertificates), nameof(SslCertificates), nameof(GlobalSslCertificates), nameof(SslCertificatesRegion), nameof(CertificateMap), nameof(ClearCertificateMap)]);
+        }
+        if ((((object?)CertificateManagerCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)CertificateManagerCertificates is not string || !string.IsNullOrWhiteSpace(CertificateManagerCertificates?.ToString()) : ((object?)CertificateManagerCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CertificateManagerCertificates, static item => item is not null) : (CertificateManagerCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CertificateManagerCertificates), static item => item is not null)))) || ClearSslCertificates == true || ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)SslCertificates is not string || !string.IsNullOrWhiteSpace(SslCertificates?.ToString()) : ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SslCertificates, static item => item is not null) : (SslCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SslCertificates), static item => item is not null)))) || GlobalSslCertificates == true || !string.IsNullOrWhiteSpace(SslCertificatesRegion) || !string.IsNullOrWhiteSpace(CertificateMap) || ClearCertificateMap == true) && ((GlobalSslCertificates == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SslCertificatesRegion) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of GlobalSslCertificates or SslCertificatesRegion may be specified.", [nameof(GlobalSslCertificates), nameof(SslCertificatesRegion)]);
+        }
+        if ((((object?)CertificateManagerCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)CertificateManagerCertificates is not string || !string.IsNullOrWhiteSpace(CertificateManagerCertificates?.ToString()) : ((object?)CertificateManagerCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CertificateManagerCertificates, static item => item is not null) : (CertificateManagerCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CertificateManagerCertificates), static item => item is not null)))) || ClearSslCertificates == true || ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)SslCertificates is not string || !string.IsNullOrWhiteSpace(SslCertificates?.ToString()) : ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SslCertificates, static item => item is not null) : (SslCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SslCertificates), static item => item is not null)))) || GlobalSslCertificates == true || !string.IsNullOrWhiteSpace(SslCertificatesRegion) || !string.IsNullOrWhiteSpace(CertificateMap) || ClearCertificateMap == true) && ((!string.IsNullOrWhiteSpace(CertificateMap) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of CertificateMap may be specified.", [nameof(CertificateMap)]);
+        }
+        if ((ClearHttpKeepAliveTimeoutSec == true ? 1 : 0) + ((object?)HttpKeepAliveTimeoutSec is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearHttpKeepAliveTimeoutSec or HttpKeepAliveTimeoutSec may be specified.", [nameof(ClearHttpKeepAliveTimeoutSec), nameof(HttpKeepAliveTimeoutSec)]);
+        }
+        if ((ClearServerTlsPolicy == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ServerTlsPolicy)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearServerTlsPolicy or (ServerTlsPolicy) may be specified.", [nameof(ClearServerTlsPolicy), nameof(ServerTlsPolicy)]);
+        }
+        if ((ClearSslPolicy == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SslPolicy) || GlobalSslPolicy == true || !string.IsNullOrWhiteSpace(SslPolicyRegion)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSslPolicy or (SslPolicy, GlobalSslPolicy, or SslPolicyRegion) may be specified.", [nameof(ClearSslPolicy), nameof(SslPolicy), nameof(GlobalSslPolicy), nameof(SslPolicyRegion)]);
+        }
+        if ((ClearSslPolicy == true || !string.IsNullOrWhiteSpace(SslPolicy) || GlobalSslPolicy == true || !string.IsNullOrWhiteSpace(SslPolicyRegion)) && (!string.IsNullOrWhiteSpace(SslPolicy) || GlobalSslPolicy == true || !string.IsNullOrWhiteSpace(SslPolicyRegion)) && ((GlobalSslPolicy == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SslPolicyRegion) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of GlobalSslPolicy or SslPolicyRegion may be specified.", [nameof(GlobalSslPolicy), nameof(SslPolicyRegion)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        if ((GlobalUrlMap == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(UrlMapRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalUrlMap or UrlMapRegion may be specified.", [nameof(GlobalUrlMap), nameof(UrlMapRegion)]);
+        }
+        yield break;
+    }
 
 }

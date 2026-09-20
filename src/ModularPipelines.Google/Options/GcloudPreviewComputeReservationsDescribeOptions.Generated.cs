@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "reservations", "describe")]
 public record GcloudPreviewComputeReservationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about a Compute     Engine reservation
+    /// </summary>
+    /// <param name="Reservation">Reservation resource - The name of the reservation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument reservation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the reservation or fully qualified identifier for the reservation. To set the reservation attribute: ▸ provide the argument reservation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPreviewComputeReservationsDescribeOptions(
+        string Reservation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Reservation);
+        this.Reservation = Reservation;
+    }
+
+    public void Deconstruct(out string Reservation)
+    {
+        Reservation = this.Reservation;
+    }
+
+    /// <summary>
+    /// Reservation resource - The name of the reservation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument reservation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine zone. To set the zone attribute: ▸ provide the argument reservation on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Reservation resource - The name of the reservation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument reservation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the reservation or fully qualified identifier for the reservation. To set the reservation attribute: ▸ provide the argument reservation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Reservation { get; private init; }
+
 }

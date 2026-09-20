@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,169 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("colab", "schedules", "create")]
-public record GcloudColabSchedulesCreateOptions : GcloudOptions
+public record GcloudColabSchedulesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a schedule
+    /// </summary>
+    /// <param name="CronSchedule">Configuration of the schedule. This must be specified. Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * ", or "TZ=America/New_York 1 * * * ". This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="DisplayName">Configuration of the schedule. This must be specified. The display name of the schedule. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="ExecutionDisplayName">Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The display name of the execution. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="GcsOutputUri">Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The Cloud Storage location to upload notebook execution results to. Format: gs://bucket-name. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="NotebookRuntimeTemplate">Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. Notebook runtime template resource - The runtime template specifying the compute configuration for the notebook execution. The runtime template should be in the same region as the execution. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --notebook-runtime-template on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the region attribute: ▫ provide the argument --notebook-runtime-template on the command line with a fully specified name; ▫ provide the argument --region on the command line; ▫ set the property colab/region. This must be specified. ID of the notebook runtime template or fully qualified identifier for the notebook runtime template. To set the name attribute: ◇ provide the argument --notebook-runtime-template on the command line.</param>
+    public GcloudColabSchedulesCreateOptions(
+        string CronSchedule,
+        string DisplayName,
+        string ExecutionDisplayName,
+        string GcsOutputUri,
+        string NotebookRuntimeTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CronSchedule);
+        this.CronSchedule = CronSchedule;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionDisplayName);
+        this.ExecutionDisplayName = ExecutionDisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(GcsOutputUri);
+        this.GcsOutputUri = GcsOutputUri;
+        global::System.ArgumentNullException.ThrowIfNull(NotebookRuntimeTemplate);
+        this.NotebookRuntimeTemplate = NotebookRuntimeTemplate;
+    }
+
+    public void Deconstruct(out string CronSchedule, out string DisplayName, out string ExecutionDisplayName, out string GcsOutputUri, out string NotebookRuntimeTemplate)
+    {
+        CronSchedule = this.CronSchedule;
+        DisplayName = this.DisplayName;
+        ExecutionDisplayName = this.ExecutionDisplayName;
+        GcsOutputUri = this.GcsOutputUri;
+        NotebookRuntimeTemplate = this.NotebookRuntimeTemplate;
+    }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * ", or "TZ=America/New_York 1 * * * ". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--cron-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string CronSchedule { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. The display name of the schedule. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The display name of the execution. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--execution-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string ExecutionDisplayName { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The Cloud Storage location to upload notebook execution results to. Format: gs://bucket-name. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gcs-output-uri", Format = OptionFormat.EqualsSeparated)]
+    public string GcsOutputUri { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. Notebook runtime template resource - The runtime template specifying the compute configuration for the notebook execution. The runtime template should be in the same region as the execution. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --notebook-runtime-template on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the region attribute: ▫ provide the argument --notebook-runtime-template on the command line with a fully specified name; ▫ provide the argument --region on the command line; ▫ set the property colab/region. This must be specified. ID of the notebook runtime template or fully qualified identifier for the notebook runtime template. To set the name attribute: ◇ provide the argument --notebook-runtime-template on the command line.
+    /// </summary>
+    [CliOption("--notebook-runtime-template", Format = OptionFormat.EqualsSeparated)]
+    public string NotebookRuntimeTemplate { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Enables new scheduled runs to be queued when max_concurrent_runs limit is reached. If set to true, new runs will be queued instead of skipped.
+    /// </summary>
+    [CliFlag("--enable-queueing")]
+    public bool? EnableQueueing { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Timestamp after which no new runs can be scheduled. If specified, the schedule will be completed when either end_time is reached or when scheduled_run_count &gt;= max_run_count. If neither end time nor max_run_count is specified, new runs will keep getting scheduled until this Schedule is paused or deleted. Must be in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2026-01-01T00:00:00Z" or "2026-01-01T00:00:00-05:00"
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Maximum number of runs that can be started concurrently for this Schedule. This is the limit for starting the scheduled requests and not the execution of the notebook execution jobs created by the requests.
+    /// </summary>
+    [CliOption("--max-concurrent-runs", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxConcurrentRuns { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. The max runs for the schedule.
+    /// </summary>
+    [CliOption("--max-runs", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRuns { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. The timestamp after which the first run can be scheduled. Defaults to the schedule creation time. Must be in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2026-01-01T00:00:00Z" or "2026-01-01T00:00:00-05:00"
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The max running time of the execution job, as a duration. See '$ gcloud topic datetimes' for details on formatting the input duration.
+    /// </summary>
+    [CliOption("--execution-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutionTimeout { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. Source of the notebook to execute. Exactly one of these must be specified: The Dataform repository containing the notebook. Any notebook created from the Colab UI is automatically stored in a Dataform repository. The repository name can be found via the Dataform API by listing repositories in the same project and region as the notebook. Dataform repository resource - Unique name of the Dataform repository to source input notebook from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --dataform-repository-name on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. To set the region attribute: ◇ provide the argument --dataform-repository-name on the command line with a fully specified name; ◇ provide the argument --region on the command line; ◇ set the property colab/region. This must be specified. ID of the dataform repository or fully qualified identifier for the dataform repository. To set the name attribute: ▹ provide the argument --dataform-repository-name on the command line.
+    /// </summary>
+    [CliOption("--dataform-repository-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DataformRepositoryName { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The commit SHA to read from the Dataform repository. If unset, the file will be read from HEAD.
+    /// </summary>
+    [CliOption("--commit-sha", Format = OptionFormat.EqualsSeparated)]
+    public string? CommitSha { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The Cloud Storage notebook source. The Cloud Storage uri pointing to the notebook. Format: gs://bucket/notebook_file.ipynb This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gcs-notebook-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsNotebookUri { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The Cloud Storage notebook source. The version of the Cloud Storage object to read. If unset, the current version of the object will be used.
+    /// </summary>
+    [CliOption("--generation", Format = OptionFormat.EqualsSeparated)]
+    public string? Generation { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. Identity to run the execution as. Exactly one of these must be specified: The service account to run the execution as.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. Identity to run the execution as. Exactly one of these must be specified: The user email to run the execution as. This requires the provided runtime template to have end user credentials enabled.
+    /// </summary>
+    [CliOption("--user-email", Format = OptionFormat.EqualsSeparated)]
+    public string? UserEmail { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property colab/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DataformRepositoryName) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DataformRepositoryName must be specified.", [nameof(DataformRepositoryName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GcsNotebookUri) || !string.IsNullOrWhiteSpace(Generation)) && (!(!string.IsNullOrWhiteSpace(GcsNotebookUri))))
+        {
+            yield return new ValidationResult("GcsNotebookUri must be specified when other arguments in this group are specified.", [nameof(GcsNotebookUri)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServiceAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(UserEmail) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ServiceAccount or UserEmail must be specified.", [nameof(ServiceAccount), nameof(UserEmail)]);
+        }
+        yield break;
+    }
+
 }

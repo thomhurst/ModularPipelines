@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "get-nat-mapping-info")]
-public record GcloudComputeRoutersGetNatMappingInfoOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeRoutersGetNatMappingInfoOptions : GcloudOptions
 {
+    /// <summary>
+    /// display NAT Mapping     information in a router
+    /// </summary>
+    /// <param name="Name">Name of the router to get NAT mapping info.</param>
+    public GcloudComputeRoutersGetNatMappingInfoOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The NAT name to filter out NAT mapping information
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudComputeRoutersGetNatMappingInfoOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the router to get NAT mapping info.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -6,10 +6,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,111 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "iceberg", "catalogs", "create")]
-public record GcloudBiglakeIcebergCatalogsCreateOptions : GcloudOptions
+public record GcloudBiglakeIcebergCatalogsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a BigLake Iceberg REST     catalog
+    /// </summary>
+    /// <param name="CatalogType">Catalog type to create the catalog with. CATALOG_TYPE must be one of: biglake BigLake Iceberg catalog. Catalog type which allows namespaces and tables within a catalog to be mapped to locations beyond the catalog's designated default. Note: biglake and lakehouse catalog types are the same. gcs-bucket A catalog backed by a Cloud Storage bucket. lakehouse BigLake Iceberg catalog. Catalog type which allows namespaces and tables within a catalog to be mapped to locations beyond the catalog's designated default. Note: biglake and lakehouse catalog types are the same.</param>
+    /// <param name="Catalog">Catalog resource - The Iceberg Catalog to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.</param>
+    public GcloudBiglakeIcebergCatalogsCreateOptions(
+        string CatalogType,
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CatalogType);
+        this.CatalogType = CatalogType;
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    public void Deconstruct(out string CatalogType, out string Catalog)
+    {
+        CatalogType = this.CatalogType;
+        Catalog = this.Catalog;
+    }
+
+    /// <summary>
+    /// Catalog type to create the catalog with. CATALOG_TYPE must be one of: biglake BigLake Iceberg catalog. Catalog type which allows namespaces and tables within a catalog to be mapped to locations beyond the catalog's designated default. Note: biglake and lakehouse catalog types are the same. gcs-bucket A catalog backed by a Cloud Storage bucket. lakehouse BigLake Iceberg catalog. Catalog type which allows namespaces and tables within a catalog to be mapped to locations beyond the catalog's designated default. Note: biglake and lakehouse catalog types are the same.
+    /// </summary>
+    [CliOption("--catalog-type", Format = OptionFormat.EqualsSeparated)]
+    public string CatalogType { get; private init; }
+
+    /// <summary>
+    /// Credential mode to create the catalog with. CREDENTIAL_MODE must be one of: end-user Use end user credentials to access the catalog. vended-credentials Use vended credentials to access the catalog.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--credential-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialMode { get; set; }
+
+    /// <summary>
+    /// Whether to enable caching of remote data on Google Cloud. This may result in data being temporarily persisted on Google Cloud. MODE must be one of: enabled, disabled.
+    /// </summary>
+    [CliOption("--cross-cloud-cache", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBiglakeIcebergCatalogsCreateCrossCloudCache? CrossCloudCache { get; set; }
+
+    /// <summary>
+    /// Can only be used with BigLake catalogs. The default storage location for the catalog, e.g., gs://my-bucket/....
+    /// </summary>
+    [CliOption("--default-location", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultLocation { get; set; }
+
+    /// <summary>
+    /// Description of the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Primary location for mirroring the remote catalog metadata. It must be a BigLake-supported location, and it should be proximate to the remote catalog's location for better performance and lower cost.
+    /// </summary>
+    [CliOption("--primary-location", Format = OptionFormat.EqualsSeparated)]
+    public string? PrimaryLocation { get; set; }
+
+    /// <summary>
+    /// Additional Google Cloud Storage buckets and locations (e.g., gs://my-other-bucket/...) that are permitted for use by resources within a catalog. This field is currently only used for BigLake catalogs.If restricted_locations is empty and unrestricted catalog creation is enabled, all accessible locations are allowed. Otherwise, only default_location and locations in this list are allowed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--restricted-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RestrictedLocations { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the catalog. The BigQuery encryption service account (bq-&lt;project_number&gt;@bigquery-encryption.iam.gserviceaccount.com) must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the catalog. The BigQuery encryption service account (bq-&lt;project_number&gt;@bigquery-encryption.iam.gserviceaccount.com) must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the catalog. The BigQuery encryption service account (bq-&lt;project_number&gt;@bigquery-encryption.iam.gserviceaccount.com) must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the catalog. The BigQuery encryption service account (bq-&lt;project_number&gt;@bigquery-encryption.iam.gserviceaccount.com) must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Catalog resource - The Iceberg Catalog to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Catalog { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

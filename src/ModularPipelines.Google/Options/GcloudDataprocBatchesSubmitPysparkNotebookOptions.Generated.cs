@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,14 +21,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "batches", "submit", "pyspark-notebook")]
-public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NotebookFile
-) : GcloudOptions
+public record GcloudDataprocBatchesSubmitPysparkNotebookOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Archives to be extracted into the working directory. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
+    /// submit a PySpark notebook     batch job
     /// </summary>
-    [CliOption("--archives", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="NotebookFile">The HCFS URI of the notebook file to execute.</param>
+    public GcloudDataprocBatchesSubmitPysparkNotebookOptions(
+        string NotebookFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NotebookFile);
+        this.NotebookFile = NotebookFile;
+    }
+
+    public void Deconstruct(out string NotebookFile)
+    {
+        NotebookFile = this.NotebookFile;
+    }
+
+    /// <summary>
+    /// Archives to be extracted into the working directory. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--archives", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Archives { get; set; }
 
     /// <summary>
@@ -55,9 +71,9 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     public string? DepsBucket { get; set; }
 
     /// <summary>
-    /// Files to be placed in the working directory.
+    /// Files to be placed in the working directory. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--files", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Files { get; set; }
 
     /// <summary>
@@ -67,9 +83,9 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     public string? HistoryServerCluster { get; set; }
 
     /// <summary>
-    /// Comma-separated list of jar files to be provided to the classpaths.
+    /// Comma-separated list of jar files to be provided to the classpaths. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--jars", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--jars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Jars { get; set; }
 
     /// <summary>
@@ -79,9 +95,9 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -97,15 +113,15 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     public IEnumerable<string>? Param { get; set; }
 
     /// <summary>
-    /// Specifies configuration properties for the workload. See Dataproc Serverless for Spark documentation (https://cloud.google.com/dataproc-serverless/docs/concepts/properties) for the list of supported properties.
+    /// Specifies configuration properties for the workload. See Dataproc Serverless for Spark documentation (https://cloud.google.com/dataproc-serverless/docs/concepts/properties) for the list of supported properties. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
-    public string? Properties { get; set; }
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Properties { get; set; }
 
     /// <summary>
-    /// Comma-separated list of Python scripts to be passed to the PySpark framework. Supported file types: .py, .egg and .zip.
+    /// Comma-separated list of Python scripts to be passed to the PySpark framework. Supported file types: .py, .egg and .zip. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--py-files", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--py-files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? PyFiles { get; set; }
 
     /// <summary>
@@ -139,9 +155,9 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     public string? StagingBucket { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Network tags for traffic control.
+    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Network tags for traffic control. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -173,5 +189,21 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
+
+    /// <summary>
+    /// The HCFS URI of the notebook file to execute.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NotebookFile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Network) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Subnet) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Network or Subnet may be specified.", [nameof(Network), nameof(Subnet)]);
+        }
+        yield break;
+    }
 
 }

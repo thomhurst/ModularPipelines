@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-directory", "namespaces", "set-iam-policy")]
-public record GcloudServiceDirectoryNamespacesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudServiceDirectoryNamespacesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// sets IAM policy for a     namespace
+    /// </summary>
+    /// <param name="Namespace">Namespace resource - The Service Directory namespace to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument namespace on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument namespace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudServiceDirectoryNamespacesSetIamPolicyOptions(
+        string Namespace,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string Namespace, out string PolicyFile)
+    {
+        Namespace = this.Namespace;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Namespace resource - The Service Directory namespace to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument namespace on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the region for the namespace. To set the location attribute: ▸ provide the argument namespace on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Namespace resource - The Service Directory namespace to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument namespace on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument namespace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Namespace { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

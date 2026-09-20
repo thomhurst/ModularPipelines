@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iap", "tcp", "dest-groups", "get-iam-policy")]
 public record GcloudIapTcpDestGroupsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get IAM policy for an IAP TCP     Destination Group resource
+    /// </summary>
+    /// <param name="DestGroup">Name of the Destination Group.</param>
+    /// <param name="Region">Region of the Destination Group.</param>
+    public GcloudIapTcpDestGroupsGetIamPolicyOptions(
+        string DestGroup,
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestGroup);
+        this.DestGroup = DestGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string DestGroup, out string Region)
+    {
+        DestGroup = this.DestGroup;
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// Name of the Destination Group.
+    /// </summary>
+    [CliOption("--dest-group", Format = OptionFormat.EqualsSeparated)]
+    public string DestGroup { get; private init; }
+
+    /// <summary>
+    /// Region of the Destination Group.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
 }

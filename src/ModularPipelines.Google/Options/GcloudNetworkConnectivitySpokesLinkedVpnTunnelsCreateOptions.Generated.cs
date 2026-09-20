@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,120 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "spokes", "linked-vpn-tunnels", "create")]
 public record GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new     VPN spoke
+    /// </summary>
+    /// <param name="Hub">Hub that the spoke will attach to. The hub must already exist.</param>
+    /// <param name="VpnTunnels">HA VPN tunnels that the spoke provides connectivity to. The resources must already exist. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Spoke">Spoke resource - Name of the spoke to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the spoke or fully qualified identifier for the spoke. To set the spoke attribute: ▸ provide the argument spoke on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions(
+        string Hub,
+        IEnumerable<string> VpnTunnels,
+        string Spoke
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hub);
+        this.Hub = Hub;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VpnTunnels);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VpnTunnels));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VpnTunnels));
+            }
+
+            VpnTunnels = materialized;
+        }
+        this.VpnTunnels = VpnTunnels;
+        global::System.ArgumentNullException.ThrowIfNull(Spoke);
+        this.Spoke = Spoke;
+    }
+
+    public void Deconstruct(out string Hub, out IEnumerable<string> VpnTunnels, out string Spoke)
+    {
+        Hub = this.Hub;
+        VpnTunnels = this.VpnTunnels;
+        Spoke = this.Spoke;
+    }
+
+    /// <summary>
+    /// Hub that the spoke will attach to. The hub must already exist.
+    /// </summary>
+    [CliOption("--hub", Format = OptionFormat.EqualsSeparated)]
+    public string Hub { get; private init; }
+
+    /// <summary>
+    /// HA VPN tunnels that the spoke provides connectivity to. The resources must already exist. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--vpn-tunnels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> VpnTunnels { get; private init; }
+
+    /// <summary>
+    /// Spoke resource - Name of the spoke to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the region attribute: ▸ provide the argument spoke on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the spoke to create.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludeExportRanges { get; set; }
+
+    /// <summary>
+    /// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--exclude-import-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludeImportRanges { get; set; }
+
+    /// <summary>
+    /// The group that the spoke will be added to. The group must already exist. If unset, the spoke will be added to the ``default`` group.
+    /// </summary>
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
+    public string? Group { get; set; }
+
+    /// <summary>
+    /// Dynamic routes fully encompassed by include export ranges are included during export to hub. If it's empty, the spoke exports all dynamic routes to the hub. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IncludeExportRanges { get; set; }
+
+    /// <summary>
+    /// Hub routes fully encompassed by include import ranges are included during import from hub. If it's empty, the spoke does not import any subnets from the hub. If it's empty and site-to-site-data-transfer is true, the spoke imports all IPv4 site-to-site dynamic routes from the hub. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--include-import-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IncludeImportRanges { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Whether to enable site-to-site data transfer for this spoke. Data transfer is available only in supported locations (https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations).
+    /// </summary>
+    [CliFlag("--site-to-site-data-transfer")]
+    public bool? SiteToSiteDataTransfer { get; set; }
+
+    /// <summary>
+    /// Spoke resource - Name of the spoke to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the spoke or fully qualified identifier for the spoke. To set the spoke attribute: ▸ provide the argument spoke on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Spoke { get; private init; }
+
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "model-monitoring-jobs", "update")]
-public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
+public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an Vertex AI model     deployment monitoring job
+    /// </summary>
+    /// <param name="MonitoringJob">Monitoring job resource - The model deployment monitoring job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument monitoring_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the monitoring_job or fully qualified identifier for the monitoring_job. To set the name attribute: ▸ provide the argument monitoring_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiModelMonitoringJobsUpdateOptions(
+        string MonitoringJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitoringJob);
+        this.MonitoringJob = MonitoringJob;
+    }
+
+    public void Deconstruct(out string MonitoringJob)
+    {
+        MonitoringJob = this.MonitoringJob;
+    }
+
+    /// <summary>
+    /// Monitoring job resource - The model deployment monitoring job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument monitoring_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the monitoring_job. To set the region attribute: ▸ provide the argument monitoring_job on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// YAML schema file uri(Google Cloud Storage) describing the format of a single instance that you want Tensorflow Data Validation (TFDV) to analyze.
     /// </summary>
@@ -47,9 +71,9 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Comma-separated email address list. e.g. --emails=a@gmail.com,b@gmail.com
+    /// Comma-separated email address list. e.g. --emails=a@gmail.com,b@gmail.com Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--emails", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--emails", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Emails { get; set; }
 
     /// <summary>
@@ -65,9 +89,9 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public string? MonitoringFrequency { get; set; }
 
     /// <summary>
-    /// Comma-separated notification channel list. e.g. --notification-channels=projects/fake-project/notificationChannels/123,projects/fake-project/notificationChannels/456
+    /// Comma-separated notification channel list. e.g. --notification-channels=projects/fake-project/notificationChannels/123,projects/fake-project/notificationChannels/456 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--notification-channels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--notification-channels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NotificationChannels { get; set; }
 
     /// <summary>
@@ -77,9 +101,9 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public string? PredictionSamplingRate { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -89,10 +113,32 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Path to the model monitoring objective config file. This file should be a YAML document containing a ModelDeploymentMonitoringJob(https://cloud.google.com/vertex-ai/docs/reference/rest/v1beta1/projects.locations.modelDeploymentMonitoringJobs#ModelDeploymentMonitoringJob), but only the ModelDeploymentMonitoringObjectiveConfig needs to be configured. Note: Only one of --monitoring-config-from-file and other objective config set, like --feature-thresholds, --feature-attribution-thresholds needs to be set. Example(YAML): modelDeploymentMonitoringObjectiveConfigs: - deployedModelId: '5251549009234886656' objectiveConfig: trainingDataset: dataFormat: csv gcsSource: uris: - gs://fake-bucket/training_data.csv targetField: price trainingPredictionSkewDetectionConfig: skewThresholds: feat1: value: 0.9 feat2: value: 0.8 - deployedModelId: '2945706000021192704' objectiveConfig: predictionDriftDetectionConfig: driftThresholds: feat1: value: 0.3 feat2: value: 0.4
@@ -101,15 +147,43 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public string? MonitoringConfigFromFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: List of feature-attribution score threshold value pairs(Apply for all the deployed models under the endpoint, if you want to specify different thresholds for different deployed model, please use flag --monitoring-config-from-file or call API directly). If only feature name is set, the default threshold value would be 0.3. For example: feature-attribution-thresholds=feat1=0.1,feat2,feat3=0.2
+    /// At most one of these can be specified: Or at least one of these can be specified: List of feature-attribution score threshold value pairs(Apply for all the deployed models under the endpoint, if you want to specify different thresholds for different deployed model, please use flag --monitoring-config-from-file or call API directly). If only feature name is set, the default threshold value would be 0.3. For example: feature-attribution-thresholds=feat1=0.1,feat2,feat3=0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--feature-attribution-thresholds", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? FeatureAttributionThresholds { get; set; }
+    [CliOption("--feature-attribution-thresholds", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? FeatureAttributionThresholds
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: List of feature-threshold value pairs(Apply for all the deployed models under the endpoint, if you want to specify different thresholds for different deployed model, please use flag --monitoring-config-from-file or call API directly). If only feature name is set, the default threshold value would be 0.3. For example: --feature-thresholds=feat1=0.1,feat2,feat3=0.2
+    /// At most one of these can be specified: Or at least one of these can be specified: List of feature-threshold value pairs(Apply for all the deployed models under the endpoint, if you want to specify different thresholds for different deployed model, please use flag --monitoring-config-from-file or call API directly). If only feature name is set, the default threshold value would be 0.3. For example: --feature-thresholds=feat1=0.1,feat2,feat3=0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--feature-thresholds", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? FeatureThresholds { get; set; }
+    [CliOption("--feature-thresholds", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? FeatureThresholds
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Monitoring job resource - The model deployment monitoring job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument monitoring_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the monitoring_job or fully qualified identifier for the monitoring_job. To set the name attribute: ▸ provide the argument monitoring_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MonitoringJob { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MonitoringConfigFromFile) ? 1 : 0) + ((((object?)FeatureAttributionThresholds is global::System.Collections.Generic.IEnumerable<char> ? (object?)FeatureAttributionThresholds is not string || !string.IsNullOrWhiteSpace(FeatureAttributionThresholds?.ToString()) : ((object?)FeatureAttributionThresholds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)FeatureAttributionThresholds, static item => item is not null) : (FeatureAttributionThresholds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)FeatureAttributionThresholds), static item => item is not null)))) || ((object?)FeatureThresholds is global::System.Collections.Generic.IEnumerable<char> ? (object?)FeatureThresholds is not string || !string.IsNullOrWhiteSpace(FeatureThresholds?.ToString()) : ((object?)FeatureThresholds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)FeatureThresholds, static item => item is not null) : (FeatureThresholds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)FeatureThresholds), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MonitoringConfigFromFile or (FeatureAttributionThresholds or FeatureThresholds) may be specified.", [nameof(MonitoringConfigFromFile), nameof(FeatureAttributionThresholds), nameof(FeatureThresholds)]);
+        }
+        yield break;
+    }
 
 }

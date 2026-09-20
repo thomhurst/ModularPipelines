@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,82 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "message-transforms", "test")]
-public record GcloudPubsubMessageTransformsTestOptions : GcloudOptions
+public record GcloudPubsubMessageTransformsTestOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Message to test the message transforms against. At least one of these must be specified: Comma-separated list of attributes to attach to the message. Each ATTRIBUTE has the form name="value". You can specify up to 100 attributes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--attribute", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Attribute
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AttributeSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AttributeSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Message to test the message transforms against. At least one of these must be specified: Message body to test the message transforms against.
+    /// </summary>
+    [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
+    public string? Message { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to YAML or JSON file containing message transforms.
+    /// </summary>
+    [CliOption("--message-transforms-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageTransformsFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Subscription resource - Name of the subscription from which the message transforms are taken to be applied to the message. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --subscription on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▫ provide the argument --subscription on the command line.
+    /// </summary>
+    [CliOption("--subscription", Format = OptionFormat.EqualsSeparated)]
+    public string? Subscription { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Topic resource - Name of the topic from which the message transforms are taken to be applied to the message. The arguments in this group can be used to specify the attributes of this resource. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▫ provide the argument --topic on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--topic", Format = OptionFormat.EqualsSeparated)]
+    public string? Topic { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Topic resource - Name of the topic from which the message transforms are taken to be applied to the message. The arguments in this group can be used to specify the attributes of this resource. Project ID of the Google Cloud project for the topic. To set the project attribute: ▫ provide the argument --topic on the command line with a fully specified name; ▫ provide the argument --topic-project on the command line; ▫ provide the argument --project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--topic-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TopicProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(((object?)Attribute is global::System.Collections.Generic.IEnumerable<char> ? (object?)Attribute is not string || !string.IsNullOrWhiteSpace(Attribute?.ToString()) : ((object?)Attribute is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Attribute, static item => item is not null) : (Attribute is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Attribute), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Message)))
+        {
+            yield return new ValidationResult("At least one of Attribute or Message must be specified.", [nameof(Attribute), nameof(Message)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MessageTransformsFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Subscription)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Topic) || !string.IsNullOrWhiteSpace(TopicProject)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of MessageTransformsFile, (Subscription), or (Topic or TopicProject) must be specified.", [nameof(MessageTransformsFile), nameof(Subscription), nameof(Topic), nameof(TopicProject)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MessageTransformsFile) || !string.IsNullOrWhiteSpace(Subscription) || !string.IsNullOrWhiteSpace(Topic) || !string.IsNullOrWhiteSpace(TopicProject)) && (!string.IsNullOrWhiteSpace(Topic) || !string.IsNullOrWhiteSpace(TopicProject)) && (!string.IsNullOrWhiteSpace(Topic) || !string.IsNullOrWhiteSpace(TopicProject)) && (!(!string.IsNullOrWhiteSpace(Topic))))
+        {
+            yield return new ValidationResult("Topic must be specified when other arguments in this group are specified.", [nameof(Topic)]);
+        }
+        yield break;
+    }
+
 }

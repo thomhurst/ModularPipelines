@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,274 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "create")]
-public record GcloudComputeInstanceGroupsManagedCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInstanceGroupsManagedCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute Engine     managed instance group
+    /// </summary>
+    /// <param name="Size">Initial number of instances you want in this group.</param>
+    /// <param name="Template">Specifies the instance template to use when creating new instances. An instance template is either a global or regional resource.</param>
+    /// <param name="Name">Name of the managed instance group to create.</param>
+    public GcloudComputeInstanceGroupsManagedCreateOptions(
+        int Size,
+        string Template,
+        string Name
+    )
+    {
+        this.Size = Size;
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out int Size, out string Template, out string Name)
+    {
+        Size = this.Size;
+        Template = this.Template;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Initial number of instances you want in this group.
+    /// </summary>
+    [CliOption("--size", Format = OptionFormat.EqualsSeparated)]
+    public int Size { get; private init; }
+
+    /// <summary>
+    /// Specifies the instance template to use when creating new instances. An instance template is either a global or regional resource.
+    /// </summary>
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
+    public string Template { get; private init; }
+
+    /// <summary>
+    /// Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. By default, the value of the flag is set to default-action. ACTION_ON_FAILED_HEALTH_CHECK must be one of: default-action (Default) MIG uses the same action configured for the defaultActionOnFailure field. do-nothing MIG does not repair an unhealthy VM. repair MIG automatically repairs an unhealthy VM by recreating it.
+    /// </summary>
+    [CliOption("--action-on-vm-failed-health-check", Format = OptionFormat.EqualsSeparated)]
+    public string? ActionOnVmFailedHealthCheck { get; set; }
+
+    /// <summary>
+    /// Base name to use for the Compute Engine instances that will be created with the managed instance group. If not provided base instance name will be the prefix of instance group name.
+    /// </summary>
+    [CliOption("--base-instance-name", Format = OptionFormat.EqualsSeparated)]
+    public string? BaseInstanceName { get; set; }
+
+    /// <summary>
+    /// Specifies the action that a MIG performs on a failed VM. If the value of the onFailedHealthCheck field is DEFAULT_ACTION, then the same action also applies to the VMs on which your application fails a health check. By default, the value of the flag is set to repair. ACTION_ON_VM_FAILURE must be one of: repair (Default) MIG automatically repairs a failed VM by recreating it. do-nothing MIG does not repair a failed VM.
+    /// </summary>
+    [CliOption("--default-action-on-vm-failure", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultActionOnVmFailure { get; set; }
+
+    /// <summary>
+    /// An optional description for this group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specifies whether to apply the group's latest configuration when repairing a VM. If you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If this flag is disabled with -no-force-update-on-repair, then updates are applied in accordance with the group's update policy type. By default, this flag is disabled. Use --force-update-on-repair to enable and --no-force-update-on-repair to disable.
+    /// </summary>
+    [CliFlag("--force-update-on-repair")]
+    public bool? ForceUpdateOnRepair { get; set; }
+
+    /// <summary>
+    /// Negates --force-update-on-repair. Specifies whether to apply the group's latest configuration when repairing a VM. If you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If this flag is disabled with -no-force-update-on-repair, then updates are applied in accordance with the group's update policy type. By default, this flag is disabled. Use --force-update-on-repair to enable and --no-force-update-on-repair to disable.
+    /// </summary>
+    [CliFlag("--no-force-update-on-repair")]
+    public bool? NoForceUpdateOnRepair { get; set; }
+
+    /// <summary>
+    /// Specifies the number of seconds that a new VM takes to initialize and run its startup script. During a VM's initial delay period, the MIG ignores unsuccessful health checks because the VM might be in the startup process. This prevents the MIG from prematurely recreating a VM. If the health check receives a healthy response during the initial delay, it indicates that the startup process is complete and the VM is ready. The value of initial delay must be between 0 and 3600 seconds. The default value is 0. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--initial-delay", Format = OptionFormat.EqualsSeparated)]
+    public string? InitialDelay { get; set; }
+
+    /// <summary>
+    /// Named selection of machine types with an optional rank. For example, --instance-selection="name=instance-selection-1,machine-type=e2-standard-8,machine-type=t2d-standard-8,rank=0"
+    /// </summary>
+    [CliOption("--instance-selection", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceSelection { get; set; }
+
+    /// <summary>
+    /// A single selection of machine types. If not provided, the machine type specified in the instance template is used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? InstanceSelectionMachineTypes { get; set; }
+
+    /// <summary>
+    /// Pagination behavior for the group's listManagedInstances API method. This flag does not affect the group's gcloud or console list-instances behavior. By default it is set to pageless. MODE must be one of: pageless Pagination is disabled for the group's listManagedInstances API method. maxResults and pageToken query parameters are ignored and all instances are returned in a single response. paginated Pagination is enabled for the group's listManagedInstances API method. maxResults and pageToken query parameters are respected.
+    /// </summary>
+    [CliOption("--list-managed-instances-results", Format = OptionFormat.EqualsSeparated)]
+    public string? ListManagedInstancesResults { get; set; }
+
+    /// <summary>
+    /// Specifies whether the MIG can change a VM's zone during a repair. ON_REPAIR_ALLOW_CHANGING_ZONE must be one of: no (Default) MIG cannot change a VM's zone during a repair. yes MIG can select a different zone for the VM during a repair.
+    /// </summary>
+    [CliOption("--on-repair-allow-changing-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? OnRepairAllowChangingZone { get; set; }
+
+    /// <summary>
+    /// Specifies the target size of stopped VMs in the group.
+    /// </summary>
+    [CliOption("--stopped-size", Format = OptionFormat.EqualsSeparated)]
+    public int? StoppedSize { get; set; }
+
+    /// <summary>
+    /// Specifies the target size of suspended VMs in the group.
+    /// </summary>
+    [CliOption("--suspended-size", Format = OptionFormat.EqualsSeparated)]
+    public int? SuspendedSize { get; set; }
+
+    /// <summary>
+    /// Specifies any target pools you want the instances of this managed instance group to be part of. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-pool", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TargetPool { get; set; }
+
+    /// <summary>
+    /// Specifies the mode in which the MIG creates VMs in the group. TARGET_SIZE_POLICY_MODE must be one of: bulk MIG creates VMs all at once. If the MIG cannot create any VM to meet the specified ``size``, then the MIG waits until the resources become available to create all VMs. individual (Default) MIG creates VMs individually. If the MIG cannot create all VMs to meet the specified ``size``, then it creates VMs for which resources are available and continues to attempt to create the remaining ones until the target size is met.
+    /// </summary>
+    [CliOption("--target-size-policy-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetSizePolicyMode { get; set; }
+
+    /// <summary>
+    /// Specifies the workload policy for the managed instance group. It can be a full or partial URL to a resource policy containing the workload policy.
+    /// </summary>
+    [CliOption("--workload-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadPolicy { get; set; }
+
+    /// <summary>
+    /// If this flag is specified a regional managed instance group will be created. The managed instance group will be in the same region as specified zones and will spread instances in it between specified zones. All zones must belong to the same region. You may specify --region flag but it must be the region to which zones belong. This flag is mutually exclusive with --zone flag. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Zones { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Name of the health check to operate on.
+    /// </summary>
+    [CliOption("--health-check", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthCheck { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: (DEPRECATED) HTTP health check object used for autohealing instances in this group. HttpHealthCheck is deprecated. Use --health-check instead.
+    /// </summary>
+    [CliOption("--http-health-check", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpHealthCheck { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: (DEPRECATED) HTTPS health check object used for autohealing instances in this group. HttpsHealthCheck is deprecated. Use --health-check instead.
+    /// </summary>
+    [CliOption("--https-health-check", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpsHealthCheck { get; set; }
+
+    /// <summary>
+    /// Parameters for setting distribution policy. Specifies the type of the instance redistribution policy. An instance redistribution type lets you enable or disable automatic instance redistribution across zones to meet the group's target distribution shape. An instance redistribution type can be specified only for a non-autoscaled regional managed instance group. By default it is set to proactive. TYPE must be one of: none The managed instance group does not redistribute instances across zones. proactive The managed instance group proactively redistributes instances to meet its target distribution.
+    /// </summary>
+    [CliOption("--instance-redistribution-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceRedistributionType { get; set; }
+
+    /// <summary>
+    /// Parameters for setting distribution policy. Specifies how a regional managed instance group distributes its instances across zones within the region. The default shape is even. SHAPE must be one of: any The group picks zones for creating VM instances to fulfill the requested number of VMs within present resource constraints and to maximize utilization of unused zonal reservations. Recommended for batch workloads that do not require high availability. any-single-zone The group schedules all instances within a single zone. The zone is chosen based on hardware support, current resources availability, and matching reservations. The group might not be able to create the requested number of VMs in case of zonal resource availability constraints. Recommended for workloads requiring extensive communication between VMs. balanced The group prioritizes acquisition of resources, scheduling VMs in zones where resources are available while distributing VMs as evenly as possible across selected zones to minimize the impact of zonal failure. Recommended for highly available serving or batch workloads that do not require autoscaling. even The group schedules VM instance creation and deletion to achieve and maintain an even number of managed instances across the selected zones. The distribution is even when the number of managed instances does not differ by more than 1 between any two zones. Recommended for highly available serving workloads.
+    /// </summary>
+    [CliOption("--target-distribution-shape", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetDistributionShape { get; set; }
+
+    /// <summary>
+    /// Parameters for setting distribution policy. At most one of these can be specified: Region of the managed instance group to create. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list If you specify --zones flag this flag must be unspecified or specify the region to which the zones you listed belong. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Parameters for setting distribution policy. At most one of these can be specified: Zone of the managed instance group to create. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Parameters for setting standby policy. Specifies the number of seconds that the MIG should wait before suspending or stopping a VM. The initial delay gives the initialization script the time to prepare your VM for a quick scale out.
+    /// </summary>
+    [CliOption("--standby-policy-initial-delay", Format = OptionFormat.EqualsSeparated)]
+    public string? StandbyPolicyInitialDelay { get; set; }
+
+    /// <summary>
+    /// Parameters for setting standby policy. Defines how a MIG resumes or starts VMs from a standby pool when the group scales out. The default mode is manual. STANDBY_POLICY_MODE must be one of: manual MIG does not automatically resume or start VMs in the standby pool when the group scales out. scale-out-pool MIG automatically resumes or starts VMs in the standby pool when the group scales out, and replenishes the standby pool afterwards.
+    /// </summary>
+    [CliOption("--standby-policy-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? StandbyPolicyMode { get; set; }
+
+    /// <summary>
+    /// Stateful policy settings for the managed instance group. Disks considered stateful by the instance group. Managed instance groups preserve and reattach stateful disks on VM autohealing, update, and recreate events. Use this argument multiple times to attach more disks. device-name (Required) Device name of the disk to mark stateful. auto-delete (Optional) Specifies the auto deletion policy of the stateful disk. The following options are available: ▸ never: (Default) Never delete this disk. Instead, detach the disk when its instance is deleted. ▸ on-permanent-instance-deletion: Delete the stateful disk when the instance that it's attached to is permanently deleted from the group; for example, when the instance is deleted manually or when the group size is decreased.
+    /// </summary>
+    [CliOption("--stateful-disk", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StatefulDisk { get; set; }
+
+    /// <summary>
+    /// Stateful policy settings for the managed instance group. External IPs considered stateful by the instance group. Managed instance groups preserve stateful IPs on VM autohealing, update, and recreate events. Use this argument multiple times to make more external IPs stateful. At least one of the following is required: enabled Marks the IP address as stateful. The network interface named nic0 is assumed by default when interface-name is not specified. This flag can be omitted when interface-name is provided explicitly. interface-name Marks the IP address from this network interface as stateful. This flag can be omitted when enabled is provided. Additional arguments: auto-delete (Optional) Prescribes what should happen to an associated static Address resource when a VM instance is permanently deleted. Regardless of the value of the delete rule, stateful IP addresses are always preserved on instance autohealing, update, and recreation operations. The following options are available: ▸ never: (Default) Never delete the static IP address. Instead, unassign the address when its instance is permanently deleted and keep the address reserved. ▸ on-permanent-instance-deletion: Delete the static IP address reservation when the instance that it's assigned to is permanently deleted from the instance group; for example, when the instance is deleted manually or when the group size is decreased.
+    /// </summary>
+    [CliOption("--stateful-external-ip", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StatefulExternalIp { get; set; }
+
+    /// <summary>
+    /// Stateful policy settings for the managed instance group. Internal IPs considered stateful by the instance group. Managed instance groups preserve stateful IPs on VM autohealing, update, and recreate events. Use this argument multiple times to make more internal IPs stateful. At least one of the following is required: enabled Marks the IP address as stateful. The network interface named nic0 is assumed by default when interface-name is not specified. This flag can be omitted when interface-name is provided explicitly. interface-name Marks the IP address from this network interface as stateful. This flag can be omitted when enabled is provided. Additional arguments: auto-delete (Optional) Prescribes what should happen to an associated static Address resource when a VM instance is permanently deleted. Regardless of the value of the delete rule, stateful IP addresses are always preserved on instance autohealing, update, and recreation operations. The following options are available: ▸ never: (Default) Never delete the static IP address. Instead, unassign the address when its instance is permanently deleted and keep the address reserved. ▸ on-permanent-instance-deletion: Delete the static IP address reservation when the instance that it's assigned to is permanently deleted from the instance group; for example, when the instance is deleted manually or when the group size is decreased.
+    /// </summary>
+    [CliOption("--stateful-internal-ip", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StatefulInternalIp { get; set; }
+
+    /// <summary>
+    /// Parameters for setting update policy for this managed instance group. Maximum additional number of VMs that can be created during the update process. This can be a fixed number (e.g. 5) or a percentage of size to the managed instance group (e.g. 10%).
+    /// </summary>
+    [CliOption("--update-policy-max-surge", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdatePolicyMaxSurge { get; set; }
+
+    /// <summary>
+    /// Parameters for setting update policy for this managed instance group. Maximum number of VMs that can be unavailable during the update process. This can be a fixed number (e.g. 5) or a percentage of size to the managed instance group (e.g. 10%). Defaults to the number of zones in which the managed instance group operates.
+    /// </summary>
+    [CliOption("--update-policy-max-unavailable", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdatePolicyMaxUnavailable { get; set; }
+
+    /// <summary>
+    /// Parameters for setting update policy for this managed instance group. Use this flag to minimize disruption as much as possible or to apply a more disruptive action than is strictly necessary. The MIG performs at least this action on each VM while updating. If the update requires a more disruptive action than the one specified here, then the more disruptive action is performed. UPDATE_POLICY_MINIMAL_ACTION must be one of: none No action refresh Apply the new configuration without stopping VMs, if possible. For example, use ``refresh`` to apply changes that only affect metadata or additional disks. restart Apply the new configuration without replacing VMs, if possible. For example, stopping VMs and starting them again is sufficient to apply changes to machine type. replace Replace old VMs according to the --update-policy-replacement-method flag.
+    /// </summary>
+    [CliOption("--update-policy-minimal-action", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdatePolicyMinimalAction { get; set; }
+
+    /// <summary>
+    /// Parameters for setting update policy for this managed instance group. Use this flag to prevent an update if it requires more disruption than you can afford. At most, the MIG performs the specified action on each VM while updating. If the update requires a more disruptive action than the one specified here, then the update fails and no changes are made. UPDATE_POLICY_MOST_DISRUPTIVE_ACTION must be one of: none No action refresh Apply the new configuration without stopping VMs, if possible. For example, use ``refresh`` to apply changes that only affect metadata or additional disks. restart Apply the new configuration without replacing VMs, if possible. For example, stopping VMs and starting them again is sufficient to apply changes to machine type. replace Replace old VMs according to the --update-policy-replacement-method flag.
+    /// </summary>
+    [CliOption("--update-policy-most-disruptive-action", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdatePolicyMostDisruptiveAction { get; set; }
+
+    /// <summary>
+    /// Parameters for setting update policy for this managed instance group. Type of replacement method. Specifies what action will be taken to update VMs. UPDATE_POLICY_REPLACEMENT_METHOD must be one of: recreate Recreate VMs and preserve the VM names. The VM IDs and creation timestamps might change. substitute Delete old VMs and create VMs with new names.
+    /// </summary>
+    [CliOption("--update-policy-replacement-method", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdatePolicyReplacementMethod { get; set; }
+
+    /// <summary>
+    /// Parameters for setting update policy for this managed instance group. Specifies the type of update process. You can specify either ``proactive`` so that the managed instance group proactively executes actions in order to bring VMs to their target versions or ``opportunistic`` so that no action is proactively executed but the update will be performed as part of other actions. UPDATE_TYPE must be one of: opportunistic Do not proactively replace VMs. Create new VMs and delete old ones on resizes of the group and when you target specific VMs to be updated or recreated. proactive Replace VMs proactively.
+    /// </summary>
+    [CliOption("--update-policy-type", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdatePolicyType { get; set; }
+
+    /// <summary>
+    /// Name of the managed instance group to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(HealthCheck) ? 1 : 0) + (!string.IsNullOrWhiteSpace(HttpHealthCheck) ? 1 : 0) + (!string.IsNullOrWhiteSpace(HttpsHealthCheck) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of HealthCheck, HttpHealthCheck, or HttpsHealthCheck may be specified.", [nameof(HealthCheck), nameof(HttpHealthCheck), nameof(HttpsHealthCheck)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

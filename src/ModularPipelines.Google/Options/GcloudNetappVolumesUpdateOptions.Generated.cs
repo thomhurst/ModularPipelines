@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "volumes", "update")]
-public record GcloudNetappVolumesUpdateOptions : GcloudOptions
+public record GcloudNetappVolumesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Cloud NetApp Volume
+    /// </summary>
+    /// <param name="Volume">Volume resource - The Volume to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappVolumesUpdateOptions(
+        string Volume
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Volume);
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out string Volume)
+    {
+        Volume = this.Volume;
+    }
+
+    /// <summary>
+    /// Volume resource - The Volume to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the volume. To set the location attribute: ▸ provide the argument volume on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -77,15 +101,15 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     public string? ExportPolicy { get; set; }
 
     /// <summary>
-    /// Type of File System protocols for the Cloud NetApp Volume. Valid component values are: NFSV3, NFSV4, SMB, ISCSI.
+    /// Type of File System protocols for the Cloud NetApp Volume. Valid component values are: NFSV3, NFSV4, SMB, ISCSI. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--protocols", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--protocols", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Protocols { get; set; }
 
     /// <summary>
-    /// Actions to be restricted for a volume. Valid restricted action options are: 'DELETE'.
+    /// Actions to be restricted for a volume. Valid restricted action options are: 'DELETE'. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--restricted-actions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--restricted-actions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RestrictedActions { get; set; }
 
     /// <summary>
@@ -101,9 +125,9 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     public string? ShareName { get; set; }
 
     /// <summary>
-    /// List of settings specific to SMB protocol for a Cloud NetApp Files Volume. Valid component values are: ENCRYPT_DATA, BROWSABLE, CHANGE_NOTIFY, NON_BROWSABLE, OPLOCKS, SHOW_SNAPSHOT, SHOW_PREVIOUS_VERSIONS, ACCESS_BASED_ENUMERATION, CONTINUOUSLY_AVAILABLE.
+    /// List of settings specific to SMB protocol for a Cloud NetApp Files Volume. Valid component values are: ENCRYPT_DATA, BROWSABLE, CHANGE_NOTIFY, NON_BROWSABLE, OPLOCKS, SHOW_SNAPSHOT, SHOW_PREVIOUS_VERSIONS, ACCESS_BASED_ENUMERATION, CONTINUOUSLY_AVAILABLE. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--smb-settings", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--smb-settings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SmbSettings { get; set; }
 
     /// <summary>
@@ -173,9 +197,9 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     public string? UnixPermissions { get; set; }
 
     /// <summary>
-    /// Storage pool resource - The Storage Pool to associate with Volume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// Storage pool resource - The Storage Pool to associate with Volume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -185,10 +209,32 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Storage pool resource - The Storage Pool to associate with Volume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// Storage pool resource - The Storage Pool to associate with Volume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --storage-pool on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Backup resource - The source Backup to create the Volume from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ set the property netapp/location. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ◆ provide the argument --source-backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -201,5 +247,25 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--backup_vault", Format = OptionFormat.EqualsSeparated)]
     public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// Volume resource - The Volume to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Volume { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SourceBackup) || !string.IsNullOrWhiteSpace(BackupVault)) && (!(!string.IsNullOrWhiteSpace(SourceBackup))))
+        {
+            yield return new ValidationResult("SourceBackup must be specified when other arguments in this group are specified.", [nameof(SourceBackup)]);
+        }
+        yield break;
+    }
 
 }

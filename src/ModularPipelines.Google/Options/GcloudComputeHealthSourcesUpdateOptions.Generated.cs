@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,91 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "health-sources", "update")]
-public record GcloudComputeHealthSourcesUpdateOptions : GcloudOptions
+public record GcloudComputeHealthSourcesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a health source
+    /// </summary>
+    /// <param name="HealthSource">Health source resource - The name of the health source you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health source or fully qualified identifier for the health source. To set the health_source attribute: ▸ provide the argument health_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeHealthSourcesUpdateOptions(
+        string HealthSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HealthSource);
+        this.HealthSource = HealthSource;
+    }
+
+    public void Deconstruct(out string HealthSource)
+    {
+        HealthSource = this.HealthSource;
+    }
+
+    /// <summary>
+    /// Health source resource - The name of the health source you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine region. To set the region attribute: ▸ provide the argument health_source on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A textual description of the health source.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: URL to the health aggregation policy resource. Must be set. Must be regional and in the same region as the HealthSource. Can be mutated.
+    /// </summary>
+    [CliOption("--health-aggregation-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthAggregationPolicy { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: URLs to the source resources. Must be size 1. Must be a BackendService if the sourceType is BACKEND_SERVICE. The BackendService must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the HealthSource (cross-region deployment for INTERNAL_MANAGED is not supported). The BackendService may use only IGs, MIGs, or NEGs of type GCE_VM_IP or GCE_VM_IP_PORT. The BackendService may not use haPolicy. Can be mutated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--sources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Sources
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SourcesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SourcesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Health source resource - The name of the health source you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health source or fully qualified identifier for the health source. To set the health_source attribute: ▸ provide the argument health_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HealthSource { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(HealthAggregationPolicy) || ((object?)Sources is global::System.Collections.Generic.IEnumerable<char> ? (object?)Sources is not string || !string.IsNullOrWhiteSpace(Sources?.ToString()) : ((object?)Sources is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Sources, static item => item is not null) : (Sources is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Sources), static item => item is not null))))))
+        {
+            yield return new ValidationResult("At least one of Description, HealthAggregationPolicy, or Sources must be specified.", [nameof(Description), nameof(HealthAggregationPolicy), nameof(Sources)]);
+        }
+        yield break;
+    }
+
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,12 +22,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "create")]
-public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
+public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// A list of Airflow software configuration override KEY=VALUE pairs to set. For information on how to structure KEYs and VALUEs, run $ gcloud help composer environments update.
+    /// create and initialize a Cloud     Composer environment
     /// </summary>
-    [CliOption("--airflow-configs", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Environment">Environment resource - The environment to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComposerEnvironmentsCreateOptions(
+        string Environment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+    }
+
+    public void Deconstruct(out string Environment)
+    {
+        Environment = this.Environment;
+    }
+
+    /// <summary>
+    /// Environment resource - The environment to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region where Composer environment runs or in which to create the environment. To set the location attribute: ▸ provide the argument environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property composer/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// A list of Airflow software configuration override KEY=VALUE pairs to set. For information on how to structure KEYs and VALUEs, run $ gcloud help composer environments update. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--airflow-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AirflowConfigs { get; set; }
 
     /// <summary>
@@ -84,21 +108,21 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public bool? EnableLogsInCloudLoggingOnly { get; set; }
 
     /// <summary>
-    /// A comma-delimited list of environment variable NAME=VALUE pairs to provide to the Airflow scheduler, worker, and webserver processes. NAME may contain upper and lowercase letters, digits, and underscores, but they may not begin with a digit. To include commas as part of a VALUE, see gcloud topic escaping for information about overriding the delimiter.
+    /// A comma-delimited list of environment variable NAME=VALUE pairs to provide to the Airflow scheduler, worker, and webserver processes. NAME may contain upper and lowercase letters, digits, and underscores, but they may not begin with a digit. To include commas as part of a VALUE, see gcloud topic escaping for information about overriding the delimiter. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--env-variables", Format = OptionFormat.EqualsSeparated)]
-    public string? EnvVariables { get; set; }
+    [CliOption("--env-variables", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? EnvVariables { get; set; }
 
     /// <summary>
     /// Size of the environment. Unspecified means that the default option will be chosen. ENVIRONMENT_SIZE must be one of: extra-large, large, medium, small, unspecified.
     /// </summary>
     [CliOption("--environment-size", Format = OptionFormat.EqualsSeparated)]
-    public GcloudEnvironmentSize? EnvironmentSize { get; set; }
+    public GcloudComposerEnvironmentsCreateEnvironmentSize? EnvironmentSize { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -120,9 +144,9 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public int? NodeCount { get; set; }
 
     /// <summary>
-    /// The set of Google API scopes to be made available on all of the node VMs. Defaults to ['https://www.googleapis.com/auth/cloud-platform']. Cannot be updated.
+    /// The set of Google API scopes to be made available on all of the node VMs. Defaults to ['https://www.googleapis.com/auth/cloud-platform']. Cannot be updated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--oauth-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--oauth-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OauthScopes { get; set; }
 
     /// <summary>
@@ -150,9 +174,9 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public bool? SupportWebServerPlugins { get; set; }
 
     /// <summary>
-    /// The set of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC 1035. Cannot be updated.
+    /// The set of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC 1035. Cannot be updated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -201,7 +225,7 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     /// Private Clusters Mode of internal communication within the Composer environment. Must be one of VPC_PEERING or PRIVATE_SERVICE_CONNECT. Can be specified for Composer 2.X or greater. Cannot be specified unless --enable-private-environment is also specified. Cannot be set to VPC_PEERING if --connection-subnetwork is also specified. CONNECTION_TYPE must be one of: connection-type-unspecified, private-service-connect, vpc-peering.
     /// </summary>
     [CliOption("--connection-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudConnectionType? ConnectionType { get; set; }
+    public GcloudComposerEnvironmentsCreateConnectionType? ConnectionType { get; set; }
 
     /// <summary>
     /// Private Clusters Enables internet connection for Composer components. When used with Composer 2, this means the environment cluster is created with public IP addresses on the cluster nodes.
@@ -276,63 +300,63 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public string? ServicesSecondaryRangeName { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Number of dag processors, supported in Composer 3 environments or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Number of dag processors, supported in Composer 3 environments or greater.
     /// </summary>
     [CliOption("--dag-processor-count", Format = OptionFormat.EqualsSeparated)]
     public int? DagProcessorCount { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. CPU allocated to Airflow dag processor, supported in Composer 3 environments or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration CPU allocated to Airflow dag processor, supported in Composer 3 environments or greater.
     /// </summary>
     [CliOption("--dag-processor-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? DagProcessorCpu { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Memory allocated to Airflow dag processor, ex. 1GB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Memory allocated to Airflow dag processor, ex. 1GB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
     /// </summary>
     [CliOption("--dag-processor-memory", Format = OptionFormat.EqualsSeparated)]
     public string? DagProcessorMemory { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Storage allocated to Airflow dag processor, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Storage allocated to Airflow dag processor, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB, supported in Composer 3 environments or greater.
     /// </summary>
     [CliOption("--dag-processor-storage", Format = OptionFormat.EqualsSeparated)]
     public string? DagProcessorStorage { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. At most one of these can be specified: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration At most one of these can be specified: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
     /// </summary>
     [CliFlag("--disable-cloud-data-lineage-integration")]
     public bool? DisableCloudDataLineageIntegration { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. At most one of these can be specified: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration At most one of these can be specified: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
     /// </summary>
     [CliFlag("--enable-cloud-data-lineage-integration")]
     public bool? EnableCloudDataLineageIntegration { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. At most one of these can be specified: Builds performed during operations that install Python packages have an access to the internet, supported in Composer 3 or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration At most one of these can be specified: Builds performed during operations that install Python packages have an access to the internet, supported in Composer 3 or greater.
     /// </summary>
     [CliFlag("--disable-private-builds-only")]
     public bool? DisablePrivateBuildsOnly { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting dag processor settings in Composer 3 or greater. At most one of these can be specified: Builds performed during operations that install Python packages have only private connectivity to Google services, supported in Composer 3 or greater.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration At most one of these can be specified: Builds performed during operations that install Python packages have only private connectivity to Google services, supported in Composer 3 or greater.
     /// </summary>
     [CliFlag("--enable-private-builds-only")]
     public bool? EnablePrivateBuildsOnly { get; set; }
 
     /// <summary>
-    /// Master Authorized Networks configuration Enable Master Authorized Networks feature (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks) in the Composer Environment's GKE cluster.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Enable Master Authorized Networks feature (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks) in the Composer Environment's GKE cluster.
     /// </summary>
     [CliFlag("--enable-master-authorized-networks")]
     public bool? EnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Master Authorized Networks configuration Comma separated Master Authorized Networks specified in CIDR notation. Cannot be specified unless --enable-master-authorized-networks is also specified.
+    /// Group of arguments for setting dag processor settings in Composer 3 or greater. Master Authorized Networks configuration Comma separated Master Authorized Networks specified in CIDR notation. Cannot be specified unless --enable-master-authorized-networks is also specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -426,105 +450,209 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     public string? MaintenanceWindowStart { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Maximum number of workers in the Environment.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Maximum number of workers in the Environment.
     /// </summary>
     [CliOption("--max-workers", Format = OptionFormat.EqualsSeparated)]
     public string? MaxWorkers { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Minimum number of workers in the Environment.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Minimum number of workers in the Environment.
     /// </summary>
     [CliOption("--min-workers", Format = OptionFormat.EqualsSeparated)]
     public string? MinWorkers { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
     /// </summary>
     [CliOption("--scheduler-count", Format = OptionFormat.EqualsSeparated)]
     public int? SchedulerCount { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). CPU allocated to Airflow scheduler.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking CPU allocated to Airflow scheduler.
     /// </summary>
     [CliOption("--scheduler-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? SchedulerCpu { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Memory allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Memory allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--scheduler-memory", Format = OptionFormat.EqualsSeparated)]
     public string? SchedulerMemory { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Storage allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Storage allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--scheduler-storage", Format = OptionFormat.EqualsSeparated)]
     public string? SchedulerStorage { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). CPU allocated to each Airflow web server
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking CPU allocated to each Airflow web server
     /// </summary>
     [CliOption("--web-server-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? WebServerCpu { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Memory allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Memory allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--web-server-memory", Format = OptionFormat.EqualsSeparated)]
     public string? WebServerMemory { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Storage allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Storage allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--web-server-storage", Format = OptionFormat.EqualsSeparated)]
     public string? WebServerStorage { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). CPU allocated to each Airflow worker
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking CPU allocated to each Airflow worker
     /// </summary>
     [CliOption("--worker-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerCpu { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Memory allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Memory allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--worker-memory", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerMemory { get; set; }
 
     /// <summary>
-    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Storage allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking Storage allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
     /// </summary>
     [CliOption("--worker-storage", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerStorage { get; set; }
 
     /// <summary>
-    /// Virtual Private Cloud networking The Compute Engine Network to which the environment will be connected. If a 'Custom Subnet Network' is provided, --subnetwork must be specified as well. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking The Compute Engine Network to which the environment will be connected. If a 'Custom Subnet Network' is provided, --subnetwork must be specified as well. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Virtual Private Cloud networking The Compute Engine Subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the environment will be connected.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking The Compute Engine Subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the environment will be connected.
     /// </summary>
     [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
     public string? Subnetwork { get; set; }
 
     /// <summary>
-    /// Virtual Private Cloud networking At most one of these can be specified: Allows all IP addresses to access the Airflow web server.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking At most one of these can be specified: Allows all IP addresses to access the Airflow web server.
     /// </summary>
     [CliFlag("--web-server-allow-all")]
     public bool? WebServerAllowAll { get; set; }
 
     /// <summary>
-    /// Virtual Private Cloud networking At most one of these can be specified: Specifies a list of IPv4 or IPv6 ranges that will be allowed to access the Airflow web server. By default, all IPs are allowed to access the web server. This is a repeated argument that can be specified multiple times to specify multiple IP ranges. (e.g. --web-server-allow-ip=ip_range=130.211.160.0/28,description="office network" --web-server-allow-ip=ip_range=130.211.114.0/28,description="legacy network") ip_range IPv4 or IPv6 range of addresses allowed to access the Airflow web server. description An optional description of the IP range.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking At most one of these can be specified: Specifies a list of IPv4 or IPv6 ranges that will be allowed to access the Airflow web server. By default, all IPs are allowed to access the web server. This is a repeated argument that can be specified multiple times to specify multiple IP ranges. (e.g. --web-server-allow-ip=ip_range=130.211.160.0/28,description="office network" --web-server-allow-ip=ip_range=130.211.114.0/28,description="legacy network") ip_range IPv4 or IPv6 range of addresses allowed to access the Airflow web server. description An optional description of the IP range.
     /// </summary>
     [CliOption("--web-server-allow-ip", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? WebServerAllowIp { get; set; }
+    public IEnumerable<string>? WebServerAllowIp
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __WebServerAllowIpSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __WebServerAllowIpSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __WebServerAllowIpSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __WebServerAllowIpSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Virtual Private Cloud networking At most one of these can be specified: Denies all incoming traffic to the Airflow web server.
+    /// Group of arguments for setting workloads configuration in Composer 2.X or greater (--scheduler-count flag is available for Composer 1.X as well). Virtual Private Cloud networking At most one of these can be specified: Denies all incoming traffic to the Airflow web server.
     /// </summary>
     [CliFlag("--web-server-deny-all")]
     public bool? WebServerDenyAll { get; set; }
+
+    /// <summary>
+    /// Environment resource - The environment to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Environment { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AirflowVersion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ImageVersion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AirflowVersion or ImageVersion may be specified.", [nameof(AirflowVersion), nameof(ImageVersion)]);
+        }
+        if ((DisableCloudDataLineageIntegration == true ? 1 : 0) + (EnableCloudDataLineageIntegration == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableCloudDataLineageIntegration or EnableCloudDataLineageIntegration may be specified.", [nameof(DisableCloudDataLineageIntegration), nameof(EnableCloudDataLineageIntegration)]);
+        }
+        if ((DisablePrivateBuildsOnly == true ? 1 : 0) + (EnablePrivateBuildsOnly == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisablePrivateBuildsOnly or EnablePrivateBuildsOnly may be specified.", [nameof(DisablePrivateBuildsOnly), nameof(EnablePrivateBuildsOnly)]);
+        }
+        if ((EnableScheduledSnapshotCreation == true || !string.IsNullOrWhiteSpace(SnapshotCreationSchedule) || !string.IsNullOrWhiteSpace(SnapshotLocation) || !string.IsNullOrWhiteSpace(SnapshotScheduleTimezone)) && (!(EnableScheduledSnapshotCreation == true)))
+        {
+            yield return new ValidationResult("EnableScheduledSnapshotCreation must be specified when other arguments in this group are specified.", [nameof(EnableScheduledSnapshotCreation)]);
+        }
+        if ((EnableScheduledSnapshotCreation == true || !string.IsNullOrWhiteSpace(SnapshotCreationSchedule) || !string.IsNullOrWhiteSpace(SnapshotLocation) || !string.IsNullOrWhiteSpace(SnapshotScheduleTimezone)) && (!(!string.IsNullOrWhiteSpace(SnapshotCreationSchedule))))
+        {
+            yield return new ValidationResult("SnapshotCreationSchedule must be specified when other arguments in this group are specified.", [nameof(SnapshotCreationSchedule)]);
+        }
+        if ((EnableScheduledSnapshotCreation == true || !string.IsNullOrWhiteSpace(SnapshotCreationSchedule) || !string.IsNullOrWhiteSpace(SnapshotLocation) || !string.IsNullOrWhiteSpace(SnapshotScheduleTimezone)) && (!(!string.IsNullOrWhiteSpace(SnapshotLocation))))
+        {
+            yield return new ValidationResult("SnapshotLocation must be specified when other arguments in this group are specified.", [nameof(SnapshotLocation)]);
+        }
+        if ((EnableScheduledSnapshotCreation == true || !string.IsNullOrWhiteSpace(SnapshotCreationSchedule) || !string.IsNullOrWhiteSpace(SnapshotLocation) || !string.IsNullOrWhiteSpace(SnapshotScheduleTimezone)) && (!(!string.IsNullOrWhiteSpace(SnapshotScheduleTimezone))))
+        {
+            yield return new ValidationResult("SnapshotScheduleTimezone must be specified when other arguments in this group are specified.", [nameof(SnapshotScheduleTimezone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaintenanceWindowEnd) || !string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart)) && (!(!string.IsNullOrWhiteSpace(MaintenanceWindowEnd))))
+        {
+            yield return new ValidationResult("MaintenanceWindowEnd must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowEnd)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaintenanceWindowEnd) || !string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart)) && (!(!string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence))))
+        {
+            yield return new ValidationResult("MaintenanceWindowRecurrence must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowRecurrence)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaintenanceWindowEnd) || !string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart)) && (!(!string.IsNullOrWhiteSpace(MaintenanceWindowStart))))
+        {
+            yield return new ValidationResult("MaintenanceWindowStart must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowStart)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxWorkers) || !string.IsNullOrWhiteSpace(MinWorkers) || (object?)SchedulerCount is not null || !string.IsNullOrWhiteSpace(SchedulerCpu) || !string.IsNullOrWhiteSpace(SchedulerMemory) || !string.IsNullOrWhiteSpace(SchedulerStorage) || !string.IsNullOrWhiteSpace(WebServerCpu) || !string.IsNullOrWhiteSpace(WebServerMemory) || !string.IsNullOrWhiteSpace(WebServerStorage) || !string.IsNullOrWhiteSpace(WorkerCpu) || !string.IsNullOrWhiteSpace(WorkerMemory) || !string.IsNullOrWhiteSpace(WorkerStorage) || !string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Subnetwork) || WebServerAllowAll == true || ((object?)WebServerAllowIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)WebServerAllowIp, static item => item is not null) : ((object?)WebServerAllowIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)WebServerAllowIp is not string || !string.IsNullOrWhiteSpace(WebServerAllowIp?.ToString()) : ((object?)WebServerAllowIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)WebServerAllowIp, static item => item is not null) : (WebServerAllowIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)WebServerAllowIp), static item => item is not null))))) || WebServerDenyAll == true) && (!(!string.IsNullOrWhiteSpace(Network))))
+        {
+            yield return new ValidationResult("Network must be specified when other arguments in this group are specified.", [nameof(Network)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxWorkers) || !string.IsNullOrWhiteSpace(MinWorkers) || (object?)SchedulerCount is not null || !string.IsNullOrWhiteSpace(SchedulerCpu) || !string.IsNullOrWhiteSpace(SchedulerMemory) || !string.IsNullOrWhiteSpace(SchedulerStorage) || !string.IsNullOrWhiteSpace(WebServerCpu) || !string.IsNullOrWhiteSpace(WebServerMemory) || !string.IsNullOrWhiteSpace(WebServerStorage) || !string.IsNullOrWhiteSpace(WorkerCpu) || !string.IsNullOrWhiteSpace(WorkerMemory) || !string.IsNullOrWhiteSpace(WorkerStorage) || !string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Subnetwork) || WebServerAllowAll == true || ((object?)WebServerAllowIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)WebServerAllowIp, static item => item is not null) : ((object?)WebServerAllowIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)WebServerAllowIp is not string || !string.IsNullOrWhiteSpace(WebServerAllowIp?.ToString()) : ((object?)WebServerAllowIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)WebServerAllowIp, static item => item is not null) : (WebServerAllowIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)WebServerAllowIp), static item => item is not null))))) || WebServerDenyAll == true) && ((WebServerAllowAll == true ? 1 : 0) + (((object?)WebServerAllowIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)WebServerAllowIp, static item => item is not null) : ((object?)WebServerAllowIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)WebServerAllowIp is not string || !string.IsNullOrWhiteSpace(WebServerAllowIp?.ToString()) : ((object?)WebServerAllowIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)WebServerAllowIp, static item => item is not null) : (WebServerAllowIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)WebServerAllowIp), static item => item is not null))))) ? 1 : 0) + (WebServerDenyAll == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of WebServerAllowAll, WebServerAllowIp, or WebServerDenyAll may be specified.", [nameof(WebServerAllowAll), nameof(WebServerAllowIp), nameof(WebServerDenyAll)]);
+        }
+        yield break;
+    }
 
 }

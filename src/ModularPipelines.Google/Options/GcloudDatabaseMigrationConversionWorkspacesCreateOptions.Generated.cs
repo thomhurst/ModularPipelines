@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,150 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("database-migration", "conversion-workspaces", "create")]
 public record GcloudDatabaseMigrationConversionWorkspacesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Database     Migration Service conversion workspace
+    /// </summary>
+    /// <param name="DestinationDatabaseEngine">Destination database engine type. DESTINATION_DATABASE_ENGINE must be (only one value is supported): POSTGRESQL.</param>
+    /// <param name="SourceDatabaseEngine">Source database engine type. SOURCE_DATABASE_ENGINE must be one of: ORACLE, SQL_SERVER.</param>
+    /// <param name="ConversionWorkspace">Conversion workspace resource - The conversion workspace to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the conversion_workspace or fully qualified identifier for the conversion_workspace. To set the conversion_workspace attribute: ▸ provide the argument conversion_workspace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConversionWorkspacesCreateOptions(
+        string DestinationDatabaseEngine,
+        GcloudDatabaseMigrationConversionWorkspacesCreateSourceDatabaseEngine SourceDatabaseEngine,
+        string ConversionWorkspace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationDatabaseEngine);
+        this.DestinationDatabaseEngine = DestinationDatabaseEngine;
+        this.SourceDatabaseEngine = SourceDatabaseEngine;
+        global::System.ArgumentNullException.ThrowIfNull(ConversionWorkspace);
+        this.ConversionWorkspace = ConversionWorkspace;
+    }
+
+    public void Deconstruct(out string DestinationDatabaseEngine, out GcloudDatabaseMigrationConversionWorkspacesCreateSourceDatabaseEngine SourceDatabaseEngine, out string ConversionWorkspace)
+    {
+        DestinationDatabaseEngine = this.DestinationDatabaseEngine;
+        SourceDatabaseEngine = this.SourceDatabaseEngine;
+        ConversionWorkspace = this.ConversionWorkspace;
+    }
+
+    /// <summary>
+    /// Destination database engine type. DESTINATION_DATABASE_ENGINE must be (only one value is supported): POSTGRESQL.
+    /// </summary>
+    [CliOption("--destination-database-engine", Format = OptionFormat.EqualsSeparated)]
+    public string DestinationDatabaseEngine { get; private init; }
+
+    /// <summary>
+    /// Source database engine type. SOURCE_DATABASE_ENGINE must be one of: ORACLE, SQL_SERVER.
+    /// </summary>
+    [CliOption("--source-database-engine", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDatabaseMigrationConversionWorkspacesCreateSourceDatabaseEngine SourceDatabaseEngine { get; private init; }
+
+    /// <summary>
+    /// Conversion workspace resource - The conversion workspace to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the conversion_workspace. To set the region attribute: ▸ provide the argument conversion_workspace on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Waits for the operation in progress to complete before returning.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
+    /// </summary>
+    [CliFlag("--auto-conversion")]
+    public bool? AutoConversion { get; set; }
+
+    /// <summary>
+    /// Negates --auto-conversion. Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
+    /// </summary>
+    [CliFlag("--no-auto-conversion")]
+    public bool? NoAutoConversion { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
+    /// </summary>
+    [CliFlag("--conversion-assistance")]
+    public bool? ConversionAssistance { get; set; }
+
+    /// <summary>
+    /// Negates --conversion-assistance. Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
+    /// </summary>
+    [CliFlag("--no-conversion-assistance")]
+    public bool? NoConversionAssistance { get; set; }
+
+    /// <summary>
+    /// Destination database provider. DESTINATION_DATABASE_PROVIDER must be one of: ALLOYDB, CLOUDSQL.
+    /// </summary>
+    [CliOption("--destination-database-provider", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDatabaseMigrationConversionWorkspacesCreateDestinationDatabaseProvider? DestinationDatabaseProvider { get; set; }
+
+    /// <summary>
+    /// Version number for the database engine. The version number must contain numbers and letters only. Example for PostgreSQL 17.0, version number will be 17.0.
+    /// </summary>
+    [CliOption("--destination-database-version", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationDatabaseVersion { get; set; }
+
+    /// <summary>
+    /// A user-friendly name for the conversion workspace. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter. The maximum length allowed is 60 characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// A generic list of settings for the workspace. The settings are database pair dependant and can indicate default behavior for the mapping rules engine or turn on or off specific features. An object containing a list of "key": "value" pairs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--global-settings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? GlobalSettings { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
+    /// </summary>
+    [CliFlag("--pattern-matching")]
+    public bool? PatternMatching { get; set; }
+
+    /// <summary>
+    /// Negates --pattern-matching. Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
+    /// </summary>
+    [CliFlag("--no-pattern-matching")]
+    public bool? NoPatternMatching { get; set; }
+
+    /// <summary>
+    /// Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
+    /// </summary>
+    [CliFlag("--quality-assessment")]
+    public bool? QualityAssessment { get; set; }
+
+    /// <summary>
+    /// Negates --quality-assessment. Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
+    /// </summary>
+    [CliFlag("--no-quality-assessment")]
+    public bool? NoQualityAssessment { get; set; }
+
+    /// <summary>
+    /// Source database provider. SOURCE_DATABASE_PROVIDER must be one of: AMAZON_RDS, AZURE_MANAGED_INSTANCE, AZURE_SQL_DATABASE, CLOUDSQL, UNSPECIFIED.
+    /// </summary>
+    [CliOption("--source-database-provider", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDatabaseMigrationConversionWorkspacesCreateSourceDatabaseProvider? SourceDatabaseProvider { get; set; }
+
+    /// <summary>
+    /// Version number for the database engine. The version number must contain numbers and letters only. Example for Oracle 21c, version number will be 21c.
+    /// </summary>
+    [CliOption("--source-database-version", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDatabaseVersion { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - The conversion workspace to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the conversion_workspace or fully qualified identifier for the conversion_workspace. To set the conversion_workspace attribute: ▸ provide the argument conversion_workspace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConversionWorkspace { get; private init; }
+
 }

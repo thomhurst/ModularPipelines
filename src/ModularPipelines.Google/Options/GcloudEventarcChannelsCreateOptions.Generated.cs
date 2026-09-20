@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEventarcChannelsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create an Eventarc channel
+    /// </summary>
+    /// <param name="Channel">Channel resource - Channel to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument channel on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the channel or fully qualified identifier for the channel. To set the channel attribute: ▸ provide the argument channel on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcChannelsCreateOptions(
+        string Channel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Channel);
+        this.Channel = Channel;
+    }
+
+    public void Deconstruct(out string Channel)
+    {
+        Channel = this.Channel;
+    }
+
+    /// <summary>
+    /// Channel resource - Channel to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument channel on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc channel, which should be either global or one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument channel on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -35,9 +58,9 @@ public record GcloudEventarcChannelsCreateOptions : GcloudOptions
     public string? CryptoKey { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -45,5 +68,11 @@ public record GcloudEventarcChannelsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
     public string? Provider { get; set; }
+
+    /// <summary>
+    /// Channel resource - Channel to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument channel on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the channel or fully qualified identifier for the channel. To set the channel attribute: ▸ provide the argument channel on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Channel { get; private init; }
 
 }

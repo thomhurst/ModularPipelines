@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("sql", "ssl", "entraid-certs", "rollback")]
 public record GcloudSqlSslEntraidCertsRollbackOptions : GcloudOptions
 {
+    /// <summary>
+    /// roll back to the previous Entra ID     certificate for a Cloud SQL instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlSslEntraidCertsRollbackOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

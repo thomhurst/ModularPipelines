@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeRolloutsCancelOptions : GcloudOptions
 {
     /// <summary>
+    /// cancel a Google Compute Engine rollout
+    /// </summary>
+    /// <param name="Name">Rollout resource - Name of the rollout to cancel. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the name attribute: ▸ provide the argument name on the command line.</param>
+    public GcloudComputeRolloutsCancelOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
     /// If true, then the ongoing rollout must be rolled back. Else, just cancel the rollout without taking any further actions.
     /// </summary>
     [CliFlag("--rollback")]
     public bool? Rollback { get; set; }
+
+    /// <summary>
+    /// Rollout resource - Name of the rollout to cancel. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the name attribute: ▸ provide the argument name on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

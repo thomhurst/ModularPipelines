@@ -19,8 +19,82 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "add-layer7-ddos-defense-threshold-config")]
-public record GcloudPreviewComputeSecurityPoliciesAddLayer7DdosDefenseThresholdConfigOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeSecurityPoliciesAddLayer7DdosDefenseThresholdConfigOptions : GcloudOptions
 {
+    /// <summary>
+    /// policies     add-layer7-ddos-defense-threshold-config - add a layer7 ddos defense     threshold config to a Compute Engine security policy
+    /// </summary>
+    /// <param name="ThresholdConfigName">The name for the threshold config.</param>
+    /// <param name="Name">Name of the security policy to update.</param>
+    public GcloudPreviewComputeSecurityPoliciesAddLayer7DdosDefenseThresholdConfigOptions(
+        string ThresholdConfigName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThresholdConfigName);
+        this.ThresholdConfigName = ThresholdConfigName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string ThresholdConfigName, out string Name)
+    {
+        ThresholdConfigName = this.ThresholdConfigName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name for the threshold config.
+    /// </summary>
+    [CliOption("--threshold-config-name", Format = OptionFormat.EqualsSeparated)]
+    public string ThresholdConfigName { get; private init; }
+
+    /// <summary>
+    /// The threshold of the confidence of an identified attack, over which auto-deploy takes action.
+    /// </summary>
+    [CliOption("--auto-deploy-confidence-threshold", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoDeployConfidenceThreshold { get; set; }
+
+    /// <summary>
+    /// The duration of actions, if any, taken by auto-deploy.
+    /// </summary>
+    [CliOption("--auto-deploy-expiration-sec", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoDeployExpirationSec { get; set; }
+
+    /// <summary>
+    /// The threshold on the estimated impact to the baseline traffic of a suggested mitigation, below which auto-deploy takes action.
+    /// </summary>
+    [CliOption("--auto-deploy-impacted-baseline-threshold", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoDeployImpactedBaselineThreshold { get; set; }
+
+    /// <summary>
+    /// The threshold on backend's load, over which auto-deploy takes action.
+    /// </summary>
+    [CliOption("--auto-deploy-load-threshold", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoDeployLoadThreshold { get; set; }
+
+    /// <summary>
+    /// The absolute QPS of the incoming traffic, over which adaptive protection detects an attack.
+    /// </summary>
+    [CliOption("--detection-absolute-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? DetectionAbsoluteQps { get; set; }
+
+    /// <summary>
+    /// The threshold on backend's load, over which adaptive protection detects an attack.
+    /// </summary>
+    [CliOption("--detection-load-threshold", Format = OptionFormat.EqualsSeparated)]
+    public string? DetectionLoadThreshold { get; set; }
+
+    /// <summary>
+    /// The QPS of the incoming traffic relative to the average baseline QPS, over which adaptive protection detects an attack.
+    /// </summary>
+    [CliOption("--detection-relative-to-baseline-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? DetectionRelativeToBaselineQps { get; set; }
+
+    /// <summary>
+    /// Name of the security policy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

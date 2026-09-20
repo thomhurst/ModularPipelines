@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "values", "describe")]
-public record GcloudResourceManagerTagsValuesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceName
-) : GcloudOptions
+public record GcloudResourceManagerTagsValuesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a TagValue     resource
+    /// </summary>
+    /// <param name="ResourceName">Resource name or namespaced name. The resource name should be in the form {resource_type}/{numeric_id}. The namespaced name should be in the form {org_id}/{short_name} where short_name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between.</param>
+    public GcloudResourceManagerTagsValuesDescribeOptions(
+        string ResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+    }
+
+    public void Deconstruct(out string ResourceName)
+    {
+        ResourceName = this.ResourceName;
+    }
+
+    /// <summary>
+    /// Resource name or namespaced name. The resource name should be in the form {resource_type}/{numeric_id}. The namespaced name should be in the form {org_id}/{short_name} where short_name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceName { get; private init; }
+
 }

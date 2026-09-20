@@ -23,6 +23,40 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamPoliciesListOptions : GcloudOptions
 {
     /// <summary>
+    /// list the policies on the given attachment point
+    /// </summary>
+    /// <param name="AttachmentPoint">Resource to which the policy is attached. For valid formats, see https://cloud.google.com/iam/help/deny/attachment-point.</param>
+    /// <param name="Kind">Policy type. Use denypolicies for deny policies.</param>
+    public GcloudIamPoliciesListOptions(
+        string AttachmentPoint,
+        string Kind
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttachmentPoint);
+        this.AttachmentPoint = AttachmentPoint;
+        global::System.ArgumentNullException.ThrowIfNull(Kind);
+        this.Kind = Kind;
+    }
+
+    public void Deconstruct(out string AttachmentPoint, out string Kind)
+    {
+        AttachmentPoint = this.AttachmentPoint;
+        Kind = this.Kind;
+    }
+
+    /// <summary>
+    /// Resource to which the policy is attached. For valid formats, see https://cloud.google.com/iam/help/deny/attachment-point.
+    /// </summary>
+    [CliOption("--attachment-point", Format = OptionFormat.EqualsSeparated)]
+    public string AttachmentPoint { get; private init; }
+
+    /// <summary>
+    /// Policy type. Use denypolicies for deny policies.
+    /// </summary>
+    [CliOption("--kind", Format = OptionFormat.EqualsSeparated)]
+    public string Kind { get; private init; }
+
+    /// <summary>
     /// Page token received from a previous call. Provide this token to retrieve the next page.
     /// </summary>
     [SecretValue]

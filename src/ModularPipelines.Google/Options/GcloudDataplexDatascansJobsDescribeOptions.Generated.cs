@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexDatascansJobsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// describe a Dataplex datascan job
+    /// </summary>
+    /// <param name="Job">Job resource - Arguments and flags that define the Dataplex Job running a particular Datascan you want to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexDatascansJobsDescribeOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
+    /// <summary>
+    /// Job resource - Arguments and flags that define the Dataplex Job running a particular Datascan you want to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Datascan ID of the Dataplex datascan resource. To set the datascan attribute: ▸ provide the argument job on the command line with a fully specified name; ▸ provide the argument --datascan on the command line.
+    /// </summary>
+    [CliOption("--datascan", Format = OptionFormat.EqualsSeparated)]
+    public string? Datascan { get; set; }
+
+    /// <summary>
+    /// Job resource - Arguments and flags that define the Dataplex Job running a particular Datascan you want to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument job on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Displays spec and result data based on the argument value. The default view is 'basic'. VIEW must be one of: basic Does not include spec and result data in response. full Includes spec and result data in response.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
+
+    /// <summary>
+    /// Job resource - Arguments and flags that define the Dataplex Job running a particular Datascan you want to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
 
 }

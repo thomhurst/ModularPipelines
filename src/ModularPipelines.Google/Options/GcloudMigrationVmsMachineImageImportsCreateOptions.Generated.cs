@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,182 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migration", "vms", "machine-image-imports", "create")]
-public record GcloudMigrationVmsMachineImageImportsCreateOptions : GcloudOptions
+public record GcloudMigrationVmsMachineImageImportsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// import machine images     to Google Compute Engine
+    /// </summary>
+    /// <param name="SourceFile">The path to the Google Cloud Storage file from which the image should be imported.</param>
+    /// <param name="ImageImportName">Image import resource - The Image Import resource you want to create. This would be the machine image name if --machine-image-name is not given. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument image_import_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the image_import or fully qualified identifier for the image_import. To set the image_import_name attribute: ▸ provide the argument image_import_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMigrationVmsMachineImageImportsCreateOptions(
+        string SourceFile,
+        string ImageImportName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceFile);
+        this.SourceFile = SourceFile;
+        global::System.ArgumentNullException.ThrowIfNull(ImageImportName);
+        this.ImageImportName = ImageImportName;
+    }
+
+    public void Deconstruct(out string SourceFile, out string ImageImportName)
+    {
+        SourceFile = this.SourceFile;
+        ImageImportName = this.ImageImportName;
+    }
+
+    /// <summary>
+    /// The path to the Google Cloud Storage file from which the image should be imported.
+    /// </summary>
+    [CliOption("--source-file", Format = OptionFormat.EqualsSeparated)]
+    public string SourceFile { get; private init; }
+
+    /// <summary>
+    /// Image import resource - The Image Import resource you want to create. This would be the machine image name if --machine-image-name is not given. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument image_import_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Resource location. To set the location attribute: ▸ provide the argument image_import_name on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of the additional licenses to assign to the machine image. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-licenses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalLicenses { get; set; }
+
+    /// <summary>
+    /// A description of the machine image.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Fully qualified identifier for the Cloud KMS (Key Management Service) cryptokey that will be used to protect the image.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// A map of labels to associate with the machine image. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The name of the machine image that will be imported to Google Compute Engine. Default is the Image Import name.
+    /// </summary>
+    [CliOption("--machine-image-name", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineImageName { get; set; }
+
+    /// <summary>
+    /// The machine type to create the machine image with. If not provided, the service will choose a relevant machine type series based on the information from the source image.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// The network interface to use for the instance created by the machine image. This is a dicionary with the following keys: ◆ network: The network to use for this network interface. ◆ subnetwork: The subnetwork to use for this network interface. ◆ network-tier: The network tier to use for this network interface. This argument can be specified multiple times in case of multiple nics.
+    /// </summary>
+    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NetworkInterface { get; set; }
+
+    /// <summary>
+    /// If true, the location of the imported machine image will be the region of the import job. Otherwise the closest multi-region is selected. Default is false.
+    /// </summary>
+    [CliFlag("--single-region-storage")]
+    public bool? SingleRegionStorage { get; set; }
+
+    /// <summary>
+    /// The tags to apply to the instance created by the machine image. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The target project resource path to which the machine image will be imported. Default is the host project. To get a list of the target projects run the gcloud alpha migration vms target-projects list command.
+    /// </summary>
+    [CliOption("--target-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetProject { get; set; }
+
+    /// <summary>
+    /// Shielded instance configuration. Defines whether the instance created by the machine image has integrity monitoring enabled. This can be set to true only if the image boot option is EFI, and vTPM is enabled.
+    /// </summary>
+    [CliFlag("--enable-integrity-monitoring")]
+    public bool? EnableIntegrityMonitoring { get; set; }
+
+    /// <summary>
+    /// Shielded instance configuration. Defines whether the instance created by the machine image has vTPM enabled. This can be set to true only if the image boot option is EFI.
+    /// </summary>
+    [CliFlag("--enable-vtpm")]
+    public bool? EnableVtpm { get; set; }
+
+    /// <summary>
+    /// Shielded instance configuration. Defines whether the instance created by the machine image has Secure Boot enabled. This can be set to true only if the image boot option is EFI. If not specified we will use the configuration of the source. SECURE_BOOT must be one of: false, secure-boot-unspecified, true.
+    /// </summary>
+    [CliOption("--secure-boot", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMigrationVmsMachineImageImportsCreateSecureBoot? SecureBoot { get; set; }
+
+    /// <summary>
+    /// The service account to assign to the instance created by the machine image. The list of scopes to be made available for the service account. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Scopes { get; set; }
+
+    /// <summary>
+    /// The service account to assign to the instance created by the machine image. The email address of the service account.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// The service account to assign to the instance created by the machine image. OS adaptation parameters. At most one of these can be specified: If true, skip OS adaptation. Default false.
+    /// </summary>
+    [CliFlag("--skip-os-adaptation")]
+    public bool? SkipOsAdaptation { get; set; }
+
+    /// <summary>
+    /// The service account to assign to the instance created by the machine image. OS adaptation parameters. At most one of these can be specified: Or at least one of these can be specified: A map of flags to pass to the OS adaptation process. The actual value depends on the modifier and can also be empty. e.g. --adaptation-modifiers=flag1=value1,flag2
+    /// </summary>
+    [CliOption("--adaptation-modifiers", Format = OptionFormat.EqualsSeparated)]
+    public string? AdaptationModifiers { get; set; }
+
+    /// <summary>
+    /// The service account to assign to the instance created by the machine image. OS adaptation parameters. At most one of these can be specified: Or at least one of these can be specified: This property will trigger an internal process which will convert the image from using the existing boot option to another. The size of the boot disk might be increased to allow the conversion. Currently only support BIOS_TO_EFI. BOOT_CONVERSION must be one of: bios-to-efi, boot-conversion-unspecified, none.
+    /// </summary>
+    [CliOption("--boot-conversion", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMigrationVmsMachineImageImportsCreateBootConversion? BootConversion { get; set; }
+
+    /// <summary>
+    /// The service account to assign to the instance created by the machine image. OS adaptation parameters. At most one of these can be specified: Or at least one of these can be specified: If true, generalize the imported machine image. Default false. The generalization process enables co-existence of multiple VMs created from the same machine image. For Windows, generalizing the machine image removes computer-specific information such as installed drivers and the computer security identifier (SID).
+    /// </summary>
+    [CliFlag("--generalize")]
+    public bool? Generalize { get; set; }
+
+    /// <summary>
+    /// The service account to assign to the instance created by the machine image. OS adaptation parameters. At most one of these can be specified: Or at least one of these can be specified: The license to use post migration. LICENSE_TYPE must be one of: compute-engine-license-type-byol, compute-engine-license-type-default, compute-engine-license-type-payg.
+    /// </summary>
+    [CliOption("--license-type", Format = OptionFormat.EqualsSeparated)]
+    public string? LicenseType { get; set; }
+
+    /// <summary>
+    /// The service account to assign to the instance created by the machine image. OS adaptation parameters. At most one of these can be specified: Or at least one of these can be specified: Identifies the file system to adapt.
+    /// </summary>
+    [CliOption("--rootfs-uuid", Format = OptionFormat.EqualsSeparated)]
+    public string? RootfsUuid { get; set; }
+
+    /// <summary>
+    /// Image import resource - The Image Import resource you want to create. This would be the machine image name if --machine-image-name is not given. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument image_import_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the image_import or fully qualified identifier for the image_import. To set the image_import_name attribute: ▸ provide the argument image_import_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageImportName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((SkipOsAdaptation == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AdaptationModifiers) || (object?)BootConversion is not null || Generalize == true || !string.IsNullOrWhiteSpace(LicenseType) || !string.IsNullOrWhiteSpace(RootfsUuid)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SkipOsAdaptation or (AdaptationModifiers, BootConversion, Generalize, LicenseType, or RootfsUuid) may be specified.", [nameof(SkipOsAdaptation), nameof(AdaptationModifiers), nameof(BootConversion), nameof(Generalize), nameof(LicenseType), nameof(RootfsUuid)]);
+        }
+        yield break;
+    }
+
 }

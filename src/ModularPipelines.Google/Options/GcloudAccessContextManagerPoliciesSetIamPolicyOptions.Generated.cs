@@ -19,8 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "policies", "set-iam-policy")]
-public record GcloudAccessContextManagerPoliciesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudAccessContextManagerPoliciesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set IAM policy for     an access policy
+    /// </summary>
+    /// <param name="PolicyFile">Policy resource - The access policy to set the IAM policy for. This represents a Cloud resource. Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudAccessContextManagerPoliciesSetIamPolicyOptions(
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string PolicyFile)
+    {
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Policy resource - The access policy to set the IAM policy for. This represents a Cloud resource. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ◆ provide the argument policy on the command line; ◆ set the property access_context_manager/policy; ◆ automatically, if the current account belongs to an organization with exactly one access policy..
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Policy { get; set; }
+
+    /// <summary>
+    /// Policy resource - The access policy to set the IAM policy for. This represents a Cloud resource. Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

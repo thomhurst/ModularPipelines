@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +22,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "instances", "create")]
-public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
+public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// creates a workbench instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkbenchInstancesCreateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location of this environment https://cloud.google.com/compute/docs/regions-zones/#locations. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property notebooks/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -54,9 +78,9 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     public string? InstanceOwners { get; set; }
 
     /// <summary>
-    /// Labels to apply to this instance. These can be later modified by the setLabels method.
+    /// Labels to apply to this instance. These can be later modified by the setLabels method. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -84,9 +108,9 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Custom metadata to apply to this instance.
+    /// Gce Setup for the instance Custom metadata to apply to this instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
@@ -102,9 +126,9 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     public string? ServiceAccountEmail { get; set; }
 
     /// <summary>
-    /// The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. Tags to apply to this instance.
+    /// The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. Tags to apply to this instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -123,7 +147,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// Boot disk configurations. Disk encryption method used on the boot disk, defaults to GMEK. BOOT_DISK_ENCRYPTION must be one of: GMEK, CMEK.
     /// </summary>
     [CliOption("--boot-disk-encryption", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBootDiskEncryption? BootDiskEncryption { get; set; }
+    public GcloudWorkbenchInstancesCreateBootDiskEncryption? BootDiskEncryption { get; set; }
 
     /// <summary>
     /// Boot disk configurations. Size of boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
@@ -135,97 +159,119 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// Boot disk configurations. Type of boot disk attached to this instance. Defaults to standard persistent disk (PD_STANDARD) on machine types that support Persistent Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g. N4, C4, C4A, M4). BOOT_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED, HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML.
     /// </summary>
     [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBootDiskType? BootDiskType { get; set; }
+    public GcloudWorkbenchInstancesCreateBootDiskType? BootDiskType { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --boot-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --boot-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--boot-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskKmsKey { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-keyring on the command line.
     /// </summary>
     [CliOption("--boot-disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskEncryptionKeyKeyring { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-location on the command line.
     /// </summary>
     [CliOption("--boot-disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-project on the command line; ◆ set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--boot-disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskEncryptionKeyProject { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--container-repository", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerRepository { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: The tag of the container image. If not specified, this defaults to the latest tag.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: The tag of the container image. If not specified, this defaults to the latest tag.
     /// </summary>
     [CliOption("--container-tag", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerTag { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: The ID of the Google Cloud project that this VM image belongs to. Format: projects/{project_id}.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: The ID of the Google Cloud project that this VM image belongs to. Format: projects/{project_id}.
     /// </summary>
     [CliOption("--vm-image-project", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageProject { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Exactly one of these must be specified: Use this VM image family to find the image; the newest image in this family will be used.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: Exactly one of these must be specified: Use this VM image family to find the image; the newest image in this family will be used.
     /// </summary>
     [CliOption("--vm-image-family", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageFamily { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Exactly one of these must be specified: Use this VM image name to find the image.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: Exactly one of these must be specified: Use this VM image name to find the image.
     /// </summary>
     [CliOption("--vm-image-name", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageName { get; set; }
 
     /// <summary>
-    /// GPU driver configurations. Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers.
     /// </summary>
     [CliOption("--custom-gpu-driver-path", Format = OptionFormat.EqualsSeparated)]
     public string? CustomGpuDriverPath { get; set; }
 
     /// <summary>
-    /// GPU driver configurations. Whether the end user authorizes Google Cloud to install a GPU driver on this instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Whether the end user authorizes Google Cloud to install a GPU driver on this instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs.
     /// </summary>
     [CliFlag("--install-gpu-driver")]
     public bool? InstallGpuDriver { get; set; }
 
     /// <summary>
-    /// Data disk configurations. Disk encryption method used on the data disk, defaults to GMEK. DATA_DISK_ENCRYPTION must be one of: GMEK, CMEK.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Disk encryption method used on the data disk, defaults to GMEK. DATA_DISK_ENCRYPTION must be one of: GMEK, CMEK.
     /// </summary>
     [CliOption("--data-disk-encryption", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDataDiskEncryption? DataDiskEncryption { get; set; }
+    public GcloudWorkbenchInstancesCreateDataDiskEncryption? DataDiskEncryption { get; set; }
 
     /// <summary>
-    /// Data disk configurations. Resource policies to apply to the data disk. Format: projects/{project}/regions/{region}/resourcePolicies/{policy}.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Resource policies to apply to the data disk. Format: projects/{project}/regions/{region}/resourcePolicies/{policy}. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DataDiskResourcePolicies { get; set; }
+    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DataDiskResourcePolicies
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DataDiskResourcePoliciesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DataDiskResourcePoliciesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Data disk configurations. Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
     /// </summary>
     [CliOption("--data-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? DataDiskSize { get; set; }
 
     /// <summary>
-    /// Data disk configurations. Type of data disk attached to this instance. Defaults to standard persistent disk (PD_STANDARD) on machine types that support Persistent Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g. N4, C4, C4A, M4). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED, HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML, HYPERDISK_EXTREME, HYPERDISK_THROUGHPUT.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Type of data disk attached to this instance. Defaults to standard persistent disk (PD_STANDARD) on machine types that support Persistent Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g. N4, C4, C4A, M4). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED, HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML, HYPERDISK_EXTREME, HYPERDISK_THROUGHPUT.
     /// </summary>
     [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDataDiskType? DataDiskType { get; set; }
+    public GcloudWorkbenchInstancesCreateDataDiskType? DataDiskType { get; set; }
 
     /// <summary>
     /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --data-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -261,54 +307,108 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// Network configs. Network resource - The name of the VPC that this instance is in. Format: projects/{project_id}/global/networks/{network_id}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Type of the network interface card. NIC_TYPE must be one of: VIRTIGO_NET, GVNIC.
     /// </summary>
     [CliOption("--nic-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNicType? NicType { get; set; }
+    public GcloudWorkbenchInstancesCreateNicType? NicType { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: ◆ provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: ◆ provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --subnet-region on the command line.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --subnet-region on the command line.
     /// </summary>
     [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetRegion { get; set; }
 
     /// <summary>
-    /// Reservation configs. The label key of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. The label key of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
     /// </summary>
     [CliOption("--reservation-key", Format = OptionFormat.EqualsSeparated)]
     public string? ReservationKey { get; set; }
 
     /// <summary>
-    /// Reservation configs. Type of the reservation. RESERVATION_TYPE must be one of: none, any, specific.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Type of the reservation. RESERVATION_TYPE must be one of: none, any, specific.
     /// </summary>
     [CliOption("--reservation-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudReservationType? ReservationType { get; set; }
+    public GcloudWorkbenchInstancesCreateReservationType? ReservationType { get; set; }
 
     /// <summary>
-    /// Reservation configs. The label value of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. The label value of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--reservation-values", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ReservationValues { get; set; }
+    [CliOption("--reservation-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ReservationValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ReservationValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ReservationValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Shielded VM configurations. Boolean. Enable monitoring of the boot integrity of the instance. Supported values: true, false.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Enable monitoring of the boot integrity of the instance. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-integrity-monitoring", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
-    /// Shielded VM configurations. Boolean. Boot instance with secure boot enabled. Supported values: true, false.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Boot instance with secure boot enabled. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-secure-boot", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedSecureBoot { get; set; }
 
     /// <summary>
-    /// Shielded VM configurations. Boolean. Boot instance with TPM (Trusted Platform Module) enabled. Supported values: true, false.
+    /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Boot instance with TPM (Trusted Platform Module) enabled. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-vtpm", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedVtpm { get; set; }
+
+    /// <summary>
+    /// Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BootDiskKmsKey) || !string.IsNullOrWhiteSpace(BootDiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(BootDiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(BootDiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(CustomGpuDriverPath) || InstallGpuDriver == true || (object?)DataDiskEncryption is not null || ((object?)DataDiskResourcePolicies is global::System.Collections.Generic.IEnumerable<char> ? (object?)DataDiskResourcePolicies is not string || !string.IsNullOrWhiteSpace(DataDiskResourcePolicies?.ToString()) : ((object?)DataDiskResourcePolicies is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DataDiskResourcePolicies, static item => item is not null) : (DataDiskResourcePolicies is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DataDiskResourcePolicies), static item => item is not null)))) || (object?)DataDiskSize is not null || (object?)DataDiskType is not null || !string.IsNullOrWhiteSpace(ContainerRepository) || !string.IsNullOrWhiteSpace(ContainerTag) || !string.IsNullOrWhiteSpace(VmImageProject) || !string.IsNullOrWhiteSpace(VmImageFamily) || !string.IsNullOrWhiteSpace(VmImageName)) && (!(!string.IsNullOrWhiteSpace(BootDiskKmsKey))))
+        {
+            yield return new ValidationResult("BootDiskKmsKey must be specified when other arguments in this group are specified.", [nameof(BootDiskKmsKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BootDiskKmsKey) || !string.IsNullOrWhiteSpace(BootDiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(BootDiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(BootDiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(CustomGpuDriverPath) || InstallGpuDriver == true || (object?)DataDiskEncryption is not null || ((object?)DataDiskResourcePolicies is global::System.Collections.Generic.IEnumerable<char> ? (object?)DataDiskResourcePolicies is not string || !string.IsNullOrWhiteSpace(DataDiskResourcePolicies?.ToString()) : ((object?)DataDiskResourcePolicies is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DataDiskResourcePolicies, static item => item is not null) : (DataDiskResourcePolicies is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DataDiskResourcePolicies), static item => item is not null)))) || (object?)DataDiskSize is not null || (object?)DataDiskType is not null || !string.IsNullOrWhiteSpace(ContainerRepository) || !string.IsNullOrWhiteSpace(ContainerTag) || !string.IsNullOrWhiteSpace(VmImageProject) || !string.IsNullOrWhiteSpace(VmImageFamily) || !string.IsNullOrWhiteSpace(VmImageName)) && ((!string.IsNullOrWhiteSpace(ContainerRepository) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerTag) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VmImageProject) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(VmImageFamily) || !string.IsNullOrWhiteSpace(VmImageName)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ContainerRepository, ContainerTag, VmImageProject, or (VmImageFamily or VmImageName) may be specified.", [nameof(ContainerRepository), nameof(ContainerTag), nameof(VmImageProject), nameof(VmImageFamily), nameof(VmImageName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BootDiskKmsKey) || !string.IsNullOrWhiteSpace(BootDiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(BootDiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(BootDiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(CustomGpuDriverPath) || InstallGpuDriver == true || (object?)DataDiskEncryption is not null || ((object?)DataDiskResourcePolicies is global::System.Collections.Generic.IEnumerable<char> ? (object?)DataDiskResourcePolicies is not string || !string.IsNullOrWhiteSpace(DataDiskResourcePolicies?.ToString()) : ((object?)DataDiskResourcePolicies is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DataDiskResourcePolicies, static item => item is not null) : (DataDiskResourcePolicies is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DataDiskResourcePolicies), static item => item is not null)))) || (object?)DataDiskSize is not null || (object?)DataDiskType is not null || !string.IsNullOrWhiteSpace(ContainerRepository) || !string.IsNullOrWhiteSpace(ContainerTag) || !string.IsNullOrWhiteSpace(VmImageProject) || !string.IsNullOrWhiteSpace(VmImageFamily) || !string.IsNullOrWhiteSpace(VmImageName)) && (!string.IsNullOrWhiteSpace(ContainerRepository) || !string.IsNullOrWhiteSpace(ContainerTag) || !string.IsNullOrWhiteSpace(VmImageProject) || !string.IsNullOrWhiteSpace(VmImageFamily) || !string.IsNullOrWhiteSpace(VmImageName)) && ((!string.IsNullOrWhiteSpace(VmImageFamily) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VmImageName) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of VmImageFamily or VmImageName may be specified.", [nameof(VmImageFamily), nameof(VmImageName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DataDiskKmsKey) || !string.IsNullOrWhiteSpace(DataDiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DataDiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DataDiskEncryptionKeyProject)) && (!(!string.IsNullOrWhiteSpace(DataDiskKmsKey))))
+        {
+            yield return new ValidationResult("DataDiskKmsKey must be specified when other arguments in this group are specified.", [nameof(DataDiskKmsKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Subnet) || !string.IsNullOrWhiteSpace(SubnetRegion) || !string.IsNullOrWhiteSpace(ReservationKey) || (object?)ReservationType is not null || ((object?)ReservationValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)ReservationValues is not string || !string.IsNullOrWhiteSpace(ReservationValues?.ToString()) : ((object?)ReservationValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ReservationValues, static item => item is not null) : (ReservationValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ReservationValues), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ShieldedIntegrityMonitoring) || !string.IsNullOrWhiteSpace(ShieldedSecureBoot) || !string.IsNullOrWhiteSpace(ShieldedVtpm)) && (!(!string.IsNullOrWhiteSpace(Subnet))))
+        {
+            yield return new ValidationResult("Subnet must be specified when other arguments in this group are specified.", [nameof(Subnet)]);
+        }
+        yield break;
+    }
 
 }

@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-policies", "delete")]
-public record GcloudComputeFirewallPoliciesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
-) : GcloudOptions
+public record GcloudComputeFirewallPoliciesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Compute Engine     organization firewall policy
+    /// </summary>
+    /// <param name="FirewallPolicy">Short name or ID of the firewall policy to delete.</param>
+    public GcloudComputeFirewallPoliciesDeleteOptions(
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string FirewallPolicy)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
     /// <summary>
     /// Organization in which the organization firewall policy is to be deleted. Must be set if FIREWALL_POLICY is the short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the firewall policy to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
 
 }

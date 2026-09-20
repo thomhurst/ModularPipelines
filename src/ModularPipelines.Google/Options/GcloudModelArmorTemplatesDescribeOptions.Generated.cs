@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("model-armor", "templates", "describe")]
 public record GcloudModelArmorTemplatesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get Model Armor Template
+    /// </summary>
+    /// <param name="Template">Template resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudModelArmorTemplatesDescribeOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// Template resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the template resource. To set the location attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Template resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
+
 }

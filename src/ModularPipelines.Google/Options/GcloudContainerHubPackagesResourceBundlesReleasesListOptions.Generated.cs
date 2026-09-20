@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubPackagesResourceBundlesReleasesListOptions : GcloudOptions
 {
     /// <summary>
+    /// list     Releases of a Resource Bundle
+    /// </summary>
+    /// <param name="ResourceBundle">Resource Bundle name.</param>
+    public GcloudContainerHubPackagesResourceBundlesReleasesListOptions(
+        string ResourceBundle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceBundle);
+        this.ResourceBundle = ResourceBundle;
+    }
+
+    public void Deconstruct(out string ResourceBundle)
+    {
+        ResourceBundle = this.ResourceBundle;
+    }
+
+    /// <summary>
+    /// Resource Bundle name.
+    /// </summary>
+    [CliOption("--resource-bundle", Format = OptionFormat.EqualsSeparated)]
+    public string ResourceBundle { get; private init; }
+
+    /// <summary>
     /// Google Cloud zone or region.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

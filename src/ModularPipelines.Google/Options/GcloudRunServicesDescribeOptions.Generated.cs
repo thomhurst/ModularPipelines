@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunServicesDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// obtain details about a given service
+    /// </summary>
+    /// <param name="Service">Service resource - Service to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument SERVICE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRunServicesDescribeOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// Service resource - Service to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Specific to Cloud Run for Anthos: Kubernetes namespace for the service. To set the namespace attribute: ▸ provide the argument SERVICE on the command line with a fully specified name; ▸ provide the argument --namespace on the command line; ▸ set the property run/namespace; ▸ For Cloud Run on Kubernetes Engine, defaults to "default". Otherwise, defaults to project ID.; ▸ provide the argument project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
     /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Service resource - Service to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument SERVICE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
 
 }

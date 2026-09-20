@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a space
+    /// </summary>
+    /// <param name="Space">Space resource - The space name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument space on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the space or fully qualified identifier for the space. To set the space attribute: ▸ provide the argument space on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesDeleteOptions(
+        string Space
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Space);
+        this.Space = Space;
+    }
+
+    public void Deconstruct(out string Space)
+    {
+        Space = this.Space;
+    }
+
+    /// <summary>
+    /// Space resource - The space name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument space on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the space resource. To set the location attribute: ▸ provide the argument space on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// If set to true, the space's children are also deleted. If false, the space is only deleted if it has no children.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// Space resource - The space name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument space on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the space or fully qualified identifier for the space. To set the space attribute: ▸ provide the argument space on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Space { get; private init; }
 
 }

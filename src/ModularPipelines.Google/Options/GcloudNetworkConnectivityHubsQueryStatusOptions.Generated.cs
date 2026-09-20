@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityHubsQueryStatusOptions : GcloudOptions
 {
     /// <summary>
-    /// Comma-separated list of resource field key names to group by. Aggregated values will be displayed for each group. If --group-by is set, the value of the --sort-by flag must be the same as or a subset of the --group-by flag. Accepted values are: ◆ 'psc_propagation_status.source_spoke' ◆ 'psc_propagation_status.source_group' ◆ 'psc_propagation_status.source_forwarding_rule' ◆ 'psc_propagation_status.target_spoke' ◆ 'psc_propagation_status.target_group' ◆ 'psc_propagation_status.code'
+    /// query the status of Private     Service Connect propagation for a hub
     /// </summary>
-    [CliOption("--group-by", Format = OptionFormat.EqualsSeparated)]
-    public string? GroupBy { get; set; }
+    /// <param name="Hub">Hub resource - Name of the hub to query Private Service Connect propagation for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.</param>
+    public GcloudNetworkConnectivityHubsQueryStatusOptions(
+        string Hub
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hub);
+        this.Hub = Hub;
+    }
+
+    public void Deconstruct(out string Hub)
+    {
+        Hub = this.Hub;
+    }
+
+    /// <summary>
+    /// Comma-separated list of resource field key names to group by. Aggregated values will be displayed for each group. If --group-by is set, the value of the --sort-by flag must be the same as or a subset of the --group-by flag. Accepted values are: ◆ 'psc_propagation_status.source_spoke' ◆ 'psc_propagation_status.source_group' ◆ 'psc_propagation_status.source_forwarding_rule' ◆ 'psc_propagation_status.target_spoke' ◆ 'psc_propagation_status.target_group' ◆ 'psc_propagation_status.code' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--group-by", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GroupBy { get; set; }
+
+    /// <summary>
+    /// Hub resource - Name of the hub to query Private Service Connect propagation for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Hub { get; private init; }
 
 }

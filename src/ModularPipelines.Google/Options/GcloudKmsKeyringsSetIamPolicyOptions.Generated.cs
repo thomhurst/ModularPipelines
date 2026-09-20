@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keyrings", "set-iam-policy")]
-public record GcloudKmsKeyringsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Keyring
-) : GcloudOptions
+public record GcloudKmsKeyringsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for a keyring
+    /// </summary>
+    /// <param name="Keyring">Name of the key ring whose IAM policy to update.</param>
+    /// <param name="PolicyFile">JSON or YAML file with the IAM policy</param>
+    public GcloudKmsKeyringsSetIamPolicyOptions(
+        string Keyring,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Keyring);
+        this.Keyring = Keyring;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string Keyring, out string PolicyFile)
+    {
+        Keyring = this.Keyring;
+        PolicyFile = this.PolicyFile;
+    }
+
     /// <summary>
     /// Location of the keyring.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Name of the key ring whose IAM policy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Keyring { get; private init; }
+
+    /// <summary>
+    /// JSON or YAML file with the IAM policy
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
 
 }

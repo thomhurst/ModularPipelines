@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "changes", "describe")]
-public record GcloudDnsRecordSetsChangesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ChangeId
-) : GcloudOptions
+public record GcloudDnsRecordSetsChangesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// view the details of a change
+    /// </summary>
+    /// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+    /// <param name="ChangeId">The ID of the change you want details for.</param>
+    public GcloudDnsRecordSetsChangesDescribeOptions(
+        string Zone,
+        string ChangeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeId);
+        this.ChangeId = ChangeId;
+    }
+
+    public void Deconstruct(out string Zone, out string ChangeId)
+    {
+        Zone = this.Zone;
+        ChangeId = this.ChangeId;
+    }
+
+    /// <summary>
+    /// Name of the managed zone whose record sets you want to manage.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// The ID of the change you want details for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ChangeId { get; private init; }
+
 }

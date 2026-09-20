@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "clusters", "update")]
-public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
+public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an Anthos cluster on     VMware
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - cluster to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerVmwareClustersUpdateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - cluster to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_vmware/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// User cluster authorization configurations to bootstrap onto the admin cluster Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster. To add multiple users, specify one in each flag. When updating, the update command overwrites the whole grant list. Specify all existing and new users that you want to be cluster administrators. Examples: $ gcloud container vmware clusters update --admin-users alice@example.com --admin-users bob@example.com
     /// </summary>
@@ -76,10 +100,32 @@ public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
     public string? AddAnnotations { get; set; }
 
     /// <summary>
-    /// Upgrade policy for the cluster. At most one of these can be specified: Remove annotations of the given keys.
+    /// Upgrade policy for the cluster. At most one of these can be specified: Remove annotations of the given keys. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAnnotations { get; set; }
+    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAnnotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Control plane node configurations Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs)
@@ -140,5 +186,45 @@ public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--enable-vsphere-csi")]
     public bool? EnableVsphereCsi { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(MetalLbConfigAddressPools) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MetalLbConfigAddressPools may be specified.", [nameof(MetalLbConfigAddressPools)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(StaticIpConfigIpBlocks) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of StaticIpConfigIpBlocks may be specified.", [nameof(StaticIpConfigIpBlocks)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AddAnnotations) ? 1 : 0) + (((object?)RemoveAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAnnotations is not string || !string.IsNullOrWhiteSpace(RemoveAnnotations?.ToString()) : ((object?)RemoveAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAnnotations, static item => item is not null) : (RemoveAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAnnotations), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddAnnotations or RemoveAnnotations may be specified.", [nameof(AddAnnotations), nameof(RemoveAnnotations)]);
+        }
+        if ((DisableAutoResize == true ? 1 : 0) + (EnableAutoResize == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableAutoResize or EnableAutoResize may be specified.", [nameof(DisableAutoResize), nameof(EnableAutoResize)]);
+        }
+        if ((DisableAagConfig == true ? 1 : 0) + (EnableAagConfig == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableAagConfig or EnableAagConfig may be specified.", [nameof(DisableAagConfig), nameof(EnableAagConfig)]);
+        }
+        if ((DisableAutoRepair == true ? 1 : 0) + (EnableAutoRepair == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableAutoRepair or EnableAutoRepair may be specified.", [nameof(DisableAutoRepair), nameof(EnableAutoRepair)]);
+        }
+        if ((DisableVsphereCsi == true ? 1 : 0) + (EnableVsphereCsi == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableVsphereCsi or EnableVsphereCsi may be specified.", [nameof(DisableVsphereCsi), nameof(EnableVsphereCsi)]);
+        }
+        yield break;
+    }
 
 }

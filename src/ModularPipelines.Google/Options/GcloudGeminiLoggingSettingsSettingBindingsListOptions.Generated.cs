@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("gemini", "logging-settings", "setting-bindings", "list")]
 public record GcloudGeminiLoggingSettingsSettingBindingsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list settingBindings
+    /// </summary>
+    /// <param name="LoggingSetting">LoggingSetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --logging-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the loggingSetting or fully qualified identifier for the loggingSetting. To set the logging-setting attribute: ▸ provide the argument --logging-setting on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiLoggingSettingsSettingBindingsListOptions(
+        string LoggingSetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoggingSetting);
+        this.LoggingSetting = LoggingSetting;
+    }
+
+    public void Deconstruct(out string LoggingSetting)
+    {
+        LoggingSetting = this.LoggingSetting;
+    }
+
+    /// <summary>
+    /// LoggingSetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --logging-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the loggingSetting or fully qualified identifier for the loggingSetting. To set the logging-setting attribute: ▸ provide the argument --logging-setting on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--logging-setting", Format = OptionFormat.EqualsSeparated)]
+    public string LoggingSetting { get; private init; }
+
+    /// <summary>
+    /// LoggingSetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --logging-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the loggingSetting resource. To set the location attribute: ▸ provide the argument --logging-setting on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

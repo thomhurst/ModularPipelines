@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,56 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "upgrade")]
-public record GcloudAlloydbClustersUpgradeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
-) : GcloudOptions
+public record GcloudAlloydbClustersUpgradeOptions : GcloudOptions
 {
+    /// <summary>
+    /// upgrade an AlloyDB cluster within a given     project and region
+    /// </summary>
+    /// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+    /// <param name="Version">Target database version for the upgrade. VERSION must be one of: POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18.</param>
+    /// <param name="Cluster">AlloyDB cluster ID</param>
+    public GcloudAlloydbClustersUpgradeOptions(
+        string Region,
+        GcloudAlloydbClustersUpgradeVersion Version,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Region, out GcloudAlloydbClustersUpgradeVersion Version, out string Cluster)
+    {
+        Region = this.Region;
+        Version = this.Version;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Target database version for the upgrade. VERSION must be one of: POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAlloydbClustersUpgradeVersion Version { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// AlloyDB cluster ID
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
 }

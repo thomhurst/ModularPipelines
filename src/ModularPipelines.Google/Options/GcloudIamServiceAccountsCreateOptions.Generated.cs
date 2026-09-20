@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "create")]
-public record GcloudIamServiceAccountsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudIamServiceAccountsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a service account for a project
+    /// </summary>
+    /// <param name="Name">The internal name of the new service account. Used to generate an IAM_ACCOUNT (an IAM internal email address used as an identifier of service account), which must be passed to subsequent commands.</param>
+    public GcloudIamServiceAccountsCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// A textual description for the account.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudIamServiceAccountsCreateOptions(
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The internal name of the new service account. Used to generate an IAM_ACCOUNT (an IAM internal email address used as an identifier of service account), which must be passed to subsequent commands.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

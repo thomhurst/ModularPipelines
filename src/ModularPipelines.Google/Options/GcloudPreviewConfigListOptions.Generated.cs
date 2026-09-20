@@ -27,4 +27,10 @@ public record GcloudPreviewConfigListOptions : GcloudOptions
     [CliFlag("--all")]
     public bool? All { get; set; }
 
+    /// <summary>
+    /// Property to be listed. Note that SECTION/ is optional while referring to properties in the core section.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? SectionOrProperty { get; set; }
+
 }

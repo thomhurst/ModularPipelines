@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBackupDrManagementServersDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete the specified     Management Server
+    /// </summary>
+    /// <param name="ManagementServer">Management Server resource - Name of the management server to delete. Before you delete, take a look at the prerequisites here (https://cloud.google.com/backup-disaster-recovery/docs/configuration/decommission). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Management Server or fully qualified identifier for the Management Server. To set the name attribute: ▸ provide the argument management_server on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrManagementServersDeleteOptions(
+        string ManagementServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementServer);
+        this.ManagementServer = ManagementServer;
+    }
+
+    public void Deconstruct(out string ManagementServer)
+    {
+        ManagementServer = this.ManagementServer;
+    }
+
+    /// <summary>
+    /// Management Server resource - Name of the management server to delete. Before you delete, take a look at the prerequisites here (https://cloud.google.com/backup-disaster-recovery/docs/configuration/decommission). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Management Server. To set the location attribute: ▸ provide the argument management_server on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudBackupDrManagementServersDeleteOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Management Server resource - Name of the management server to delete. Before you delete, take a look at the prerequisites here (https://cloud.google.com/backup-disaster-recovery/docs/configuration/decommission). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Management Server or fully qualified identifier for the Management Server. To set the name attribute: ▸ provide the argument management_server on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ManagementServer { get; private init; }
 
 }

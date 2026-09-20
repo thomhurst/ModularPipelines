@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "clusters", "query-version-config")]
-public record GcloudContainerVmwareClustersQueryVersionConfigOptions : GcloudOptions
+public record GcloudContainerVmwareClustersQueryVersionConfigOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Location resource - Google Cloud location to query versions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_vmware/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property container_vmware/location.
@@ -34,21 +35,35 @@ public record GcloudContainerVmwareClustersQueryVersionConfigOptions : GcloudOpt
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// Location resource - Google Cloud location to query versions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_vmware/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Create an Anthos on VMware user cluster use case. Admin cluster membership resource - Membership of the admin cluster to query versions for create. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. ID of the admin_cluster_membership or fully qualified identifier for the admin_cluster_membership. To set the admin_cluster_membership attribute: ▸ provide the argument --admin-cluster-membership on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Location resource - Google Cloud location to query versions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_vmware/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Use cases for querying versions. At most one of these can be specified: Create an Anthos on VMware user cluster use case. Admin cluster membership resource - Membership of the admin cluster to query versions for create. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. ID of the admin_cluster_membership or fully qualified identifier for the admin_cluster_membership. To set the admin_cluster_membership attribute: ▸ provide the argument --admin-cluster-membership on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--admin-cluster-membership", Format = OptionFormat.EqualsSeparated)]
     public string? AdminClusterMembership { get; set; }
 
     /// <summary>
-    /// Location resource - Google Cloud location to query versions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_vmware/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Create an Anthos on VMware user cluster use case. Admin cluster membership resource - Membership of the admin cluster to query versions for create. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. Google Cloud location for the admin_cluster_membership. To set the location attribute: ▸ provide the argument --admin-cluster-membership on the command line with a fully specified name; ▸ provide the argument --admin-cluster-membership-location on the command line.
+    /// Location resource - Google Cloud location to query versions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_vmware/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Use cases for querying versions. At most one of these can be specified: Create an Anthos on VMware user cluster use case. Admin cluster membership resource - Membership of the admin cluster to query versions for create. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. Google Cloud location for the admin_cluster_membership. To set the location attribute: ▸ provide the argument --admin-cluster-membership on the command line with a fully specified name; ▸ provide the argument --admin-cluster-membership-location on the command line.
     /// </summary>
     [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
     public string? AdminClusterMembershipLocation { get; set; }
 
     /// <summary>
-    /// Location resource - Google Cloud location to query versions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_vmware/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Create an Anthos on VMware user cluster use case. Admin cluster membership resource - Membership of the admin cluster to query versions for create. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. Project ID of the Google Cloud project for the admin_cluster_membership. To set the project attribute: ▸ provide the argument --admin-cluster-membership on the command line with a fully specified name; ▸ provide the argument --admin-cluster-membership-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// Location resource - Google Cloud location to query versions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property container_vmware/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Use cases for querying versions. At most one of these can be specified: Create an Anthos on VMware user cluster use case. Admin cluster membership resource - Membership of the admin cluster to query versions for create. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. Project ID of the Google Cloud project for the admin_cluster_membership. To set the project attribute: ▸ provide the argument --admin-cluster-membership on the command line with a fully specified name; ▸ provide the argument --admin-cluster-membership-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
     /// </summary>
     [CliOption("--admin-cluster-membership-project", Format = OptionFormat.EqualsSeparated)]
     public string? AdminClusterMembershipProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(Cluster)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AdminClusterMembership) || !string.IsNullOrWhiteSpace(AdminClusterMembershipLocation) || !string.IsNullOrWhiteSpace(AdminClusterMembershipProject)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (Cluster) or (AdminClusterMembership, AdminClusterMembershipLocation, or AdminClusterMembershipProject) may be specified.", [nameof(Cluster), nameof(AdminClusterMembership), nameof(AdminClusterMembershipLocation), nameof(AdminClusterMembershipProject)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Cluster) || !string.IsNullOrWhiteSpace(AdminClusterMembership) || !string.IsNullOrWhiteSpace(AdminClusterMembershipLocation) || !string.IsNullOrWhiteSpace(AdminClusterMembershipProject)) && (!string.IsNullOrWhiteSpace(AdminClusterMembership) || !string.IsNullOrWhiteSpace(AdminClusterMembershipLocation) || !string.IsNullOrWhiteSpace(AdminClusterMembershipProject)) && (!(!string.IsNullOrWhiteSpace(AdminClusterMembership))))
+        {
+            yield return new ValidationResult("AdminClusterMembership must be specified when other arguments in this group are specified.", [nameof(AdminClusterMembership)]);
+        }
+        yield break;
+    }
 
 }

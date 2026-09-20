@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "video", "detect-labels")]
-public record GcloudMlVideoDetectLabelsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InputPath
-) : GcloudOptions
+public record GcloudMlVideoDetectLabelsOptions : GcloudOptions
 {
+    /// <summary>
+    /// detect general labels for videos
+    /// </summary>
+    /// <param name="InputPath">Path to the video to be analyzed. Must be a local path or a Google Cloud Storage URI.</param>
+    public GcloudMlVideoDetectLabelsOptions(
+        string InputPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputPath);
+        this.InputPath = InputPath;
+    }
+
+    public void Deconstruct(out string InputPath)
+    {
+        InputPath = this.InputPath;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -46,12 +61,18 @@ public record GcloudMlVideoDetectLabelsOptions(
     /// Optional Cloud region where annotation should take place. If no region is specified, a region will be determined based on video file location. REGION must be one of: asia-east1, europe-west1, us-east1, us-west1.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
-    public GcloudRegion? Region { get; set; }
+    public GcloudMlVideoDetectLabelsRegion? Region { get; set; }
 
     /// <summary>
-    /// Segments from the video which you want to analyze (by default, the entire video will be treated as one segment). Must be in the format START1:END1[,START2:END2,...] (inclusive). START and END of segments must be a properly formatted duration string of the form HhMmSs where: * H is the number of hours from beginning of video * M is the number of minutes from the beginning of video * S is the number of seconds from the beginning of the video H, M and S can be specified as ints or floats for fractional units (to microsecond resolution). Unit chars (e.g. h, m or s) are required. Microseconds can be specified using fractional seconds e.g. 0.000569s == 569 microseconds. Examples: 0s:23.554048s,24s:29.528064s 0:1m40s,3m50s:5m10.232265s
+    /// Segments from the video which you want to analyze (by default, the entire video will be treated as one segment). Must be in the format START1:END1[,START2:END2,...] (inclusive). START and END of segments must be a properly formatted duration string of the form HhMmSs where: * H is the number of hours from beginning of video * M is the number of minutes from the beginning of video * S is the number of seconds from the beginning of the video H, M and S can be specified as ints or floats for fractional units (to microsecond resolution). Unit chars (e.g. h, m or s) are required. Microseconds can be specified using fractional seconds e.g. 0.000569s == 569 microseconds. Examples: 0s:23.554048s,24s:29.528064s 0:1m40s,3m50s:5m10.232265s Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--segments", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--segments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Segments { get; set; }
+
+    /// <summary>
+    /// Path to the video to be analyzed. Must be a local path or a Google Cloud Storage URI.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InputPath { get; private init; }
 
 }

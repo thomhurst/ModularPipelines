@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,144 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "perimeters", "create")]
-public record GcloudAccessContextManagerPerimetersCreateOptions : GcloudOptions
+public record GcloudAccessContextManagerPerimetersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new service     perimeter
+    /// </summary>
+    /// <param name="Title">Short human-readable title for the service perimeter.</param>
+    /// <param name="Perimeter">Perimeter resource - The service perimeter to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the perimeter or fully qualified identifier for the perimeter. To set the perimeter attribute: ▸ provide the argument perimeter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAccessContextManagerPerimetersCreateOptions(
+        string Title,
+        string Perimeter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Title);
+        this.Title = Title;
+        global::System.ArgumentNullException.ThrowIfNull(Perimeter);
+        this.Perimeter = Perimeter;
+    }
+
+    public void Deconstruct(out string Title, out string Perimeter)
+    {
+        Title = this.Title;
+        Perimeter = this.Perimeter;
+    }
+
+    /// <summary>
+    /// Short human-readable title for the service perimeter.
+    /// </summary>
+    [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
+    public string Title { get; private init; }
+
+    /// <summary>
+    /// Perimeter resource - The service perimeter to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the access policy. To set the policy attribute: ▸ provide the argument perimeter on the command line with a fully specified name; ▸ provide the argument --policy on the command line; ▸ set the property access_context_manager/policy; ▸ automatically, if the current account belongs to an organization with exactly one access policy..
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of IDs for access levels (in the same policy) that an intra-perimeter request must satisfy to be allowed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--access-levels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AccessLevels { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Long-form description of service perimeter.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Path to a file containing a list of Engress Policies. This file contains a list of YAML-compliant objects representing Engress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--egress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? EgressPolicies { get; set; }
+
+    /// <summary>
+    /// Path to a file containing a list of Ingress Policies. This file contains a list of YAML-compliant objects representing Ingress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--ingress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? IngressPolicies { get; set; }
+
+    /// <summary>
+    /// Type of the perimeter. PERIMETER_TYPE must be one of: bridge Allows resources in different regular service perimeters to import and export data between each other. A project may belong to multiple bridge service perimeters (only if it also belongs to a regular service perimeter). Both restricted and unrestricted service lists, as well as access level lists, must be empty. regular Allows resources within this service perimeter to import and export data amongst themselves. A project may belong to at most one regular service perimeter.
+    /// </summary>
+    [CliOption("--perimeter-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PerimeterType { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of resources (currently only projects, in the form projects/&lt;projectnumber&gt;) in this perimeter. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Resources { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of services to which the perimeter boundary does apply (for example, storage.googleapis.com). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--restricted-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RestrictedServices { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to a YAML file containing the full VPC Accessible Services configuration. This file should contain a single YAML object representing a VpcAccessibleServices message as described in the API reference. This cannot be used with --vpc-allowed-services or --enable-vpc-accessible-services. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--vpc-accessible-services", Format = OptionFormat.EqualsSeparated)]
+    public string? VpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Whether to restrict API calls within the perimeter to those in the vpc-allowed-services list.
+    /// </summary>
+    [CliFlag("--enable-vpc-accessible-services")]
+    public bool? EnableVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of APIs accessible from within the Service Perimeter. In order to include all restricted services, use reference "RESTRICTED-SERVICES". Requires vpc-accessible-services be enabled. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--vpc-allowed-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? VpcAllowedServices
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __VpcAllowedServicesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __VpcAllowedServicesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Perimeter resource - The service perimeter to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the perimeter or fully qualified identifier for the perimeter. To set the perimeter attribute: ▸ provide the argument perimeter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Perimeter { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(VpcAccessibleServices) ? 1 : 0) + ((EnableVpcAccessibleServices == true || ((object?)VpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)VpcAllowedServices is not string || !string.IsNullOrWhiteSpace(VpcAllowedServices?.ToString()) : ((object?)VpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)VpcAllowedServices, static item => item is not null) : (VpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)VpcAllowedServices), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of VpcAccessibleServices or (EnableVpcAccessibleServices or VpcAllowedServices) may be specified.", [nameof(VpcAccessibleServices), nameof(EnableVpcAccessibleServices), nameof(VpcAllowedServices)]);
+        }
+        yield break;
+    }
+
 }

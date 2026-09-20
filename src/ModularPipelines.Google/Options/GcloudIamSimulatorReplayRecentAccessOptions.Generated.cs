@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "simulator", "replay-recent-access")]
-public record GcloudIamSimulatorReplayRecentAccessOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
-) : GcloudOptions
+public record GcloudIamSimulatorReplayRecentAccessOptions : GcloudOptions
 {
+    /// <summary>
+    /// determine affected recent     access attempts before IAM policy change deployment
+    /// </summary>
+    /// <param name="Resource">Full resource name to simulate the IAM policy for. See: https://cloud.google.com/apis/design/resource_names#full_resource_name.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy. See the Policy reference (https://cloud.google.com/iam/reference/rest/v1/Policy) for details.</param>
+    public GcloudIamSimulatorReplayRecentAccessOptions(
+        string Resource,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string Resource, out string PolicyFile)
+    {
+        Resource = this.Resource;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Full resource name to simulate the IAM policy for. See: https://cloud.google.com/apis/design/resource_names#full_resource_name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy. See the Policy reference (https://cloud.google.com/iam/reference/rest/v1/Policy) for details.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

@@ -19,8 +19,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "sub-blocks", "set-iam-policy")]
-public record GcloudComputeReservationsSubBlocksSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
-) : GcloudOptions
+public record GcloudComputeReservationsSubBlocksSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy     binding for a Compute Engine reservation sub-block
+    /// </summary>
+    /// <param name="BlockName">The name of the reservation block.</param>
+    /// <param name="SubBlockName">The name of the reservation sub block.</param>
+    /// <param name="Reservation">Name of the reservation to set-iam-policy.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudComputeReservationsSubBlocksSetIamPolicyOptions(
+        string BlockName,
+        string SubBlockName,
+        string Reservation,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlockName);
+        this.BlockName = BlockName;
+        global::System.ArgumentNullException.ThrowIfNull(SubBlockName);
+        this.SubBlockName = SubBlockName;
+        global::System.ArgumentNullException.ThrowIfNull(Reservation);
+        this.Reservation = Reservation;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string BlockName, out string SubBlockName, out string Reservation, out string PolicyFile)
+    {
+        BlockName = this.BlockName;
+        SubBlockName = this.SubBlockName;
+        Reservation = this.Reservation;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// The name of the reservation block.
+    /// </summary>
+    [CliOption("--block-name", Format = OptionFormat.EqualsSeparated)]
+    public string BlockName { get; private init; }
+
+    /// <summary>
+    /// The name of the reservation sub block.
+    /// </summary>
+    [CliOption("--sub-block-name", Format = OptionFormat.EqualsSeparated)]
+    public string SubBlockName { get; private init; }
+
+    /// <summary>
+    /// Zone of the reservation to set-iam-policy. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the reservation to set-iam-policy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Reservation { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

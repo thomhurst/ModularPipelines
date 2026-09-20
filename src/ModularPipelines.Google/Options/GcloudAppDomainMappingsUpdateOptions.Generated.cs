@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,15 +21,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "domain-mappings", "update")]
-public record GcloudAppDomainMappingsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Domain
-) : GcloudOptions
+public record GcloudAppDomainMappingsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates a domain mapping
+    /// </summary>
+    /// <param name="Domain">A valid domain which may begin with a wildcard, such as: example.com or *.example.com</param>
+    public GcloudAppDomainMappingsUpdateOptions(
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string Domain)
+    {
+        Domain = this.Domain;
+    }
+
     /// <summary>
     /// Type of certificate management. 'automatic' will provision an SSL certificate automatically while 'manual' requires the user to provide a certificate id to provision. CERTIFICATE_MANAGEMENT must be one of: automatic, manual.
     /// </summary>
     [CliOption("--certificate-management", Format = OptionFormat.EqualsSeparated)]
-    public GcloudCertificateManagement? CertificateManagement { get; set; }
+    public GcloudAppDomainMappingsUpdateCertificateManagement? CertificateManagement { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: A certificate id to use for this domain. May not be used on a domain mapping with automatically managed certificates. Use the gcloud app ssl-certificates list to see available certificates for this app.
@@ -41,5 +57,21 @@ public record GcloudAppDomainMappingsUpdateOptions(
     /// </summary>
     [CliFlag("--no-certificate-id")]
     public bool? NoCertificateId { get; set; }
+
+    /// <summary>
+    /// A valid domain which may begin with a wildcard, such as: example.com or *.example.com
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CertificateId) ? 1 : 0) + (NoCertificateId == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CertificateId or NoCertificateId may be specified.", [nameof(CertificateId), nameof(NoCertificateId)]);
+        }
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "clone")]
-public record GcloudSqlInstancesCloneOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source
-) : GcloudOptions
+public record GcloudSqlInstancesCloneOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// clones a Cloud SQL instance
+    /// </summary>
+    /// <param name="Source">Cloud SQL instance ID of the source.</param>
+    /// <param name="Destination">Cloud SQL instance ID of the clone.</param>
+    public GcloudSqlInstancesCloneOptions(
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Source, out string Destination)
+    {
+        Source = this.Source;
+        Destination = this.Destination;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -70,5 +91,39 @@ public record GcloudSqlInstancesCloneOptions(
     /// </summary>
     [CliOption("--restore-database-name", Format = OptionFormat.EqualsSeparated)]
     public string? RestoreDatabaseName { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID of the source.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// Cloud SQL instance ID of the clone.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(BinLogFileName) || !string.IsNullOrWhiteSpace(BinLogPosition) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (BinLogFileName, BinLogPosition, PointInTime, or RestoreDatabaseName) may be specified.", [nameof(BinLogFileName), nameof(BinLogPosition), nameof(PointInTime), nameof(RestoreDatabaseName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BinLogFileName) || !string.IsNullOrWhiteSpace(BinLogPosition) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!string.IsNullOrWhiteSpace(BinLogFileName) || !string.IsNullOrWhiteSpace(BinLogPosition) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!(!string.IsNullOrWhiteSpace(BinLogFileName))))
+        {
+            yield return new ValidationResult("BinLogFileName must be specified when other arguments in this group are specified.", [nameof(BinLogFileName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BinLogFileName) || !string.IsNullOrWhiteSpace(BinLogPosition) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!string.IsNullOrWhiteSpace(BinLogFileName) || !string.IsNullOrWhiteSpace(BinLogPosition) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!(!string.IsNullOrWhiteSpace(BinLogPosition))))
+        {
+            yield return new ValidationResult("BinLogPosition must be specified when other arguments in this group are specified.", [nameof(BinLogPosition)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BinLogFileName) || !string.IsNullOrWhiteSpace(BinLogPosition) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!string.IsNullOrWhiteSpace(BinLogFileName) || !string.IsNullOrWhiteSpace(BinLogPosition) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!(!string.IsNullOrWhiteSpace(PointInTime))))
+        {
+            yield return new ValidationResult("PointInTime must be specified when other arguments in this group are specified.", [nameof(PointInTime)]);
+        }
+        yield break;
+    }
 
 }

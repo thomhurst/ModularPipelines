@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "secure-access-connect", "realms", "create")]
-public record GcloudNetworkSecuritySecureAccessConnectRealmsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Sac
-) : GcloudOptions
+public record GcloudNetworkSecuritySecureAccessConnectRealmsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a SAC     realm
+    /// </summary>
+    /// <param name="SecurityService">Security service supporting this realm. SECURITY_SERVICE must be (only one value is supported): prisma-access.</param>
+    /// <param name="SacRealm">SAC realm resource - Realm to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument sac_realm on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the SAC realm or fully qualified identifier for the SAC realm. To set the sac_realm attribute: ▸ provide the argument sac_realm on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecuritySecureAccessConnectRealmsCreateOptions(
+        string SecurityService,
+        string SacRealm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityService);
+        this.SecurityService = SecurityService;
+        global::System.ArgumentNullException.ThrowIfNull(SacRealm);
+        this.SacRealm = SacRealm;
+    }
+
+    public void Deconstruct(out string SecurityService, out string SacRealm)
+    {
+        SecurityService = this.SecurityService;
+        SacRealm = this.SacRealm;
+    }
+
+    /// <summary>
+    /// Security service supporting this realm. SECURITY_SERVICE must be (only one value is supported): prisma-access.
+    /// </summary>
+    [CliOption("--security-service", Format = OptionFormat.EqualsSeparated)]
+    public string SecurityService { get; private init; }
+
+    /// <summary>
+    /// SAC realm resource - Realm to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument sac_realm on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument sac_realm on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ location is global by default.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// SAC realm resource - Realm to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument sac_realm on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the SAC realm or fully qualified identifier for the SAC realm. To set the sac_realm attribute: ▸ provide the argument sac_realm on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SacRealm { get; private init; }
+
 }

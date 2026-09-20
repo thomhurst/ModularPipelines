@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "roles", "undelete")]
-public record GcloudIamRolesUndeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleId
-) : GcloudOptions
+public record GcloudIamRolesUndeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// undelete a custom role from an organization or     a project
+    /// </summary>
+    /// <param name="RoleId">ID of the custom role to undelete. You must also specify the --organization or --project flag.</param>
+    public GcloudIamRolesUndeleteOptions(
+        string RoleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleId);
+        this.RoleId = RoleId;
+    }
+
+    public void Deconstruct(out string RoleId)
+    {
+        RoleId = this.RoleId;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the role you want to undelete.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project of the role you want to undelete. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// ID of the custom role to undelete. You must also specify the --organization or --project flag.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Organization or Project must be specified.", [nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

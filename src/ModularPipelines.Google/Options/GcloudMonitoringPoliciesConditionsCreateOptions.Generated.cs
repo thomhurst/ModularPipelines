@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitoring", "policies", "conditions", "create")]
-public record GcloudMonitoringPoliciesConditionsCreateOptions : GcloudOptions
+public record GcloudMonitoringPoliciesConditionsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a condition in an     alerting policy
+    /// </summary>
+    /// <param name="AlertPolicy">Alert Policy resource - Name of the Alert Policy to add a condition to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument alert_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Alert Policy or fully qualified identifier for the Alert Policy. To set the policy attribute: ▸ provide the argument alert_policy on the command line.</param>
+    public GcloudMonitoringPoliciesConditionsCreateOptions(
+        string AlertPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlertPolicy);
+        this.AlertPolicy = AlertPolicy;
+    }
+
+    public void Deconstruct(out string AlertPolicy)
+    {
+        AlertPolicy = this.AlertPolicy;
+    }
+
     /// <summary>
     /// Condition Settings. This will add a condition to the created policy. If any conditions are already specified, this condition will be appended. Specifies an Aggregation message as a JSON/YAML value to be applied to the condition. For more information about the format: https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies
     /// </summary>
@@ -74,5 +92,25 @@ public record GcloudMonitoringPoliciesConditionsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--condition-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? ConditionFromFile { get; set; }
+
+    /// <summary>
+    /// Alert Policy resource - Name of the Alert Policy to add a condition to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument alert_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Alert Policy or fully qualified identifier for the Alert Policy. To set the policy attribute: ▸ provide the argument alert_policy on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AlertPolicy { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((object?)TriggerCount is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(TriggerPercent) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of TriggerCount or TriggerPercent may be specified.", [nameof(TriggerCount), nameof(TriggerPercent)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Condition) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConditionFromFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Condition or ConditionFromFile may be specified.", [nameof(Condition), nameof(ConditionFromFile)]);
+        }
+        yield break;
+    }
 
 }

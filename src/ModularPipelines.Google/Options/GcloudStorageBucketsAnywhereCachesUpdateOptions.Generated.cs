@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,15 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "anywhere-caches", "update")]
-public record GcloudStorageBucketsAnywhereCachesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Id
-) : GcloudOptions
+public record GcloudStorageBucketsAnywhereCachesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The cache admission policy decides for each cache miss, whether to insert the missed block or not. ADMISSION_POLICY must be one of: ADMIT_ON_FIRST_MISS, ADMIT_ON_SECOND_MISS.
+    /// update Anywhere Cache     instances
     /// </summary>
-    [CliOption("--admission-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudAdmissionPolicy? AdmissionPolicy { get; set; }
+    /// <param name="Id">Identifiers for a Anywhere Cache Instance.They are combination of bucket_name/anywhere_cache_id. For example : test-bucket/my-cache-id.</param>
+    public GcloudStorageBucketsAnywhereCachesUpdateOptions(
+        IEnumerable<string> Id
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Id);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Id));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Id));
+            }
+
+            Id = materialized;
+        }
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Id)
+    {
+        Id = this.Id;
+    }
 
     /// <summary>
     /// Enables the Ingest-on-Write feature on the bucket. Use --enable-ingest-on-write to enable and --no-enable-ingest-on-write to disable.
@@ -47,5 +66,11 @@ public record GcloudStorageBucketsAnywhereCachesUpdateOptions(
     /// </summary>
     [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
     public string? Ttl { get; set; }
+
+    /// <summary>
+    /// Identifiers for a Anywhere Cache Instance.They are combination of bucket_name/anywhere_cache_id. For example : test-bucket/my-cache-id.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Id { get; private init; }
 
 }

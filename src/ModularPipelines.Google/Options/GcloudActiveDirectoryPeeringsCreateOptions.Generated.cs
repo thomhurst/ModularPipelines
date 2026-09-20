@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "peerings", "create")]
 public record GcloudActiveDirectoryPeeringsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Managed Microsoft Active     Directory domain peering
+    /// </summary>
+    /// <param name="AuthorizedNetwork">Name of the Network that is authorized to communicate with Managed Microsoft AD domain. This is usually the full path name of the network in the peer project.</param>
+    /// <param name="Domain">Name of the managed Managed Microsoft AD domain you want to peer to.</param>
+    /// <param name="Peering">Peering resource - Name of the managed Managed Microsoft AD domain peering you want to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument peering on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the peering or fully qualified identifier for the peering. To set the peering attribute: ▸ provide the argument peering on the command line.</param>
+    public GcloudActiveDirectoryPeeringsCreateOptions(
+        string AuthorizedNetwork,
+        string Domain,
+        string Peering
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizedNetwork);
+        this.AuthorizedNetwork = AuthorizedNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Peering);
+        this.Peering = Peering;
+    }
+
+    public void Deconstruct(out string AuthorizedNetwork, out string Domain, out string Peering)
+    {
+        AuthorizedNetwork = this.AuthorizedNetwork;
+        Domain = this.Domain;
+        Peering = this.Peering;
+    }
+
+    /// <summary>
+    /// Name of the Network that is authorized to communicate with Managed Microsoft AD domain. This is usually the full path name of the network in the peer project.
+    /// </summary>
+    [CliOption("--authorized-network", Format = OptionFormat.EqualsSeparated)]
+    public string AuthorizedNetwork { get; private init; }
+
+    /// <summary>
+    /// Name of the managed Managed Microsoft AD domain you want to peer to.
+    /// </summary>
+    [CliOption("--domain", Format = OptionFormat.EqualsSeparated)]
+    public string Domain { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Peering resource - Name of the managed Managed Microsoft AD domain peering you want to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument peering on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the peering or fully qualified identifier for the peering. To set the peering attribute: ▸ provide the argument peering on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Peering { get; private init; }
+
 }

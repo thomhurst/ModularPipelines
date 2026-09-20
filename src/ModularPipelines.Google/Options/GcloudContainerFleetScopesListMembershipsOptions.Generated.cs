@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "scopes", "list-memberships")]
 public record GcloudContainerFleetScopesListMembershipsOptions : GcloudOptions
 {
+    /// <summary>
+    /// list memberships bound to     a fleet scope
+    /// </summary>
+    /// <param name="Scope">Scope resource - The group of arguments defining the Fleet Scope. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SCOPE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument SCOPE on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the scope or fully qualified identifier for the scope. To set the scope attribute: ▸ provide the argument SCOPE on the command line.</param>
+    public GcloudContainerFleetScopesListMembershipsOptions(
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Scope)
+    {
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// Scope resource - The group of arguments defining the Fleet Scope. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SCOPE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument SCOPE on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the scope or fully qualified identifier for the scope. To set the scope attribute: ▸ provide the argument SCOPE on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Scope { get; private init; }
+
 }

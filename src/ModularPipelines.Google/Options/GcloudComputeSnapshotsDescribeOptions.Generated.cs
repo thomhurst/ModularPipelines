@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "snapshots", "describe")]
-public record GcloudComputeSnapshotsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnapshotName
-) : GcloudOptions
+public record GcloudComputeSnapshotsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Compute Engine snapshot
+    /// </summary>
+    /// <param name="SnapshotName">Name of the snapshot to describe.</param>
+    public GcloudComputeSnapshotsDescribeOptions(
+        string SnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    public void Deconstruct(out string SnapshotName)
+    {
+        SnapshotName = this.SnapshotName;
+    }
+
+    /// <summary>
+    /// Name of the snapshot to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SnapshotName { get; private init; }
+
 }

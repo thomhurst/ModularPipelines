@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("composer", "environments", "storage", "data", "export")]
 public record GcloudComposerEnvironmentsStorageDataExportOptions : GcloudOptions
 {
+    /// <summary>
+    /// export data from an     environment into local storage or Cloud Storage
+    /// </summary>
+    /// <param name="Destination">The path to an existing local directory or a Cloud Storage bucket/directory into which to export files.</param>
+    /// <param name="Environment">Environment resource - The environment from whose Cloud Storage bucket to export data.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument --environment on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComposerEnvironmentsStorageDataExportOptions(
+        string Destination,
+        string Environment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+    }
+
+    public void Deconstruct(out string Destination, out string Environment)
+    {
+        Destination = this.Destination;
+        Environment = this.Environment;
+    }
+
+    /// <summary>
+    /// The path to an existing local directory or a Cloud Storage bucket/directory into which to export files.
+    /// </summary>
+    [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
+    public string Destination { get; private init; }
+
+    /// <summary>
+    /// Environment resource - The environment from whose Cloud Storage bucket to export data.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument --environment on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
+    public string Environment { get; private init; }
+
+    /// <summary>
+    /// Environment resource - The environment from whose Cloud Storage bucket to export data.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region where Composer environment runs or in which to create the environment. To set the location attribute: ▸ provide the argument --environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property composer/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// An optional relative path to a file or directory to be exported from the data/ subdirectory in the environment's Cloud Storage bucket.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
 }

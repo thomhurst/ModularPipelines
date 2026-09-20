@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,120 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "clusters", "mount-datastore")]
-public record GcloudVmwarePrivateCloudsClustersMountDatastoreOptions : GcloudOptions
+public record GcloudVmwarePrivateCloudsClustersMountDatastoreOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// mount a datastore     to a Google Cloud VMware Engine cluster
+    /// </summary>
+    /// <param name="Datastore">The datastore resource name to mount.</param>
+    /// <param name="Cluster">Cluster resource - cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwarePrivateCloudsClustersMountDatastoreOptions(
+        string Datastore,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datastore);
+        this.Datastore = Datastore;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Datastore, out string Cluster)
+    {
+        Datastore = this.Datastore;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// The datastore resource name to mount.
+    /// </summary>
+    [CliOption("--datastore", Format = OptionFormat.EqualsSeparated)]
+    public string Datastore { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the private cloud or cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. VMware Engine private cloud. To set the private-cloud attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --private-cloud on the command line.
+    /// </summary>
+    [CliOption("--private-cloud", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateCloud { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a JSON file containing the datastore network configuration. Use a full or relative path to a local file containing the value of datastore_network.
+    /// </summary>
+    [CliOption("--datastore-network", Format = OptionFormat.EqualsSeparated)]
+    public string? DatastoreNetwork { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Datastore network configuration if not providing via file. Subnet to use for inlined datastore network configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Datastore network configuration if not providing via file. Connection count for inlined datastore network configuration.
+    /// </summary>
+    [CliOption("--connection-count", Format = OptionFormat.EqualsSeparated)]
+    public int? ConnectionCount { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Datastore network configuration if not providing via file. MTU for inlined datastore network configuration.
+    /// </summary>
+    [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
+    public string? Mtu { get; set; }
+
+    /// <summary>
+    /// Access mode for the datastore. ACCESS_MODE must be one of: READ_WRITE, READ_ONLY.
+    /// </summary>
+    [CliOption("--access-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudVmwarePrivateCloudsClustersMountDatastoreAccessMode? AccessMode { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// If set, ignore colocation checks.
+    /// </summary>
+    [CliFlag("--ignore-colocation")]
+    public bool? IgnoreColocation { get; set; }
+
+    /// <summary>
+    /// NFS version for the datastore. NFS_VERSION must be one of: NFS_V3, NFS_V4.
+    /// </summary>
+    [CliOption("--nfs-version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudVmwarePrivateCloudsClustersMountDatastoreNfsVersion? NfsVersion { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DatastoreNetwork) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Subnet) || (object?)ConnectionCount is not null || !string.IsNullOrWhiteSpace(Mtu)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DatastoreNetwork or (Subnet, ConnectionCount, or Mtu) must be specified.", [nameof(DatastoreNetwork), nameof(Subnet), nameof(ConnectionCount), nameof(Mtu)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DatastoreNetwork) || !string.IsNullOrWhiteSpace(Subnet) || (object?)ConnectionCount is not null || !string.IsNullOrWhiteSpace(Mtu)) && (!string.IsNullOrWhiteSpace(Subnet) || (object?)ConnectionCount is not null || !string.IsNullOrWhiteSpace(Mtu)) && (!string.IsNullOrWhiteSpace(Subnet) || (object?)ConnectionCount is not null || !string.IsNullOrWhiteSpace(Mtu)) && (!(!string.IsNullOrWhiteSpace(Subnet))))
+        {
+            yield return new ValidationResult("Subnet must be specified when other arguments in this group are specified.", [nameof(Subnet)]);
+        }
+        yield break;
+    }
+
 }

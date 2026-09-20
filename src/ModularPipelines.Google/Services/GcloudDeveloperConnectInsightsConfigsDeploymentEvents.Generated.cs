@@ -55,11 +55,11 @@ public class GcloudDeveloperConnectInsightsConfigsDeploymentEvents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAsync(
-        GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions? options = null,
+        GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class GcloudDeveloperConnectInsightsConfigsDeploymentEvents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        GcloudDeveloperConnectInsightsConfigsDeploymentEventsListOptions? options = null,
+        GcloudDeveloperConnectInsightsConfigsDeploymentEventsListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeveloperConnectInsightsConfigsDeploymentEventsListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

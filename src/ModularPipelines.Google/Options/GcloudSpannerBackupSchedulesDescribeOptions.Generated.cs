@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("spanner", "backup-schedules", "describe")]
 public record GcloudSpannerBackupSchedulesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Cloud Spanner backup     schedule
+    /// </summary>
+    /// <param name="BackupSchedule">Backup schedule resource - The Cloud Spanner backup schedule to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_schedule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup-schedule or fully qualified identifier for the backup-schedule. To set the backup-schedule attribute: ▸ provide the argument backup_schedule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerBackupSchedulesDescribeOptions(
+        string BackupSchedule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupSchedule);
+        this.BackupSchedule = BackupSchedule;
+    }
+
+    public void Deconstruct(out string BackupSchedule)
+    {
+        BackupSchedule = this.BackupSchedule;
+    }
+
+    /// <summary>
+    /// Backup schedule resource - The Cloud Spanner backup schedule to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_schedule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner database for the backup-schedule. To set the database attribute: ▸ provide the argument backup_schedule on the command line with a fully specified name; ▸ provide the argument --database on the command line.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Backup schedule resource - The Cloud Spanner backup schedule to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_schedule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the backup-schedule. To set the instance attribute: ▸ provide the argument backup_schedule on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Backup schedule resource - The Cloud Spanner backup schedule to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_schedule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup-schedule or fully qualified identifier for the backup-schedule. To set the backup-schedule attribute: ▸ provide the argument backup_schedule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupSchedule { get; private init; }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,122 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-firewall-policies", "mirroring-rules", "update")]
-public record GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates a Compute Engine network firewall policy packet mirroring rule
+    /// </summary>
+    /// <param name="FirewallPolicy">Firewall policy ID with which to update rule.</param>
+    /// <param name="Priority">Priority of the rule to be updated. Valid in [0, 2147483547].</param>
+    public GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesUpdateOptions(
+        string FirewallPolicy,
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string FirewallPolicy, out string Priority)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// Firewall policy ID with which to update rule.
+    /// </summary>
+    [CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// Use this flag to indicate that firewall policy is global.
+    /// </summary>
+    [CliFlag("--global-firewall-policy")]
+    public bool? GlobalFirewallPolicy { get; set; }
+
+    /// <summary>
+    /// Action to take if the request matches the match condition. ACTION must be one of: mirror, do_not_mirror, goto_next.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesUpdateAction? Action { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Destination IP ranges to match for this rule. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dest-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DestIpRanges { get; set; }
+
+    /// <summary>
+    /// Direction of the traffic the rule is applied. The default is to apply on incoming traffic. DIRECTION must be one of: INGRESS, EGRESS.
+    /// </summary>
+    [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesUpdateDirection? Direction { get; set; }
+
+    /// <summary>
+    /// Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// Negates --disabled. Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
+    /// </summary>
+    [CliFlag("--no-disabled")]
+    public bool? NoDisabled { get; set; }
+
+    /// <summary>
+    /// A list of destination protocols and ports to which the firewall rule will apply. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--layer4-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Layer4Configs { get; set; }
+
+    /// <summary>
+    /// New priority for the rule to update. Valid in [0, 65535].
+    /// </summary>
+    [CliOption("--new-priority", Format = OptionFormat.EqualsSeparated)]
+    public string? NewPriority { get; set; }
+
+    /// <summary>
+    /// A security profile group to be used with mirror action.
+    /// </summary>
+    [CliOption("--security-profile-group", Format = OptionFormat.EqualsSeparated)]
+    public string? SecurityProfileGroup { get; set; }
+
+    /// <summary>
+    /// A list of IP address blocks that are allowed to make inbound connections that match the firewall rule to the instances on the network. The IP address blocks must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing.Either --src-ip-ranges or --src-secure-tags must be specified for INGRESS traffic. If both --src-ip-ranges and --src-secure-tags are specified, the rule matches if either the range of the source matches --src-ip-ranges or the secure tag of the source matches --src-secure-tags.Multiple IP address blocks can be specified if they are separated by commas. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SrcIpRanges { get; set; }
+
+    /// <summary>
+    /// An optional, list of target secure tags with a name of the format tagValues/ or full namespaced name Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-secure-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TargetSecureTags { get; set; }
+
+    /// <summary>
+    /// Priority of the rule to be updated. Valid in [0, 2147483547].
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(GlobalFirewallPolicy == true))
+        {
+            yield return new ValidationResult("At least one of GlobalFirewallPolicy must be specified.", [nameof(GlobalFirewallPolicy)]);
+        }
+        yield break;
+    }
+
 }

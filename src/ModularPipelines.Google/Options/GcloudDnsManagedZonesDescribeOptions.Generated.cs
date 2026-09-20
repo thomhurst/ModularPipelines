@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsManagedZonesDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// view the details of a Cloud DNS     managed-zone
+    /// </summary>
+    /// <param name="Zone">Zone resource - The name of the managed-zone to be described. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the zone or fully qualified identifier for the zone. To set the zone attribute: ▸ provide the argument zone on the command line.</param>
+    public GcloudDnsManagedZonesDescribeOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
     /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Zone resource - The name of the managed-zone to be described. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the zone or fully qualified identifier for the zone. To set the zone attribute: ▸ provide the argument zone on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Zone { get; private init; }
 
 }

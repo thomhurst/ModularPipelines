@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorystore", "instances", "update")]
-public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions
+public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the configuration of a     Memorystore instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - Identifier. Unique name of the instance. Format: projects/{project}/locations/{location}/instances/{instance} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.</param>
+    public GcloudMemorystoreInstancesUpdateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -38,6 +56,12 @@ public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-async-instance-endpoints-deletion-enabled")]
     public bool? NoAsyncInstanceEndpointsDeletionEnabled { get; set; }
+
+    /// <summary>
+    /// Arguments for the async instance endpoints deletion enabled. Authorization mode of the instance. AUTHORIZATION_MODE must be one of: auth-disabled Authorization disabled. token-auth Token based authorization.
+    /// </summary>
+    [CliOption("--authorization-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthorizationMode { get; set; }
 
     /// <summary>
     /// Arguments for the deletion protection enabled. If set to true deletion of the instance will fail. Use --deletion-protection-enabled to enable and --no-deletion-protection-enabled to disable.
@@ -148,243 +172,827 @@ public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions
     public bool? ClearAclPolicy { get; set; }
 
     /// <summary>
-    /// Represents persistence configuration for a instance. Configuration for AOF based persistence. The fsync mode. AOF_CONFIG_APPEND_FSYNC must be one of: always Fsync every time new write commands are appended to the AOF. The best data loss protection at the cost of performance. every-sec Fsync every second. You may lose 1 second of data if there is a disaster. never Never fsync. Normally Linux will flush data every 30 seconds with this configuration, but it's up to the kernel's exact tuning.
+    /// Configuration for AOF based persistence. The fsync mode. AOF_CONFIG_APPEND_FSYNC must be one of: always Fsync every time new write commands are appended to the AOF. The best data loss protection at the cost of performance. every-sec Fsync every second. You may lose 1 second of data if there is a disaster. never Never fsync. Normally Linux will flush data every 30 seconds with this configuration, but it's up to the kernel's exact tuning.
     /// </summary>
     [CliOption("--aof-config-append-fsync", Format = OptionFormat.EqualsSeparated)]
     public string? AofConfigAppendFsync { get; set; }
 
     /// <summary>
-    /// Represents persistence configuration for a instance. Configuration for AOF based persistence. Set instance.persistenceConfig back to default value.
+    /// Configuration for AOF based persistence. Set instance.persistenceConfig back to default value.
     /// </summary>
     [CliFlag("--clear-persistence-config")]
     public bool? ClearPersistenceConfig { get; set; }
 
     /// <summary>
-    /// Represents persistence configuration for a instance. Configuration for AOF based persistence. Current persistence mode. PERSISTENCE_CONFIG_MODE must be one of: aof AOF based persistence is enabled. disabled Persistence is disabled, and any snapshot data is deleted. rdb RDB based persistence is enabled.
+    /// Configuration for AOF based persistence. Current persistence mode. PERSISTENCE_CONFIG_MODE must be one of: aof AOF based persistence is enabled. disabled Persistence is disabled, and any snapshot data is deleted. rdb RDB based persistence is enabled.
     /// </summary>
     [CliOption("--persistence-config-mode", Format = OptionFormat.EqualsSeparated)]
     public string? PersistenceConfigMode { get; set; }
 
     /// <summary>
-    /// Configuration for RDB based persistence. Period between RDB snapshots. RDB_CONFIG_SNAPSHOT_PERIOD must be one of: one-hour One hour. six-hours Six hours. twelve-hours Twelve hours. twenty-four-hours Twenty four hours.
+    /// Configuration for AOF based persistence. Configuration for RDB based persistence. Period between RDB snapshots. RDB_CONFIG_SNAPSHOT_PERIOD must be one of: one-hour One hour. six-hours Six hours. twelve-hours Twelve hours. twenty-four-hours Twenty four hours.
     /// </summary>
     [CliOption("--rdb-config-snapshot-period", Format = OptionFormat.EqualsSeparated)]
     public string? RdbConfigSnapshotPeriod { get; set; }
 
     /// <summary>
-    /// Configuration for RDB based persistence. Time that the first snapshot was/will be attempted, and to which future snapshots will be aligned. If not provided, the current time will be used.
+    /// Configuration for AOF based persistence. Time that the first snapshot was/will be attempted, and to which future snapshots will be aligned. If not provided, the current time will be used.
     /// </summary>
     [CliOption("--rdb-config-snapshot-start-time", Format = OptionFormat.EqualsSeparated)]
     public string? RdbConfigSnapshotStartTime { get; set; }
 
     /// <summary>
-    /// The automated backup config for an instance. The automated backup mode. If the mode is disabled, the other fields will be ignored. AUTOMATED_BACKUP_CONFIG_MODE must be one of: disabled Automated backup config disabled. enabled Automated backup config enabled.
+    /// Configuration for AOF based persistence. The automated backup config for an instance. The automated backup mode. If the mode is disabled, the other fields will be ignored. AUTOMATED_BACKUP_CONFIG_MODE must be one of: disabled Automated backup config disabled. enabled Automated backup config enabled.
     /// </summary>
     [CliOption("--automated-backup-config-mode", Format = OptionFormat.EqualsSeparated)]
     public string? AutomatedBackupConfigMode { get; set; }
 
     /// <summary>
-    /// The automated backup config for an instance. How long to keep automated backups before the backups are deleted. The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+    /// Configuration for AOF based persistence. How long to keep automated backups before the backups are deleted. The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
     /// </summary>
     [CliOption("--automated-backup-config-retention", Format = OptionFormat.EqualsSeparated)]
     public string? AutomatedBackupConfigRetention { get; set; }
 
     /// <summary>
-    /// The automated backup config for an instance. Set instance.automatedBackupConfig back to default value.
+    /// Configuration for AOF based persistence. Set instance.automatedBackupConfig back to default value.
     /// </summary>
     [CliFlag("--clear-automated-backup-config")]
     public bool? ClearAutomatedBackupConfig { get; set; }
 
     /// <summary>
-    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+    /// Configuration for AOF based persistence. Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-hours", Format = OptionFormat.EqualsSeparated)]
     public string? FixedFrequencyScheduleStartTimeHours { get; set; }
 
     /// <summary>
-    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59.
+    /// Configuration for AOF based persistence. Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-minutes", Format = OptionFormat.EqualsSeparated)]
     public string? FixedFrequencyScheduleStartTimeMinutes { get; set; }
 
     /// <summary>
-    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999.
+    /// Configuration for AOF based persistence. Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-nanos", Format = OptionFormat.EqualsSeparated)]
     public string? FixedFrequencyScheduleStartTimeNanos { get; set; }
 
     /// <summary>
-    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds.
+    /// Configuration for AOF based persistence. Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? FixedFrequencyScheduleStartTimeSeconds { get; set; }
 
     /// <summary>
-    /// Cross instance replication config. Set instance.crossInstanceReplicationConfig back to default value.
+    /// Configuration for AOF based persistence. Cross instance replication config. Set instance.crossInstanceReplicationConfig back to default value.
     /// </summary>
     [CliFlag("--clear-cross-instance-replication-config")]
     public bool? ClearCrossInstanceReplicationConfig { get; set; }
 
     /// <summary>
-    /// Cross instance replication config. The role of the instance in cross instance replication. CROSS_INSTANCE_REPLICATION_CONFIG_ROLE must be one of: none This instance does not participate in cross instance replication. It is an independent instance and does not replicate to or from any other instances. primary A instance that allows both reads and writes. Any data written to this instance is also replicated to the attached secondary instances. secondary A instance that allows only reads and replicates data from a primary instance.
+    /// Configuration for AOF based persistence. The role of the instance in cross instance replication. CROSS_INSTANCE_REPLICATION_CONFIG_ROLE must be one of: none This instance does not participate in cross instance replication. It is an independent instance and does not replicate to or from any other instances. primary A instance that allows both reads and writes. Any data written to this instance is also replicated to the attached secondary instances. secondary A instance that allows only reads and replicates data from a primary instance.
     /// </summary>
     [CliOption("--cross-instance-replication-config-role", Format = OptionFormat.EqualsSeparated)]
     public string? CrossInstanceReplicationConfigRole { get; set; }
 
     /// <summary>
-    /// Cross instance replication config. Details of the remote instance associated with this instance in a cross instance replication setup. Update primary_instance. At most one of these can be specified: Clear primary_instance value and set to null.
+    /// Configuration for AOF based persistence. Details of the remote instance associated with this instance in a cross instance replication setup. Update primary_instance. At most one of these can be specified: Clear primary_instance value and set to null.
     /// </summary>
     [CliFlag("--clear-primary-instance")]
     public bool? ClearPrimaryInstance { get; set; }
 
     /// <summary>
-    /// Cross instance replication config. Instance resource - Set primary_instance to new value. The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt; This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --primary-instance on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --primary-instance on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument --primary-instance on the command line.
+    /// Configuration for AOF based persistence. Instance resource - Set primary_instance to new value. The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt; This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --primary-instance on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --primary-instance on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument --primary-instance on the command line.
     /// </summary>
     [CliOption("--primary-instance", Format = OptionFormat.EqualsSeparated)]
     public string? PrimaryInstance { get; set; }
 
     /// <summary>
-    /// Cross instance replication config. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Set cross_instance_replication_config_secondary_instances to new value. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --cross-instance-replication-config-secondary-instances=instance=string --cross-instance-replication-config-secondary-instances=instance=string JSON Example: --cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Set cross_instance_replication_config_secondary_instances to new value. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --cross-instance-replication-config-secondary-instances=instance=string --cross-instance-replication-config-secondary-instances=instance=string JSON Example: --cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--cross-instance-replication-config-secondary-instances", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CrossInstanceReplicationConfigSecondaryInstances { get; set; }
+    public IEnumerable<string>? CrossInstanceReplicationConfigSecondaryInstances
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __CrossInstanceReplicationConfigSecondaryInstancesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CrossInstanceReplicationConfigSecondaryInstancesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CrossInstanceReplicationConfigSecondaryInstancesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __CrossInstanceReplicationConfigSecondaryInstancesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Cross instance replication config. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Or at least one of these can be specified: Add new value to cross_instance_replication_config_secondary_instances list. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --add-cross-instance-replication-config-secondary-instances=instance=string --add-cross-instance-replication-config-secondary-instances=instance=string JSON Example: --add-cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --add-cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Or at least one of these can be specified: Add new value to cross_instance_replication_config_secondary_instances list. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --add-cross-instance-replication-config-secondary-instances=instance=string --add-cross-instance-replication-config-secondary-instances=instance=string JSON Example: --add-cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --add-cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-cross-instance-replication-config-secondary-instances", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddCrossInstanceReplicationConfigSecondaryInstances { get; set; }
+    public IEnumerable<string>? AddCrossInstanceReplicationConfigSecondaryInstances
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddCrossInstanceReplicationConfigSecondaryInstancesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddCrossInstanceReplicationConfigSecondaryInstancesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddCrossInstanceReplicationConfigSecondaryInstancesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddCrossInstanceReplicationConfigSecondaryInstancesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Cross instance replication config. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear cross_instance_replication_config_secondary_instances value and set to empty list.
+    /// Configuration for AOF based persistence. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear cross_instance_replication_config_secondary_instances value and set to empty list.
     /// </summary>
     [CliFlag("--clear-cross-instance-replication-config-secondary-instances")]
     public bool? ClearCrossInstanceReplicationConfigSecondaryInstances { get; set; }
 
     /// <summary>
-    /// Cross instance replication config. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from cross_instance_replication_config_secondary_instances list. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --remove-cross-instance-replication-config-secondary-instances=instance=string --remove-cross-instance-replication-config-secondary-instances=instance=string JSON Example: --remove-cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --remove-cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from cross_instance_replication_config_secondary_instances list. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --remove-cross-instance-replication-config-secondary-instances=instance=string --remove-cross-instance-replication-config-secondary-instances=instance=string JSON Example: --remove-cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --remove-cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-cross-instance-replication-config-secondary-instances", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveCrossInstanceReplicationConfigSecondaryInstances { get; set; }
+    public IEnumerable<string>? RemoveCrossInstanceReplicationConfigSecondaryInstances
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveCrossInstanceReplicationConfigSecondaryInstancesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveCrossInstanceReplicationConfigSecondaryInstancesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveCrossInstanceReplicationConfigSecondaryInstancesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveCrossInstanceReplicationConfigSecondaryInstancesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Maintenance policy per instance. Set instance.maintenancePolicy back to default value.
+    /// Configuration for AOF based persistence. Maintenance policy per instance. Set instance.maintenancePolicy back to default value.
     /// </summary>
     [CliFlag("--clear-maintenance-policy")]
     public bool? ClearMaintenancePolicy { get; set; }
 
     /// <summary>
-    /// Maintenance policy per instance. Update maintenance_policy_weekly_window. At most one of these can be specified: Set maintenance_policy_weekly_window to new value. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-window=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update maintenance_policy_weekly_window. At most one of these can be specified: Set maintenance_policy_weekly_window to new value. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--maintenance-policy-weekly-window", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaintenancePolicyWeeklyWindow { get; set; }
+    public IEnumerable<string>? MaintenancePolicyWeeklyWindow
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __MaintenancePolicyWeeklyWindowSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MaintenancePolicyWeeklyWindowSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MaintenancePolicyWeeklyWindowSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __MaintenancePolicyWeeklyWindowSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Maintenance policy per instance. Update maintenance_policy_weekly_window. At most one of these can be specified: Or at least one of these can be specified: Add new value to maintenance_policy_weekly_window list. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --add-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --add-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --add-maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --add-maintenance-policy-weekly-window=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update maintenance_policy_weekly_window. At most one of these can be specified: Or at least one of these can be specified: Add new value to maintenance_policy_weekly_window list. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --add-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --add-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --add-maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --add-maintenance-policy-weekly-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-maintenance-policy-weekly-window", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddMaintenancePolicyWeeklyWindow { get; set; }
+    public IEnumerable<string>? AddMaintenancePolicyWeeklyWindow
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddMaintenancePolicyWeeklyWindowSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddMaintenancePolicyWeeklyWindowSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddMaintenancePolicyWeeklyWindowSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddMaintenancePolicyWeeklyWindowSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Maintenance policy per instance. Update maintenance_policy_weekly_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear maintenance_policy_weekly_window value and set to empty list.
+    /// Configuration for AOF based persistence. Update maintenance_policy_weekly_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear maintenance_policy_weekly_window value and set to empty list.
     /// </summary>
     [CliFlag("--clear-maintenance-policy-weekly-window")]
     public bool? ClearMaintenancePolicyWeeklyWindow { get; set; }
 
     /// <summary>
-    /// Maintenance policy per instance. Update maintenance_policy_weekly_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from maintenance_policy_weekly_window list. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --remove-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --remove-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --remove-maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --remove-maintenance-policy-weekly-window=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update maintenance_policy_weekly_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from maintenance_policy_weekly_window list. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --remove-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --remove-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --remove-maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --remove-maintenance-policy-weekly-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-maintenance-policy-weekly-window", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveMaintenancePolicyWeeklyWindow { get; set; }
+    public IEnumerable<string>? RemoveMaintenancePolicyWeeklyWindow
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveMaintenancePolicyWeeklyWindowSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveMaintenancePolicyWeeklyWindowSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveMaintenancePolicyWeeklyWindowSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveMaintenancePolicyWeeklyWindowSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Maintenance policy per instance. Update endpoints. At most one of these can be specified: Set endpoints to new value. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --endpoints=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update endpoints. At most one of these can be specified: Set endpoints to new value. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Endpoints { get; set; }
+    public IEnumerable<string>? Endpoints
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __EndpointsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __EndpointsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __EndpointsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __EndpointsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Maintenance policy per instance. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: Add new value to endpoints list. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --add-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --add-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --add-endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --add-endpoints=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: Add new value to endpoints list. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --add-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --add-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --add-endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --add-endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-endpoints", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddEndpoints { get; set; }
+    public IEnumerable<string>? AddEndpoints
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddEndpointsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddEndpointsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddEndpointsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddEndpointsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Maintenance policy per instance. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear endpoints value and set to empty list.
+    /// Configuration for AOF based persistence. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear endpoints value and set to empty list.
     /// </summary>
     [CliFlag("--clear-endpoints")]
     public bool? ClearEndpoints { get; set; }
 
     /// <summary>
-    /// Maintenance policy per instance. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from endpoints list. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --remove-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --remove-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --remove-endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --remove-endpoints=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from endpoints list. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --remove-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --remove-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --remove-endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --remove-endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-endpoints", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveEndpoints { get; set; }
+    public IEnumerable<string>? RemoveEndpoints
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveEndpointsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveEndpointsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveEndpointsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveEndpointsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Maintenance policy per instance. Update engine_configs. At most one of these can be specified: Set engine_configs to new value. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --engine-configs=string=string JSON Example: --engine-configs='{"string": "string"}' File Example: --engine-configs=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update engine_configs. At most one of these can be specified: Set engine_configs to new value. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --engine-configs=string=string JSON Example: --engine-configs='{"string": "string"}' File Example: --engine-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--engine-configs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? EngineConfigs { get; set; }
+    public IEnumerable<string>? EngineConfigs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __EngineConfigsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __EngineConfigsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __EngineConfigsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __EngineConfigsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Maintenance policy per instance. Update engine_configs. At most one of these can be specified: Or at least one of these can be specified: Update engine_configs value or add key value pair. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-engine-configs=string=string JSON Example: --update-engine-configs='{"string": "string"}' File Example: --update-engine-configs=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update engine_configs. At most one of these can be specified: Or at least one of these can be specified: Update engine_configs value or add key value pair. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-engine-configs=string=string JSON Example: --update-engine-configs='{"string": "string"}' File Example: --update-engine-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-engine-configs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateEngineConfigs { get; set; }
+    public IEnumerable<string>? UpdateEngineConfigs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateEngineConfigsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateEngineConfigsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateEngineConfigsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateEngineConfigsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Maintenance policy per instance. Update engine_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear engine_configs value and set to empty map.
+    /// Configuration for AOF based persistence. Update engine_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear engine_configs value and set to empty map.
     /// </summary>
     [CliFlag("--clear-engine-configs")]
     public bool? ClearEngineConfigs { get; set; }
 
     /// <summary>
-    /// Maintenance policy per instance. Update engine_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map engine_configs. Sets remove_engine_configs value. Shorthand Example: --remove-engine-configs=string,string JSON Example: --remove-engine-configs=["string"] File Example: --remove-engine-configs=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update engine_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map engine_configs. Sets remove_engine_configs value. Shorthand Example: --remove-engine-configs=string,string JSON Example: --remove-engine-configs=["string"] File Example: --remove-engine-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-engine-configs", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveEngineConfigs { get; set; }
 
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. The keyRing id of the cryptoKey resource. To set the key-ring attribute: ◆ provide the argument --current on the command line with a fully specified name; ◆ provide the argument --key-ring on the command line.
+    /// Configuration for AOF based persistence. Arguments for the kms key. All arguments needed to update kms_key. The keyRing id of the cryptoKey resource. To set the key-ring attribute: ◆ provide the argument --current on the command line with a fully specified name; ◆ provide the argument --key-ring on the command line.
     /// </summary>
     [CliOption("--key-ring", Format = OptionFormat.EqualsSeparated)]
     public string? KeyRing { get; set; }
 
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. Update kms_key. At most one of these can be specified: Clear kms_key value and set to null.
+    /// Configuration for AOF based persistence. Update kms_key. At most one of these can be specified: Clear kms_key value and set to null.
     /// </summary>
     [CliFlag("--clear-kms-key")]
     public bool? ClearKmsKey { get; set; }
 
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. CryptoKey resource - Set kms_key to new value. The KMS key used to encrypt the at-rest data of the cluster. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the key-ring attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --key-ring on the command line. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ▸ provide the argument --kms-key on the command line.
+    /// Configuration for AOF based persistence. CryptoKey resource - Set kms_key to new value. The KMS key used to encrypt the at-rest data of the cluster. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the key-ring attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --key-ring on the command line. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ▸ provide the argument --kms-key on the command line.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. Update labels. At most one of these can be specified: Set labels to new value. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update labels. At most one of these can be specified: Set labels to new value. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Labels { get; set; }
+    public IEnumerable<string>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __LabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateLabels { get; set; }
+    public IEnumerable<string>? UpdateLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateLabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateLabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
+    /// Configuration for AOF based persistence. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// Configuration for AOF based persistence. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Instance resource - Identifier. Unique name of the instance. Format: projects/{project}/locations/{location}/instances/{instance} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(AclPolicy) || ClearAclPolicy == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (AclPolicy or ClearAclPolicy) may be specified.", [nameof(AclPolicy), nameof(ClearAclPolicy)]);
+        }
+        if ((ClearPrimaryInstance == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPrimaryInstance may be specified.", [nameof(ClearPrimaryInstance)]);
+        }
+        if ((((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)CrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(CrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (CrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CrossInstanceReplicationConfigSecondaryInstances), static item => item is not null))))) ? 1 : 0) + ((((object?)AddCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)AddCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddCrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(AddCrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)AddCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (AddCrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddCrossInstanceReplicationConfigSecondaryInstances), static item => item is not null))))) || ClearCrossInstanceReplicationConfigSecondaryInstances == true || ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(RemoveCrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (RemoveCrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CrossInstanceReplicationConfigSecondaryInstances or (AddCrossInstanceReplicationConfigSecondaryInstances, ClearCrossInstanceReplicationConfigSecondaryInstances, or RemoveCrossInstanceReplicationConfigSecondaryInstances) may be specified.", [nameof(CrossInstanceReplicationConfigSecondaryInstances), nameof(AddCrossInstanceReplicationConfigSecondaryInstances), nameof(ClearCrossInstanceReplicationConfigSecondaryInstances), nameof(RemoveCrossInstanceReplicationConfigSecondaryInstances)]);
+        }
+        if ((((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)CrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(CrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)CrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (CrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CrossInstanceReplicationConfigSecondaryInstances), static item => item is not null))))) || ((object?)AddCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)AddCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddCrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(AddCrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)AddCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (AddCrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddCrossInstanceReplicationConfigSecondaryInstances), static item => item is not null))))) || ClearCrossInstanceReplicationConfigSecondaryInstances == true || ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(RemoveCrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (RemoveCrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances), static item => item is not null)))))) && (((object?)AddCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)AddCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddCrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(AddCrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)AddCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (AddCrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddCrossInstanceReplicationConfigSecondaryInstances), static item => item is not null))))) || ClearCrossInstanceReplicationConfigSecondaryInstances == true || ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(RemoveCrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (RemoveCrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances), static item => item is not null)))))) && ((ClearCrossInstanceReplicationConfigSecondaryInstances == true ? 1 : 0) + (((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is not string || !string.IsNullOrWhiteSpace(RemoveCrossInstanceReplicationConfigSecondaryInstances?.ToString()) : ((object?)RemoveCrossInstanceReplicationConfigSecondaryInstances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances, static item => item is not null) : (RemoveCrossInstanceReplicationConfigSecondaryInstances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveCrossInstanceReplicationConfigSecondaryInstances), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearCrossInstanceReplicationConfigSecondaryInstances or RemoveCrossInstanceReplicationConfigSecondaryInstances may be specified.", [nameof(ClearCrossInstanceReplicationConfigSecondaryInstances), nameof(RemoveCrossInstanceReplicationConfigSecondaryInstances)]);
+        }
+        if ((((object?)MaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)MaintenancePolicyWeeklyWindow, static item => item is not null) : ((object?)MaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)MaintenancePolicyWeeklyWindow is not string || !string.IsNullOrWhiteSpace(MaintenancePolicyWeeklyWindow?.ToString()) : ((object?)MaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MaintenancePolicyWeeklyWindow, static item => item is not null) : (MaintenancePolicyWeeklyWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MaintenancePolicyWeeklyWindow), static item => item is not null))))) ? 1 : 0) + ((((object?)AddMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddMaintenancePolicyWeeklyWindow, static item => item is not null) : ((object?)AddMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMaintenancePolicyWeeklyWindow is not string || !string.IsNullOrWhiteSpace(AddMaintenancePolicyWeeklyWindow?.ToString()) : ((object?)AddMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMaintenancePolicyWeeklyWindow, static item => item is not null) : (AddMaintenancePolicyWeeklyWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMaintenancePolicyWeeklyWindow), static item => item is not null))))) || ClearMaintenancePolicyWeeklyWindow == true || ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyWeeklyWindow, static item => item is not null) : ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyWeeklyWindow is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyWeeklyWindow?.ToString()) : ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyWeeklyWindow, static item => item is not null) : (RemoveMaintenancePolicyWeeklyWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyWeeklyWindow), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MaintenancePolicyWeeklyWindow or (AddMaintenancePolicyWeeklyWindow, ClearMaintenancePolicyWeeklyWindow, or RemoveMaintenancePolicyWeeklyWindow) may be specified.", [nameof(MaintenancePolicyWeeklyWindow), nameof(AddMaintenancePolicyWeeklyWindow), nameof(ClearMaintenancePolicyWeeklyWindow), nameof(RemoveMaintenancePolicyWeeklyWindow)]);
+        }
+        if ((((object?)MaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)MaintenancePolicyWeeklyWindow, static item => item is not null) : ((object?)MaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)MaintenancePolicyWeeklyWindow is not string || !string.IsNullOrWhiteSpace(MaintenancePolicyWeeklyWindow?.ToString()) : ((object?)MaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MaintenancePolicyWeeklyWindow, static item => item is not null) : (MaintenancePolicyWeeklyWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MaintenancePolicyWeeklyWindow), static item => item is not null))))) || ((object?)AddMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddMaintenancePolicyWeeklyWindow, static item => item is not null) : ((object?)AddMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMaintenancePolicyWeeklyWindow is not string || !string.IsNullOrWhiteSpace(AddMaintenancePolicyWeeklyWindow?.ToString()) : ((object?)AddMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMaintenancePolicyWeeklyWindow, static item => item is not null) : (AddMaintenancePolicyWeeklyWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMaintenancePolicyWeeklyWindow), static item => item is not null))))) || ClearMaintenancePolicyWeeklyWindow == true || ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyWeeklyWindow, static item => item is not null) : ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyWeeklyWindow is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyWeeklyWindow?.ToString()) : ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyWeeklyWindow, static item => item is not null) : (RemoveMaintenancePolicyWeeklyWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyWeeklyWindow), static item => item is not null)))))) && (((object?)AddMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddMaintenancePolicyWeeklyWindow, static item => item is not null) : ((object?)AddMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMaintenancePolicyWeeklyWindow is not string || !string.IsNullOrWhiteSpace(AddMaintenancePolicyWeeklyWindow?.ToString()) : ((object?)AddMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMaintenancePolicyWeeklyWindow, static item => item is not null) : (AddMaintenancePolicyWeeklyWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMaintenancePolicyWeeklyWindow), static item => item is not null))))) || ClearMaintenancePolicyWeeklyWindow == true || ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyWeeklyWindow, static item => item is not null) : ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyWeeklyWindow is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyWeeklyWindow?.ToString()) : ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyWeeklyWindow, static item => item is not null) : (RemoveMaintenancePolicyWeeklyWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyWeeklyWindow), static item => item is not null)))))) && ((ClearMaintenancePolicyWeeklyWindow == true ? 1 : 0) + (((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyWeeklyWindow, static item => item is not null) : ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyWeeklyWindow is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyWeeklyWindow?.ToString()) : ((object?)RemoveMaintenancePolicyWeeklyWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyWeeklyWindow, static item => item is not null) : (RemoveMaintenancePolicyWeeklyWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyWeeklyWindow), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearMaintenancePolicyWeeklyWindow or RemoveMaintenancePolicyWeeklyWindow may be specified.", [nameof(ClearMaintenancePolicyWeeklyWindow), nameof(RemoveMaintenancePolicyWeeklyWindow)]);
+        }
+        if ((((object?)Endpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Endpoints, static item => item is not null) : ((object?)Endpoints is global::System.Collections.Generic.IEnumerable<char> ? (object?)Endpoints is not string || !string.IsNullOrWhiteSpace(Endpoints?.ToString()) : ((object?)Endpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Endpoints, static item => item is not null) : (Endpoints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Endpoints), static item => item is not null))))) ? 1 : 0) + ((((object?)AddEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddEndpoints, static item => item is not null) : ((object?)AddEndpoints is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddEndpoints is not string || !string.IsNullOrWhiteSpace(AddEndpoints?.ToString()) : ((object?)AddEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddEndpoints, static item => item is not null) : (AddEndpoints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddEndpoints), static item => item is not null))))) || ClearEndpoints == true || ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveEndpoints, static item => item is not null) : ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEndpoints is not string || !string.IsNullOrWhiteSpace(RemoveEndpoints?.ToString()) : ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEndpoints, static item => item is not null) : (RemoveEndpoints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEndpoints), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Endpoints or (AddEndpoints, ClearEndpoints, or RemoveEndpoints) may be specified.", [nameof(Endpoints), nameof(AddEndpoints), nameof(ClearEndpoints), nameof(RemoveEndpoints)]);
+        }
+        if ((((object?)Endpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Endpoints, static item => item is not null) : ((object?)Endpoints is global::System.Collections.Generic.IEnumerable<char> ? (object?)Endpoints is not string || !string.IsNullOrWhiteSpace(Endpoints?.ToString()) : ((object?)Endpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Endpoints, static item => item is not null) : (Endpoints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Endpoints), static item => item is not null))))) || ((object?)AddEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddEndpoints, static item => item is not null) : ((object?)AddEndpoints is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddEndpoints is not string || !string.IsNullOrWhiteSpace(AddEndpoints?.ToString()) : ((object?)AddEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddEndpoints, static item => item is not null) : (AddEndpoints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddEndpoints), static item => item is not null))))) || ClearEndpoints == true || ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveEndpoints, static item => item is not null) : ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEndpoints is not string || !string.IsNullOrWhiteSpace(RemoveEndpoints?.ToString()) : ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEndpoints, static item => item is not null) : (RemoveEndpoints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEndpoints), static item => item is not null)))))) && (((object?)AddEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddEndpoints, static item => item is not null) : ((object?)AddEndpoints is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddEndpoints is not string || !string.IsNullOrWhiteSpace(AddEndpoints?.ToString()) : ((object?)AddEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddEndpoints, static item => item is not null) : (AddEndpoints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddEndpoints), static item => item is not null))))) || ClearEndpoints == true || ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveEndpoints, static item => item is not null) : ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEndpoints is not string || !string.IsNullOrWhiteSpace(RemoveEndpoints?.ToString()) : ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEndpoints, static item => item is not null) : (RemoveEndpoints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEndpoints), static item => item is not null)))))) && ((ClearEndpoints == true ? 1 : 0) + (((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveEndpoints, static item => item is not null) : ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEndpoints is not string || !string.IsNullOrWhiteSpace(RemoveEndpoints?.ToString()) : ((object?)RemoveEndpoints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEndpoints, static item => item is not null) : (RemoveEndpoints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEndpoints), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEndpoints or RemoveEndpoints may be specified.", [nameof(ClearEndpoints), nameof(RemoveEndpoints)]);
+        }
+        if ((((object?)EngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EngineConfigs, static item => item is not null) : ((object?)EngineConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)EngineConfigs is not string || !string.IsNullOrWhiteSpace(EngineConfigs?.ToString()) : ((object?)EngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EngineConfigs, static item => item is not null) : (EngineConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EngineConfigs), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateEngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateEngineConfigs, static item => item is not null) : ((object?)UpdateEngineConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateEngineConfigs is not string || !string.IsNullOrWhiteSpace(UpdateEngineConfigs?.ToString()) : ((object?)UpdateEngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateEngineConfigs, static item => item is not null) : (UpdateEngineConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateEngineConfigs), static item => item is not null))))) || ClearEngineConfigs == true || !string.IsNullOrWhiteSpace(RemoveEngineConfigs)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of EngineConfigs or (UpdateEngineConfigs, ClearEngineConfigs, or RemoveEngineConfigs) may be specified.", [nameof(EngineConfigs), nameof(UpdateEngineConfigs), nameof(ClearEngineConfigs), nameof(RemoveEngineConfigs)]);
+        }
+        if ((((object?)EngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EngineConfigs, static item => item is not null) : ((object?)EngineConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)EngineConfigs is not string || !string.IsNullOrWhiteSpace(EngineConfigs?.ToString()) : ((object?)EngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EngineConfigs, static item => item is not null) : (EngineConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EngineConfigs), static item => item is not null))))) || ((object?)UpdateEngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateEngineConfigs, static item => item is not null) : ((object?)UpdateEngineConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateEngineConfigs is not string || !string.IsNullOrWhiteSpace(UpdateEngineConfigs?.ToString()) : ((object?)UpdateEngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateEngineConfigs, static item => item is not null) : (UpdateEngineConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateEngineConfigs), static item => item is not null))))) || ClearEngineConfigs == true || !string.IsNullOrWhiteSpace(RemoveEngineConfigs)) && (((object?)UpdateEngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateEngineConfigs, static item => item is not null) : ((object?)UpdateEngineConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateEngineConfigs is not string || !string.IsNullOrWhiteSpace(UpdateEngineConfigs?.ToString()) : ((object?)UpdateEngineConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateEngineConfigs, static item => item is not null) : (UpdateEngineConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateEngineConfigs), static item => item is not null))))) || ClearEngineConfigs == true || !string.IsNullOrWhiteSpace(RemoveEngineConfigs)) && ((ClearEngineConfigs == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveEngineConfigs) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEngineConfigs or RemoveEngineConfigs may be specified.", [nameof(ClearEngineConfigs), nameof(RemoveEngineConfigs)]);
+        }
+        if ((ClearKmsKey == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearKmsKey may be specified.", [nameof(ClearKmsKey)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Labels or (UpdateLabels, ClearLabels, or RemoveLabels) may be specified.", [nameof(Labels), nameof(UpdateLabels), nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveLabels) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        yield break;
+    }
 
 }

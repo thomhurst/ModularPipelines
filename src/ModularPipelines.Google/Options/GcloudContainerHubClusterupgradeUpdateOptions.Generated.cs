@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "clusterupgrade", "update")]
-public record GcloudContainerHubClusterupgradeUpdateOptions : GcloudOptions
+public record GcloudContainerHubClusterupgradeUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Note: This flag only applies to Rollout Sequencing v1, not Rollout Sequencing v2 (which uses custom stages). If using Rollout Sequencing v1 and this flag is not provided, a default value of 7 days will be used. Configures the default soaking duration for each upgrade propagating through the current fleet to become "COMPLETE". Soaking begins after all clusters in the fleet are on the target version, or after 30 days if all cluster upgrades are not complete. Once an upgrade state becomes "COMPLETE", it will automatically be propagated to the downstream fleet. Max is 30 days. To configure Rollout Sequencing for a fleet, this attribute must be set. To do this while specifying a default soaking duration of 7 days, run: $ gcloud container hub clusterupgrade update \ --default-upgrade-soaking=7d
@@ -56,5 +57,27 @@ public record GcloudContainerHubClusterupgradeUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--upstream-fleet", Format = OptionFormat.EqualsSeparated)]
     public string? UpstreamFleet { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((RemoveUpgradeSoakingOverrides == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RemoveUpgradeSoakingOverrides, (AddUpgradeSoakingOverride or UpgradeSelector), or (AddUpgradeSoakingOverride or UpgradeSelector) may be specified.", [nameof(RemoveUpgradeSoakingOverrides), nameof(AddUpgradeSoakingOverride), nameof(UpgradeSelector)]);
+        }
+        if ((RemoveUpgradeSoakingOverrides == true || !string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) && (!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) && (!(!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride))))
+        {
+            yield return new ValidationResult("AddUpgradeSoakingOverride must be specified when other arguments in this group are specified.", [nameof(AddUpgradeSoakingOverride)]);
+        }
+        if ((RemoveUpgradeSoakingOverrides == true || !string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) && (!string.IsNullOrWhiteSpace(AddUpgradeSoakingOverride) || !string.IsNullOrWhiteSpace(UpgradeSelector)) && (!(!string.IsNullOrWhiteSpace(UpgradeSelector))))
+        {
+            yield return new ValidationResult("UpgradeSelector must be specified when other arguments in this group are specified.", [nameof(UpgradeSelector)]);
+        }
+        if ((ResetUpstreamFleet == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(UpstreamFleet) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ResetUpstreamFleet or UpstreamFleet may be specified.", [nameof(ResetUpstreamFleet), nameof(UpstreamFleet)]);
+        }
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "sinks", "update")]
-public record GcloudLoggingSinksUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SinkName
-) : GcloudOptions
+public record GcloudLoggingSinksUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a sink
+    /// </summary>
+    /// <param name="SinkName">The name of the sink to update.</param>
+    public GcloudLoggingSinksUpdateOptions(
+        string SinkName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SinkName);
+        this.SinkName = SinkName;
+    }
+
+    public void Deconstruct(out string SinkName)
+    {
+        SinkName = this.SinkName;
+    }
+
     /// <summary>
     /// Add an exclusion filter for log entries that are not to be routed to the sink' destination. This flag can be repeated. The name and filter attributes are required. The following keys are accepted: name Required. An identifier, such as load-balancer-exclusion. Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. description Optional. A description of this exclusion. filter Required. Entries that match this advanced log filter will be excluded. Filter cannot be empty. disabled Optional. By default, an exclusion is not disabled. To disable an exclusion, include this key and specify any value.
     /// </summary>
@@ -78,9 +94,9 @@ public record GcloudLoggingSinksUpdateOptions(
     public string? LogFilter { get; set; }
 
     /// <summary>
-    /// Specify the name of the Logging exclusion(s) to delete.
+    /// Specify the name of the Logging exclusion(s) to delete. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-exclusions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-exclusions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveExclusions { get; set; }
 
     /// <summary>
@@ -114,9 +130,31 @@ public record GcloudLoggingSinksUpdateOptions(
     public string? Organization { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Project of the sink to update. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Project of the sink to update. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// The name of the sink to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SinkName { get; private init; }
+
+    /// <summary>
+    /// A new destination for the sink. If omitted, the sink's existing destination is unchanged.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Destination { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BillingAccount, Folder, Organization, or Project may be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

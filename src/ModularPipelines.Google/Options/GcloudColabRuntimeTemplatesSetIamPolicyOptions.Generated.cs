@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("colab", "runtime-templates", "set-iam-policy")]
-public record GcloudColabRuntimeTemplatesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudColabRuntimeTemplatesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set IAM policy for a Colab     Enterprise runtime template as defined in a JSON or YAML file
+    /// </summary>
+    /// <param name="RuntimeTemplate">Runtime template resource - Unique name of the runtime template to set IAM policy for. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime template or fully qualified identifier for the runtime template. To set the name attribute: ▸ provide the argument runtime_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudColabRuntimeTemplatesSetIamPolicyOptions(
+        string RuntimeTemplate,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeTemplate);
+        this.RuntimeTemplate = RuntimeTemplate;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string RuntimeTemplate, out string PolicyFile)
+    {
+        RuntimeTemplate = this.RuntimeTemplate;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Runtime template resource - Unique name of the runtime template to set IAM policy for. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the runtime template. To set the region attribute: ▸ provide the argument runtime_template on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property colab/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Runtime template resource - Unique name of the runtime template to set IAM policy for. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime template or fully qualified identifier for the runtime template. To set the name attribute: ▸ provide the argument runtime_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RuntimeTemplate { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

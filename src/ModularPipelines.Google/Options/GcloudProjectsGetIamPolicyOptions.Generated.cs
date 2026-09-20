@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("projects", "get-iam-policy")]
-public record GcloudProjectsGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectIdOrNumber
-) : GcloudOptions
+public record GcloudProjectsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get IAM policy for a project
+    /// </summary>
+    /// <param name="ProjectIdOrNumber">ID or number for the project you want to get IAM policy for.</param>
+    public GcloudProjectsGetIamPolicyOptions(
+        string ProjectIdOrNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectIdOrNumber);
+        this.ProjectIdOrNumber = ProjectIdOrNumber;
+    }
+
+    public void Deconstruct(out string ProjectIdOrNumber)
+    {
+        ProjectIdOrNumber = this.ProjectIdOrNumber;
+    }
+
+    /// <summary>
+    /// ID or number for the project you want to get IAM policy for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectIdOrNumber { get; private init; }
+
 }

@@ -21,4 +21,67 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("gemini", "code-tools-settings", "create")]
 public record GcloudGeminiCodeToolsSettingsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create codeToolsSettings
+    /// </summary>
+    /// <param name="EnabledTool">Required, Represents the full set of enabled tools. accountConnector Link to the Dev Connect Account Connector that holds the user credentials. projects/{project}/locations/{location}/accountConnectors/{account_connector_id}. config Configuration parameters for the tool. key Key of the configuration item. value Value of the configuration item. handle Handle used to invoke the tool. tool Link to the Tool. uriOverride Overridden URI, if allowed by Tool. Shorthand Example: --enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string --enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string JSON Example: --enabled-tool='[{"accountConnector": "string", "config": [{"key": "string", "value": "string"}], "handle": "string", "tool": "string", "uriOverride": "string"}]' File Example: --enabled-tool=path_to_file.(yaml|json)</param>
+    /// <param name="CodeToolsSetting">CodeToolsSetting resource - Identifier. Name of the resource. Format:projects/{project}/locations/{location}/codeToolsSettings/{codeToolsSetting} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument code_tools_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the codeToolsSetting or fully qualified identifier for the codeToolsSetting. To set the code_tools_setting attribute: ▸ provide the argument code_tools_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiCodeToolsSettingsCreateOptions(
+        IEnumerable<string> EnabledTool,
+        string CodeToolsSetting
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EnabledTool);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EnabledTool));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EnabledTool));
+            }
+
+            EnabledTool = materialized;
+        }
+        this.EnabledTool = EnabledTool;
+        global::System.ArgumentNullException.ThrowIfNull(CodeToolsSetting);
+        this.CodeToolsSetting = CodeToolsSetting;
+    }
+
+    public void Deconstruct(out IEnumerable<string> EnabledTool, out string CodeToolsSetting)
+    {
+        EnabledTool = this.EnabledTool;
+        CodeToolsSetting = this.CodeToolsSetting;
+    }
+
+    /// <summary>
+    /// Required, Represents the full set of enabled tools. accountConnector Link to the Dev Connect Account Connector that holds the user credentials. projects/{project}/locations/{location}/accountConnectors/{account_connector_id}. config Configuration parameters for the tool. key Key of the configuration item. value Value of the configuration item. handle Handle used to invoke the tool. tool Link to the Tool. uriOverride Overridden URI, if allowed by Tool. Shorthand Example: --enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string --enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string JSON Example: --enabled-tool='[{"accountConnector": "string", "config": [{"key": "string", "value": "string"}], "handle": "string", "tool": "string", "uriOverride": "string"}]' File Example: --enabled-tool=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--enabled-tool", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> EnabledTool { get; private init; }
+
+    /// <summary>
+    /// CodeToolsSetting resource - Identifier. Name of the resource. Format:projects/{project}/locations/{location}/codeToolsSettings/{codeToolsSetting} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument code_tools_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the codeToolsSetting resource. To set the location attribute: ▸ provide the argument code_tools_setting on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// CodeToolsSetting resource - Identifier. Name of the resource. Format:projects/{project}/locations/{location}/codeToolsSettings/{codeToolsSetting} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument code_tools_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the codeToolsSetting or fully qualified identifier for the codeToolsSetting. To set the code_tools_setting attribute: ▸ provide the argument code_tools_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CodeToolsSetting { get; private init; }
+
 }

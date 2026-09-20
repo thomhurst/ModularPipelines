@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +22,169 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "templates", "create")]
-public record GcloudPrivatecaTemplatesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+public record GcloudPrivatecaTemplatesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new certificate template
+    /// </summary>
+    /// <param name="CertificateTemplate">CERTIFICATE TEMPLATE resource - The template to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_TEMPLATE or fully qualified identifier for the CERTIFICATE_TEMPLATE. To set the certificate template attribute: ▸ provide the argument CERTIFICATE_TEMPLATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaTemplatesCreateOptions(
+        string CertificateTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateTemplate);
+        this.CertificateTemplate = CertificateTemplate;
+    }
+
+    public void Deconstruct(out string CertificateTemplate)
+    {
+        CertificateTemplate = this.CertificateTemplate;
+    }
+
+    /// <summary>
+    /// CERTIFICATE TEMPLATE resource - The template to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CERTIFICATE_TEMPLATE. To set the location attribute: ▸ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
+    /// </summary>
+    [CliFlag("--copy-sans")]
+    public bool? CopySans { get; set; }
+
+    /// <summary>
+    /// Negates --copy-sans. If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
+    /// </summary>
+    [CliFlag("--no-copy-sans")]
+    public bool? NoCopySans { get; set; }
+
+    /// <summary>
+    /// If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
+    /// </summary>
+    [CliFlag("--copy-subject")]
+    public bool? CopySubject { get; set; }
+
+    /// <summary>
+    /// Negates --copy-subject. If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
+    /// </summary>
+    [CliFlag("--no-copy-subject")]
+    public bool? NoCopySubject { get; set; }
+
+    /// <summary>
+    /// A text description for the Certificate Template.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// A CEL expression that will be evaluated against the identity in the certificate before it is issued, and returns a boolean signifying whether the request should be allowed.
+    /// </summary>
+    [CliOption("--identity-cel-expression", Format = OptionFormat.EqualsSeparated)]
+    public string? IdentityCelExpression { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// If this is set, then issued certificate's lifetime will be truncated to the value provided. If the issuing CaPool's IssuancePolicy specifies a maximum lifetime the minimum of the two durations will be the maximum lifetime for the issued certificate. Note that if the issuing CertificateAuthority expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated to match it.
+    /// </summary>
+    [CliOption("--maximum-lifetime", Format = OptionFormat.EqualsSeparated)]
+    public string? MaximumLifetime { get; set; }
+
+    /// <summary>
+    /// A YAML file describing any predefined X.509 values set by this template. The provided extensions will be copied over to any certificate requests that use this template, taking precedent over any allowed extensions in the certificate request. The format of this file should be a YAML representation of the X509Parameters message, which is defined here: https://cloud.google.com/certificate-authority-service/docs/reference/rest/v1/X509Parameters. Some examples can be found here: https://cloud.google.com/certificate-authority-service/docs/creating-certificate-template
+    /// </summary>
+    [CliOption("--predefined-values-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PredefinedValuesFile { get; set; }
+
+    /// <summary>
+    /// Constraints on requested X.509 extensions. If unspecified, all extensions from certificate request will be ignored when signing the certificate. At most one of these can be specified: If this is set, all extensions specified in the certificate request will be copied into the signed certificate.
+    /// </summary>
+    [CliFlag("--copy-all-requested-extensions")]
+    public bool? CopyAllRequestedExtensions { get; set; }
+
+    /// <summary>
+    /// Constraints on requested X.509 extensions. If unspecified, all extensions from certificate request will be ignored when signing the certificate. At most one of these can be specified: Or at least one of these can be specified: Specify exact x509 extensions to copy by OID or known extension. If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--copy-extensions-by-oid", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CopyExtensionsByOid
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CopyExtensionsByOidSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CopyExtensionsByOidSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Constraints on requested X.509 extensions. If unspecified, all extensions from certificate request will be ignored when signing the certificate. At most one of these can be specified: Or at least one of these can be specified: Specify exact x509 extensions to copy by OID or known extension. If this is set, then the given extensions will be copied from the certificate request into the signed certificate. KNOWN_EXTENSIONS must be one of: base-key-usage, extended-key-usage, ca-options, policy-ids, aia-ocsp-servers.
+    /// </summary>
+    [CliOption("--copy-known-extensions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudPrivatecaTemplatesCreateCopyKnownExtensions>? CopyKnownExtensions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CopyKnownExtensionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<GcloudPrivatecaTemplatesCreateCopyKnownExtensions>).Equals((object)values) ? global::System.Array.Empty<GcloudPrivatecaTemplatesCreateCopyKnownExtensions>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudPrivatecaTemplatesCreateCopyKnownExtensions>(values))))) : default;
+    }
+
+    private sealed class __CopyKnownExtensionsSnapshotKeyValue(
+        IEnumerable<GcloudPrivatecaTemplatesCreateCopyKnownExtensions> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<GcloudPrivatecaTemplatesCreateCopyKnownExtensions>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<GcloudPrivatecaTemplatesCreateCopyKnownExtensions>
+            global::System.Collections.Generic.IEnumerable<GcloudPrivatecaTemplatesCreateCopyKnownExtensions>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// CERTIFICATE TEMPLATE resource - The template to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_TEMPLATE or fully qualified identifier for the CERTIFICATE_TEMPLATE. To set the certificate template attribute: ▸ provide the argument CERTIFICATE_TEMPLATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CertificateTemplate { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((CopySans == true ? 1 : 0) + (NoCopySans == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CopySans or NoCopySans must be specified.", [nameof(CopySans), nameof(NoCopySans)]);
+        }
+        if ((CopySubject == true ? 1 : 0) + (NoCopySubject == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CopySubject or NoCopySubject must be specified.", [nameof(CopySubject), nameof(NoCopySubject)]);
+        }
+        if ((CopyAllRequestedExtensions == true ? 1 : 0) + ((((object?)CopyExtensionsByOid is global::System.Collections.Generic.IEnumerable<char> ? (object?)CopyExtensionsByOid is not string || !string.IsNullOrWhiteSpace(CopyExtensionsByOid?.ToString()) : ((object?)CopyExtensionsByOid is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CopyExtensionsByOid, static item => item is not null) : (CopyExtensionsByOid is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CopyExtensionsByOid), static item => item is not null)))) || ((object?)CopyKnownExtensions is global::System.Collections.Generic.IEnumerable<char> ? (object?)CopyKnownExtensions is not string || !string.IsNullOrWhiteSpace(CopyKnownExtensions?.ToString()) : ((object?)CopyKnownExtensions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CopyKnownExtensions, static item => item is not null) : (CopyKnownExtensions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CopyKnownExtensions), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CopyAllRequestedExtensions or (CopyExtensionsByOid or CopyKnownExtensions) may be specified.", [nameof(CopyAllRequestedExtensions), nameof(CopyExtensionsByOid), nameof(CopyKnownExtensions)]);
+        }
+        yield break;
+    }
+
 }

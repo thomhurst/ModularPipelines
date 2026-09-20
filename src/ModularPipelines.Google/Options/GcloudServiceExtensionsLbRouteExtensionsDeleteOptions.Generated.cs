@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceExtensionsLbRouteExtensionsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete an     LbRouteExtension resource
+    /// </summary>
+    /// <param name="LbRouteExtension">LbRouteExtension resource - The ID of the deleted LbRouteExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lb_route_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the LbRouteExtension or fully qualified identifier for the LbRouteExtension. To set the lb_route_extension attribute: ▸ provide the argument lb_route_extension on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceExtensionsLbRouteExtensionsDeleteOptions(
+        string LbRouteExtension
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbRouteExtension);
+        this.LbRouteExtension = LbRouteExtension;
+    }
+
+    public void Deconstruct(out string LbRouteExtension)
+    {
+        LbRouteExtension = this.LbRouteExtension;
+    }
+
+    /// <summary>
+    /// LbRouteExtension resource - The ID of the deleted LbRouteExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lb_route_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region in which the resource is located. To set the location attribute: ▸ provide the argument lb_route_extension on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// LbRouteExtension resource - The ID of the deleted LbRouteExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lb_route_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the LbRouteExtension or fully qualified identifier for the LbRouteExtension. To set the lb_route_extension attribute: ▸ provide the argument lb_route_extension on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LbRouteExtension { get; private init; }
 
 }

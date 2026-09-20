@@ -22,6 +22,23 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDomainsRegistrationsConfigureManagementOptions : GcloudOptions
 {
     /// <summary>
+    /// configure management     settings of a Cloud Domains registration
+    /// </summary>
+    /// <param name="Registration">Registration resource - The domain registration to configure management settings for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ location is always global. This must be specified. ID of the registration or fully qualified identifier for the registration. To set the registration attribute: ▸ provide the argument registration on the command line.</param>
+    public GcloudDomainsRegistrationsConfigureManagementOptions(
+        string Registration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Registration);
+        this.Registration = Registration;
+    }
+
+    public void Deconstruct(out string Registration)
+    {
+        Registration = this.Registration;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -38,5 +55,11 @@ public record GcloudDomainsRegistrationsConfigureManagementOptions : GcloudOptio
     /// </summary>
     [CliOption("--transfer-lock-state", Format = OptionFormat.EqualsSeparated)]
     public string? TransferLockState { get; set; }
+
+    /// <summary>
+    /// Registration resource - The domain registration to configure management settings for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ location is always global. This must be specified. ID of the registration or fully qualified identifier for the registration. To set the registration attribute: ▸ provide the argument registration on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Registration { get; private init; }
 
 }

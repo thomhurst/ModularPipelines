@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-ssl-proxies", "update")]
-public record GcloudComputeTargetSslProxiesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeTargetSslProxiesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a target SSL proxy
+    /// </summary>
+    /// <param name="Name">Name of the target SSL proxy to update.</param>
+    public GcloudComputeTargetSslProxiesUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// A backend service that will be used for connections to the target SSL proxy.
     /// </summary>
@@ -60,10 +76,32 @@ public record GcloudComputeTargetSslProxiesUpdateOptions(
     public string? SslPolicyRegion { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target SSL proxy.
+    /// At most one of these can be specified: References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target SSL proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SslCertificates { get; set; }
+    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SslCertificates
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SslCertificatesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SslCertificatesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Remove any attached SSL certificates from the SSL proxy.
@@ -82,5 +120,29 @@ public record GcloudComputeTargetSslProxiesUpdateOptions(
     /// </summary>
     [CliFlag("--clear-certificate-map")]
     public bool? ClearCertificateMap { get; set; }
+
+    /// <summary>
+    /// Name of the target SSL proxy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearSslPolicy == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SslPolicy) || GlobalSslPolicy == true || !string.IsNullOrWhiteSpace(SslPolicyRegion)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSslPolicy or (SslPolicy, GlobalSslPolicy, or SslPolicyRegion) may be specified.", [nameof(ClearSslPolicy), nameof(SslPolicy), nameof(GlobalSslPolicy), nameof(SslPolicyRegion)]);
+        }
+        if ((ClearSslPolicy == true || !string.IsNullOrWhiteSpace(SslPolicy) || GlobalSslPolicy == true || !string.IsNullOrWhiteSpace(SslPolicyRegion)) && (!string.IsNullOrWhiteSpace(SslPolicy) || GlobalSslPolicy == true || !string.IsNullOrWhiteSpace(SslPolicyRegion)) && ((GlobalSslPolicy == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SslPolicyRegion) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of GlobalSslPolicy or SslPolicyRegion may be specified.", [nameof(GlobalSslPolicy), nameof(SslPolicyRegion)]);
+        }
+        if ((((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)SslCertificates is not string || !string.IsNullOrWhiteSpace(SslCertificates?.ToString()) : ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SslCertificates, static item => item is not null) : (SslCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SslCertificates), static item => item is not null)))) ? 1 : 0) + (ClearSslCertificates == true ? 1 : 0) + (ClearCertificateMap == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CertificateMap)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SslCertificates, ClearSslCertificates, ClearCertificateMap, or (CertificateMap) may be specified.", [nameof(SslCertificates), nameof(ClearSslCertificates), nameof(ClearCertificateMap), nameof(CertificateMap)]);
+        }
+        yield break;
+    }
 
 }

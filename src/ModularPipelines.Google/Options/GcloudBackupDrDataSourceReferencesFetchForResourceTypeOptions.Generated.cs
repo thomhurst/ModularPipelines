@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "data-source-references", "fetch-for-resource-type")]
-public record GcloudBackupDrDataSourceReferencesFetchForResourceTypeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceType
-) : GcloudOptions
+public record GcloudBackupDrDataSourceReferencesFetchForResourceTypeOptions : GcloudOptions
 {
+    /// <summary>
+    /// fetch     Data Source References for a given resource type and location
+    /// </summary>
+    /// <param name="Location">Location for which data source references should be fetched.</param>
+    /// <param name="ResourceType">Resource type for which data source references should be fetched.</param>
+    public GcloudBackupDrDataSourceReferencesFetchForResourceTypeOptions(
+        string Location,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    public void Deconstruct(out string Location, out string ResourceType)
+    {
+        Location = this.Location;
+        ResourceType = this.ResourceType;
+    }
+
+    /// <summary>
+    /// Location for which data source references should be fetched.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Resource type for which data source references should be fetched.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceType { get; private init; }
+
 }

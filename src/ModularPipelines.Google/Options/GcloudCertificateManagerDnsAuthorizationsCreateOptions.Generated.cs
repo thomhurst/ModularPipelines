@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,74 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("certificate-manager", "dns-authorizations", "create")]
 public record GcloudCertificateManagerDnsAuthorizationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a DNS     Authorization
+    /// </summary>
+    /// <param name="Domain">Public domain name to create an authorization for.</param>
+    /// <param name="DnsAuthorization">DnsAuthorization resource - The name of the DNS Authorization to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dns_authorization on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dnsAuthorization or fully qualified identifier for the dnsAuthorization. To set the dns_authorization attribute: ▸ provide the argument dns_authorization on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudCertificateManagerDnsAuthorizationsCreateOptions(
+        string Domain,
+        string DnsAuthorization
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(DnsAuthorization);
+        this.DnsAuthorization = DnsAuthorization;
+    }
+
+    public void Deconstruct(out string Domain, out string DnsAuthorization)
+    {
+        Domain = this.Domain;
+        DnsAuthorization = this.DnsAuthorization;
+    }
+
+    /// <summary>
+    /// Public domain name to create an authorization for.
+    /// </summary>
+    [CliOption("--domain", Format = OptionFormat.EqualsSeparated)]
+    public string Domain { get; private init; }
+
+    /// <summary>
+    /// DnsAuthorization resource - The name of the DNS Authorization to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dns_authorization on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Certificate Manager location. To set the location attribute: ▸ provide the argument dns_authorization on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ default value of location is [global].
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Human-readable description of the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Type of the DNS authorization. TYPE must be one of: fixed-record, per-project-record, type-unspecified.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudCertificateManagerDnsAuthorizationsCreateType? Type { get; set; }
+
+    /// <summary>
+    /// DnsAuthorization resource - The name of the DNS Authorization to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dns_authorization on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dnsAuthorization or fully qualified identifier for the dnsAuthorization. To set the dns_authorization attribute: ▸ provide the argument dns_authorization on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DnsAuthorization { get; private init; }
+
 }

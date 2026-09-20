@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,8 +22,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitoring", "uptime", "update")]
-public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
+public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an existing uptime check or     synthetic monitor
+    /// </summary>
+    /// <param name="CheckId">Uptime check or synthetic monitor resource - Name of the uptime check or synthetic monitor to be updated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument check_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the uptime check or synthetic monitor or fully qualified identifier for the uptime check or synthetic monitor. To set the check_id attribute: ▸ provide the argument check_id on the command line.</param>
+    public GcloudMonitoringUptimeUpdateOptions(
+        string CheckId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CheckId);
+        this.CheckId = CheckId;
+    }
+
+    public void Deconstruct(out string CheckId)
+    {
+        CheckId = this.CheckId;
+    }
+
     /// <summary>
     /// Uptime check protocol settings. The request body associated with the HTTP POST request. Can only be set if --protocol is http or https.
     /// </summary>
@@ -97,10 +115,32 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ValidateSsl { get; set; }
 
     /// <summary>
-    /// Uptime check service agent authorization. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: The list of HTTP status classes to add to the uptime check. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code
+    /// Uptime check service agent authorization. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: The list of HTTP status classes to add to the uptime check. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-status-classes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddStatusClasses { get; set; }
+    [CliOption("--add-status-classes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddStatusClasses
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddStatusClassesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddStatusClassesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Uptime check service agent authorization. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: Clear all HTTP status classes on the uptime check. Setting this flag is the same as selecting only the 2xx status class.
@@ -109,22 +149,88 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ClearStatusClasses { get; set; }
 
     /// <summary>
-    /// Uptime check service agent authorization. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: The list of HTTP status classes to remove from the uptime check. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code
+    /// Uptime check service agent authorization. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: The list of HTTP status classes to remove from the uptime check. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-status-classes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveStatusClasses { get; set; }
+    [CliOption("--remove-status-classes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveStatusClasses
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveStatusClassesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveStatusClassesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Uptime check service agent authorization. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: List of HTTP status classes. The uptime check will only pass if the response code is contained in this list. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code
+    /// Uptime check service agent authorization. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: List of HTTP status classes. The uptime check will only pass if the response code is contained in this list. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-status-classes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetStatusClasses { get; set; }
+    [CliOption("--set-status-classes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetStatusClasses
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SetStatusClassesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SetStatusClassesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Uptime check service agent authorization. Uptime check status codes. At most one of these can be specified: The list of HTTP status codes to add to the uptime check.
+    /// Uptime check service agent authorization. Uptime check status codes. At most one of these can be specified: The list of HTTP status codes to add to the uptime check. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-status-codes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddStatusCodes { get; set; }
+    [CliOption("--add-status-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddStatusCodes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddStatusCodesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddStatusCodesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Uptime check service agent authorization. Uptime check status codes. At most one of these can be specified: Clear all HTTP status codes on the uptime check. Setting this flag is the same as selecting only the 2xx status class.
@@ -133,21 +239,65 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ClearStatusCodes { get; set; }
 
     /// <summary>
-    /// Uptime check service agent authorization. Uptime check status codes. At most one of these can be specified: The list of HTTP status codes to remove from the uptime check.
+    /// Uptime check service agent authorization. Uptime check status codes. At most one of these can be specified: The list of HTTP status codes to remove from the uptime check. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-status-codes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveStatusCodes { get; set; }
+    [CliOption("--remove-status-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveStatusCodes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveStatusCodesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveStatusCodesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Uptime check service agent authorization. Uptime check status codes. At most one of these can be specified: List of HTTP status codes. The uptime check will only pass if the response code is present in this list.
+    /// Uptime check service agent authorization. Uptime check status codes. At most one of these can be specified: List of HTTP status codes. The uptime check will only pass if the response code is present in this list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-status-codes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetStatusCodes { get; set; }
+    [CliOption("--set-status-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetStatusCodes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SetStatusCodesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SetStatusCodesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Uptime check headers. The list of headers to add to the uptime check. Any existing headers with matching "key" are overridden by the provided values.
+    /// Uptime check headers. The list of headers to add to the uptime check. Any existing headers with matching "key" are overridden by the provided values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateHeaders { get; set; }
 
     /// <summary>
@@ -157,10 +307,32 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ClearHeaders { get; set; }
 
     /// <summary>
-    /// Uptime check headers. Uptime check remove headers. At most one of these can be specified: The list of header keys to remove from the uptime check.
+    /// Uptime check headers. Uptime check remove headers. At most one of these can be specified: The list of header keys to remove from the uptime check. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-headers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveHeaders { get; set; }
+    [CliOption("--remove-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveHeaders
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveHeadersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveHeadersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Settings. The display name for the uptime check or synthetic monitor.
@@ -181,10 +353,32 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// Settings. Uptime check selected regions. At most one of these can be specified: The list of regions to add to the uptime check. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4
+    /// Settings. Uptime check selected regions. At most one of these can be specified: The list of regions to add to the uptime check. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-regions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddRegions { get; set; }
+    [CliOption("--add-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddRegions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddRegionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddRegionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Settings. Uptime check selected regions. At most one of these can be specified: Clear all regions on the uptime check. This setting acts the same as if all available regions were selected.
@@ -193,21 +387,65 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ClearRegions { get; set; }
 
     /// <summary>
-    /// Settings. Uptime check selected regions. At most one of these can be specified: The list of regions to remove from the uptime check. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4
+    /// Settings. Uptime check selected regions. At most one of these can be specified: The list of regions to remove from the uptime check. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-regions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveRegions { get; set; }
+    [CliOption("--remove-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveRegions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveRegionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveRegionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Settings. Uptime check selected regions. At most one of these can be specified: The list of regions from which the check is run. At least 3 regions must be selected. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4
+    /// Settings. Uptime check selected regions. At most one of these can be specified: The list of regions from which the check is run. At least 3 regions must be selected. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-regions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetRegions { get; set; }
+    [CliOption("--set-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetRegions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SetRegionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SetRegionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// User labels. Can be set for synthetic monitors. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// User labels. Can be set for synthetic monitors. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-user-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-user-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateUserLabels { get; set; }
 
     /// <summary>
@@ -217,10 +455,32 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public bool? ClearUserLabels { get; set; }
 
     /// <summary>
-    /// User labels. Can be set for synthetic monitors. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-user-labels is also specified then --update-user-labels is applied first.
+    /// User labels. Can be set for synthetic monitors. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-user-labels is also specified then --update-user-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-user-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveUserLabels { get; set; }
+    [CliOption("--remove-user-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveUserLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveUserLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveUserLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Uptime check matcher settings. String, regex or JSON content to match. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -245,5 +505,45 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--json-path-matcher-type", Format = OptionFormat.EqualsSeparated)]
     public string? JsonPathMatcherType { get; set; }
+
+    /// <summary>
+    /// Uptime check or synthetic monitor resource - Name of the uptime check or synthetic monitor to be updated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument check_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the uptime check or synthetic monitor or fully qualified identifier for the uptime check or synthetic monitor. To set the check_id attribute: ▸ provide the argument check_id on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CheckId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddStatusClasses is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddStatusClasses is not string || !string.IsNullOrWhiteSpace(AddStatusClasses?.ToString()) : ((object?)AddStatusClasses is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddStatusClasses, static item => item is not null) : (AddStatusClasses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddStatusClasses), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ClearStatusClasses) ? 1 : 0) + (((object?)RemoveStatusClasses is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveStatusClasses is not string || !string.IsNullOrWhiteSpace(RemoveStatusClasses?.ToString()) : ((object?)RemoveStatusClasses is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveStatusClasses, static item => item is not null) : (RemoveStatusClasses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveStatusClasses), static item => item is not null)))) ? 1 : 0) + (((object?)SetStatusClasses is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetStatusClasses is not string || !string.IsNullOrWhiteSpace(SetStatusClasses?.ToString()) : ((object?)SetStatusClasses is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetStatusClasses, static item => item is not null) : (SetStatusClasses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetStatusClasses), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddStatusClasses, ClearStatusClasses, RemoveStatusClasses, or SetStatusClasses may be specified.", [nameof(AddStatusClasses), nameof(ClearStatusClasses), nameof(RemoveStatusClasses), nameof(SetStatusClasses)]);
+        }
+        if ((((object?)AddStatusCodes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddStatusCodes is not string || !string.IsNullOrWhiteSpace(AddStatusCodes?.ToString()) : ((object?)AddStatusCodes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddStatusCodes, static item => item is not null) : (AddStatusCodes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddStatusCodes), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ClearStatusCodes) ? 1 : 0) + (((object?)RemoveStatusCodes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveStatusCodes is not string || !string.IsNullOrWhiteSpace(RemoveStatusCodes?.ToString()) : ((object?)RemoveStatusCodes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveStatusCodes, static item => item is not null) : (RemoveStatusCodes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveStatusCodes), static item => item is not null)))) ? 1 : 0) + (((object?)SetStatusCodes is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetStatusCodes is not string || !string.IsNullOrWhiteSpace(SetStatusCodes?.ToString()) : ((object?)SetStatusCodes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetStatusCodes, static item => item is not null) : (SetStatusCodes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetStatusCodes), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddStatusCodes, ClearStatusCodes, RemoveStatusCodes, or SetStatusCodes may be specified.", [nameof(AddStatusCodes), nameof(ClearStatusCodes), nameof(RemoveStatusCodes), nameof(SetStatusCodes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ClearHeaders) ? 1 : 0) + (((object?)RemoveHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveHeaders is not string || !string.IsNullOrWhiteSpace(RemoveHeaders?.ToString()) : ((object?)RemoveHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveHeaders, static item => item is not null) : (RemoveHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveHeaders), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearHeaders or RemoveHeaders may be specified.", [nameof(ClearHeaders), nameof(RemoveHeaders)]);
+        }
+        if ((((object?)AddRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRegions is not string || !string.IsNullOrWhiteSpace(AddRegions?.ToString()) : ((object?)AddRegions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRegions, static item => item is not null) : (AddRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRegions), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ClearRegions) ? 1 : 0) + (((object?)RemoveRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRegions is not string || !string.IsNullOrWhiteSpace(RemoveRegions?.ToString()) : ((object?)RemoveRegions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRegions, static item => item is not null) : (RemoveRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRegions), static item => item is not null)))) ? 1 : 0) + (((object?)SetRegions is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetRegions is not string || !string.IsNullOrWhiteSpace(SetRegions?.ToString()) : ((object?)SetRegions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetRegions, static item => item is not null) : (SetRegions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetRegions), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddRegions, ClearRegions, RemoveRegions, or SetRegions may be specified.", [nameof(AddRegions), nameof(ClearRegions), nameof(RemoveRegions), nameof(SetRegions)]);
+        }
+        if ((ClearUserLabels == true ? 1 : 0) + (((object?)RemoveUserLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveUserLabels is not string || !string.IsNullOrWhiteSpace(RemoveUserLabels?.ToString()) : ((object?)RemoveUserLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveUserLabels, static item => item is not null) : (RemoveUserLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveUserLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearUserLabels or RemoveUserLabels may be specified.", [nameof(ClearUserLabels), nameof(RemoveUserLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MatcherContent) || !string.IsNullOrWhiteSpace(MatcherType)) && (!(!string.IsNullOrWhiteSpace(MatcherContent))))
+        {
+            yield return new ValidationResult("MatcherContent must be specified when other arguments in this group are specified.", [nameof(MatcherContent)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(JsonPath) || !string.IsNullOrWhiteSpace(JsonPathMatcherType)) && (!(!string.IsNullOrWhiteSpace(JsonPath))))
+        {
+            yield return new ValidationResult("JsonPath must be specified when other arguments in this group are specified.", [nameof(JsonPath)]);
+        }
+        yield break;
+    }
 
 }

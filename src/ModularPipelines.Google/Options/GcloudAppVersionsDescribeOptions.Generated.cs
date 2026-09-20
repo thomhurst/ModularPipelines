@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "versions", "describe")]
-public record GcloudAppVersionsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : GcloudOptions
+public record GcloudAppVersionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// display all data about an existing version
+    /// </summary>
+    /// <param name="Service">The service corresponding to the version to show.</param>
+    /// <param name="Version">The ID of the version to show.</param>
+    public GcloudAppVersionsDescribeOptions(
+        string Service,
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Service, out string Version)
+    {
+        Service = this.Service;
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// The service corresponding to the version to show.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string Service { get; private init; }
+
+    /// <summary>
+    /// The ID of the version to show.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
+
 }

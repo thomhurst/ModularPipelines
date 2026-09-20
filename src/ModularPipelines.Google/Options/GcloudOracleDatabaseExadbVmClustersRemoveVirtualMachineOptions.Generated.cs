@@ -21,4 +21,67 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "exadb-vm-clusters", "remove-virtual-machine")]
 public record GcloudOracleDatabaseExadbVmClustersRemoveVirtualMachineOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove     virtual machines from an ExadbVmCluster
+    /// </summary>
+    /// <param name="Hostnames">The list of host names of db nodes to be removed from the ExadbVmCluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="ExadbVmCluster">ExadbVmCluster resource - The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the exadbVmCluster or fully qualified identifier for the exadbVmCluster. To set the exadb_vm_cluster attribute: ▸ provide the argument exadb_vm_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseExadbVmClustersRemoveVirtualMachineOptions(
+        IEnumerable<string> Hostnames,
+        string ExadbVmCluster
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Hostnames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Hostnames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Hostnames));
+            }
+
+            Hostnames = materialized;
+        }
+        this.Hostnames = Hostnames;
+        global::System.ArgumentNullException.ThrowIfNull(ExadbVmCluster);
+        this.ExadbVmCluster = ExadbVmCluster;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Hostnames, out string ExadbVmCluster)
+    {
+        Hostnames = this.Hostnames;
+        ExadbVmCluster = this.ExadbVmCluster;
+    }
+
+    /// <summary>
+    /// The list of host names of db nodes to be removed from the ExadbVmCluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--hostnames", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Hostnames { get; private init; }
+
+    /// <summary>
+    /// ExadbVmCluster resource - The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the exadbVmCluster resource. To set the location attribute: ▸ provide the argument exadb_vm_cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// ExadbVmCluster resource - The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the exadbVmCluster or fully qualified identifier for the exadbVmCluster. To set the exadb_vm_cluster attribute: ▸ provide the argument exadb_vm_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ExadbVmCluster { get; private init; }
+
 }
