@@ -16,12 +16,12 @@ namespace ModularPipelines.Liquibase.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseLogFormat
 {
-    [EnumValue("text")]
-    Text,
-
     [EnumValue("json")]
     Json,
 
     [EnumValue("json_pretty")]
-    JsonPretty
+    JsonPretty,
+
+    [EnumValue("text")]
+    Text
 }

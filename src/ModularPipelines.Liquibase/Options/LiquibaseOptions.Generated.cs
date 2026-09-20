@@ -205,12 +205,6 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     public virtual bool? Headless { get; set; }
 
     /// <summary>
-    /// Show this help message and exit
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public virtual bool? Help { get; set; }
-
-    /// <summary>
     /// Should Liquibase include the catalog name when determining equality? DEFAULT: false
     /// </summary>
     [CliOption("--include-catalog-in-specification", Format = OptionFormat.EqualsSeparated)]
