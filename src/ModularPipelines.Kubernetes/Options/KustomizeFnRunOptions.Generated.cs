@@ -63,12 +63,6 @@ public record KustomizeFnRunOptions : KustomizeOptions
     public bool? GlobalScope { get; set; }
 
     /// <summary>
-    /// help for run
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// run this image as a function instead of discovering them.
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]

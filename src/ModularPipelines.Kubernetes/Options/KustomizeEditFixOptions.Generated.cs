@@ -21,12 +21,6 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditFixOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for fix
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// If specified, kustomize will attempt to convert vars to replacements. We recommend doing this in a clean git repository where the change is easy to undo.
     /// </summary>
     [CliFlag("--vars")]

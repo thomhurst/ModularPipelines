@@ -18,21 +18,30 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cfg", "grep")]
-public record KustomizeCfgGrepOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Query
-) : KustomizeOptions
+public record KustomizeCfgGrepOptions : KustomizeOptions
 {
+    /// <summary>
+    /// [Alpha] Search for matching Resources in a directory or from stdin.
+    /// </summary>
+    /// <param name="Query">The QUERY operand.</param>
+    public KustomizeCfgGrepOptions(
+        string Query
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Query);
+        this.Query = Query;
+    }
+
+    public void Deconstruct(out string Query)
+    {
+        Query = this.Query;
+    }
+
     /// <summary>
     /// annotate resources with their file origins. (default true)
     /// </summary>
     [CliOption("--annotate", Format = OptionFormat.EqualsSeparated)]
     public bool? Annotate { get; set; }
-
-    /// <summary>
-    /// help for grep
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Selected Resources are those not matching any of the specified patterns..
@@ -51,6 +60,12 @@ public record KustomizeCfgGrepOptions(
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The QUERY operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Query { get; private init; }
 
     /// <summary>
     /// The DIR operand.

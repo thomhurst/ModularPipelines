@@ -33,12 +33,6 @@ public record KustomizeCreateOptions : KustomizeOptions
     public bool? Autodetect { get; set; }
 
     /// <summary>
-    /// help for create
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Add one or more common labels.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]

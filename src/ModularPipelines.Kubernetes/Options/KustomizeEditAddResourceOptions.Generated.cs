@@ -21,12 +21,6 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditAddResourceOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for resource
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// skip validation for resources
     /// </summary>
     [CliFlag("--no-verify")]

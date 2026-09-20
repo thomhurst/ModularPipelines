@@ -75,12 +75,6 @@ public record KustomizeBuildOptions : KustomizeOptions
     public string? HelmKubeVersion { get; set; }
 
     /// <summary>
-    /// help for build
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// if set to 'LoadRestrictionsNone', local kustomizations may load files from outside their root. This does, however, break the relocatability of the kustomization. (default "LoadRestrictionsRootOnly")
     /// </summary>
     [CliOption("--load-restrictor", Format = OptionFormat.EqualsSeparated)]

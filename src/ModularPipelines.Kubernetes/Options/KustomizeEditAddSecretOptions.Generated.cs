@@ -18,10 +18,25 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "add", "secret")]
-public record KustomizeEditAddSecretOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : KustomizeOptions
+public record KustomizeEditAddSecretOptions : KustomizeOptions
 {
+    /// <summary>
+    /// Adds a secret to the kustomization file.
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public KustomizeEditAddSecretOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Disable the name suffix for the secret
     /// </summary>
@@ -47,12 +62,6 @@ public record KustomizeEditAddSecretOptions(
     public IEnumerable<string>? FromLiteral { get; set; }
 
     /// <summary>
-    /// help for secret
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Specify the namespace of the secret
     /// </summary>
     [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
@@ -69,5 +78,11 @@ public record KustomizeEditAddSecretOptions(
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

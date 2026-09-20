@@ -18,20 +18,35 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "remove", "buildmetadata")]
-public record KustomizeEditRemoveBuildmetadataOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Metadata
-) : KustomizeOptions
+public record KustomizeEditRemoveBuildmetadataOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for buildmetadata
+    /// Removes one or more buildMetadata options to the kustomization.yaml in the current directory.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Metadata">The &lt;metadata&gt; operand.</param>
+    public KustomizeEditRemoveBuildmetadataOptions(
+        string Metadata
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Metadata);
+        this.Metadata = Metadata;
+    }
+
+    public void Deconstruct(out string Metadata)
+    {
+        Metadata = this.Metadata;
+    }
 
     /// <summary>
     /// print a stack-trace on error
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The &lt;metadata&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Metadata { get; private init; }
 
 }

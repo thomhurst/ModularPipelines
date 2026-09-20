@@ -18,21 +18,30 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "set", "secret")]
-public record KustomizeEditSetSecretOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : KustomizeOptions
+public record KustomizeEditSetSecretOptions : KustomizeOptions
 {
+    /// <summary>
+    /// Edits the value for an existing key in an existing Secret in the kustomization.yaml file.
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public KustomizeEditSetSecretOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Specify an existing key and a new value to update a Secret (i.e. mykey=newvalue)
     /// </summary>
     [CliOption("--from-literal", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FromLiteral { get; set; }
-
-    /// <summary>
-    /// help for secret
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Current namespace of the target Secret
@@ -51,5 +60,11 @@ public record KustomizeEditSetSecretOptions(
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }
