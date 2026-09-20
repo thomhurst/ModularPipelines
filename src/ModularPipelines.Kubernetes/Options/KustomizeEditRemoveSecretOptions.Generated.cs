@@ -18,15 +18,24 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "remove", "secret")]
-public record KustomizeEditRemoveSecretOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : KustomizeOptions
+public record KustomizeEditRemoveSecretOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for secret
+    /// Removes the specified secret(s) from the kustomization.yaml file in the specified namespace.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Name">The NAME operand.</param>
+    public KustomizeEditRemoveSecretOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
 
     /// <summary>
     /// Namespace to remove Secret(s) from
@@ -39,5 +48,11 @@ public record KustomizeEditRemoveSecretOptions(
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

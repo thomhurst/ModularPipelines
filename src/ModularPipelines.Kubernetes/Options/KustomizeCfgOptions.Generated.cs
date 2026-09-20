@@ -21,12 +21,6 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeCfgOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for cfg
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// print a stack-trace on error
     /// </summary>
     [CliFlag("--stack-trace")]

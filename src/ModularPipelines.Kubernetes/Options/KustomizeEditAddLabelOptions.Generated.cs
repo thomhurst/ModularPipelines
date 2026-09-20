@@ -27,12 +27,6 @@ public record KustomizeEditAddLabelOptions : KustomizeOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// help for label
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// include labels in templates (requires --without-selector)
     /// </summary>
     [CliFlag("--include-templates")]

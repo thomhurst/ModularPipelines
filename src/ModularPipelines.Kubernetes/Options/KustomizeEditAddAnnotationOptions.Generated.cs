@@ -27,12 +27,6 @@ public record KustomizeEditAddAnnotationOptions : KustomizeOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// help for annotation
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// print a stack-trace on error
     /// </summary>
     [CliFlag("--stack-trace")]

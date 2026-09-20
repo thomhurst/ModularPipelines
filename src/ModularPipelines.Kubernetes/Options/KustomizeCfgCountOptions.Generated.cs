@@ -21,12 +21,6 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeCfgCountOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for count
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// count resources by kind. (default true)
     /// </summary>
     [CliOption("--kind", Format = OptionFormat.EqualsSeparated)]

@@ -21,12 +21,6 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeLocalizeOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for localize
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Does not verify that the outputs of kustomize build for target and newDir are the same after localization. If not specified, this flag defaults to false and will run kustomize build.
     /// </summary>
     [CliFlag("--no-verify")]

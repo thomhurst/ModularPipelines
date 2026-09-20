@@ -21,12 +21,6 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditAddTransformerOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for transformer
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// print a stack-trace on error
     /// </summary>
     [CliFlag("--stack-trace")]

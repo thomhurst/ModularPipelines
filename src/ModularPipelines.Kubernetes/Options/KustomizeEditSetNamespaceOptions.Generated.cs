@@ -21,12 +21,6 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditSetNamespaceOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for namespace
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// print a stack-trace on error
     /// </summary>
     [CliFlag("--stack-trace")]

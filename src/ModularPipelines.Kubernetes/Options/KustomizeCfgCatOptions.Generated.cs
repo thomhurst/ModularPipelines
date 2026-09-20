@@ -18,10 +18,25 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cfg", "cat")]
-public record KustomizeCfgCatOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Dir
-) : KustomizeOptions
+public record KustomizeCfgCatOptions : KustomizeOptions
 {
+    /// <summary>
+    /// [Alpha]  Print Resource Config from a local directory.
+    /// </summary>
+    /// <param name="Dir">The DIR operand.</param>
+    public KustomizeCfgCatOptions(
+        string Dir
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Dir);
+        this.Dir = Dir;
+    }
+
+    public void Deconstruct(out string Dir)
+    {
+        Dir = this.Dir;
+    }
+
     /// <summary>
     /// annotate resources with their file origins.
     /// </summary>
@@ -51,12 +66,6 @@ public record KustomizeCfgCatOptions(
     /// </summary>
     [CliOption("--function-config", Format = OptionFormat.EqualsSeparated)]
     public string? FunctionConfig { get; set; }
-
-    /// <summary>
-    /// help for cat
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// if true, include local-config in the output.
@@ -99,5 +108,11 @@ public record KustomizeCfgCatOptions(
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The DIR operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Dir { get; private init; }
 
 }

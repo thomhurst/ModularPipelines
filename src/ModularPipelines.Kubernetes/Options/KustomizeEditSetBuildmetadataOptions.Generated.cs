@@ -18,20 +18,35 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "set", "buildmetadata")]
-public record KustomizeEditSetBuildmetadataOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Metadata
-) : KustomizeOptions
+public record KustomizeEditSetBuildmetadataOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for buildmetadata
+    /// Sets one or more buildMetadata options to the kustomization.yaml in the current directory.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Metadata">The &lt;metadata&gt; operand.</param>
+    public KustomizeEditSetBuildmetadataOptions(
+        string Metadata
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Metadata);
+        this.Metadata = Metadata;
+    }
+
+    public void Deconstruct(out string Metadata)
+    {
+        Metadata = this.Metadata;
+    }
 
     /// <summary>
     /// print a stack-trace on error
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The &lt;metadata&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Metadata { get; private init; }
 
 }

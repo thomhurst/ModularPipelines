@@ -33,12 +33,6 @@ public record KustomizeEditRemovePatchOptions : KustomizeOptions
     public string? Group { get; set; }
 
     /// <summary>
-    /// help for patch
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Resource kind in patch target
     /// </summary>
     [CliOption("--kind", Format = OptionFormat.EqualsSeparated)]

@@ -18,10 +18,25 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit", "add", "configmap")]
-public record KustomizeEditAddConfigmapOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : KustomizeOptions
+public record KustomizeEditAddConfigmapOptions : KustomizeOptions
 {
+    /// <summary>
+    /// Adds a configmap to the kustomization file
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public KustomizeEditAddConfigmapOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Specify the behavior for config map generation, i.e whether to create a new configmap (the default),  to merge with a previously defined one, or to replace an existing one. Merge and replace should be used only  when overriding an existing configmap defined in a base
     /// </summary>
@@ -53,12 +68,6 @@ public record KustomizeEditAddConfigmapOptions(
     public IEnumerable<string>? FromLiteral { get; set; }
 
     /// <summary>
-    /// help for configmap
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Specify the namespace of the ConfigMap
     /// </summary>
     [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
@@ -69,5 +78,11 @@ public record KustomizeEditAddConfigmapOptions(
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

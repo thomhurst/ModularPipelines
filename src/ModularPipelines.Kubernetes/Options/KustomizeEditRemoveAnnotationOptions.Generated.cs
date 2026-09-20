@@ -21,12 +21,6 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditRemoveAnnotationOptions : KustomizeOptions
 {
     /// <summary>
-    /// help for annotation
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// ignore error if the given label doesn't exist
     /// </summary>
     [CliFlag("--ignore-non-existence", ShortForm = "-i")]

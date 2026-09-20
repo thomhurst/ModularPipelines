@@ -63,12 +63,6 @@ public record KustomizeCfgTreeOptions : KustomizeOptions
     public string? GraphStructure { get; set; }
 
     /// <summary>
-    /// help for tree
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// print image field
     /// </summary>
     [CliFlag("--image")]
