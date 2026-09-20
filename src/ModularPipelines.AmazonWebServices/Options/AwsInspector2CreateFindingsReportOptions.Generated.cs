@@ -35,7 +35,6 @@ public record AwsInspector2CreateFindingsReportOptions : AwsOptions, IValidatabl
         string S3Destination
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ReportFormat);
         this.ReportFormat = ReportFormat;
         global::System.ArgumentNullException.ThrowIfNull(S3Destination);
         this.S3Destination = S3Destination;

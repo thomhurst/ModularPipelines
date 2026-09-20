@@ -41,7 +41,6 @@ public record AwsRoute53TestDnsAnswerOptions : AwsOptions, IValidatableObject
         this.HostedZoneId = HostedZoneId;
         global::System.ArgumentNullException.ThrowIfNull(RecordName);
         this.RecordName = RecordName;
-        global::System.ArgumentNullException.ThrowIfNull(RecordType);
         this.RecordType = RecordType;
     }
 

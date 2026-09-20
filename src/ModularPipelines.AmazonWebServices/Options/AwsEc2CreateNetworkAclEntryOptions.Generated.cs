@@ -46,7 +46,6 @@ public record AwsEc2CreateNetworkAclEntryOptions : AwsOptions, IValidatableObjec
         this.RuleNumber = RuleNumber;
         global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
-        global::System.ArgumentNullException.ThrowIfNull(RuleAction);
         this.RuleAction = RuleAction;
         this.Egress = Egress;
     }

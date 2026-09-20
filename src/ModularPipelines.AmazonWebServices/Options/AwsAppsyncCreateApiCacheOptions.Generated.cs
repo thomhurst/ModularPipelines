@@ -42,9 +42,7 @@ public record AwsAppsyncCreateApiCacheOptions : AwsOptions, IValidatableObject
         global::System.ArgumentNullException.ThrowIfNull(ApiId);
         this.ApiId = ApiId;
         this.Ttl = Ttl;
-        global::System.ArgumentNullException.ThrowIfNull(ApiCachingBehavior);
         this.ApiCachingBehavior = ApiCachingBehavior;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

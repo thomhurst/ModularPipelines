@@ -47,11 +47,9 @@ public record AwsDeadlineAssociateMemberToFleetOptions : AwsOptions, IValidatabl
         this.FarmId = FarmId;
         global::System.ArgumentNullException.ThrowIfNull(FleetId);
         this.FleetId = FleetId;
-        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
         this.PrincipalType = PrincipalType;
         global::System.ArgumentNullException.ThrowIfNull(IdentityStoreId);
         this.IdentityStoreId = IdentityStoreId;
-        global::System.ArgumentNullException.ThrowIfNull(MembershipLevel);
         this.MembershipLevel = MembershipLevel;
         global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
         this.PrincipalId = PrincipalId;

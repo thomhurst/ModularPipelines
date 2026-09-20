@@ -35,7 +35,6 @@ public record AwsSesv2PutAccountDetailsOptions : AwsOptions, IValidatableObject
         string WebsiteUrl
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(MailType);
         this.MailType = MailType;
         global::System.ArgumentNullException.ThrowIfNull(WebsiteUrl);
         this.WebsiteUrl = WebsiteUrl;

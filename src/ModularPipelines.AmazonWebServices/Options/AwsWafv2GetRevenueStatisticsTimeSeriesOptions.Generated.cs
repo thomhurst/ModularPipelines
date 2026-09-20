@@ -41,13 +41,10 @@ public record AwsWafv2GetRevenueStatisticsTimeSeriesOptions : AwsOptions, IValid
         string Currency
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(StatisticType);
         this.StatisticType = StatisticType;
         global::System.ArgumentNullException.ThrowIfNull(TimeWindow);
         this.TimeWindow = TimeWindow;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
-        global::System.ArgumentNullException.ThrowIfNull(Interval);
         this.Interval = Interval;
         global::System.ArgumentNullException.ThrowIfNull(Currency);
         this.Currency = Currency;

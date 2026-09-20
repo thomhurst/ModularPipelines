@@ -37,7 +37,6 @@ public record AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions : AwsOpt
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
         this.ApplicationName = ApplicationName;
-        global::System.ArgumentNullException.ThrowIfNull(UrlType);
         this.UrlType = UrlType;
     }
 

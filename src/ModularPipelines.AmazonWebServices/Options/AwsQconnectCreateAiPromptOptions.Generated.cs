@@ -53,17 +53,14 @@ public record AwsQconnectCreateAiPromptOptions : AwsOptions, IValidatableObject
         this.AssistantId = AssistantId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(TemplateConfiguration);
         this.TemplateConfiguration = TemplateConfiguration;
-        global::System.ArgumentNullException.ThrowIfNull(VisibilityStatus);
         this.VisibilityStatus = VisibilityStatus;
         global::System.ArgumentNullException.ThrowIfNull(TemplateType);
         this.TemplateType = TemplateType;
         global::System.ArgumentNullException.ThrowIfNull(ModelId);
         this.ModelId = ModelId;
-        global::System.ArgumentNullException.ThrowIfNull(ApiFormat);
         this.ApiFormat = ApiFormat;
     }
 

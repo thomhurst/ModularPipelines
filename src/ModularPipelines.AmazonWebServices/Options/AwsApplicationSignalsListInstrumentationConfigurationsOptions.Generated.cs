@@ -42,7 +42,6 @@ public record AwsApplicationSignalsListInstrumentationConfigurationsOptions : Aw
         this.Service = Service;
         global::System.ArgumentNullException.ThrowIfNull(Environment);
         this.Environment = Environment;
-        global::System.ArgumentNullException.ThrowIfNull(InstrumentationType);
         this.InstrumentationType = InstrumentationType;
     }
 

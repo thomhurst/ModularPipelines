@@ -41,7 +41,6 @@ public record AwsAcmPcaRevokeCertificateOptions : AwsOptions, IValidatableObject
         this.CertificateAuthorityArn = CertificateAuthorityArn;
         global::System.ArgumentNullException.ThrowIfNull(CertificateSerial);
         this.CertificateSerial = CertificateSerial;
-        global::System.ArgumentNullException.ThrowIfNull(RevocationReason);
         this.RevocationReason = RevocationReason;
     }
 

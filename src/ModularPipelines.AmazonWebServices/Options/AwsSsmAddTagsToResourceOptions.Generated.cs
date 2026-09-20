@@ -37,7 +37,6 @@ public record AwsSsmAddTagsToResourceOptions : AwsOptions, IValidatableObject
         IEnumerable<string> Tags
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;

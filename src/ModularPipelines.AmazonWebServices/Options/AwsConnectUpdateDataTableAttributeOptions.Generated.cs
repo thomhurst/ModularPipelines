@@ -49,7 +49,6 @@ public record AwsConnectUpdateDataTableAttributeOptions : AwsOptions, IValidatab
         this.AttributeName = AttributeName;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(ValueType);
         this.ValueType = ValueType;
     }
 

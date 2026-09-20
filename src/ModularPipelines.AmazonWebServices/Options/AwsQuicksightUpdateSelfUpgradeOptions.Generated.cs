@@ -45,7 +45,6 @@ public record AwsQuicksightUpdateSelfUpgradeOptions : AwsOptions, IValidatableOb
         this.Namespace = Namespace;
         global::System.ArgumentNullException.ThrowIfNull(UpgradeRequestId);
         this.UpgradeRequestId = UpgradeRequestId;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

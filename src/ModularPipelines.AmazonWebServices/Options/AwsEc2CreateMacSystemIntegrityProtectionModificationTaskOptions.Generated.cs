@@ -38,7 +38,6 @@ public record AwsEc2CreateMacSystemIntegrityProtectionModificationTaskOptions : 
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(MacSystemIntegrityProtectionStatus);
         this.MacSystemIntegrityProtectionStatus = MacSystemIntegrityProtectionStatus;
     }
 

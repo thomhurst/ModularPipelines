@@ -36,7 +36,6 @@ public record AwsPiListPerformanceAnalysisReportsOptions : AwsOptions, IValidata
         string Identifier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
         this.ServiceType = ServiceType;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;

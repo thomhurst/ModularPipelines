@@ -35,7 +35,6 @@ public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionOptions : 
         string Identifier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;

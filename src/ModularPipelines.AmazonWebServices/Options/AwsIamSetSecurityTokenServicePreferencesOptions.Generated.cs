@@ -33,7 +33,6 @@ public record AwsIamSetSecurityTokenServicePreferencesOptions : AwsOptions, IVal
         AwsIamSetSecurityTokenServicePreferencesGlobalEndpointTokenVersion GlobalEndpointTokenVersion
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(GlobalEndpointTokenVersion);
         this.GlobalEndpointTokenVersion = GlobalEndpointTokenVersion;
     }
 

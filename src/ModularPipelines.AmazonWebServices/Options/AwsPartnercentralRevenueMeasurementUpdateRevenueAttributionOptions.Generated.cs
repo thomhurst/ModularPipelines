@@ -38,7 +38,6 @@ public record AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions
         string Revision
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;

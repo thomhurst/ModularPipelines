@@ -52,7 +52,6 @@ public record AwsGuarddutyUpdateFindingsFeedbackOptions : AwsOptions, IValidatab
             FindingIds = materialized;
         }
         this.FindingIds = FindingIds;
-        global::System.ArgumentNullException.ThrowIfNull(Feedback);
         this.Feedback = Feedback;
     }
 

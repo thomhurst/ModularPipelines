@@ -39,7 +39,6 @@ public record AwsLightsailUpdateLoadBalancerAttributeOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
         this.LoadBalancerName = LoadBalancerName;
-        global::System.ArgumentNullException.ThrowIfNull(AttributeName);
         this.AttributeName = AttributeName;
         global::System.ArgumentNullException.ThrowIfNull(AttributeValue);
         this.AttributeValue = AttributeValue;

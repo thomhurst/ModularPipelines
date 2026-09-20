@@ -34,7 +34,6 @@ public record AwsDiscoveryListConfigurationsOptions : AwsOptions, IValidatableOb
         AwsDiscoveryListConfigurationsConfigurationType ConfigurationType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ConfigurationType);
         this.ConfigurationType = ConfigurationType;
     }
 

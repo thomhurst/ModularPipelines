@@ -41,7 +41,6 @@ public record AwsQuicksightDescribeFlowOptions : AwsOptions, IValidatableObject
         this.AwsAccountId = AwsAccountId;
         global::System.ArgumentNullException.ThrowIfNull(FlowId);
         this.FlowId = FlowId;
-        global::System.ArgumentNullException.ThrowIfNull(PublishState);
         this.PublishState = PublishState;
     }
 

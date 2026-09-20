@@ -36,7 +36,6 @@ public record AwsWafv2CreateApiKeyOptions : AwsOptions, IValidatableObject
         IEnumerable<string> TokenDomains
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         {
             global::System.ArgumentNullException.ThrowIfNull(TokenDomains);

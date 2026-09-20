@@ -37,7 +37,6 @@ public record AwsAcmRevokeCertificateOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(CertificateArn);
         this.CertificateArn = CertificateArn;
-        global::System.ArgumentNullException.ThrowIfNull(RevocationReason);
         this.RevocationReason = RevocationReason;
     }
 

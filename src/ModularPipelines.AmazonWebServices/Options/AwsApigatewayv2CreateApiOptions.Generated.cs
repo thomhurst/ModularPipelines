@@ -39,7 +39,6 @@ public record AwsApigatewayv2CreateApiOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(ProtocolType);
         this.ProtocolType = ProtocolType;
     }
 

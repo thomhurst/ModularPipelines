@@ -53,7 +53,6 @@ public record AwsMailmanagerCreateTrafficPolicyOptions : AwsOptions, IValidatabl
             PolicyStatements = materialized;
         }
         this.PolicyStatements = PolicyStatements;
-        global::System.ArgumentNullException.ThrowIfNull(DefaultAction);
         this.DefaultAction = DefaultAction;
     }
 

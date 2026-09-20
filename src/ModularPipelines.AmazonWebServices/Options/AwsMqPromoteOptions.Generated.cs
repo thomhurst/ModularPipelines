@@ -37,7 +37,6 @@ public record AwsMqPromoteOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(BrokerId);
         this.BrokerId = BrokerId;
-        global::System.ArgumentNullException.ThrowIfNull(Mode);
         this.Mode = Mode;
     }
 

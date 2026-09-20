@@ -45,7 +45,6 @@ public record AwsCognitoIdpAdminUpdateAuthEventFeedbackOptions : AwsOptions, IVa
         this.Username = Username;
         global::System.ArgumentNullException.ThrowIfNull(EventId);
         this.EventId = EventId;
-        global::System.ArgumentNullException.ThrowIfNull(FeedbackValue);
         this.FeedbackValue = FeedbackValue;
     }
 

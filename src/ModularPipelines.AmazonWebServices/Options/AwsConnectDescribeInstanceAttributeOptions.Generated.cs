@@ -37,7 +37,6 @@ public record AwsConnectDescribeInstanceAttributeOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(AttributeType);
         this.AttributeType = AttributeType;
     }
 

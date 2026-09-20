@@ -33,7 +33,6 @@ public record AwsWafv2DescribeAllManagedProductsOptions : AwsOptions, IValidatab
         AwsWafv2DescribeAllManagedProductsScope Scope
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

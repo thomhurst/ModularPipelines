@@ -36,7 +36,6 @@ public record AwsCognitoIdpInitiateAuthOptions : AwsOptions, IValidatableObject
         string ClientId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AuthFlow);
         this.AuthFlow = AuthFlow;
         global::System.ArgumentNullException.ThrowIfNull(ClientId);
         this.ClientId = ClientId;

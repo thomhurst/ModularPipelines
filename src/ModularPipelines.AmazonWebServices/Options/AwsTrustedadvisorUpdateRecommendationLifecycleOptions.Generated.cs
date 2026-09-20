@@ -35,7 +35,6 @@ public record AwsTrustedadvisorUpdateRecommendationLifecycleOptions : AwsOptions
         string RecommendationIdentifier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(LifecycleStage);
         this.LifecycleStage = LifecycleStage;
         global::System.ArgumentNullException.ThrowIfNull(RecommendationIdentifier);
         this.RecommendationIdentifier = RecommendationIdentifier;

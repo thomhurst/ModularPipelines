@@ -73,12 +73,9 @@ public record AwsMgnCreateReplicationConfigurationTemplateOptions : AwsOptions, 
         global::System.ArgumentNullException.ThrowIfNull(ReplicationServerInstanceType);
         this.ReplicationServerInstanceType = ReplicationServerInstanceType;
         this.UseDedicatedReplicationServer = UseDedicatedReplicationServer;
-        global::System.ArgumentNullException.ThrowIfNull(DefaultLargeStagingDiskType);
         this.DefaultLargeStagingDiskType = DefaultLargeStagingDiskType;
-        global::System.ArgumentNullException.ThrowIfNull(EbsEncryption);
         this.EbsEncryption = EbsEncryption;
         this.BandwidthThrottling = BandwidthThrottling;
-        global::System.ArgumentNullException.ThrowIfNull(DataPlaneRouting);
         this.DataPlaneRouting = DataPlaneRouting;
         this.CreatePublicIp = CreatePublicIp;
         {

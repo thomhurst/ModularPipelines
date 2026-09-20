@@ -46,7 +46,6 @@ public record AwsCodecommitBatchDescribeMergeConflictsOptions : AwsOptions, IVal
         this.DestinationCommitSpecifier = DestinationCommitSpecifier;
         global::System.ArgumentNullException.ThrowIfNull(SourceCommitSpecifier);
         this.SourceCommitSpecifier = SourceCommitSpecifier;
-        global::System.ArgumentNullException.ThrowIfNull(MergeOption);
         this.MergeOption = MergeOption;
     }
 

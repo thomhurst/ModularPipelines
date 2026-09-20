@@ -35,7 +35,6 @@ public record AwsComputeOptimizerDeleteRecommendationPreferencesOptions : AwsOpt
         IEnumerable<string> RecommendationPreferenceNames
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         {
             global::System.ArgumentNullException.ThrowIfNull(RecommendationPreferenceNames);

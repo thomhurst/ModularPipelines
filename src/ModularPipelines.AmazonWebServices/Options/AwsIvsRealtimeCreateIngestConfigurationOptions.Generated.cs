@@ -34,7 +34,6 @@ public record AwsIvsRealtimeCreateIngestConfigurationOptions : AwsOptions, IVali
         AwsIvsRealtimeCreateIngestConfigurationIngestProtocol IngestProtocol
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(IngestProtocol);
         this.IngestProtocol = IngestProtocol;
     }
 

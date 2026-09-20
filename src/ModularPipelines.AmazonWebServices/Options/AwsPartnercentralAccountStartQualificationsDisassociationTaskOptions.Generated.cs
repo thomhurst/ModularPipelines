@@ -38,7 +38,6 @@ public record AwsPartnercentralAccountStartQualificationsDisassociationTaskOptio
         string AssociatedPartner
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;

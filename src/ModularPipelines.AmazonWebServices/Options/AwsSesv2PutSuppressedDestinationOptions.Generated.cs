@@ -37,7 +37,6 @@ public record AwsSesv2PutSuppressedDestinationOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(EmailAddress);
         this.EmailAddress = EmailAddress;
-        global::System.ArgumentNullException.ThrowIfNull(Reason);
         this.Reason = Reason;
     }
 

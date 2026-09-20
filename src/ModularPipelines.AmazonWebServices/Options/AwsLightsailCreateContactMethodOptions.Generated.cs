@@ -35,7 +35,6 @@ public record AwsLightsailCreateContactMethodOptions : AwsOptions, IValidatableO
         string ContactEndpoint
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
         global::System.ArgumentNullException.ThrowIfNull(ContactEndpoint);
         this.ContactEndpoint = ContactEndpoint;

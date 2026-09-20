@@ -59,7 +59,6 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions, 
             ReplicationServersSecurityGroupsIds = materialized;
         }
         this.ReplicationServersSecurityGroupsIds = ReplicationServersSecurityGroupsIds;
-        global::System.ArgumentNullException.ThrowIfNull(EbsEncryption);
         this.EbsEncryption = EbsEncryption;
         this.BandwidthThrottling = BandwidthThrottling;
         {

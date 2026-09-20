@@ -43,7 +43,6 @@ public record AwsAuditManagerUpdateAssessmentControlSetStatusOptions : AwsOption
         this.AssessmentId = AssessmentId;
         global::System.ArgumentNullException.ThrowIfNull(ControlSetId);
         this.ControlSetId = ControlSetId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
         global::System.ArgumentNullException.ThrowIfNull(Comment);
         this.Comment = Comment;

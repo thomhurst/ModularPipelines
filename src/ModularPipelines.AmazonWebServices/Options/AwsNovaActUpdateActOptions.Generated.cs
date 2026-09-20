@@ -49,7 +49,6 @@ public record AwsNovaActUpdateActOptions : AwsOptions, IValidatableObject
         this.SessionId = SessionId;
         global::System.ArgumentNullException.ThrowIfNull(ActId);
         this.ActId = ActId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

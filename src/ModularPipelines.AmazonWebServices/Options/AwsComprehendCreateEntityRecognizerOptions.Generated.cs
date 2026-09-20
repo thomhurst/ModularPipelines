@@ -46,7 +46,6 @@ public record AwsComprehendCreateEntityRecognizerOptions : AwsOptions, IValidata
         this.DataAccessRoleArn = DataAccessRoleArn;
         global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
         this.InputDataConfig = InputDataConfig;
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
     }
 

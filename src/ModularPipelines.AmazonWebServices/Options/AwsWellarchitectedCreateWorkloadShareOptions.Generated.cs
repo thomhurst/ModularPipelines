@@ -42,7 +42,6 @@ public record AwsWellarchitectedCreateWorkloadShareOptions : AwsOptions, IValida
         this.WorkloadId = WorkloadId;
         global::System.ArgumentNullException.ThrowIfNull(SharedWith);
         this.SharedWith = SharedWith;
-        global::System.ArgumentNullException.ThrowIfNull(PermissionType);
         this.PermissionType = PermissionType;
     }
 

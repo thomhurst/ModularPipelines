@@ -41,7 +41,6 @@ public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions, IValidatabl
         this.AwsAccountId = AwsAccountId;
         global::System.ArgumentNullException.ThrowIfNull(DashboardId);
         this.DashboardId = DashboardId;
-        global::System.ArgumentNullException.ThrowIfNull(IdentityType);
         this.IdentityType = IdentityType;
     }
 

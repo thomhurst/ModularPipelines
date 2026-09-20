@@ -47,7 +47,6 @@ public record AwsLightsailGetDistributionMetricDataOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(DistributionName);
         this.DistributionName = DistributionName;
-        global::System.ArgumentNullException.ThrowIfNull(MetricName);
         this.MetricName = MetricName;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);
         this.StartTime = StartTime;

@@ -62,13 +62,13 @@ public record AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions : AwsOptions
     public string? OriginationPhoneNumberId { get; private init; }
 
     /// <summary>
-    /// PEM-encoded RSA public key. Mutually exclusive with kmsKeyArn. Constraints: o min: 1 o max: 8192
+    /// The PEM-encoded 2048-bit RSA public key to set. Mutually exclusive with kmsKeyArn . Constraints: o min: 1 o max: 8192
     /// </summary>
     [CliOption("--business-public-key")]
     public string? BusinessPublicKey { get; set; }
 
     /// <summary>
-    /// Customer-managed KMS asymmetric RSA key ARN. Mutually exclusive with businessPublicKey. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z-]*:kms:[a-z0-9-]+:[0-9]{12}:(key/.+|alias/.+)
+    /// The ARN of a customer managed asymmetric RSA key in Amazon Web Ser- vices KMS. Mutually exclusive with businessPublicKey . Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z-]*:kms:[a-z0-9-]+:[0-9]{12}:(key/.+|alias/.+)
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }

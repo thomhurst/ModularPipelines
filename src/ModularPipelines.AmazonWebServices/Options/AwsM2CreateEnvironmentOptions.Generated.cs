@@ -39,7 +39,6 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions, IValidatableObject
         string Name
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EngineType);
         this.EngineType = EngineType;
         global::System.ArgumentNullException.ThrowIfNull(InstanceType);
         this.InstanceType = InstanceType;

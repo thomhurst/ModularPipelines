@@ -41,7 +41,6 @@ public record AwsGameliftPutScalingPolicyOptions : AwsOptions, IValidatableObjec
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(FleetId);
         this.FleetId = FleetId;
-        global::System.ArgumentNullException.ThrowIfNull(MetricName);
         this.MetricName = MetricName;
     }
 

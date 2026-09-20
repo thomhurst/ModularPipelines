@@ -39,7 +39,6 @@ public record AwsCodeartifactGetAssociatedPackageGroupOptions : AwsOptions, IVal
     {
         global::System.ArgumentNullException.ThrowIfNull(Domain);
         this.Domain = Domain;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
         global::System.ArgumentNullException.ThrowIfNull(Package);
         this.Package = Package;

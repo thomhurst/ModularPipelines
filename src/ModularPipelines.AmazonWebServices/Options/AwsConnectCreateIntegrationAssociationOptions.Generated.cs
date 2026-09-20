@@ -40,7 +40,6 @@ public record AwsConnectCreateIntegrationAssociationOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(IntegrationType);
         this.IntegrationType = IntegrationType;
         global::System.ArgumentNullException.ThrowIfNull(IntegrationArn);
         this.IntegrationArn = IntegrationArn;

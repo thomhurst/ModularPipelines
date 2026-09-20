@@ -44,7 +44,6 @@ public record AwsConnectCreatePersistentContactAssociationOptions : AwsOptions, 
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(InitialContactId);
         this.InitialContactId = InitialContactId;
-        global::System.ArgumentNullException.ThrowIfNull(RehydrationType);
         this.RehydrationType = RehydrationType;
         global::System.ArgumentNullException.ThrowIfNull(SourceContactId);
         this.SourceContactId = SourceContactId;

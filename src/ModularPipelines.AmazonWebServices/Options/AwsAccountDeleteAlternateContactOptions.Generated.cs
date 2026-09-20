@@ -33,7 +33,6 @@ public record AwsAccountDeleteAlternateContactOptions : AwsOptions, IValidatable
         AwsAccountDeleteAlternateContactAlternateContactType AlternateContactType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AlternateContactType);
         this.AlternateContactType = AlternateContactType;
     }
 

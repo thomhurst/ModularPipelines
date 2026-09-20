@@ -41,7 +41,6 @@ public record AwsQuicksightUpdateRoleCustomPermissionOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(CustomPermissionsName);
         this.CustomPermissionsName = CustomPermissionsName;
-        global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;

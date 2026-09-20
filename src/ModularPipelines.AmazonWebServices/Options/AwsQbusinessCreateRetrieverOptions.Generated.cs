@@ -42,7 +42,6 @@ public record AwsQbusinessCreateRetrieverOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
         this.ApplicationId = ApplicationId;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(DisplayName);
         this.DisplayName = DisplayName;

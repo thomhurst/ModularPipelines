@@ -38,9 +38,7 @@ public record AwsOutpostsCreateRenewalOptions : AwsOptions, IValidatableObject
         string OutpostIdentifier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(PaymentOption);
         this.PaymentOption = PaymentOption;
-        global::System.ArgumentNullException.ThrowIfNull(PaymentTerm);
         this.PaymentTerm = PaymentTerm;
         global::System.ArgumentNullException.ThrowIfNull(OutpostIdentifier);
         this.OutpostIdentifier = OutpostIdentifier;

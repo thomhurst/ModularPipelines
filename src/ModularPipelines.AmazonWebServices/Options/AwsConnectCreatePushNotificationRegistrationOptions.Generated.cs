@@ -48,7 +48,6 @@ public record AwsConnectCreatePushNotificationRegistrationOptions : AwsOptions, 
         this.PinpointAppArn = PinpointAppArn;
         global::System.ArgumentNullException.ThrowIfNull(DeviceToken);
         this.DeviceToken = DeviceToken;
-        global::System.ArgumentNullException.ThrowIfNull(DeviceType);
         this.DeviceType = DeviceType;
         global::System.ArgumentNullException.ThrowIfNull(ContactConfiguration);
         this.ContactConfiguration = ContactConfiguration;

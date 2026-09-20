@@ -38,7 +38,6 @@ public record AwsManagedblockchainQueryListTransactionsOptions : AwsOptions, IVa
     {
         global::System.ArgumentNullException.ThrowIfNull(Address);
         this.Address = Address;
-        global::System.ArgumentNullException.ThrowIfNull(Network);
         this.Network = Network;
     }
 

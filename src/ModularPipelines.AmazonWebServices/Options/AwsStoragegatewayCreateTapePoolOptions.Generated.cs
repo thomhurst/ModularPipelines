@@ -37,7 +37,6 @@ public record AwsStoragegatewayCreateTapePoolOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(PoolName);
         this.PoolName = PoolName;
-        global::System.ArgumentNullException.ThrowIfNull(StorageClass);
         this.StorageClass = StorageClass;
     }
 

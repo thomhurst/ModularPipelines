@@ -33,7 +33,6 @@ public record AwsWafv2ListRegexPatternSetsOptions : AwsOptions, IValidatableObje
         AwsWafv2ListRegexPatternSetsScope Scope
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

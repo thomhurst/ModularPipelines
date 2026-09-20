@@ -37,7 +37,6 @@ public record AwsForecastCreateDataSetGroupOptions : AwsOptions, IValidatableObj
     {
         global::System.ArgumentNullException.ThrowIfNull(DataSetGroupName);
         this.DataSetGroupName = DataSetGroupName;
-        global::System.ArgumentNullException.ThrowIfNull(Domain);
         this.Domain = Domain;
     }
 

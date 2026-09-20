@@ -39,7 +39,6 @@ public record AwsConnectCreateInstanceOptions : AwsOptions, IValidatableObject
         bool OutboundCallsEnabled
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(IdentityManagementType);
         this.IdentityManagementType = IdentityManagementType;
         this.InboundCallsEnabled = InboundCallsEnabled;
         this.OutboundCallsEnabled = OutboundCallsEnabled;

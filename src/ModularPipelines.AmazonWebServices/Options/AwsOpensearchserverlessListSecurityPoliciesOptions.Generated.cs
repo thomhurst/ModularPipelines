@@ -34,7 +34,6 @@ public record AwsOpensearchserverlessListSecurityPoliciesOptions : AwsOptions, I
         AwsOpensearchserverlessListSecurityPoliciesType Type
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

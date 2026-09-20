@@ -49,7 +49,6 @@ public record AwsEmrCreateStudioOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(AuthMode);
         this.AuthMode = AuthMode;
         global::System.ArgumentNullException.ThrowIfNull(VpcId);
         this.VpcId = VpcId;

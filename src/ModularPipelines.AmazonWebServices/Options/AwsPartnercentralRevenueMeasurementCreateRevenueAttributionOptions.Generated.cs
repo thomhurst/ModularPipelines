@@ -38,11 +38,9 @@ public record AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions
         AwsPartnercentralRevenueMeasurementCreateRevenueAttributionTenancyModel TenancyModel
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(TenancyModel);
         this.TenancyModel = TenancyModel;
     }
 

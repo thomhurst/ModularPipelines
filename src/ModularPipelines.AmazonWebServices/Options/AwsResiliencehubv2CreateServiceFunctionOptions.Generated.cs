@@ -42,7 +42,6 @@ public record AwsResiliencehubv2CreateServiceFunctionOptions : AwsOptions, IVali
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
         this.ServiceArn = ServiceArn;
-        global::System.ArgumentNullException.ThrowIfNull(Criticality);
         this.Criticality = Criticality;
     }
 

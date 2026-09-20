@@ -48,7 +48,6 @@ public record AwsConnectCreateDataTableOptions : AwsOptions, IValidatableObject
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(TimeZone);
         this.TimeZone = TimeZone;
-        global::System.ArgumentNullException.ThrowIfNull(ValueLockLevel);
         this.ValueLockLevel = ValueLockLevel;
         global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;

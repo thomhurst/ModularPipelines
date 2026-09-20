@@ -35,7 +35,6 @@ public record AwsRoute53GetHostedZoneLimitOptions : AwsOptions, IValidatableObje
         string HostedZoneId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
         this.HostedZoneId = HostedZoneId;

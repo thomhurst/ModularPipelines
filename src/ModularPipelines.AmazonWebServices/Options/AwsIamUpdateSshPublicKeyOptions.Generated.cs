@@ -41,7 +41,6 @@ public record AwsIamUpdateSshPublicKeyOptions : AwsOptions, IValidatableObject
         this.UserName = UserName;
         global::System.ArgumentNullException.ThrowIfNull(SshPublicKeyId);
         this.SshPublicKeyId = SshPublicKeyId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

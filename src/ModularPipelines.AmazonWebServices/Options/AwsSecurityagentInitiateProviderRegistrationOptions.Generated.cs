@@ -33,7 +33,6 @@ public record AwsSecurityagentInitiateProviderRegistrationOptions : AwsOptions, 
         AwsSecurityagentInitiateProviderRegistrationProvider Provider
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Provider);
         this.Provider = Provider;
     }
 

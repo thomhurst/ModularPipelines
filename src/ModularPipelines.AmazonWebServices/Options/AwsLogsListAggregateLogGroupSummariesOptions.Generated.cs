@@ -34,7 +34,6 @@ public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions, IValida
         AwsLogsListAggregateLogGroupSummariesGroupBy GroupBy
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(GroupBy);
         this.GroupBy = GroupBy;
     }
 

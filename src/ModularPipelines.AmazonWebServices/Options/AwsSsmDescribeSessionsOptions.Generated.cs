@@ -34,7 +34,6 @@ public record AwsSsmDescribeSessionsOptions : AwsOptions, IValidatableObject
         AwsSsmDescribeSessionsState State
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(State);
         this.State = State;
     }
 

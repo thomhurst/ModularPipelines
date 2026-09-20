@@ -43,7 +43,6 @@ public record AwsCodepipelineDisableStageTransitionOptions : AwsOptions, IValida
         this.PipelineName = PipelineName;
         global::System.ArgumentNullException.ThrowIfNull(StageName);
         this.StageName = StageName;
-        global::System.ArgumentNullException.ThrowIfNull(TransitionType);
         this.TransitionType = TransitionType;
         global::System.ArgumentNullException.ThrowIfNull(Reason);
         this.Reason = Reason;

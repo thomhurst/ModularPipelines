@@ -37,7 +37,6 @@ public record AwsOrganizationsEnablePolicyTypeOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(RootId);
         this.RootId = RootId;
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

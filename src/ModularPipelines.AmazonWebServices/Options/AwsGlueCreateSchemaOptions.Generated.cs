@@ -38,7 +38,6 @@ public record AwsGlueCreateSchemaOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(SchemaName);
         this.SchemaName = SchemaName;
-        global::System.ArgumentNullException.ThrowIfNull(DataFormat);
         this.DataFormat = DataFormat;
     }
 

@@ -37,7 +37,6 @@ public record AwsIotUpdateCertificateOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(CertificateId);
         this.CertificateId = CertificateId;
-        global::System.ArgumentNullException.ThrowIfNull(NewStatus);
         this.NewStatus = NewStatus;
     }
 

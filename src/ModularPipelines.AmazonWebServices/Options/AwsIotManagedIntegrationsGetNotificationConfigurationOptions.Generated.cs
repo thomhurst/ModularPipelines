@@ -33,7 +33,6 @@ public record AwsIotManagedIntegrationsGetNotificationConfigurationOptions : Aws
         AwsIotManagedIntegrationsGetNotificationConfigurationEventType EventType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EventType);
         this.EventType = EventType;
     }
 

@@ -28,7 +28,7 @@ public record AwsNotificationsListEventRulesOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Returns a list of EventRules according to specified filters, in reverse chronological order (newest first). See also: AWS API Documentation list-event-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
     /// </summary>
-    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the NotificationConfiguration . Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
+    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the NotificationConfiguration . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
     public AwsNotificationsListEventRulesOptions(
         string NotificationConfigurationArn
     )
@@ -57,7 +57,7 @@ public record AwsNotificationsListEventRulesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the NotificationConfiguration . Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the NotificationConfiguration . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
     /// </summary>
     [CliOption("--notification-configuration-arn")]
     public string? NotificationConfigurationArn { get; private init; }

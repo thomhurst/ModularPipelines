@@ -38,7 +38,6 @@ public record AwsInspector2CreateFilterOptions : AwsOptions, IValidatableObject
         string Name
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
         global::System.ArgumentNullException.ThrowIfNull(FilterCriteria);
         this.FilterCriteria = FilterCriteria;

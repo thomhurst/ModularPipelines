@@ -57,7 +57,6 @@ public record AwsCleanroomsCreateConfiguredTableOptions : AwsOptions, IValidatab
             AllowedColumns = materialized;
         }
         this.AllowedColumns = AllowedColumns;
-        global::System.ArgumentNullException.ThrowIfNull(AnalysisMethod);
         this.AnalysisMethod = AnalysisMethod;
     }
 

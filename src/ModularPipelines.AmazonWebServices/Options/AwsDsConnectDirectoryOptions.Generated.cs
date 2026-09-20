@@ -44,7 +44,6 @@ public record AwsDsConnectDirectoryOptions : AwsOptions, IValidatableObject
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(Password);
         this.Password = Password;
-        global::System.ArgumentNullException.ThrowIfNull(Size);
         this.Size = Size;
         global::System.ArgumentNullException.ThrowIfNull(ConnectSettings);
         this.ConnectSettings = ConnectSettings;

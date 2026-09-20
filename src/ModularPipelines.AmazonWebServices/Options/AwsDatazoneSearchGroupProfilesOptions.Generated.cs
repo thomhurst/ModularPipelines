@@ -38,7 +38,6 @@ public record AwsDatazoneSearchGroupProfilesOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
         this.DomainIdentifier = DomainIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(GroupType);
         this.GroupType = GroupType;
     }
 

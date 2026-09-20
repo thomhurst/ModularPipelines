@@ -43,7 +43,6 @@ public record AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions : AwsO
         this.RegistryId = RegistryId;
         global::System.ArgumentNullException.ThrowIfNull(RecordId);
         this.RecordId = RecordId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
         global::System.ArgumentNullException.ThrowIfNull(StatusReason);
         this.StatusReason = StatusReason;

@@ -47,7 +47,6 @@ public record AwsEksCreateCapabilityOptions : AwsOptions, IValidatableObject
         this.CapabilityName = CapabilityName;
         global::System.ArgumentNullException.ThrowIfNull(ClusterName);
         this.ClusterName = ClusterName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(RoleArn);
         this.RoleArn = RoleArn;

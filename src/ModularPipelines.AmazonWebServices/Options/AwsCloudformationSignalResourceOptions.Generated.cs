@@ -45,7 +45,6 @@ public record AwsCloudformationSignalResourceOptions : AwsOptions, IValidatableO
         this.LogicalResourceId = LogicalResourceId;
         global::System.ArgumentNullException.ThrowIfNull(UniqueId);
         this.UniqueId = UniqueId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

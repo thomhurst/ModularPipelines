@@ -47,7 +47,6 @@ public record AwsPaymentCryptographyDataVerifyAuthRequestCryptogramOptions : Aws
         this.TransactionData = TransactionData;
         global::System.ArgumentNullException.ThrowIfNull(AuthRequestCryptogram);
         this.AuthRequestCryptogram = AuthRequestCryptogram;
-        global::System.ArgumentNullException.ThrowIfNull(MajorKeyDerivationMode);
         this.MajorKeyDerivationMode = MajorKeyDerivationMode;
         global::System.ArgumentNullException.ThrowIfNull(SessionKeyDerivationAttributes);
         this.SessionKeyDerivationAttributes = SessionKeyDerivationAttributes;

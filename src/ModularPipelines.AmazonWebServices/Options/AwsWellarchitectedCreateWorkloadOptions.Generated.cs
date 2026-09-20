@@ -45,7 +45,6 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions, IValidatable
         this.WorkloadName = WorkloadName;
         global::System.ArgumentNullException.ThrowIfNull(Description);
         this.Description = Description;
-        global::System.ArgumentNullException.ThrowIfNull(Environment);
         this.Environment = Environment;
         {
             global::System.ArgumentNullException.ThrowIfNull(Lenses);

@@ -37,7 +37,6 @@ public record AwsEmrDeleteStudioSessionMappingOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(StudioId);
         this.StudioId = StudioId;
-        global::System.ArgumentNullException.ThrowIfNull(IdentityType);
         this.IdentityType = IdentityType;
     }
 

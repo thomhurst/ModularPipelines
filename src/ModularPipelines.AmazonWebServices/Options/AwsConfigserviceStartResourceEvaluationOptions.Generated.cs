@@ -38,7 +38,6 @@ public record AwsConfigserviceStartResourceEvaluationOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceDetails);
         this.ResourceDetails = ResourceDetails;
-        global::System.ArgumentNullException.ThrowIfNull(EvaluationMode);
         this.EvaluationMode = EvaluationMode;
     }
 

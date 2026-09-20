@@ -40,7 +40,6 @@ public record AwsDevopsAgentEnableOperatorAppOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
         this.AgentSpaceId = AgentSpaceId;
-        global::System.ArgumentNullException.ThrowIfNull(AuthFlow);
         this.AuthFlow = AuthFlow;
         global::System.ArgumentNullException.ThrowIfNull(OperatorAppRoleArn);
         this.OperatorAppRoleArn = OperatorAppRoleArn;

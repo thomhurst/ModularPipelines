@@ -37,7 +37,6 @@ public record AwsWorkspacesThinClientUpdateSoftwareSetOptions : AwsOptions, IVal
     {
         global::System.ArgumentNullException.ThrowIfNull(Id);
         this.Id = Id;
-        global::System.ArgumentNullException.ThrowIfNull(ValidationStatus);
         this.ValidationStatus = ValidationStatus;
     }
 

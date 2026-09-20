@@ -39,7 +39,6 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(S3Url);
         this.S3Url = S3Url;
-        global::System.ArgumentNullException.ThrowIfNull(OtaType);
         this.OtaType = OtaType;
     }
 

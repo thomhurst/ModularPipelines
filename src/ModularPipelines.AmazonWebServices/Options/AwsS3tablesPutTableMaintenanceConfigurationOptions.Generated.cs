@@ -47,7 +47,6 @@ public record AwsS3tablesPutTableMaintenanceConfigurationOptions : AwsOptions, I
         this.Namespace = Namespace;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(Value);
         this.Value = Value;

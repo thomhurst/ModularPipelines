@@ -50,7 +50,6 @@ public record AwsConnectSendOutboundEmailOptions : AwsOptions, IValidatableObjec
         this.DestinationEmailAddress = DestinationEmailAddress;
         global::System.ArgumentNullException.ThrowIfNull(EmailMessage);
         this.EmailMessage = EmailMessage;
-        global::System.ArgumentNullException.ThrowIfNull(TrafficType);
         this.TrafficType = TrafficType;
     }
 

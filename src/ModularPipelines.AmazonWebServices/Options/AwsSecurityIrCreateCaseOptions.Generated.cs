@@ -47,7 +47,6 @@ public record AwsSecurityIrCreateCaseOptions : AwsOptions, IValidatableObject
         IEnumerable<string> Watchers
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResolverType);
         this.ResolverType = ResolverType;
         global::System.ArgumentNullException.ThrowIfNull(Title);
         this.Title = Title;

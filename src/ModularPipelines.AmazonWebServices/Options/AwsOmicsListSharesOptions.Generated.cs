@@ -34,7 +34,6 @@ public record AwsOmicsListSharesOptions : AwsOptions, IValidatableObject
         AwsOmicsListSharesResourceOwner ResourceOwner
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceOwner);
         this.ResourceOwner = ResourceOwner;
     }
 

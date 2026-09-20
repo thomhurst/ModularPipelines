@@ -35,9 +35,7 @@ public record AwsPaymentCryptographyGetParametersForExportOptions : AwsOptions, 
         AwsPaymentCryptographyGetParametersForExportSigningKeyAlgorithm SigningKeyAlgorithm
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(KeyMaterialType);
         this.KeyMaterialType = KeyMaterialType;
-        global::System.ArgumentNullException.ThrowIfNull(SigningKeyAlgorithm);
         this.SigningKeyAlgorithm = SigningKeyAlgorithm;
     }
 

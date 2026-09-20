@@ -41,7 +41,6 @@ public record AwsAccessanalyzerCheckNoNewAccessOptions : AwsOptions, IValidatabl
         this.NewPolicyDocument = NewPolicyDocument;
         global::System.ArgumentNullException.ThrowIfNull(ExistingPolicyDocument);
         this.ExistingPolicyDocument = ExistingPolicyDocument;
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

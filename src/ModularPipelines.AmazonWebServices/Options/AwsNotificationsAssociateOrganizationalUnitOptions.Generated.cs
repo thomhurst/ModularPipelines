@@ -28,7 +28,7 @@ public record AwsNotificationsAssociateOrganizationalUnitOptions : AwsOptions, I
     /// Associates an organizational unit with a notification configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="OrganizationalUnitId">The unique identifier of the organizational unit to associate. Constraints: o pattern: (Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})</param>
-    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the notification configuration to associate with the organizational unit. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
+    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the notification configuration to associate with the organizational unit. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
     public AwsNotificationsAssociateOrganizationalUnitOptions(
         string OrganizationalUnitId,
         string NotificationConfigurationArn
@@ -66,7 +66,7 @@ public record AwsNotificationsAssociateOrganizationalUnitOptions : AwsOptions, I
     public string? OrganizationalUnitId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the notification configuration to associate with the organizational unit. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the notification configuration to associate with the organizational unit. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
     /// </summary>
     [CliOption("--notification-configuration-arn")]
     public string? NotificationConfigurationArn { get; private init; }

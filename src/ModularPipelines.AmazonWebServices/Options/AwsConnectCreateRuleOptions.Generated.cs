@@ -66,7 +66,6 @@ public record AwsConnectCreateRuleOptions : AwsOptions, IValidatableObject
             Actions = materialized;
         }
         this.Actions = Actions;
-        global::System.ArgumentNullException.ThrowIfNull(PublishStatus);
         this.PublishStatus = PublishStatus;
     }
 

@@ -43,7 +43,6 @@ public record AwsRoute53globalresolverCreateAccessSourceOptions : AwsOptions, IV
         this.Cidr = Cidr;
         global::System.ArgumentNullException.ThrowIfNull(DnsViewId);
         this.DnsViewId = DnsViewId;
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
     }
 

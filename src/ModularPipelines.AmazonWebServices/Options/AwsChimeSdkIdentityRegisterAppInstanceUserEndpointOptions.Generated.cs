@@ -42,7 +42,6 @@ public record AwsChimeSdkIdentityRegisterAppInstanceUserEndpointOptions : AwsOpt
     {
         global::System.ArgumentNullException.ThrowIfNull(AppInstanceUserArn);
         this.AppInstanceUserArn = AppInstanceUserArn;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
         this.ResourceArn = ResourceArn;

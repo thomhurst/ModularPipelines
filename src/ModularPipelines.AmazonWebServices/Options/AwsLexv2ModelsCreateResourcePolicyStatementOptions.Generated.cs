@@ -46,7 +46,6 @@ public record AwsLexv2ModelsCreateResourcePolicyStatementOptions : AwsOptions, I
         this.ResourceArn = ResourceArn;
         global::System.ArgumentNullException.ThrowIfNull(StatementId);
         this.StatementId = StatementId;
-        global::System.ArgumentNullException.ThrowIfNull(Effect);
         this.Effect = Effect;
         {
             global::System.ArgumentNullException.ThrowIfNull(Principal);

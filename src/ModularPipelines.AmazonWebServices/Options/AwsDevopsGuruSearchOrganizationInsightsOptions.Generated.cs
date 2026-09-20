@@ -53,7 +53,6 @@ public record AwsDevopsGuruSearchOrganizationInsightsOptions : AwsOptions, IVali
         this.AccountIds = AccountIds;
         global::System.ArgumentNullException.ThrowIfNull(StartTimeRange);
         this.StartTimeRange = StartTimeRange;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

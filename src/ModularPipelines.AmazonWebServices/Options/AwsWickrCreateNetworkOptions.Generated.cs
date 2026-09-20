@@ -37,7 +37,6 @@ public record AwsWickrCreateNetworkOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(NetworkName);
         this.NetworkName = NetworkName;
-        global::System.ArgumentNullException.ThrowIfNull(AccessLevel);
         this.AccessLevel = AccessLevel;
     }
 

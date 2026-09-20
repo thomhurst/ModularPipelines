@@ -49,13 +49,11 @@ public record AwsFinspaceCreateKxClusterOptions : AwsOptions, IValidatableObject
         this.EnvironmentId = EnvironmentId;
         global::System.ArgumentNullException.ThrowIfNull(ClusterName);
         this.ClusterName = ClusterName;
-        global::System.ArgumentNullException.ThrowIfNull(ClusterType);
         this.ClusterType = ClusterType;
         global::System.ArgumentNullException.ThrowIfNull(ReleaseLabel);
         this.ReleaseLabel = ReleaseLabel;
         global::System.ArgumentNullException.ThrowIfNull(VpcConfiguration);
         this.VpcConfiguration = VpcConfiguration;
-        global::System.ArgumentNullException.ThrowIfNull(AzMode);
         this.AzMode = AzMode;
     }
 

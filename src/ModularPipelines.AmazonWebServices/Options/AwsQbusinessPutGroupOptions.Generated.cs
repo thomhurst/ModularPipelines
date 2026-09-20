@@ -47,7 +47,6 @@ public record AwsQbusinessPutGroupOptions : AwsOptions, IValidatableObject
         this.IndexId = IndexId;
         global::System.ArgumentNullException.ThrowIfNull(GroupName);
         this.GroupName = GroupName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(GroupMembers);
         this.GroupMembers = GroupMembers;

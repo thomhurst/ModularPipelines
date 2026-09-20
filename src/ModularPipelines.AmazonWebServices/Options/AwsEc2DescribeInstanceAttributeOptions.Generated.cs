@@ -37,7 +37,6 @@ public record AwsEc2DescribeInstanceAttributeOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(Attribute);
         this.Attribute = Attribute;
     }
 

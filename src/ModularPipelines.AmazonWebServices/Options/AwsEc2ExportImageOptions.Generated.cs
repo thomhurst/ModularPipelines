@@ -38,7 +38,6 @@ public record AwsEc2ExportImageOptions : AwsOptions, IValidatableObject
         string S3ExportLocation
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(DiskImageFormat);
         this.DiskImageFormat = DiskImageFormat;
         global::System.ArgumentNullException.ThrowIfNull(ImageId);
         this.ImageId = ImageId;

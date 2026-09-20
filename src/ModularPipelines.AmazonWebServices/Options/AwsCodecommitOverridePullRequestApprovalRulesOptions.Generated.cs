@@ -41,7 +41,6 @@ public record AwsCodecommitOverridePullRequestApprovalRulesOptions : AwsOptions,
         this.PullRequestId = PullRequestId;
         global::System.ArgumentNullException.ThrowIfNull(RevisionId);
         this.RevisionId = RevisionId;
-        global::System.ArgumentNullException.ThrowIfNull(OverrideStatus);
         this.OverrideStatus = OverrideStatus;
     }
 

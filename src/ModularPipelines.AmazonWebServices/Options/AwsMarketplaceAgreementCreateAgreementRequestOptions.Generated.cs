@@ -36,7 +36,6 @@ public record AwsMarketplaceAgreementCreateAgreementRequestOptions : AwsOptions,
         IEnumerable<string> RequestedTerms
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Intent);
         this.Intent = Intent;
         {
             global::System.ArgumentNullException.ThrowIfNull(RequestedTerms);

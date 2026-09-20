@@ -34,7 +34,6 @@ public record AwsAuditManagerListControlsOptions : AwsOptions, IValidatableObjec
         AwsAuditManagerListControlsControlType ControlType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ControlType);
         this.ControlType = ControlType;
     }
 

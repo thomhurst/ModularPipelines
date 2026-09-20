@@ -34,7 +34,6 @@ public record AwsQbusinessListPluginTypeActionsOptions : AwsOptions, IValidatabl
         AwsQbusinessListPluginTypeActionsPluginType PluginType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(PluginType);
         this.PluginType = PluginType;
     }
 

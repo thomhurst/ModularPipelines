@@ -41,7 +41,6 @@ public record AwsAppsyncUpdateGraphqlApiOptions : AwsOptions, IValidatableObject
         this.ApiId = ApiId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(AuthenticationType);
         this.AuthenticationType = AuthenticationType;
     }
 

@@ -45,7 +45,6 @@ public record AwsBudgetsExecuteBudgetActionOptions : AwsOptions, IValidatableObj
         this.BudgetName = BudgetName;
         global::System.ArgumentNullException.ThrowIfNull(ActionId);
         this.ActionId = ActionId;
-        global::System.ArgumentNullException.ThrowIfNull(ExecutionType);
         this.ExecutionType = ExecutionType;
     }
 

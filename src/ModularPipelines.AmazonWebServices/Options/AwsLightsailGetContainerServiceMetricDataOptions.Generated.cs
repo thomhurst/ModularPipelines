@@ -45,7 +45,6 @@ public record AwsLightsailGetContainerServiceMetricDataOptions : AwsOptions, IVa
     {
         global::System.ArgumentNullException.ThrowIfNull(ServiceName);
         this.ServiceName = ServiceName;
-        global::System.ArgumentNullException.ThrowIfNull(MetricName);
         this.MetricName = MetricName;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);
         this.StartTime = StartTime;

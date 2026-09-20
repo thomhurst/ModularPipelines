@@ -41,7 +41,6 @@ public record AwsApplicationAutoscalingPutScalingPolicyOptions : AwsOptions, IVa
     {
         global::System.ArgumentNullException.ThrowIfNull(PolicyName);
         this.PolicyName = PolicyName;
-        global::System.ArgumentNullException.ThrowIfNull(ServiceNamespace);
         this.ServiceNamespace = ServiceNamespace;
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;

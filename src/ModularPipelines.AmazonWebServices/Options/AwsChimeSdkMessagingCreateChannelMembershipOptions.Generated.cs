@@ -43,7 +43,6 @@ public record AwsChimeSdkMessagingCreateChannelMembershipOptions : AwsOptions, I
         this.ChannelArn = ChannelArn;
         global::System.ArgumentNullException.ThrowIfNull(MemberArn);
         this.MemberArn = MemberArn;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(ChimeBearer);
         this.ChimeBearer = ChimeBearer;

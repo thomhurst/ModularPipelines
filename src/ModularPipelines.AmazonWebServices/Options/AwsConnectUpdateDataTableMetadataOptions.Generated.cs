@@ -47,7 +47,6 @@ public record AwsConnectUpdateDataTableMetadataOptions : AwsOptions, IValidatabl
         this.DataTableId = DataTableId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(ValueLockLevel);
         this.ValueLockLevel = ValueLockLevel;
         global::System.ArgumentNullException.ThrowIfNull(TimeZone);
         this.TimeZone = TimeZone;

@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide . See also: AWS API Documentation
+/// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide . See also: AWS API Documentation
+    /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. See also: AWS API Documentation
     /// </summary>
     /// <param name="EnvironmentName">The name of the environment to which to set the operations role. Constraints: o min: 4 o max: 40</param>
     /// <param name="OperationsRole">The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. Constraints: o min: 1 o max: 256</param>

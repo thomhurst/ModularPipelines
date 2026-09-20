@@ -34,7 +34,6 @@ public record AwsRdsDescribeOrderableDbInstanceOptionsOptions : AwsOptions, IVal
         AwsRdsDescribeOrderableDbInstanceOptionsEngine Engine
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Engine);
         this.Engine = Engine;
     }
 

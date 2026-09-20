@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the platform branches available for your account in an AWS Re- gion. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary . See also: AWS API Documentation
+/// Lists the platform branches available for your account in an Amazon Web Services Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see Elastic Beanstalk Platforms Glossary . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

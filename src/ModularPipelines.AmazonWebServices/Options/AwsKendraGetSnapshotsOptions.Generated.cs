@@ -40,9 +40,7 @@ public record AwsKendraGetSnapshotsOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(IndexId);
         this.IndexId = IndexId;
-        global::System.ArgumentNullException.ThrowIfNull(Interval);
         this.Interval = Interval;
-        global::System.ArgumentNullException.ThrowIfNull(MetricType);
         this.MetricType = MetricType;
     }
 

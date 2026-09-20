@@ -41,7 +41,6 @@ public record AwsCodecommitUpdatePullRequestApprovalStateOptions : AwsOptions, I
         this.PullRequestId = PullRequestId;
         global::System.ArgumentNullException.ThrowIfNull(RevisionId);
         this.RevisionId = RevisionId;
-        global::System.ArgumentNullException.ThrowIfNull(ApprovalState);
         this.ApprovalState = ApprovalState;
     }
 

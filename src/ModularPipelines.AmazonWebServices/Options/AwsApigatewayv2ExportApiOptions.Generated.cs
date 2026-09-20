@@ -38,7 +38,6 @@ public record AwsApigatewayv2ExportApiOptions : AwsOptions
     {
         global::System.ArgumentNullException.ThrowIfNull(ApiId);
         this.ApiId = ApiId;
-        global::System.ArgumentNullException.ThrowIfNull(OutputType);
         this.OutputType = OutputType;
         global::System.ArgumentNullException.ThrowIfNull(Specification);
         this.Specification = Specification;

@@ -37,7 +37,6 @@ public record AwsSagemakerDeleteJobOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(JobName);
         this.JobName = JobName;
-        global::System.ArgumentNullException.ThrowIfNull(JobCategory);
         this.JobCategory = JobCategory;
     }
 

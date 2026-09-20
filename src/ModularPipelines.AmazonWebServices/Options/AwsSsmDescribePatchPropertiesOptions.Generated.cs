@@ -36,9 +36,7 @@ public record AwsSsmDescribePatchPropertiesOptions : AwsOptions, IValidatableObj
         AwsSsmDescribePatchPropertiesProperty Property
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(OperatingSystem);
         this.OperatingSystem = OperatingSystem;
-        global::System.ArgumentNullException.ThrowIfNull(Property);
         this.Property = Property;
     }
 

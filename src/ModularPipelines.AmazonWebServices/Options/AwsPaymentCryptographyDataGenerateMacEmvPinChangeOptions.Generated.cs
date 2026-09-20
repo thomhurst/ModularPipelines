@@ -49,7 +49,6 @@ public record AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions : AwsOpti
         this.NewPinPekIdentifier = NewPinPekIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(NewEncryptedPinBlock);
         this.NewEncryptedPinBlock = NewEncryptedPinBlock;
-        global::System.ArgumentNullException.ThrowIfNull(PinBlockFormat);
         this.PinBlockFormat = PinBlockFormat;
         global::System.ArgumentNullException.ThrowIfNull(SecureMessagingIntegrityKeyIdentifier);
         this.SecureMessagingIntegrityKeyIdentifier = SecureMessagingIntegrityKeyIdentifier;

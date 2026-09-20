@@ -45,7 +45,6 @@ public record AwsManagedblockchainVoteOnProposalOptions : AwsOptions, IValidatab
         this.ProposalId = ProposalId;
         global::System.ArgumentNullException.ThrowIfNull(VoterMemberId);
         this.VoterMemberId = VoterMemberId;
-        global::System.ArgumentNullException.ThrowIfNull(Vote);
         this.Vote = Vote;
     }
 

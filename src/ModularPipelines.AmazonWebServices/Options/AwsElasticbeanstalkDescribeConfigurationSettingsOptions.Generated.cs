@@ -62,13 +62,13 @@ public record AwsElasticbeanstalkDescribeConfigurationSettingsOptions : AwsOptio
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The name of the configuration template to describe. Conditional: You must specify either this parameter or an Environ- mentName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter er- ror. Constraints: o min: 1 o max: 100
+    /// The name of the configuration template to describe. Conditional: You must specify either this parameter or an Environ- mentName, but not both. If you specify both, Elastic Beanstalk re- turns an InvalidParameterCombination error. If you do not specify either, Elastic Beanstalk returns a MissingRequiredParameter error. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
     /// <summary>
-    /// The name of the environment to describe. Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an Invalid- ParameterCombination error. If you do not specify either, AWS Elas- tic Beanstalk returns MissingRequiredParameter error. Constraints: o min: 4 o max: 40
+    /// The name of the environment to describe. Condition: You must specify either this or a TemplateName, but not both. If you specify both, Elastic Beanstalk returns an InvalidPara- meterCombination error. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error. Constraints: o min: 4 o max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }

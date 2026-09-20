@@ -38,7 +38,6 @@ public record AwsElementalinferenceCreateDictionaryOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Language);
         this.Language = Language;
     }
 

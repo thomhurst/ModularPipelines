@@ -41,7 +41,6 @@ public record AwsLightsailSetResourceAccessForBucketOptions : AwsOptions, IValid
         this.ResourceName = ResourceName;
         global::System.ArgumentNullException.ThrowIfNull(BucketName);
         this.BucketName = BucketName;
-        global::System.ArgumentNullException.ThrowIfNull(Access);
         this.Access = Access;
     }
 

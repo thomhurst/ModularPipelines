@@ -45,7 +45,6 @@ public record AwsConnectAssociateFlowOptions : AwsOptions, IValidatableObject
         this.ResourceId = ResourceId;
         global::System.ArgumentNullException.ThrowIfNull(FlowId);
         this.FlowId = FlowId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

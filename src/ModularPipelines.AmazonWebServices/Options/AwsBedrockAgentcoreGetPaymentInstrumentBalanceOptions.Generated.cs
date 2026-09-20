@@ -48,7 +48,6 @@ public record AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions : AwsOptions
         this.PaymentConnectorId = PaymentConnectorId;
         global::System.ArgumentNullException.ThrowIfNull(PaymentInstrumentId);
         this.PaymentInstrumentId = PaymentInstrumentId;
-        global::System.ArgumentNullException.ThrowIfNull(Chain);
         this.Chain = Chain;
         global::System.ArgumentNullException.ThrowIfNull(Token);
         this.Token = Token;

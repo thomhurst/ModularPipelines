@@ -37,7 +37,6 @@ public record AwsMediaconnectUpdateBridgeStateOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(BridgeArn);
         this.BridgeArn = BridgeArn;
-        global::System.ArgumentNullException.ThrowIfNull(DesiredState);
         this.DesiredState = DesiredState;
     }
 

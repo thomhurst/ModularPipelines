@@ -35,7 +35,6 @@ public record AwsLightsailDisableAddOnOptions : AwsOptions, IValidatableObject
         string ResourceName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AddOnType);
         this.AddOnType = AddOnType;
         global::System.ArgumentNullException.ThrowIfNull(ResourceName);
         this.ResourceName = ResourceName;

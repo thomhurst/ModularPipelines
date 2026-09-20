@@ -48,7 +48,6 @@ public record AwsCodecommitDescribeMergeConflictsOptions : AwsOptions, IValidata
         this.DestinationCommitSpecifier = DestinationCommitSpecifier;
         global::System.ArgumentNullException.ThrowIfNull(SourceCommitSpecifier);
         this.SourceCommitSpecifier = SourceCommitSpecifier;
-        global::System.ArgumentNullException.ThrowIfNull(MergeOption);
         this.MergeOption = MergeOption;
         global::System.ArgumentNullException.ThrowIfNull(FilePath);
         this.FilePath = FilePath;

@@ -39,7 +39,6 @@ public record AwsServicecatalogAppregistryDisassociateResourceOptions : AwsOptio
     {
         global::System.ArgumentNullException.ThrowIfNull(Application);
         this.Application = Application;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         global::System.ArgumentNullException.ThrowIfNull(Resource);
         this.Resource = Resource;

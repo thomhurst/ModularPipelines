@@ -38,7 +38,6 @@ public record AwsDatazoneSearchOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
         this.DomainIdentifier = DomainIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(SearchScope);
         this.SearchScope = SearchScope;
     }
 

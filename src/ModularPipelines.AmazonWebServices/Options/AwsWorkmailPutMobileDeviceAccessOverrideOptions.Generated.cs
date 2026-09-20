@@ -45,7 +45,6 @@ public record AwsWorkmailPutMobileDeviceAccessOverrideOptions : AwsOptions, IVal
         this.UserId = UserId;
         global::System.ArgumentNullException.ThrowIfNull(DeviceId);
         this.DeviceId = DeviceId;
-        global::System.ArgumentNullException.ThrowIfNull(Effect);
         this.Effect = Effect;
     }
 

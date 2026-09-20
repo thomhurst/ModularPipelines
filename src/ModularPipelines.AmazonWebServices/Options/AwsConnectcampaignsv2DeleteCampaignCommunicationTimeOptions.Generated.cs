@@ -37,7 +37,6 @@ public record AwsConnectcampaignsv2DeleteCampaignCommunicationTimeOptions : AwsO
     {
         global::System.ArgumentNullException.ThrowIfNull(Id);
         this.Id = Id;
-        global::System.ArgumentNullException.ThrowIfNull(Config);
         this.Config = Config;
     }
 

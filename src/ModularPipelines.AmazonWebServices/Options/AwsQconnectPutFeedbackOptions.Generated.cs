@@ -43,7 +43,6 @@ public record AwsQconnectPutFeedbackOptions : AwsOptions, IValidatableObject
         this.AssistantId = AssistantId;
         global::System.ArgumentNullException.ThrowIfNull(TargetId);
         this.TargetId = TargetId;
-        global::System.ArgumentNullException.ThrowIfNull(TargetType);
         this.TargetType = TargetType;
         global::System.ArgumentNullException.ThrowIfNull(ContentFeedback);
         this.ContentFeedback = ContentFeedback;

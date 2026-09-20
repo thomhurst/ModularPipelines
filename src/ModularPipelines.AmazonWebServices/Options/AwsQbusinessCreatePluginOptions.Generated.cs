@@ -44,7 +44,6 @@ public record AwsQbusinessCreatePluginOptions : AwsOptions, IValidatableObject
         this.ApplicationId = ApplicationId;
         global::System.ArgumentNullException.ThrowIfNull(DisplayName);
         this.DisplayName = DisplayName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(AuthConfiguration);
         this.AuthConfiguration = AuthConfiguration;

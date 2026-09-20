@@ -41,7 +41,6 @@ public record AwsNovaActUpdateWorkflowRunOptions : AwsOptions, IValidatableObjec
         this.WorkflowDefinitionName = WorkflowDefinitionName;
         global::System.ArgumentNullException.ThrowIfNull(WorkflowRunId);
         this.WorkflowRunId = WorkflowRunId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

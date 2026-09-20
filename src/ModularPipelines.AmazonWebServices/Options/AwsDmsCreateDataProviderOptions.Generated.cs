@@ -35,7 +35,6 @@ public record AwsDmsCreateDataProviderOptions : AwsOptions, IValidatableObject
         string Settings
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Engine);
         this.Engine = Engine;
         global::System.ArgumentNullException.ThrowIfNull(Settings);
         this.Settings = Settings;

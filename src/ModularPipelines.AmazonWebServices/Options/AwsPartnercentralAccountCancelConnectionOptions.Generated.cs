@@ -44,7 +44,6 @@ public record AwsPartnercentralAccountCancelConnectionOptions : AwsOptions, IVal
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;
-        global::System.ArgumentNullException.ThrowIfNull(ConnectionType);
         this.ConnectionType = ConnectionType;
         global::System.ArgumentNullException.ThrowIfNull(Reason);
         this.Reason = Reason;

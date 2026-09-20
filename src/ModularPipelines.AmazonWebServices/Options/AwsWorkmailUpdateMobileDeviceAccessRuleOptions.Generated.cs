@@ -45,7 +45,6 @@ public record AwsWorkmailUpdateMobileDeviceAccessRuleOptions : AwsOptions, IVali
         this.MobileDeviceAccessRuleId = MobileDeviceAccessRuleId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Effect);
         this.Effect = Effect;
     }
 

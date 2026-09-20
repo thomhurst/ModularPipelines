@@ -27,7 +27,7 @@ public record AwsNotificationsDeleteNotificationConfigurationOptions : AwsOption
     /// <summary>
     /// Deletes a NotificationConfiguration . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the NotificationConfiguration to delete. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the NotificationConfiguration to delete. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
     public AwsNotificationsDeleteNotificationConfigurationOptions(
         string Arn
     )
@@ -56,7 +56,7 @@ public record AwsNotificationsDeleteNotificationConfigurationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the NotificationConfiguration to delete. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the NotificationConfiguration to delete. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

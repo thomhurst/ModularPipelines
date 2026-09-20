@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Return the tags applied to an AWS Elastic Beanstalk resource. The re- sponse contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . See also: AWS API Documentation
+/// Return the tags applied to an Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsElasticbeanstalkListTagsForResourceOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Return the tags applied to an AWS Elastic Beanstalk resource. The re- sponse contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . See also: AWS API Documentation
+    /// Return the tags applied to an Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response ...
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resouce for which a tag list is requested. Must be the ARN of an Elastic Beanstalk resource.</param>
     public AwsElasticbeanstalkListTagsForResourceOptions(

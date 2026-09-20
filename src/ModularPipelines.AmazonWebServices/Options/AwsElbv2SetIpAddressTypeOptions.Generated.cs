@@ -37,7 +37,6 @@ public record AwsElbv2SetIpAddressTypeOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(LoadBalancerArn);
         this.LoadBalancerArn = LoadBalancerArn;
-        global::System.ArgumentNullException.ThrowIfNull(IpAddressType);
         this.IpAddressType = IpAddressType;
     }
 

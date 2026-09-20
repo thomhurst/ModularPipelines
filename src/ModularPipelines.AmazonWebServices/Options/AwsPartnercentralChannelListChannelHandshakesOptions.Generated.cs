@@ -38,11 +38,9 @@ public record AwsPartnercentralChannelListChannelHandshakesOptions : AwsOptions,
         AwsPartnercentralChannelListChannelHandshakesParticipantType ParticipantType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(HandshakeType);
         this.HandshakeType = HandshakeType;
         global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
-        global::System.ArgumentNullException.ThrowIfNull(ParticipantType);
         this.ParticipantType = ParticipantType;
     }
 

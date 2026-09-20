@@ -35,9 +35,7 @@ public record AwsSnowballCreateLongTermPricingOptions : AwsOptions, IValidatable
         AwsSnowballCreateLongTermPricingSnowballType SnowballType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(LongTermPricingType);
         this.LongTermPricingType = LongTermPricingType;
-        global::System.ArgumentNullException.ThrowIfNull(SnowballType);
         this.SnowballType = SnowballType;
     }
 

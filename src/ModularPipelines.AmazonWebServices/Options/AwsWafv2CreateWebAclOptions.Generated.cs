@@ -43,7 +43,6 @@ public record AwsWafv2CreateWebAclOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         global::System.ArgumentNullException.ThrowIfNull(DefaultAction);
         this.DefaultAction = DefaultAction;

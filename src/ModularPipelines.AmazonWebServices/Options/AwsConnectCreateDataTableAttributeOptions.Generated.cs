@@ -45,7 +45,6 @@ public record AwsConnectCreateDataTableAttributeOptions : AwsOptions, IValidatab
         this.DataTableId = DataTableId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(ValueType);
         this.ValueType = ValueType;
     }
 

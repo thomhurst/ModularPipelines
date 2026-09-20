@@ -29,12 +29,11 @@ public record AwsSagemakerSearchOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or de- scending order. You can query against the following value types: numeric, text, Boolean, and timestamp. NOTE: The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Re- sources Reference for more information. See...
     /// </summary>
-    /// <param name="Resource">The name of the SageMaker resource to search for. Possible values: o TrainingJob o Experiment o ExperimentTrial o ExperimentTrialComponent o Endpoint o Model o ModelPackage o ModelPackageGroup o Pipeline o PipelineExecution o FeatureGroup o FeatureMetadata o Image o ImageVersion o Project o HyperParameterTuningJob o ModelCard o PipelineVersion o Job</param>
+    /// <param name="Resource">The name of the SageMaker resource to search for. Possible values: o TrainingJob o Experiment o ExperimentTrial o ExperimentTrialComponent o Endpoint o Model o ModelPackage o ModelPackageGroup o Pipeline o PipelineExecution o FeatureGroup o FeatureMetadata o Image o ImageVersion o Project o HyperParameterTuningJob o ModelCard o PipelineVersion o Job o HubContent</param>
     public AwsSagemakerSearchOptions(
         AwsSagemakerSearchResource Resource
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Resource);
         this.Resource = Resource;
     }
 
@@ -58,7 +57,7 @@ public record AwsSagemakerSearchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the SageMaker resource to search for. Possible values: o TrainingJob o Experiment o ExperimentTrial o ExperimentTrialComponent o Endpoint o Model o ModelPackage o ModelPackageGroup o Pipeline o PipelineExecution o FeatureGroup o FeatureMetadata o Image o ImageVersion o Project o HyperParameterTuningJob o ModelCard o PipelineVersion o Job
+    /// The name of the SageMaker resource to search for. Possible values: o TrainingJob o Experiment o ExperimentTrial o ExperimentTrialComponent o Endpoint o Model o ModelPackage o ModelPackageGroup o Pipeline o PipelineExecution o FeatureGroup o FeatureMetadata o Image o ImageVersion o Project o HyperParameterTuningJob o ModelCard o PipelineVersion o Job o HubContent
     /// </summary>
     [CliOption("--resource")]
     public AwsSagemakerSearchResource? Resource { get; private init; }

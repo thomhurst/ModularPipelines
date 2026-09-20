@@ -37,7 +37,6 @@ public record AwsWellarchitectedUpdateShareInvitationOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(ShareInvitationId);
         this.ShareInvitationId = ShareInvitationId;
-        global::System.ArgumentNullException.ThrowIfNull(ShareInvitationAction);
         this.ShareInvitationAction = ShareInvitationAction;
     }
 

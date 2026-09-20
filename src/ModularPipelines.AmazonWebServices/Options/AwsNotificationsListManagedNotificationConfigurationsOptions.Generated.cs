@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNotificationsListManagedNotificationConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier or ARN of the notification channel to filter configu- rations by. Constraints: o pattern: ACCOUNT_PRIMARY|ACCOUNT_ALTERNATE_BILLING|ACCOUNT_ALTER- NATE_OPERATIONS|ACCOUNT_ALTERNATE_SECURITY|arn:aws:(chatbot|con- soleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
+    /// The identifier or ARN of the notification channel to filter configu- rations by. Constraints: o pattern: (ACCOUNT_PRIMARY|ACCOUNT_ALTERNATE_BILLING|ACCOUNT_ALTER- NATE_OPERATIONS|ACCOUNT_ALTERNATE_SECURITY|arn:[a-z-]{3,10}:(chat- bot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+)
     /// </summary>
     [CliOption("--channel-identifier")]
     public string? ChannelIdentifier { get; set; }

@@ -33,7 +33,6 @@ public record AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions :
         AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusStatus Status
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

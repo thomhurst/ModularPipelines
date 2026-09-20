@@ -44,7 +44,6 @@ public record AwsCleanroomsCreateAnalysisTemplateOptions : AwsOptions, IValidata
         this.MembershipIdentifier = MembershipIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
         global::System.ArgumentNullException.ThrowIfNull(Source);
         this.Source = Source;

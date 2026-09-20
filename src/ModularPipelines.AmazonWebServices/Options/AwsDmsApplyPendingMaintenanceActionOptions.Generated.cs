@@ -39,7 +39,6 @@ public record AwsDmsApplyPendingMaintenanceActionOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(ReplicationInstanceArn);
         this.ReplicationInstanceArn = ReplicationInstanceArn;
-        global::System.ArgumentNullException.ThrowIfNull(ApplyAction);
         this.ApplyAction = ApplyAction;
         global::System.ArgumentNullException.ThrowIfNull(OptInType);
         this.OptInType = OptInType;

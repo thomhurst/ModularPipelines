@@ -39,7 +39,6 @@ public record AwsMigrationHubRefactorSpacesUpdateRouteOptions : AwsOptions, IVal
         string RouteIdentifier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ActivationState);
         this.ActivationState = ActivationState;
         global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
         this.ApplicationIdentifier = ApplicationIdentifier;

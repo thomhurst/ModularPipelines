@@ -34,6 +34,9 @@ public enum AwsSagemakerGetSearchSuggestionsResource
     [EnumValue("FeatureMetadata")]
     FeatureMetadata,
 
+    [EnumValue("HubContent")]
+    HubContent,
+
     [EnumValue("HyperParameterTuningJob")]
     HyperParameterTuningJob,
 

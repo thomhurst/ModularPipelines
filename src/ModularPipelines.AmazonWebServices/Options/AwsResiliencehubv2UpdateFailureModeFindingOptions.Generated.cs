@@ -39,7 +39,6 @@ public record AwsResiliencehubv2UpdateFailureModeFindingOptions : AwsOptions, IV
     {
         global::System.ArgumentNullException.ThrowIfNull(FindingId);
         this.FindingId = FindingId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
         global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
         this.ServiceArn = ServiceArn;

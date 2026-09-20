@@ -47,7 +47,6 @@ public record AwsFinspaceCreateKxDataviewOptions : AwsOptions, IValidatableObjec
         this.DatabaseName = DatabaseName;
         global::System.ArgumentNullException.ThrowIfNull(DataviewName);
         this.DataviewName = DataviewName;
-        global::System.ArgumentNullException.ThrowIfNull(AzMode);
         this.AzMode = AzMode;
     }
 

@@ -36,7 +36,6 @@ public record AwsTransferImportCertificateOptions : AwsOptions, IValidatableObje
         string Certificate
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Usage);
         this.Usage = Usage;
         global::System.ArgumentNullException.ThrowIfNull(Certificate);
         this.Certificate = Certificate;

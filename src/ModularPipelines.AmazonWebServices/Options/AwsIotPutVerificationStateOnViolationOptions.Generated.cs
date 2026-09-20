@@ -37,7 +37,6 @@ public record AwsIotPutVerificationStateOnViolationOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(ViolationId);
         this.ViolationId = ViolationId;
-        global::System.ArgumentNullException.ThrowIfNull(VerificationState);
         this.VerificationState = VerificationState;
     }
 

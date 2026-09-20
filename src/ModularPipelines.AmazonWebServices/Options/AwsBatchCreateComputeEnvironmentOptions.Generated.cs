@@ -38,7 +38,6 @@ public record AwsBatchCreateComputeEnvironmentOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(ComputeEnvironmentName);
         this.ComputeEnvironmentName = ComputeEnvironmentName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

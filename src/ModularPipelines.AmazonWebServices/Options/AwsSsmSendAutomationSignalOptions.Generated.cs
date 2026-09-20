@@ -38,7 +38,6 @@ public record AwsSsmSendAutomationSignalOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(AutomationExecutionId);
         this.AutomationExecutionId = AutomationExecutionId;
-        global::System.ArgumentNullException.ThrowIfNull(SignalType);
         this.SignalType = SignalType;
     }
 

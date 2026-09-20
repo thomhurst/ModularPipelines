@@ -33,7 +33,6 @@ public record AwsOrganizationsDescribeEffectivePolicyOptions : AwsOptions, IVali
         AwsOrganizationsDescribeEffectivePolicyPolicyType PolicyType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

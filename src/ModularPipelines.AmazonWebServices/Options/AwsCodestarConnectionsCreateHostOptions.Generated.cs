@@ -39,7 +39,6 @@ public record AwsCodestarConnectionsCreateHostOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(ProviderType);
         this.ProviderType = ProviderType;
         global::System.ArgumentNullException.ThrowIfNull(ProviderEndpoint);
         this.ProviderEndpoint = ProviderEndpoint;

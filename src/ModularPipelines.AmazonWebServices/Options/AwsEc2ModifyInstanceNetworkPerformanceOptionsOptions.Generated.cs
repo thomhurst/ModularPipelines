@@ -37,7 +37,6 @@ public record AwsEc2ModifyInstanceNetworkPerformanceOptionsOptions : AwsOptions,
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(BandwidthWeighting);
         this.BandwidthWeighting = BandwidthWeighting;
     }
 

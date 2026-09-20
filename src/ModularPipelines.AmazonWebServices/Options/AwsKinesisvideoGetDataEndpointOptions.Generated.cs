@@ -33,7 +33,6 @@ public record AwsKinesisvideoGetDataEndpointOptions : AwsOptions, IValidatableOb
         AwsKinesisvideoGetDataEndpointApiName ApiName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ApiName);
         this.ApiName = ApiName;
     }
 

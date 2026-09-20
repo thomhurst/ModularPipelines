@@ -39,9 +39,7 @@ public record AwsAuditManagerUpdateAssessmentFrameworkShareOptions : AwsOptions,
     {
         global::System.ArgumentNullException.ThrowIfNull(RequestId);
         this.RequestId = RequestId;
-        global::System.ArgumentNullException.ThrowIfNull(RequestType);
         this.RequestType = RequestType;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

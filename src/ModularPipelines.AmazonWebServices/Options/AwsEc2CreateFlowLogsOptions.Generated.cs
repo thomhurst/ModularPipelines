@@ -49,7 +49,6 @@ public record AwsEc2CreateFlowLogsOptions : AwsOptions, IValidatableObject
             ResourceIds = materialized;
         }
         this.ResourceIds = ResourceIds;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

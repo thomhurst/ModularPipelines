@@ -42,7 +42,6 @@ public record AwsOmicsListReadSetUploadPartsOptions : AwsOptions, IValidatableOb
         this.SequenceStoreId = SequenceStoreId;
         global::System.ArgumentNullException.ThrowIfNull(UploadId);
         this.UploadId = UploadId;
-        global::System.ArgumentNullException.ThrowIfNull(PartSource);
         this.PartSource = PartSource;
     }
 

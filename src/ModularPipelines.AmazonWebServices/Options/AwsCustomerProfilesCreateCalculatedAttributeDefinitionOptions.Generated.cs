@@ -46,7 +46,6 @@ public record AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions : Aw
         this.CalculatedAttributeName = CalculatedAttributeName;
         global::System.ArgumentNullException.ThrowIfNull(AttributeDetails);
         this.AttributeDetails = AttributeDetails;
-        global::System.ArgumentNullException.ThrowIfNull(Statistic);
         this.Statistic = Statistic;
     }
 

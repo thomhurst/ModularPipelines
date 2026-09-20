@@ -37,7 +37,6 @@ public record AwsGluePutDataQualityProfileAnnotationOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(ProfileId);
         this.ProfileId = ProfileId;
-        global::System.ArgumentNullException.ThrowIfNull(InclusionAnnotation);
         this.InclusionAnnotation = InclusionAnnotation;
     }
 

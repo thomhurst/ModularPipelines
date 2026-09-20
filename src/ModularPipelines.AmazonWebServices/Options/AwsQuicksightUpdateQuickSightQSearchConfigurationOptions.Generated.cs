@@ -37,7 +37,6 @@ public record AwsQuicksightUpdateQuickSightQSearchConfigurationOptions : AwsOpti
     {
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;
-        global::System.ArgumentNullException.ThrowIfNull(QSearchStatus);
         this.QSearchStatus = QSearchStatus;
     }
 

@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkTerminateEnvironmentOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the environment to terminate. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the environment to terminate. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns Miss- ingRequiredParameter error.
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// The name of the environment to terminate. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. Constraints: o min: 4 o max: 40
+    /// The name of the environment to terminate. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns Miss- ingRequiredParameter error. Constraints: o min: 4 o max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
     /// <summary>
-    /// Indicates whether the associated AWS resources should shut down when the environment is terminated: o true : The specified environment as well as the associated AWS re- sources, such as Auto Scaling group and LoadBalancer, are termi- nated. o false : AWS Elastic Beanstalk resource management is removed from the environment, but the AWS resources continue to operate. For more information, see the AWS Elastic Beanstalk User Guide. Default: true Valid Values: true | false
+    /// Indicates whether the associated Amazon Web Services resources should shut down when the environment is terminated: o true : The specified environment as well as the associated Amazon Web Services resources, such as Auto Scaling group and LoadBal- ancer, are terminated. o false : Elastic Beanstalk resource management is removed from the environment, but the Amazon Web Services resources continue to op- erate. For more information, see the Elastic Beanstalk User Guide. Default: true Valid Values: true | false
     /// </summary>
     [CliFlag("--terminate-resources", NegatedName = "--no-terminate-resources")]
     public bool? TerminateResources { get; set; }

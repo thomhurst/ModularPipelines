@@ -41,7 +41,6 @@ public record AwsChimeSdkVoiceCreateSipRuleOptions : AwsOptions, IValidatableObj
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(TriggerType);
         this.TriggerType = TriggerType;
         global::System.ArgumentNullException.ThrowIfNull(TriggerValue);
         this.TriggerValue = TriggerValue;

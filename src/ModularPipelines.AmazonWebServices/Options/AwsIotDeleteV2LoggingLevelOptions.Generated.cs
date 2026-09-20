@@ -35,7 +35,6 @@ public record AwsIotDeleteV2LoggingLevelOptions : AwsOptions, IValidatableObject
         string TargetName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(TargetType);
         this.TargetType = TargetType;
         global::System.ArgumentNullException.ThrowIfNull(TargetName);
         this.TargetName = TargetName;

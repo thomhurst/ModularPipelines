@@ -48,7 +48,6 @@ public record AwsLookoutequipmentCreateInferenceSchedulerOptions : AwsOptions, I
         this.ModelName = ModelName;
         global::System.ArgumentNullException.ThrowIfNull(InferenceSchedulerName);
         this.InferenceSchedulerName = InferenceSchedulerName;
-        global::System.ArgumentNullException.ThrowIfNull(DataUploadFrequency);
         this.DataUploadFrequency = DataUploadFrequency;
         global::System.ArgumentNullException.ThrowIfNull(DataInputConfiguration);
         this.DataInputConfiguration = DataInputConfiguration;

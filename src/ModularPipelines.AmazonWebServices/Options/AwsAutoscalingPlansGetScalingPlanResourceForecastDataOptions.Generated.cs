@@ -50,13 +50,11 @@ public record AwsAutoscalingPlansGetScalingPlanResourceForecastDataOptions : Aws
         global::System.ArgumentNullException.ThrowIfNull(ScalingPlanName);
         this.ScalingPlanName = ScalingPlanName;
         this.ScalingPlanVersion = ScalingPlanVersion;
-        global::System.ArgumentNullException.ThrowIfNull(ServiceNamespace);
         this.ServiceNamespace = ServiceNamespace;
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;
         global::System.ArgumentNullException.ThrowIfNull(ScalableDimension);
         this.ScalableDimension = ScalableDimension;
-        global::System.ArgumentNullException.ThrowIfNull(ForecastDataType);
         this.ForecastDataType = ForecastDataType;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);
         this.StartTime = StartTime;

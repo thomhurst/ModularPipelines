@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the overall health of the specified environ- ment. The DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced Health. See also: AWS API Documentation
+/// Returns information about the overall health of the specified environ- ment. The DescribeEnvironmentHealth operation is only available with Elastic Beanstalk Enhanced Health. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permis...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

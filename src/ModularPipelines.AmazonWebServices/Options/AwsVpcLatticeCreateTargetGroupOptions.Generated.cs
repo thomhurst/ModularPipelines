@@ -39,7 +39,6 @@ public record AwsVpcLatticeCreateTargetGroupOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

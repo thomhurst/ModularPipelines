@@ -30,7 +30,7 @@ public record AwsNotificationsListNotificationConfigurationsOptions : AwsOptions
     public string? EventRuleSource { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Channel to match. Constraints: o pattern: arn:aws:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
+    /// The Amazon Resource Name (ARN) of the Channel to match. Constraints: o pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; set; }

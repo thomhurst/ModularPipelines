@@ -42,7 +42,6 @@ public record AwsDlmCreateLifecyclePolicyOptions : AwsOptions, IValidatableObjec
         this.ExecutionRoleArn = ExecutionRoleArn;
         global::System.ArgumentNullException.ThrowIfNull(Description);
         this.Description = Description;
-        global::System.ArgumentNullException.ThrowIfNull(State);
         this.State = State;
     }
 

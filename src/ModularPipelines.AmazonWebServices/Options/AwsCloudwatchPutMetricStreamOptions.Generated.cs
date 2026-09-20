@@ -45,7 +45,6 @@ public record AwsCloudwatchPutMetricStreamOptions : AwsOptions, IValidatableObje
         this.FirehoseArn = FirehoseArn;
         global::System.ArgumentNullException.ThrowIfNull(RoleArn);
         this.RoleArn = RoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(OutputFormat);
         this.OutputFormat = OutputFormat;
     }
 

@@ -59,6 +59,12 @@ public record AwsNotificationsListManagedNotificationEventsOptions : AwsOptions
     [CliOption("--related-account")]
     public string? RelatedAccount { get; set; }
 
+    /// <summary>
+    /// Specifies whether to include sensitive events in the result. By de- fault, only non-sensitive events are returned. The notifications:Ac- cessSensitiveEvents permission controls access to sensitive events.
+    /// </summary>
+    [CliFlag("--include-sensitive-events", NegatedName = "--no-include-sensitive-events")]
+    public bool? IncludeSensitiveEvents { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

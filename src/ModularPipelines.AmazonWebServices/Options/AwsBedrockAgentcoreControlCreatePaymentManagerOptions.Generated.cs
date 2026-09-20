@@ -41,7 +41,6 @@ public record AwsBedrockAgentcoreControlCreatePaymentManagerOptions : AwsOptions
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(AuthorizerType);
         this.AuthorizerType = AuthorizerType;
         global::System.ArgumentNullException.ThrowIfNull(RoleArn);
         this.RoleArn = RoleArn;

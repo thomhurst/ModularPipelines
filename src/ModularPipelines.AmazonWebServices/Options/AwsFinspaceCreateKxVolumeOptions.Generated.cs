@@ -49,7 +49,6 @@ public record AwsFinspaceCreateKxVolumeOptions : AwsOptions, IValidatableObject
         this.VolumeType = VolumeType;
         global::System.ArgumentNullException.ThrowIfNull(VolumeName);
         this.VolumeName = VolumeName;
-        global::System.ArgumentNullException.ThrowIfNull(AzMode);
         this.AzMode = AzMode;
         {
             global::System.ArgumentNullException.ThrowIfNull(AvailabilityZoneIds);

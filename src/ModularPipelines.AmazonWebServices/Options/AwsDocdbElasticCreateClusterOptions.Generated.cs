@@ -49,7 +49,6 @@ public record AwsDocdbElasticCreateClusterOptions : AwsOptions, IValidatableObje
         this.AdminUserName = AdminUserName;
         global::System.ArgumentNullException.ThrowIfNull(AdminUserPassword);
         this.AdminUserPassword = AdminUserPassword;
-        global::System.ArgumentNullException.ThrowIfNull(AuthType);
         this.AuthType = AuthType;
         global::System.ArgumentNullException.ThrowIfNull(ClusterName);
         this.ClusterName = ClusterName;

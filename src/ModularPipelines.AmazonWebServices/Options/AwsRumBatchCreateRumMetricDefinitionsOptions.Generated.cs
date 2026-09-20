@@ -39,7 +39,6 @@ public record AwsRumBatchCreateRumMetricDefinitionsOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(AppMonitorName);
         this.AppMonitorName = AppMonitorName;
-        global::System.ArgumentNullException.ThrowIfNull(Destination);
         this.Destination = Destination;
         {
             global::System.ArgumentNullException.ThrowIfNull(MetricDefinitions);

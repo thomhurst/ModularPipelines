@@ -37,7 +37,6 @@ public record AwsWellarchitectedUpdateAgentRecommendationStatusOptions : AwsOpti
     {
         global::System.ArgumentNullException.ThrowIfNull(RecommendationArn);
         this.RecommendationArn = RecommendationArn;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

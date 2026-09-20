@@ -45,7 +45,6 @@ public record AwsManagedblockchainCreateNetworkOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Framework);
         this.Framework = Framework;
         global::System.ArgumentNullException.ThrowIfNull(FrameworkVersion);
         this.FrameworkVersion = FrameworkVersion;

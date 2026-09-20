@@ -34,7 +34,6 @@ public record AwsDevopsGuruGetResourceCollectionOptions : AwsOptions, IValidatab
         AwsDevopsGuruGetResourceCollectionResourceCollectionType ResourceCollectionType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceCollectionType);
         this.ResourceCollectionType = ResourceCollectionType;
     }
 

@@ -38,7 +38,6 @@ public record AwsRoute53globalresolverCreateFirewallRuleOptions : AwsOptions, IV
         string DnsViewId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;

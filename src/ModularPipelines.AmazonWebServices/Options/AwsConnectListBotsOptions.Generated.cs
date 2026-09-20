@@ -38,7 +38,6 @@ public record AwsConnectListBotsOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(LexVersion);
         this.LexVersion = LexVersion;
     }
 

@@ -91,6 +91,12 @@ public record AwsResiliencehubv2UpdatePolicyOptions : AwsOptions, IValidatableOb
     [CliOption("--data-recovery")]
     public string? DataRecovery { get; set; }
 
+    /// <summary>
+    /// Specifies whether cross-account sharing is enabled for the policy. Disabling sharing stops member services from using the policy.
+    /// </summary>
+    [CliFlag("--sharing-enabled", NegatedName = "--no-sharing-enabled")]
+    public bool? SharingEnabled { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

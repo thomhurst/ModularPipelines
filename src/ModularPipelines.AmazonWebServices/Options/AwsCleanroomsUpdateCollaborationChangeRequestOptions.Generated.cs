@@ -41,7 +41,6 @@ public record AwsCleanroomsUpdateCollaborationChangeRequestOptions : AwsOptions,
         this.CollaborationIdentifier = CollaborationIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(ChangeRequestIdentifier);
         this.ChangeRequestIdentifier = ChangeRequestIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

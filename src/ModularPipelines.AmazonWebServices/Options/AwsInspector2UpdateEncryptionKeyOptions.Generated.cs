@@ -39,7 +39,6 @@ public record AwsInspector2UpdateEncryptionKeyOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(KmsKeyId);
         this.KmsKeyId = KmsKeyId;
-        global::System.ArgumentNullException.ThrowIfNull(ScanType);
         this.ScanType = ScanType;
         global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;

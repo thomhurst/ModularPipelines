@@ -47,7 +47,6 @@ public record AwsStoragegatewayCreateCachedIscsiVolumeOptions : AwsOptions, IVal
         this.VolumeSizeInBytes = VolumeSizeInBytes;
         global::System.ArgumentNullException.ThrowIfNull(TargetName);
         this.TargetName = TargetName;
-        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
         this.NetworkInterfaceId = NetworkInterfaceId;
         global::System.ArgumentNullException.ThrowIfNull(ClientToken);
         this.ClientToken = ClientToken;

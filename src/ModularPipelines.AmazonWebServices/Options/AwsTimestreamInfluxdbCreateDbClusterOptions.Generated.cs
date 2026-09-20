@@ -43,7 +43,6 @@ public record AwsTimestreamInfluxdbCreateDbClusterOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(DbInstanceType);
         this.DbInstanceType = DbInstanceType;
         {
             global::System.ArgumentNullException.ThrowIfNull(VpcSubnetIds);

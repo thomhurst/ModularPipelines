@@ -38,7 +38,6 @@ public record AwsConnectListEvaluationFormAiVersionsOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(ContactInteractionType);
         this.ContactInteractionType = ContactInteractionType;
     }
 

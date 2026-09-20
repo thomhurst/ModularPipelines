@@ -37,7 +37,6 @@ public record AwsPiUntagResourceOptions : AwsOptions, IValidatableObject
         IEnumerable<string> TagKeys
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
         this.ServiceType = ServiceType;
         global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
         this.ResourceArn = ResourceArn;

@@ -48,7 +48,6 @@ public record AwsBedrockAgentcoreProcessPaymentOptions : AwsOptions, IValidatabl
         this.PaymentSessionId = PaymentSessionId;
         global::System.ArgumentNullException.ThrowIfNull(PaymentInstrumentId);
         this.PaymentInstrumentId = PaymentInstrumentId;
-        global::System.ArgumentNullException.ThrowIfNull(PaymentType);
         this.PaymentType = PaymentType;
         global::System.ArgumentNullException.ThrowIfNull(PaymentInput);
         this.PaymentInput = PaymentInput;

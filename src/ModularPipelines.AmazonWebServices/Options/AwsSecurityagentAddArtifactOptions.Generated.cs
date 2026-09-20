@@ -43,7 +43,6 @@ public record AwsSecurityagentAddArtifactOptions : AwsOptions, IValidatableObjec
         this.AgentSpaceId = AgentSpaceId;
         global::System.ArgumentNullException.ThrowIfNull(ArtifactContent);
         this.ArtifactContent = ArtifactContent;
-        global::System.ArgumentNullException.ThrowIfNull(ArtifactType);
         this.ArtifactType = ArtifactType;
         global::System.ArgumentNullException.ThrowIfNull(FileName);
         this.FileName = FileName;

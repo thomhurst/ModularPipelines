@@ -41,7 +41,6 @@ public record AwsSsoAdminDescribeApplicationAssignmentOptions : AwsOptions, IVal
         this.ApplicationArn = ApplicationArn;
         global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
         this.PrincipalId = PrincipalId;
-        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
         this.PrincipalType = PrincipalType;
     }
 

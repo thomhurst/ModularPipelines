@@ -37,7 +37,6 @@ public record AwsSesSetIdentityNotificationTopicOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(Identity);
         this.Identity = Identity;
-        global::System.ArgumentNullException.ThrowIfNull(NotificationType);
         this.NotificationType = NotificationType;
     }
 

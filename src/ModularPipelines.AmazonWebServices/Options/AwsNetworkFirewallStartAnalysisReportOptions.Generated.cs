@@ -33,7 +33,6 @@ public record AwsNetworkFirewallStartAnalysisReportOptions : AwsOptions, IValida
         AwsNetworkFirewallStartAnalysisReportAnalysisType AnalysisType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AnalysisType);
         this.AnalysisType = AnalysisType;
     }
 

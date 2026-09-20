@@ -35,7 +35,6 @@ public record AwsServicecatalogAppregistrySyncResourceOptions : AwsOptions, IVal
         string Resource
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         global::System.ArgumentNullException.ThrowIfNull(Resource);
         this.Resource = Resource;

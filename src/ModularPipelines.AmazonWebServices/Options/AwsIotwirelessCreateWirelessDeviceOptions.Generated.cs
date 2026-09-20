@@ -36,7 +36,6 @@ public record AwsIotwirelessCreateWirelessDeviceOptions : AwsOptions, IValidatab
         string DestinationName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(DestinationName);
         this.DestinationName = DestinationName;

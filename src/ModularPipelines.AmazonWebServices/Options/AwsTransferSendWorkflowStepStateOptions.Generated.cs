@@ -46,7 +46,6 @@ public record AwsTransferSendWorkflowStepStateOptions : AwsOptions, IValidatable
         this.ExecutionId = ExecutionId;
         global::System.ArgumentNullException.ThrowIfNull(Token);
         this.Token = Token;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

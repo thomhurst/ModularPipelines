@@ -37,7 +37,6 @@ public record AwsMturkSendTestEventNotificationOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(Notification);
         this.Notification = Notification;
-        global::System.ArgumentNullException.ThrowIfNull(TestEventType);
         this.TestEventType = TestEventType;
     }
 

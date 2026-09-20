@@ -37,7 +37,6 @@ public record AwsOpensearchStartDomainMaintenanceOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(DomainName);
         this.DomainName = DomainName;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

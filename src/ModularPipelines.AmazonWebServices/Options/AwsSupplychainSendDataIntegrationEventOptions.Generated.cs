@@ -42,7 +42,6 @@ public record AwsSupplychainSendDataIntegrationEventOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(EventType);
         this.EventType = EventType;
         global::System.ArgumentNullException.ThrowIfNull(Data);
         this.Data = Data;

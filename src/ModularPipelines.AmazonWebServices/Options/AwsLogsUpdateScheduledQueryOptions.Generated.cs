@@ -43,7 +43,6 @@ public record AwsLogsUpdateScheduledQueryOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;
-        global::System.ArgumentNullException.ThrowIfNull(QueryLanguage);
         this.QueryLanguage = QueryLanguage;
         global::System.ArgumentNullException.ThrowIfNull(QueryString);
         this.QueryString = QueryString;

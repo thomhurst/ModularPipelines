@@ -37,7 +37,6 @@ public record AwsSsmRemoveTagsFromResourceOptions : AwsOptions, IValidatableObje
         IEnumerable<string> TagKeys
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;

@@ -45,7 +45,6 @@ public record AwsMediapackagev2UpdateOriginEndpointOptions : AwsOptions, IValida
         this.ChannelName = ChannelName;
         global::System.ArgumentNullException.ThrowIfNull(OriginEndpointName);
         this.OriginEndpointName = OriginEndpointName;
-        global::System.ArgumentNullException.ThrowIfNull(ContainerType);
         this.ContainerType = ContainerType;
     }
 

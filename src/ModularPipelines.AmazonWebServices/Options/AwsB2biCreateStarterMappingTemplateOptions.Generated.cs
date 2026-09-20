@@ -35,7 +35,6 @@ public record AwsB2biCreateStarterMappingTemplateOptions : AwsOptions, IValidata
         string TemplateDetails
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(MappingType);
         this.MappingType = MappingType;
         global::System.ArgumentNullException.ThrowIfNull(TemplateDetails);
         this.TemplateDetails = TemplateDetails;

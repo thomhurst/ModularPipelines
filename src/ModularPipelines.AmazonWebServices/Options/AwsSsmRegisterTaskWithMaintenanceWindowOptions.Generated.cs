@@ -43,7 +43,6 @@ public record AwsSsmRegisterTaskWithMaintenanceWindowOptions : AwsOptions, IVali
         this.WindowId = WindowId;
         global::System.ArgumentNullException.ThrowIfNull(TaskArn);
         this.TaskArn = TaskArn;
-        global::System.ArgumentNullException.ThrowIfNull(TaskType);
         this.TaskType = TaskType;
     }
 

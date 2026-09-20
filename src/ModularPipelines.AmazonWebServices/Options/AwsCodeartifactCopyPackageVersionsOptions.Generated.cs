@@ -48,7 +48,6 @@ public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions, IValidatab
         this.SourceRepository = SourceRepository;
         global::System.ArgumentNullException.ThrowIfNull(DestinationRepository);
         this.DestinationRepository = DestinationRepository;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
         global::System.ArgumentNullException.ThrowIfNull(Package);
         this.Package = Package;

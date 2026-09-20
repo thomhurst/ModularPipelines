@@ -37,7 +37,6 @@ public record AwsConnectUpdateAttachedFilesConfigurationOptions : AwsOptions, IV
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(AttachmentScope);
         this.AttachmentScope = AttachmentScope;
     }
 

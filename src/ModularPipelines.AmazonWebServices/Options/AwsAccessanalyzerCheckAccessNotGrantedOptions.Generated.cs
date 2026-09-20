@@ -52,7 +52,6 @@ public record AwsAccessanalyzerCheckAccessNotGrantedOptions : AwsOptions, IValid
             Access = materialized;
         }
         this.Access = Access;
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

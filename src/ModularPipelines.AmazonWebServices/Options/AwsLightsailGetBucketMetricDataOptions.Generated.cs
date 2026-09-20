@@ -47,7 +47,6 @@ public record AwsLightsailGetBucketMetricDataOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(BucketName);
         this.BucketName = BucketName;
-        global::System.ArgumentNullException.ThrowIfNull(MetricName);
         this.MetricName = MetricName;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);
         this.StartTime = StartTime;

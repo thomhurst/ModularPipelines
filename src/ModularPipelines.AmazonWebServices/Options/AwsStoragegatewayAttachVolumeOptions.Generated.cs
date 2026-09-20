@@ -41,7 +41,6 @@ public record AwsStoragegatewayAttachVolumeOptions : AwsOptions, IValidatableObj
         this.GatewayArn = GatewayArn;
         global::System.ArgumentNullException.ThrowIfNull(VolumeArn);
         this.VolumeArn = VolumeArn;
-        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
         this.NetworkInterfaceId = NetworkInterfaceId;
     }
 

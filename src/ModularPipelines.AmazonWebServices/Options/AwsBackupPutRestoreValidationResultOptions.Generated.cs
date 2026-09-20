@@ -37,7 +37,6 @@ public record AwsBackupPutRestoreValidationResultOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(RestoreJobId);
         this.RestoreJobId = RestoreJobId;
-        global::System.ArgumentNullException.ThrowIfNull(ValidationStatus);
         this.ValidationStatus = ValidationStatus;
     }
 

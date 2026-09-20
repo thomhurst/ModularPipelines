@@ -40,7 +40,6 @@ public record AwsBedrockAgentcoreControlUpdatePaymentCredentialProviderOptions :
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(CredentialProviderVendor);
         this.CredentialProviderVendor = CredentialProviderVendor;
         global::System.ArgumentNullException.ThrowIfNull(ProviderConfigurationInput);
         this.ProviderConfigurationInput = ProviderConfigurationInput;

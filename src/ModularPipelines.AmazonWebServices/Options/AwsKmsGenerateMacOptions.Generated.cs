@@ -42,7 +42,6 @@ public record AwsKmsGenerateMacOptions : AwsOptions, IValidatableObject
         this.Message = Message;
         global::System.ArgumentNullException.ThrowIfNull(KeyId);
         this.KeyId = KeyId;
-        global::System.ArgumentNullException.ThrowIfNull(MacAlgorithm);
         this.MacAlgorithm = MacAlgorithm;
     }
 

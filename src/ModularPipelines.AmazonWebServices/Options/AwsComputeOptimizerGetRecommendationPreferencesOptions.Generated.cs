@@ -34,7 +34,6 @@ public record AwsComputeOptimizerGetRecommendationPreferencesOptions : AwsOption
         AwsComputeOptimizerGetRecommendationPreferencesResourceType ResourceType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

@@ -42,7 +42,6 @@ public record AwsImagebuilderSendWorkflowStepActionOptions : AwsOptions, IValida
         this.StepExecutionId = StepExecutionId;
         global::System.ArgumentNullException.ThrowIfNull(ImageBuildVersionArn);
         this.ImageBuildVersionArn = ImageBuildVersionArn;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

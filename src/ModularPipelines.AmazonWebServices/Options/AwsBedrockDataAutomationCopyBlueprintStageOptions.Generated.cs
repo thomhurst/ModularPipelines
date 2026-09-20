@@ -40,9 +40,7 @@ public record AwsBedrockDataAutomationCopyBlueprintStageOptions : AwsOptions, IV
     {
         global::System.ArgumentNullException.ThrowIfNull(BlueprintArn);
         this.BlueprintArn = BlueprintArn;
-        global::System.ArgumentNullException.ThrowIfNull(SourceStage);
         this.SourceStage = SourceStage;
-        global::System.ArgumentNullException.ThrowIfNull(TargetStage);
         this.TargetStage = TargetStage;
     }
 

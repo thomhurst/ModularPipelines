@@ -46,7 +46,6 @@ public record AwsLookoutequipmentCreateLabelOptions : AwsOptions, IValidatableOb
         this.StartTime = StartTime;
         global::System.ArgumentNullException.ThrowIfNull(EndTime);
         this.EndTime = EndTime;
-        global::System.ArgumentNullException.ThrowIfNull(Rating);
         this.Rating = Rating;
     }
 

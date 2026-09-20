@@ -42,7 +42,6 @@ public record AwsEvsCreateEnvironmentConnectorOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
         this.EnvironmentId = EnvironmentId;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(ApplianceFqdn);
         this.ApplianceFqdn = ApplianceFqdn;

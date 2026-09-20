@@ -38,7 +38,6 @@ public record AwsDataexchangeCreateDataSetOptions : AwsOptions, IValidatableObje
         string Name
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AssetType);
         this.AssetType = AssetType;
         global::System.ArgumentNullException.ThrowIfNull(Description);
         this.Description = Description;

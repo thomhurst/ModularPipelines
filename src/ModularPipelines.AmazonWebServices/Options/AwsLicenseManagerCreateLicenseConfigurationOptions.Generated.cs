@@ -37,7 +37,6 @@ public record AwsLicenseManagerCreateLicenseConfigurationOptions : AwsOptions, I
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(LicenseCountingType);
         this.LicenseCountingType = LicenseCountingType;
     }
 

@@ -41,7 +41,6 @@ public record AwsConnectUpdateQueueStatusOptions : AwsOptions, IValidatableObjec
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(QueueId);
         this.QueueId = QueueId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

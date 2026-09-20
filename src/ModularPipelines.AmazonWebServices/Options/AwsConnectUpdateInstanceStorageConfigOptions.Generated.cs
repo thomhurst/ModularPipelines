@@ -44,7 +44,6 @@ public record AwsConnectUpdateInstanceStorageConfigOptions : AwsOptions, IValida
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(AssociationId);
         this.AssociationId = AssociationId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         global::System.ArgumentNullException.ThrowIfNull(StorageConfig);
         this.StorageConfig = StorageConfig;

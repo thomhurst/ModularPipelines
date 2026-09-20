@@ -41,7 +41,6 @@ public record AwsSsmSapRegisterApplicationOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
         this.ApplicationId = ApplicationId;
-        global::System.ArgumentNullException.ThrowIfNull(ApplicationType);
         this.ApplicationType = ApplicationType;
         {
             global::System.ArgumentNullException.ThrowIfNull(Instances);

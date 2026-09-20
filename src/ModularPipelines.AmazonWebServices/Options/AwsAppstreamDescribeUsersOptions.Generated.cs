@@ -34,7 +34,6 @@ public record AwsAppstreamDescribeUsersOptions : AwsOptions, IValidatableObject
         AwsAppstreamDescribeUsersAuthenticationType AuthenticationType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AuthenticationType);
         this.AuthenticationType = AuthenticationType;
     }
 

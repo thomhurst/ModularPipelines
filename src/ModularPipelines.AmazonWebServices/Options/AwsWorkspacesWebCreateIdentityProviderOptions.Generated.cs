@@ -45,7 +45,6 @@ public record AwsWorkspacesWebCreateIdentityProviderOptions : AwsOptions, IValid
         this.PortalArn = PortalArn;
         global::System.ArgumentNullException.ThrowIfNull(IdentityProviderName);
         this.IdentityProviderName = IdentityProviderName;
-        global::System.ArgumentNullException.ThrowIfNull(IdentityProviderType);
         this.IdentityProviderType = IdentityProviderType;
         {
             global::System.ArgumentNullException.ThrowIfNull(IdentityProviderDetails);

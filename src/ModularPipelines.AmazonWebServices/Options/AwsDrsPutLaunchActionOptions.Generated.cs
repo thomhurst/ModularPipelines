@@ -65,7 +65,6 @@ public record AwsDrsPutLaunchActionOptions : AwsOptions, IValidatableObject
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(ActionVersion);
         this.ActionVersion = ActionVersion;
-        global::System.ArgumentNullException.ThrowIfNull(Category);
         this.Category = Category;
         global::System.ArgumentNullException.ThrowIfNull(Description);
         this.Description = Description;

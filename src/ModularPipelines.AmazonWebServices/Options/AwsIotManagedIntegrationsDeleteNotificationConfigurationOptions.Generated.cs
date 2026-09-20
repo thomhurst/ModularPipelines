@@ -33,7 +33,6 @@ public record AwsIotManagedIntegrationsDeleteNotificationConfigurationOptions : 
         AwsIotManagedIntegrationsDeleteNotificationConfigurationEventType EventType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EventType);
         this.EventType = EventType;
     }
 

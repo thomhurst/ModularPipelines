@@ -37,7 +37,6 @@ public record AwsQuicksightUpdateDashboardsQaConfigurationOptions : AwsOptions, 
     {
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;
-        global::System.ArgumentNullException.ThrowIfNull(DashboardsQaStatus);
         this.DashboardsQaStatus = DashboardsQaStatus;
     }
 

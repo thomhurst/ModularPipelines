@@ -37,7 +37,6 @@ public record AwsIotwirelessUpdateResourceEventConfigurationOptions : AwsOptions
     {
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;
-        global::System.ArgumentNullException.ThrowIfNull(IdentifierType);
         this.IdentifierType = IdentifierType;
     }
 

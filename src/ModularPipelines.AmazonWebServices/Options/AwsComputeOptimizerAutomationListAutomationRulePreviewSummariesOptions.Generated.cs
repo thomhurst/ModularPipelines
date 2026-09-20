@@ -36,7 +36,6 @@ public record AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOpt
         IEnumerable<string> RecommendedActionTypes
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(RuleType);
         this.RuleType = RuleType;
         {
             global::System.ArgumentNullException.ThrowIfNull(RecommendedActionTypes);

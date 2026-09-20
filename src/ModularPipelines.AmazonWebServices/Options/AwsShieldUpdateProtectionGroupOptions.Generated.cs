@@ -39,9 +39,7 @@ public record AwsShieldUpdateProtectionGroupOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(ProtectionGroupId);
         this.ProtectionGroupId = ProtectionGroupId;
-        global::System.ArgumentNullException.ThrowIfNull(Aggregation);
         this.Aggregation = Aggregation;
-        global::System.ArgumentNullException.ThrowIfNull(Pattern);
         this.Pattern = Pattern;
     }
 

@@ -39,7 +39,6 @@ public record AwsMacie2CreateClassificationJobOptions : AwsOptions, IValidatable
         string S3JobDefinition
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(JobType);
         this.JobType = JobType;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;

@@ -27,7 +27,7 @@ public record AwsNotificationsGetManagedNotificationConfigurationOptions : AwsOp
     /// <summary>
     /// Returns a specified ManagedNotificationConfiguration . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to return. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to return. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
     public AwsNotificationsGetManagedNotificationConfigurationOptions(
         string Arn
     )
@@ -56,7 +56,7 @@ public record AwsNotificationsGetManagedNotificationConfigurationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to return. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to return. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

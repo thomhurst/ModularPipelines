@@ -41,7 +41,6 @@ public record AwsSecurityIrSendFeedbackOptions : AwsOptions, IValidatableObject
         this.CaseId = CaseId;
         global::System.ArgumentNullException.ThrowIfNull(ResultId);
         this.ResultId = ResultId;
-        global::System.ArgumentNullException.ThrowIfNull(Usefulness);
         this.Usefulness = Usefulness;
     }
 

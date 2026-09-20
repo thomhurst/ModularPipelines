@@ -44,7 +44,6 @@ public record AwsComputeOptimizerAutomationCreateAutomationRuleOptions : AwsOpti
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(RuleType);
         this.RuleType = RuleType;
         {
             global::System.ArgumentNullException.ThrowIfNull(RecommendedActionTypes);
@@ -61,7 +60,6 @@ public record AwsComputeOptimizerAutomationCreateAutomationRuleOptions : AwsOpti
         this.RecommendedActionTypes = RecommendedActionTypes;
         global::System.ArgumentNullException.ThrowIfNull(Schedule);
         this.Schedule = Schedule;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

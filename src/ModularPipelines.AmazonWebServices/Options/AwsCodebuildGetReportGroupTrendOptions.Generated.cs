@@ -37,7 +37,6 @@ public record AwsCodebuildGetReportGroupTrendOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(ReportGroupArn);
         this.ReportGroupArn = ReportGroupArn;
-        global::System.ArgumentNullException.ThrowIfNull(TrendField);
         this.TrendField = TrendField;
     }
 

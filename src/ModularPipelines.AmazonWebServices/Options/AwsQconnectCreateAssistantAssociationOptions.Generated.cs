@@ -41,7 +41,6 @@ public record AwsQconnectCreateAssistantAssociationOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(AssistantId);
         this.AssistantId = AssistantId;
-        global::System.ArgumentNullException.ThrowIfNull(AssociationType);
         this.AssociationType = AssociationType;
         global::System.ArgumentNullException.ThrowIfNull(Association);
         this.Association = Association;

@@ -45,7 +45,6 @@ public record AwsEntityresolutionAddPolicyStatementOptions : AwsOptions, IValida
         this.Arn = Arn;
         global::System.ArgumentNullException.ThrowIfNull(StatementId);
         this.StatementId = StatementId;
-        global::System.ArgumentNullException.ThrowIfNull(Effect);
         this.Effect = Effect;
         {
             global::System.ArgumentNullException.ThrowIfNull(Action);

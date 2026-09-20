@@ -43,7 +43,6 @@ public record AwsConnectCreateViewOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
         global::System.ArgumentNullException.ThrowIfNull(Content);
         this.Content = Content;

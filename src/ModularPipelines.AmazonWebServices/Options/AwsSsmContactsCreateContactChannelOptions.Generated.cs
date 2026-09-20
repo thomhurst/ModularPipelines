@@ -44,7 +44,6 @@ public record AwsSsmContactsCreateContactChannelOptions : AwsOptions, IValidatab
         this.ContactId = ContactId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(DeliveryAddress);
         this.DeliveryAddress = DeliveryAddress;

@@ -40,7 +40,6 @@ public record AwsDmsCreateEndpointOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(EndpointIdentifier);
         this.EndpointIdentifier = EndpointIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(EndpointType);
         this.EndpointType = EndpointType;
         global::System.ArgumentNullException.ThrowIfNull(EngineName);
         this.EngineName = EngineName;

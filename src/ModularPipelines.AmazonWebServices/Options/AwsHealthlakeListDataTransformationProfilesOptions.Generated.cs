@@ -34,7 +34,6 @@ public record AwsHealthlakeListDataTransformationProfilesOptions : AwsOptions, I
         AwsHealthlakeListDataTransformationProfilesSourceFormat SourceFormat
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(SourceFormat);
         this.SourceFormat = SourceFormat;
     }
 

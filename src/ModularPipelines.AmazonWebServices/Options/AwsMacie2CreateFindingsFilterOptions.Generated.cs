@@ -39,7 +39,6 @@ public record AwsMacie2CreateFindingsFilterOptions : AwsOptions, IValidatableObj
         string Name
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
         global::System.ArgumentNullException.ThrowIfNull(FindingCriteria);
         this.FindingCriteria = FindingCriteria;

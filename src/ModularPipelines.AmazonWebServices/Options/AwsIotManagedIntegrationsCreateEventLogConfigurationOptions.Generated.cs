@@ -38,7 +38,6 @@ public record AwsIotManagedIntegrationsCreateEventLogConfigurationOptions : AwsO
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
-        global::System.ArgumentNullException.ThrowIfNull(EventLogLevel);
         this.EventLogLevel = EventLogLevel;
     }
 

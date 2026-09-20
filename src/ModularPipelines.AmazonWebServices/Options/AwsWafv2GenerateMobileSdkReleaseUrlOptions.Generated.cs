@@ -35,7 +35,6 @@ public record AwsWafv2GenerateMobileSdkReleaseUrlOptions : AwsOptions, IValidata
         string ReleaseVersion
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Platform);
         this.Platform = Platform;
         global::System.ArgumentNullException.ThrowIfNull(ReleaseVersion);
         this.ReleaseVersion = ReleaseVersion;

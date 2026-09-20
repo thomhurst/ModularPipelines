@@ -37,7 +37,6 @@ public record AwsStoragegatewayUpdateSmbSecurityStrategyOptions : AwsOptions, IV
     {
         global::System.ArgumentNullException.ThrowIfNull(GatewayArn);
         this.GatewayArn = GatewayArn;
-        global::System.ArgumentNullException.ThrowIfNull(SmbSecurityStrategy);
         this.SmbSecurityStrategy = SmbSecurityStrategy;
     }
 

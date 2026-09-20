@@ -46,7 +46,6 @@ public record AwsComprehendStartKeyPhrasesDetectionJobOptions : AwsOptions, IVal
         this.OutputDataConfig = OutputDataConfig;
         global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
         this.DataAccessRoleArn = DataAccessRoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
     }
 

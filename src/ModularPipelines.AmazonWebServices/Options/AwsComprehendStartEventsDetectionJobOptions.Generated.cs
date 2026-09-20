@@ -48,7 +48,6 @@ public record AwsComprehendStartEventsDetectionJobOptions : AwsOptions, IValidat
         this.OutputDataConfig = OutputDataConfig;
         global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
         this.DataAccessRoleArn = DataAccessRoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
         {
             global::System.ArgumentNullException.ThrowIfNull(TargetEventTypes);

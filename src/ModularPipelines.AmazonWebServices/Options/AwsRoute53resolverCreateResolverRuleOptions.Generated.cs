@@ -37,7 +37,6 @@ public record AwsRoute53resolverCreateResolverRuleOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(CreatorRequestId);
         this.CreatorRequestId = CreatorRequestId;
-        global::System.ArgumentNullException.ThrowIfNull(RuleType);
         this.RuleType = RuleType;
     }
 

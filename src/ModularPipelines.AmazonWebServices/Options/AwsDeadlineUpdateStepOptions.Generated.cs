@@ -50,7 +50,6 @@ public record AwsDeadlineUpdateStepOptions : AwsOptions, IValidatableObject
         this.JobId = JobId;
         global::System.ArgumentNullException.ThrowIfNull(StepId);
         this.StepId = StepId;
-        global::System.ArgumentNullException.ThrowIfNull(TargetTaskRunStatus);
         this.TargetTaskRunStatus = TargetTaskRunStatus;
     }
 

@@ -44,7 +44,6 @@ public record AwsLicenseManagerCheckoutLicenseOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(ProductSku);
         this.ProductSku = ProductSku;
-        global::System.ArgumentNullException.ThrowIfNull(CheckoutType);
         this.CheckoutType = CheckoutType;
         global::System.ArgumentNullException.ThrowIfNull(KeyFingerprint);
         this.KeyFingerprint = KeyFingerprint;

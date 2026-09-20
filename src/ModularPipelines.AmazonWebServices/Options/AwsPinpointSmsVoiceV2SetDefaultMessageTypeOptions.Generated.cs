@@ -37,7 +37,6 @@ public record AwsPinpointSmsVoiceV2SetDefaultMessageTypeOptions : AwsOptions, IV
     {
         global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
         this.ConfigurationSetName = ConfigurationSetName;
-        global::System.ArgumentNullException.ThrowIfNull(MessageType);
         this.MessageType = MessageType;
     }
 

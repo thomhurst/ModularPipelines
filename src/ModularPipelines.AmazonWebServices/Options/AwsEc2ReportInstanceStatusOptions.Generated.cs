@@ -50,7 +50,6 @@ public record AwsEc2ReportInstanceStatusOptions : AwsOptions, IValidatableObject
             Instances = materialized;
         }
         this.Instances = Instances;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
         {
             global::System.ArgumentNullException.ThrowIfNull(ReasonCodes);

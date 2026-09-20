@@ -37,7 +37,6 @@ public record AwsHealthlakePublishDataTransformationProfileOptions : AwsOptions,
     {
         global::System.ArgumentNullException.ThrowIfNull(ProfileId);
         this.ProfileId = ProfileId;
-        global::System.ArgumentNullException.ThrowIfNull(SourceFormat);
         this.SourceFormat = SourceFormat;
     }
 

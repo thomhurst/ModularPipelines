@@ -37,7 +37,6 @@ public record AwsDmsStartReplicationTaskOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(ReplicationTaskArn);
         this.ReplicationTaskArn = ReplicationTaskArn;
-        global::System.ArgumentNullException.ThrowIfNull(StartReplicationTaskType);
         this.StartReplicationTaskType = StartReplicationTaskType;
     }
 

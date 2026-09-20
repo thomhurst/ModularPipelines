@@ -41,7 +41,6 @@ public record AwsServicecatalogAssociatePrincipalWithPortfolioOptions : AwsOptio
         this.PortfolioId = PortfolioId;
         global::System.ArgumentNullException.ThrowIfNull(PrincipalArn);
         this.PrincipalArn = PrincipalArn;
-        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
         this.PrincipalType = PrincipalType;
     }
 

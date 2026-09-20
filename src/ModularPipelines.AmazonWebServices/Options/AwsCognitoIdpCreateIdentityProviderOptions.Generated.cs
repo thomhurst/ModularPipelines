@@ -44,7 +44,6 @@ public record AwsCognitoIdpCreateIdentityProviderOptions : AwsOptions, IValidata
         this.UserPoolId = UserPoolId;
         global::System.ArgumentNullException.ThrowIfNull(ProviderName);
         this.ProviderName = ProviderName;
-        global::System.ArgumentNullException.ThrowIfNull(ProviderType);
         this.ProviderType = ProviderType;
         {
             global::System.ArgumentNullException.ThrowIfNull(ProviderDetails);

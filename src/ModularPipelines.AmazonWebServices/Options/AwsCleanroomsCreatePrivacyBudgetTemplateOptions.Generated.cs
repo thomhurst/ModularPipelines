@@ -40,7 +40,6 @@ public record AwsCleanroomsCreatePrivacyBudgetTemplateOptions : AwsOptions, IVal
     {
         global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
         this.MembershipIdentifier = MembershipIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(PrivacyBudgetType);
         this.PrivacyBudgetType = PrivacyBudgetType;
         global::System.ArgumentNullException.ThrowIfNull(Parameters);
         this.Parameters = Parameters;

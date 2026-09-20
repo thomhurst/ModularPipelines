@@ -45,7 +45,6 @@ public record AwsSagemakerCreateJobOptions : AwsOptions, IValidatableObject
         this.JobName = JobName;
         global::System.ArgumentNullException.ThrowIfNull(RoleArn);
         this.RoleArn = RoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(JobCategory);
         this.JobCategory = JobCategory;
         global::System.ArgumentNullException.ThrowIfNull(JobConfigSchemaVersion);
         this.JobConfigSchemaVersion = JobConfigSchemaVersion;

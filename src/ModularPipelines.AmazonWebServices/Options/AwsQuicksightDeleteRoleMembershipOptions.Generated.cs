@@ -41,7 +41,6 @@ public record AwsQuicksightDeleteRoleMembershipOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(MemberName);
         this.MemberName = MemberName;
-        global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;

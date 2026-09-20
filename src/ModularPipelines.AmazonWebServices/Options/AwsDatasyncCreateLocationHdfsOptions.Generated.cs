@@ -51,7 +51,6 @@ public record AwsDatasyncCreateLocationHdfsOptions : AwsOptions, IValidatableObj
             NameNodes = materialized;
         }
         this.NameNodes = NameNodes;
-        global::System.ArgumentNullException.ThrowIfNull(AuthenticationType);
         this.AuthenticationType = AuthenticationType;
         {
             global::System.ArgumentNullException.ThrowIfNull(AgentArns);

@@ -41,7 +41,6 @@ public record AwsCodeartifactGetRepositoryEndpointOptions : AwsOptions, IValidat
         this.Domain = Domain;
         global::System.ArgumentNullException.ThrowIfNull(Repository);
         this.Repository = Repository;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
     }
 

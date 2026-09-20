@@ -41,7 +41,6 @@ public record AwsSagemakerCreateStudioLifecycleConfigOptions : AwsOptions, IVali
         this.StudioLifecycleConfigName = StudioLifecycleConfigName;
         global::System.ArgumentNullException.ThrowIfNull(StudioLifecycleConfigContent);
         this.StudioLifecycleConfigContent = StudioLifecycleConfigContent;
-        global::System.ArgumentNullException.ThrowIfNull(StudioLifecycleConfigAppType);
         this.StudioLifecycleConfigAppType = StudioLifecycleConfigAppType;
     }
 

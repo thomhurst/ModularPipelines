@@ -41,7 +41,6 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(DbProxyName);
         this.DbProxyName = DbProxyName;
-        global::System.ArgumentNullException.ThrowIfNull(EngineFamily);
         this.EngineFamily = EngineFamily;
         global::System.ArgumentNullException.ThrowIfNull(RoleArn);
         this.RoleArn = RoleArn;

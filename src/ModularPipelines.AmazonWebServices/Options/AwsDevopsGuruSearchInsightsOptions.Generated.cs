@@ -38,7 +38,6 @@ public record AwsDevopsGuruSearchInsightsOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(StartTimeRange);
         this.StartTimeRange = StartTimeRange;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

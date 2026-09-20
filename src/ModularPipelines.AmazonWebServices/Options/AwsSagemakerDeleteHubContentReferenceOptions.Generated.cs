@@ -39,7 +39,6 @@ public record AwsSagemakerDeleteHubContentReferenceOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(HubName);
         this.HubName = HubName;
-        global::System.ArgumentNullException.ThrowIfNull(HubContentType);
         this.HubContentType = HubContentType;
         global::System.ArgumentNullException.ThrowIfNull(HubContentName);
         this.HubContentName = HubContentName;

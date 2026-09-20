@@ -37,7 +37,6 @@ public record AwsWafv2DescribeManagedProductsByVendorOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(VendorName);
         this.VendorName = VendorName;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

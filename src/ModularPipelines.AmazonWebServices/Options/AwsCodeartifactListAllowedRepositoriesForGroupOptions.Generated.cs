@@ -42,7 +42,6 @@ public record AwsCodeartifactListAllowedRepositoriesForGroupOptions : AwsOptions
         this.Domain = Domain;
         global::System.ArgumentNullException.ThrowIfNull(PackageGroup);
         this.PackageGroup = PackageGroup;
-        global::System.ArgumentNullException.ThrowIfNull(OriginRestrictionType);
         this.OriginRestrictionType = OriginRestrictionType;
     }
 

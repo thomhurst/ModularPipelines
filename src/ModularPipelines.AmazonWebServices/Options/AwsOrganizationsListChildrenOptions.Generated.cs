@@ -38,7 +38,6 @@ public record AwsOrganizationsListChildrenOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(ParentId);
         this.ParentId = ParentId;
-        global::System.ArgumentNullException.ThrowIfNull(ChildType);
         this.ChildType = ChildType;
     }
 

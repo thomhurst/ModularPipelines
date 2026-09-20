@@ -42,7 +42,6 @@ public record AwsConnectCreateAgentStatusOptions : AwsOptions, IValidatableObjec
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(State);
         this.State = State;
     }
 

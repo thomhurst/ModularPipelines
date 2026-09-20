@@ -46,7 +46,6 @@ public record AwsComprehendStartEntitiesDetectionJobOptions : AwsOptions, IValid
         this.OutputDataConfig = OutputDataConfig;
         global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
         this.DataAccessRoleArn = DataAccessRoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
     }
 

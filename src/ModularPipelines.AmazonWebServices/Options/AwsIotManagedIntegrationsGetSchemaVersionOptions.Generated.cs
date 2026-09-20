@@ -35,7 +35,6 @@ public record AwsIotManagedIntegrationsGetSchemaVersionOptions : AwsOptions, IVa
         string SchemaVersionedId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(SchemaVersionedId);
         this.SchemaVersionedId = SchemaVersionedId;

@@ -34,7 +34,6 @@ public record AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions 
         AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationStatus Status
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

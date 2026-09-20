@@ -41,7 +41,6 @@ public record AwsCleanroomsGetSchemaAnalysisRuleOptions : AwsOptions, IValidatab
         this.CollaborationIdentifier = CollaborationIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

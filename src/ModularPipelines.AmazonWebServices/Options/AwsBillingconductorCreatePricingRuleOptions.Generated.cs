@@ -41,9 +41,7 @@ public record AwsBillingconductorCreatePricingRuleOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

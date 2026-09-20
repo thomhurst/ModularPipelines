@@ -38,7 +38,6 @@ public record AwsDirectconnectCreateResiliencyGroupOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(ResiliencyGroupName);
         this.ResiliencyGroupName = ResiliencyGroupName;
-        global::System.ArgumentNullException.ThrowIfNull(IntendedResiliencyModel);
         this.IntendedResiliencyModel = IntendedResiliencyModel;
     }
 

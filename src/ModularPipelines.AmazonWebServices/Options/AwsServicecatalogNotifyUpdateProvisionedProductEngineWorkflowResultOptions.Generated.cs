@@ -42,7 +42,6 @@ public record AwsServicecatalogNotifyUpdateProvisionedProductEngineWorkflowResul
         this.WorkflowToken = WorkflowToken;
         global::System.ArgumentNullException.ThrowIfNull(RecordId);
         this.RecordId = RecordId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

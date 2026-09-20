@@ -41,7 +41,6 @@ public record AwsEc2CreateSubnetCidrReservationOptions : AwsOptions, IValidatabl
         this.SubnetId = SubnetId;
         global::System.ArgumentNullException.ThrowIfNull(Cidr);
         this.Cidr = Cidr;
-        global::System.ArgumentNullException.ThrowIfNull(ReservationType);
         this.ReservationType = ReservationType;
     }
 

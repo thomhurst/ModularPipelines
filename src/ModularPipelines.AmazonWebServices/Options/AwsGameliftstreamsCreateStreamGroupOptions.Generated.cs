@@ -39,7 +39,6 @@ public record AwsGameliftstreamsCreateStreamGroupOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(Description);
         this.Description = Description;
-        global::System.ArgumentNullException.ThrowIfNull(StreamClass);
         this.StreamClass = StreamClass;
     }
 

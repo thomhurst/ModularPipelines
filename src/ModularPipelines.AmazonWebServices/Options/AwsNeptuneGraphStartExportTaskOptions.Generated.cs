@@ -46,7 +46,6 @@ public record AwsNeptuneGraphStartExportTaskOptions : AwsOptions, IValidatableOb
         this.GraphIdentifier = GraphIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(RoleArn);
         this.RoleArn = RoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
         global::System.ArgumentNullException.ThrowIfNull(Destination);
         this.Destination = Destination;

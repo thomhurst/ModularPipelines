@@ -41,7 +41,6 @@ public record AwsCodepipelineEnableStageTransitionOptions : AwsOptions, IValidat
         this.PipelineName = PipelineName;
         global::System.ArgumentNullException.ThrowIfNull(StageName);
         this.StageName = StageName;
-        global::System.ArgumentNullException.ThrowIfNull(TransitionType);
         this.TransitionType = TransitionType;
     }
 

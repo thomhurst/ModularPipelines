@@ -33,7 +33,6 @@ public record AwsWafv2ListLoggingConfigurationsOptions : AwsOptions, IValidatabl
         AwsWafv2ListLoggingConfigurationsScope Scope
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

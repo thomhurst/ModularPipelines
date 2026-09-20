@@ -37,7 +37,6 @@ public record AwsCodepipelineDeleteCustomActionTypeOptions : AwsOptions, IValida
         string ActionVersion
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Category);
         this.Category = Category;
         global::System.ArgumentNullException.ThrowIfNull(Provider);
         this.Provider = Provider;

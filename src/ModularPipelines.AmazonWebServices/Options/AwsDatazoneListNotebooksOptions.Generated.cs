@@ -91,6 +91,12 @@ public record AwsDatazoneListNotebooksOptions : AwsOptions, IValidatableObject
     [CliOption("--status")]
     public AwsDatazoneListNotebooksStatus? Status { get; set; }
 
+    /// <summary>
+    /// The type to filter notebooks by. Possible values: o DATA o SQL
+    /// </summary>
+    [CliOption("--type")]
+    public AwsDatazoneListNotebooksType? Type { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

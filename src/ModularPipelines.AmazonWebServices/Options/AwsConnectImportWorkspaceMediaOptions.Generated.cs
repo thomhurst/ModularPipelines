@@ -43,7 +43,6 @@ public record AwsConnectImportWorkspaceMediaOptions : AwsOptions, IValidatableOb
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
         this.WorkspaceId = WorkspaceId;
-        global::System.ArgumentNullException.ThrowIfNull(MediaType);
         this.MediaType = MediaType;
         global::System.ArgumentNullException.ThrowIfNull(MediaSource);
         this.MediaSource = MediaSource;

@@ -37,7 +37,6 @@ public record AwsCeProvideAnomalyFeedbackOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(AnomalyId);
         this.AnomalyId = AnomalyId;
-        global::System.ArgumentNullException.ThrowIfNull(Feedback);
         this.Feedback = Feedback;
     }
 

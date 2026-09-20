@@ -37,7 +37,6 @@ public record AwsDsDisableClientAuthenticationOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
         this.DirectoryId = DirectoryId;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

@@ -45,7 +45,6 @@ public record AwsCodepipelineRetryStageExecutionOptions : AwsOptions, IValidatab
         this.StageName = StageName;
         global::System.ArgumentNullException.ThrowIfNull(PipelineExecutionId);
         this.PipelineExecutionId = PipelineExecutionId;
-        global::System.ArgumentNullException.ThrowIfNull(RetryMode);
         this.RetryMode = RetryMode;
     }
 

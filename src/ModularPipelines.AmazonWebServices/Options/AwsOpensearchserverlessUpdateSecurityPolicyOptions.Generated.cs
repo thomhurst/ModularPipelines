@@ -38,7 +38,6 @@ public record AwsOpensearchserverlessUpdateSecurityPolicyOptions : AwsOptions, I
         string PolicyVersion
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;

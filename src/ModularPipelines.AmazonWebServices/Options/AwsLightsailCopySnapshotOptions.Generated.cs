@@ -37,7 +37,6 @@ public record AwsLightsailCopySnapshotOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(TargetSnapshotName);
         this.TargetSnapshotName = TargetSnapshotName;
-        global::System.ArgumentNullException.ThrowIfNull(SourceRegion);
         this.SourceRegion = SourceRegion;
     }
 

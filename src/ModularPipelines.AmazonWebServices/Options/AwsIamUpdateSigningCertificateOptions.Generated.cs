@@ -37,7 +37,6 @@ public record AwsIamUpdateSigningCertificateOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(CertificateId);
         this.CertificateId = CertificateId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

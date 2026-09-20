@@ -37,7 +37,6 @@ public record AwsLambdaPutRuntimeManagementConfigOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(FunctionName);
         this.FunctionName = FunctionName;
-        global::System.ArgumentNullException.ThrowIfNull(UpdateRuntimeOn);
         this.UpdateRuntimeOn = UpdateRuntimeOn;
     }
 

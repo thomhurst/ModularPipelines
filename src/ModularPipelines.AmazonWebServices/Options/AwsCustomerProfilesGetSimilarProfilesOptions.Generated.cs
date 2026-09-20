@@ -42,7 +42,6 @@ public record AwsCustomerProfilesGetSimilarProfilesOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(DomainName);
         this.DomainName = DomainName;
-        global::System.ArgumentNullException.ThrowIfNull(MatchType);
         this.MatchType = MatchType;
         global::System.ArgumentNullException.ThrowIfNull(SearchKey);
         this.SearchKey = SearchKey;

@@ -37,7 +37,6 @@ public record AwsMacie2UpdateMemberSessionOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(Id);
         this.Id = Id;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

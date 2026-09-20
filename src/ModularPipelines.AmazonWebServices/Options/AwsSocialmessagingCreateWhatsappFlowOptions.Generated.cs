@@ -111,7 +111,7 @@ public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions, IValidat
     public string? CloneFlowId { get; set; }
 
     /// <summary>
-    /// Optional HTTPS endpoint for a dynamic Flow, registered with Meta as the Flow's endpoint_uri and called by Meta directly. When omitted, the Flow has no endpoint (static Flow). Meta only calls the endpoint when the Flow JSON also declares data_api_version. To verify that requests originate from Meta, attach your own Meta app via Update- WhatsAppFlow. Constraints: o min: 1 o max: 2048
+    /// The HTTPS endpoint that Meta calls for a data exchange Flow. Constraints: o min: 1 o max: 2048
     /// </summary>
     [CliOption("--endpoint-uri")]
     public string? EndpointUri { get; set; }

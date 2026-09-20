@@ -44,7 +44,6 @@ public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions, IValidata
         this.SpaceName = SpaceName;
         global::System.ArgumentNullException.ThrowIfNull(ProjectName);
         this.ProjectName = ProjectName;
-        global::System.ArgumentNullException.ThrowIfNull(InstanceType);
         this.InstanceType = InstanceType;
         global::System.ArgumentNullException.ThrowIfNull(PersistentStorage);
         this.PersistentStorage = PersistentStorage;

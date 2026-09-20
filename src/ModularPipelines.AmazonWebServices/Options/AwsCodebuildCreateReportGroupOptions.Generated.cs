@@ -39,7 +39,6 @@ public record AwsCodebuildCreateReportGroupOptions : AwsOptions, IValidatableObj
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(ExportConfig);
         this.ExportConfig = ExportConfig;

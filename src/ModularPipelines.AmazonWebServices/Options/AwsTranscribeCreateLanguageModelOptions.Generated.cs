@@ -39,9 +39,7 @@ public record AwsTranscribeCreateLanguageModelOptions : AwsOptions, IValidatable
         string InputDataConfig
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
-        global::System.ArgumentNullException.ThrowIfNull(BaseModelName);
         this.BaseModelName = BaseModelName;
         global::System.ArgumentNullException.ThrowIfNull(ModelName);
         this.ModelName = ModelName;
@@ -91,6 +89,12 @@ public record AwsTranscribeCreateLanguageModelOptions : AwsOptions, IValidatable
     /// </summary>
     [CliOption("--input-data-config")]
     public string? InputDataConfig { get; private init; }
+
+    /// <summary>
+    /// Specifies the encryption configuration for your custom language model. Your model artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied. KMSEncryptionContext -&gt; (map) A map of plain text, non-secret key:value pairs, known as en- cryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context . Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: ^[\x20-\x7E]+$ value -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: ^[\x20-\x7E]+$ KMSKey -&gt; (string) [required] The Amazon Resource Name (ARN) of the KMS key you want to use to encrypt your resource artifacts. Only full KMS key ARN format is supported. KMS key ARNs have the format arn:partition:kms:region:ac- count:key/key-id . For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab . For more information, see KMS key ARNs . Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$ Shorthand Syntax: KMSEncryptionContext={KeyName1=string,KeyName2=string},KMSKey=string JSON Syntax: { "KMSEncryptionContext": {"string": "string" ...}, "KMSKey": "string" }
+    /// </summary>
+    [CliOption("--encryption-configuration")]
+    public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
     /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom language model at the time you create this new model. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . Constraints: o min: 1 o max: 200 (structure) Adds metadata, in the form of a key:value pair, to the specified resource. For example, you could add the tag Department:Sales to a re- source to indicate that it pertains to your organization's sales department. You can also use tags for tag-based access control. To learn more about tagging, see Tagging resources . Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the key is 'Department'. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]

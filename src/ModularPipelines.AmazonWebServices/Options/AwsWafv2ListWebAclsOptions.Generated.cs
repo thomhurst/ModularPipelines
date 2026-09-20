@@ -33,7 +33,6 @@ public record AwsWafv2ListWebAclsOptions : AwsOptions, IValidatableObject
         AwsWafv2ListWebAclsScope Scope
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

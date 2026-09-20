@@ -45,7 +45,6 @@ public record AwsWafv2GetSampledRequestsOptions : AwsOptions, IValidatableObject
         this.WebAclArn = WebAclArn;
         global::System.ArgumentNullException.ThrowIfNull(RuleMetricName);
         this.RuleMetricName = RuleMetricName;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         global::System.ArgumentNullException.ThrowIfNull(TimeWindow);
         this.TimeWindow = TimeWindow;

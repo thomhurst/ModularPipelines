@@ -33,7 +33,6 @@ public record AwsIotsitewisePutDefaultEncryptionConfigurationOptions : AwsOption
         AwsIotsitewisePutDefaultEncryptionConfigurationEncryptionType EncryptionType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EncryptionType);
         this.EncryptionType = EncryptionType;
     }
 

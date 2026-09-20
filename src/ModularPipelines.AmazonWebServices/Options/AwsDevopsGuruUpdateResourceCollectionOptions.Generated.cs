@@ -35,7 +35,6 @@ public record AwsDevopsGuruUpdateResourceCollectionOptions : AwsOptions, IValida
         string ResourceCollection
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
         global::System.ArgumentNullException.ThrowIfNull(ResourceCollection);
         this.ResourceCollection = ResourceCollection;

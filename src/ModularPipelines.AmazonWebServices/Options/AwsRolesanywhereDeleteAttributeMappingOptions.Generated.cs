@@ -37,7 +37,6 @@ public record AwsRolesanywhereDeleteAttributeMappingOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(ProfileId);
         this.ProfileId = ProfileId;
-        global::System.ArgumentNullException.ThrowIfNull(CertificateField);
         this.CertificateField = CertificateField;
     }
 

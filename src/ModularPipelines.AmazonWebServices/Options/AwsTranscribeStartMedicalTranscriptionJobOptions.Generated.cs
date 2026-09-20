@@ -54,7 +54,6 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions, IVa
         this.OutputBucketName = OutputBucketName;
         global::System.ArgumentNullException.ThrowIfNull(Specialty);
         this.Specialty = Specialty;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 
@@ -138,7 +137,7 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions, IVa
     public string? OutputEncryptionKmsKeyId { get; set; }
 
     /// <summary>
-    /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS . Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS . Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: ^[\x20-\x7E]+$ value -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: ^[\x20-\x7E]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--kms-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? KmsEncryptionContext { get; set; }

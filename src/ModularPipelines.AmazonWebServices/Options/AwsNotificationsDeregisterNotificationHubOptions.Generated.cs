@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deregisters a NotificationConfiguration in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationConfiguration are no longer be visible. Recreating a new NotificationConfiguration in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
+/// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +25,9 @@ public record AwsNotificationsDeregisterNotificationHubOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deregisters a NotificationConfiguration in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationConfiguration are no longer be visible. Recreating a new NotificationConfiguration in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
+    /// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotificationHubRegion">The NotificationConfiguration Region. Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,2})-([a-z]{1,15}-)+([0-9])</param>
+    /// <param name="NotificationHubRegion">The NotificationHub Region. Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])</param>
     public AwsNotificationsDeregisterNotificationHubOptions(
         string NotificationHubRegion
     )
@@ -56,7 +56,7 @@ public record AwsNotificationsDeregisterNotificationHubOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The NotificationConfiguration Region. Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,2})-([a-z]{1,15}-)+([0-9])
+    /// The NotificationHub Region. Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])
     /// </summary>
     [CliOption("--notification-hub-region")]
     public string? NotificationHubRegion { get; private init; }

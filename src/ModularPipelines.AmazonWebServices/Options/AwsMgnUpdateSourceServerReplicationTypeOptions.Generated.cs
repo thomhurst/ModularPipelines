@@ -37,7 +37,6 @@ public record AwsMgnUpdateSourceServerReplicationTypeOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(SourceServerId);
         this.SourceServerId = SourceServerId;
-        global::System.ArgumentNullException.ThrowIfNull(ReplicationType);
         this.ReplicationType = ReplicationType;
     }
 

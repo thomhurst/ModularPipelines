@@ -44,7 +44,6 @@ public record AwsQuicksightCreateIamPolicyAssignmentOptions : AwsOptions, IValid
         this.AwsAccountId = AwsAccountId;
         global::System.ArgumentNullException.ThrowIfNull(AssignmentName);
         this.AssignmentName = AssignmentName;
-        global::System.ArgumentNullException.ThrowIfNull(AssignmentStatus);
         this.AssignmentStatus = AssignmentStatus;
         global::System.ArgumentNullException.ThrowIfNull(Namespace);
         this.Namespace = Namespace;

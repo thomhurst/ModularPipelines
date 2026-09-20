@@ -41,7 +41,6 @@ public record AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions : AwsOp
         this.ReputationEntityType = ReputationEntityType;
         global::System.ArgumentNullException.ThrowIfNull(ReputationEntityReference);
         this.ReputationEntityReference = ReputationEntityReference;
-        global::System.ArgumentNullException.ThrowIfNull(SendingStatus);
         this.SendingStatus = SendingStatus;
     }
 

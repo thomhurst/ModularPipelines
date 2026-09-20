@@ -47,9 +47,7 @@ public record AwsChimeSdkMessagingSendChannelMessageOptions : AwsOptions, IValid
         this.ChannelArn = ChannelArn;
         global::System.ArgumentNullException.ThrowIfNull(Content);
         this.Content = Content;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
-        global::System.ArgumentNullException.ThrowIfNull(Persistence);
         this.Persistence = Persistence;
         global::System.ArgumentNullException.ThrowIfNull(ChimeBearer);
         this.ChimeBearer = ChimeBearer;

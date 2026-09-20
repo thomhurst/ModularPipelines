@@ -72,7 +72,6 @@ public record AwsRtbfabricCreateResponderGatewayOptions : AwsOptions, IValidatab
         }
         this.SecurityGroupIds = SecurityGroupIds;
         this.Port = Port;
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
     }
 

@@ -39,7 +39,6 @@ public record AwsHealthlakeUpdateProfileWithAgentOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(ProfileId);
         this.ProfileId = ProfileId;
-        global::System.ArgumentNullException.ThrowIfNull(SourceFormat);
         this.SourceFormat = SourceFormat;
         global::System.ArgumentNullException.ThrowIfNull(InputMessage);
         this.InputMessage = InputMessage;

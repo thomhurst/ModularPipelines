@@ -40,7 +40,6 @@ public record AwsGuarddutyGetUsageStatisticsOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(DetectorId);
         this.DetectorId = DetectorId;
-        global::System.ArgumentNullException.ThrowIfNull(UsageStatisticType);
         this.UsageStatisticType = UsageStatisticType;
         global::System.ArgumentNullException.ThrowIfNull(UsageCriteria);
         this.UsageCriteria = UsageCriteria;

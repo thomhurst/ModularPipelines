@@ -34,7 +34,6 @@ public record AwsRamGetResourceShareAssociationsOptions : AwsOptions, IValidatab
         AwsRamGetResourceShareAssociationsAssociationType AssociationType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AssociationType);
         this.AssociationType = AssociationType;
     }
 

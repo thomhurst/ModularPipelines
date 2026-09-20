@@ -37,7 +37,6 @@ public record AwsEc2ModifyPublicIpDnsNameOptionsOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
         this.NetworkInterfaceId = NetworkInterfaceId;
-        global::System.ArgumentNullException.ThrowIfNull(HostnameType);
         this.HostnameType = HostnameType;
     }
 

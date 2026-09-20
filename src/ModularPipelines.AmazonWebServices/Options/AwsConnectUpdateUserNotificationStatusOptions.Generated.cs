@@ -45,7 +45,6 @@ public record AwsConnectUpdateUserNotificationStatusOptions : AwsOptions, IValid
         this.NotificationId = NotificationId;
         global::System.ArgumentNullException.ThrowIfNull(UserId);
         this.UserId = UserId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

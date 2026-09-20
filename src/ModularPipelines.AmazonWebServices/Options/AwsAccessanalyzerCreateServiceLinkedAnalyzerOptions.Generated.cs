@@ -34,7 +34,6 @@ public record AwsAccessanalyzerCreateServiceLinkedAnalyzerOptions : AwsOptions, 
         AwsAccessanalyzerCreateServiceLinkedAnalyzerType Type
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

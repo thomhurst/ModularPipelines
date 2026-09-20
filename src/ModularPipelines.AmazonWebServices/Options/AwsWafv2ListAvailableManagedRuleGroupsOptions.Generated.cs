@@ -33,7 +33,6 @@ public record AwsWafv2ListAvailableManagedRuleGroupsOptions : AwsOptions, IValid
         AwsWafv2ListAvailableManagedRuleGroupsScope Scope
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

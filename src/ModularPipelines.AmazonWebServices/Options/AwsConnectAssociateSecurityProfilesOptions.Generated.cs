@@ -54,7 +54,6 @@ public record AwsConnectAssociateSecurityProfilesOptions : AwsOptions, IValidata
             SecurityProfiles = materialized;
         }
         this.SecurityProfiles = SecurityProfiles;
-        global::System.ArgumentNullException.ThrowIfNull(EntityType);
         this.EntityType = EntityType;
         global::System.ArgumentNullException.ThrowIfNull(EntityArn);
         this.EntityArn = EntityArn;

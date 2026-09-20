@@ -43,9 +43,7 @@ public record AwsOpensearchUpdateScheduledActionOptions : AwsOptions, IValidatab
         this.DomainName = DomainName;
         global::System.ArgumentNullException.ThrowIfNull(ActionId);
         this.ActionId = ActionId;
-        global::System.ArgumentNullException.ThrowIfNull(ActionType);
         this.ActionType = ActionType;
-        global::System.ArgumentNullException.ThrowIfNull(ScheduleAt);
         this.ScheduleAt = ScheduleAt;
     }
 

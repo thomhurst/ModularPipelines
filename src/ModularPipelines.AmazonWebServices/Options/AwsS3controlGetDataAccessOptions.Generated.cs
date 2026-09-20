@@ -41,7 +41,6 @@ public record AwsS3controlGetDataAccessOptions : AwsOptions, IValidatableObject
         this.AccountId = AccountId;
         global::System.ArgumentNullException.ThrowIfNull(Target);
         this.Target = Target;
-        global::System.ArgumentNullException.ThrowIfNull(Permission);
         this.Permission = Permission;
     }
 

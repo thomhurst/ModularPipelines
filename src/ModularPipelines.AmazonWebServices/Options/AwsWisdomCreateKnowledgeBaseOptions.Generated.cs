@@ -37,7 +37,6 @@ public record AwsWisdomCreateKnowledgeBaseOptions : AwsOptions, IValidatableObje
         string Name
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseType);
         this.KnowledgeBaseType = KnowledgeBaseType;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;

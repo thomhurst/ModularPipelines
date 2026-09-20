@@ -39,9 +39,7 @@ public record AwsCeGetCostForecastOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(TimePeriod);
         this.TimePeriod = TimePeriod;
-        global::System.ArgumentNullException.ThrowIfNull(Metric);
         this.Metric = Metric;
-        global::System.ArgumentNullException.ThrowIfNull(Granularity);
         this.Granularity = Granularity;
     }
 

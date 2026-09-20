@@ -37,7 +37,6 @@ public record AwsRoute53resolverUpdateResolverDnssecConfigOptions : AwsOptions, 
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;
-        global::System.ArgumentNullException.ThrowIfNull(Validation);
         this.Validation = Validation;
     }
 

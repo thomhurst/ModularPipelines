@@ -34,7 +34,6 @@ public record AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions :
         AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOrganizationResourceCollectionType OrganizationResourceCollectionType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(OrganizationResourceCollectionType);
         this.OrganizationResourceCollectionType = OrganizationResourceCollectionType;
     }
 

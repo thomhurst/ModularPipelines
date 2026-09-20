@@ -38,7 +38,6 @@ public record AwsEc2CreateIpamPrefixListResolverOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(IpamId);
         this.IpamId = IpamId;
-        global::System.ArgumentNullException.ThrowIfNull(AddressFamily);
         this.AddressFamily = AddressFamily;
     }
 

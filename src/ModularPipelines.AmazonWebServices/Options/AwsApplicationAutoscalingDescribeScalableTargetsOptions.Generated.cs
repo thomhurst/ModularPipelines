@@ -34,7 +34,6 @@ public record AwsApplicationAutoscalingDescribeScalableTargetsOptions : AwsOptio
         AwsApplicationAutoscalingDescribeScalableTargetsServiceNamespace ServiceNamespace
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceNamespace);
         this.ServiceNamespace = ServiceNamespace;
     }
 

@@ -53,7 +53,6 @@ public record AwsMediatailorCreateChannelOptions : AwsOptions, IValidatableObjec
             Outputs = materialized;
         }
         this.Outputs = Outputs;
-        global::System.ArgumentNullException.ThrowIfNull(PlaybackMode);
         this.PlaybackMode = PlaybackMode;
     }
 

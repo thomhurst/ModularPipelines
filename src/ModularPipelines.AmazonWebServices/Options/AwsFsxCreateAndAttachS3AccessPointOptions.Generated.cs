@@ -38,7 +38,6 @@ public record AwsFsxCreateAndAttachS3AccessPointOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

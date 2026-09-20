@@ -37,7 +37,6 @@ public record AwsQuicksightUpdateIdentityPropagationConfigOptions : AwsOptions, 
     {
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;
-        global::System.ArgumentNullException.ThrowIfNull(Service);
         this.Service = Service;
     }
 

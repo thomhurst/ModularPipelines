@@ -37,7 +37,6 @@ public record AwsEc2ModifyVpcBlockPublicAccessExclusionOptions : AwsOptions, IVa
     {
         global::System.ArgumentNullException.ThrowIfNull(ExclusionId);
         this.ExclusionId = ExclusionId;
-        global::System.ArgumentNullException.ThrowIfNull(InternetGatewayExclusionMode);
         this.InternetGatewayExclusionMode = InternetGatewayExclusionMode;
     }
 

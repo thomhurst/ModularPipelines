@@ -40,7 +40,6 @@ public record AwsConnectAssociateInstanceStorageConfigOptions : AwsOptions, IVal
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         global::System.ArgumentNullException.ThrowIfNull(StorageConfig);
         this.StorageConfig = StorageConfig;

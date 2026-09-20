@@ -41,7 +41,6 @@ public record AwsB2biGenerateMappingOptions : AwsOptions, IValidatableObject
         this.InputFileContent = InputFileContent;
         global::System.ArgumentNullException.ThrowIfNull(OutputFileContent);
         this.OutputFileContent = OutputFileContent;
-        global::System.ArgumentNullException.ThrowIfNull(MappingType);
         this.MappingType = MappingType;
     }
 

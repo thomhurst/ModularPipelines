@@ -29,13 +29,12 @@ public record AwsNotificationsAssociateManagedNotificationAccountContactOptions 
     /// Associates an Account Contact with a particular ManagedNotificationCon- figuration . See also: AWS API Documentation
     /// </summary>
     /// <param name="ContactIdentifier">A unique value of an Account Contact Type to associate with the Man- agedNotificationConfiguration . Possible values: o ACCOUNT_PRIMARY o ACCOUNT_ALTERNATE_BILLING o ACCOUNT_ALTERNATE_OPERATIONS o ACCOUNT_ALTERNATE_SECURITY</param>
-    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
+    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
     public AwsNotificationsAssociateManagedNotificationAccountContactOptions(
         AwsNotificationsAssociateManagedNotificationAccountContactContactIdentifier ContactIdentifier,
         string ManagedNotificationConfigurationArn
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ContactIdentifier);
         this.ContactIdentifier = ContactIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(ManagedNotificationConfigurationArn);
         this.ManagedNotificationConfigurationArn = ManagedNotificationConfigurationArn;
@@ -67,10 +66,16 @@ public record AwsNotificationsAssociateManagedNotificationAccountContactOptions 
     public AwsNotificationsAssociateManagedNotificationAccountContactContactIdentifier? ContactIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
     /// </summary>
     [CliOption("--managed-notification-configuration-arn")]
     public string? ManagedNotificationConfigurationArn { get; private init; }
+
+    /// <summary>
+    /// Specifies whether this contact is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls ac- cess to sensitive events. Defaults to false.
+    /// </summary>
+    [CliFlag("--is-sensitive-events-subscribed", NegatedName = "--no-is-sensitive-events-subscribed")]
+    public bool? IsSensitiveEventsSubscribed { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

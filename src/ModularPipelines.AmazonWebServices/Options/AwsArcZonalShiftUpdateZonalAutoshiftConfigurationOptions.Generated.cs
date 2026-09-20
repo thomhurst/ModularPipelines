@@ -37,7 +37,6 @@ public record AwsArcZonalShiftUpdateZonalAutoshiftConfigurationOptions : AwsOpti
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
         this.ResourceIdentifier = ResourceIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(ZonalAutoshiftStatus);
         this.ZonalAutoshiftStatus = ZonalAutoshiftStatus;
     }
 

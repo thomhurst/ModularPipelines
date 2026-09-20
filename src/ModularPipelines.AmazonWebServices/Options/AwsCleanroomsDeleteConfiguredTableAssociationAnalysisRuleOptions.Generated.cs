@@ -41,7 +41,6 @@ public record AwsCleanroomsDeleteConfiguredTableAssociationAnalysisRuleOptions :
         this.MembershipIdentifier = MembershipIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(ConfiguredTableAssociationIdentifier);
         this.ConfiguredTableAssociationIdentifier = ConfiguredTableAssociationIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(AnalysisRuleType);
         this.AnalysisRuleType = AnalysisRuleType;
     }
 

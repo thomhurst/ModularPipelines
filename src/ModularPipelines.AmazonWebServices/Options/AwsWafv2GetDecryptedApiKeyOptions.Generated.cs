@@ -36,7 +36,6 @@ public record AwsWafv2GetDecryptedApiKeyOptions : AwsOptions, IValidatableObject
         string ApiKey
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         global::System.ArgumentNullException.ThrowIfNull(ApiKey);
         this.ApiKey = ApiKey;

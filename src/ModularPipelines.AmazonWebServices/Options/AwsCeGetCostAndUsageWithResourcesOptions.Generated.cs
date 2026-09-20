@@ -40,7 +40,6 @@ public record AwsCeGetCostAndUsageWithResourcesOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(TimePeriod);
         this.TimePeriod = TimePeriod;
-        global::System.ArgumentNullException.ThrowIfNull(Granularity);
         this.Granularity = Granularity;
         global::System.ArgumentNullException.ThrowIfNull(Filter);
         this.Filter = Filter;

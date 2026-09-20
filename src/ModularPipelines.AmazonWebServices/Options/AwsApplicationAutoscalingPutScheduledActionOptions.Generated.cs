@@ -39,7 +39,6 @@ public record AwsApplicationAutoscalingPutScheduledActionOptions : AwsOptions, I
         string ScalableDimension
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceNamespace);
         this.ServiceNamespace = ServiceNamespace;
         global::System.ArgumentNullException.ThrowIfNull(ScheduledActionName);
         this.ScheduledActionName = ScheduledActionName;

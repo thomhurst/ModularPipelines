@@ -41,7 +41,6 @@ public record AwsRdsCreateOptionGroupOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(OptionGroupName);
         this.OptionGroupName = OptionGroupName;
-        global::System.ArgumentNullException.ThrowIfNull(EngineName);
         this.EngineName = EngineName;
         global::System.ArgumentNullException.ThrowIfNull(MajorEngineVersion);
         this.MajorEngineVersion = MajorEngineVersion;

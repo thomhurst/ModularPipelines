@@ -39,7 +39,6 @@ public record AwsB2biTestParsingOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(InputFile);
         this.InputFile = InputFile;
-        global::System.ArgumentNullException.ThrowIfNull(FileFormat);
         this.FileFormat = FileFormat;
         global::System.ArgumentNullException.ThrowIfNull(EdiType);
         this.EdiType = EdiType;

@@ -41,7 +41,6 @@ public record AwsDsShareDirectoryOptions : AwsOptions, IValidatableObject
         this.DirectoryId = DirectoryId;
         global::System.ArgumentNullException.ThrowIfNull(ShareTarget);
         this.ShareTarget = ShareTarget;
-        global::System.ArgumentNullException.ThrowIfNull(ShareMethod);
         this.ShareMethod = ShareMethod;
     }
 

@@ -37,7 +37,6 @@ public record AwsMghNotifyApplicationStateOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
         this.ApplicationId = ApplicationId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

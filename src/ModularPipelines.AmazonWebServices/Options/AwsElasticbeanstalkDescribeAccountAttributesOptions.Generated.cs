@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS account. The result currently has one set of attributesresource quotas. See also: AWS API Documentation
+/// Returns attributes related to Elastic Beanstalk that are associated with the calling Amazon Web Services account. The result currently has one set of attributesresource quotas. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

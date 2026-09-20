@@ -45,7 +45,6 @@ public record AwsDatazoneCreateProjectMembershipOptions : AwsOptions, IValidatab
         this.ProjectIdentifier = ProjectIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(Member);
         this.Member = Member;
-        global::System.ArgumentNullException.ThrowIfNull(Designation);
         this.Designation = Designation;
     }
 

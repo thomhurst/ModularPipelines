@@ -39,7 +39,6 @@ public record AwsWafv2GetRevenueStatisticsSummaryOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(TimeWindow);
         this.TimeWindow = TimeWindow;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         global::System.ArgumentNullException.ThrowIfNull(Currency);
         this.Currency = Currency;

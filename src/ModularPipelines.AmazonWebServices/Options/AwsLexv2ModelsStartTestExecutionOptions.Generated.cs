@@ -41,7 +41,6 @@ public record AwsLexv2ModelsStartTestExecutionOptions : AwsOptions, IValidatable
         this.TestSetId = TestSetId;
         global::System.ArgumentNullException.ThrowIfNull(Target);
         this.Target = Target;
-        global::System.ArgumentNullException.ThrowIfNull(ApiMode);
         this.ApiMode = ApiMode;
     }
 

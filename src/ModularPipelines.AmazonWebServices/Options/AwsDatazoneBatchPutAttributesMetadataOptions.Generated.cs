@@ -42,7 +42,6 @@ public record AwsDatazoneBatchPutAttributesMetadataOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
         this.DomainIdentifier = DomainIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(EntityType);
         this.EntityType = EntityType;
         global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
         this.EntityIdentifier = EntityIdentifier;

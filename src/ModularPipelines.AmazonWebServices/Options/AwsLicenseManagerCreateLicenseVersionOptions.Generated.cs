@@ -79,7 +79,6 @@ public record AwsLicenseManagerCreateLicenseVersionOptions : AwsOptions, IValida
         this.Entitlements = Entitlements;
         global::System.ArgumentNullException.ThrowIfNull(ConsumptionConfiguration);
         this.ConsumptionConfiguration = ConsumptionConfiguration;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
         global::System.ArgumentNullException.ThrowIfNull(ClientToken);
         this.ClientToken = ClientToken;

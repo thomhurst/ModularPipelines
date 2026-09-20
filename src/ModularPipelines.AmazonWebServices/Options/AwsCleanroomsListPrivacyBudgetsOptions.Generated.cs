@@ -38,7 +38,6 @@ public record AwsCleanroomsListPrivacyBudgetsOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
         this.MembershipIdentifier = MembershipIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(PrivacyBudgetType);
         this.PrivacyBudgetType = PrivacyBudgetType;
     }
 

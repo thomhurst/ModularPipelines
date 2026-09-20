@@ -42,7 +42,6 @@ public record AwsWorkmailPutIdentityProviderConfigurationOptions : AwsOptions, I
     {
         global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
         this.OrganizationId = OrganizationId;
-        global::System.ArgumentNullException.ThrowIfNull(AuthenticationMode);
         this.AuthenticationMode = AuthenticationMode;
         global::System.ArgumentNullException.ThrowIfNull(IdentityCenterConfiguration);
         this.IdentityCenterConfiguration = IdentityCenterConfiguration;

@@ -43,7 +43,6 @@ public record AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions : A
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
         this.InstanceArn = InstanceArn;
-        global::System.ArgumentNullException.ThrowIfNull(Stat);
         this.Stat = Stat;
         this.Period = Period;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);

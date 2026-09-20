@@ -37,7 +37,6 @@ public record AwsRoute53RecoveryControlConfigUpdateClusterOptions : AwsOptions, 
     {
         global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
         this.ClusterArn = ClusterArn;
-        global::System.ArgumentNullException.ThrowIfNull(NetworkType);
         this.NetworkType = NetworkType;
     }
 

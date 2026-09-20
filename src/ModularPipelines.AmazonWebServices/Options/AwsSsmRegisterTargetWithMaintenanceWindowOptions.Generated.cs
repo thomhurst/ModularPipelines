@@ -40,7 +40,6 @@ public record AwsSsmRegisterTargetWithMaintenanceWindowOptions : AwsOptions, IVa
     {
         global::System.ArgumentNullException.ThrowIfNull(WindowId);
         this.WindowId = WindowId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         {
             global::System.ArgumentNullException.ThrowIfNull(Targets);

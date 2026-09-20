@@ -39,7 +39,6 @@ public record AwsOpensearchCreatePackageOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(PackageName);
         this.PackageName = PackageName;
-        global::System.ArgumentNullException.ThrowIfNull(PackageType);
         this.PackageType = PackageType;
         global::System.ArgumentNullException.ThrowIfNull(PackageSource);
         this.PackageSource = PackageSource;

@@ -40,7 +40,6 @@ public record AwsRedshiftServerlessCreateUsageLimitOptions : AwsOptions, IValida
         this.Amount = Amount;
         global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
         this.ResourceArn = ResourceArn;
-        global::System.ArgumentNullException.ThrowIfNull(UsageType);
         this.UsageType = UsageType;
     }
 

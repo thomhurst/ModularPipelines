@@ -38,7 +38,6 @@ public record AwsSagemakerListHubContentsOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(HubName);
         this.HubName = HubName;
-        global::System.ArgumentNullException.ThrowIfNull(HubContentType);
         this.HubContentType = HubContentType;
     }
 

@@ -37,7 +37,6 @@ public record AwsEc2CreateNetworkInterfacePermissionOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
         this.NetworkInterfaceId = NetworkInterfaceId;
-        global::System.ArgumentNullException.ThrowIfNull(Permission);
         this.Permission = Permission;
     }
 

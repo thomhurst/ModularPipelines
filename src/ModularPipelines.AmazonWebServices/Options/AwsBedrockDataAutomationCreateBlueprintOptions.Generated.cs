@@ -40,7 +40,6 @@ public record AwsBedrockDataAutomationCreateBlueprintOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(BlueprintName);
         this.BlueprintName = BlueprintName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(Schema);
         this.Schema = Schema;

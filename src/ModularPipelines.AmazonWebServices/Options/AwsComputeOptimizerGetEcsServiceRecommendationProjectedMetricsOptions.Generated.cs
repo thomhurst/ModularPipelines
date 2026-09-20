@@ -43,7 +43,6 @@ public record AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOpti
     {
         global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
         this.ServiceArn = ServiceArn;
-        global::System.ArgumentNullException.ThrowIfNull(Stat);
         this.Stat = Stat;
         this.Period = Period;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);

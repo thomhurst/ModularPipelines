@@ -41,7 +41,6 @@ public record AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions : AwsOp
         this.ServiceId = ServiceId;
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

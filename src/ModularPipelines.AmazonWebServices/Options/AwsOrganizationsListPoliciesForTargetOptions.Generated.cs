@@ -38,7 +38,6 @@ public record AwsOrganizationsListPoliciesForTargetOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(TargetId);
         this.TargetId = TargetId;
-        global::System.ArgumentNullException.ThrowIfNull(Filter);
         this.Filter = Filter;
     }
 

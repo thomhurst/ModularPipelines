@@ -39,7 +39,6 @@ public record AwsSagemakerDescribeAppOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(DomainId);
         this.DomainId = DomainId;
-        global::System.ArgumentNullException.ThrowIfNull(AppType);
         this.AppType = AppType;
         global::System.ArgumentNullException.ThrowIfNull(AppName);
         this.AppName = AppName;

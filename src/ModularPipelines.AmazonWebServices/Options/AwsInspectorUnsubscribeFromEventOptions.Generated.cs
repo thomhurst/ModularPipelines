@@ -39,7 +39,6 @@ public record AwsInspectorUnsubscribeFromEventOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
         this.ResourceArn = ResourceArn;
-        global::System.ArgumentNullException.ThrowIfNull(Event);
         this.Event = Event;
         global::System.ArgumentNullException.ThrowIfNull(TopicArn);
         this.TopicArn = TopicArn;

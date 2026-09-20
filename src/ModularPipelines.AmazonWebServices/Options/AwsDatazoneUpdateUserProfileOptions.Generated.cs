@@ -41,7 +41,6 @@ public record AwsDatazoneUpdateUserProfileOptions : AwsOptions, IValidatableObje
         this.DomainIdentifier = DomainIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(UserIdentifier);
         this.UserIdentifier = UserIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

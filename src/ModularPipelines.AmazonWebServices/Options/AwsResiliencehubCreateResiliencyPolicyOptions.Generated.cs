@@ -54,7 +54,6 @@ public record AwsResiliencehubCreateResiliencyPolicyOptions : AwsOptions, IValid
         this.Policy = Policy;
         global::System.ArgumentNullException.ThrowIfNull(PolicyName);
         this.PolicyName = PolicyName;
-        global::System.ArgumentNullException.ThrowIfNull(Tier);
         this.Tier = Tier;
     }
 

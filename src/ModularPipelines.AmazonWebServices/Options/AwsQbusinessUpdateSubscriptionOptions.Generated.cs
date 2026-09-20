@@ -41,7 +41,6 @@ public record AwsQbusinessUpdateSubscriptionOptions : AwsOptions, IValidatableOb
         this.ApplicationId = ApplicationId;
         global::System.ArgumentNullException.ThrowIfNull(SubscriptionId);
         this.SubscriptionId = SubscriptionId;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

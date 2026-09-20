@@ -37,7 +37,6 @@ public record AwsDynamodbUpdateContributorInsightsOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(TableName);
         this.TableName = TableName;
-        global::System.ArgumentNullException.ThrowIfNull(ContributorInsightsAction);
         this.ContributorInsightsAction = ContributorInsightsAction;
     }
 

@@ -37,7 +37,6 @@ public record AwsTransferCreateProfileOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(As2Id);
         this.As2Id = As2Id;
-        global::System.ArgumentNullException.ThrowIfNull(ProfileType);
         this.ProfileType = ProfileType;
     }
 

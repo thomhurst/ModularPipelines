@@ -45,7 +45,6 @@ public record AwsVpcLatticeCreateListenerOptions : AwsOptions, IValidatableObjec
         this.ServiceIdentifier = ServiceIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
         global::System.ArgumentNullException.ThrowIfNull(DefaultAction);
         this.DefaultAction = DefaultAction;

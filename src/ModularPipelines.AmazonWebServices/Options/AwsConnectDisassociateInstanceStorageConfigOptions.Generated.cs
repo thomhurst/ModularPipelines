@@ -42,7 +42,6 @@ public record AwsConnectDisassociateInstanceStorageConfigOptions : AwsOptions, I
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(AssociationId);
         this.AssociationId = AssociationId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

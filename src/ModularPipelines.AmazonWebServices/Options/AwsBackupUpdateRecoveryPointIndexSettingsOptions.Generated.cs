@@ -41,7 +41,6 @@ public record AwsBackupUpdateRecoveryPointIndexSettingsOptions : AwsOptions, IVa
         this.BackupVaultName = BackupVaultName;
         global::System.ArgumentNullException.ThrowIfNull(RecoveryPointArn);
         this.RecoveryPointArn = RecoveryPointArn;
-        global::System.ArgumentNullException.ThrowIfNull(Index);
         this.Index = Index;
     }
 

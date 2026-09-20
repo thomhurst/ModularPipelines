@@ -43,7 +43,6 @@ public record AwsPaymentCryptographyDataGenerateAuthRequestCryptogramOptions : A
         this.KeyIdentifier = KeyIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(TransactionData);
         this.TransactionData = TransactionData;
-        global::System.ArgumentNullException.ThrowIfNull(MajorKeyDerivationMode);
         this.MajorKeyDerivationMode = MajorKeyDerivationMode;
         global::System.ArgumentNullException.ThrowIfNull(SessionKeyDerivationAttributes);
         this.SessionKeyDerivationAttributes = SessionKeyDerivationAttributes;

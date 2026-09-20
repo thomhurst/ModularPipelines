@@ -37,7 +37,6 @@ public record AwsSnowballUpdateJobShipmentStateOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(JobId);
         this.JobId = JobId;
-        global::System.ArgumentNullException.ThrowIfNull(ShipmentState);
         this.ShipmentState = ShipmentState;
     }
 

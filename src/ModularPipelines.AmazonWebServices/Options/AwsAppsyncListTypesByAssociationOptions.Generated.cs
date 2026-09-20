@@ -42,7 +42,6 @@ public record AwsAppsyncListTypesByAssociationOptions : AwsOptions, IValidatable
         this.MergedApiIdentifier = MergedApiIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(AssociationId);
         this.AssociationId = AssociationId;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
     }
 

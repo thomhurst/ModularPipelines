@@ -49,7 +49,6 @@ public record AwsLightsailPutAlarmOptions : AwsOptions, IValidatableObject
         this.MetricName = MetricName;
         global::System.ArgumentNullException.ThrowIfNull(MonitoredResourceName);
         this.MonitoredResourceName = MonitoredResourceName;
-        global::System.ArgumentNullException.ThrowIfNull(ComparisonOperator);
         this.ComparisonOperator = ComparisonOperator;
         this.Threshold = Threshold;
         this.EvaluationPeriods = EvaluationPeriods;

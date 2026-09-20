@@ -40,7 +40,6 @@ public record AwsEventsCreateConnectionOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(AuthorizationType);
         this.AuthorizationType = AuthorizationType;
         global::System.ArgumentNullException.ThrowIfNull(AuthParameters);
         this.AuthParameters = AuthParameters;

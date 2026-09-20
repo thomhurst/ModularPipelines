@@ -38,7 +38,6 @@ public record AwsAppsyncListTypesOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(ApiId);
         this.ApiId = ApiId;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
     }
 

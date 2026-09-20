@@ -47,7 +47,6 @@ public record AwsLightsailGetRelationalDatabaseMetricDataOptions : AwsOptions, I
     {
         global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseName);
         this.RelationalDatabaseName = RelationalDatabaseName;
-        global::System.ArgumentNullException.ThrowIfNull(MetricName);
         this.MetricName = MetricName;
         this.Period = Period;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);

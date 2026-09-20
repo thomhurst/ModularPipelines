@@ -52,7 +52,6 @@ public record AwsGameliftAcceptMatchOptions : AwsOptions, IValidatableObject
             PlayerIds = materialized;
         }
         this.PlayerIds = PlayerIds;
-        global::System.ArgumentNullException.ThrowIfNull(AcceptanceType);
         this.AcceptanceType = AcceptanceType;
     }
 

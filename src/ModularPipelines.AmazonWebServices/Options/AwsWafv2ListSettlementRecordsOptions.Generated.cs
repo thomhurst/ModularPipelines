@@ -39,7 +39,6 @@ public record AwsWafv2ListSettlementRecordsOptions : AwsOptions, IValidatableObj
     {
         global::System.ArgumentNullException.ThrowIfNull(TimeWindow);
         this.TimeWindow = TimeWindow;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         global::System.ArgumentNullException.ThrowIfNull(Currency);
         this.Currency = Currency;

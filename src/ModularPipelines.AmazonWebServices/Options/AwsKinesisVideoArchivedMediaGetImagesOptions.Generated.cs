@@ -41,13 +41,11 @@ public record AwsKinesisVideoArchivedMediaGetImagesOptions : AwsOptions, IValida
         AwsKinesisVideoArchivedMediaGetImagesFormat Format
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ImageSelectorType);
         this.ImageSelectorType = ImageSelectorType;
         global::System.ArgumentNullException.ThrowIfNull(StartTimestamp);
         this.StartTimestamp = StartTimestamp;
         global::System.ArgumentNullException.ThrowIfNull(EndTimestamp);
         this.EndTimestamp = EndTimestamp;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
     }
 

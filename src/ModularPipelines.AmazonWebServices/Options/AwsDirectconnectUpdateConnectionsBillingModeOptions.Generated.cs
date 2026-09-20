@@ -48,7 +48,6 @@ public record AwsDirectconnectUpdateConnectionsBillingModeOptions : AwsOptions, 
             ConnectionIds = materialized;
         }
         this.ConnectionIds = ConnectionIds;
-        global::System.ArgumentNullException.ThrowIfNull(BillingMode);
         this.BillingMode = BillingMode;
     }
 

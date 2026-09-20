@@ -153,7 +153,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Deregisters a NotificationConfiguration in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationConfiguration are no longer be visible. Recreating a new NotificationConfiguration in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
+    /// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -543,7 +543,7 @@ public class AwsNotifications : IAwsNotifications
     }
 
     /// <summary>
-    /// Registers a NotificationConfiguration in the specified Region. There is a maximum of one NotificationConfiguration per Region. You can have a maximum of 3 NotificationHub resources at a time. See also: AWS API Documentation
+    /// Registers a NotificationHub in the specified Region. There is a maximum of one NotificationHub per Region. You can have a maximum of 3 NotificationHub resources at a time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -596,6 +596,21 @@ public class AwsNotifications : IAwsNotifications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateEventRuleAsync(
         AwsNotificationsUpdateEventRuleOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the isSensitiveEventsSubscribed property of a particular Man- agedNotification channel association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateManagedNotificationChannelAssociationAsync(
+        AwsNotificationsUpdateManagedNotificationChannelAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

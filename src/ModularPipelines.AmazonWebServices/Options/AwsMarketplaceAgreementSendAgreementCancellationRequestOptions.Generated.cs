@@ -38,7 +38,6 @@ public record AwsMarketplaceAgreementSendAgreementCancellationRequestOptions : A
     {
         global::System.ArgumentNullException.ThrowIfNull(AgreementId);
         this.AgreementId = AgreementId;
-        global::System.ArgumentNullException.ThrowIfNull(ReasonCode);
         this.ReasonCode = ReasonCode;
     }
 

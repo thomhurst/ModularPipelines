@@ -45,7 +45,6 @@ public record AwsPaymentCryptographyDataGeneratePinDataOptions : AwsOptions, IVa
         this.EncryptionKeyIdentifier = EncryptionKeyIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(GenerationAttributes);
         this.GenerationAttributes = GenerationAttributes;
-        global::System.ArgumentNullException.ThrowIfNull(PinBlockFormat);
         this.PinBlockFormat = PinBlockFormat;
     }
 

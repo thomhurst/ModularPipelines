@@ -43,15 +43,10 @@ public record AwsWorkspacesWebCreateUserSettingsOptions : AwsOptions, IValidatab
         AwsWorkspacesWebCreateUserSettingsPrintAllowed PrintAllowed
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(CopyAllowed);
         this.CopyAllowed = CopyAllowed;
-        global::System.ArgumentNullException.ThrowIfNull(PasteAllowed);
         this.PasteAllowed = PasteAllowed;
-        global::System.ArgumentNullException.ThrowIfNull(DownloadAllowed);
         this.DownloadAllowed = DownloadAllowed;
-        global::System.ArgumentNullException.ThrowIfNull(UploadAllowed);
         this.UploadAllowed = UploadAllowed;
-        global::System.ArgumentNullException.ThrowIfNull(PrintAllowed);
         this.PrintAllowed = PrintAllowed;
     }
 

@@ -33,7 +33,6 @@ public record AwsEc2EnableSnapshotBlockPublicAccessOptions : AwsOptions, IValida
         AwsEc2EnableSnapshotBlockPublicAccessState State
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(State);
         this.State = State;
     }
 

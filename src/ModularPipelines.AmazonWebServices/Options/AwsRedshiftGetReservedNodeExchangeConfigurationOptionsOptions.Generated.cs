@@ -34,7 +34,6 @@ public record AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions : Aw
         AwsRedshiftGetReservedNodeExchangeConfigurationOptionsActionType ActionType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ActionType);
         this.ActionType = ActionType;
     }
 

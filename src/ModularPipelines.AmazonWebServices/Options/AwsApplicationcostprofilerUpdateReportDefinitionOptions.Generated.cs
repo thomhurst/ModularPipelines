@@ -45,9 +45,7 @@ public record AwsApplicationcostprofilerUpdateReportDefinitionOptions : AwsOptio
         this.ReportId = ReportId;
         global::System.ArgumentNullException.ThrowIfNull(ReportDescription);
         this.ReportDescription = ReportDescription;
-        global::System.ArgumentNullException.ThrowIfNull(ReportFrequency);
         this.ReportFrequency = ReportFrequency;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
         global::System.ArgumentNullException.ThrowIfNull(DestinationS3Location);
         this.DestinationS3Location = DestinationS3Location;

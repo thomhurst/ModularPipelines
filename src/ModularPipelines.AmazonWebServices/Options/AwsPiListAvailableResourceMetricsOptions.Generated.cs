@@ -38,7 +38,6 @@ public record AwsPiListAvailableResourceMetricsOptions : AwsOptions, IValidatabl
         IEnumerable<string> MetricTypes
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
         this.ServiceType = ServiceType;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;

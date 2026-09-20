@@ -38,7 +38,6 @@ public record AwsArtifactPutComplianceInquiryFeedbackOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(ComplianceInquiryId);
         this.ComplianceInquiryId = ComplianceInquiryId;
-        global::System.ArgumentNullException.ThrowIfNull(Rating);
         this.Rating = Rating;
     }
 

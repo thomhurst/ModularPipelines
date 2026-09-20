@@ -33,7 +33,6 @@ public record AwsAuditManagerGetSettingsOptions : AwsOptions, IValidatableObject
         AwsAuditManagerGetSettingsAttribute Attribute
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Attribute);
         this.Attribute = Attribute;
     }
 

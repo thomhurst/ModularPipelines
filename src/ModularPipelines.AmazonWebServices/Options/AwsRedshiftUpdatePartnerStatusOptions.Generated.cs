@@ -49,7 +49,6 @@ public record AwsRedshiftUpdatePartnerStatusOptions : AwsOptions, IValidatableOb
         this.DatabaseName = DatabaseName;
         global::System.ArgumentNullException.ThrowIfNull(PartnerName);
         this.PartnerName = PartnerName;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

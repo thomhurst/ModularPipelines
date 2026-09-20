@@ -33,7 +33,6 @@ public record AwsWafv2ListMobileSdkReleasesOptions : AwsOptions, IValidatableObj
         AwsWafv2ListMobileSdkReleasesPlatform Platform
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Platform);
         this.Platform = Platform;
     }
 

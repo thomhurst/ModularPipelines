@@ -45,7 +45,6 @@ public record AwsCodepipelineOverrideStageConditionOptions : AwsOptions, IValida
         this.StageName = StageName;
         global::System.ArgumentNullException.ThrowIfNull(PipelineExecutionId);
         this.PipelineExecutionId = PipelineExecutionId;
-        global::System.ArgumentNullException.ThrowIfNull(ConditionType);
         this.ConditionType = ConditionType;
     }
 

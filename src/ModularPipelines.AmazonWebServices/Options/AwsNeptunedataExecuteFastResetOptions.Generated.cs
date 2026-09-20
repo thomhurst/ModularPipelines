@@ -34,7 +34,6 @@ public record AwsNeptunedataExecuteFastResetOptions : AwsOptions, IValidatableOb
         AwsNeptunedataExecuteFastResetAction Action
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

@@ -41,7 +41,6 @@ public record AwsS3controlUpdateJobStatusOptions : AwsOptions, IValidatableObjec
         this.AccountId = AccountId;
         global::System.ArgumentNullException.ThrowIfNull(JobId);
         this.JobId = JobId;
-        global::System.ArgumentNullException.ThrowIfNull(RequestedJobStatus);
         this.RequestedJobStatus = RequestedJobStatus;
     }
 

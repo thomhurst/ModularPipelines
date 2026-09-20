@@ -37,7 +37,6 @@ public record AwsSesv2PutDedicatedIpPoolScalingAttributesOptions : AwsOptions, I
     {
         global::System.ArgumentNullException.ThrowIfNull(PoolName);
         this.PoolName = PoolName;
-        global::System.ArgumentNullException.ThrowIfNull(ScalingMode);
         this.ScalingMode = ScalingMode;
     }
 

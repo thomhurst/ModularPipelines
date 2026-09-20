@@ -39,7 +39,6 @@ public record AwsRoute53resolverUpdateFirewallDomainsOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(FirewallDomainListId);
         this.FirewallDomainListId = FirewallDomainListId;
-        global::System.ArgumentNullException.ThrowIfNull(Operation);
         this.Operation = Operation;
         {
             global::System.ArgumentNullException.ThrowIfNull(Domains);

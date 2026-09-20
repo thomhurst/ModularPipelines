@@ -34,7 +34,6 @@ public record AwsManagedblockchainQueryListTransactionEventsOptions : AwsOptions
         AwsManagedblockchainQueryListTransactionEventsNetwork Network
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Network);
         this.Network = Network;
     }
 

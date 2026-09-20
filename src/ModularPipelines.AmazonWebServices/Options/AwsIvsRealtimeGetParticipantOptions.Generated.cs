@@ -29,7 +29,7 @@ public record AwsIvsRealtimeGetParticipantOptions : AwsOptions, IValidatableObje
     /// </summary>
     /// <param name="StageArn">Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
     /// <param name="SessionId">ID of a session within the stage. Constraints: o min: 16 o max: 16 o pattern: st-[a-zA-Z0-9]+</param>
-    /// <param name="ParticipantId">Unique identifier for the participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]*</param>
+    /// <param name="ParticipantId">Unique identifier for the participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*</param>
     public AwsIvsRealtimeGetParticipantOptions(
         string StageArn,
         string SessionId,
@@ -76,7 +76,7 @@ public record AwsIvsRealtimeGetParticipantOptions : AwsOptions, IValidatableObje
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// Unique identifier for the participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]*
+    /// Unique identifier for the participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--participant-id")]
     public string? ParticipantId { get; private init; }

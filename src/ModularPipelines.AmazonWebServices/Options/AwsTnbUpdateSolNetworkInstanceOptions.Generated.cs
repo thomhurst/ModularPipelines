@@ -38,7 +38,6 @@ public record AwsTnbUpdateSolNetworkInstanceOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(NsInstanceId);
         this.NsInstanceId = NsInstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(UpdateType);
         this.UpdateType = UpdateType;
     }
 

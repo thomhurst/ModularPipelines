@@ -37,7 +37,6 @@ public record AwsLightsailTestAlarmOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(AlarmName);
         this.AlarmName = AlarmName;
-        global::System.ArgumentNullException.ThrowIfNull(State);
         this.State = State;
     }
 

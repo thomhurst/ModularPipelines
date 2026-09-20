@@ -40,7 +40,6 @@ public record AwsInspector2CreateCodeSecurityScanConfigurationOptions : AwsOptio
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Level);
         this.Level = Level;
         global::System.ArgumentNullException.ThrowIfNull(Configuration);
         this.Configuration = Configuration;

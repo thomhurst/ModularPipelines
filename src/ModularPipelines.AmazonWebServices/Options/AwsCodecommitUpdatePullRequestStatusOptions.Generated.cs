@@ -37,7 +37,6 @@ public record AwsCodecommitUpdatePullRequestStatusOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
         this.PullRequestId = PullRequestId;
-        global::System.ArgumentNullException.ThrowIfNull(PullRequestStatus);
         this.PullRequestStatus = PullRequestStatus;
     }
 

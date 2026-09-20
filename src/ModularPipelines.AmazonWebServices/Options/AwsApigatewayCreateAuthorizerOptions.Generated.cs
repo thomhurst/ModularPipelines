@@ -42,7 +42,6 @@ public record AwsApigatewayCreateAuthorizerOptions : AwsOptions, IValidatableObj
         this.RestApiId = RestApiId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

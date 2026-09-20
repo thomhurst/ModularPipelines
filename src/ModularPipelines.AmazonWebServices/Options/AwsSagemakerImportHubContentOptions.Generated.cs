@@ -43,7 +43,6 @@ public record AwsSagemakerImportHubContentOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(HubContentName);
         this.HubContentName = HubContentName;
-        global::System.ArgumentNullException.ThrowIfNull(HubContentType);
         this.HubContentType = HubContentType;
         global::System.ArgumentNullException.ThrowIfNull(DocumentSchemaVersion);
         this.DocumentSchemaVersion = DocumentSchemaVersion;

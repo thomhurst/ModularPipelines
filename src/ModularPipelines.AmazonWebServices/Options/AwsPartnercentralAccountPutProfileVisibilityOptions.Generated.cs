@@ -41,7 +41,6 @@ public record AwsPartnercentralAccountPutProfileVisibilityOptions : AwsOptions, 
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;
-        global::System.ArgumentNullException.ThrowIfNull(Visibility);
         this.Visibility = Visibility;
     }
 

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk. This operation requires enhanced health report- ing . See also: AWS API Documentation
+/// Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires enhanced health reporting . This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permission to access instead...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkDescribeInstancesHealthOptions : AwsOptions
 {
     /// <summary>
-    /// Specify the AWS Elastic Beanstalk environment by name. Constraints: o min: 4 o max: 40
+    /// Specify the Elastic Beanstalk environment by name. Constraints: o min: 4 o max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
     /// <summary>
-    /// Specify the AWS Elastic Beanstalk environment by ID.
+    /// Specify the Elastic Beanstalk environment by ID.
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }

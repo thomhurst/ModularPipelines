@@ -45,7 +45,6 @@ public record AwsAgentRegistryControlCreateRegistryRecordOptions : AwsOptions, I
         this.RegistryId = RegistryId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(RecordType);
         this.RecordType = RecordType;
         global::System.ArgumentNullException.ThrowIfNull(Descriptors);
         this.Descriptors = Descriptors;

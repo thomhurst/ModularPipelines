@@ -35,7 +35,6 @@ public record AwsInspector2GetEncryptionKeyOptions : AwsOptions, IValidatableObj
         string ResourceType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ScanType);
         this.ScanType = ScanType;
         global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;

@@ -38,7 +38,6 @@ public record AwsCleanroomsListCollaborationPrivacyBudgetsOptions : AwsOptions, 
     {
         global::System.ArgumentNullException.ThrowIfNull(CollaborationIdentifier);
         this.CollaborationIdentifier = CollaborationIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(PrivacyBudgetType);
         this.PrivacyBudgetType = PrivacyBudgetType;
     }
 

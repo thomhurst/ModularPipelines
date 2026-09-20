@@ -43,7 +43,6 @@ public record AwsWafv2GetTopPathStatisticsByTrafficOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(WebAclArn);
         this.WebAclArn = WebAclArn;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         global::System.ArgumentNullException.ThrowIfNull(TimeWindow);
         this.TimeWindow = TimeWindow;

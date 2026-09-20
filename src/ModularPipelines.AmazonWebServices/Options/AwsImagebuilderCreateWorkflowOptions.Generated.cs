@@ -43,7 +43,6 @@ public record AwsImagebuilderCreateWorkflowOptions : AwsOptions, IValidatableObj
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(SemanticVersion);
         this.SemanticVersion = SemanticVersion;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

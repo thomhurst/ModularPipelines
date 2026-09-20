@@ -42,7 +42,6 @@ public record AwsPartnercentralChannelCreateProgramManagementAccountOptions : Aw
     {
         global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
-        global::System.ArgumentNullException.ThrowIfNull(Program);
         this.Program = Program;
         global::System.ArgumentNullException.ThrowIfNull(DisplayName);
         this.DisplayName = DisplayName;

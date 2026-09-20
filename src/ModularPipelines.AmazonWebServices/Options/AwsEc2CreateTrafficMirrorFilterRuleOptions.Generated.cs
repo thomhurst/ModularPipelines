@@ -46,10 +46,8 @@ public record AwsEc2CreateTrafficMirrorFilterRuleOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(TrafficMirrorFilterId);
         this.TrafficMirrorFilterId = TrafficMirrorFilterId;
-        global::System.ArgumentNullException.ThrowIfNull(TrafficDirection);
         this.TrafficDirection = TrafficDirection;
         this.RuleNumber = RuleNumber;
-        global::System.ArgumentNullException.ThrowIfNull(RuleAction);
         this.RuleAction = RuleAction;
         global::System.ArgumentNullException.ThrowIfNull(DestinationCidrBlock);
         this.DestinationCidrBlock = DestinationCidrBlock;

@@ -40,7 +40,6 @@ public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions,
         global::System.ArgumentNullException.ThrowIfNull(TransitGatewayMeteringPolicyId);
         this.TransitGatewayMeteringPolicyId = TransitGatewayMeteringPolicyId;
         this.PolicyRuleNumber = PolicyRuleNumber;
-        global::System.ArgumentNullException.ThrowIfNull(MeteredAccount);
         this.MeteredAccount = MeteredAccount;
     }
 

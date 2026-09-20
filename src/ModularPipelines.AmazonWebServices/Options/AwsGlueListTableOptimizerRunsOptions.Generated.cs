@@ -46,7 +46,6 @@ public record AwsGlueListTableOptimizerRunsOptions : AwsOptions, IValidatableObj
         this.DatabaseName = DatabaseName;
         global::System.ArgumentNullException.ThrowIfNull(TableName);
         this.TableName = TableName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

@@ -41,7 +41,6 @@ public record AwsB2biTestMappingOptions : AwsOptions, IValidatableObject
         this.InputFileContent = InputFileContent;
         global::System.ArgumentNullException.ThrowIfNull(MappingTemplate);
         this.MappingTemplate = MappingTemplate;
-        global::System.ArgumentNullException.ThrowIfNull(FileFormat);
         this.FileFormat = FileFormat;
     }
 

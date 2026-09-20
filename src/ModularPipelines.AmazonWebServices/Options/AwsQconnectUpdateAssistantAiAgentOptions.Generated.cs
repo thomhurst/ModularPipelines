@@ -39,7 +39,6 @@ public record AwsQconnectUpdateAssistantAiAgentOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(AssistantId);
         this.AssistantId = AssistantId;
-        global::System.ArgumentNullException.ThrowIfNull(AiAgentType);
         this.AiAgentType = AiAgentType;
         global::System.ArgumentNullException.ThrowIfNull(Configuration);
         this.Configuration = Configuration;

@@ -38,7 +38,6 @@ public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOpti
     {
         global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
-        global::System.ArgumentNullException.ThrowIfNull(ParticipantType);
         this.ParticipantType = ParticipantType;
     }
 
