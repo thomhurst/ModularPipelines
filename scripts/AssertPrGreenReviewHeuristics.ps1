@@ -105,9 +105,9 @@ function Test-StaleBotReviewCanBeIgnored {
     return Test-StatusCheckCompletedAfterInstant -Checks $Checks -Name 'claude-review' -InstantUtc $HeadCommitCommittedAt
 }
 
-# Dispatch checks belong to the dispatch ref, which may be main rather than the PR.
+# Dispatch and pull_request_target checks may belong to the base ref, not the PR.
 # Normalize only jobs returned by this repository's trusted review workflow.
-function ConvertTo-DispatchedReviewChecks {
+function ConvertTo-WorkflowReviewChecks {
     [CmdletBinding()]
     param(
         [AllowNull()]$Run,
@@ -115,7 +115,7 @@ function ConvertTo-DispatchedReviewChecks {
     )
 
     if ($Run.path -ne '.github/workflows/claude-code-review.yml' -or
-        $Run.name -ne 'Claude Code Review' -or $Run.event -ne 'workflow_dispatch' -or
+        $Run.name -ne 'Claude Code Review' -or $Run.event -notin @('workflow_dispatch', 'pull_request_target') -or
         $Run.status -ne 'completed' -or $Run.conclusion -ne 'success' -or
         [string]$Run.id -notmatch '^[1-9]\d*$') { return }
 

@@ -1324,18 +1324,30 @@ $dispatchJob = @{
     completed_at = '2026-07-06T01:42:00Z'
 }
 $workflowReview.commit = [pscustomobject]@{ oid = $verdictHead }
-$dispatchChecks = @(ConvertTo-DispatchedReviewChecks -Run ([pscustomobject]$dispatchRun) -Jobs @([pscustomobject]$dispatchJob))
+$dispatchChecks = @(ConvertTo-WorkflowReviewChecks -Run ([pscustomobject]$dispatchRun) -Jobs @([pscustomobject]$dispatchJob))
 if (-not (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks $dispatchChecks)) {
     throw 'A successful default-branch dispatch must authenticate its exact-head review.'
 }
 $dispatchCaseCount = 1
+$targetRun = $dispatchRun.Clone()
+$targetRun.event = 'pull_request_target'
+$targetChecks = @(ConvertTo-WorkflowReviewChecks -Run ([pscustomobject]$targetRun) -Jobs @([pscustomobject]$dispatchJob))
+if (-not (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks $targetChecks)) {
+    throw 'A successful pull_request_target run must authenticate its exact-head review despite its base SHA.'
+}
+$dispatchCaseCount++
+$targetRun.conclusion = 'failure'
+if (@(ConvertTo-WorkflowReviewChecks -Run ([pscustomobject]$targetRun) -Jobs @([pscustomobject]$dispatchJob)).Count -ne 0) {
+    throw 'A failed pull_request_target run must not authenticate a review.'
+}
+$dispatchCaseCount++
 foreach ($change in @(
     @{ path = '.github/workflows/other.yml' }, @{ name = 'Other workflow' },
     @{ event = 'push' }, @{ status = 'in_progress' }, @{ conclusion = 'failure' }, @{ id = $null }
 )) {
     $run = $dispatchRun.Clone()
     foreach ($key in $change.Keys) { $run[$key] = $change[$key] }
-    if (@(ConvertTo-DispatchedReviewChecks -Run ([pscustomobject]$run) -Jobs @([pscustomobject]$dispatchJob)).Count -ne 0) {
+    if (@(ConvertTo-WorkflowReviewChecks -Run ([pscustomobject]$run) -Jobs @([pscustomobject]$dispatchJob)).Count -ne 0) {
         throw 'An unrelated or unsuccessful workflow run must not provide review provenance.'
     }
     $dispatchCaseCount++
@@ -1347,7 +1359,7 @@ foreach ($change in @(
 )) {
     $job = $dispatchJob.Clone()
     foreach ($key in $change.Keys) { $job[$key] = $change[$key] }
-    $dispatchChecks = @(ConvertTo-DispatchedReviewChecks -Run ([pscustomobject]$dispatchRun) -Jobs @([pscustomobject]$job))
+    $dispatchChecks = @(ConvertTo-WorkflowReviewChecks -Run ([pscustomobject]$dispatchRun) -Jobs @([pscustomobject]$job))
     if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks $dispatchChecks) {
         throw 'An unrelated, unsuccessful, or out-of-window dispatch job must not authenticate a review.'
     }

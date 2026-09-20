@@ -26,7 +26,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][int]$Pr,
-    [string]$Repo
+    [string]$Repo,
+    [switch]$Json
 )
 
 $ErrorActionPreference = 'Stop'
@@ -41,7 +42,7 @@ $repoArgs = @()
 if ($Repo) { $repoArgs = @('--repo', $Repo) }
 
 # Re-fetch fresh — survey output goes stale within seconds.
-$raw = gh pr view $Pr @repoArgs --json number,state,mergeable,mergeStateStatus,statusCheckRollup,commits,headRefOid 2>$null
+$raw = gh pr view $Pr @repoArgs --json number,state,mergeable,mergeStateStatus,statusCheckRollup,commits,headRefOid,headRefName 2>$null
 if ($LASTEXITCODE -ne 0) { Deny "gh pr view failed (exit $LASTEXITCODE)" }
 try {
     $view = $raw | ConvertFrom-Json
@@ -130,7 +131,7 @@ if ($requestedChanges.Count -gt 0) {
 }
 
 $actionableReviews = @()
-$dispatchRuns = $null
+$workflowRuns = $null
 $reviewChecks = @($checks)
 foreach ($review in $latestReviews) {
     if ($review.state -ne 'COMMENTED') { continue }
@@ -140,19 +141,23 @@ foreach ($review in $latestReviews) {
 
     $body = [string]$review.body
     $reason = Get-ActionableReviewBodyReason -Body $body
-    # A manual review dispatched from main has no check in this PR's rollup.
+    # Dispatch and pull_request_target checks can belong to the base ref.
     # Fetch its actual workflow jobs before deciding whether its verdict is trusted.
     if ($reason -and $review.author.login -match '^github-actions(?:\[bot\])?$' -and
         [string]$review.commit.oid -eq [string]$view.headRefOid -and
         -not (Test-TrustedBotClearVerdict -Review $review -HeadSha $view.headRefOid -Checks $reviewChecks)) {
         try {
-            if ($null -eq $dispatchRuns) {
-                $runsRaw = gh api --paginate --slurp "repos/$owner/$name/actions/workflows/claude-code-review.yml/runs?event=workflow_dispatch&status=success&per_page=100" 2>$null
-                if ($LASTEXITCODE -ne 0) { throw "Could not fetch dispatch runs (exit $LASTEXITCODE)." }
-                $dispatchRuns = @(($runsRaw | ConvertFrom-Json).workflow_runs)
+            if ($null -eq $workflowRuns) {
+                $workflowRuns = @(
+                    foreach ($event in @('workflow_dispatch', 'pull_request_target')) {
+                        $runsRaw = gh api --paginate --slurp "repos/$owner/$name/actions/workflows/claude-code-review.yml/runs?event=$event&status=success&per_page=100" 2>$null
+                        if ($LASTEXITCODE -ne 0) { throw "Could not fetch $event runs (exit $LASTEXITCODE)." }
+                        ($runsRaw | ConvertFrom-Json).workflow_runs
+                    }
+                )
             }
             $submittedAt = ConvertTo-UtcDateTimeOffset $review.submittedAt
-            foreach ($run in $dispatchRuns) {
+            foreach ($run in $workflowRuns) {
                 $createdAt = ConvertTo-UtcDateTimeOffset $run.created_at
                 $updatedAt = ConvertTo-UtcDateTimeOffset $run.updated_at
                 if ($null -eq $submittedAt -or $null -eq $createdAt -or $null -eq $updatedAt -or
@@ -160,11 +165,11 @@ foreach ($review in $latestReviews) {
                 $jobsRaw = gh api --paginate --slurp "repos/$owner/$name/actions/runs/$($run.id)/jobs?per_page=100" 2>$null
                 if ($LASTEXITCODE -ne 0) { throw "Could not fetch review jobs (exit $LASTEXITCODE)." }
                 $jobs = @(($jobsRaw | ConvertFrom-Json).jobs)
-                $reviewChecks += @(ConvertTo-DispatchedReviewChecks -Run $run -Jobs $jobs)
+                $reviewChecks += @(ConvertTo-WorkflowReviewChecks -Run $run -Jobs $jobs)
             }
         }
         catch {
-            Deny "could not verify dispatched review: $($_.Exception.Message)"
+            Deny "could not verify workflow review: $($_.Exception.Message)"
         }
     }
     if ($reason -and -not (Test-TrustedBotClearVerdict `
@@ -220,5 +225,10 @@ while ($after)
 
 if ($unresolved -gt 0) { Deny "$unresolved unresolved review thread(s)" }
 
-Write-Host "OK #${Pr} -- MERGEABLE, CLEAN, $($checks.Count) check(s) green, no unresolved threads. Safe to merge."
+if ($Json) {
+    [pscustomobject]@{ headRefOid = $view.headRefOid; headRefName = $view.headRefName } | ConvertTo-Json -Compress
+}
+else {
+    Write-Host "OK #${Pr} -- MERGEABLE, CLEAN, $($checks.Count) check(s) green, no unresolved threads. Safe to merge."
+}
 exit 0

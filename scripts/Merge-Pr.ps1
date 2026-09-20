@@ -45,13 +45,16 @@ function Find-WorktreeForBranch([string]$RepoPath, [string]$Branch) {
 }
 
 # --- 1. Gate: the pure predicate decides. No merge unless it exits 0. -----------
-& pwsh (Join-Path $PSScriptRoot 'Assert-PrGreen.ps1') -Pr $Pr @repoArgs
+$gateOutput = & pwsh (Join-Path $PSScriptRoot 'Assert-PrGreen.ps1') -Pr $Pr @repoArgs -Json
 if ($LASTEXITCODE -ne 0) { Fail "Assert-PrGreen denied (exit $LASTEXITCODE). Not merging." }
 
-# Resolve the head branch before merging so post-merge cleanup can remove it.
-$headRef = gh pr view $Pr @repoArgs --json headRefName --jq '.headRefName' 2>$null
-if ($LASTEXITCODE -ne 0 -or -not $headRef) { Fail "could not resolve head branch (exit $LASTEXITCODE)" }
-$headRef = $headRef.Trim()
+try { $validatedHead = $gateOutput | ConvertFrom-Json }
+catch { Fail 'could not parse the validated PR head' }
+$headSha = [string]$validatedHead.headRefOid
+$headRef = [string]$validatedHead.headRefName
+if ($headSha -notmatch '^[0-9a-f]{40}$' -or [string]::IsNullOrWhiteSpace($headRef)) {
+    Fail 'gate did not return a valid PR head and branch'
+}
 
 # Main worktree path — git removals/prunes must run from a checkout that is NOT the
 # one being removed; the first `worktree list` entry is always the main checkout.
@@ -85,7 +88,7 @@ if ($Worktree) {
 }
 
 # --- 2. Merge. -----------------------------------------------------------------
-gh pr merge $Pr @repoArgs --squash
+gh pr merge $Pr @repoArgs --squash --match-head-commit $headSha
 $mergeExitCode = $LASTEXITCODE
 if ($mergeExitCode -ne 0) {
     if ($worktreeIdentityFile) { Remove-Item -LiteralPath $worktreeIdentityFile -Force -ErrorAction SilentlyContinue }
