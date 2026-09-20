@@ -72,6 +72,7 @@ jobs:
         run: echo "head_sha=$(git -C pr-head rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Collect read-only review context
+        id: review_context
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -91,6 +92,9 @@ jobs:
           git -C pr-head -c credential.helper= -c 'credential.helper=!gh auth git-credential' fetch --no-tags --filter=blob:none "${history_args[@]}" origin "$BASE_SHA" "$REVIEW_HEAD_SHA"
           git -C pr-head -c credential.helper= -c 'credential.helper=!gh auth git-credential' diff --no-ext-diff --no-textconv "$BASE_SHA...$REVIEW_HEAD_SHA" > review-context/diff.patch
           git -C pr-head diff --no-ext-diff --no-textconv --name-only -z "$BASE_SHA...$REVIEW_HEAD_SHA" > review-context/changed-files.nul
+          minimum_evidence_count=0
+          if [ -s review-context/changed-files.nul ]; then minimum_evidence_count=1; fi
+          echo "minimum_evidence_count=$minimum_evidence_count" >> "$GITHUB_OUTPUT"
           gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/reviews" | jq . > review-context/reviews.json
           gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/comments" | jq . > review-context/inline-comments.json
           gh api --paginate --slurp "repos/$GH_REPO/issues/$PR_NUMBER/comments" | jq . > review-context/conversation.json
@@ -147,6 +151,7 @@ jobs:
             Instructions:
             - Review the current diff and return the required structured result, even if no issues are found.
               The result must contain your actual review, never a test/example payload.
+              Never submit test values to the structured-output tool. Submit only the completed review.
               Summarize the changed behavior and what you checked in at least 40 characters.
             - Compare the current state of the PR against any previous PR comments to make sure they have been addressed.
             - Return a nonempty summary and a findings array containing every actionable concern.
@@ -172,7 +177,7 @@ jobs:
 
           claude_args: |
             --add-dir pr-head --tools "Read,Glob,Grep" --allowedTools "Read,Glob,Grep"
-            --json-schema '{"type":"object","properties":{"summary":{"type":"string","minLength":40},"findings":{"type":"array","items":{"type":"string","minLength":20}},"notes":{"type":"array","items":{"type":"string","minLength":1}},"evidence":{"type":"array","items":{"type":"object","properties":{"path":{"type":"string","minLength":1},"assessment":{"type":"string","minLength":40}},"required":["path","assessment"],"additionalProperties":false}}},"required":["summary","findings","notes","evidence"],"additionalProperties":false}'
+            --json-schema '{"type":"object","properties":{"summary":{"type":"string","minLength":40},"findings":{"type":"array","items":{"type":"string","minLength":20}},"notes":{"type":"array","items":{"type":"string","minLength":1}},"evidence":{"type":"array","minItems":${{ steps.review_context.outputs.minimum_evidence_count }},"items":{"type":"object","properties":{"path":{"type":"string","minLength":1},"assessment":{"type":"string","minLength":40}},"required":["path","assessment"],"additionalProperties":false}}},"required":["summary","findings","notes","evidence"],"additionalProperties":false}'
           allowed_bots: 'dependabot[bot]'
 
       - name: Publish validated review
