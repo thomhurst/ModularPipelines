@@ -1,0 +1,78 @@
+NAME
+    gcloud memorystore instances token-auth-users auth-tokens describe -
+        describe authTokens
+
+SYNOPSIS
+    gcloud memorystore instances token-auth-users auth-tokens describe
+        (AUTH_TOKEN : --instance=INSTANCE
+          --location=LOCATION --token-auth-user=TOKEN_AUTH_USER)
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Describe an authToken
+
+EXAMPLES
+    To describe the authToken, run:
+
+        $ gcloud memorystore instances token-auth-users auth-tokens describe
+
+POSITIONAL ARGUMENTS
+     AuthToken resource - The name of token auth user for a token auth enabled
+     instance. Format:
+     projects/{project}/locations/{location}/instances/{instance}/tokenAuthUsers/{token_auth_user}/authTokens/{auth_token}
+     The arguments in this group can be used to specify the attributes of this
+     resource. (NOTE) Some attributes are not given arguments in this group but
+     can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument auth_token on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     This must be specified.
+
+       AUTH_TOKEN
+          ID of the authToken or fully qualified identifier for the authToken.
+
+          To set the auth_token attribute:
+          + provide the argument auth_token on the command line.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --instance=INSTANCE
+          The instance id of the authToken resource.
+
+          To set the instance attribute:
+          + provide the argument auth_token on the command line with a fully
+            specified name;
+          + provide the argument --instance on the command line.
+
+       --location=LOCATION
+          The location id of the authToken resource.
+
+          To set the location attribute:
+          + provide the argument auth_token on the command line with a fully
+            specified name;
+          + provide the argument --location on the command line.
+
+       --token-auth-user=TOKEN_AUTH_USER
+          The tokenAuthUser id of the authToken resource.
+
+          To set the token-auth-user attribute:
+          + provide the argument auth_token on the command line with a fully
+            specified name;
+          + provide the argument --token-auth-user on the command line.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
+
+API REFERENCE
+    This command uses the memorystore/v1 API. The full documentation for this
+    API can be found at: https://cloud.google.com/memorystore/
