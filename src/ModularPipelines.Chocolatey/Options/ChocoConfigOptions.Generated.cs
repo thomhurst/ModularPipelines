@@ -14,7 +14,7 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: See scripting in the command reference (`choco --help`) for how to
+/// Chocolatey will allow you to interact with the configuration file settings.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

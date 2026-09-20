@@ -14,7 +14,7 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: If there is more than one nupkg file in the folder, the command
+/// Chocolatey will attempt to push a compiled nupkg to a package feed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

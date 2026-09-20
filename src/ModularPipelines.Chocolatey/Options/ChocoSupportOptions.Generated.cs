@@ -12,6 +12,9 @@ using ModularPipelines.Chocolatey.Options;
 
 namespace ModularPipelines.Chocolatey.Options;
 
+/// <summary>
+/// As a user of Chocolatey CLI open-source, we are unable to provide private support. See https://chocolatey.org/support for details.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support")]

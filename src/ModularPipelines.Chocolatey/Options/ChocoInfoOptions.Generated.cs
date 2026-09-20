@@ -14,7 +14,7 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: See scripting in the command reference (`choco --help`) for how to
+/// Chocolatey will perform a search for a package local or remote and provide detailed information about that package. This is a synonym for `choco search &lt;pkgname&gt; --exact --detailed`.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
