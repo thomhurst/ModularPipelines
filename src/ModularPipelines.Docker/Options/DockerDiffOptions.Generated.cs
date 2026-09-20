@@ -18,8 +18,29 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("diff")]
-public record DockerDiffOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Container
-) : DockerOptions
+public record DockerDiffOptions : DockerOptions
 {
+    /// <summary>
+    /// Inspect changes to files or directories on a container's filesystem
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public DockerDiffOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Container { get; private init; }
+
 }

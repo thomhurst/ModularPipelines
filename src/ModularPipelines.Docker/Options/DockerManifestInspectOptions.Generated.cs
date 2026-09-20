@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "inspect")]
-public record DockerManifestInspectOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
-) : DockerOptions
+public record DockerManifestInspectOptions : DockerOptions
 {
+    /// <summary>
+    /// Display an image manifest, or manifest list
+    /// </summary>
+    /// <param name="Manifest">The MANIFEST operand.</param>
+    public DockerManifestInspectOptions(
+        string Manifest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Manifest);
+        this.Manifest = Manifest;
+    }
+
+    public void Deconstruct(out string Manifest)
+    {
+        Manifest = this.Manifest;
+    }
+
     /// <summary>
     /// Allow communication with an insecure registry
     /// </summary>
@@ -39,5 +54,11 @@ public record DockerManifestInspectOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? ManifestList { get; set; }
+
+    /// <summary>
+    /// The MANIFEST operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Manifest { get; private init; }
 
 }

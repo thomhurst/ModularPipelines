@@ -19,10 +19,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run")]
-public record DockerRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
-) : DockerOptions
+public record DockerRunOptions : DockerOptions
 {
+    /// <summary>
+    /// Create and run a new container from an image
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    public DockerRunOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Add a custom host-to-IP mapping (host:ip)
     /// </summary>
@@ -280,12 +295,6 @@ public record DockerRunOptions(
     /// </summary>
     [CliOption("--health-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? HealthTimeout { get; set; }
-
-    /// <summary>
-    /// Print usage
-    /// </summary>
-    [CliFlag("--help")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Container host name
@@ -616,6 +625,12 @@ public record DockerRunOptions(
     /// </summary>
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Image { get; private init; }
 
     /// <summary>
     /// The COMMAND operand.

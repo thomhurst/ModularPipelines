@@ -18,14 +18,46 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "rm")]
-public record DockerNetworkRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Network
-) : DockerOptions
+public record DockerNetworkRmOptions : DockerOptions
 {
+    /// <summary>
+    /// Remove one or more networks
+    /// </summary>
+    /// <param name="Network">The NETWORK operand.</param>
+    public DockerNetworkRmOptions(
+        IEnumerable<string> Network
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Network);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Network));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Network));
+            }
+
+            Network = materialized;
+        }
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Network)
+    {
+        Network = this.Network;
+    }
+
     /// <summary>
     /// Do not error if the network does not exist
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The NETWORK operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Network { get; private init; }
 
 }

@@ -18,10 +18,36 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "save")]
-public record DockerImageSaveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Image
-) : DockerOptions
+public record DockerImageSaveOptions : DockerOptions
 {
+    /// <summary>
+    /// Save one or more images to a tar archive (streamed to STDOUT by default)
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    public DockerImageSaveOptions(
+        IEnumerable<string> Image
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Image);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Image));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Image));
+            }
+
+            Image = materialized;
+        }
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Write to a file, instead of STDOUT
     /// </summary>
@@ -33,5 +59,11 @@ public record DockerImageSaveOptions(
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Image { get; private init; }
 
 }

@@ -18,14 +18,35 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "enable")]
-public record DockerPluginEnableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Plugin
-) : DockerOptions
+public record DockerPluginEnableOptions : DockerOptions
 {
+    /// <summary>
+    /// Enable a plugin
+    /// </summary>
+    /// <param name="Plugin">The PLUGIN operand.</param>
+    public DockerPluginEnableOptions(
+        string Plugin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Plugin);
+        this.Plugin = Plugin;
+    }
+
+    public void Deconstruct(out string Plugin)
+    {
+        Plugin = this.Plugin;
+    }
+
     /// <summary>
     /// HTTP client timeout (in seconds) (default 30)
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
+
+    /// <summary>
+    /// The PLUGIN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Plugin { get; private init; }
 
 }

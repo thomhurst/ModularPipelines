@@ -18,14 +18,46 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "rm")]
-public record DockerPluginRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Plugin
-) : DockerOptions
+public record DockerPluginRmOptions : DockerOptions
 {
+    /// <summary>
+    /// Remove one or more plugins
+    /// </summary>
+    /// <param name="Plugin">The PLUGIN operand.</param>
+    public DockerPluginRmOptions(
+        IEnumerable<string> Plugin
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Plugin);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Plugin));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Plugin));
+            }
+
+            Plugin = materialized;
+        }
+        this.Plugin = Plugin;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Plugin)
+    {
+        Plugin = this.Plugin;
+    }
+
     /// <summary>
     /// Force the removal of an active plugin
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The PLUGIN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Plugin { get; private init; }
 
 }

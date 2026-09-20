@@ -18,14 +18,46 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "inspect")]
-public record DockerVolumeInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Volume
-) : DockerOptions
+public record DockerVolumeInspectOptions : DockerOptions
 {
+    /// <summary>
+    /// Display detailed information on one or more volumes
+    /// </summary>
+    /// <param name="Volume">The VOLUME operand.</param>
+    public DockerVolumeInspectOptions(
+        IEnumerable<string> Volume
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Volume);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Volume));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Volume));
+            }
+
+            Volume = materialized;
+        }
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Volume)
+    {
+        Volume = this.Volume;
+    }
+
     /// <summary>
     /// Format output using a custom template: 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
+
+    /// <summary>
+    /// The VOLUME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Volume { get; private init; }
 
 }

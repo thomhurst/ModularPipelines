@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "import")]
-public record DockerImageImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string File
-) : DockerOptions
+public record DockerImageImportOptions : DockerOptions
 {
+    /// <summary>
+    /// Import the contents from a tarball to create a filesystem image
+    /// </summary>
+    /// <param name="File">The file operand.</param>
+    public DockerImageImportOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
     /// <summary>
     /// Apply Dockerfile instruction to the created image
     /// </summary>
@@ -39,6 +54,12 @@ public record DockerImageImportOptions(
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }
+
+    /// <summary>
+    /// The file operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string File { get; private init; }
 
     /// <summary>
     /// The REPOSITORY[:TAG] operand.

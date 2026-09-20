@@ -18,14 +18,35 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("export")]
-public record DockerExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : DockerOptions
+public record DockerExportOptions : DockerOptions
 {
+    /// <summary>
+    /// Export a container's filesystem as a tar archive
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public DockerExportOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Write to a file, instead of STDOUT
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

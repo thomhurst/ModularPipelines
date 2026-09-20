@@ -21,10 +21,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "dap", "build")]
-public record DockerBuildxDapBuildOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : DockerOptions
+public record DockerBuildxDapBuildOptions : DockerOptions
 {
+    /// <summary>
+    /// Start a build
+    /// </summary>
+    /// <param name="Path">The PATH operand.</param>
+    public DockerBuildxDapBuildOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
     /// <summary>
     /// Add a custom host-to-IP mapping (format: "host:ip")
     /// </summary>
@@ -248,5 +263,11 @@ public record DockerBuildxDapBuildOptions(
     /// </summary>
     [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
     public string? Ulimit { get; set; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
 
 }

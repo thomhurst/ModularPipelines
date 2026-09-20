@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "install")]
-public record DockerPluginInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Plugin
-) : DockerOptions
+public record DockerPluginInstallOptions : DockerOptions
 {
+    /// <summary>
+    /// Install a plugin
+    /// </summary>
+    /// <param name="Plugin">The PLUGIN operand.</param>
+    public DockerPluginInstallOptions(
+        string Plugin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Plugin);
+        this.Plugin = Plugin;
+    }
+
+    public void Deconstruct(out string Plugin)
+    {
+        Plugin = this.Plugin;
+    }
+
     /// <summary>
     /// Local name for plugin
     /// </summary>
@@ -45,6 +60,12 @@ public record DockerPluginInstallOptions(
     /// </summary>
     [CliFlag("--grant-all-permissions")]
     public bool? GrantAllPermissions { get; set; }
+
+    /// <summary>
+    /// The PLUGIN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Plugin { get; private init; }
 
     /// <summary>
     /// The KEY=VALUE operand.

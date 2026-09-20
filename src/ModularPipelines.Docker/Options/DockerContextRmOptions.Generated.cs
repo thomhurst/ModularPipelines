@@ -18,14 +18,46 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "rm")]
-public record DockerContextRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Context
-) : DockerOptions
+public record DockerContextRmOptions : DockerOptions
 {
+    /// <summary>
+    /// Remove one or more contexts
+    /// </summary>
+    /// <param name="Context">The CONTEXT operand.</param>
+    public DockerContextRmOptions(
+        IEnumerable<string> Context
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Context);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Context));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Context));
+            }
+
+            Context = materialized;
+        }
+        this.Context = Context;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Context)
+    {
+        Context = this.Context;
+    }
+
     /// <summary>
     /// Force the removal of a context in use
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Context { get; private init; }
 
 }

@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "push")]
-public record DockerManifestPushOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ManifestList
-) : DockerOptions
+public record DockerManifestPushOptions : DockerOptions
 {
+    /// <summary>
+    /// Push a manifest list to a repository
+    /// </summary>
+    /// <param name="ManifestList">The MANIFEST_LIST operand.</param>
+    public DockerManifestPushOptions(
+        string ManifestList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManifestList);
+        this.ManifestList = ManifestList;
+    }
+
+    public void Deconstruct(out string ManifestList)
+    {
+        ManifestList = this.ManifestList;
+    }
+
     /// <summary>
     /// Allow push to an insecure registry
     /// </summary>
@@ -33,5 +48,11 @@ public record DockerManifestPushOptions(
     /// </summary>
     [CliFlag("--purge", ShortForm = "-p")]
     public bool? Purge { get; set; }
+
+    /// <summary>
+    /// The MANIFEST_LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string ManifestList { get; private init; }
 
 }

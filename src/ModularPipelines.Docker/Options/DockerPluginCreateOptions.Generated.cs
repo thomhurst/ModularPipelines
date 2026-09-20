@@ -18,15 +18,46 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "create")]
-public record DockerPluginCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Plugin,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string PluginDataDir
-) : DockerOptions
+public record DockerPluginCreateOptions : DockerOptions
 {
+    /// <summary>
+    /// Create a plugin from a rootfs and configuration. Plugin data directory must contain config.json and rootfs directory.
+    /// </summary>
+    /// <param name="Plugin">The PLUGIN operand.</param>
+    /// <param name="PluginDataDir">The PLUGIN-DATA-DIR operand.</param>
+    public DockerPluginCreateOptions(
+        string Plugin,
+        string PluginDataDir
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Plugin);
+        this.Plugin = Plugin;
+        global::System.ArgumentNullException.ThrowIfNull(PluginDataDir);
+        this.PluginDataDir = PluginDataDir;
+    }
+
+    public void Deconstruct(out string Plugin, out string PluginDataDir)
+    {
+        Plugin = this.Plugin;
+        PluginDataDir = this.PluginDataDir;
+    }
+
     /// <summary>
     /// Compress the context using gzip
     /// </summary>
     [CliFlag("--compress")]
     public bool? Compress { get; set; }
+
+    /// <summary>
+    /// The PLUGIN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Plugin { get; private init; }
+
+    /// <summary>
+    /// The PLUGIN-DATA-DIR operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string PluginDataDir { get; private init; }
 
 }

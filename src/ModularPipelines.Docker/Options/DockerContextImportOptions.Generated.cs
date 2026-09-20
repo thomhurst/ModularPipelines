@@ -18,9 +18,40 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "import")]
-public record DockerContextImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Context,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string File
-) : DockerOptions
+public record DockerContextImportOptions : DockerOptions
 {
+    /// <summary>
+    /// Import a context from a tar or zip file
+    /// </summary>
+    /// <param name="Context">The CONTEXT operand.</param>
+    /// <param name="File">The FILE operand.</param>
+    public DockerContextImportOptions(
+        string Context,
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Context);
+        this.Context = Context;
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string Context, out string File)
+    {
+        Context = this.Context;
+        File = this.File;
+    }
+
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Context { get; private init; }
+
+    /// <summary>
+    /// The FILE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string File { get; private init; }
+
 }

@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "export")]
-public record DockerComposeExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service
-) : DockerOptions
+public record DockerComposeExportOptions : DockerOptions
 {
+    /// <summary>
+    /// Export a service container's filesystem as a tar archive
+    /// </summary>
+    /// <param name="Service">The SERVICE operand.</param>
+    public DockerComposeExportOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
     /// <summary>
     /// Execute command in dry run mode
     /// </summary>
@@ -39,5 +54,11 @@ public record DockerComposeExportOptions(
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
+
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Service { get; private init; }
 
 }

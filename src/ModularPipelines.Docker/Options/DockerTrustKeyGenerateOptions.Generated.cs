@@ -18,14 +18,35 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "key", "generate")]
-public record DockerTrustKeyGenerateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : DockerOptions
+public record DockerTrustKeyGenerateOptions : DockerOptions
 {
+    /// <summary>
+    /// Generate and load a signing key-pair
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public DockerTrustKeyGenerateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Directory to generate key in, defaults to current directory
     /// </summary>
     [CliOption("--dir", Format = OptionFormat.EqualsSeparated)]
     public string? Dir { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

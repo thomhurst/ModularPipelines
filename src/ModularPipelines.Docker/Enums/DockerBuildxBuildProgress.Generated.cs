@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Docker.Enums;
 
 /// <summary>
-/// Allowed values for the --progress option.
+/// Allowed values for --progress.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum DockerBuildxBuildProgress

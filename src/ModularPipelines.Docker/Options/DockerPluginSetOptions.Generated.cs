@@ -18,9 +18,51 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "set")]
-public record DockerPluginSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Plugin,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> KeyValue
-) : DockerOptions
+public record DockerPluginSetOptions : DockerOptions
 {
+    /// <summary>
+    /// Change settings for a plugin
+    /// </summary>
+    /// <param name="Plugin">The PLUGIN operand.</param>
+    /// <param name="KeyValue">The KEY=VALUE operand.</param>
+    public DockerPluginSetOptions(
+        string Plugin,
+        IEnumerable<string> KeyValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Plugin);
+        this.Plugin = Plugin;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(KeyValue);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(KeyValue));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(KeyValue));
+            }
+
+            KeyValue = materialized;
+        }
+        this.KeyValue = KeyValue;
+    }
+
+    public void Deconstruct(out string Plugin, out IEnumerable<string> KeyValue)
+    {
+        Plugin = this.Plugin;
+        KeyValue = this.KeyValue;
+    }
+
+    /// <summary>
+    /// The PLUGIN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Plugin { get; private init; }
+
+    /// <summary>
+    /// The KEY=VALUE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> KeyValue { get; private init; }
+
 }

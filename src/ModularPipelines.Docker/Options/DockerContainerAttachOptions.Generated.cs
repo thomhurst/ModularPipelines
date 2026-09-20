@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attach")]
-public record DockerContainerAttachOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : DockerOptions
+public record DockerContainerAttachOptions : DockerOptions
 {
+    /// <summary>
+    /// Attach local standard input, output, and error streams to a running container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public DockerContainerAttachOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Override the key sequence for detaching a container
     /// </summary>
@@ -39,5 +54,11 @@ public record DockerContainerAttachOptions(
     /// </summary>
     [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

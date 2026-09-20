@@ -18,10 +18,36 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspect")]
-public record DockerInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Name
-) : DockerOptions
+public record DockerInspectOptions : DockerOptions
 {
+    /// <summary>
+    /// Return low-level information on Docker objects
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public DockerInspectOptions(
+        IEnumerable<string> Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Name);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Name));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Name));
+            }
+
+            Name = materialized;
+        }
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Format output using a custom template: 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
     /// </summary>
@@ -39,5 +65,11 @@ public record DockerInspectOptions(
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Name { get; private init; }
 
 }

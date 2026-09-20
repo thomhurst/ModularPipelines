@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs")]
-public record DockerLogsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : DockerOptions
+public record DockerLogsOptions : DockerOptions
 {
+    /// <summary>
+    /// Fetch the logs of a container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public DockerLogsOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Show extra details provided to logs
     /// </summary>
@@ -57,5 +72,11 @@ public record DockerLogsOptions(
     /// </summary>
     [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
     public string? Until { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

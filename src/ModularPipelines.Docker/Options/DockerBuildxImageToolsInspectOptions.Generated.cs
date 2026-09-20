@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "imagetools", "inspect")]
-public record DockerBuildxImageToolsInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : DockerOptions
+public record DockerBuildxImageToolsInspectOptions : DockerOptions
 {
+    /// <summary>
+    /// Show details of an image in the registry
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public DockerBuildxImageToolsInspectOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Override the configured builder instance
     /// </summary>
@@ -45,5 +60,11 @@ public record DockerBuildxImageToolsInspectOptions(
     /// </summary>
     [CliFlag("--raw")]
     public bool? Raw { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
 
 }

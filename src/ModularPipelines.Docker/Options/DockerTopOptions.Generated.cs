@@ -18,10 +18,31 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("top")]
-public record DockerTopOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Container
-) : DockerOptions
+public record DockerTopOptions : DockerOptions
 {
+    /// <summary>
+    /// Display the running processes of a container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public DockerTopOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Container { get; private init; }
+
     /// <summary>
     /// The ps OPTIONS operand.
     /// </summary>

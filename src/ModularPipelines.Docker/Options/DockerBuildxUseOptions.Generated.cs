@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "use")]
-public record DockerBuildxUseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : DockerOptions
+public record DockerBuildxUseOptions : DockerOptions
 {
+    /// <summary>
+    /// Set the current builder instance
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public DockerBuildxUseOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Override the configured builder instance
     /// </summary>
@@ -45,5 +60,11 @@ public record DockerBuildxUseOptions(
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
 
 }

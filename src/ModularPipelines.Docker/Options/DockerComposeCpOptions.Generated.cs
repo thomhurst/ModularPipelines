@@ -18,11 +18,30 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "cp")]
-public record DockerComposeCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ServiceSrcPath,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string DestPath
-) : DockerOptions
+public record DockerComposeCpOptions : DockerOptions
 {
+    /// <summary>
+    /// Copy files/folders between a service container and the local filesystem
+    /// </summary>
+    /// <param name="ServiceSrcPath">The SERVICE:SRC_PATH operand.</param>
+    /// <param name="DestPath">The DEST_PATH operand.</param>
+    public DockerComposeCpOptions(
+        string ServiceSrcPath,
+        string DestPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceSrcPath);
+        this.ServiceSrcPath = ServiceSrcPath;
+        global::System.ArgumentNullException.ThrowIfNull(DestPath);
+        this.DestPath = DestPath;
+    }
+
+    public void Deconstruct(out string ServiceSrcPath, out string DestPath)
+    {
+        ServiceSrcPath = this.ServiceSrcPath;
+        DestPath = this.DestPath;
+    }
+
     /// <summary>
     /// Include containers created by the run command
     /// </summary>
@@ -52,5 +71,17 @@ public record DockerComposeCpOptions(
     /// </summary>
     [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
     public int? Index { get; set; }
+
+    /// <summary>
+    /// The SERVICE:SRC_PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string ServiceSrcPath { get; private init; }
+
+    /// <summary>
+    /// The DEST_PATH operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string DestPath { get; private init; }
 
 }

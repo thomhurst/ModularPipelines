@@ -18,14 +18,35 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "revoke")]
-public record DockerTrustRevokeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ImageTag
-) : DockerOptions
+public record DockerTrustRevokeOptions : DockerOptions
 {
+    /// <summary>
+    /// Remove trust for an image
+    /// </summary>
+    /// <param name="ImageTag">The IMAGE[:TAG] operand.</param>
+    public DockerTrustRevokeOptions(
+        string ImageTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageTag);
+        this.ImageTag = ImageTag;
+    }
+
+    public void Deconstruct(out string ImageTag)
+    {
+        ImageTag = this.ImageTag;
+    }
+
     /// <summary>
     /// Do not prompt for confirmation
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// The IMAGE[:TAG] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string ImageTag { get; private init; }
 
 }

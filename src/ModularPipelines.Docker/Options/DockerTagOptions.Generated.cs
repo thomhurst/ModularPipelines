@@ -18,9 +18,40 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tag")]
-public record DockerTagOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceImageTag,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TargetImageTag
-) : DockerOptions
+public record DockerTagOptions : DockerOptions
 {
+    /// <summary>
+    /// Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+    /// </summary>
+    /// <param name="SourceImageTag">The SOURCE_IMAGE[:TAG] operand.</param>
+    /// <param name="TargetImageTag">The TARGET_IMAGE[:TAG] operand.</param>
+    public DockerTagOptions(
+        string SourceImageTag,
+        string TargetImageTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceImageTag);
+        this.SourceImageTag = SourceImageTag;
+        global::System.ArgumentNullException.ThrowIfNull(TargetImageTag);
+        this.TargetImageTag = TargetImageTag;
+    }
+
+    public void Deconstruct(out string SourceImageTag, out string TargetImageTag)
+    {
+        SourceImageTag = this.SourceImageTag;
+        TargetImageTag = this.TargetImageTag;
+    }
+
+    /// <summary>
+    /// The SOURCE_IMAGE[:TAG] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SourceImageTag { get; private init; }
+
+    /// <summary>
+    /// The TARGET_IMAGE[:TAG] operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TargetImageTag { get; private init; }
+
 }

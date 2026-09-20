@@ -19,10 +19,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "create")]
-public record DockerNetworkCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Network
-) : DockerOptions
+public record DockerNetworkCreateOptions : DockerOptions
 {
+    /// <summary>
+    /// Create a network
+    /// </summary>
+    /// <param name="Network">The NETWORK operand.</param>
+    public DockerNetworkCreateOptions(
+        string Network
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out string Network)
+    {
+        Network = this.Network;
+    }
+
     /// <summary>
     /// Enable manual container attachment
     /// </summary>
@@ -124,5 +139,11 @@ public record DockerNetworkCreateOptions(
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Subnet { get; set; }
+
+    /// <summary>
+    /// The NETWORK operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Network { get; private init; }
 
 }

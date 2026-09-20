@@ -18,11 +18,30 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "port")]
-public record DockerComposePortOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Service,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string PrivatePort
-) : DockerOptions
+public record DockerComposePortOptions : DockerOptions
 {
+    /// <summary>
+    /// Print the public port for a port binding
+    /// </summary>
+    /// <param name="Service">The SERVICE operand.</param>
+    /// <param name="PrivatePort">The PRIVATE_PORT operand.</param>
+    public DockerComposePortOptions(
+        string Service,
+        string PrivatePort
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(PrivatePort);
+        this.PrivatePort = PrivatePort;
+    }
+
+    public void Deconstruct(out string Service, out string PrivatePort)
+    {
+        Service = this.Service;
+        PrivatePort = this.PrivatePort;
+    }
+
     /// <summary>
     /// Execute command in dry run mode
     /// </summary>
@@ -40,5 +59,17 @@ public record DockerComposePortOptions(
     /// </summary>
     [CliOption("--protocol", Format = OptionFormat.EqualsSeparated)]
     public string? Protocol { get; set; }
+
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Service { get; private init; }
+
+    /// <summary>
+    /// The PRIVATE_PORT operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string PrivatePort { get; private init; }
 
 }

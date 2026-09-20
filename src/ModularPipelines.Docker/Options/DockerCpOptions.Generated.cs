@@ -18,11 +18,30 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cp")]
-public record DockerCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ContainerSrcPath,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string DestPath
-) : DockerOptions
+public record DockerCpOptions : DockerOptions
 {
+    /// <summary>
+    /// Copy files/folders between a container and the local filesystem
+    /// </summary>
+    /// <param name="ContainerSrcPath">The CONTAINER:SRC_PATH operand.</param>
+    /// <param name="DestPath">The DEST_PATH operand.</param>
+    public DockerCpOptions(
+        string ContainerSrcPath,
+        string DestPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerSrcPath);
+        this.ContainerSrcPath = ContainerSrcPath;
+        global::System.ArgumentNullException.ThrowIfNull(DestPath);
+        this.DestPath = DestPath;
+    }
+
+    public void Deconstruct(out string ContainerSrcPath, out string DestPath)
+    {
+        ContainerSrcPath = this.ContainerSrcPath;
+        DestPath = this.DestPath;
+    }
+
     /// <summary>
     /// Archive mode (copy all uid/gid information)
     /// </summary>
@@ -40,5 +59,17 @@ public record DockerCpOptions(
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// The CONTAINER:SRC_PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string ContainerSrcPath { get; private init; }
+
+    /// <summary>
+    /// The DEST_PATH operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string DestPath { get; private init; }
 
 }
