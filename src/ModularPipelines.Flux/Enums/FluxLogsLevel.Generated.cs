@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Flux.Enums;
 
 /// <summary>
-/// Allowed values for the --level option.
+/// Allowed values for --level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxLogsLevel

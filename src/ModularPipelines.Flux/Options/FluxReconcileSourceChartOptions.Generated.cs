@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxReconcileSourceChartOptions : FluxOptions
 {
     /// <summary>
-    /// help for chart
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// reconcile HelmChart source
     /// </summary>
     [CliFlag("--with-source")]

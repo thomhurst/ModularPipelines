@@ -96,12 +96,6 @@ public record FluxBootstrapOptions : FluxOptions
     public string? GpgPassphrase { get; set; }
 
     /// <summary>
-    /// help for bootstrap
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Kubernetes secret name used for pulling the controller images from a private registry
     /// </summary>
     [SecretValue]

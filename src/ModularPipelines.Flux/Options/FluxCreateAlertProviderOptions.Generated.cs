@@ -34,12 +34,6 @@ public record FluxCreateAlertProviderOptions : FluxOptions
     public string? Channel { get; set; }
 
     /// <summary>
-    /// help for alert-provider
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// name of secret containing authentication token
     /// </summary>
     [SecretValue]

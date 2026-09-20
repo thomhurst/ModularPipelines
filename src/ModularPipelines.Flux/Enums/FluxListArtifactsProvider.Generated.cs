@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Flux.Enums;
 
 /// <summary>
-/// Allowed values for the --provider option.
+/// Allowed values for --provider.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxListArtifactsProvider

@@ -34,12 +34,6 @@ public record FluxMigrateOptions : FluxOptions
     public IEnumerable<string>? Extensions { get; set; }
 
     /// <summary>
-    /// help for migrate
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the path to the directory containing the manifests to migrate
     /// </summary>
     [CliOption("--path", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]

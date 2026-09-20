@@ -28,12 +28,6 @@ public record FluxTreeKustomizationOptions : FluxOptions
     public bool? Compact { get; set; }
 
     /// <summary>
-    /// help for kustomization
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the format in which the tree should be printed. can be 'json' or 'yaml'
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

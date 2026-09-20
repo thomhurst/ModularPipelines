@@ -64,12 +64,6 @@ public record FluxCreateImageUpdateOptions : FluxOptions
     public string? GitRepoRef { get; set; }
 
     /// <summary>
-    /// help for update
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the branch to push commits to, defaults to the checkout branch if not specified
     /// </summary>
     [CliOption("--push-branch", Format = OptionFormat.EqualsSeparated)]

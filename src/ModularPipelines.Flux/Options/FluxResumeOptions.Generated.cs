@@ -28,12 +28,6 @@ public record FluxResumeOptions : FluxOptions
     public bool? All { get; set; }
 
     /// <summary>
-    /// help for resume
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// waits for one resource to reconcile before moving to the next one
     /// </summary>
     [CliFlag("--wait")]

@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxReconcileKustomizationOptions : FluxOptions
 {
     /// <summary>
-    /// help for kustomization
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// reconcile Kustomization source
     /// </summary>
     [CliFlag("--with-source")]

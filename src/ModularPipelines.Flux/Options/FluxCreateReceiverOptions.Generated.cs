@@ -29,12 +29,6 @@ public record FluxCreateReceiverOptions : FluxOptions
     public IEnumerable<string>? Event { get; set; }
 
     /// <summary>
-    /// help for receiver
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// also accepts comma-separated values
     /// </summary>
     [CliOption("--resource", Format = OptionFormat.EqualsSeparated)]

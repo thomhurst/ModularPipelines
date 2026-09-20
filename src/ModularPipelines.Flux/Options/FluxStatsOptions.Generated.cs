@@ -28,12 +28,6 @@ public record FluxStatsOptions : FluxOptions
     public bool? AllNamespaces { get; set; }
 
     /// <summary>
-    /// help for stats
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Username to impersonate for the operation. User could be a regular user or a service account in a namespace.
     /// </summary>
     [CliOption("--as", Format = OptionFormat.EqualsSeparated)]

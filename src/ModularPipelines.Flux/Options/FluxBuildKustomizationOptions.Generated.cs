@@ -29,12 +29,6 @@ public record FluxBuildKustomizationOptions : FluxOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// help for kustomization
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set paths to ignore in .gitignore format
     /// </summary>
     [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated)]

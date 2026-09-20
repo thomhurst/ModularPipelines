@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxDeleteOptions : FluxOptions
 {
     /// <summary>
-    /// help for delete
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// delete resource without asking for confirmation
     /// </summary>
     [CliFlag("--silent", ShortForm = "-s")]

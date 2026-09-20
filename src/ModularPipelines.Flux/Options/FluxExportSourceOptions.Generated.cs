@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxExportSourceOptions : FluxOptions
 {
     /// <summary>
-    /// help for source
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// include credential secrets
     /// </summary>
     [CliFlag("--with-credentials")]

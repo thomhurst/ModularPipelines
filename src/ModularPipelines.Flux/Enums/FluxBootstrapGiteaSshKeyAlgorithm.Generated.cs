@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Flux.Enums;
 
 /// <summary>
-/// Allowed values for the --sshkeyalgorithm option.
+/// Allowed values for --ssh-key-algorithm.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxBootstrapGiteaSshKeyAlgorithm

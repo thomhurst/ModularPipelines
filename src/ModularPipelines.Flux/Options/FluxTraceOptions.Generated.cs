@@ -19,22 +19,46 @@ namespace ModularPipelines.Flux.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trace")]
-public record FluxTraceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Name
-) : FluxOptions
+public record FluxTraceOptions : FluxOptions
 {
+    /// <summary>
+    /// The trace command shows how one or more objects are managed by Flux,
+    /// </summary>
+    /// <param name="Resource">The &lt;resource&gt; operand.</param>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    public FluxTraceOptions(
+        string Resource,
+        IEnumerable<string> Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Name);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Name));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Name));
+            }
+
+            Name = materialized;
+        }
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Resource, out IEnumerable<string> Name)
+    {
+        Resource = this.Resource;
+        Name = this.Name;
+    }
+
     /// <summary>
     /// the Kubernetes object API version, e.g. 'apps/v1'
     /// </summary>
     [CliOption("--api-version", Format = OptionFormat.EqualsSeparated)]
     public string? ApiVersion { get; set; }
-
-    /// <summary>
-    /// help for trace
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// the Kubernetes object kind, e.g. Deployment'
@@ -180,5 +204,17 @@ public record FluxTraceOptions(
     /// </summary>
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;resource&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Name { get; private init; }
 
 }

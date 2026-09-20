@@ -34,12 +34,6 @@ public record FluxCreateSourceHelmOptions : FluxOptions
     public string? CertFile { get; set; }
 
     /// <summary>
-    /// help for helm
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// TLS authentication key file path
     /// </summary>
     [CliOption("--key-file", Format = OptionFormat.EqualsSeparated)]

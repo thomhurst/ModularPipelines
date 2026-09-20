@@ -35,12 +35,6 @@ public record FluxCreateSecretReceiverOptions : FluxOptions
     public string? EmailClaim { get; set; }
 
     /// <summary>
-    /// help for receiver
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// hostname for the webhook URL e.g. flux.example.com
     /// </summary>
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]

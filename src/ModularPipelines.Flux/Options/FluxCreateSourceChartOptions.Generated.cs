@@ -35,12 +35,6 @@ public record FluxCreateSourceChartOptions : FluxOptions
     public string? ChartVersion { get; set; }
 
     /// <summary>
-    /// help for chart
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the reconcile strategy for helm chart (accepted values: Revision and ChartRevision) (default "ChartVersion")
     /// </summary>
     [CliOption("--reconcile-strategy", Format = OptionFormat.EqualsSeparated)]

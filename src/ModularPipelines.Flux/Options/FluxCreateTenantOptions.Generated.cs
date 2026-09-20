@@ -28,12 +28,6 @@ public record FluxCreateTenantOptions : FluxOptions
     public string? ClusterRole { get; set; }
 
     /// <summary>
-    /// help for tenant
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// skip namespace creation (namespace must exist already)
     /// </summary>
     [CliFlag("--skip-namespace")]

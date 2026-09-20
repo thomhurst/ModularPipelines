@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxEnvsubstOptions : FluxOptions
 {
     /// <summary>
-    /// help for envsubst
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// fail if a variable without a default value is declared in the input but is missing from the environment
     /// </summary>
     [CliFlag("--strict")]

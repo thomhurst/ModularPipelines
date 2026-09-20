@@ -34,12 +34,6 @@ public record FluxEventsOptions : FluxOptions
     public string? For { get; set; }
 
     /// <summary>
-    /// help for events
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// filter events for certain types (valid types are: Normal, Warning)
     /// </summary>
     [CliOption("--types", Format = OptionFormat.EqualsSeparated)]

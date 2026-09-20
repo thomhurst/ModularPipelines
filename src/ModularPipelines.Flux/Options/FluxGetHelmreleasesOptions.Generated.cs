@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxGetHelmreleasesOptions : FluxOptions
 {
     /// <summary>
-    /// help for helmreleases
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// show the source reference for each helmrelease
     /// </summary>
     [CliFlag("--show-source")]

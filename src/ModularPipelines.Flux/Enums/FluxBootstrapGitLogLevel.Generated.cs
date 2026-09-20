@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Flux.Enums;
 
 /// <summary>
-/// Allowed values for the --loglevel option.
+/// Allowed values for --log-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxBootstrapGitLogLevel

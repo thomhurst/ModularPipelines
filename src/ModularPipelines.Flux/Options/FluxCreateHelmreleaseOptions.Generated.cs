@@ -65,12 +65,6 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     public IEnumerable<string>? DependsOn { get; set; }
 
     /// <summary>
-    /// help for helmrelease
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the name of the Kubernetes Secret that contains a key with the kubeconfig file for connecting to a remote cluster
     /// </summary>
     [SecretValue]

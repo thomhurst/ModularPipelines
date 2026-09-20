@@ -28,12 +28,6 @@ public record FluxCreateSecretTlsOptions : FluxOptions
     public string? CaCrtFile { get; set; }
 
     /// <summary>
-    /// help for tls
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// TLS authentication cert file path
     /// </summary>
     [CliOption("--tls-crt-file", Format = OptionFormat.EqualsSeparated)]

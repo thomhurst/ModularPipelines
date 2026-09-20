@@ -53,12 +53,6 @@ public record FluxInstallOptions : FluxOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// help for install
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Kubernetes secret name used for pulling the toolkit images from a private registry
     /// </summary>
     [SecretValue]

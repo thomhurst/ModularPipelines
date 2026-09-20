@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxDebugKustomizationOptions : FluxOptions
 {
     /// <summary>
-    /// help for kustomization
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// print the reconciliation history of the Flux Kustomization
     /// </summary>
     [CliFlag("--show-history")]

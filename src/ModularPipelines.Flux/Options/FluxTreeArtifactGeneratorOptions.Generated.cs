@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxTreeArtifactGeneratorOptions : FluxOptions
 {
     /// <summary>
-    /// help for generator
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the format in which the tree should be printed. can be 'json' or 'yaml'
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

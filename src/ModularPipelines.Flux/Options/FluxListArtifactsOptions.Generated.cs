@@ -42,12 +42,6 @@ public record FluxListArtifactsOptions : FluxOptions
     public string? FilterSemver { get; set; }
 
     /// <summary>
-    /// help for artifacts
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// allows the remote artifacts list to be fetched without TLS
     /// </summary>
     [CliFlag("--insecure-registry")]

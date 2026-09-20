@@ -29,12 +29,6 @@ public record FluxBootstrapGitOptions : FluxOptions
     public bool? AllowInsecureHttp { get; set; }
 
     /// <summary>
-    /// help for git
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// sync interval (default 1m0s)
     /// </summary>
     [CliOption("--interval", Format = OptionFormat.EqualsSeparated)]

@@ -42,12 +42,6 @@ public record FluxCreateSourceBucketOptions : FluxOptions
     public string? Endpoint { get; set; }
 
     /// <summary>
-    /// help for bucket
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set paths to ignore in bucket resource (can specify multiple paths with commas: path1,path2)
     /// </summary>
     [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated)]

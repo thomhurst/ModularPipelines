@@ -28,12 +28,6 @@ public record FluxCreateImageRepositoryOptions : FluxOptions
     public string? CertRef { get; set; }
 
     /// <summary>
-    /// help for repository
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the image repository to scan; e.g., library/alpine
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]

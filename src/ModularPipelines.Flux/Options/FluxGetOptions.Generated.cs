@@ -28,12 +28,6 @@ public record FluxGetOptions : FluxOptions
     public bool? AllNamespaces { get; set; }
 
     /// <summary>
-    /// help for get
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// filter objects by label selector
     /// </summary>
     [CliOption("--label-selector", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
