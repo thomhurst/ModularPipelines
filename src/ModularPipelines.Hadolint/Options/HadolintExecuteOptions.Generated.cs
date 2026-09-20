@@ -22,12 +22,6 @@ namespace ModularPipelines.Hadolint.Options;
 public record HadolintExecuteOptions : HadolintOptions
 {
     /// <summary>
-    /// Show this help text
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Show version
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
