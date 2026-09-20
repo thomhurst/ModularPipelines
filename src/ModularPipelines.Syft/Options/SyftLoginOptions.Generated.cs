@@ -22,12 +22,6 @@ namespace ModularPipelines.Syft.Options;
 public record SyftLoginOptions : SyftOptions
 {
     /// <summary>
-    /// help for login
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Password
     /// </summary>
     [SecretValue]

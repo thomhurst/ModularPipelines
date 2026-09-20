@@ -21,12 +21,6 @@ namespace ModularPipelines.Syft.Options;
 public record SyftConfigOptions : SyftOptions
 {
     /// <summary>
-    /// help for config
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// load and validate the syft configuration
     /// </summary>
     [CliFlag("--load")]

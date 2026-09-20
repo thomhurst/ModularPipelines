@@ -18,10 +18,25 @@ namespace ModularPipelines.Syft.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attest")]
-public record SyftAttestOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
-) : SyftOptions
+public record SyftAttestOptions : SyftOptions
 {
+    /// <summary>
+    /// Generate a packaged-based Software Bill Of Materials (SBOM) from a container image as the predicate of an in-toto attestation that will be uploaded to the image registry
+    /// </summary>
+    /// <param name="Image">The &lt;IMAGE&gt; operand.</param>
+    public SyftAttestOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
     /// </summary>
@@ -45,12 +60,6 @@ public record SyftAttestOptions(
     /// </summary>
     [CliOption("--from", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? From { get; set; }
-
-    /// <summary>
-    /// help for attest
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// the key to use for the attestation
@@ -135,5 +144,11 @@ public record SyftAttestOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;IMAGE&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Image { get; private init; }
 
 }
