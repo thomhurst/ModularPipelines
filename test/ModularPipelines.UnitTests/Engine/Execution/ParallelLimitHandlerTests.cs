@@ -22,6 +22,39 @@ namespace ModularPipelines.UnitTests.Engine.Execution;
 public class ParallelLimitHandlerTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task DisposingLimitHandle_ReleasesExactlyOneSlot(bool useExecutionHint)
+    {
+        var handler = CreateHandler(new PipelineOptions
+        {
+            Concurrency = new ConcurrencyOptions { MaxCpuIntensiveModules = 1 },
+        });
+        var state = new ModuleState(new TestModule(), typeof(TestModule))
+        {
+            ExecutionHint = ExecutionHint.CpuBound,
+        };
+        using var cancellation = new CancellationTokenSource(TestHostSettings.DefaultTestTimeout);
+
+        Task<IDisposable> AcquireAsync() => useExecutionHint
+            ? handler.AcquireExecutionHintLimitAsync(state, cancellation.Token)
+            : handler.AcquireParallelLimitAsync(typeof(ParallelLimitedModule), cancellation.Token);
+
+        using var firstSlot = await AcquireAsync();
+        var secondWait = AcquireAsync();
+        await Assert.That(secondWait.IsCompleted).IsFalse();
+
+        firstSlot.Dispose();
+        using var secondSlot = await secondWait;
+        firstSlot.Dispose();
+
+        var thirdWait = AcquireAsync();
+        await Assert.That(thirdWait.IsCompleted).IsFalse();
+        secondSlot.Dispose();
+        using var thirdSlot = await thirdWait;
+    }
+
+    [Test]
     public async Task AcquireParallelLimitAsync_CancelsWhileWaiting()
     {
         var handler = CreateHandler(new PipelineOptions());
@@ -36,6 +69,12 @@ public class ParallelLimitHandlerTests
         cancellationTokenSource.Cancel();
 
         await Assert.ThrowsAsync<OperationCanceledException>(() => waitingTask);
+
+        using var nextCancellation = new CancellationTokenSource(TestHostSettings.DefaultTestTimeout);
+        var nextWait = handler.AcquireParallelLimitAsync(typeof(ParallelLimitedModule), nextCancellation.Token);
+        await Assert.That(nextWait.IsCompleted).IsFalse();
+        heldSlot.Dispose();
+        using var nextSlot = await nextWait;
     }
 
     [Test]
@@ -67,6 +106,12 @@ public class ParallelLimitHandlerTests
         cancellationTokenSource.Cancel();
 
         await Assert.ThrowsAsync<OperationCanceledException>(() => waitingTask);
+
+        using var nextCancellation = new CancellationTokenSource(TestHostSettings.DefaultTestTimeout);
+        var nextWait = handler.AcquireExecutionHintLimitAsync(secondState, nextCancellation.Token);
+        await Assert.That(nextWait.IsCompleted).IsFalse();
+        heldSlot.Dispose();
+        using var nextSlot = await nextWait;
     }
 
     [Test]

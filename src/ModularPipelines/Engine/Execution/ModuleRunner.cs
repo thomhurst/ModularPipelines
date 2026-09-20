@@ -22,7 +22,6 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Secrets;
 using ModularPipelines.Tracing;
-using Semaphores;
 
 namespace ModularPipelines.Engine.Execution;
 
@@ -117,7 +116,7 @@ internal class ModuleRunner : IModuleRunner
     }
 
     /// <inheritdoc />
-    public Task ExecuteAsync(ModuleState moduleState, AsyncSemaphore executionLimit, CancellationToken cancellationToken)
+    public Task ExecuteAsync(ModuleState moduleState, SemaphoreSlim executionLimit, CancellationToken cancellationToken)
     {
         return ExecuteCore(moduleState, GetScheduler(moduleState, skipDependencyWait: false), cancellationToken,
             skipDependencyWait: false, executionLimit: executionLimit);
@@ -146,7 +145,7 @@ internal class ModuleRunner : IModuleRunner
         IModuleScheduler? scheduler,
         CancellationToken cancellationToken,
         bool skipDependencyWait,
-        AsyncSemaphore? executionLimit = null)
+        SemaphoreSlim? executionLimit = null)
     {
         var module = moduleState.Module;
         moduleState.ExecutionDeferred = false;
@@ -157,7 +156,7 @@ internal class ModuleRunner : IModuleRunner
 
         // Create a scope to resolve scoped services like IModuleContext and ModuleLogger<T>
         var scope = _serviceProvider.CreateAsyncScope();
-        IDisposable? executionLimitHandle = null;
+        var executionLimitAcquired = false;
         try
         {
             await using (scope.ConfigureAwait(false))
@@ -174,7 +173,8 @@ internal class ModuleRunner : IModuleRunner
 
                     if (executionLimit is not null)
                     {
-                        executionLimitHandle = await executionLimit.WaitAsync(cancellationToken).ConfigureAwait(false);
+                        await executionLimit.WaitAsync(cancellationToken).ConfigureAwait(false);
+                        executionLimitAcquired = true;
                     }
 
                     var allowHistoricalResultWhenSkipped = !await HasRunnableArtifactConsumerAsync(
@@ -248,7 +248,10 @@ internal class ModuleRunner : IModuleRunner
         finally
         {
             // Keep the slot until module hooks and asynchronous scope disposal have finished.
-            executionLimitHandle?.Dispose();
+            if (executionLimitAcquired)
+            {
+                executionLimit!.Release();
+            }
         }
     }
 

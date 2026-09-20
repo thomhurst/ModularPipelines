@@ -1,7 +1,6 @@
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using Semaphores;
 
 namespace ModularPipelines.Engine;
 
@@ -9,7 +8,7 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
 {
     private readonly IExecutionBackendContext _resultContext;
     private readonly IModuleRunner _moduleRunner;
-    private readonly AsyncSemaphore _executionLimit;
+    private readonly SemaphoreSlim _executionLimit;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly Dictionary<Type, IModule> _modules;
     private readonly Lazy<Task<IModuleScheduler>> _scheduler;
@@ -30,7 +29,7 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
     {
         _resultContext = resultContext;
         _moduleRunner = moduleRunner;
-        _executionLimit = new AsyncSemaphore(maxParallelism);
+        _executionLimit = new SemaphoreSlim(maxParallelism, maxParallelism);
         _engineCancellationToken = engineCancellationToken;
         _modules = modules.ToDictionary(module => module.GetType());
         _scheduler = new Lazy<Task<IModuleScheduler>>(async () =>
@@ -236,6 +235,7 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
             _scheduler.Value.Result.Dispose();
         }
 
+        _executionLimit.Dispose();
         _lifetime.Dispose();
     }
 }

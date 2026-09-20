@@ -38,10 +38,9 @@ internal class ParallelLimitHandler : IParallelLimitHandler
                 parallelLimiterAttribute.Type.Name);
 
             // Use the attribute's GetLock method to avoid reflection on IParallelLimit
-            return await parallelLimiterAttribute
-                .GetLock(_parallelLimitProvider)
-                .WaitAsync(cancellationToken)
-                .ConfigureAwait(false);
+            var semaphore = parallelLimiterAttribute.GetLock(_parallelLimitProvider);
+            await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+            return new SemaphoreReleaser(semaphore);
         }
 
         return NoOpDisposable.Instance;
@@ -61,9 +60,20 @@ internal class ParallelLimitHandler : IParallelLimitHandler
                 moduleState.ModuleType.Name,
                 moduleState.ExecutionHint);
 
-            return await executionHintLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            await executionHintLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            return new SemaphoreReleaser(executionHintLock);
         }
 
         return NoOpDisposable.Instance;
+    }
+
+    private sealed class SemaphoreReleaser(SemaphoreSlim semaphore) : IDisposable
+    {
+        private SemaphoreSlim? _semaphore = semaphore;
+
+        public void Dispose()
+        {
+            Interlocked.Exchange(ref _semaphore, null)?.Release();
+        }
     }
 }
