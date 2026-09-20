@@ -18,11 +18,30 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cp")]
-public record KubernetesCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FileSpecSrc,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FileSpecDest
-) : KubernetesOptions
+public record KubernetesCpOptions : KubernetesOptions
 {
+    /// <summary>
+    /// Copy files and directories to and from containers.
+    /// </summary>
+    /// <param name="FileSpecSrc">The &lt;file-spec-src&gt; operand.</param>
+    /// <param name="FileSpecDest">The &lt;file-spec-dest&gt; operand.</param>
+    public KubernetesCpOptions(
+        string FileSpecSrc,
+        string FileSpecDest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSpecSrc);
+        this.FileSpecSrc = FileSpecSrc;
+        global::System.ArgumentNullException.ThrowIfNull(FileSpecDest);
+        this.FileSpecDest = FileSpecDest;
+    }
+
+    public void Deconstruct(out string FileSpecSrc, out string FileSpecDest)
+    {
+        FileSpecSrc = this.FileSpecSrc;
+        FileSpecDest = this.FileSpecDest;
+    }
+
     /// <summary>
     /// Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
     /// </summary>
@@ -40,5 +59,17 @@ public record KubernetesCpOptions(
     /// </summary>
     [CliOption("--retries", Format = OptionFormat.EqualsSeparated)]
     public int? Retries { get; set; }
+
+    /// <summary>
+    /// The &lt;file-spec-src&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FileSpecSrc { get; private init; }
+
+    /// <summary>
+    /// The &lt;file-spec-dest&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FileSpecDest { get; private init; }
 
 }

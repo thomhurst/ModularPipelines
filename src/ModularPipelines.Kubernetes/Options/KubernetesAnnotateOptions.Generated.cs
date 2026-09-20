@@ -19,10 +19,30 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("annotate")]
-public record KubernetesAnnotateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Annotations
-) : KubernetesOptions
+public record KubernetesAnnotateOptions : KubernetesOptions
 {
+    /// <summary>
+    /// Update the annotations on one or more resources.
+    /// </summary>
+    /// <param name="Annotations">The KEY_1=VAL_1 operand.</param>
+    public KubernetesAnnotateOptions(
+        IEnumerable<string>? Annotations
+    )
+    {
+        if (Annotations is not null)
+        {
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Annotations));
+
+            Annotations = materialized;
+        }
+        this.Annotations = Annotations;
+    }
+
+    public void Deconstruct(out IEnumerable<string>? Annotations)
+    {
+        Annotations = this.Annotations;
+    }
+
     /// <summary>
     /// Select all resources in the namespace of the specified resource types
     /// </summary>
@@ -124,5 +144,11 @@ public record KubernetesAnnotateOptions(
     /// </summary>
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
+
+    /// <summary>
+    /// The KEY_1=VAL_1 operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Annotations { get; private init; }
 
 }

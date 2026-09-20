@@ -16,11 +16,12 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// View previous rollout revisions and configurations.
 /// </summary>
+/// <param name="TypeName">The TYPE NAME operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "history")]
 public record KubernetesRolloutHistoryOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TypeName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string? TypeName
 ) : KubernetesOptions
 {
     /// <summary>

@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Kubernetes.Enums;
 
 /// <summary>
-/// Allowed values for the --dryrun option.
+/// Allowed values for --dry-run.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum KubernetesTaintDryRun

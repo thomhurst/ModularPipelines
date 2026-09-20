@@ -15,11 +15,12 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Check whether an action is allowed.
 /// </summary>
+/// <param name="Verb">The VERB operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "can-i")]
 public record KubernetesAuthCanIOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Verb
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string? Verb
 ) : KubernetesOptions
 {
     /// <summary>

@@ -19,10 +19,25 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set-credentials")]
-public record KubernetesConfigSetCredentialsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : KubernetesOptions
+public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
 {
+    /// <summary>
+    /// Set a user entry in kubeconfig.
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public KubernetesConfigSetCredentialsOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Auth provider for the user entry in kubeconfig
     /// </summary>
@@ -108,5 +123,11 @@ public record KubernetesConfigSetCredentialsOptions(
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -18,11 +18,41 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("port-forward")]
-public record KubernetesPortForwardOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TypeOrName,
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> LocalPortRemotePort
-) : KubernetesOptions
+public record KubernetesPortForwardOptions : KubernetesOptions
 {
+    /// <summary>
+    /// Forward one or more local ports to a pod.
+    /// </summary>
+    /// <param name="TypeOrName">The TYPE Or NAME operand.</param>
+    /// <param name="LocalPortRemotePort">The [LOCAL_PORT:]REMOTE_PORT operand.</param>
+    public KubernetesPortForwardOptions(
+        string TypeOrName,
+        IEnumerable<string> LocalPortRemotePort
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TypeOrName);
+        this.TypeOrName = TypeOrName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LocalPortRemotePort);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LocalPortRemotePort));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LocalPortRemotePort));
+            }
+
+            LocalPortRemotePort = materialized;
+        }
+        this.LocalPortRemotePort = LocalPortRemotePort;
+    }
+
+    public void Deconstruct(out string TypeOrName, out IEnumerable<string> LocalPortRemotePort)
+    {
+        TypeOrName = this.TypeOrName;
+        LocalPortRemotePort = this.LocalPortRemotePort;
+    }
+
     /// <summary>
     /// Addresses to listen on (comma separated). Only accepts IP addresses or localhost as a value. When localhost is supplied, kubectl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these addresses are available to bind.
     /// </summary>
@@ -34,5 +64,17 @@ public record KubernetesPortForwardOptions(
     /// </summary>
     [CliOption("--pod-running-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? PodRunningTimeout { get; set; }
+
+    /// <summary>
+    /// The TYPE Or NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TypeOrName { get; private init; }
+
+    /// <summary>
+    /// The [LOCAL_PORT:]REMOTE_PORT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> LocalPortRemotePort { get; private init; }
 
 }

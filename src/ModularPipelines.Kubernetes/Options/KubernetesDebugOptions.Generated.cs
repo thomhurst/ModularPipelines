@@ -15,12 +15,12 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Debug cluster resources using interactive debugging containers.
 /// </summary>
+/// <param name="Pod">The POD operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("debug")]
 public record KubernetesDebugOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Pod,
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)] string CommandArgs
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string? Pod
 ) : KubernetesOptions
 {
     /// <summary>
@@ -166,6 +166,12 @@ public record KubernetesDebugOptions(
     /// </summary>
     [CliFlag("--tty", ShortForm = "-t")]
     public bool? Tty { get; set; }
+
+    /// <summary>
+    /// The COMMAND [args...] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public string? CommandArgs { get; set; }
 
     /// <summary>
     /// The COMMAND [args...] operand.

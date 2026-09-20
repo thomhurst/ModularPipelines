@@ -19,12 +19,45 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("taint")]
-public record KubernetesTaintOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Node,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Name,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Taints
-) : KubernetesOptions
+public record KubernetesTaintOptions : KubernetesOptions
 {
+    /// <summary>
+    /// Update the taints on one or more nodes.
+    /// </summary>
+    /// <param name="Node">The NODE operand.</param>
+    /// <param name="Name">The NAME operand.</param>
+    /// <param name="Taints">The KEY_1=VAL_1:TAINT_EFFECT_1 operand.</param>
+    public KubernetesTaintOptions(
+        string Node,
+        string? Name,
+        IEnumerable<string> Taints
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Node);
+        this.Node = Node;
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Taints);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Taints));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Taints));
+            }
+
+            Taints = materialized;
+        }
+        this.Taints = Taints;
+    }
+
+    public void Deconstruct(out string Node, out string? Name, out IEnumerable<string> Taints)
+    {
+        Node = this.Node;
+        Name = this.Name;
+        Taints = this.Taints;
+    }
+
     /// <summary>
     /// Select all nodes in the cluster
     /// </summary>
@@ -84,5 +117,23 @@ public record KubernetesTaintOptions(
     /// </summary>
     [CliOption("--validate", Format = OptionFormat.EqualsSeparated)]
     public string? Validate { get; set; }
+
+    /// <summary>
+    /// The NODE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Node { get; private init; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The KEY_1=VAL_1:TAINT_EFFECT_1 operand.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Taints { get; private init; }
 
 }

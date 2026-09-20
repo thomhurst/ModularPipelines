@@ -15,11 +15,12 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Print the logs for a container in a pod or specified resource. If the pod has only one container, the container name is optional.
 /// </summary>
+/// <param name="Pod">The POD operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs")]
 public record KubernetesLogsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Pod
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string? Pod
 ) : KubernetesOptions
 {
     /// <summary>
