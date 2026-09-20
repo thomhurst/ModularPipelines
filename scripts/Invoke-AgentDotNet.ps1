@@ -11,7 +11,7 @@ limits are exceeded. Exit 124 means timeout; exit 137 means memory limit.
 & scripts/Invoke-AgentDotNet.ps1 -SingleNode `
     -DotNetArguments @('build', 'ModularPipelines.slnx', '-c', 'Release')
 
-Invoke in-process so -DotNetArguments receives the array intact; see CLAUDE.md.
+Invoke in-process so -DotNetArguments receives the array intact; see AGENTS.md.
 #>
 
 [CmdletBinding(PositionalBinding = $false)]

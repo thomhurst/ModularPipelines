@@ -1,3 +1,3 @@
 # Repository guidance
 
-Read and follow [CLAUDE.md](../CLAUDE.md) for repository constraints and validation commands.
+Read and follow [AGENTS.md](../AGENTS.md) for repository constraints and validation commands.
