@@ -18,10 +18,36 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workload", "install")]
-public record DotNetWorkloadInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> WorkloadId
-) : DotNetOptions
+public record DotNetWorkloadInstallOptions : DotNetOptions
 {
+    /// <summary>
+    /// Install one or more workloads.
+    /// </summary>
+    /// <param name="WorkloadId">The NuGet package ID of the workload to install.</param>
+    public DotNetWorkloadInstallOptions(
+        IEnumerable<string> WorkloadId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(WorkloadId);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(WorkloadId));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(WorkloadId));
+            }
+
+            WorkloadId = materialized;
+        }
+        this.WorkloadId = WorkloadId;
+    }
+
+    public void Deconstruct(out IEnumerable<string> WorkloadId)
+    {
+        WorkloadId = this.WorkloadId;
+    }
+
     /// <summary>
     /// Specify a temporary directory for this command to download and extract NuGet packages (must be secure).
     /// </summary>
@@ -81,5 +107,11 @@ public record DotNetWorkloadInstallOptions(
     /// </summary>
     [CliFlag("--skip-manifest-update")]
     public bool? SkipManifestUpdate { get; set; }
+
+    /// <summary>
+    /// The NuGet package ID of the workload to install.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> WorkloadId { get; private init; }
 
 }

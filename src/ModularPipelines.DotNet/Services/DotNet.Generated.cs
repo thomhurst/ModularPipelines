@@ -94,7 +94,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetBuildOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetBuildOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -103,7 +103,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetCleanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetCleanOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -112,7 +112,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetMsbuildOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetMsbuildOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -121,7 +121,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -130,7 +130,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPublishOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetPublishOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -139,7 +139,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetRestoreOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -148,7 +148,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetRunOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetRunOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -157,7 +157,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetStoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetStoreOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -166,7 +166,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetTestOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -175,7 +175,7 @@ internal partial class DotNet : IDotNet
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetVstestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetVstestOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

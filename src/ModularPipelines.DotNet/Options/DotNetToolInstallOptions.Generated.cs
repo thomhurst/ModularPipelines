@@ -18,10 +18,25 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tool", "install")]
-public record DotNetToolInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PackageId
-) : DotNetOptions
+public record DotNetToolInstallOptions : DotNetOptions
 {
+    /// <summary>
+    /// Install global or local tool. Local tools are added to manifest and restored.
+    /// </summary>
+    /// <param name="PackageId">Package reference in the form of a package identifier like 'dotnetsay' or package identifier and version separated by '@' like 'dotnetsay@2.1.7'.</param>
+    public DotNetToolInstallOptions(
+        string PackageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageId);
+        this.PackageId = PackageId;
+    }
+
+    public void Deconstruct(out string PackageId)
+    {
+        PackageId = this.PackageId;
+    }
+
     /// <summary>
     /// Install the tool for the current user. [default: False]
     /// </summary>
@@ -129,5 +144,11 @@ public record DotNetToolInstallOptions(
     /// </summary>
     [CliFlag("--allow-roll-forward")]
     public bool? AllowRollForward { get; set; }
+
+    /// <summary>
+    /// Package reference in the form of a package identifier like 'dotnetsay' or package identifier and version separated by '@' like 'dotnetsay@2.1.7'.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PackageId { get; private init; }
 
 }

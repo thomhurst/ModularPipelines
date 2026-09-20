@@ -18,15 +18,36 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tool", "run")]
-public record DotNetToolRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CommandName
-) : DotNetOptions
+public record DotNetToolRunOptions : DotNetOptions
 {
+    /// <summary>
+    /// Run a local tool. Note that this command cannot be used to run a global tool.
+    /// </summary>
+    /// <param name="CommandName">The command name of the tool to run.</param>
+    public DotNetToolRunOptions(
+        string CommandName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommandName);
+        this.CommandName = CommandName;
+    }
+
+    public void Deconstruct(out string CommandName)
+    {
+        CommandName = this.CommandName;
+    }
+
     /// <summary>
     /// Allow a .NET tool to roll forward to newer versions of the .NET runtime if the runtime it targets isn't installed. [default: False]
     /// </summary>
     [CliFlag("--allow-roll-forward")]
     public bool? AllowRollForward { get; set; }
+
+    /// <summary>
+    /// The command name of the tool to run.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CommandName { get; private init; }
 
     /// <summary>
     /// Arguments forwarded to the tool

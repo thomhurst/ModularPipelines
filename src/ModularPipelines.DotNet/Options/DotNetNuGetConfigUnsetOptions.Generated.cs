@@ -18,10 +18,25 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "config", "unset")]
-public record DotNetNuGetConfigUnsetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigKey
-) : DotNetOptions
+public record DotNetNuGetConfigUnsetOptions : DotNetOptions
 {
+    /// <summary>
+    /// Removes the key-value pair from a specified NuGet configuration setting.
+    /// </summary>
+    /// <param name="ConfigKey">The key of the settings that are to be removed.</param>
+    public DotNetNuGetConfigUnsetOptions(
+        string ConfigKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigKey);
+        this.ConfigKey = ConfigKey;
+    }
+
+    public void Deconstruct(out string ConfigKey)
+    {
+        ConfigKey = this.ConfigKey;
+    }
+
     /// <summary>
     /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
     /// </summary>
@@ -33,5 +48,11 @@ public record DotNetNuGetConfigUnsetOptions(
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// The key of the settings that are to be removed.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConfigKey { get; private init; }
 
 }

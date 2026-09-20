@@ -18,10 +18,36 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "remove")]
-public record DotNetPackageRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> PackageName
-) : DotNetOptions
+public record DotNetPackageRemoveOptions : DotNetOptions
 {
+    /// <summary>
+    /// Remove a NuGet package reference from the project.
+    /// </summary>
+    /// <param name="PackageName">The package reference to remove.</param>
+    public DotNetPackageRemoveOptions(
+        IEnumerable<string> PackageName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PackageName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PackageName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PackageName));
+            }
+
+            PackageName = materialized;
+        }
+        this.PackageName = PackageName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> PackageName)
+    {
+        PackageName = this.PackageName;
+    }
+
     /// <summary>
     /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
     /// </summary>
@@ -39,5 +65,11 @@ public record DotNetPackageRemoveOptions(
     /// </summary>
     [CliOption("--file")]
     public string? File { get; set; }
+
+    /// <summary>
+    /// The package reference to remove.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> PackageName { get; private init; }
 
 }

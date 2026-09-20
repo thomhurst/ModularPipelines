@@ -44,7 +44,7 @@ public class DotNetNuGetDisable
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetDisableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetDisableOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class DotNetNuGetDisable
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -18,10 +18,25 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "add")]
-public record DotNetPackageAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PackageId
-) : DotNetOptions
+public record DotNetPackageAddOptions : DotNetOptions
 {
+    /// <summary>
+    /// Add a NuGet package reference to the project.
+    /// </summary>
+    /// <param name="PackageId">Package reference in the form of a package identifier like 'Newtonsoft.Json' or package identifier and version separated by '@' like 'Newtonsoft.Json@13.0.3'.</param>
+    public DotNetPackageAddOptions(
+        string PackageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageId);
+        this.PackageId = PackageId;
+    }
+
+    public void Deconstruct(out string PackageId)
+    {
+        PackageId = this.PackageId;
+    }
+
     /// <summary>
     /// Add the reference only when targeting a specific framework.
     /// </summary>
@@ -69,5 +84,11 @@ public record DotNetPackageAddOptions(
     /// </summary>
     [CliOption("--file")]
     public string? File { get; set; }
+
+    /// <summary>
+    /// Package reference in the form of a package identifier like 'Newtonsoft.Json' or package identifier and version separated by '@' like 'Newtonsoft.Json@13.0.3'.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PackageId { get; private init; }
 
 }

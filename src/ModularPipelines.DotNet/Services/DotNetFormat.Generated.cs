@@ -44,7 +44,7 @@ public class DotNetFormat : IDotNetFormat
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetFormatOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetFormatOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class DotNetFormat : IDotNetFormat
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetFormatAnalyzersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetFormatAnalyzersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class DotNetFormat : IDotNetFormat
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetFormatStyleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetFormatStyleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class DotNetFormat : IDotNetFormat
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetFormatWhitespaceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetFormatWhitespaceOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
