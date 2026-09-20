@@ -2000,7 +2000,7 @@ public class SecretMaskingPatternTests
         using var secondEmissionAttempted = new ManualResetEventSlim();
         using var secondEmissionStarted = new ManualResetEventSlim();
 
-        var firstEmission = Task.Factory.StartNew(() => provider.ExecuteWithStableSecrets(
+        var firstEmission = RunOnDedicatedThread(() => provider.ExecuteWithStableSecrets(
             firstEmissionStarted,
             started =>
             {
@@ -2009,7 +2009,7 @@ public class SecretMaskingPatternTests
                 {
                     throw new TimeoutException("Timed out waiting to release first emission.");
                 }
-            }), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            }));
 
         string? emittedOutput = null;
         var secondEmission = Task.CompletedTask;
@@ -2020,7 +2020,7 @@ public class SecretMaskingPatternTests
 
             using (ExecutionContext.SuppressFlow())
             {
-                secondEmission = Task.Factory.StartNew(() =>
+                secondEmission = RunOnDedicatedThread(() =>
                 {
                     secondEmissionAttempted.Set();
                     provider.ExecuteWithStableSecrets(
@@ -2030,7 +2030,7 @@ public class SecretMaskingPatternTests
                             started.Set();
                             emittedOutput = obfuscator.Obfuscate(discoveredSecret, null);
                         });
-                }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                });
             }
 
             await Assert.That(secondEmissionAttempted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
@@ -2057,11 +2057,11 @@ public class SecretMaskingPatternTests
         var childEmission = Task.CompletedTask;
         string? emittedOutput = null;
 
-        var outerEmission = Task.Factory.StartNew(() => provider.ExecuteWithStableSecrets(
+        var outerEmission = RunOnDedicatedThread(() => provider.ExecuteWithStableSecrets(
             provider,
             outerProvider =>
             {
-                childEmission = Task.Factory.StartNew(() => outerProvider.ExecuteWithStableSecrets(
+                childEmission = RunOnDedicatedThread(() => outerProvider.ExecuteWithStableSecrets(
                     outerProvider,
                     _ =>
                     {
@@ -2073,7 +2073,7 @@ public class SecretMaskingPatternTests
                         }
 
                         emittedOutput = scannedOutput;
-                    }), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                    }));
                 if (!childScanned.Wait(TimeSpan.FromSeconds(5)))
                 {
                     throw new TimeoutException("Timed out waiting for inherited worker scan.");
@@ -2082,7 +2082,7 @@ public class SecretMaskingPatternTests
                 outerProvider.AddSecret(discoveredSecret);
                 outerProvider.ExecuteWithStableSecrets(outerProvider, static _ => { });
                 nestedEmissionCompleted.Set();
-            }), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            }));
 
         try
         {
@@ -2119,27 +2119,26 @@ public class SecretMaskingPatternTests
         try
         {
             provider.ExecuteWithStableSecrets(
-            provider,
-            outerProvider =>
-            {
-                worker = Task.Factory.StartNew(() => outerProvider.ExecuteWithStableSecrets(
-                    workerStarted,
-                    started =>
-                    {
-                        started.Set();
-                        if (!releaseWorker.Wait(TimeSpan.FromSeconds(10)))
-                        {
-                            throw new TimeoutException("Timed out waiting to release worker emission.");
-                        }
-                    }), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-                if (!workerStarted.Wait(TimeSpan.FromSeconds(5)))
+                provider,
+                outerProvider =>
                 {
-                    throw new TimeoutException("Timed out waiting for worker emission to start.");
-                }
-            });
+                    worker = RunOnDedicatedThread(() => outerProvider.ExecuteWithStableSecrets(
+                        workerStarted,
+                        started =>
+                        {
+                            started.Set();
+                            if (!releaseWorker.Wait(TimeSpan.FromSeconds(10)))
+                            {
+                                throw new TimeoutException("Timed out waiting to release worker emission.");
+                            }
+                        }));
+                    if (!workerStarted.Wait(TimeSpan.FromSeconds(5)))
+                    {
+                        throw new TimeoutException("Timed out waiting for worker emission to start.");
+                    }
+                });
 
-            registration = Task.Factory.StartNew(() => provider.AddSecret("late-worker-secret"),
-                CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            registration = RunOnDedicatedThread(() => provider.AddSecret("late-worker-secret"));
             await Assert.That(registrationStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
             await registration.WaitAsync(TimeSpan.FromSeconds(5));
             await Assert.That(provider.Secrets).DoesNotContain("late-worker-secret");
@@ -2898,4 +2897,6 @@ public class SecretMaskingPatternTests
             base.WriteLine(value);
         }
     }
+    private static Task RunOnDedicatedThread(Action action) =>
+        Task.Factory.StartNew(action, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 }
