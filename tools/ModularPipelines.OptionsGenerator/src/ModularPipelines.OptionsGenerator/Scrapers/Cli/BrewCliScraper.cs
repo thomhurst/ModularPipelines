@@ -186,7 +186,7 @@ public partial class BrewCliScraper : CliScraperBase
     {
         // An explicit Usage line already describes this command. Child headings
         // in group help must not add their command names as parent operands.
-        if (UsageSynopsisParser.Parse(helpText, commandPath).CommandMatched)
+        if (UsageSynopsisParser.Parse(helpText, commandPath).MatchedCommandPartCount == commandPath.Length)
         {
             yield break;
         }

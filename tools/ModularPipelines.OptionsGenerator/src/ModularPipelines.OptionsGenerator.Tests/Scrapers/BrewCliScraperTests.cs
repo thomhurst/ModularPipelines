@@ -245,6 +245,24 @@ public class BrewCliScraperTests
     }
 
     [Test]
+    public async Task Partial_Command_Match_Does_Not_Hide_The_Child_Synopsis()
+    {
+        const string helpText = """
+            Usage: brew stop [options]
+
+            Help for a different command.
+
+            [sudo] brew services stop (formula|--all):
+                Stop the selected service.
+
+                  --all  Stop all services.
+            """;
+        var command = (await new TestBrewCliScraper().Parse(["brew", "services", "stop"], helpText))!;
+        await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("Formula");
+        await Assert.That(command.Description).IsEqualTo("Stop the selected service.");
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Services_Description_Command_References_Are_Not_Operand_Synopses(bool childCommand)
