@@ -16,11 +16,11 @@ namespace ModularPipelines.Java.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MavenColor
 {
-    [EnumValue("auto")]
-    Auto,
-
     [EnumValue("always")]
     Always,
+
+    [EnumValue("auto")]
+    Auto,
 
     [EnumValue("never")]
     Never

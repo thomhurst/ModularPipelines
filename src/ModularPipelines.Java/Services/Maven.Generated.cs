@@ -38,7 +38,7 @@ internal partial class Maven : IMaven
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new MavenExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new MavenExecuteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
