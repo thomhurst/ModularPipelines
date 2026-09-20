@@ -16,16 +16,40 @@ using ModularPipelines.Snyk.Enums;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// Feature availability: This feature is currently in Early Access and is available to customers on
+/// The snyk container sbom command generates an SBOM for a container image.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "sbom")]
-public record SnykContainerSbomOptions(
-    [property: CliOption("--format", Format = OptionFormat.EqualsSeparated)] SnykFormat Format,
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : SnykOptions
+public record SnykContainerSbomOptions : SnykOptions
 {
+    /// <summary>
+    /// The snyk container sbom command generates an SBOM for a container image.
+    /// </summary>
+    /// <param name="Format">Required. Specify the output format for the SBOM to be produced.</param>
+    /// <param name="Image">Container image to scan</param>
+    public SnykContainerSbomOptions(
+        SnykFormat Format,
+        string Image
+    )
+    {
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out SnykFormat Format, out string Image)
+    {
+        Format = this.Format;
+        Image = this.Image;
+    }
+
+    /// <summary>
+    /// Required. Specify the output format for the SBOM to be produced.
+    /// </summary>
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
+    public SnykFormat Format { get; private init; }
+
     /// <summary>
     /// Specify the &lt;ORG_ID&gt; (name or UUID) to run Snyk commands tied to a specific Snyk Organization. The &lt;ORG_ID&gt; influences some features availability and private test limits.
     /// </summary>
@@ -74,5 +98,11 @@ public record SnykContainerSbomOptions(
     /// </summary>
     [CliFlag("-d")]
     public bool? Debug { get; set; }
+
+    /// <summary>
+    /// Container image to scan
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
 }

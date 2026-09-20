@@ -15,7 +15,7 @@ using ModularPipelines.Snyk.Options;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// Note: This feature is available in Snyk CLI version v1.876.0 or greater.
+/// The snyk iac describe command detects unmanaged infrastructure resources. It compares resources in your Terraform state file against actual resources in your cloud provider and outputs a report.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

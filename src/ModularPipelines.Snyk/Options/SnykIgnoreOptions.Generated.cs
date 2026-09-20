@@ -15,15 +15,19 @@ using ModularPipelines.Snyk.Enums;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// Usage and description
+/// The snyk ignore command modifies the .snyk policy file to ignore a specified issue according to its Snyk ID for all occurrences, its expiry date, a reason, or according to paths in the filesystem for the policy, the issue, or both.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ignore")]
-public record SnykIgnoreOptions(
-    [property: CliOption("--id", Format = OptionFormat.EqualsSeparated)] string Id
-) : SnykOptions
+public record SnykIgnoreOptions : SnykOptions
 {
+    /// <summary>
+    /// Snyk ID for the issue to ignore, omitted if the ignore command used with --file-path, otherwise required.
+    /// </summary>
+    [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
+    public string? Id { get; set; }
+
     /// <summary>
     /// Expiry date in YYYY-MM-DD format.
     /// </summary>

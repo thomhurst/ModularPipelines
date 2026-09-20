@@ -15,7 +15,7 @@ using ModularPipelines.Snyk.Enums;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// -  The snyk aibom test feature requires an internet connection.
+/// The snyk aibom test command generates an AI-BOM for your local project and evaluates it against your tenant's Evo policies. It reports all policy violations as issues, so you can see which AI models, tools, or other components are disallowed or non-compliant.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

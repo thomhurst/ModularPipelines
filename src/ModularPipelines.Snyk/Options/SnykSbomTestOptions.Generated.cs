@@ -15,15 +15,36 @@ using ModularPipelines.Snyk.Enums;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// Feature availability: This feature is available to customers on Snyk Enterprise plans.
+/// The snyk sbom test command checks SBOM files for vulnerabilities in open-source packages.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sbom", "test")]
-public record SnykSbomTestOptions(
-    [property: CliOption("--file", Format = OptionFormat.EqualsSeparated)] string File
-) : SnykOptions
+public record SnykSbomTestOptions : SnykOptions
 {
+    /// <summary>
+    /// The snyk sbom test command checks SBOM files for vulnerabilities in open-source packages.
+    /// </summary>
+    /// <param name="File">Required. Specify the file path of the SBOM document.</param>
+    public SnykSbomTestOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// Required. Specify the file path of the SBOM document.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string File { get; private init; }
+
     /// <summary>
     /// Print results on the console as a JSON data structure.
     /// </summary>

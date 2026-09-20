@@ -14,7 +14,7 @@ using ModularPipelines.Snyk.Options;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// IaC update-exclude-policy
+/// The snyk iac update-exclude-policy generates exclude policy rules to be used by snyk iac describe.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

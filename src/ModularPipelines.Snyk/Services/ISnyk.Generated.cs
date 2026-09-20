@@ -21,7 +21,7 @@ public partial interface ISnyk
     #region Commands
 
     /// <summary>
-    /// -  The snyk aibom feature requires an internet connection.
+    /// The snyk aibom command generates an AI-BOM for a local software Project written in Python, Java, JavaScript, or Go. You can use the snyk aibom command to identify AI models, datasets, and map the AI supply chain, including connections to external tools and services using the Model Context Protocol (MCP).
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -31,7 +31,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// -  The snyk aibom test feature requires an internet connection.
+    /// The snyk aibom test command generates an AI-BOM for your local project and evaluates it against your tenant's Evo policies. It reports all policy violations as issues, so you can see which AI models, tools, or other components are disallowed or non-compliant.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -51,7 +51,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// The snyk code test command tests source code for any known security issues (Static Application
+    /// The snyk code test command tests source code for any known security issues (Static Application Security Testing).
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -61,7 +61,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// The snyk container monitor command captures the container image layers and dependencies in a
+    /// The snyk container monitor command captures the container image layers and dependencies in a project and monitors that snapshot for vulnerabilities, sending the results to snyk.io https://snyk.io
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -71,7 +71,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Feature availability: This feature is currently in Early Access and is available to customers on
+    /// The snyk container sbom command generates an SBOM for a container image.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -91,7 +91,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Note: This feature is available in Snyk CLI version v1.876.0 or greater.
+    /// The snyk iac describe command detects unmanaged infrastructure resources. It compares resources in your Terraform state file against actual resources in your cloud provider and outputs a report.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -101,7 +101,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// The snyk iac commands find and report security issues in Infrastructure as Code files; detect,
+    /// The snyk iac commands find and report security issues in Infrastructure as Code files; detect, track, and alert on unmanaged resources; and create a .driftignore file.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -121,7 +121,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// IaC update-exclude-policy
+    /// The snyk iac update-exclude-policy generates exclude policy rules to be used by snyk iac describe.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -131,17 +131,17 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Usage and description
+    /// The snyk ignore command modifies the .snyk policy file to ignore a specified issue according to its Snyk ID for all occurrences, its expiry date, a reason, or according to paths in the filesystem for the policy, the issue, or both.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> IgnoreAsync(SnykIgnoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> IgnoreAsync(SnykIgnoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// The snyk log4shell command finds traces of the Log4J library that are affected by the Log4Shell
+    /// The snyk log4shell command finds traces of the Log4J library that are affected by the Log4Shell vulnerability CVE-2021-44228 https://security.snyk.io/vuln/SNYK-JAVA-ORGAPACHELOGGINGLOG4J-2314720
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -151,7 +151,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// The snyk monitor command creates a project in your Snyk account to be continuously monitored for
+    /// The snyk monitor command creates a project in your Snyk account to be continuously monitored for open-source vulnerabilities and license issues, sending the results to snyk.io https://snyk.io
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -171,7 +171,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Feature availability: This feature is available only to customers on Snyk Enterprise plans.
+    /// The snyk sbom command generates an SBOM for a local software project in an ecosystem supported by Snyk.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -181,7 +181,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Feature availability: This feature is available to customers on Snyk Enterprise plans.
+    /// The snyk sbom test command checks SBOM files for vulnerabilities in open-source packages.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -191,7 +191,7 @@ public partial interface ISnyk
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// The snyk test command checks projects for open-source vulnerabilities and license issues. The test
+    /// The snyk test command checks projects for open-source vulnerabilities and license issues. The test command tries to auto-detect supported manifest files with dependencies and test those.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

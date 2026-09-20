@@ -14,7 +14,7 @@ using ModularPipelines.Snyk.Options;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// The snyk log4shell command finds traces of the Log4J library that are affected by the Log4Shell
+/// The snyk log4shell command finds traces of the Log4J library that are affected by the Log4Shell vulnerability CVE-2021-44228 https://security.snyk.io/vuln/SNYK-JAVA-ORGAPACHELOGGINGLOG4J-2314720
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

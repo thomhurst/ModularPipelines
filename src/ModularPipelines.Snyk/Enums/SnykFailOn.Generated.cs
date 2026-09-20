@@ -19,9 +19,9 @@ public enum SnykFailOn
     [EnumValue("all")]
     All,
 
-    [EnumValue("upgradable")]
-    Upgradable,
-
     [EnumValue("patchable")]
-    Patchable
+    Patchable,
+
+    [EnumValue("upgradable")]
+    Upgradable
 }
