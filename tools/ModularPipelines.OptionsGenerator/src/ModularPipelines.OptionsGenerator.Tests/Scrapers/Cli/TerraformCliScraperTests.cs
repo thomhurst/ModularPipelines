@@ -110,6 +110,10 @@ public class TerraformCliScraperTests
     [Arguments("Required: No.", false)]
     [Arguments("Required: false.", false)]
     [Arguments("Required: optional.", false)]
+    [Arguments("Required. Conditional.", false)]
+    [Arguments("Required. No.", false)]
+    [Arguments("Required. false.", false)]
+    [Arguments("Required. optional.", false)]
     [Arguments("Required: Yes.", true)]
     [Arguments("Required: true.", true)]
     public async Task Only_Explicit_Required_Markers_Make_Options_Required(string description, bool expected)
