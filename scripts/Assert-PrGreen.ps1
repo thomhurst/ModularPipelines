@@ -149,9 +149,9 @@ foreach ($review in $latestReviews) {
         try {
             if ($null -eq $workflowRuns) {
                 $workflowRuns = @(
-                    foreach ($event in @('workflow_dispatch', 'pull_request_target')) {
-                        $runsRaw = gh api --paginate --slurp "repos/$owner/$name/actions/workflows/claude-code-review.yml/runs?event=$event&status=success&per_page=100" 2>$null
-                        if ($LASTEXITCODE -ne 0) { throw "Could not fetch $event runs (exit $LASTEXITCODE)." }
+                    foreach ($workflowEvent in @('workflow_dispatch', 'pull_request_target')) {
+                        $runsRaw = gh api --paginate --slurp "repos/$owner/$name/actions/workflows/claude-code-review.yml/runs?event=$workflowEvent&status=success&per_page=100" 2>$null
+                        if ($LASTEXITCODE -ne 0) { throw "Could not fetch $workflowEvent runs (exit $LASTEXITCODE)." }
                         ($runsRaw | ConvertFrom-Json).workflow_runs
                     }
                 )
