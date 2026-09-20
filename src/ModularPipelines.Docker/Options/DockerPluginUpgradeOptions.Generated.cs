@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "upgrade")]
-public record DockerPluginUpgradeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Plugin
-) : DockerOptions
+public record DockerPluginUpgradeOptions : DockerOptions
 {
+    /// <summary>
+    /// Upgrade an existing plugin
+    /// </summary>
+    /// <param name="Plugin">The PLUGIN operand.</param>
+    public DockerPluginUpgradeOptions(
+        string Plugin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Plugin);
+        this.Plugin = Plugin;
+    }
+
+    public void Deconstruct(out string Plugin)
+    {
+        Plugin = this.Plugin;
+    }
+
     /// <summary>
     /// Skip image verification (default true)
     /// </summary>
@@ -39,6 +54,12 @@ public record DockerPluginUpgradeOptions(
     /// </summary>
     [CliFlag("--skip-remote-check")]
     public bool? SkipRemoteCheck { get; set; }
+
+    /// <summary>
+    /// The PLUGIN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Plugin { get; private init; }
 
     /// <summary>
     /// The REMOTE operand.

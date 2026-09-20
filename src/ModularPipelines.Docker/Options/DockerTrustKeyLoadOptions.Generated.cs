@@ -18,14 +18,35 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "key", "load")]
-public record DockerTrustKeyLoadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Keyfile
-) : DockerOptions
+public record DockerTrustKeyLoadOptions : DockerOptions
 {
+    /// <summary>
+    /// Load a private key file for signing
+    /// </summary>
+    /// <param name="Keyfile">The KEYFILE operand.</param>
+    public DockerTrustKeyLoadOptions(
+        string Keyfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Keyfile);
+        this.Keyfile = Keyfile;
+    }
+
+    public void Deconstruct(out string Keyfile)
+    {
+        Keyfile = this.Keyfile;
+    }
+
     /// <summary>
     /// Name for the loaded key (default "signer")
     /// </summary>
     [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
     public string? Name { get; set; }
+
+    /// <summary>
+    /// The KEYFILE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Keyfile { get; private init; }
 
 }

@@ -18,9 +18,40 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rename")]
-public record DockerRenameOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Container,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewName
-) : DockerOptions
+public record DockerRenameOptions : DockerOptions
 {
+    /// <summary>
+    /// Rename a container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    /// <param name="NewName">The NEW_NAME operand.</param>
+    public DockerRenameOptions(
+        string Container,
+        string NewName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+        global::System.ArgumentNullException.ThrowIfNull(NewName);
+        this.NewName = NewName;
+    }
+
+    public void Deconstruct(out string Container, out string NewName)
+    {
+        Container = this.Container;
+        NewName = this.NewName;
+    }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Container { get; private init; }
+
+    /// <summary>
+    /// The NEW_NAME operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NewName { get; private init; }
+
 }

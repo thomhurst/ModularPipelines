@@ -18,11 +18,30 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "connect")]
-public record DockerNetworkConnectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Network,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : DockerOptions
+public record DockerNetworkConnectOptions : DockerOptions
 {
+    /// <summary>
+    /// Connect a container to a network
+    /// </summary>
+    /// <param name="Network">The NETWORK operand.</param>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public DockerNetworkConnectOptions(
+        string Network,
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Network, out string Container)
+    {
+        Network = this.Network;
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Add network-scoped alias for the container
     /// </summary>
@@ -64,5 +83,17 @@ public record DockerNetworkConnectOptions(
     /// </summary>
     [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LinkLocalIp { get; set; }
+
+    /// <summary>
+    /// The NETWORK operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
 }

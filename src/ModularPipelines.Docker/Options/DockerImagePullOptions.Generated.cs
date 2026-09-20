@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "pull")]
-public record DockerImagePullOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string NameTag
-) : DockerOptions
+public record DockerImagePullOptions : DockerOptions
 {
+    /// <summary>
+    /// Download an image from a registry
+    /// </summary>
+    /// <param name="NameTag">The NAME[:TAG operand.</param>
+    public DockerImagePullOptions(
+        string NameTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NameTag);
+        this.NameTag = NameTag;
+    }
+
+    public void Deconstruct(out string NameTag)
+    {
+        NameTag = this.NameTag;
+    }
+
     /// <summary>
     /// Download all tagged images in the repository
     /// </summary>
@@ -45,5 +60,11 @@ public record DockerImagePullOptions(
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// The NAME[:TAG operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string NameTag { get; private init; }
 
 }

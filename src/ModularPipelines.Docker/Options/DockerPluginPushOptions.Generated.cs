@@ -18,14 +18,35 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "push")]
-public record DockerPluginPushOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string PluginTag
-) : DockerOptions
+public record DockerPluginPushOptions : DockerOptions
 {
+    /// <summary>
+    /// Push a plugin to a registry
+    /// </summary>
+    /// <param name="PluginTag">The PLUGIN[:TAG] operand.</param>
+    public DockerPluginPushOptions(
+        string PluginTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PluginTag);
+        this.PluginTag = PluginTag;
+    }
+
+    public void Deconstruct(out string PluginTag)
+    {
+        PluginTag = this.PluginTag;
+    }
+
     /// <summary>
     /// Skip image signing (default true)
     /// </summary>
     [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableContentTrust { get; set; }
+
+    /// <summary>
+    /// The PLUGIN[:TAG] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string PluginTag { get; private init; }
 
 }

@@ -18,14 +18,35 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "sign")]
-public record DockerTrustSignOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageTag
-) : DockerOptions
+public record DockerTrustSignOptions : DockerOptions
 {
+    /// <summary>
+    /// Sign an image
+    /// </summary>
+    /// <param name="ImageTag">The IMAGE:TAG operand.</param>
+    public DockerTrustSignOptions(
+        string ImageTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageTag);
+        this.ImageTag = ImageTag;
+    }
+
+    public void Deconstruct(out string ImageTag)
+    {
+        ImageTag = this.ImageTag;
+    }
+
     /// <summary>
     /// Sign a locally tagged image
     /// </summary>
     [CliFlag("--local")]
     public bool? Local { get; set; }
+
+    /// <summary>
+    /// The IMAGE:TAG operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageTag { get; private init; }
 
 }

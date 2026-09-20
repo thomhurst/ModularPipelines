@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "policy", "eval")]
-public record DockerBuildxPolicyEvalOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Source
-) : DockerOptions
+public record DockerBuildxPolicyEvalOptions : DockerOptions
 {
+    /// <summary>
+    /// Evaluate policy for a source
+    /// </summary>
+    /// <param name="Source">The source operand.</param>
+    public DockerBuildxPolicyEvalOptions(
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    public void Deconstruct(out string Source)
+    {
+        Source = this.Source;
+    }
+
     /// <summary>
     /// Override the configured builder instance
     /// </summary>
@@ -57,5 +72,11 @@ public record DockerBuildxPolicyEvalOptions(
     /// </summary>
     [CliFlag("--print")]
     public bool? Print { get; set; }
+
+    /// <summary>
+    /// The source operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Source { get; private init; }
 
 }

@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "push")]
-public record DockerImagePushOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string NameTag
-) : DockerOptions
+public record DockerImagePushOptions : DockerOptions
 {
+    /// <summary>
+    /// Upload an image to a registry
+    /// </summary>
+    /// <param name="NameTag">The NAME[:TAG] operand.</param>
+    public DockerImagePushOptions(
+        string NameTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NameTag);
+        this.NameTag = NameTag;
+    }
+
+    public void Deconstruct(out string NameTag)
+    {
+        NameTag = this.NameTag;
+    }
+
     /// <summary>
     /// Push all tags of an image to the repository
     /// </summary>
@@ -45,5 +60,11 @@ public record DockerImagePushOptions(
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// The NAME[:TAG] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string NameTag { get; private init; }
 
 }

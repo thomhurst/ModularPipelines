@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "policy", "test")]
-public record DockerBuildxPolicyTestOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path
-) : DockerOptions
+public record DockerBuildxPolicyTestOptions : DockerOptions
 {
+    /// <summary>
+    /// Run policy tests
+    /// </summary>
+    /// <param name="Path">The &lt;path&gt; operand.</param>
+    public DockerBuildxPolicyTestOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
     /// <summary>
     /// Override the configured builder instance
     /// </summary>
@@ -45,5 +60,11 @@ public record DockerBuildxPolicyTestOptions(
     /// </summary>
     [CliOption("--run", Format = OptionFormat.EqualsSeparated)]
     public string? Run { get; set; }
+
+    /// <summary>
+    /// The &lt;path&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Path { get; private init; }
 
 }

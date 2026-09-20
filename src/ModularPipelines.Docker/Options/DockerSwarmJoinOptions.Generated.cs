@@ -19,10 +19,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swarm", "join")]
-public record DockerSwarmJoinOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string HostPort
-) : DockerOptions
+public record DockerSwarmJoinOptions : DockerOptions
 {
+    /// <summary>
+    /// Join a swarm as a node and/or manager
+    /// </summary>
+    /// <param name="HostPort">The HOST:PORT operand.</param>
+    public DockerSwarmJoinOptions(
+        string HostPort
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostPort);
+        this.HostPort = HostPort;
+    }
+
+    public void Deconstruct(out string HostPort)
+    {
+        HostPort = this.HostPort;
+    }
+
     /// <summary>
     /// Advertised address (format: "&lt;ip|interface&gt;[:port]")
     /// </summary>
@@ -53,5 +68,11 @@ public record DockerSwarmJoinOptions(
     [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
+
+    /// <summary>
+    /// The HOST:PORT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string HostPort { get; private init; }
 
 }

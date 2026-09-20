@@ -18,11 +18,30 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "exec")]
-public record DockerContainerExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
-) : DockerOptions
+public record DockerContainerExecOptions : DockerOptions
 {
+    /// <summary>
+    /// Execute a command in a running container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    /// <param name="Command">The COMMAND operand.</param>
+    public DockerContainerExecOptions(
+        string Container,
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string Container, out string Command)
+    {
+        Container = this.Container;
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Detached mode: run command in the background
     /// </summary>
@@ -76,6 +95,18 @@ public record DockerContainerExecOptions(
     /// </summary>
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
+
+    /// <summary>
+    /// The COMMAND operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Command { get; private init; }
 
     /// <summary>
     /// The ARG operand.

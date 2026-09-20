@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "history")]
-public record DockerImageHistoryOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
-) : DockerOptions
+public record DockerImageHistoryOptions : DockerOptions
 {
+    /// <summary>
+    /// Show the history of an image
+    /// </summary>
+    /// <param name="Image">The IMAGE operand.</param>
+    public DockerImageHistoryOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Format output using a custom template: 'table':            Print output in table format with column headers (default) 'table TEMPLATE':   Print output in table format using the given Go template 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
     /// </summary>
@@ -51,5 +66,11 @@ public record DockerImageHistoryOptions(
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Image { get; private init; }
 
 }

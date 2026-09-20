@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
-public record DockerSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Term
-) : DockerOptions
+public record DockerSearchOptions : DockerOptions
 {
+    /// <summary>
+    /// Search Docker Hub for images
+    /// </summary>
+    /// <param name="Term">The TERM operand.</param>
+    public DockerSearchOptions(
+        string Term
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Term);
+        this.Term = Term;
+    }
+
+    public void Deconstruct(out string Term)
+    {
+        Term = this.Term;
+    }
+
     /// <summary>
     /// Filter output based on conditions provided
     /// </summary>
@@ -45,5 +60,11 @@ public record DockerSearchOptions(
     /// </summary>
     [CliFlag("--no-trunc")]
     public bool? NoTrunc { get; set; }
+
+    /// <summary>
+    /// The TERM operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Term { get; private init; }
 
 }

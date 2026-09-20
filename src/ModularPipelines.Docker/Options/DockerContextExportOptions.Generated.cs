@@ -18,10 +18,31 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "export")]
-public record DockerContextExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Context
-) : DockerOptions
+public record DockerContextExportOptions : DockerOptions
 {
+    /// <summary>
+    /// Export a context to a tar archive FILE or a tar stream on STDOUT.
+    /// </summary>
+    /// <param name="Context">The CONTEXT operand.</param>
+    public DockerContextExportOptions(
+        string Context
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Context);
+        this.Context = Context;
+    }
+
+    public void Deconstruct(out string Context)
+    {
+        Context = this.Context;
+    }
+
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Context { get; private init; }
+
     /// <summary>
     /// The FILE operand.
     /// </summary>

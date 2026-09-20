@@ -18,8 +18,29 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "use")]
-public record DockerContextUseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Context
-) : DockerOptions
+public record DockerContextUseOptions : DockerOptions
 {
+    /// <summary>
+    /// Set the current docker context
+    /// </summary>
+    /// <param name="Context">The CONTEXT operand.</param>
+    public DockerContextUseOptions(
+        string Context
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Context);
+        this.Context = Context;
+    }
+
+    public void Deconstruct(out string Context)
+    {
+        Context = this.Context;
+    }
+
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Context { get; private init; }
+
 }

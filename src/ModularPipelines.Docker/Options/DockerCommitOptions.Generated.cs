@@ -18,10 +18,25 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("commit")]
-public record DockerCommitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
-) : DockerOptions
+public record DockerCommitOptions : DockerOptions
 {
+    /// <summary>
+    /// Create a new image from a container's changes
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public DockerCommitOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Author (e.g., "John Hannibal Smith &lt;hannibal@a-team.com&gt;")
     /// </summary>
@@ -45,6 +60,12 @@ public record DockerCommitOptions(
     /// </summary>
     [CliOption("--pause", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public bool? Pause { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Container { get; private init; }
 
     /// <summary>
     /// The REPOSITORY[:TAG] operand.

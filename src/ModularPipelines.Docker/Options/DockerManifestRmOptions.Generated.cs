@@ -18,8 +18,40 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "rm")]
-public record DockerManifestRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ManifestList
-) : DockerOptions
+public record DockerManifestRmOptions : DockerOptions
 {
+    /// <summary>
+    /// Delete one or more manifest lists from local storage
+    /// </summary>
+    /// <param name="ManifestList">The MANIFEST_LIST operand.</param>
+    public DockerManifestRmOptions(
+        IEnumerable<string> ManifestList
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ManifestList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ManifestList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ManifestList));
+            }
+
+            ManifestList = materialized;
+        }
+        this.ManifestList = ManifestList;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ManifestList)
+    {
+        ManifestList = this.ManifestList;
+    }
+
+    /// <summary>
+    /// The MANIFEST_LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ManifestList { get; private init; }
+
 }

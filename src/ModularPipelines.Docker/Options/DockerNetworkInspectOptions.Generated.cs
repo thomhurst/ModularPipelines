@@ -18,10 +18,36 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "inspect")]
-public record DockerNetworkInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Network
-) : DockerOptions
+public record DockerNetworkInspectOptions : DockerOptions
 {
+    /// <summary>
+    /// Display detailed information on one or more networks
+    /// </summary>
+    /// <param name="Network">The NETWORK operand.</param>
+    public DockerNetworkInspectOptions(
+        IEnumerable<string> Network
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Network);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Network));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Network));
+            }
+
+            Network = materialized;
+        }
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Network)
+    {
+        Network = this.Network;
+    }
+
     /// <summary>
     /// Format output using a custom template: 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
     /// </summary>
@@ -33,5 +59,11 @@ public record DockerNetworkInspectOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// The NETWORK operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Network { get; private init; }
 
 }

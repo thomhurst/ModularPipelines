@@ -18,11 +18,30 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "annotate")]
-public record DockerManifestAnnotateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string ManifestList,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Manifest
-) : DockerOptions
+public record DockerManifestAnnotateOptions : DockerOptions
 {
+    /// <summary>
+    /// Add additional information to a local image manifest
+    /// </summary>
+    /// <param name="ManifestList">The MANIFEST_LIST operand.</param>
+    /// <param name="Manifest">The MANIFEST operand.</param>
+    public DockerManifestAnnotateOptions(
+        string ManifestList,
+        string Manifest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManifestList);
+        this.ManifestList = ManifestList;
+        global::System.ArgumentNullException.ThrowIfNull(Manifest);
+        this.Manifest = Manifest;
+    }
+
+    public void Deconstruct(out string ManifestList, out string Manifest)
+    {
+        ManifestList = this.ManifestList;
+        Manifest = this.Manifest;
+    }
+
     /// <summary>
     /// Set architecture
     /// </summary>
@@ -52,5 +71,17 @@ public record DockerManifestAnnotateOptions(
     /// </summary>
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }
+
+    /// <summary>
+    /// The MANIFEST_LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string ManifestList { get; private init; }
+
+    /// <summary>
+    /// The MANIFEST operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Manifest { get; private init; }
 
 }

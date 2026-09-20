@@ -18,10 +18,31 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("port")]
-public record DockerPortOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Container
-) : DockerOptions
+public record DockerPortOptions : DockerOptions
 {
+    /// <summary>
+    /// List port mappings or a specific mapping for the container
+    /// </summary>
+    /// <param name="Container">The CONTAINER operand.</param>
+    public DockerPortOptions(
+        string Container
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out string Container)
+    {
+        Container = this.Container;
+    }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Container { get; private init; }
+
     /// <summary>
     /// The PRIVATE_PORT[ Or PROTO] operand.
     /// </summary>
