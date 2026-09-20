@@ -384,7 +384,7 @@ internal static partial class CliArgumentGroupParser
         int LineIndex,
         CliArgumentDefinition Argument);
 
-    [GeneratedRegex(@"^\s*[-+*o]\s+provide the argument\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^\s*[-+*o▪◆▸▫◇▹■≡∞Φ·]\s+provide the argument\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex WrappedArgumentReferencePattern();
 
     [GeneratedRegex(@"^(?:(?:Defines the )?configuration for|(?:Bearer token|Basic) authentication with)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]

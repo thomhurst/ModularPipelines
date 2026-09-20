@@ -18,9 +18,21 @@ public class GcloudCapturedSemanticsTests
     }
 
     [Test]
-    public async Task Captured_Resource_References_Do_Not_Declare_Boolean_Flags()
+    [Arguments("*")]
+    [Arguments("▪")]
+    [Arguments("◆")]
+    [Arguments("▸")]
+    [Arguments("▫")]
+    [Arguments("◇")]
+    [Arguments("▹")]
+    [Arguments("■")]
+    [Arguments("≡")]
+    [Arguments("∞")]
+    [Arguments("Φ")]
+    [Arguments("·")]
+    public async Task Captured_Resource_References_Do_Not_Declare_Boolean_Flags(string bullet)
     {
-        var command = await Scrape("oracle-database goldengate-connections create");
+        var command = await Scrape("oracle-database goldengate-connections create", bullet);
         var option = command.Options.Single(option => option.PropertyName == "AmazonRedshiftConnectionPropertiesPasswordSecretVersion");
         await Assert.That(option.IsFlag).IsFalse();
         await Assert.That(option.CSharpType).IsEqualTo("string?");
@@ -61,10 +73,11 @@ public class GcloudCapturedSemanticsTests
         }
     }
 
-    internal static async Task<CliCommandDefinition> Scrape(string command)
+    internal static async Task<CliCommandDefinition> Scrape(string command, string bullet = "*")
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0",
             $"gcloud-{command.Replace(' ', '-')}.txt"));
+        help = help.Replace("* provide the argument", $"{bullet} provide the argument", StringComparison.Ordinal);
         return (await GcloudResourceArgumentTests.ScrapeFixture(command, help)).Single();
     }
 }
