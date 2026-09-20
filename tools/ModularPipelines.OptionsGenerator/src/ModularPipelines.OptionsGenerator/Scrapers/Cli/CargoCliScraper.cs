@@ -160,6 +160,9 @@ public partial class CargoCliScraper : CliScraperBase
         return command;
     }
 
+    [GeneratedRegex(@"(?:^[ \t]*|,[ \t]*)--?[\w-]+[ =]+(?:<[^>\r\n]+>|\[[^\]\r\n]+\]|[^\s,]+?)(?:\.{3}|…)(?=\s|$)")]
+    private static partial Regex ManualRepeatedValuePattern();
+
     private static void ApplyManualCollectionMetadata(List<CliOptionDefinition> options, string manual)
     {
         for (var index = 0; index < options.Count; index++)
@@ -170,7 +173,13 @@ public partial class CargoCliScraper : CliScraperBase
                 continue;
             }
 
-            var repeated = HelpDeclaresRepeatableOption(manual, option.SwitchName, option.Description ?? "");
+            // Cargo's manual uses NAME... where terse help omits the repetition marker.
+            // -Z is also repeatable, despite neither help form declaring it:
+            // https://doc.rust-lang.org/nightly/cargo/reference/unstable.html
+            var repeated = option.SwitchName == "-Z"
+                           || HelpDeclaresRepeatableOption(manual, option.SwitchName, option.Description ?? "")
+                           || HelpOptionBlockMatches(manual, option.SwitchName,
+                               block => ManualRepeatedValuePattern().IsMatch(block.Split('\n')[0]));
             var commaSeparated = !repeated && HelpOptionBlockMatches(manual, option.SwitchName, CommaSeparatedListPattern());
             if (repeated || commaSeparated)
             {

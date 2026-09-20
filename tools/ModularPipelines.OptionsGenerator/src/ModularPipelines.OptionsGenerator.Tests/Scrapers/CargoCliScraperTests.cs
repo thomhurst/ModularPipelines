@@ -128,6 +128,34 @@ public class CargoCliScraperTests
         await Assert.That(option.IsFlag).IsFalse();
         await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Required);
         await Assert.That(option.Description).Contains("Unstable (nightly-only) flags to Cargo");
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        await Assert.That(option.CollectionSeparator).IsNull();
+    }
+
+    [Test]
+    [Arguments("--bin", "name...")]
+    [Arguments("--example", "name…")]
+    [Arguments("--custom", "<VALUE>...")]
+    [Arguments("--custom", "VALUE…")]
+    public async Task Manual_Value_Ellipsis_Preserves_Repeated_Occurrences(string switchName, string value)
+    {
+        var help = $"Usage: cargo install [OPTIONS]\n\nOptions:\n  {switchName} <VALUE>  Select a target.\n  --registry <REGISTRY>  Select a registry.\n  --version <VERSION>  Select a version.\n";
+        var manual = $"OPTIONS\n       {switchName} {value}\n           Select a target.\n\n       --registry REGISTRY\n           Select a registry...\n\n       --version VERSION\n           For example: {switchName} value...\n";
+        var executor = new CargoHelpExecutor(help, manual, commandName: "install");
+        var scraper = new CargoCliScraper(executor, new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<CargoCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var install = commands.Single(command => command.FullCommand == "cargo install");
+        var option = GetOption(install, switchName);
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.CollectionSeparator).IsNull();
+        await Assert.That(GetOption(install, "--registry").AcceptsMultipleValues).IsFalse();
+        await Assert.That(GetOption(install, "--version").AcceptsMultipleValues).IsFalse();
     }
 
     [Test]
