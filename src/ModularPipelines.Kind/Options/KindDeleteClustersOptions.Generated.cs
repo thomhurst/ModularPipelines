@@ -27,12 +27,6 @@ public record KindDeleteClustersOptions : KindOptions
     public bool? All { get; set; }
 
     /// <summary>
-    /// help for clusters
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]

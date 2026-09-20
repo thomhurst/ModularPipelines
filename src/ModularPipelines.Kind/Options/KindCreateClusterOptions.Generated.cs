@@ -27,12 +27,6 @@ public record KindCreateClusterOptions : KindOptions
     public string? Config { get; set; }
 
     /// <summary>
-    /// help for cluster
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// node docker image to use for booting the cluster
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]

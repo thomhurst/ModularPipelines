@@ -21,12 +21,6 @@ namespace ModularPipelines.Kind.Options;
 public record KindDeleteOptions : KindOptions
 {
     /// <summary>
-    /// help for delete
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// silence all stderr output
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]

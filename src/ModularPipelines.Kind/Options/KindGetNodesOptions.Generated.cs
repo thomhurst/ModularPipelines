@@ -27,12 +27,6 @@ public record KindGetNodesOptions : KindOptions
     public bool? AllClusters { get; set; }
 
     /// <summary>
-    /// help for nodes
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the cluster context name (default "kind")
     /// </summary>
     [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]

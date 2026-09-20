@@ -21,12 +21,6 @@ namespace ModularPipelines.Kind.Options;
 public record KindExportLogsOptions : KindOptions
 {
     /// <summary>
-    /// help for logs
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the cluster context name (default "kind")
     /// </summary>
     [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]

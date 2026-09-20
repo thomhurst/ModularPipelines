@@ -18,15 +18,35 @@ namespace ModularPipelines.Kind.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("load", "docker-image")]
-public record KindLoadDockerImageOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Image
-) : KindOptions
+public record KindLoadDockerImageOptions : KindOptions
 {
     /// <summary>
-    /// help for docker-image
+    /// Loads docker images from host into all or specified nodes by name
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="Image">The &lt;IMAGE&gt; operand.</param>
+    public KindLoadDockerImageOptions(
+        IEnumerable<string> Image
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Image);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Image));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Image));
+            }
+
+            Image = materialized;
+        }
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Image)
+    {
+        Image = this.Image;
+    }
 
     /// <summary>
     /// the cluster context name (default "kind")
@@ -51,5 +71,11 @@ public record KindLoadDockerImageOptions(
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbosity { get; set; }
+
+    /// <summary>
+    /// The &lt;IMAGE&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Image { get; private init; }
 
 }
