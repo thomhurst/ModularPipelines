@@ -18,10 +18,9 @@ public class PodmanComposeOptionsTests
     [Test]
     public async Task Compose_Cp_Rejects_Missing_Source()
     {
-        var options = new PodmanComposeCpOptions(null!, "./report.txt");
+        var exception = Assert.Throws<ArgumentException>(() =>
+            BuildArguments(new PodmanComposeCpOptions(null!, "./report.txt")));
 
-        var exception = Assert.Throws<ArgumentException>(() => BuildArguments(options));
-
-        await Assert.That(exception.ParamName).IsEqualTo(nameof(options.ServiceSrcPath));
+        await Assert.That(exception.ParamName).IsEqualTo(nameof(PodmanComposeCpOptions.ServiceSrcPath));
     }
 }
