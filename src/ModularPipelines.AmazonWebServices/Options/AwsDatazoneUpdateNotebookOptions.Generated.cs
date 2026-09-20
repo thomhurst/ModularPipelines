@@ -99,6 +99,12 @@ public record AwsDatazoneUpdateNotebookOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? CellOrder { get; set; }
 
     /// <summary>
+    /// The updated type of the notebook. Possible values: o DATA o SQL
+    /// </summary>
+    [CliOption("--type")]
+    public AwsDatazoneUpdateNotebookType? Type { get; set; }
+
+    /// <summary>
     /// The updated metadata for the notebook, specified as key-value pairs. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]

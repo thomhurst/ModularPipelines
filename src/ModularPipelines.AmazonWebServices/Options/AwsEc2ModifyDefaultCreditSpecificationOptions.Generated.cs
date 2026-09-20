@@ -28,7 +28,7 @@ public record AwsEc2ModifyDefaultCreditSpecificationOptions : AwsOptions, IValid
     /// <summary>
     /// Modifies the default credit option for CPU usage of burstable perfor- mance instances. The default credit option is set at the account level per Amazon Web Services Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option. ModifyDefaultCreditSpecification is an asynchronous operation, which works at an Amazon Web Services Region level and modifies the credit option for each Availability Zone. All zones in a Region...
     /// </summary>
-    /// <param name="InstanceFamily">The instance family. Possible values: o t2 o t3 o t3a o t4g</param>
+    /// <param name="InstanceFamily">The instance family. Possible values: o t2 o t3 o t3a o t4g o t8i</param>
     /// <param name="CpuCredits">The credit option for CPU usage of the instance family. Valid Values: standard | unlimited</param>
     public AwsEc2ModifyDefaultCreditSpecificationOptions(
         AwsEc2ModifyDefaultCreditSpecificationInstanceFamily InstanceFamily,
@@ -61,7 +61,7 @@ public record AwsEc2ModifyDefaultCreditSpecificationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The instance family. Possible values: o t2 o t3 o t3a o t4g
+    /// The instance family. Possible values: o t2 o t3 o t3a o t4g o t8i
     /// </summary>
     [CliOption("--instance-family")]
     public AwsEc2ModifyDefaultCreditSpecificationInstanceFamily? InstanceFamily { get; private init; }

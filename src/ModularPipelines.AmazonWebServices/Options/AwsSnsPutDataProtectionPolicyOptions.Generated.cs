@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
+/// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsSnsPutDataProtectionPolicyOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
+    /// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The ARN of the topic whose DataProtectionPolicy you want to add or update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.</param>
     /// <param name="DataProtectionPolicy">The JSON serialization of the topic's DataProtectionPolicy . The DataProtectionPolicy must be in JSON string format. Length Constraints: Maximum length of 30,720.</param>

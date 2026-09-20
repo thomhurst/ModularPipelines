@@ -227,6 +227,16 @@ public interface IAwsResiliencehubv2
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Retrieves the dependency insights generated for a service. The response reports the current generation status; insights are populated once gen- eration has completed. If generation failed, the response includes an error code, whose possible values are listed under the response's er- rorCode field, and a message describing the cause. To use this opera- tion, you must have the resiliencehub:GetDependencyInsights permission on the service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetDependencyInsightsAsync(AwsResiliencehubv2GetDependencyInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Retrieves a finding by findingId. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -384,6 +394,16 @@ public interface IAwsResiliencehubv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ListPoliciesAsync(AwsResiliencehubv2ListPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Lists events for a resilience policy, including services that started or stopped using it, changes to cross-account sharing, and deletion of the policy. See also: AWS API Documentation list-policy-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListPolicyEventsAsync(AwsResiliencehubv2ListPolicyEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -584,6 +604,16 @@ public interface IAwsResiliencehubv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> PutTestSourcesAsync(AwsResiliencehubv2PutTestSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Starts generating dependency insights for a service. Generation runs asynchronously; the response returns the initial status, and you re- trieve the results with GetDependencyInsights. To use this operation, you must have the resiliencehub:StartDependencyInsights permission on the service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> StartDependencyInsightsAsync(AwsResiliencehubv2StartDependencyInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

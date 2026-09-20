@@ -28,7 +28,7 @@ public record AwsNotificationsListChannelsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns a list of Channels for a NotificationConfiguration . See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: channels
     /// </summary>
-    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the NotificationConfiguration . Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
+    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the NotificationConfiguration . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
     public AwsNotificationsListChannelsOptions(
         string NotificationConfigurationArn
     )
@@ -57,7 +57,7 @@ public record AwsNotificationsListChannelsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the NotificationConfiguration . Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the NotificationConfiguration . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
     /// </summary>
     [CliOption("--notification-configuration-arn")]
     public string? NotificationConfigurationArn { get; private init; }

@@ -182,7 +182,7 @@ public interface IAwsQconnect
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates a session. A session is a contextual container used for gener- ating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
+    /// Creates a session. A session is a contextual container used for gener- ating recommendations. Connect Customer creates a new Amazon Q in Con- nect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public interface IAwsQconnect
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Deletes the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide . See also: AWS API Documentation
+    /// Deletes the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public interface IAwsQconnect
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Returns the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide . See also: AWS API Documentation
+    /// Returns the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public interface IAwsQconnect
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Lists the content associations. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide . See also: AWS API Documentation list-content-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query...
+    /// Lists the content associations. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide . See also: AWS API Documentation list-content-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public interface IAwsQconnect
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Updates a session. A session is a contextual container used for gener- ating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is en- abled. See also: AWS API Documentation
+    /// Updates a session. A session is a contextual container used for gener- ating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is en- abled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

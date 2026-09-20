@@ -29,7 +29,7 @@ public record AwsIvsRealtimeListParticipantReplicasOptions : AwsOptions, IValida
     /// Lists all the replicas for a participant from a source stage. See also: AWS API Documentation list-participant-replicas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: replicas
     /// </summary>
     /// <param name="SourceStageArn">ARN of the stage where the participant is publishing. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
-    /// <param name="ParticipantId">Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]*</param>
+    /// <param name="ParticipantId">Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*</param>
     public AwsIvsRealtimeListParticipantReplicasOptions(
         string SourceStageArn,
         string ParticipantId
@@ -67,7 +67,7 @@ public record AwsIvsRealtimeListParticipantReplicasOptions : AwsOptions, IValida
     public string? SourceStageArn { get; private init; }
 
     /// <summary>
-    /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]*
+    /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--participant-id")]
     public string? ParticipantId { get; private init; }

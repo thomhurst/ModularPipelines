@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individ- ual settings, a draft configuration is created and DescribeCon...
+/// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individ- ual settings, a draft configuration is created and DescribeConfigu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,13 +28,13 @@ public record AwsElasticbeanstalkUpdateEnvironmentOptions : AwsOptions
     public string? ApplicationName { get; set; }
 
     /// <summary>
-    /// The ID of the environment to update. If no environment with this ID exists, AWS Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the environment to update. If no environment with this ID exists, Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns Miss- ingRequiredParameter error.
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// The name of the environment to update. If no environment with this name exists, AWS Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. Constraints: o min: 4 o max: 40
+    /// The name of the environment to update. If no environment with this name exists, Elastic Beanstalk returns an InvalidParameterValue er- ror. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns Miss- ingRequiredParameter error. Constraints: o min: 4 o max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
@@ -46,25 +46,25 @@ public record AwsElasticbeanstalkUpdateEnvironmentOptions : AwsOptions
     public string? GroupName { get; set; }
 
     /// <summary>
-    /// If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment. Constraints: o max: 200
+    /// If this parameter is specified, Elastic Beanstalk updates the de- scription of this environment. Constraints: o max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// This specifies the tier to use to update the environment. Condition: At this time, if you change the tier version, name, or type, AWS Elastic Beanstalk returns InvalidParameterValue error. Name -&gt; (string) The name of this environment tier. Valid values: o For Web server tier WebServer o For Worker tier Worker Type -&gt; (string) The type of this environment tier. Valid values: o For Web server tier Standard o For Worker tier SQS/HTTP Version -&gt; (string) The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version. NOTE: This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified. Shorthand Syntax: Name=string,Type=string,Version=string JSON Syntax: { "Name": "string", "Type": "string", "Version": "string" }
+    /// This specifies the tier to use to update the environment. Condition: At this time, if you change the tier version, name, or type, Elastic Beanstalk returns InvalidParameterValue error. Name -&gt; (string) The name of this environment tier. Valid values: o For Standard-mode EC2-based web server WebServer o For Standard-mode EC2-based backend application with Amazon SQS Worker o For Cluster-mode Amazon EKS-based applications Cluster Type -&gt; (string) The type of this environment tier. Valid values: o For Web server tier Standard o For Worker tier SQS/HTTP o For Cluster tier EKS Version -&gt; (string) The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version. NOTE: This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified. Shorthand Syntax: Name=string,Type=string,Version=string JSON Syntax: { "Name": "string", "Type": "string", "Version": "string" }
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }
 
     /// <summary>
-    /// If this parameter is specified, AWS Elastic Beanstalk deploys the named application version to the environment. If no such application version is found, returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100
+    /// If this parameter is specified, Elastic Beanstalk deploys the named application version to the environment. If no such application ver- sion is found, returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 
     /// <summary>
-    /// If this parameter is specified, AWS Elastic Beanstalk deploys this configuration template to the environment. If no such configuration template is found, AWS Elastic Beanstalk returns an InvalidParame- terValue error. Constraints: o min: 1 o max: 100
+    /// If this parameter is specified, Elastic Beanstalk deploys this con- figuration template to the environment. If no such configuration template is found, Elastic Beanstalk returns an InvalidParameter- Value error. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
@@ -82,13 +82,13 @@ public record AwsElasticbeanstalkUpdateEnvironmentOptions : AwsOptions
     public string? PlatformArn { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified con- figuration options to the requested value. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the AWS Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated AWS resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
+    /// If specified, Elastic Beanstalk updates the configuration set asso- ciated with the running environment and sets the specified configu- ration options to the requested value. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--option-settings", GroupValues = true)]
     public IEnumerable<string>? OptionSettings { get; set; }
 
     /// <summary>
-    /// A list of custom user-defined configuration options to remove from the configuration set for this environment. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated AWS resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
+    /// A list of custom user-defined configuration options to remove from the configuration set for this environment. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
     /// </summary>
     [CliOption("--options-to-remove", GroupValues = true)]
     public IEnumerable<string>? OptionsToRemove { get; set; }

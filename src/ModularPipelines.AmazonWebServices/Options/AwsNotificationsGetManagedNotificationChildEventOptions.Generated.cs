@@ -28,7 +28,7 @@ public record AwsNotificationsGetManagedNotificationChildEventOptions : AwsOptio
     /// <summary>
     /// Returns the child event of a specific given ManagedNotificationEvent . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the ManagedNotificationChildEvent to return. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the ManagedNotificationChildEvent to return. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}</param>
     public AwsNotificationsGetManagedNotificationChildEventOptions(
         string Arn
     )
@@ -57,7 +57,7 @@ public record AwsNotificationsGetManagedNotificationChildEventOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationChildEvent to return. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationChildEvent to return. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

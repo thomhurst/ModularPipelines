@@ -132,7 +132,7 @@ public interface IAwsSns
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Retrieves the specified inline DataProtectionPolicy document that is stored in the specified Amazon SNS topic. See also: AWS API Documentation
+    /// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Retrieves the specified inline DataProtectionPolicy document that is stored in the specified Amazon SNS topic. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -322,7 +322,7 @@ public interface IAwsSns
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
+    /// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

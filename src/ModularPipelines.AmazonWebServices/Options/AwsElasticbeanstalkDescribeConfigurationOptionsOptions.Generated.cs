@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the configuration options that are used in a particular con- figuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environ- ment if an option value is changed. See also: AWS API Documentation
+/// Describes the configuration options that are used in a particular con- figuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environ- ment if an option value is changed. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to acc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -52,7 +52,7 @@ public record AwsElasticbeanstalkDescribeConfigurationOptionsOptions : AwsOption
     public string? PlatformArn { get; set; }
 
     /// <summary>
-    /// If specified, restricts the descriptions to only the specified op- tions. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated AWS resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
+    /// If specified, restricts the descriptions to only the specified op- tions. (structure) A specification identifying an individual configuration option. ResourceName -&gt; (string) A unique resource name for a time-based scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace identifying the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string" } ... ]
     /// </summary>
     [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }

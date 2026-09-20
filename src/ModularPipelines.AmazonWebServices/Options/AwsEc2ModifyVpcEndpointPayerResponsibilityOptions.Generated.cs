@@ -29,12 +29,12 @@ public record AwsEc2ModifyVpcEndpointPayerResponsibilityOptions : AwsOptions, IV
     /// Modifies the billing account for VPC endpoint usage/charges. See also: AWS API Documentation
     /// </summary>
     /// <param name="VpcEndpointId">The ID of the VPC endpoint.</param>
-    /// <param name="PayerResponsibility">The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: o vpc-endpoint-account o vpc-endpoint-service-account</param>
-    /// <param name="Scope">The scope of usage/charges for which the billing account is being modified. Possible values: o vpc-endpoint-charges</param>
+    /// <param name="PayerResponsibility">The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: o vpc-endpoint-account o resource-gateway-account o vpc-endpoint-service-account</param>
+    /// <param name="Scope">The scope of usage/charges for which the billing account is being modified. Possible values: o vpc-endpoint-charges o resource-gateway-charges</param>
     public AwsEc2ModifyVpcEndpointPayerResponsibilityOptions(
         string VpcEndpointId,
         AwsEc2ModifyVpcEndpointPayerResponsibilityPayerResponsibility PayerResponsibility,
-        string Scope
+        AwsEc2ModifyVpcEndpointPayerResponsibilityScope Scope
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(VpcEndpointId);
@@ -71,16 +71,16 @@ public record AwsEc2ModifyVpcEndpointPayerResponsibilityOptions : AwsOptions, IV
     public string? VpcEndpointId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: o vpc-endpoint-account o vpc-endpoint-service-account
+    /// The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: o vpc-endpoint-account o resource-gateway-account o vpc-endpoint-service-account
     /// </summary>
     [CliOption("--payer-responsibility")]
     public AwsEc2ModifyVpcEndpointPayerResponsibilityPayerResponsibility? PayerResponsibility { get; private init; }
 
     /// <summary>
-    /// The scope of usage/charges for which the billing account is being modified. Possible values: o vpc-endpoint-charges
+    /// The scope of usage/charges for which the billing account is being modified. Possible values: o vpc-endpoint-charges o resource-gateway-charges
     /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; private init; }
+    public AwsEc2ModifyVpcEndpointPayerResponsibilityScope? Scope { get; private init; }
 
     /// <summary>
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .

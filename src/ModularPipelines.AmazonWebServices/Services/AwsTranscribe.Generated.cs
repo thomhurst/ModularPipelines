@@ -643,6 +643,21 @@ public class AwsTranscribe : IAwsTranscribe
     }
 
     /// <summary>
+    /// Updates the encryption configuration for an existing custom language model. You can use this operation to change the KMS key used to encrypt your model artifacts. The model artifacts are re-encrypted in place. No model training is required. Your custom language model must not be in the IN_PROGRESS state when you call this operation. You cannot submit another update while a pre- vious update is in progress. Use to check the current state of your model. Your custom language model remains available...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateLanguageModelAsync(
+        AwsTranscribeUpdateLanguageModelOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Updates an existing custom medical vocabulary with new values. This op- eration overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -658,7 +673,7 @@ public class AwsTranscribe : IAwsTranscribe
     }
 
     /// <summary>
-    /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter. See also: AWS API Documentation
+    /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter. You must include either Words or VocabularyFilterFileUri in your re- quest. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -673,7 +688,7 @@ public class AwsTranscribe : IAwsTranscribe
     }
 
     /// <summary>
-    /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. See also: AWS API Documentation
+    /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. Your custom vocabulary must be in a terminal state (READY or FAILED ) before you can update it. You must include either Phrases or Vocabu- laryFileUri in your request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

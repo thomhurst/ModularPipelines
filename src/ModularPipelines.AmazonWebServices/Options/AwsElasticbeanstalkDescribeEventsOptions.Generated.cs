@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns list of event descriptions matching criteria up to the last 6 weeks. NOTE: This action returns the most recent 1,000 events from the specified NextToken . See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
+/// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,43 +24,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkDescribeEventsOptions : AwsOptions
 {
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those associated with this application. Constraints: o min: 1 o max: 100
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those associated with this application. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to those associated with this application version. Constraints: o min: 1 o max: 100
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this application version. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to those that are associated with this environment configura- tion. Constraints: o min: 1 o max: 100
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to those associated with this environment.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to those associated with this environment. Constraints: o min: 4 o max: 40
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this environment. Constraints: o min: 4 o max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
     /// <summary>
-    /// The ARN of a custom platform version. If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this custom platform version.
+    /// The ARN of a custom platform version. If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this custom platform version.
     /// </summary>
     [CliOption("--platform-arn")]
     public string? PlatformArn { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the described events to include only those associated with this request ID.
+    /// If specified, Elastic Beanstalk restricts the described events to include only those associated with this request ID.
     /// </summary>
     [CliOption("--request-id")]
     public string? RequestId { get; set; }
@@ -72,13 +72,13 @@ public record AwsElasticbeanstalkDescribeEventsOptions : AwsOptions
     public AwsElasticbeanstalkDescribeEventsSeverity? Severity { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to those that occur on or after this time.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to those that occur up to, but not including, the EndTime .
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime .
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }

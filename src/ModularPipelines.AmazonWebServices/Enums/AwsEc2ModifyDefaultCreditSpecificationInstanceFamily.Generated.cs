@@ -26,5 +26,8 @@ public enum AwsEc2ModifyDefaultCreditSpecificationInstanceFamily
     T3A,
 
     [EnumValue("t4g")]
-    T4G
+    T4G,
+
+    [EnumValue("t8i")]
+    T8I
 }

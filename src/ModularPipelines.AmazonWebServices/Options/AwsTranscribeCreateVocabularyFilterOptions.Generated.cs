@@ -90,10 +90,16 @@ public record AwsTranscribeCreateVocabularyFilterOptions : AwsOptions, IValidata
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesnt have the appropriate permissions to access the speci- fied Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::ac- count:role/role-name-with-path . For example: arn:aws:iam::111122223333:role/Admin . For more information, see IAM ARNs . Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If you include Encryp- tionConfiguration in your request, this role must also have permis- sions to access the specified KMS key. If the role that you specify doesnt have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::ac- count:role/role-name-with-path . For example: arn:aws:iam::111122223333:role/Admin . For more information, see IAM ARNs . Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$
     /// </summary>
     [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; set; }
+
+    /// <summary>
+    /// Specifies the encryption configuration for your custom vocabulary filter. Your vocabulary filter artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied. KMSEncryptionContext -&gt; (map) A map of plain text, non-secret key:value pairs, known as en- cryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context . Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: ^[\x20-\x7E]+$ value -&gt; (string) Constraints: o min: 1 o max: 2000 o pattern: ^[\x20-\x7E]+$ KMSKey -&gt; (string) [required] The Amazon Resource Name (ARN) of the KMS key you want to use to encrypt your resource artifacts. Only full KMS key ARN format is supported. KMS key ARNs have the format arn:partition:kms:region:ac- count:key/key-id . For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab . For more information, see KMS key ARNs . Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$ Shorthand Syntax: KMSEncryptionContext={KeyName1=string,KeyName2=string},KMSKey=string JSON Syntax: { "KMSEncryptionContext": {"string": "string" ...}, "KMSKey": "string" }
+    /// </summary>
+    [CliOption("--encryption-configuration")]
+    public string? EncryptionConfiguration { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

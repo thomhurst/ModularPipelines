@@ -70,7 +70,7 @@ public record AwsEc2CreateVpcEndpointOptions : AwsOptions, IValidatableObject
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The type of endpoint. Default: Gateway Possible values: o Interface o Gateway o GatewayLoadBalancer o Resource o ServiceNetwork
+    /// The type of endpoint. Default: Gateway Possible values: o Interface o Gateway o GatewayLoadBalancer o Resource o ServiceNetwork o Tunnel
     /// </summary>
     [CliOption("--vpc-endpoint-type")]
     public AwsEc2CreateVpcEndpointVpcEndpointType? VpcEndpointType { get; set; }

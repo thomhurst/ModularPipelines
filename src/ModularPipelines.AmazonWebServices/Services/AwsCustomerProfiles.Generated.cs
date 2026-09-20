@@ -1563,6 +1563,21 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
+    /// Retrieves recommendations for a profile in a specific domain. The pro- file is identified using a search key, which consists of a KeyName and a KeyValues list. The KeyName can be a predefined key (for example, _profileId , _phone , _email ) or a custom-defined key. The search key must match exactly one profile. If no profile matches the search key, the operation returns a ResourceNotFoundException . If more than one profile matches the search key, the operation returns a BadRequestException . Yo...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SearchRecommendationsAsync(
+        AwsCustomerProfilesSearchRecommendationsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Starts a recommender that was previously stopped. Starting a recom- mender resumes its ability to generate recommendations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>

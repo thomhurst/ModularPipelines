@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -29,7 +30,7 @@ public record AwsGlueStartDataQualityRuleRecommendationRunOptions : AwsOptions, 
     /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking. Recommendation runs are automatically deleted after 90 days. See also: AWS API Documentation
     /// </summary>
     /// <param name="DataSource">The data source (Glue table) associated with this run. GlueTable -&gt; (structure) An Glue table. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side partition pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* DataQualityGlueTable -&gt; (structure) An Glue table for Data Quality Operations. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side partition pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PreProcessingQuery -&gt; (string) SQL Query of SparkSQL format that can be used to pre-process the data for the table in Glue Data Catalog, before running the Data Quality Operation. Constraints: o min: 0 o max: 51200 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: GlueTable={DatabaseName=string,TableName=string,CatalogId=string,ConnectionName=string,AdditionalOptions={KeyName1=string,KeyName2=string}},DataQualityGlueTable={DatabaseName=string,TableName=string,CatalogId=string,ConnectionName=string,AdditionalOptions={KeyName1=string,KeyName2=string},PreProcessingQuery=string} JSON Syntax: { "GlueTable": { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...} }, "DataQualityGlueTable": { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...}, "PreProcessingQuery": "string" } }</param>
-    /// <param name="Role">An IAM role supplied to encrypt the results of the run.</param>
+    /// <param name="Role">The IAM role that Glue assumes to access resources for the run. For more information, see Configure IAM permissions for Glue Data Quality .</param>
     public AwsGlueStartDataQualityRuleRecommendationRunOptions(
         string DataSource,
         string Role
@@ -67,7 +68,7 @@ public record AwsGlueStartDataQualityRuleRecommendationRunOptions : AwsOptions, 
     public string? DataSource { get; private init; }
 
     /// <summary>
-    /// An IAM role supplied to encrypt the results of the run.
+    /// The IAM role that Glue assumes to access resources for the run. For more information, see Configure IAM permissions for Glue Data Quality .
     /// </summary>
     [CliOption("--role")]
     public string? Role { get; private init; }
@@ -108,6 +109,12 @@ public record AwsGlueStartDataQualityRuleRecommendationRunOptions : AwsOptions, 
     /// </summary>
     [CliOption("--additional-run-options")]
     public string? AdditionalRunOptions { get; set; }
+
+    /// <summary>
+    /// The mode that Glue Data Quality uses to recommend rules. The default is BASIC . Possible values: o BASIC o ADVANCED
+    /// </summary>
+    [CliOption("--recommendation-mode")]
+    public AwsGlueStartDataQualityRuleRecommendationRunRecommendationMode? RecommendationMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

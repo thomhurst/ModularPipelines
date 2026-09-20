@@ -74,7 +74,7 @@ public record AwsQconnectSearchQuickResponsesOptions : AwsOptions, IValidatableO
     public string? SearchExpression { get; private init; }
 
     /// <summary>
-    /// The user-defined Amazon Connect contact attributes to be resolved when search results are returned. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The user-defined Connect Customer contact attributes to be resolved when search results are returned. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }

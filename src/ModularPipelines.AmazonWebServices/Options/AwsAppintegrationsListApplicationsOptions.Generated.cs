@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppintegrationsListApplicationsOptions : AwsOptions
 {
     /// <summary>
-    /// The type of application. Possible values: o STANDARD o SERVICE o MCP_SERVER
+    /// The type of application. Possible values: o STANDARD o SERVICE o MCP_SERVER o A2A_SERVER
     /// </summary>
     [CliOption("--application-type")]
     public AwsAppintegrationsListApplicationsApplicationType? ApplicationType { get; set; }

@@ -62,7 +62,7 @@ public record AwsElasticbeanstalkUpdateApplicationOptions : AwsOptions, IValidat
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description. Constraints: o max: 200
+    /// A new description for the application. Default: If not specified, Elastic Beanstalk does not update the de- scription. Constraints: o max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

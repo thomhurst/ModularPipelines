@@ -121,6 +121,12 @@ public record AwsConnectUpdateSecurityProfileOptions : AwsOptions, IValidatableO
     public IEnumerable<string>? AllowedFlowModules { get; set; }
 
     /// <summary>
+    /// A list of AI agents that the security profile will give access to. Constraints: o max: 100 (structure) Information about an AI agent that a security profile allows ac- cess to for Agent-to-Agent authorization. Arn -&gt; (string) The Amazon Resource Name (ARN) of the AI agent. Type -&gt; (string) The type of the AI agent. The valid value is THIRD_PARTY . Possible values: o THIRD_PARTY Shorthand Syntax: Arn=string,Type=string ... JSON Syntax: [ { "Arn": "string", "Type": "THIRD_PARTY" } ... ]
+    /// </summary>
+    [CliOption("--allowed-ai-agents", GroupValues = true)]
+    public IEnumerable<string>? AllowedAiAgents { get; set; }
+
+    /// <summary>
     /// The granular access control configuration for the security profile, including data table permissions. DataTableAccessControlConfiguration -&gt; (structure) The access control configuration for data tables. PrimaryAttributeAccessControlConfiguration -&gt; (structure) The configuration's primary attribute access control configu- ration. PrimaryAttributeValues -&gt; (list) The item's primary attribute values. Constraints: o max: 5 (structure) A primary attribute value. AccessType -&gt; (string) The value's access type. Possible values: o ALLOW AttributeName -&gt; (string) The value's attribute name. Constraints: o min: 1 o max: 127 o pattern: (?!aws:|con- nect:)[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+$ Values -&gt; (list) The value's values. Constraints: o max: 2 (string) Constraints: o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+$ JSON Syntax: { "DataTableAccessControlConfiguration": { "PrimaryAttributeAccessControlConfiguration": { "PrimaryAttributeValues": [ { "AccessType": "ALLOW", "AttributeName": "string", "Values": ["string", ...] } ... ] } } }
     /// </summary>
     [CliOption("--granular-access-control-configuration")]

@@ -29,7 +29,7 @@ public record AwsNotificationsDisassociateManagedNotificationAccountContactOptio
     /// Disassociates an Account Contact with a particular ManagedNotification- Configuration . See also: AWS API Documentation
     /// </summary>
     /// <param name="ContactIdentifier">The unique value of an Account Contact Type to associate with the ManagedNotificationConfiguration . Possible values: o ACCOUNT_PRIMARY o ACCOUNT_ALTERNATE_BILLING o ACCOUNT_ALTERNATE_OPERATIONS o ACCOUNT_ALTERNATE_SECURITY</param>
-    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
+    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
     public AwsNotificationsDisassociateManagedNotificationAccountContactOptions(
         AwsNotificationsDisassociateManagedNotificationAccountContactContactIdentifier ContactIdentifier,
         string ManagedNotificationConfigurationArn
@@ -67,7 +67,7 @@ public record AwsNotificationsDisassociateManagedNotificationAccountContactOptio
     public AwsNotificationsDisassociateManagedNotificationAccountContactContactIdentifier? ContactIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
     /// </summary>
     [CliOption("--managed-notification-configuration-arn")]
     public string? ManagedNotificationConfigurationArn { get; private init; }

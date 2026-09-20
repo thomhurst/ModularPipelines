@@ -13,6 +13,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -88,6 +89,12 @@ public record AwsDatazoneCreateNotebookOptions : AwsOptions, IValidatableObject
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// The type of the notebook. Possible values: o DATA o SQL
+    /// </summary>
+    [CliOption("--type")]
+    public AwsDatazoneCreateNotebookType? Type { get; set; }
 
     /// <summary>
     /// The metadata for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}

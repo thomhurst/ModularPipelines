@@ -29,5 +29,8 @@ public enum AwsEc2CreateVpcEndpointVpcEndpointType
     Resource,
 
     [EnumValue("ServiceNetwork")]
-    ServiceNetwork
+    ServiceNetwork,
+
+    [EnumValue("Tunnel")]
+    Tunnel
 }
