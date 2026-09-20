@@ -545,6 +545,7 @@ jobs:
           name: unit-test-results-${{ matrix.os }}
           path: |
             **/TestResults/*.trx
+            **/TestResults/Diagnostics/*.diag
           if-no-files-found: ignore
           retention-days: 7
 
