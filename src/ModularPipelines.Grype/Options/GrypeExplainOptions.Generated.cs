@@ -21,12 +21,6 @@ namespace ModularPipelines.Grype.Options;
 public record GrypeExplainOptions : GrypeOptions
 {
     /// <summary>
-    /// help for explain
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// CVE IDs to explain
     /// </summary>
     [CliOption("--id", Format = OptionFormat.EqualsSeparated)]

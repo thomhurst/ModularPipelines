@@ -18,15 +18,24 @@ namespace ModularPipelines.Grype.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "import")]
-public record GrypeDbImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string File
-) : GrypeOptions
+public record GrypeDbImportOptions : GrypeOptions
 {
     /// <summary>
-    /// help for import
+    /// import a vulnerability database archive from a local FILE or URL.
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    /// <param name="File">The FILE operand.</param>
+    public GrypeDbImportOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
 
     /// <summary>
     /// grype configuration file(s) to use
@@ -51,5 +60,11 @@ public record GrypeDbImportOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The FILE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string File { get; private init; }
 
 }
