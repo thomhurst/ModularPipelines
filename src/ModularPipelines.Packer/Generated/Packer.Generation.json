@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "packer",
-  "toolVersion": "Packer v1.16.0",
+  "toolVersion": "Packer v1.16.0  Your version of Packer is out of date! The latest version is 1.16.1. You can update by downloading from www.packer.io/downloads",
   "commandTreeSha256": "be2df7c68caac570b0c20475b96703fc7102b079dafc1108b0b0e8f5b676a78e",
-  "generatorSourceSha256": "38f57ac5a42102bdeef44402f36468cb327b4b4c0b99154212ae03d1efc0a907"
+  "generatorSourceSha256": "3c04f8b39c6c54a9dac25bdc0684a2529905122e447265041337bfe69fc485b4"
 }

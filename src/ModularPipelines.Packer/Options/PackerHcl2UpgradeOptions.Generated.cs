@@ -19,10 +19,25 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hcl2_upgrade")]
-public record PackerHcl2UpgradeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
-) : PackerOptions
+public record PackerHcl2UpgradeOptions : PackerOptions
 {
+    /// <summary>
+    /// Will transform your JSON template into an HCL2 configuration.
+    /// </summary>
+    /// <param name="Template">The TEMPLATE operand.</param>
+    public PackerHcl2UpgradeOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
     /// <summary>
     /// Set output file name. By default this will be the TEMPLATE name with ".pkr.hcl" appended to it. To be a valid Packer HCL template, it must have the suffix ".pkr.hcl"
     /// </summary>
@@ -34,5 +49,11 @@ public record PackerHcl2UpgradeOptions(
     /// </summary>
     [CliFlag("--with-annotations")]
     public bool? WithAnnotations { get; set; }
+
+    /// <summary>
+    /// The TEMPLATE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Template { get; private init; }
 
 }

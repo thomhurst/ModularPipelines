@@ -19,10 +19,25 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("validate")]
-public record PackerValidateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Template
-) : PackerOptions
+public record PackerValidateOptions : PackerOptions
 {
+    /// <summary>
+    /// Checks the template is valid by parsing the template and also
+    /// </summary>
+    /// <param name="Template">The TEMPLATE operand.</param>
+    public PackerValidateOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
     /// <summary>
     /// Only check syntax. Do not verify config of the template.
     /// </summary>
@@ -82,5 +97,11 @@ public record PackerValidateOptions(
     /// </summary>
     [CliFlag("--use-sequential-evaluation")]
     public bool? UseSequentialEvaluation { get; set; }
+
+    /// <summary>
+    /// The TEMPLATE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Template { get; private init; }
 
 }
