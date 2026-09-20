@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxSuspendImageRepositoryOptions : FluxOptions
 {
     /// <summary>
-    /// help for repository
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// suspend all resources in that namespace
     /// </summary>
     [CliFlag("--all")]

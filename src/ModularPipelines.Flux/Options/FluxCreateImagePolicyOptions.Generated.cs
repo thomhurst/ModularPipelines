@@ -35,12 +35,6 @@ public record FluxCreateImagePolicyOptions : FluxOptions
     public string? FilterRegex { get; set; }
 
     /// <summary>
-    /// help for policy
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the name of an image repository object
     /// </summary>
     [CliOption("--image-ref", Format = OptionFormat.EqualsSeparated)]

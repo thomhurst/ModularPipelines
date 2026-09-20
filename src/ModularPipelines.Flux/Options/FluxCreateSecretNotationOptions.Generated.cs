@@ -28,12 +28,6 @@ public record FluxCreateSecretNotationOptions : FluxOptions
     public IEnumerable<string>? CaCertFile { get; set; }
 
     /// <summary>
-    /// help for notation
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// notation trust policy file path
     /// </summary>
     [CliOption("--trust-policy-file", Format = OptionFormat.EqualsSeparated)]

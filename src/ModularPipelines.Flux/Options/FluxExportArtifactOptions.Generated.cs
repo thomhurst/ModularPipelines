@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxExportArtifactOptions : FluxOptions
 {
     /// <summary>
-    /// help for artifact
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// select all resources
     /// </summary>
     [CliFlag("--all")]

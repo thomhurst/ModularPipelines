@@ -28,12 +28,6 @@ public record FluxReconcileHelmreleaseOptions : FluxOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// help for helmrelease
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// reset the failure count for this HelmRelease resource
     /// </summary>
     [CliFlag("--reset")]

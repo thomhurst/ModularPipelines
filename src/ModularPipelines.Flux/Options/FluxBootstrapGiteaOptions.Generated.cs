@@ -23,12 +23,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxBootstrapGiteaOptions : FluxOptions
 {
     /// <summary>
-    /// help for gitea
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Gitea hostname (default "gitea.com")
     /// </summary>
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]

@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxDebugHelmreleaseOptions : FluxOptions
 {
     /// <summary>
-    /// help for helmrelease
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// print the reconciliation history of the Helm release
     /// </summary>
     [CliFlag("--show-history")]

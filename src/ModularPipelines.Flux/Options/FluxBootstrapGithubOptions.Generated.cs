@@ -23,12 +23,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxBootstrapGithubOptions : FluxOptions
 {
     /// <summary>
-    /// help for github
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// GitHub hostname (default "github.com")
     /// </summary>
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]

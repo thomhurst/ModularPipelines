@@ -28,12 +28,6 @@ public record FluxCreateOptions : FluxOptions
     public bool? Export { get; set; }
 
     /// <summary>
-    /// help for create
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// source sync interval (default 1m0s)
     /// </summary>
     [CliOption("--interval", Format = OptionFormat.EqualsSeparated)]

@@ -34,12 +34,6 @@ public record FluxCheckOptions : FluxOptions
     public IEnumerable<string>? ComponentsExtra { get; set; }
 
     /// <summary>
-    /// help for check
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// how often the health checker should poll the cluster for the latest state of the resources. (default 5s)
     /// </summary>
     [CliOption("--poll-interval", Format = OptionFormat.EqualsSeparated)]

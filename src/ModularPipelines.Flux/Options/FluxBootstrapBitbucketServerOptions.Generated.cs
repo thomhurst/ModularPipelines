@@ -29,12 +29,6 @@ public record FluxBootstrapBitbucketServerOptions : FluxOptions
     public IEnumerable<string>? Group { get; set; }
 
     /// <summary>
-    /// help for bitbucket-server
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Bitbucket Server hostname
     /// </summary>
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]

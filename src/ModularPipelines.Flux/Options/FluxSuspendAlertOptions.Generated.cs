@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxSuspendAlertOptions : FluxOptions
 {
     /// <summary>
-    /// help for alert
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// suspend all resources in that namespace
     /// </summary>
     [CliFlag("--all")]

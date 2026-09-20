@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxExportImageOptions : FluxOptions
 {
     /// <summary>
-    /// help for image
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// select all resources
     /// </summary>
     [CliFlag("--all")]

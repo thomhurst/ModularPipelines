@@ -30,12 +30,6 @@ public record FluxTagArtifactOptions : FluxOptions
     public string? Creds { get; set; }
 
     /// <summary>
-    /// help for artifact
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the OCI provider name (default generic)
     /// </summary>
     [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]

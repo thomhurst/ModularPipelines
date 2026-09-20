@@ -53,12 +53,6 @@ public record FluxCreateSecretGithubappOptions : FluxOptions
     public string? AppPrivateKey { get; set; }
 
     /// <summary>
-    /// help for githubapp
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Username to impersonate for the operation. User could be a regular user or a service account in a namespace.
     /// </summary>
     [CliOption("--as", Format = OptionFormat.EqualsSeparated)]

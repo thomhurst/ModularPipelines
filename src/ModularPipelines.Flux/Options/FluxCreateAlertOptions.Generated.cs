@@ -34,12 +34,6 @@ public record FluxCreateAlertOptions : FluxOptions
     public IEnumerable<string>? EventSource { get; set; }
 
     /// <summary>
-    /// help for alert
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// reference to provider
     /// </summary>
     [CliOption("--provider-ref", Format = OptionFormat.EqualsSeparated)]

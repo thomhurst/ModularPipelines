@@ -30,12 +30,6 @@ public record FluxPullArtifactOptions : FluxOptions
     public string? Creds { get; set; }
 
     /// <summary>
-    /// help for artifact
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// allows artifacts to be pulled without TLS
     /// </summary>
     [CliFlag("--insecure-registry")]

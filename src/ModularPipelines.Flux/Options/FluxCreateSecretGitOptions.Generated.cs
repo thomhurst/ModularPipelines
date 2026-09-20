@@ -36,12 +36,6 @@ public record FluxCreateSecretGitOptions : FluxOptions
     public string? CaCrtFile { get; set; }
 
     /// <summary>
-    /// help for git
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// basic authentication password
     /// </summary>
     [SecretValue]

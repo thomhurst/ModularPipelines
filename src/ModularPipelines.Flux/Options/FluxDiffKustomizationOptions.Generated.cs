@@ -23,12 +23,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxDiffKustomizationOptions : FluxOptions
 {
     /// <summary>
-    /// help for kustomization
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// Ignore Kustomization not found errors on the cluster when diffing.
     /// </summary>
     [CliFlag("--ignore-not-found")]

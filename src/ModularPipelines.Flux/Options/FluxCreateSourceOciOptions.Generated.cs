@@ -35,12 +35,6 @@ public record FluxCreateSourceOciOptions : FluxOptions
     public string? Digest { get; set; }
 
     /// <summary>
-    /// help for oci
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set paths to ignore resources (can specify multiple paths with commas: path1,path2)
     /// </summary>
     [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated)]

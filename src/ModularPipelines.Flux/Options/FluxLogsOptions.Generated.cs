@@ -41,12 +41,6 @@ public record FluxLogsOptions : FluxOptions
     public bool? Follow { get; set; }
 
     /// <summary>
-    /// help for logs
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// displays errors of a particular toolkit kind e.g GitRepository
     /// </summary>
     [CliOption("--kind", Format = OptionFormat.EqualsSeparated)]

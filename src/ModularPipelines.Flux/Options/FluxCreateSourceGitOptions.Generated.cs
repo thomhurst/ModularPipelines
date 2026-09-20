@@ -41,12 +41,6 @@ public record FluxCreateSourceGitOptions : FluxOptions
     public string? Commit { get; set; }
 
     /// <summary>
-    /// help for git
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set paths to ignore in git resource (can specify multiple paths with commas: path1,path2)
     /// </summary>
     [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated)]

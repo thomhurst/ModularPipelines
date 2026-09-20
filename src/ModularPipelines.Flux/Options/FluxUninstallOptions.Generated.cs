@@ -28,12 +28,6 @@ public record FluxUninstallOptions : FluxOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// help for uninstall
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// skip namespace deletion
     /// </summary>
     [CliFlag("--keep-namespace")]

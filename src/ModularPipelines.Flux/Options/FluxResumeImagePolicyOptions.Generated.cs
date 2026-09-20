@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxResumeImagePolicyOptions : FluxOptions
 {
     /// <summary>
-    /// help for policy
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// resume all resources in that namespace
     /// </summary>
     [CliFlag("--all")]

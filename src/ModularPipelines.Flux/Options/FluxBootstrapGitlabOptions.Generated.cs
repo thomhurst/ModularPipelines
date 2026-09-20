@@ -29,12 +29,6 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     public bool? DeployTokenAuth { get; set; }
 
     /// <summary>
-    /// help for gitlab
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// GitLab hostname (default "gitlab.com")
     /// </summary>
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]

@@ -28,12 +28,6 @@ public record FluxCreateSecretProxyOptions : FluxOptions
     public string? Address { get; set; }
 
     /// <summary>
-    /// help for proxy
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// basic authentication password
     /// </summary>
     [SecretValue]

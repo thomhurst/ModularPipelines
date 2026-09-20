@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxResumeSourceOciOptions : FluxOptions
 {
     /// <summary>
-    /// help for oci
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// resume all resources in that namespace
     /// </summary>
     [CliFlag("--all")]

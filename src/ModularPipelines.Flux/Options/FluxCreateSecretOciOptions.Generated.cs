@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxCreateSecretOciOptions : FluxOptions
 {
     /// <summary>
-    /// help for oci
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// basic authentication password
     /// </summary>
     [SecretValue]

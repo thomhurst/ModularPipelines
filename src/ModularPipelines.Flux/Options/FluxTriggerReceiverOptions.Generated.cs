@@ -23,12 +23,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxTriggerReceiverOptions : FluxOptions
 {
     /// <summary>
-    /// help for receiver
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// the audience of the OIDC token to fetch (requires --oidc-provider); defaults to "notification-controller"
     /// </summary>
     [CliOption("--oidc-audience", Format = OptionFormat.EqualsSeparated)]

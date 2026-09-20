@@ -30,12 +30,6 @@ public record FluxDiffArtifactOptions : FluxOptions
     public string? Creds { get; set; }
 
     /// <summary>
-    /// help for artifact
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// set paths to ignore in .gitignore format (default [.git/,.gitignore,.gitmodules,.gitattributes,*.jpg,*.jpeg,*.gif,*.png,*.wmv,*.flv,*.tar.gz,*.zip])
     /// </summary>
     [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated)]

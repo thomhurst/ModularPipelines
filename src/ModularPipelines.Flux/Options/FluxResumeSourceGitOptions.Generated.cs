@@ -22,12 +22,6 @@ namespace ModularPipelines.Flux.Options;
 public record FluxResumeSourceGitOptions : FluxOptions
 {
     /// <summary>
-    /// help for git
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// resume all resources in that namespace
     /// </summary>
     [CliFlag("--all")]
