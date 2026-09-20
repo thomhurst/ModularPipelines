@@ -1,5 +1,3 @@
-using Semaphores;
-
 namespace ModularPipelines.Engine.Execution;
 
 /// <summary>
@@ -18,7 +16,7 @@ internal interface IModuleRunner
     /// <summary>
     /// Executes a custom-backend request, acquiring its global execution limit after dependencies complete.
     /// </summary>
-    Task ExecuteAsync(ModuleState moduleState, AsyncSemaphore executionLimit, CancellationToken cancellationToken);
+    Task ExecuteAsync(ModuleState moduleState, SemaphoreSlim executionLimit, CancellationToken cancellationToken);
 
     /// <summary>
     /// Executes a module with an explicitly supplied scheduler.

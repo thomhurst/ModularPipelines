@@ -1,6 +1,5 @@
 ﻿using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
-using Semaphores;
 
 namespace ModularPipelines.Attributes;
 
@@ -17,7 +16,7 @@ public sealed class ParallelLimiterAttribute<TParallelLimit> : ParallelLimiterAt
     }
 
     /// <inheritdoc />
-    internal override AsyncSemaphore GetLock(IParallelLimitProvider provider)
+    internal override SemaphoreSlim GetLock(IParallelLimitProvider provider)
     {
         return provider.GetLock<TParallelLimit>();
     }
@@ -56,5 +55,5 @@ public abstract class ParallelLimiterAttribute : Attribute
     /// </summary>
     /// <param name="provider">The parallel limit provider.</param>
     /// <returns>The semaphore for this limit type.</returns>
-    internal abstract AsyncSemaphore GetLock(IParallelLimitProvider provider);
+    internal abstract SemaphoreSlim GetLock(IParallelLimitProvider provider);
 }

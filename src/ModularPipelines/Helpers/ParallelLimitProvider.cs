@@ -3,30 +3,29 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Options;
-using Semaphores;
 
 namespace ModularPipelines.Helpers;
 
-internal class ParallelLimitProvider : IParallelLimitProvider
+internal class ParallelLimitProvider : IParallelLimitProvider, IDisposable
 {
-    private readonly ConcurrentDictionary<Type, AsyncSemaphore> _locks = new();
+    private readonly ConcurrentDictionary<Type, SemaphoreSlim> _locks = new();
 
     private readonly ConcurrencyOptions _concurrencyOptions;
-    private readonly Lazy<AsyncSemaphore?> _cpuIntensiveLock;
-    private readonly Lazy<AsyncSemaphore?> _ioIntensiveLock;
+    private readonly Lazy<SemaphoreSlim?> _cpuIntensiveLock;
+    private readonly Lazy<SemaphoreSlim?> _ioIntensiveLock;
 
     public ParallelLimitProvider(IOptions<PipelineOptions> pipelineOptions)
     {
         _concurrencyOptions = pipelineOptions.Value.Concurrency;
 
-        _cpuIntensiveLock = new Lazy<AsyncSemaphore?>(() =>
+        _cpuIntensiveLock = new Lazy<SemaphoreSlim?>(() =>
             _concurrencyOptions.MaxCpuIntensiveModules.HasValue
-                ? new AsyncSemaphore(_concurrencyOptions.MaxCpuIntensiveModules.Value)
+                ? new SemaphoreSlim(_concurrencyOptions.MaxCpuIntensiveModules.Value, _concurrencyOptions.MaxCpuIntensiveModules.Value)
                 : null);
 
-        _ioIntensiveLock = new Lazy<AsyncSemaphore?>(() =>
+        _ioIntensiveLock = new Lazy<SemaphoreSlim?>(() =>
             _concurrencyOptions.MaxIoIntensiveModules.HasValue
-                ? new AsyncSemaphore(_concurrencyOptions.MaxIoIntensiveModules.Value)
+                ? new SemaphoreSlim(_concurrencyOptions.MaxIoIntensiveModules.Value, _concurrencyOptions.MaxIoIntensiveModules.Value)
                 : null);
     }
 
@@ -34,7 +33,7 @@ internal class ParallelLimitProvider : IParallelLimitProvider
     /// Gets a semaphore lock for the specified parallel limit type.
     /// Uses static abstract interface member to avoid reflection.
     /// </summary>
-    public AsyncSemaphore GetLock<TParallelLimit>() where TParallelLimit : IParallelLimit
+    public SemaphoreSlim GetLock<TParallelLimit>() where TParallelLimit : IParallelLimit
     {
         var limit = TParallelLimit.Limit;
 
@@ -44,7 +43,7 @@ internal class ParallelLimitProvider : IParallelLimitProvider
                 $"Parallel limit for type '{typeof(TParallelLimit).FullName}' must be a positive integer, but was {limit}.");
         }
 
-        return _locks.GetOrAdd(typeof(TParallelLimit), _ => new AsyncSemaphore(limit));
+        return _locks.GetOrAdd(typeof(TParallelLimit), _ => new SemaphoreSlim(limit, limit));
     }
 
     public int GetMaxDegreeOfParallelism()
@@ -52,7 +51,7 @@ internal class ParallelLimitProvider : IParallelLimitProvider
         return _concurrencyOptions.MaxParallelism;
     }
 
-    public AsyncSemaphore? GetExecutionHintLock(ExecutionHint executionHint)
+    public SemaphoreSlim? GetExecutionHintLock(ExecutionHint executionHint)
     {
         return executionHint switch
         {
@@ -60,5 +59,23 @@ internal class ParallelLimitProvider : IParallelLimitProvider
             ExecutionHint.IoBound => _ioIntensiveLock.Value,
             _ => null,
         };
+    }
+
+    public void Dispose()
+    {
+        foreach (var semaphore in _locks.Values)
+        {
+            semaphore.Dispose();
+        }
+
+        if (_cpuIntensiveLock.IsValueCreated)
+        {
+            _cpuIntensiveLock.Value?.Dispose();
+        }
+
+        if (_ioIntensiveLock.IsValueCreated)
+        {
+            _ioIntensiveLock.Value?.Dispose();
+        }
     }
 }
