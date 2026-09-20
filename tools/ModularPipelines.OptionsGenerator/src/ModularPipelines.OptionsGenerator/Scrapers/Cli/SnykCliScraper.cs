@@ -268,7 +268,7 @@ public partial class SnykCliScraper : CliScraperBase
         return summary.Count > 0 ? string.Join(' ', summary) : null;
     }
 
-    [GeneratedRegex(@"^(?:Options(?:\s+.*)?|Usage:?(?:\s+.*)?|Examples(?:\s+.*)?|Prerequisites|Debug|Exit codes|Environment variables)$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^(?:(?:Options|Usage|Examples):?(?:\s+.*)?|(?:Prerequisites|Debug|Exit codes|Environment variables):?)$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex DescriptionBoundaryPattern();
 
     /// <summary>

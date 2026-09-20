@@ -41,6 +41,31 @@ public class SnykCliScraperTests
     }
 
     [Test]
+    [Arguments("", null)]
+    [Arguments("Test a project.\n", "Test a project.")]
+    public async Task Colon_Options_Heading_Stops_Fallback_Description(string introduction, string? expected)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            introduction + "Options:\n  --json\n    Emit JSON."))!;
+        await Assert.That(command.Description).IsEqualTo(expected);
+    }
+
+    [Test]
+    [Arguments("Options:")]
+    [Arguments("Usage:")]
+    [Arguments("Examples:")]
+    [Arguments("Prerequisites:")]
+    [Arguments("Debug:")]
+    [Arguments("Exit codes:")]
+    [Arguments("Environment variables:")]
+    public async Task Colon_Section_Headings_End_Description(string heading)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            $"Description\nTest a project.\n{heading}\nUnrelated section content."))!;
+        await Assert.That(command.Description).IsEqualTo("Test a project.");
+    }
+
+    [Test]
     public async Task Ignore_Uses_The_Complete_Description_And_Conditional_Id()
     {
         const string help = """
