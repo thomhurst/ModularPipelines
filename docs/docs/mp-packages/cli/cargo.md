@@ -26,6 +26,7 @@ Projects using C# 13 or another .NET language can use `context.Tools.Get<Modular
 
 ```csharp
 using ModularPipelines;
+using ModularPipelines.Rust.Enums;
 using ModularPipelines.Rust.Options;
 
 public class RunCommandModule : Module<CommandResult>

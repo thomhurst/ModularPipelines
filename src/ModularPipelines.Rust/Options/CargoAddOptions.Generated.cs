@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -41,31 +42,31 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public IEnumerable<string>? Features { get; set; }
 
     /// <summary>
-    /// Mark the dependency as optional
+    /// Mark the dependency as optional. The package name will be exposed as feature of your crate.
     /// </summary>
     [CliFlag("--optional")]
     public bool? Optional { get; set; }
 
     /// <summary>
-    /// Mark the dependency as required
+    /// Mark the dependency as required. The package will be removed from your features.
     /// </summary>
     [CliFlag("--no-optional")]
     public bool? NoOptional { get; set; }
 
     /// <summary>
-    /// Mark the dependency as public (unstable)
+    /// Mark the dependency as public (unstable). The dependency can be referenced in your library's public API.
     /// </summary>
     [CliFlag("--public")]
     public bool? Public { get; set; }
 
     /// <summary>
-    /// Mark the dependency as private (unstable)
+    /// Mark the dependency as private (unstable). While you can use the crate in your implementation, it cannot be referenced in your public API.
     /// </summary>
     [CliFlag("--no-public")]
     public bool? NoPublic { get; set; }
 
     /// <summary>
-    /// Rename the dependency
+    /// Rename the dependency. Example uses: - Depending on multiple versions of a crate - Depend on crates with the same name from different registries
     /// </summary>
     [CliOption("--rename")]
     public string? Rename { get; set; }
@@ -77,6 +78,12 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public bool? DryRun { get; set; }
 
     /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
+
+    /// <summary>
     /// Do not print cargo log messages
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
@@ -86,19 +93,19 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     /// Coloring
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public CargoAddColor? Color { get; set; }
 
     /// <summary>
     /// Override a configuration value
     /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
-    /// Print help (see a summary with '-h')
+    /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliOption("-Z")]
+    public IEnumerable<string>? Z { get; set; }
 
     /// <summary>
     /// Path to Cargo.toml
@@ -131,6 +138,12 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public bool? Frozen { get; set; }
 
     /// <summary>
+    /// Package to modify
+    /// </summary>
+    [CliOption("--package", ShortForm = "-p")]
+    public string? Package { get; set; }
+
+    /// <summary>
     /// Filesystem path to local crate to add
     /// </summary>
     [CliOption("--path")]
@@ -143,7 +156,7 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public string? Base { get; set; }
 
     /// <summary>
-    /// Git repository location
+    /// Git repository location. Without any other information, cargo will use latest commit on the main branch.
     /// </summary>
     [CliOption("--git")]
     public string? Git { get; set; }
@@ -161,7 +174,7 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public string? Tag { get; set; }
 
     /// <summary>
-    /// Git reference to download the crate from
+    /// Git reference to download the crate from. This is the catch all, handling hashes to named references in remote repositories.
     /// </summary>
     [CliOption("--rev")]
     public string? Rev { get; set; }
@@ -173,13 +186,13 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public string? Registry { get; set; }
 
     /// <summary>
-    /// Add as development dependency
+    /// Add as development dependency. Dev-dependencies are not used when compiling a package for building, but are used for compiling tests, examples, and benchmarks. These dependencies are not propagated to other packages which depend on this package.
     /// </summary>
     [CliFlag("--dev")]
     public bool? Dev { get; set; }
 
     /// <summary>
-    /// Add as build dependency
+    /// Add as build dependency. Build-dependencies are the only dependencies available for use by build scripts (`build.rs` files).
     /// </summary>
     [CliFlag("--build")]
     public bool? Build { get; set; }
@@ -194,15 +207,38 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     /// The &lt;DEP&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Dep { get; set; }
+    public IEnumerable<string>? Dep
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DepSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values)))) : default;
+    }
+
+    private sealed class __DepSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (!(Dep?.Any() == true || !string.IsNullOrWhiteSpace(Path) || !string.IsNullOrWhiteSpace(Git)))
+        if (!(((object?)Dep is global::System.Collections.Generic.IEnumerable<char> ? (object?)Dep is not string || !string.IsNullOrWhiteSpace(Dep?.ToString()) : ((object?)Dep is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Dep, static item => item is not null) : (Dep is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Dep), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Path) || !string.IsNullOrWhiteSpace(Git)))
         {
             yield return new ValidationResult("At least one of Dep, Path, or Git must be specified.", [nameof(Dep), nameof(Path), nameof(Git)]);
         }
+        yield break;
     }
 
 }

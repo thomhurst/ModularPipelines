@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -52,28 +53,40 @@ public record CargoPublishOptions : CargoOptions
     public bool? AllowDirty { get; set; }
 
     /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
+
+    /// <summary>
     /// Do not print cargo log messages
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Coloring [possible values: auto, always, never]
+    /// Coloring
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public CargoPublishColor? Color { get; set; }
 
     /// <summary>
     /// Override a configuration value
     /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
-    /// Print help
+    /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliOption("-Z")]
+    public IEnumerable<string>? Z { get; set; }
+
+    /// <summary>
+    /// Package(s) to publish
+    /// </summary>
+    [CliOption("--package", ShortForm = "-p")]
+    public IEnumerable<string>? Package { get; set; }
 
     /// <summary>
     /// Publish all packages in the workspace
@@ -116,6 +129,12 @@ public record CargoPublishOptions : CargoOptions
     /// </summary>
     [CliFlag("--keep-going")]
     public bool? KeepGoing { get; set; }
+
+    /// <summary>
+    /// Build for the target triple
+    /// </summary>
+    [CliOption("--target")]
+    public IEnumerable<string>? Target { get; set; }
 
     /// <summary>
     /// Directory for all generated artifacts

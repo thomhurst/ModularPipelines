@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -19,15 +20,30 @@ namespace ModularPipelines.Rust.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("new")]
-public record CargoNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : CargoOptions
+public record CargoNewOptions : CargoOptions
 {
     /// <summary>
-    /// Initialize a new repository for the given version control system, overriding a global configuration. [possible values: git, hg, pijul, fossil, none]
+    /// Create a new cargo package at &lt;path&gt;
+    /// </summary>
+    /// <param name="Path">The &lt;PATH&gt; operand.</param>
+    public CargoNewOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
+    /// <summary>
+    /// Initialize a new repository for the given version control system, overriding a global configuration.
     /// </summary>
     [CliOption("--vcs")]
-    public string? Vcs { get; set; }
+    public CargoNewVcs? Vcs { get; set; }
 
     /// <summary>
     /// Use a binary (application) template [default]
@@ -42,10 +58,10 @@ public record CargoNewOptions(
     public bool? Lib { get; set; }
 
     /// <summary>
-    /// Edition to set for the crate generated [possible values: 2015, 2018, 2021, 2024]
+    /// Edition to set for the crate generated
     /// </summary>
     [CliOption("--edition")]
-    public string? Edition { get; set; }
+    public CargoNewEdition? Edition { get; set; }
 
     /// <summary>
     /// Set the resulting package name, defaults to the directory name
@@ -60,28 +76,34 @@ public record CargoNewOptions(
     public string? Registry { get; set; }
 
     /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
+
+    /// <summary>
     /// Do not print cargo log messages
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Coloring [possible values: auto, always, never]
+    /// Coloring
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public CargoNewColor? Color { get; set; }
 
     /// <summary>
     /// Override a configuration value
     /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
-    /// Print help
+    /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliOption("-Z")]
+    public IEnumerable<string>? Z { get; set; }
 
     /// <summary>
     /// Assert that `Cargo.lock` will remain unchanged
@@ -100,5 +122,11 @@ public record CargoNewOptions(
     /// </summary>
     [CliFlag("--frozen")]
     public bool? Frozen { get; set; }
+
+    /// <summary>
+    /// The &lt;PATH&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
 
 }
