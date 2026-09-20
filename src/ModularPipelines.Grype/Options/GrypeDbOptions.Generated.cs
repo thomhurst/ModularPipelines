@@ -21,12 +21,6 @@ namespace ModularPipelines.Grype.Options;
 public record GrypeDbOptions : GrypeOptions
 {
     /// <summary>
-    /// help for db
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// grype configuration file(s) to use
     /// </summary>
     [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]

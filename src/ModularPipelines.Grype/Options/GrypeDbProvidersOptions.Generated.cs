@@ -21,12 +21,6 @@ namespace ModularPipelines.Grype.Options;
 public record GrypeDbProvidersOptions : GrypeOptions
 {
     /// <summary>
-    /// help for providers
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// format to display results (available=[table, json]) (default "table")
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]

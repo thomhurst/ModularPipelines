@@ -45,12 +45,6 @@ public record GrypeDbSearchOptions : GrypeOptions
     public IEnumerable<string>? FixedState { get; set; }
 
     /// <summary>
-    /// help for search
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// limit the number of results returned, use 0 for no limit (default 5000)
     /// </summary>
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]

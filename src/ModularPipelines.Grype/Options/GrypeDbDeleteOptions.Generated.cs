@@ -21,12 +21,6 @@ namespace ModularPipelines.Grype.Options;
 public record GrypeDbDeleteOptions : GrypeOptions
 {
     /// <summary>
-    /// help for delete
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// grype configuration file(s) to use
     /// </summary>
     [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
