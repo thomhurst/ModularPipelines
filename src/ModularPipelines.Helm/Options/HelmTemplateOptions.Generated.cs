@@ -101,12 +101,6 @@ public record HelmTemplateOptions : HelmOptions
     public bool? GenerateName { get; set; }
 
     /// <summary>
-    /// help for template
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// if set, do not show notes in install output. Does not affect presence in chart metadata
     /// </summary>
     [CliFlag("--hide-notes")]

@@ -22,12 +22,6 @@ namespace ModularPipelines.Helm.Options;
 public record HelmRepoOptions : HelmOptions
 {
     /// <summary>
-    /// help for repo
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// client-side default throttling limit (default 100)
     /// </summary>
     [CliOption("--burst-limit", Format = OptionFormat.EqualsSeparated)]

@@ -40,12 +40,6 @@ public record HelmShowCrdsOptions : HelmOptions
     public bool? Devel { get; set; }
 
     /// <summary>
-    /// help for crds
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// skip tls certificate checks for the chart download
     /// </summary>
     [CliFlag("--insecure-skip-tls-verify")]

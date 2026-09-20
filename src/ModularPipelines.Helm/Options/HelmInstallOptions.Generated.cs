@@ -21,10 +21,25 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
-public record HelmInstallOptions(
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Chart
-) : HelmOptions
+public record HelmInstallOptions : HelmOptions
 {
+    /// <summary>
+    /// This command installs a chart archive.
+    /// </summary>
+    /// <param name="Chart">The CHART operand.</param>
+    public HelmInstallOptions(
+        string Chart
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Chart);
+        this.Chart = Chart;
+    }
+
+    public void Deconstruct(out string Chart)
+    {
+        Chart = this.Chart;
+    }
+
     /// <summary>
     /// if set, the installation process deletes the installation on failure. The --wait flag will be set automatically if --atomic is used
     /// </summary>
@@ -96,12 +111,6 @@ public record HelmInstallOptions(
     /// </summary>
     [CliFlag("--generate-name", ShortForm = "-g")]
     public bool? GenerateName { get; set; }
-
-    /// <summary>
-    /// help for install
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// if set, do not show notes in install output. Does not affect presence in chart metadata
@@ -399,5 +408,11 @@ public record HelmInstallOptions(
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
+
+    /// <summary>
+    /// The CHART operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Chart { get; private init; }
 
 }

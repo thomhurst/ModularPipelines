@@ -20,10 +20,36 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
-public record HelmUninstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ReleaseName
-) : HelmOptions
+public record HelmUninstallOptions : HelmOptions
 {
+    /// <summary>
+    /// This command takes a release name and uninstalls the release.
+    /// </summary>
+    /// <param name="ReleaseName">The RELEASE_NAME operand.</param>
+    public HelmUninstallOptions(
+        IEnumerable<string> ReleaseName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ReleaseName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ReleaseName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ReleaseName));
+            }
+
+            ReleaseName = materialized;
+        }
+        this.ReleaseName = ReleaseName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ReleaseName)
+    {
+        ReleaseName = this.ReleaseName;
+    }
+
     /// <summary>
     /// Must be "background", "orphan", or "foreground". Selects the deletion cascading strategy for the dependents. Defaults to background. (default "background")
     /// </summary>
@@ -41,12 +67,6 @@ public record HelmUninstallOptions(
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
-
-    /// <summary>
-    /// help for uninstall
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
 
     /// <summary>
     /// Treat "release not found" as a successful uninstall
@@ -174,5 +194,11 @@ public record HelmUninstallOptions(
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
+
+    /// <summary>
+    /// The RELEASE_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ReleaseName { get; private init; }
 
 }
