@@ -21,12 +21,6 @@ namespace ModularPipelines.Kind.Options;
 public record KindGetOptions : KindOptions
 {
     /// <summary>
-    /// help for get
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// silence all stderr output
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]

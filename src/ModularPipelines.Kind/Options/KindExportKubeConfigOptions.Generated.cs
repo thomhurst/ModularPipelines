@@ -21,12 +21,6 @@ namespace ModularPipelines.Kind.Options;
 public record KindExportKubeConfigOptions : KindOptions
 {
     /// <summary>
-    /// help for kubeconfig
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// use internal address instead of external
     /// </summary>
     [CliFlag("--internal")]

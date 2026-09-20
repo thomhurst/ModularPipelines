@@ -21,12 +21,6 @@ namespace ModularPipelines.Kind.Options;
 public record KindDeleteClusterOptions : KindOptions
 {
     /// <summary>
-    /// help for cluster
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]

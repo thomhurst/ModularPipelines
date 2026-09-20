@@ -34,12 +34,6 @@ public record KindBuildNodeImageOptions : KindOptions
     public string? BaseImage { get; set; }
 
     /// <summary>
-    /// help for node-image
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
     /// name:tag of the resulting image to be built (default "kindest/node:latest")
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
