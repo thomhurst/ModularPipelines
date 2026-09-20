@@ -17,14 +17,39 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Add a package
 /// </summary>
-/// <param name="PackageNames">The &lt;PACKAGE_NAMES&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
-public record PnpmAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> PackageNames
-) : PnpmOptions
+public record PnpmAddOptions : PnpmOptions
 {
+    /// <summary>
+    /// Add a package
+    /// </summary>
+    /// <param name="PackageNames">The &lt;PACKAGE_NAMES&gt; operand.</param>
+    public PnpmAddOptions(
+        IEnumerable<string> PackageNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PackageNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PackageNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PackageNames));
+            }
+
+            PackageNames = materialized;
+        }
+        this.PackageNames = PackageNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> PackageNames)
+    {
+        PackageNames = this.PackageNames;
+    }
+
     /// <summary>
     /// Install the specified packages as regular dependencies
     /// </summary>
@@ -62,6 +87,18 @@ public record PnpmAddOptions(
     public bool? NoSavePeer { get; set; }
 
     /// <summary>
+    /// Leave devDependencies out of `node_modules` [alias: --production]
+    /// </summary>
+    [CliFlag("--prod")]
+    public bool? Prod { get; set; }
+
+    /// <summary>
+    /// Leave dependencies and optionalDependencies out of `node_modules`
+    /// </summary>
+    [CliFlag("--dev")]
+    public bool? Dev { get; set; }
+
+    /// <summary>
     /// CPU architectures whose platform-specific optional dependencies should be installed. Repeat or comma-separate for multiple values
     /// </summary>
     [CliOption("--cpu")]
@@ -78,6 +115,24 @@ public record PnpmAddOptions(
     /// </summary>
     [CliOption("--libc")]
     public IEnumerable<string>? Libc { get; set; }
+
+    /// <summary>
+    /// Don't run lifecycle scripts of the project or its dependencies. Packages are still installed; only their build scripts are skipped, and the install won't fail because of it
+    /// </summary>
+    [CliFlag("--ignore-scripts")]
+    public bool? IgnoreScripts { get; set; }
+
+    /// <summary>
+    /// Run lifecycle scripts even when the configuration disables them
+    /// </summary>
+    [CliFlag("--no-ignore-scripts")]
+    public bool? NoIgnoreScripts { get; set; }
+
+    /// <summary>
+    /// Disable pnpm hooks defined in `.pnpmfile.cjs`, including the pnpmfiles of config dependencies
+    /// </summary>
+    [CliFlag("--ignore-pnpmfile")]
+    public bool? IgnorePnpmfile { get; set; }
 
     /// <summary>
     /// Saved dependencies will be configured with an exact version rather than using the default semver range operator
@@ -116,6 +171,18 @@ public record PnpmAddOptions(
     public bool? Workspace { get; set; }
 
     /// <summary>
+    /// Install the package globally, linking its bins into the global bin directory
+    /// </summary>
+    [CliFlag("--global", ShortForm = "-g")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// Permit adding dependencies to a multi-package workspace root without `-w`
+    /// </summary>
+    [CliFlag("--ignore-workspace-root-check")]
+    public bool? IgnoreWorkspaceRootCheck { get; set; }
+
+    /// <summary>
     /// Package names allowed to run lifecycle (build) scripts during this install, appended to `allowBuilds`. Prefix a name with `!` to deny its scripts instead. May be repeated
     /// </summary>
     [CliOption("--allow-build")]
@@ -134,30 +201,6 @@ public record PnpmAddOptions(
     public string? LockfileDir { get; set; }
 
     /// <summary>
-    /// Install the package globally, linking its bins into the global bin directory
-    /// </summary>
-    [CliFlag("--global", ShortForm = "-g")]
-    public bool? Global { get; set; }
-
-    /// <summary>
-    /// Don't run lifecycle scripts of the added package or its dependencies
-    /// </summary>
-    [CliFlag("--ignore-scripts")]
-    public bool? IgnoreScripts { get; set; }
-
-    /// <summary>
-    /// Force-enable lifecycle scripts for this invocation
-    /// </summary>
-    [CliFlag("--no-ignore-scripts")]
-    public bool? NoIgnoreScripts { get; set; }
-
-    /// <summary>
-    /// Permit adding dependencies to a multi-package workspace root without `-w`
-    /// </summary>
-    [CliFlag("--ignore-workspace-root-check")]
-    public bool? IgnoreWorkspaceRootCheck { get; set; }
-
-    /// <summary>
     /// Include optionalDependencies while materializing the updated project
     /// </summary>
     [CliFlag("--optional")]
@@ -170,22 +213,10 @@ public record PnpmAddOptions(
     public bool? NoOptional { get; set; }
 
     /// <summary>
-    /// Disable pnpm hooks defined in `.pnpmfile.cjs`, including the pnpmfiles of config dependencies
-    /// </summary>
-    [CliFlag("--ignore-pnpmfile")]
-    public bool? IgnorePnpmfile { get; set; }
-
-    /// <summary>
     /// Reinstall every package the lockfile names: relink packages an earlier install already materialized, and install optional dependencies whose `cpu` / `os` / `libc` / `engines` don't match the host instead of skipping them
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
-
-    /// <summary>
-    /// Force colored output
-    /// </summary>
-    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Color { get; set; }
 
     /// <summary>
     /// Automatically answer yes to prompts
@@ -218,6 +249,18 @@ public record PnpmAddOptions(
     public string? NpmrcAuthFile { get; set; }
 
     /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
     /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
     /// </summary>
     [CliOption("--registry")]
@@ -242,10 +285,10 @@ public record PnpmAddOptions(
     public string? NoProxy { get; set; }
 
     /// <summary>
-    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// Force colored output
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-r")]
-    public bool? Recursive { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Color { get; set; }
 
     /// <summary>
     /// Reporter output format [default: default]
@@ -258,6 +301,30 @@ public record PnpmAddOptions(
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmAddLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// </summary>
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
+
+    /// <summary>
+    /// Hold each script's streamed output until the script exits, then print it as one block
+    /// </summary>
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-r")]
+    public bool? Recursive { get; set; }
 
     /// <summary>
     /// Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
@@ -338,33 +405,9 @@ public record PnpmAddOptions(
     public bool? Parallel { get; set; }
 
     /// <summary>
-    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// The &lt;PACKAGE_NAMES&gt; operand.
     /// </summary>
-    [CliFlag("--stream")]
-    public bool? Stream { get; set; }
-
-    /// <summary>
-    /// Hold each script's streamed output until the script exits, then print it as one block
-    /// </summary>
-    [CliFlag("--aggregate-output")]
-    public bool? AggregateOutput { get; set; }
-
-    /// <summary>
-    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
-    /// </summary>
-    [CliFlag("--use-stderr")]
-    public bool? UseStderr { get; set; }
-
-    /// <summary>
-    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
-    /// </summary>
-    [CliFlag("--ignore-workspace")]
-    public bool? IgnoreWorkspace { get; set; }
-
-    /// <summary>
-    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
-    /// </summary>
-    [CliOption("--workspace-packages")]
-    public IEnumerable<string>? WorkspacePackages { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> PackageNames { get; private init; }
 
 }

@@ -17,14 +17,52 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Generate a Software Bill of Materials (SBOM)
 /// </summary>
-/// <param name="SbomFormat">The SBOM output format (required)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sbom")]
-public record PnpmSbomOptions(
-    [property: CliOption("--sbom-format")] PnpmSbomSbomFormat SbomFormat
-) : PnpmOptions
+public record PnpmSbomOptions : PnpmOptions
 {
+    /// <summary>
+    /// Generate a Software Bill of Materials (SBOM)
+    /// </summary>
+    /// <param name="SbomFormat">The SBOM output format (required)</param>
+    public PnpmSbomOptions(
+        PnpmSbomSbomFormat SbomFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SbomFormat);
+        this.SbomFormat = SbomFormat;
+    }
+
+    public void Deconstruct(out PnpmSbomSbomFormat SbomFormat)
+    {
+        SbomFormat = this.SbomFormat;
+    }
+
+    /// <summary>
+    /// The SBOM output format (required)
+    /// </summary>
+    [CliOption("--sbom-format")]
+    public PnpmSbomSbomFormat SbomFormat { get; private init; }
+
+    /// <summary>
+    /// Only use lockfile data (skip reading from the store)
+    /// </summary>
+    [CliFlag("--lockfile-only")]
+    public bool? LockfileOnly { get; set; }
+
+    /// <summary>
+    /// Write SBOM to a file instead of stdout. Use `%s` for the package name and `%v` for the version
+    /// </summary>
+    [CliOption("--out")]
+    public string? Out { get; set; }
+
+    /// <summary>
+    /// Generate a separate SBOM for each matched workspace package
+    /// </summary>
+    [CliFlag("--split")]
+    public bool? Split { get; set; }
+
     /// <summary>
     /// The component type for the root package (default: library)
     /// </summary>
@@ -36,12 +74,6 @@ public record PnpmSbomOptions(
     /// </summary>
     [CliOption("--sbom-spec-version")]
     public string? SbomSpecVersion { get; set; }
-
-    /// <summary>
-    /// Only use lockfile data (skip reading from the store)
-    /// </summary>
-    [CliFlag("--lockfile-only")]
-    public bool? LockfileOnly { get; set; }
 
     /// <summary>
     /// Comma-separated list of SBOM authors (`CycloneDX` `metadata.authors`)
@@ -86,24 +118,6 @@ public record PnpmSbomOptions(
     public bool? ExcludePeers { get; set; }
 
     /// <summary>
-    /// Write SBOM to a file instead of stdout. Use `%s` for the package name and `%v` for the version
-    /// </summary>
-    [CliOption("--out")]
-    public string? Out { get; set; }
-
-    /// <summary>
-    /// Generate a separate SBOM for each matched workspace package
-    /// </summary>
-    [CliFlag("--split")]
-    public bool? Split { get; set; }
-
-    /// <summary>
-    /// Force colored output
-    /// </summary>
-    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Color { get; set; }
-
-    /// <summary>
     /// Automatically answer yes to prompts
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
@@ -134,6 +148,18 @@ public record PnpmSbomOptions(
     public string? NpmrcAuthFile { get; set; }
 
     /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
     /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
     /// </summary>
     [CliOption("--registry")]
@@ -158,10 +184,10 @@ public record PnpmSbomOptions(
     public string? NoProxy { get; set; }
 
     /// <summary>
-    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// Force colored output
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-r")]
-    public bool? Recursive { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Color { get; set; }
 
     /// <summary>
     /// Reporter output format [default: default]
@@ -174,6 +200,30 @@ public record PnpmSbomOptions(
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmSbomLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// </summary>
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
+
+    /// <summary>
+    /// Hold each script's streamed output until the script exits, then print it as one block
+    /// </summary>
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-r")]
+    public bool? Recursive { get; set; }
 
     /// <summary>
     /// Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
@@ -252,35 +302,5 @@ public record PnpmSbomOptions(
     /// </summary>
     [CliFlag("--parallel")]
     public bool? Parallel { get; set; }
-
-    /// <summary>
-    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
-    /// </summary>
-    [CliFlag("--stream")]
-    public bool? Stream { get; set; }
-
-    /// <summary>
-    /// Hold each script's streamed output until the script exits, then print it as one block
-    /// </summary>
-    [CliFlag("--aggregate-output")]
-    public bool? AggregateOutput { get; set; }
-
-    /// <summary>
-    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
-    /// </summary>
-    [CliFlag("--use-stderr")]
-    public bool? UseStderr { get; set; }
-
-    /// <summary>
-    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
-    /// </summary>
-    [CliFlag("--ignore-workspace")]
-    public bool? IgnoreWorkspace { get; set; }
-
-    /// <summary>
-    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
-    /// </summary>
-    [CliOption("--workspace-packages")]
-    public IEnumerable<string>? WorkspacePackages { get; set; }
 
 }
