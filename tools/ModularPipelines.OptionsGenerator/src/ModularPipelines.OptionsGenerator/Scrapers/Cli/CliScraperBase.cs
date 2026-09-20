@@ -1567,7 +1567,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
     // Require a reference phrase, not a terminal connector such as "and" or "with":
     // ordinary parent prose can end with those words immediately before a nested declaration.
-    [GeneratedRegex(@"\b(?:(?:combine[ds]?|pair(?:ed|s)?) with|values? from|for example)\s*:?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"\b(?:(?:combine[ds]?|pair(?:ed|s)?) with|values? from|for example)\s*[:,]?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex SwitchReferenceIntroductionPattern();
 
     private static int? GetSectionDescriptionColumn(string[] lines, int declarationIndex, int declarationIndentation)

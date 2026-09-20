@@ -173,6 +173,7 @@ public class ContinuationLineTests
     [Arguments("Combine with:")]
     [Arguments("Pair with:")]
     [Arguments("For example:")]
+    [Arguments("For example,")]
     [Arguments("Values from:")]
     public async Task Punctuated_Introductions_Preserve_Wrapped_Switch_References(string introduction)
     {

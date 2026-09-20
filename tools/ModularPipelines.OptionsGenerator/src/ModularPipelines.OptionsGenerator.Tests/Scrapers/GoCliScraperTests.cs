@@ -323,6 +323,37 @@ public class GoCliScraperTests
     }
 
     [Test]
+    public async Task Preserves_Fuzz_Minimization_Description_With_Comma_Introduced_Example()
+    {
+        // Preserve the installed help's mixed tab/space indentation after the example.
+        var helpText = string.Join('\n',
+        [
+            "usage: go test [test flags]",
+            string.Empty,
+            "\t-fuzzminimizetime t",
+            "\t    Run enough iterations of the fuzz target during each minimization",
+            "\t    attempt to take t, as specified as a time.Duration (for example,",
+            "\t    -fuzzminimizetime 30s).",
+            "\t\tThe default is 60s.",
+            "\t    The special syntax Nx means to run the fuzz target N times",
+            "\t    (for example, -fuzzminimizetime 100x).",
+            string.Empty,
+            "\t-json",
+            "\t    Log test results in JSON.",
+        ]);
+        var command = await CreateScraper(new Dictionary<string, string>()).Parse(["go", "test"], helpText);
+        var option = command!.Options.Single(option => option.SwitchName == "-fuzzminimizetime");
+
+        await Assert.That(option.Description).IsEqualTo(
+            "Run enough iterations of the fuzz target during each minimization attempt to take t, "
+            + "as specified as a time.Duration (for example, -fuzzminimizetime 30s). The default is 60s. "
+            + "The special syntax Nx means to run the fuzz target N times (for example, -fuzzminimizetime 100x).");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-json").Description)
+            .IsEqualTo("Log test results in JSON.");
+    }
+
+    [Test]
     public async Task Treats_Equivalent_Tab_Indentation_As_An_Option_Boundary()
     {
         var helpText = string.Join('\n',
