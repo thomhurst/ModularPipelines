@@ -18,10 +18,25 @@ namespace ModularPipelines.Go.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run")]
-public record GoRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Package
-) : GoOptions
+public record GoRunOptions : GoOptions
 {
+    /// <summary>
+    /// Run compiles and runs the named main Go package.
+    /// </summary>
+    /// <param name="Package">The package operand.</param>
+    public GoRunOptions(
+        string Package
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+    }
+
+    public void Deconstruct(out string Package)
+    {
+        Package = this.Package;
+    }
+
     /// <summary>
     /// The -exec option.
     /// </summary>
@@ -219,6 +234,12 @@ public record GoRunOptions(
     /// </summary>
     [CliOption("-toolexec")]
     public string? Toolexec { get; set; }
+
+    /// <summary>
+    /// The package operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Package { get; private init; }
 
     /// <summary>
     /// The arguments operand.

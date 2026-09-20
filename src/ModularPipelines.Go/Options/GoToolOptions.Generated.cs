@@ -18,10 +18,25 @@ namespace ModularPipelines.Go.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tool")]
-public record GoToolOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
-) : GoOptions
+public record GoToolOptions : GoOptions
 {
+    /// <summary>
+    /// Tool runs the go tool command identified by the arguments.
+    /// </summary>
+    /// <param name="Command">The command operand.</param>
+    public GoToolOptions(
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string Command)
+    {
+        Command = this.Command;
+    }
+
     /// <summary>
     /// The -n flag causes tool to print the command that would be executed but not execute it.
     /// </summary>
@@ -51,6 +66,12 @@ public record GoToolOptions(
     /// </summary>
     [CliFlag("-modcacherw")]
     public bool? Modcacherw { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Command { get; private init; }
 
     /// <summary>
     /// The args operand.
