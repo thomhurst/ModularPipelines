@@ -324,11 +324,21 @@ if ([string]::IsNullOrWhiteSpace($generatedJob)) {
     throw 'Generated integration validation job was not found.'
 }
 
-if ($generatedJob -match '\.slnx|dotnet (run|test)|TEST_PROJECT|INTEGRATION_SOLUTION') {
-    throw 'Generated integration validation must compile only the library project and its references.'
+if ($generatedJob -match '\.slnx|dotnet test|INTEGRATION_SOLUTION') {
+    throw 'Generated integration validation must stay scoped to the selected package and its executable tests.'
 }
 if (-not $generatedJob.Contains('dotnet build "$INTEGRATION_PROJECT" -c Release', [StringComparison]::Ordinal)) {
     throw 'Generated integration validation must compile the selected library project.'
+}
+foreach ($testCommand in @(
+             'TEST_PROJECT="test/$INTEGRATION_PACKAGE.UnitTests/$INTEGRATION_PACKAGE.UnitTests.csproj"',
+             'if [[ -f "$TEST_PROJECT" ]]; then',
+             'dotnet build "$TEST_PROJECT" -c Release "${BUILD_ARGS[@]}"',
+             'dotnet run --project "$TEST_PROJECT" -c Release --framework net10.0 --no-build'
+         )) {
+    if (-not $generatedJob.Contains($testCommand, [StringComparison]::Ordinal)) {
+        throw "Generated integration validation omitted package test command '$testCommand'."
+    }
 }
 
 foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |\z)')) {
