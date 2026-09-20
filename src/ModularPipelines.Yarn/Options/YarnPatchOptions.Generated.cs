@@ -18,10 +18,25 @@ namespace ModularPipelines.Yarn.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("patch")]
-public record YarnPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
-) : YarnOptions
+public record YarnPatchOptions : YarnOptions
 {
+    /// <summary>
+    /// This command will cause a package to be extracted in a temporary directory
+    /// </summary>
+    /// <param name="Package">The &lt;package&gt; operand.</param>
+    public YarnPatchOptions(
+        string Package
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+    }
+
+    public void Deconstruct(out string Package)
+    {
+        Package = this.Package;
+    }
+
     /// <summary>
     /// Reapply local patches that already apply to this packages
     /// </summary>
@@ -33,5 +48,11 @@ public record YarnPatchOptions(
     /// </summary>
     [CliFlag("--json")]
     public bool? Json { get; set; }
+
+    /// <summary>
+    /// The &lt;package&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Package { get; private init; }
 
 }
