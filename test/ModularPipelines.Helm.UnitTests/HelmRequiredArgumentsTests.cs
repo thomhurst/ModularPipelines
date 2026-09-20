@@ -9,11 +9,14 @@ public class HelmRequiredArgumentsTests
     public async Task Install_Rejects_Null_Chart()
     {
         var exception = Assert.Throws<ArgumentException>(() => BuildArguments(new HelmInstallOptions(null!)));
+        var expectedDiagnostic = exception is ArgumentNullException
+            ? nameof(HelmInstallOptions.Chart)
+            : $"{nameof(HelmInstallOptions)}.{nameof(HelmInstallOptions.Chart)}";
 
         using (Assert.Multiple())
         {
             await Assert.That(exception.ParamName).IsEqualTo(nameof(HelmInstallOptions.Chart));
-            await Assert.That(exception.Message).Contains(nameof(HelmInstallOptions.Chart));
+            await Assert.That(exception.Message).Contains(expectedDiagnostic);
         }
     }
 
