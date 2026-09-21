@@ -125,6 +125,36 @@ public class SnykCliScraperTests
         var command = (await new TestSnykCliScraper().Parse(["snyk", "ignore"], help))!;
         await Assert.That(command.Description).IsEqualTo("The snyk ignore command modifies the .snyk policy file to ignore a specified issue according to its Snyk ID for all occurrences, its expiry date, a reason, or according to paths in the filesystem for the policy, the issue, or both.");
         await Assert.That(command.Options.Single(option => option.SwitchName == "--id").IsRequired).IsFalse();
+        var group = command.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsTrue();
+        await Assert.That(group.IsMutuallyExclusive).IsFalse();
+        await Assert.That(group.PropertyNames).IsEquivalentTo(["Id", "FilePath"]);
+        await Assert.That(group.Members.Select(member => member.OptionSwitch!))
+            .IsEquivalentTo(["--id", "--file-path"]);
+    }
+
+    [Test]
+    [Arguments("omitted if the command is used with --credential-file, otherwise required.", "--credential-file", true)]
+    [Arguments("OMITTED IF used with --credential-file, OTHERWISE REQUIRED.", "--credential-file", true)]
+    [Arguments("omitted if used with --credential-file, otherwise optional.", "--credential-file", false)]
+    [Arguments("omitted if used with --credential-file.", "--credential-file", false)]
+    [Arguments("omitted if used with --missing, otherwise required.", "--credential-file", false)]
+    [Arguments("omitted if used with --token, otherwise required.", "--credential-file", false)]
+    public async Task Conditional_Required_Alternatives_Resolve_Documented_Switches(
+        string description, string alternativeSwitch, bool hasGroup)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "auth"],
+            $"Options\n  --token=<TOKEN>\n    {description}\n  {alternativeSwitch}=<PATH>\n    Read credentials from this file."))!;
+
+        await Assert.That(command.RequiredAlternativeGroups.Count).IsEqualTo(hasGroup ? 1 : 0);
+        if (hasGroup)
+        {
+            var group = command.RequiredAlternativeGroups.Single();
+            await Assert.That(group.PropertyNames).IsEquivalentTo(["Token", "CredentialFile"]);
+            await Assert.That(group.IsRequired).IsTrue();
+            await Assert.That(group.IsMutuallyExclusive).IsFalse();
+            await Assert.That(command.Options.All(option => !option.IsRequired)).IsTrue();
+        }
     }
 
     [Test]

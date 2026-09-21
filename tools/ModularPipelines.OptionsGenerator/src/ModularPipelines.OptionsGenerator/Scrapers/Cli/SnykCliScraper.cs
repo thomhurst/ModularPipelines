@@ -189,6 +189,7 @@ public partial class SnykCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://docs.snyk.io/snyk-cli/commands",
             Options = options,
+            RequiredAlternativeGroups = GetDocumentedRequiredAlternatives(options),
             PositionalArguments = positionalArguments,
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
@@ -198,6 +199,43 @@ public partial class SnykCliScraper : CliScraperBase
 
         return Task.FromResult<CliCommandDefinition?>(command);
     }
+
+    private static IReadOnlyList<CliRequiredAlternativeGroup> GetDocumentedRequiredAlternatives(
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var groups = new List<CliRequiredAlternativeGroup>();
+        foreach (var option in options)
+        {
+            var match = ConditionalRequiredAlternativePattern().Match(option.Description ?? string.Empty);
+            if (!match.Success)
+            {
+                continue;
+            }
+
+            var alternative = options.FirstOrDefault(candidate =>
+                candidate.SwitchName == match.Groups["switch"].Value && candidate != option);
+            if (alternative is null || groups.Any(group =>
+                    group.PropertyNames.Contains(option.PropertyName)
+                    && group.PropertyNames.Contains(alternative.PropertyName)))
+            {
+                continue;
+            }
+
+            groups.Add(new CliRequiredAlternativeGroup
+            {
+                Members =
+                [
+                    new() { PropertyName = option.PropertyName, OptionSwitch = option.SwitchName },
+                    new() { PropertyName = alternative.PropertyName, OptionSwitch = alternative.SwitchName },
+                ],
+            });
+        }
+
+        return groups;
+    }
+
+    [GeneratedRegex(@"\bomitted if\b[^.!?]*\bwith\s+(?<switch>--[\w-]+),?\s+otherwise required\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ConditionalRequiredAlternativePattern();
 
     private static UsageSynopsisParseResult NormalizeCommandGroupUsage(
         IReadOnlyList<string> commandParts,
