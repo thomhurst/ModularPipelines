@@ -57,6 +57,27 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    [Arguments("Entraid configuration for the SQL Server instance.")]
+    [Arguments("Options for configuring read pool auto scale.")]
+    public async Task Configuration_Headings_After_Narrative_Start_Sibling_Groups(string heading)
+    {
+        var section = $"""
+            Arguments for authentication:
+              --token=TOKEN
+                 Authenticate with a token.
+
+              Note: authentication is checked before execution.
+              {heading}
+              --setting=SETTING
+                 Configure the independent setting.
+            """;
+        var root = TestArgumentGroupScraper.ParseGroups(section);
+        await Assert.That(root.Groups).Count().IsEqualTo(2);
+        await Assert.That(root.Groups[0].Arguments.Single().SwitchName).IsEqualTo("--token");
+        await Assert.That(root.Groups[1].Arguments.Single().SwitchName).IsEqualTo("--setting");
+    }
+
+    [Test]
     public async Task Explicit_Headings_Can_Start_Siblings_After_Classified_Groups()
     {
         const string section = """

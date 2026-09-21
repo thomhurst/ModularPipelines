@@ -350,8 +350,8 @@ internal static partial class CliArgumentGroupParser
         string? description) =>
         Classify(description) != CliArgumentGroupKind.None
         || DescribesRequiredBundle(description)
-        || ConfigurationHeadingPattern().IsMatch(description ?? string.Empty)
-        || lines.Any(line => SectionHeadingPattern().IsMatch(line.Trim()));
+        || lines.Any(line => ConfigurationHeadingPattern().IsMatch(line.Trim())
+            || SectionHeadingPattern().IsMatch(line.Trim()));
 
     private sealed class ArgumentGroupBuilder(int indentation, string? description)
     {
