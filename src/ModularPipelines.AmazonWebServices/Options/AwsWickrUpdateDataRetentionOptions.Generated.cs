@@ -37,7 +37,6 @@ public record AwsWickrUpdateDataRetentionOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(NetworkId);
         this.NetworkId = NetworkId;
-        global::System.ArgumentNullException.ThrowIfNull(ActionType);
         this.ActionType = ActionType;
     }
 

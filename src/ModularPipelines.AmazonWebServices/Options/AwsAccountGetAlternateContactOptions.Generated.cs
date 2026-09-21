@@ -33,7 +33,6 @@ public record AwsAccountGetAlternateContactOptions : AwsOptions, IValidatableObj
         AwsAccountGetAlternateContactAlternateContactType AlternateContactType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AlternateContactType);
         this.AlternateContactType = AlternateContactType;
     }
 

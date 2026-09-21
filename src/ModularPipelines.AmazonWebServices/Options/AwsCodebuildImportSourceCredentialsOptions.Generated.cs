@@ -40,9 +40,7 @@ public record AwsCodebuildImportSourceCredentialsOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(Token);
         this.Token = Token;
-        global::System.ArgumentNullException.ThrowIfNull(ServerType);
         this.ServerType = ServerType;
-        global::System.ArgumentNullException.ThrowIfNull(AuthType);
         this.AuthType = AuthType;
     }
 

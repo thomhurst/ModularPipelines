@@ -33,7 +33,6 @@ public record AwsPartnercentralAccountGetVerificationOptions : AwsOptions, IVali
         AwsPartnercentralAccountGetVerificationVerificationType VerificationType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(VerificationType);
         this.VerificationType = VerificationType;
     }
 

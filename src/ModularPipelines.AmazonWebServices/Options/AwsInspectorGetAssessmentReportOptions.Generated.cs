@@ -39,9 +39,7 @@ public record AwsInspectorGetAssessmentReportOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(AssessmentRunArn);
         this.AssessmentRunArn = AssessmentRunArn;
-        global::System.ArgumentNullException.ThrowIfNull(ReportFileFormat);
         this.ReportFileFormat = ReportFileFormat;
-        global::System.ArgumentNullException.ThrowIfNull(ReportType);
         this.ReportType = ReportType;
     }
 

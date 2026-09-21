@@ -84,13 +84,13 @@ public record AwsSocialmessagingUpdateWhatsappFlowOptions : AwsOptions, IValidat
     public IEnumerable<string>? Categories { get; set; }
 
     /// <summary>
-    /// Optional HTTPS endpoint for a dynamic Flow, registered with Meta as the Flow's endpoint_uri and called by Meta directly. When omitted, the Flow's endpoint is unchanged. Constraints: o min: 1 o max: 2048
+    /// The updated HTTPS endpoint for a data exchange Flow. Constraints: o min: 1 o max: 2048
     /// </summary>
     [CliOption("--endpoint-uri")]
     public string? EndpointUri { get; set; }
 
     /// <summary>
-    /// Optional Meta app ID to attach to the Flow. Meta signs data-exchange requests with the attached app's secret, so attaching your own app is what enables X-Hub-Signature-256 and flow_token_signature verifi- cation at your endpoint. Meta requires the app to be owned by the same business that owns the WABA. Attaching your own app is one-way: the service's app cannot be re-attached afterwards. When omitted, the attached app is unchanged. (Set via update because Meta ignores application_id at creation time.) Constraints: o min: 1 o max: 100
+    /// The ID of the Meta application to attach to the Flow. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--meta-app-id")]
     public string? MetaAppId { get; set; }

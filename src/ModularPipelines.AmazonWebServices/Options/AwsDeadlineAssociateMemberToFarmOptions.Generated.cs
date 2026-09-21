@@ -43,11 +43,9 @@ public record AwsDeadlineAssociateMemberToFarmOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(FarmId);
         this.FarmId = FarmId;
-        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
         this.PrincipalType = PrincipalType;
         global::System.ArgumentNullException.ThrowIfNull(IdentityStoreId);
         this.IdentityStoreId = IdentityStoreId;
-        global::System.ArgumentNullException.ThrowIfNull(MembershipLevel);
         this.MembershipLevel = MembershipLevel;
         global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
         this.PrincipalId = PrincipalId;

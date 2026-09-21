@@ -39,9 +39,7 @@ public record AwsEc2GetInstanceTpmEkPubOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(KeyType);
         this.KeyType = KeyType;
-        global::System.ArgumentNullException.ThrowIfNull(KeyFormat);
         this.KeyFormat = KeyFormat;
     }
 

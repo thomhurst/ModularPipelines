@@ -41,7 +41,6 @@ public record AwsAcmPcaCreateCertificateAuthorityAuditReportOptions : AwsOptions
         this.CertificateAuthorityArn = CertificateAuthorityArn;
         global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
         this.S3BucketName = S3BucketName;
-        global::System.ArgumentNullException.ThrowIfNull(AuditReportResponseFormat);
         this.AuditReportResponseFormat = AuditReportResponseFormat;
     }
 

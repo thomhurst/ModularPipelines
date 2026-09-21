@@ -41,7 +41,6 @@ public record AwsConnectDeleteWorkspaceMediaOptions : AwsOptions, IValidatableOb
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
         this.WorkspaceId = WorkspaceId;
-        global::System.ArgumentNullException.ThrowIfNull(MediaType);
         this.MediaType = MediaType;
     }
 

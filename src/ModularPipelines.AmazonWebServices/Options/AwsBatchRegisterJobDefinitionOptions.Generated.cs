@@ -38,7 +38,6 @@ public record AwsBatchRegisterJobDefinitionOptions : AwsOptions, IValidatableObj
     {
         global::System.ArgumentNullException.ThrowIfNull(JobDefinitionName);
         this.JobDefinitionName = JobDefinitionName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

@@ -42,7 +42,6 @@ public record AwsWorkmailCreateMobileDeviceAccessRuleOptions : AwsOptions, IVali
         this.OrganizationId = OrganizationId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Effect);
         this.Effect = Effect;
     }
 

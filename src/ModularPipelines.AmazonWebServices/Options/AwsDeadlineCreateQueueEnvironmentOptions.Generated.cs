@@ -47,7 +47,6 @@ public record AwsDeadlineCreateQueueEnvironmentOptions : AwsOptions, IValidatabl
         global::System.ArgumentNullException.ThrowIfNull(QueueId);
         this.QueueId = QueueId;
         this.Priority = Priority;
-        global::System.ArgumentNullException.ThrowIfNull(TemplateType);
         this.TemplateType = TemplateType;
         global::System.ArgumentNullException.ThrowIfNull(Template);
         this.Template = Template;

@@ -33,7 +33,6 @@ public record AwsEcsDeleteAccountSettingOptions : AwsOptions, IValidatableObject
         AwsEcsDeleteAccountSettingName Name
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
     }
 

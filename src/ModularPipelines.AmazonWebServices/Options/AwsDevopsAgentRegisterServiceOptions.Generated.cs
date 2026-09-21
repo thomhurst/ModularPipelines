@@ -37,7 +37,6 @@ public record AwsDevopsAgentRegisterServiceOptions : AwsOptions, IValidatableObj
         string ServiceDetails
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Service);
         this.Service = Service;
         global::System.ArgumentNullException.ThrowIfNull(ServiceDetails);
         this.ServiceDetails = ServiceDetails;

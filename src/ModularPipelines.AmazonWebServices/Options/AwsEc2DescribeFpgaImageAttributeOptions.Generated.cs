@@ -37,7 +37,6 @@ public record AwsEc2DescribeFpgaImageAttributeOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(FpgaImageId);
         this.FpgaImageId = FpgaImageId;
-        global::System.ArgumentNullException.ThrowIfNull(Attribute);
         this.Attribute = Attribute;
     }
 

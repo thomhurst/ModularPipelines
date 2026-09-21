@@ -58,7 +58,6 @@ public record AwsBedrockAgentcoreGetResourceOauth2TokenOptions : AwsOptions, IVa
             Scopes = materialized;
         }
         this.Scopes = Scopes;
-        global::System.ArgumentNullException.ThrowIfNull(Oauth2Flow);
         this.Oauth2Flow = Oauth2Flow;
     }
 

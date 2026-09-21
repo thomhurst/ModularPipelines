@@ -40,7 +40,6 @@ public record AwsBedrockStartAutomatedReasoningPolicyBuildWorkflowOptions : AwsO
     {
         global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
         this.PolicyArn = PolicyArn;
-        global::System.ArgumentNullException.ThrowIfNull(BuildWorkflowType);
         this.BuildWorkflowType = BuildWorkflowType;
         global::System.ArgumentNullException.ThrowIfNull(SourceContent);
         this.SourceContent = SourceContent;

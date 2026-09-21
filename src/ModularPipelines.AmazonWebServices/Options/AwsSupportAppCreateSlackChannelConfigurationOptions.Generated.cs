@@ -43,7 +43,6 @@ public record AwsSupportAppCreateSlackChannelConfigurationOptions : AwsOptions, 
         this.ChannelId = ChannelId;
         global::System.ArgumentNullException.ThrowIfNull(ChannelRoleArn);
         this.ChannelRoleArn = ChannelRoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(NotifyOnCaseSeverity);
         this.NotifyOnCaseSeverity = NotifyOnCaseSeverity;
         global::System.ArgumentNullException.ThrowIfNull(TeamId);
         this.TeamId = TeamId;

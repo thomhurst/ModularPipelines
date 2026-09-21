@@ -33,7 +33,6 @@ public record AwsWafv2ListApiKeysOptions : AwsOptions, IValidatableObject
         AwsWafv2ListApiKeysScope Scope
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

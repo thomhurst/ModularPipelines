@@ -39,7 +39,6 @@ public record AwsApigatewayv2CreateIntegrationOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(ApiId);
         this.ApiId = ApiId;
-        global::System.ArgumentNullException.ThrowIfNull(IntegrationType);
         this.IntegrationType = IntegrationType;
     }
 

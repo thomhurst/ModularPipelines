@@ -33,7 +33,6 @@ public record AwsRoute53GetAccountLimitOptions : AwsOptions, IValidatableObject
         AwsRoute53GetAccountLimitType Type
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

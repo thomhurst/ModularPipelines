@@ -38,7 +38,6 @@ public record AwsServicecatalogListOrganizationPortfolioAccessOptions : AwsOptio
     {
         global::System.ArgumentNullException.ThrowIfNull(PortfolioId);
         this.PortfolioId = PortfolioId;
-        global::System.ArgumentNullException.ThrowIfNull(OrganizationNodeType);
         this.OrganizationNodeType = OrganizationNodeType;
     }
 

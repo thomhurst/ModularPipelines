@@ -37,7 +37,6 @@ public record AwsTnbUpdateSolNetworkPackageOptions : AwsOptions, IValidatableObj
     {
         global::System.ArgumentNullException.ThrowIfNull(NsdInfoId);
         this.NsdInfoId = NsdInfoId;
-        global::System.ArgumentNullException.ThrowIfNull(NsdOperationalState);
         this.NsdOperationalState = NsdOperationalState;
     }
 

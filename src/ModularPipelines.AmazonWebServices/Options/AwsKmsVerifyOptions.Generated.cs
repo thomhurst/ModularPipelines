@@ -46,7 +46,6 @@ public record AwsKmsVerifyOptions : AwsOptions, IValidatableObject
         this.Message = Message;
         global::System.ArgumentNullException.ThrowIfNull(Signature);
         this.Signature = Signature;
-        global::System.ArgumentNullException.ThrowIfNull(SigningAlgorithm);
         this.SigningAlgorithm = SigningAlgorithm;
     }
 

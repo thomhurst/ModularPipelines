@@ -39,7 +39,6 @@ public record AwsDmsCreateDataMigrationOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(MigrationProjectIdentifier);
         this.MigrationProjectIdentifier = MigrationProjectIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(DataMigrationType);
         this.DataMigrationType = DataMigrationType;
         global::System.ArgumentNullException.ThrowIfNull(ServiceAccessRoleArn);
         this.ServiceAccessRoleArn = ServiceAccessRoleArn;

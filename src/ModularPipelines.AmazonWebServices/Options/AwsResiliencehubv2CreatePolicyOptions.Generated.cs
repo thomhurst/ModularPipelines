@@ -94,6 +94,12 @@ public record AwsResiliencehubv2CreatePolicyOptions : AwsOptions, IValidatableOb
     public string? DataRecovery { get; set; }
 
     /// <summary>
+    /// Specifies whether cross-account sharing is enabled for the policy. Only a delegated administrator or the management account can enable sharing.
+    /// </summary>
+    [CliFlag("--sharing-enabled", NegatedName = "--no-sharing-enabled")]
+    public bool? SharingEnabled { get; set; }
+
+    /// <summary>
     /// KMS key identifier accepts key ID, key ARN, alias name, or alias ARN. Constraints: o min: 1 o max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]

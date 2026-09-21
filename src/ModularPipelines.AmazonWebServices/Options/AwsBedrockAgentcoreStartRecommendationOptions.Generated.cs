@@ -41,7 +41,6 @@ public record AwsBedrockAgentcoreStartRecommendationOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(RecommendationConfig);
         this.RecommendationConfig = RecommendationConfig;

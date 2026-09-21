@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkWaitEnvironmentExistsOptions : AwsOptions
 {
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that are associated with this applica- tion. Constraints: o min: 1 o max: 100
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that are associated with this applica- tion version. Constraints: o min: 1 o max: 100
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application ver- sion. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that have the specified IDs. (string) Syntax: "string" "string" ...
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--environment-ids", GroupValues = true)]
     public IEnumerable<string>? EnvironmentIds { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that have the specified names. (string) Constraints: o min: 4 o max: 40 Syntax: "string" "string" ...
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names. (string) Constraints: o min: 4 o max: 40 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--environment-names", GroupValues = true)]
     public IEnumerable<string>? EnvironmentNames { get; set; }

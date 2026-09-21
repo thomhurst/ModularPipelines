@@ -37,7 +37,6 @@ public record AwsAuditManagerDeleteAssessmentFrameworkShareOptions : AwsOptions,
     {
         global::System.ArgumentNullException.ThrowIfNull(RequestId);
         this.RequestId = RequestId;
-        global::System.ArgumentNullException.ThrowIfNull(RequestType);
         this.RequestType = RequestType;
     }
 

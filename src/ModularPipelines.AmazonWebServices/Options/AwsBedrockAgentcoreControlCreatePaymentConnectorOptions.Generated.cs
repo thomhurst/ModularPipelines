@@ -44,7 +44,6 @@ public record AwsBedrockAgentcoreControlCreatePaymentConnectorOptions : AwsOptio
         this.PaymentManagerId = PaymentManagerId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         {
             global::System.ArgumentNullException.ThrowIfNull(CredentialProviderConfigurations);

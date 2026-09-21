@@ -42,7 +42,6 @@ public record AwsIotJobsDataUpdateJobExecutionOptions : AwsOptions, IValidatable
         this.JobId = JobId;
         global::System.ArgumentNullException.ThrowIfNull(ThingName);
         this.ThingName = ThingName;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

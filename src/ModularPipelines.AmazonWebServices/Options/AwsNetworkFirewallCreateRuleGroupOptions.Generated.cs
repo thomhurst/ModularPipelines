@@ -39,7 +39,6 @@ public record AwsNetworkFirewallCreateRuleGroupOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(RuleGroupName);
         this.RuleGroupName = RuleGroupName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         this.Capacity = Capacity;
     }

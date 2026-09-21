@@ -42,7 +42,6 @@ public record AwsApigatewayv2CreateAuthorizerOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(ApiId);
         this.ApiId = ApiId;
-        global::System.ArgumentNullException.ThrowIfNull(AuthorizerType);
         this.AuthorizerType = AuthorizerType;
         {
             global::System.ArgumentNullException.ThrowIfNull(IdentitySource);

@@ -45,7 +45,6 @@ public record AwsQuicksightCreateRoleMembershipOptions : AwsOptions, IValidatabl
         this.AwsAccountId = AwsAccountId;
         global::System.ArgumentNullException.ThrowIfNull(Namespace);
         this.Namespace = Namespace;
-        global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
     }
 

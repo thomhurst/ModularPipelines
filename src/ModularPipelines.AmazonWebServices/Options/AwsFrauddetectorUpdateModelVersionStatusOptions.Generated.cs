@@ -41,11 +41,9 @@ public record AwsFrauddetectorUpdateModelVersionStatusOptions : AwsOptions, IVal
     {
         global::System.ArgumentNullException.ThrowIfNull(ModelId);
         this.ModelId = ModelId;
-        global::System.ArgumentNullException.ThrowIfNull(ModelType);
         this.ModelType = ModelType;
         global::System.ArgumentNullException.ThrowIfNull(ModelVersionNumber);
         this.ModelVersionNumber = ModelVersionNumber;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

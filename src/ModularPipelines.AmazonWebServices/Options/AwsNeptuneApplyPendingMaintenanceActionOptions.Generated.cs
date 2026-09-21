@@ -39,7 +39,6 @@ public record AwsNeptuneApplyPendingMaintenanceActionOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
         this.ResourceIdentifier = ResourceIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(ApplyAction);
         this.ApplyAction = ApplyAction;
         global::System.ArgumentNullException.ThrowIfNull(OptInType);
         this.OptInType = OptInType;

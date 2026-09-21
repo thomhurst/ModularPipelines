@@ -39,7 +39,6 @@ public record AwsPaymentCryptographyGetCertificateSigningRequestOptions : AwsOpt
     {
         global::System.ArgumentNullException.ThrowIfNull(KeyIdentifier);
         this.KeyIdentifier = KeyIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(SigningAlgorithm);
         this.SigningAlgorithm = SigningAlgorithm;
         global::System.ArgumentNullException.ThrowIfNull(CertificateSubject);
         this.CertificateSubject = CertificateSubject;

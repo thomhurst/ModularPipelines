@@ -44,7 +44,6 @@ public record AwsConnectListRealtimeContactAnalysisSegmentsV2Options : AwsOption
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(ContactId);
         this.ContactId = ContactId;
-        global::System.ArgumentNullException.ThrowIfNull(OutputType);
         this.OutputType = OutputType;
         {
             global::System.ArgumentNullException.ThrowIfNull(SegmentTypes);

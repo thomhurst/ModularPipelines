@@ -37,7 +37,6 @@ public record AwsGameliftTerminateGameSessionOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(GameSessionId);
         this.GameSessionId = GameSessionId;
-        global::System.ArgumentNullException.ThrowIfNull(TerminationMode);
         this.TerminationMode = TerminationMode;
     }
 

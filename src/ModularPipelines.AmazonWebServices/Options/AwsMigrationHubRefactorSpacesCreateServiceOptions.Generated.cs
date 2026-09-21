@@ -43,7 +43,6 @@ public record AwsMigrationHubRefactorSpacesCreateServiceOptions : AwsOptions, IV
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
         this.ApplicationIdentifier = ApplicationIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(EndpointType);
         this.EndpointType = EndpointType;
         global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
         this.EnvironmentIdentifier = EnvironmentIdentifier;

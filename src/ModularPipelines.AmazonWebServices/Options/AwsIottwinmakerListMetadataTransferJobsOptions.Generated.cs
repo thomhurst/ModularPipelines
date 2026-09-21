@@ -36,9 +36,7 @@ public record AwsIottwinmakerListMetadataTransferJobsOptions : AwsOptions, IVali
         AwsIottwinmakerListMetadataTransferJobsDestinationType DestinationType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(SourceType);
         this.SourceType = SourceType;
-        global::System.ArgumentNullException.ThrowIfNull(DestinationType);
         this.DestinationType = DestinationType;
     }
 

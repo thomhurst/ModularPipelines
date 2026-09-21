@@ -38,7 +38,6 @@ public record AwsCloudformationRecordHandlerProgressOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(BearerToken);
         this.BearerToken = BearerToken;
-        global::System.ArgumentNullException.ThrowIfNull(OperationStatus);
         this.OperationStatus = OperationStatus;
     }
 

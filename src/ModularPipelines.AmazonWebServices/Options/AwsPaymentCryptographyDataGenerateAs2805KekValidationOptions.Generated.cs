@@ -41,7 +41,6 @@ public record AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions : Aws
         this.KeyIdentifier = KeyIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(KekValidationType);
         this.KekValidationType = KekValidationType;
-        global::System.ArgumentNullException.ThrowIfNull(RandomKeySendVariantMask);
         this.RandomKeySendVariantMask = RandomKeySendVariantMask;
     }
 

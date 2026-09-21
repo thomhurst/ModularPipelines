@@ -44,7 +44,6 @@ public record AwsWorkmailCreateImpersonationRoleOptions : AwsOptions, IValidatab
         this.OrganizationId = OrganizationId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         {
             global::System.ArgumentNullException.ThrowIfNull(Rules);

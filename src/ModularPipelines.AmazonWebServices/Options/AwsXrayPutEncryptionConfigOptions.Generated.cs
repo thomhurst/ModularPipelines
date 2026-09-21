@@ -33,7 +33,6 @@ public record AwsXrayPutEncryptionConfigOptions : AwsOptions, IValidatableObject
         AwsXrayPutEncryptionConfigType Type
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

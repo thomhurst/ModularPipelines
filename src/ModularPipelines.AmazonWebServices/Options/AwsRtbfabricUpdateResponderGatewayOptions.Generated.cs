@@ -39,7 +39,6 @@ public record AwsRtbfabricUpdateResponderGatewayOptions : AwsOptions, IValidatab
     )
     {
         this.Port = Port;
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
         global::System.ArgumentNullException.ThrowIfNull(GatewayId);
         this.GatewayId = GatewayId;

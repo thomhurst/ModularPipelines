@@ -48,7 +48,6 @@ public record AwsConnectStartAttachedFileUploadOptions : AwsOptions, IValidatabl
         global::System.ArgumentNullException.ThrowIfNull(FileName);
         this.FileName = FileName;
         this.FileSizeInBytes = FileSizeInBytes;
-        global::System.ArgumentNullException.ThrowIfNull(FileUseCaseType);
         this.FileUseCaseType = FileUseCaseType;
         global::System.ArgumentNullException.ThrowIfNull(AssociatedResourceArn);
         this.AssociatedResourceArn = AssociatedResourceArn;

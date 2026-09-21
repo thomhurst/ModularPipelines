@@ -73,7 +73,6 @@ public record AwsCodestarNotificationsCreateNotificationRuleOptions : AwsOptions
             Targets = materialized;
         }
         this.Targets = Targets;
-        global::System.ArgumentNullException.ThrowIfNull(DetailType);
         this.DetailType = DetailType;
     }
 

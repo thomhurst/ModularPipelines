@@ -41,7 +41,6 @@ public record AwsDmsStartMetadataModelExportAsScriptOptions : AwsOptions, IValid
         this.MigrationProjectIdentifier = MigrationProjectIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(SelectionRules);
         this.SelectionRules = SelectionRules;
-        global::System.ArgumentNullException.ThrowIfNull(Origin);
         this.Origin = Origin;
     }
 

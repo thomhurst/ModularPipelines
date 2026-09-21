@@ -45,7 +45,6 @@ public record AwsDeadlineUpdateQueueLimitAssociationOptions : AwsOptions, IValid
         this.QueueId = QueueId;
         global::System.ArgumentNullException.ThrowIfNull(LimitId);
         this.LimitId = LimitId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

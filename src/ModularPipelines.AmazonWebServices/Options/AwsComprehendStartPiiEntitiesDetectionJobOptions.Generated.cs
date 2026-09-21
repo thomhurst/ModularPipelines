@@ -46,11 +46,9 @@ public record AwsComprehendStartPiiEntitiesDetectionJobOptions : AwsOptions, IVa
         this.InputDataConfig = InputDataConfig;
         global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
         this.OutputDataConfig = OutputDataConfig;
-        global::System.ArgumentNullException.ThrowIfNull(Mode);
         this.Mode = Mode;
         global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
         this.DataAccessRoleArn = DataAccessRoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
     }
 

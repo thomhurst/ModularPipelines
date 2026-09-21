@@ -44,7 +44,6 @@ public record AwsDatazoneDeleteTimeSeriesDataPointsOptions : AwsOptions, IValida
         this.DomainIdentifier = DomainIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
         this.EntityIdentifier = EntityIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(EntityType);
         this.EntityType = EntityType;
         global::System.ArgumentNullException.ThrowIfNull(FormName);
         this.FormName = FormName;

@@ -38,7 +38,6 @@ public record AwsConnectListInstanceStorageConfigsOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

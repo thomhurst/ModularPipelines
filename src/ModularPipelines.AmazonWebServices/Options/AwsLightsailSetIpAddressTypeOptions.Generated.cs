@@ -37,11 +37,9 @@ public record AwsLightsailSetIpAddressTypeOptions : AwsOptions, IValidatableObje
         AwsLightsailSetIpAddressTypeIpAddressType IpAddressType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         global::System.ArgumentNullException.ThrowIfNull(ResourceName);
         this.ResourceName = ResourceName;
-        global::System.ArgumentNullException.ThrowIfNull(IpAddressType);
         this.IpAddressType = IpAddressType;
     }
 

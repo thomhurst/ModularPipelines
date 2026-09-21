@@ -41,7 +41,6 @@ public record AwsArcRegionSwitchUpdatePlanExecutionOptions : AwsOptions, IValida
         this.PlanArn = PlanArn;
         global::System.ArgumentNullException.ThrowIfNull(ExecutionId);
         this.ExecutionId = ExecutionId;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

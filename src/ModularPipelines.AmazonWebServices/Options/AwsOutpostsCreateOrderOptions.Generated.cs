@@ -37,7 +37,6 @@ public record AwsOutpostsCreateOrderOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(OutpostIdentifier);
         this.OutpostIdentifier = OutpostIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(PaymentOption);
         this.PaymentOption = PaymentOption;
     }
 

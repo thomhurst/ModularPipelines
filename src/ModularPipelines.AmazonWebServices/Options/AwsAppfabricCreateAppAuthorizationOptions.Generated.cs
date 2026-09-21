@@ -50,7 +50,6 @@ public record AwsAppfabricCreateAppAuthorizationOptions : AwsOptions, IValidatab
         this.Credential = Credential;
         global::System.ArgumentNullException.ThrowIfNull(Tenant);
         this.Tenant = Tenant;
-        global::System.ArgumentNullException.ThrowIfNull(AuthType);
         this.AuthType = AuthType;
     }
 

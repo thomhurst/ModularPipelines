@@ -33,7 +33,6 @@ public record AwsIottwinmakerUpdatePricingPlanOptions : AwsOptions, IValidatable
         AwsIottwinmakerUpdatePricingPlanPricingMode PricingMode
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(PricingMode);
         this.PricingMode = PricingMode;
     }
 

@@ -34,7 +34,6 @@ public record AwsApplicationAutoscalingDescribeScheduledActionsOptions : AwsOpti
         AwsApplicationAutoscalingDescribeScheduledActionsServiceNamespace ServiceNamespace
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceNamespace);
         this.ServiceNamespace = ServiceNamespace;
     }
 

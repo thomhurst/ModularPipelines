@@ -34,7 +34,6 @@ public record AwsWellarchitectedGetConsolidatedReportOptions : AwsOptions, IVali
         AwsWellarchitectedGetConsolidatedReportFormat Format
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
     }
 

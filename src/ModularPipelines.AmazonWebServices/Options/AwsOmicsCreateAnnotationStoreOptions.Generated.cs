@@ -34,7 +34,6 @@ public record AwsOmicsCreateAnnotationStoreOptions : AwsOptions, IValidatableObj
         AwsOmicsCreateAnnotationStoreStoreFormat StoreFormat
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(StoreFormat);
         this.StoreFormat = StoreFormat;
     }
 

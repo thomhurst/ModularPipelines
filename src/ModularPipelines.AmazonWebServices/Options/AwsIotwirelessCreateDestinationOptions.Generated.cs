@@ -42,7 +42,6 @@ public record AwsIotwirelessCreateDestinationOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(ExpressionType);
         this.ExpressionType = ExpressionType;
         global::System.ArgumentNullException.ThrowIfNull(Expression);
         this.Expression = Expression;

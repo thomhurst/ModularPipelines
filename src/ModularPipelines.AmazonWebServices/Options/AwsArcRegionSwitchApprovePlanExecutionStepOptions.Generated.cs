@@ -45,7 +45,6 @@ public record AwsArcRegionSwitchApprovePlanExecutionStepOptions : AwsOptions, IV
         this.ExecutionId = ExecutionId;
         global::System.ArgumentNullException.ThrowIfNull(StepName);
         this.StepName = StepName;
-        global::System.ArgumentNullException.ThrowIfNull(Approval);
         this.Approval = Approval;
     }
 

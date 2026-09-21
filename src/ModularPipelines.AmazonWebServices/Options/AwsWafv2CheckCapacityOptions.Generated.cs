@@ -35,7 +35,6 @@ public record AwsWafv2CheckCapacityOptions : AwsOptions, IValidatableObject
         IEnumerable<string> Rules
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         {
             global::System.ArgumentNullException.ThrowIfNull(Rules);

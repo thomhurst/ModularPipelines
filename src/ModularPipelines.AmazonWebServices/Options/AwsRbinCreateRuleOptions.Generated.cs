@@ -37,7 +37,6 @@ public record AwsRbinCreateRuleOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(RetentionPeriod);
         this.RetentionPeriod = RetentionPeriod;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

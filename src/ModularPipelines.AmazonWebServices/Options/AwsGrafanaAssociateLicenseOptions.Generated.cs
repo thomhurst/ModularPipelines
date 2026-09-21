@@ -38,7 +38,6 @@ public record AwsGrafanaAssociateLicenseOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
         this.WorkspaceId = WorkspaceId;
-        global::System.ArgumentNullException.ThrowIfNull(LicenseType);
         this.LicenseType = LicenseType;
     }
 

@@ -45,7 +45,6 @@ public record AwsDeadlineUpdateQueueFleetAssociationOptions : AwsOptions, IValid
         this.QueueId = QueueId;
         global::System.ArgumentNullException.ThrowIfNull(FleetId);
         this.FleetId = FleetId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

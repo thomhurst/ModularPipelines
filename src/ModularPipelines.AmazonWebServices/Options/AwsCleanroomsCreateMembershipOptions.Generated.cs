@@ -38,7 +38,6 @@ public record AwsCleanroomsCreateMembershipOptions : AwsOptions, IValidatableObj
     {
         global::System.ArgumentNullException.ThrowIfNull(CollaborationIdentifier);
         this.CollaborationIdentifier = CollaborationIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(QueryLogStatus);
         this.QueryLogStatus = QueryLogStatus;
     }
 

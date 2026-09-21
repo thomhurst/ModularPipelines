@@ -45,7 +45,6 @@ public record AwsS3vectorsCreateIndexOptions : AwsOptions, IValidatableObject
         global::System.ArgumentNullException.ThrowIfNull(DataType);
         this.DataType = DataType;
         this.Dimension = Dimension;
-        global::System.ArgumentNullException.ThrowIfNull(DistanceMetric);
         this.DistanceMetric = DistanceMetric;
     }
 

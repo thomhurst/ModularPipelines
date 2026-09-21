@@ -37,7 +37,6 @@ public record AwsMacie2UpdateClassificationJobOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(JobId);
         this.JobId = JobId;
-        global::System.ArgumentNullException.ThrowIfNull(JobStatus);
         this.JobStatus = JobStatus;
     }
 

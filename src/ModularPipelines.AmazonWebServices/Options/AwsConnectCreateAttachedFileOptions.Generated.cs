@@ -43,7 +43,6 @@ public record AwsConnectCreateAttachedFileOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(FileUseCaseType);
         this.FileUseCaseType = FileUseCaseType;
         global::System.ArgumentNullException.ThrowIfNull(FileSourceUri);
         this.FileSourceUri = FileSourceUri;

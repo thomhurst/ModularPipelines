@@ -39,7 +39,6 @@ public record AwsFrauddetectorUpdateModelVersionOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(ModelId);
         this.ModelId = ModelId;
-        global::System.ArgumentNullException.ThrowIfNull(ModelType);
         this.ModelType = ModelType;
         global::System.ArgumentNullException.ThrowIfNull(MajorVersionNumber);
         this.MajorVersionNumber = MajorVersionNumber;

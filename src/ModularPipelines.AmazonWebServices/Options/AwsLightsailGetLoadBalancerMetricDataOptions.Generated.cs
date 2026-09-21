@@ -47,7 +47,6 @@ public record AwsLightsailGetLoadBalancerMetricDataOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
         this.LoadBalancerName = LoadBalancerName;
-        global::System.ArgumentNullException.ThrowIfNull(MetricName);
         this.MetricName = MetricName;
         this.Period = Period;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);

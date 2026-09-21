@@ -44,7 +44,6 @@ public record AwsConnectCreateContactFlowOptions : AwsOptions, IValidatableObjec
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(Content);
         this.Content = Content;

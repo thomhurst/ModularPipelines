@@ -39,7 +39,6 @@ public record AwsQconnectCreateKnowledgeBaseOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseType);
         this.KnowledgeBaseType = KnowledgeBaseType;
     }
 

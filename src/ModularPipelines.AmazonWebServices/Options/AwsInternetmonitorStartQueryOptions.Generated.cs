@@ -45,7 +45,6 @@ public record AwsInternetmonitorStartQueryOptions : AwsOptions, IValidatableObje
         this.StartTime = StartTime;
         global::System.ArgumentNullException.ThrowIfNull(EndTime);
         this.EndTime = EndTime;
-        global::System.ArgumentNullException.ThrowIfNull(QueryType);
         this.QueryType = QueryType;
     }
 

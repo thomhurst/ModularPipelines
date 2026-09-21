@@ -51,9 +51,7 @@ public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions, IVali
         this.ImageName = ImageName;
         global::System.ArgumentNullException.ThrowIfNull(ImageDescription);
         this.ImageDescription = ImageDescription;
-        global::System.ArgumentNullException.ThrowIfNull(ComputeType);
         this.ComputeType = ComputeType;
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
         global::System.ArgumentNullException.ThrowIfNull(ImageSource);
         this.ImageSource = ImageSource;
@@ -61,7 +59,6 @@ public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions, IVali
         this.InfrastructureConfigurationArn = InfrastructureConfigurationArn;
         global::System.ArgumentNullException.ThrowIfNull(Platform);
         this.Platform = Platform;
-        global::System.ArgumentNullException.ThrowIfNull(OsVersion);
         this.OsVersion = OsVersion;
     }
 

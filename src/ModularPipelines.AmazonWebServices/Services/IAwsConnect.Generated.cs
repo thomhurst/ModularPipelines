@@ -2412,6 +2412,16 @@ public interface IAwsConnect
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Returns a list of the allowed AI agents in a specific security profile. See also: AWS API Documentation list-security-profile-ai-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AllowedAIAgen...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListSecurityProfileAiAgentsAsync(AwsConnectListSecurityProfileAiAgentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Returns a list of third-party applications or MCP Servers in a specific security profile. See also: AWS API Documentation list-security-profile-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
     /// </summary>
     /// <param name="options">The command options.</param>

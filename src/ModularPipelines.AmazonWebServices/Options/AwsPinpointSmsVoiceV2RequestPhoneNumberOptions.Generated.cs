@@ -42,7 +42,6 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(IsoCountryCode);
         this.IsoCountryCode = IsoCountryCode;
-        global::System.ArgumentNullException.ThrowIfNull(MessageType);
         this.MessageType = MessageType;
         {
             global::System.ArgumentNullException.ThrowIfNull(NumberCapabilities);
@@ -57,7 +56,6 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions, IVali
             NumberCapabilities = materialized;
         }
         this.NumberCapabilities = NumberCapabilities;
-        global::System.ArgumentNullException.ThrowIfNull(NumberType);
         this.NumberType = NumberType;
     }
 

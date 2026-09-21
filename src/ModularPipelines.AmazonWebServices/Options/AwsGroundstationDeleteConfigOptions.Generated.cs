@@ -37,7 +37,6 @@ public record AwsGroundstationDeleteConfigOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(ConfigId);
         this.ConfigId = ConfigId;
-        global::System.ArgumentNullException.ThrowIfNull(ConfigType);
         this.ConfigType = ConfigType;
     }
 

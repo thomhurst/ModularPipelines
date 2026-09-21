@@ -37,7 +37,6 @@ public record AwsIotsecuretunnelingRotateTunnelAccessTokenOptions : AwsOptions, 
     {
         global::System.ArgumentNullException.ThrowIfNull(TunnelId);
         this.TunnelId = TunnelId;
-        global::System.ArgumentNullException.ThrowIfNull(ClientMode);
         this.ClientMode = ClientMode;
     }
 

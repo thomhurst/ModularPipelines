@@ -37,7 +37,6 @@ public record AwsKinesisGetShardIteratorOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(ShardId);
         this.ShardId = ShardId;
-        global::System.ArgumentNullException.ThrowIfNull(ShardIteratorType);
         this.ShardIteratorType = ShardIteratorType;
     }
 

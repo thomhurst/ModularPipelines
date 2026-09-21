@@ -37,7 +37,6 @@ public record AwsEc2LockSnapshotOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(SnapshotId);
         this.SnapshotId = SnapshotId;
-        global::System.ArgumentNullException.ThrowIfNull(LockMode);
         this.LockMode = LockMode;
     }
 

@@ -38,7 +38,6 @@ public record AwsDatasyncCreateLocationAzureBlobOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(ContainerUrl);
         this.ContainerUrl = ContainerUrl;
-        global::System.ArgumentNullException.ThrowIfNull(AuthenticationType);
         this.AuthenticationType = AuthenticationType;
     }
 

@@ -37,7 +37,6 @@ public record AwsApprunnerCreateConnectionOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
         this.ConnectionName = ConnectionName;
-        global::System.ArgumentNullException.ThrowIfNull(ProviderType);
         this.ProviderType = ProviderType;
     }
 

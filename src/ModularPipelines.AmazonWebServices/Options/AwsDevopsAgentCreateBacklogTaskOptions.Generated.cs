@@ -42,11 +42,9 @@ public record AwsDevopsAgentCreateBacklogTaskOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
         this.AgentSpaceId = AgentSpaceId;
-        global::System.ArgumentNullException.ThrowIfNull(TaskType);
         this.TaskType = TaskType;
         global::System.ArgumentNullException.ThrowIfNull(Title);
         this.Title = Title;
-        global::System.ArgumentNullException.ThrowIfNull(Priority);
         this.Priority = Priority;
     }
 

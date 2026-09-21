@@ -39,7 +39,6 @@ public record AwsOpensearchUpdatePackageScopeOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(PackageId);
         this.PackageId = PackageId;
-        global::System.ArgumentNullException.ThrowIfNull(Operation);
         this.Operation = Operation;
         {
             global::System.ArgumentNullException.ThrowIfNull(PackageUserList);

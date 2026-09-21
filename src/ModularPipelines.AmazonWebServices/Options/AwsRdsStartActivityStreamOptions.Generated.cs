@@ -39,7 +39,6 @@ public record AwsRdsStartActivityStreamOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
         this.ResourceArn = ResourceArn;
-        global::System.ArgumentNullException.ThrowIfNull(Mode);
         this.Mode = Mode;
         global::System.ArgumentNullException.ThrowIfNull(KmsKeyId);
         this.KmsKeyId = KmsKeyId;

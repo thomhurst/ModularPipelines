@@ -38,7 +38,6 @@ public record AwsDatazoneListNotificationsOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
         this.DomainIdentifier = DomainIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

@@ -33,7 +33,6 @@ public record AwsSesv2PutAccountPricingAttributesOptions : AwsOptions, IValidata
         AwsSesv2PutAccountPricingAttributesPlan Plan
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Plan);
         this.Plan = Plan;
     }
 

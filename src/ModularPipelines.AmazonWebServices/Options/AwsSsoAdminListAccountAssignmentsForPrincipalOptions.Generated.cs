@@ -42,7 +42,6 @@ public record AwsSsoAdminListAccountAssignmentsForPrincipalOptions : AwsOptions,
         this.InstanceArn = InstanceArn;
         global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
         this.PrincipalId = PrincipalId;
-        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
         this.PrincipalType = PrincipalType;
     }
 

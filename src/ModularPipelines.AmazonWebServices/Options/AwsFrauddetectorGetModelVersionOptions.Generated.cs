@@ -39,7 +39,6 @@ public record AwsFrauddetectorGetModelVersionOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(ModelId);
         this.ModelId = ModelId;
-        global::System.ArgumentNullException.ThrowIfNull(ModelType);
         this.ModelType = ModelType;
         global::System.ArgumentNullException.ThrowIfNull(ModelVersionNumber);
         this.ModelVersionNumber = ModelVersionNumber;

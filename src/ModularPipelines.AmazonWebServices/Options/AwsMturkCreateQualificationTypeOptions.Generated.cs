@@ -41,7 +41,6 @@ public record AwsMturkCreateQualificationTypeOptions : AwsOptions, IValidatableO
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(Description);
         this.Description = Description;
-        global::System.ArgumentNullException.ThrowIfNull(QualificationTypeStatus);
         this.QualificationTypeStatus = QualificationTypeStatus;
     }
 

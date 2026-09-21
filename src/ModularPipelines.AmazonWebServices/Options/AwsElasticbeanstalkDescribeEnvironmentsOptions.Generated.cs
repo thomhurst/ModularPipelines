@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns descriptions for existing environments. See also: AWS API Documentation describe-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Environments
+/// Returns descriptions for existing environments. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls the DescribeEnvironments action, the re- sponse will only include the one environment that the user has permis- sion to access instead of all three environments. If the user doesnt have access to any of the environm...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkDescribeEnvironmentsOptions : AwsOptions
 {
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that are associated with this applica- tion. Constraints: o min: 1 o max: 100
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that are associated with this applica- tion version. Constraints: o min: 1 o max: 100
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application ver- sion. Constraints: o min: 1 o max: 100
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that have the specified IDs. (string) Syntax: "string" "string" ...
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--environment-ids", GroupValues = true)]
     public IEnumerable<string>? EnvironmentIds { get; set; }
 
     /// <summary>
-    /// If specified, AWS Elastic Beanstalk restricts the returned descrip- tions to include only those that have the specified names. (string) Constraints: o min: 4 o max: 40 Syntax: "string" "string" ...
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names. (string) Constraints: o min: 4 o max: 40 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--environment-names", GroupValues = true)]
     public IEnumerable<string>? EnvironmentNames { get; set; }

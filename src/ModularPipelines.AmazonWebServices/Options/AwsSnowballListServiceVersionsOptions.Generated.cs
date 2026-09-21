@@ -34,7 +34,6 @@ public record AwsSnowballListServiceVersionsOptions : AwsOptions, IValidatableOb
         AwsSnowballListServiceVersionsServiceName ServiceName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
         this.ServiceName = ServiceName;
     }
 

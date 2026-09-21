@@ -36,7 +36,6 @@ public record AwsPollySynthesizeSpeechOptions : AwsOptions
         string Outfile
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(OutputFormat);
         this.OutputFormat = OutputFormat;
         global::System.ArgumentNullException.ThrowIfNull(Text);
         this.Text = Text;

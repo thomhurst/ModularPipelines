@@ -42,7 +42,6 @@ public record AwsQbusinessCreateSubscriptionOptions : AwsOptions, IValidatableOb
         this.ApplicationId = ApplicationId;
         global::System.ArgumentNullException.ThrowIfNull(Principal);
         this.Principal = Principal;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

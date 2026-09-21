@@ -46,7 +46,6 @@ public record AwsPartnercentralAccountCreateConnectionInvitationOptions : AwsOpt
     {
         global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
-        global::System.ArgumentNullException.ThrowIfNull(ConnectionType);
         this.ConnectionType = ConnectionType;
         global::System.ArgumentNullException.ThrowIfNull(Email);
         this.Email = Email;

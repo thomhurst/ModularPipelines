@@ -39,7 +39,6 @@ public record AwsKmsGenerateDataKeyPairOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(KeyId);
         this.KeyId = KeyId;
-        global::System.ArgumentNullException.ThrowIfNull(KeyPairSpec);
         this.KeyPairSpec = KeyPairSpec;
     }
 

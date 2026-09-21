@@ -41,7 +41,6 @@ public record AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions : AwsO
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(RoutingProfileId);
         this.RoutingProfileId = RoutingProfileId;
-        global::System.ArgumentNullException.ThrowIfNull(AgentAvailabilityTimer);
         this.AgentAvailabilityTimer = AgentAvailabilityTimer;
     }
 

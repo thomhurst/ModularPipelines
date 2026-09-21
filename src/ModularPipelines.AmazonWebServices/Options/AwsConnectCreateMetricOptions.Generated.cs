@@ -47,7 +47,6 @@ public record AwsConnectCreateMetricOptions : AwsOptions, IValidatableObject
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(MetricCalculation);
         this.MetricCalculation = MetricCalculation;
-        global::System.ArgumentNullException.ThrowIfNull(Unit);
         this.Unit = Unit;
     }
 

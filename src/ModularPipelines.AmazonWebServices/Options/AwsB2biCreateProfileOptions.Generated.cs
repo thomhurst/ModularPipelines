@@ -46,7 +46,6 @@ public record AwsB2biCreateProfileOptions : AwsOptions, IValidatableObject
         this.Phone = Phone;
         global::System.ArgumentNullException.ThrowIfNull(BusinessName);
         this.BusinessName = BusinessName;
-        global::System.ArgumentNullException.ThrowIfNull(Logging);
         this.Logging = Logging;
     }
 

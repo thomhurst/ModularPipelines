@@ -34,7 +34,6 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions 
         AwsPartnercentralRevenueMeasurementListRevenueAttributionsCatalog Catalog
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
     }
 

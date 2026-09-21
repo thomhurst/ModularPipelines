@@ -38,7 +38,6 @@ public record AwsSwfListWorkflowTypesOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Domain);
         this.Domain = Domain;
-        global::System.ArgumentNullException.ThrowIfNull(RegistrationStatus);
         this.RegistrationStatus = RegistrationStatus;
     }
 

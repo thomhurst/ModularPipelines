@@ -49,7 +49,6 @@ public record AwsQuicksightUpdateUserOptions : AwsOptions, IValidatableObject
         this.Namespace = Namespace;
         global::System.ArgumentNullException.ThrowIfNull(Email);
         this.Email = Email;
-        global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
     }
 

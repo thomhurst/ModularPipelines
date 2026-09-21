@@ -41,7 +41,6 @@ public record AwsWorkmailPutAccessControlRuleOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Effect);
         this.Effect = Effect;
         global::System.ArgumentNullException.ThrowIfNull(Description);
         this.Description = Description;

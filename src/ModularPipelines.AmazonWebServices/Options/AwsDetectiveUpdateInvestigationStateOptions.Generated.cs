@@ -41,7 +41,6 @@ public record AwsDetectiveUpdateInvestigationStateOptions : AwsOptions, IValidat
         this.GraphArn = GraphArn;
         global::System.ArgumentNullException.ThrowIfNull(InvestigationId);
         this.InvestigationId = InvestigationId;
-        global::System.ArgumentNullException.ThrowIfNull(State);
         this.State = State;
     }
 

@@ -33,7 +33,6 @@ public record AwsWafv2ListRuleGroupsOptions : AwsOptions, IValidatableObject
         AwsWafv2ListRuleGroupsScope Scope
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

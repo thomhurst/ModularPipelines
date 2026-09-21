@@ -47,7 +47,6 @@ public record AwsImagebuilderCreateLifecyclePolicyOptions : AwsOptions, IValidat
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(ExecutionRole);
         this.ExecutionRole = ExecutionRole;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         {
             global::System.ArgumentNullException.ThrowIfNull(PolicyDetails);

@@ -45,7 +45,6 @@ public record AwsDatazoneUpdateSubscriptionGrantStatusOptions : AwsOptions, IVal
         this.Identifier = Identifier;
         global::System.ArgumentNullException.ThrowIfNull(AssetIdentifier);
         this.AssetIdentifier = AssetIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

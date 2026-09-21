@@ -37,7 +37,6 @@ public record AwsRoute53resolverUpdateFirewallConfigOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;
-        global::System.ArgumentNullException.ThrowIfNull(FirewallFailOpen);
         this.FirewallFailOpen = FirewallFailOpen;
     }
 

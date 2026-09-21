@@ -41,7 +41,6 @@ public record AwsM2CreateApplicationOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Definition);
         this.Definition = Definition;
-        global::System.ArgumentNullException.ThrowIfNull(EngineType);
         this.EngineType = EngineType;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;

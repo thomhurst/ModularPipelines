@@ -34,7 +34,6 @@ public record AwsInspector2ListFindingAggregationsOptions : AwsOptions, IValidat
         AwsInspector2ListFindingAggregationsAggregationType AggregationType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AggregationType);
         this.AggregationType = AggregationType;
     }
 

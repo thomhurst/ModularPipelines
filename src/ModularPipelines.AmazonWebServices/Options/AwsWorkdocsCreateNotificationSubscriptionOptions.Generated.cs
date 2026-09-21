@@ -41,7 +41,6 @@ public record AwsWorkdocsCreateNotificationSubscriptionOptions : AwsOptions, IVa
     {
         global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
         this.OrganizationId = OrganizationId;
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
         global::System.ArgumentNullException.ThrowIfNull(SubscriptionType);
         this.SubscriptionType = SubscriptionType;

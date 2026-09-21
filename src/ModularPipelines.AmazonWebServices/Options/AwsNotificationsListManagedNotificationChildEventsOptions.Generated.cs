@@ -29,7 +29,7 @@ public record AwsNotificationsListManagedNotificationChildEventsOptions : AwsOpt
     /// <summary>
     /// Returns a list of ManagedNotificationChildEvents for a specified aggre- gate ManagedNotificationEvent , ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-child-events is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated re...
     /// </summary>
-    /// <param name="AggregateManagedNotificationEventArn">The Amazon Resource Name (ARN) of the ManagedNotificationEvent . Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}</param>
+    /// <param name="AggregateManagedNotificationEventArn">The Amazon Resource Name (ARN) of the ManagedNotificationEvent . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}</param>
     public AwsNotificationsListManagedNotificationChildEventsOptions(
         string AggregateManagedNotificationEventArn
     )
@@ -58,7 +58,7 @@ public record AwsNotificationsListManagedNotificationChildEventsOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationEvent . Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationEvent . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}
     /// </summary>
     [CliOption("--aggregate-managed-notification-event-arn")]
     public string? AggregateManagedNotificationEventArn { get; private init; }

@@ -35,7 +35,6 @@ public record AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions : 
         string LinuxSubscriptionsDiscoverySettings
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(LinuxSubscriptionsDiscovery);
         this.LinuxSubscriptionsDiscovery = LinuxSubscriptionsDiscovery;
         global::System.ArgumentNullException.ThrowIfNull(LinuxSubscriptionsDiscoverySettings);
         this.LinuxSubscriptionsDiscoverySettings = LinuxSubscriptionsDiscoverySettings;

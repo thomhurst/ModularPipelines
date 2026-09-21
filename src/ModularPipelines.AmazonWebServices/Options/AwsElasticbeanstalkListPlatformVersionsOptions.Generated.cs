@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the platform versions available for your account in an AWS Re- gion. Provides summary information about each platform version. Compare to DescribePlatformVersion , which provides full details about a sin- gle platform version. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary . See also: AWS API Documentation list-platform-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data...
+/// Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform ver- sion. Compare to DescribePlatformVersion , which provides full details about a single platform version. This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of ten platform versions. When the user calls the ListPlat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

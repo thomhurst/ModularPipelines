@@ -37,7 +37,6 @@ public record AwsDmsStartDataMigrationOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(DataMigrationIdentifier);
         this.DataMigrationIdentifier = DataMigrationIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(StartType);
         this.StartType = StartType;
     }
 

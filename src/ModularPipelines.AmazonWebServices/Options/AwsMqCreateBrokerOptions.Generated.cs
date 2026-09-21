@@ -44,9 +44,7 @@ public record AwsMqCreateBrokerOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(BrokerName);
         this.BrokerName = BrokerName;
-        global::System.ArgumentNullException.ThrowIfNull(DeploymentMode);
         this.DeploymentMode = DeploymentMode;
-        global::System.ArgumentNullException.ThrowIfNull(EngineType);
         this.EngineType = EngineType;
         global::System.ArgumentNullException.ThrowIfNull(HostInstanceType);
         this.HostInstanceType = HostInstanceType;

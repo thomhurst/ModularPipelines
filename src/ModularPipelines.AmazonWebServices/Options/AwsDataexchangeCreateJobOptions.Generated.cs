@@ -37,7 +37,6 @@ public record AwsDataexchangeCreateJobOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Details);
         this.Details = Details;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

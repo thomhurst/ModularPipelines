@@ -37,7 +37,6 @@ public record AwsWorkspacesModifyEndpointEncryptionModeOptions : AwsOptions, IVa
     {
         global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
         this.DirectoryId = DirectoryId;
-        global::System.ArgumentNullException.ThrowIfNull(EndpointEncryptionMode);
         this.EndpointEncryptionMode = EndpointEncryptionMode;
     }
 

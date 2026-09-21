@@ -41,7 +41,6 @@ public record AwsWafv2ListAvailableManagedRuleGroupVersionsOptions : AwsOptions,
         this.VendorName = VendorName;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

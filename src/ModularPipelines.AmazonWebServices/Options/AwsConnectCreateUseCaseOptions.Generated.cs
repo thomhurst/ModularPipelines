@@ -42,7 +42,6 @@ public record AwsConnectCreateUseCaseOptions : AwsOptions, IValidatableObject
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(IntegrationAssociationId);
         this.IntegrationAssociationId = IntegrationAssociationId;
-        global::System.ArgumentNullException.ThrowIfNull(UseCaseType);
         this.UseCaseType = UseCaseType;
     }
 

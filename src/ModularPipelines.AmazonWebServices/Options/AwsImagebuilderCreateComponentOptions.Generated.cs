@@ -43,7 +43,6 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableOb
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(SemanticVersion);
         this.SemanticVersion = SemanticVersion;
-        global::System.ArgumentNullException.ThrowIfNull(Platform);
         this.Platform = Platform;
     }
 

@@ -162,6 +162,16 @@ public interface IAwsSocialmessaging
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetWhatsappCallPermissionAsync(AwsSocialmessagingGetWhatsappCallPermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Retrieves the metadata and status of a WhatsApp Flow, including valida- tion errors, preview information, and health status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -302,6 +312,16 @@ public interface IAwsSocialmessaging
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Ama- zon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> SendWhatsappCallEventAsync(AwsSocialmessagingSendWhatsappCallEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Sends a conversion event to Meta's Conversions API for the specified WhatsApp Business Account dataset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -339,6 +359,16 @@ public interface IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UntagResourceAsync(AwsSocialmessagingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Updates the calling settings for a linked WhatsApp business phone num- ber, such as whether calling is enabled and the hours during which the business accepts calls. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateLinkedWhatsappBusinessAccountPhoneNumberAsync(AwsSocialmessagingUpdateLinkedWhatsappBusinessAccountPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

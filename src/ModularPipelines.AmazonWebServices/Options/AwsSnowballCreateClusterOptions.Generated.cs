@@ -39,13 +39,10 @@ public record AwsSnowballCreateClusterOptions : AwsOptions, IValidatableObject
         AwsSnowballCreateClusterShippingOption ShippingOption
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(JobType);
         this.JobType = JobType;
         global::System.ArgumentNullException.ThrowIfNull(AddressId);
         this.AddressId = AddressId;
-        global::System.ArgumentNullException.ThrowIfNull(SnowballType);
         this.SnowballType = SnowballType;
-        global::System.ArgumentNullException.ThrowIfNull(ShippingOption);
         this.ShippingOption = ShippingOption;
     }
 

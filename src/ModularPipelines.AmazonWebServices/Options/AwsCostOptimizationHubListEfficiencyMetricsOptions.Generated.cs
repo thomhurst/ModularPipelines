@@ -36,7 +36,6 @@ public record AwsCostOptimizationHubListEfficiencyMetricsOptions : AwsOptions, I
         string TimePeriod
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Granularity);
         this.Granularity = Granularity;
         global::System.ArgumentNullException.ThrowIfNull(TimePeriod);
         this.TimePeriod = TimePeriod;

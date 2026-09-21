@@ -27,7 +27,7 @@ public record AwsNotificationsUpdateEventRuleOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates an existing EventRule . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) to use to update the EventRule . Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}/rule/[a-z0-9]{27}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) to use to update the EventRule . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}/rule/[a-z0-9]{27}</param>
     public AwsNotificationsUpdateEventRuleOptions(
         string Arn
     )
@@ -56,7 +56,7 @@ public record AwsNotificationsUpdateEventRuleOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) to use to update the EventRule . Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}/rule/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) to use to update the EventRule . Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}/rule/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -68,7 +68,7 @@ public record AwsNotificationsUpdateEventRuleOptions : AwsOptions, IValidatableO
     public string? EventPattern { get; set; }
 
     /// <summary>
-    /// A list of Amazon Web Services Regions that sends events to this EventRule . Constraints: o min: 1 (string) Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,2})-([a-z]{1,15}-)+([0-9]) Syntax: "string" "string" ...
+    /// A list of Amazon Web Services Regions that sends events to this EventRule . Constraints: o min: 1 (string) Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9]) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }

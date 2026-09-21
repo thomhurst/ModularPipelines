@@ -38,7 +38,6 @@ public record AwsIotListThingRegistrationTaskReportsOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(TaskId);
         this.TaskId = TaskId;
-        global::System.ArgumentNullException.ThrowIfNull(ReportType);
         this.ReportType = ReportType;
     }
 

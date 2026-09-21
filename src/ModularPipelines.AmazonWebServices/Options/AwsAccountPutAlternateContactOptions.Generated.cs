@@ -49,7 +49,6 @@ public record AwsAccountPutAlternateContactOptions : AwsOptions, IValidatableObj
         this.EmailAddress = EmailAddress;
         global::System.ArgumentNullException.ThrowIfNull(PhoneNumber);
         this.PhoneNumber = PhoneNumber;
-        global::System.ArgumentNullException.ThrowIfNull(AlternateContactType);
         this.AlternateContactType = AlternateContactType;
     }
 

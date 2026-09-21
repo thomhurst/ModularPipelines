@@ -56,7 +56,6 @@ public record AwsQuicksightStartAssetBundleExportJobOptions : AwsOptions, IValid
             ResourceArns = materialized;
         }
         this.ResourceArns = ResourceArns;
-        global::System.ArgumentNullException.ThrowIfNull(ExportFormat);
         this.ExportFormat = ExportFormat;
     }
 

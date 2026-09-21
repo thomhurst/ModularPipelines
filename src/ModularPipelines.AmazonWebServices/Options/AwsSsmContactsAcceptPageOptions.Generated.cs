@@ -39,7 +39,6 @@ public record AwsSsmContactsAcceptPageOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(PageId);
         this.PageId = PageId;
-        global::System.ArgumentNullException.ThrowIfNull(AcceptType);
         this.AcceptType = AcceptType;
         global::System.ArgumentNullException.ThrowIfNull(AcceptCode);
         this.AcceptCode = AcceptCode;

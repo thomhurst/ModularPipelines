@@ -48,7 +48,6 @@ public record AwsCodeartifactUpdatePackageVersionsStatusOptions : AwsOptions, IV
         this.Domain = Domain;
         global::System.ArgumentNullException.ThrowIfNull(Repository);
         this.Repository = Repository;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
         global::System.ArgumentNullException.ThrowIfNull(Package);
         this.Package = Package;
@@ -65,7 +64,6 @@ public record AwsCodeartifactUpdatePackageVersionsStatusOptions : AwsOptions, IV
             Versions = materialized;
         }
         this.Versions = Versions;
-        global::System.ArgumentNullException.ThrowIfNull(TargetStatus);
         this.TargetStatus = TargetStatus;
     }
 

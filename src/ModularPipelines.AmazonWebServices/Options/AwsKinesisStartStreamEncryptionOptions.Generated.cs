@@ -35,7 +35,6 @@ public record AwsKinesisStartStreamEncryptionOptions : AwsOptions, IValidatableO
         string KeyId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EncryptionType);
         this.EncryptionType = EncryptionType;
         global::System.ArgumentNullException.ThrowIfNull(KeyId);
         this.KeyId = KeyId;

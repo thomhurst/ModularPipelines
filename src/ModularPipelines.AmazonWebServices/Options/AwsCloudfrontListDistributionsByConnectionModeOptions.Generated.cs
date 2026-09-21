@@ -34,7 +34,6 @@ public record AwsCloudfrontListDistributionsByConnectionModeOptions : AwsOptions
         AwsCloudfrontListDistributionsByConnectionModeConnectionMode ConnectionMode
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ConnectionMode);
         this.ConnectionMode = ConnectionMode;
     }
 

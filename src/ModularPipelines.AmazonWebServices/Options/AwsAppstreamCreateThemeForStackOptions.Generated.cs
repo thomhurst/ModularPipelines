@@ -45,7 +45,6 @@ public record AwsAppstreamCreateThemeForStackOptions : AwsOptions, IValidatableO
         this.StackName = StackName;
         global::System.ArgumentNullException.ThrowIfNull(TitleText);
         this.TitleText = TitleText;
-        global::System.ArgumentNullException.ThrowIfNull(ThemeStyling);
         this.ThemeStyling = ThemeStyling;
         global::System.ArgumentNullException.ThrowIfNull(OrganizationLogoS3Location);
         this.OrganizationLogoS3Location = OrganizationLogoS3Location;

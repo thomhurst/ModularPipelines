@@ -40,7 +40,6 @@ public record AwsSsmContactsCreateContactOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(Alias);
         this.Alias = Alias;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(Plan);
         this.Plan = Plan;

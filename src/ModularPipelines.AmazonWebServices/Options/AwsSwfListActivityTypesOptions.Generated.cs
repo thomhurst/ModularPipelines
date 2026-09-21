@@ -38,7 +38,6 @@ public record AwsSwfListActivityTypesOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Domain);
         this.Domain = Domain;
-        global::System.ArgumentNullException.ThrowIfNull(RegistrationStatus);
         this.RegistrationStatus = RegistrationStatus;
     }
 

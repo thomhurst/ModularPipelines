@@ -38,7 +38,6 @@ public record AwsDataexchangeSendDataSetNotificationOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(DataSetId);
         this.DataSetId = DataSetId;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

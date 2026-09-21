@@ -42,7 +42,6 @@ public record AwsCodeguruprofilerListProfileTimesOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(EndTime);
         this.EndTime = EndTime;
-        global::System.ArgumentNullException.ThrowIfNull(Period);
         this.Period = Period;
         global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
         this.ProfilingGroupName = ProfilingGroupName;

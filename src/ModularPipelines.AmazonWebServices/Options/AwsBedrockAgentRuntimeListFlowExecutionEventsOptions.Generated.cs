@@ -40,7 +40,6 @@ public record AwsBedrockAgentRuntimeListFlowExecutionEventsOptions : AwsOptions,
         string FlowIdentifier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EventType);
         this.EventType = EventType;
         global::System.ArgumentNullException.ThrowIfNull(ExecutionIdentifier);
         this.ExecutionIdentifier = ExecutionIdentifier;

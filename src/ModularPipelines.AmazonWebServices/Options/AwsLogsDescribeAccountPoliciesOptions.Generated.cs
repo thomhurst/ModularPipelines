@@ -34,7 +34,6 @@ public record AwsLogsDescribeAccountPoliciesOptions : AwsOptions, IValidatableOb
         AwsLogsDescribeAccountPoliciesPolicyType PolicyType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

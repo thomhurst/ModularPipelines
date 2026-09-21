@@ -41,7 +41,6 @@ public record AwsSsoAdminProvisionPermissionSetOptions : AwsOptions, IValidatabl
         this.InstanceArn = InstanceArn;
         global::System.ArgumentNullException.ThrowIfNull(PermissionSetArn);
         this.PermissionSetArn = PermissionSetArn;
-        global::System.ArgumentNullException.ThrowIfNull(TargetType);
         this.TargetType = TargetType;
     }
 

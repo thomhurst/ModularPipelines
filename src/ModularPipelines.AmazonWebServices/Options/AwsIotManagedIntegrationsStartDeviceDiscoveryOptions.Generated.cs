@@ -35,7 +35,6 @@ public record AwsIotManagedIntegrationsStartDeviceDiscoveryOptions : AwsOptions,
         AwsIotManagedIntegrationsStartDeviceDiscoveryDiscoveryType DiscoveryType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(DiscoveryType);
         this.DiscoveryType = DiscoveryType;
     }
 

@@ -37,7 +37,6 @@ public record AwsApplicationAutoscalingDeregisterScalableTargetOptions : AwsOpti
         string ScalableDimension
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceNamespace);
         this.ServiceNamespace = ServiceNamespace;
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;

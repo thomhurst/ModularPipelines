@@ -37,7 +37,6 @@ public record AwsIotCreateScheduledAuditOptions : AwsOptions, IValidatableObject
         string ScheduledAuditName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Frequency);
         this.Frequency = Frequency;
         {
             global::System.ArgumentNullException.ThrowIfNull(TargetCheckNames);

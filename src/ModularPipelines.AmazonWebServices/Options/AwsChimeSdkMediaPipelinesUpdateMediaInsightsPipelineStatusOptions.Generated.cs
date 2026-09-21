@@ -37,7 +37,6 @@ public record AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions 
     {
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;
-        global::System.ArgumentNullException.ThrowIfNull(UpdateStatus);
         this.UpdateStatus = UpdateStatus;
     }
 

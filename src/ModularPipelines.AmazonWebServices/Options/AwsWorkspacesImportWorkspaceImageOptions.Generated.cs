@@ -41,7 +41,6 @@ public record AwsWorkspacesImportWorkspaceImageOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(Ec2ImageId);
         this.Ec2ImageId = Ec2ImageId;
-        global::System.ArgumentNullException.ThrowIfNull(IngestionProcess);
         this.IngestionProcess = IngestionProcess;
         global::System.ArgumentNullException.ThrowIfNull(ImageName);
         this.ImageName = ImageName;

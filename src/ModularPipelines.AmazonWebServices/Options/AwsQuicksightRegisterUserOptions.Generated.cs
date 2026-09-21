@@ -41,11 +41,9 @@ public record AwsQuicksightRegisterUserOptions : AwsOptions, IValidatableObject
         string Namespace
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(IdentityType);
         this.IdentityType = IdentityType;
         global::System.ArgumentNullException.ThrowIfNull(Email);
         this.Email = Email;
-        global::System.ArgumentNullException.ThrowIfNull(UserRole);
         this.UserRole = UserRole;
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;

@@ -33,7 +33,6 @@ public record AwsFmsDisassociateThirdPartyFirewallOptions : AwsOptions, IValidat
         AwsFmsDisassociateThirdPartyFirewallThirdPartyFirewall ThirdPartyFirewall
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ThirdPartyFirewall);
         this.ThirdPartyFirewall = ThirdPartyFirewall;
     }
 

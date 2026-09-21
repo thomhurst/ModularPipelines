@@ -42,7 +42,6 @@ public record AwsLexv2ModelsStartImportOptions : AwsOptions, IValidatableObject
         this.ImportId = ImportId;
         global::System.ArgumentNullException.ThrowIfNull(ResourceSpecification);
         this.ResourceSpecification = ResourceSpecification;
-        global::System.ArgumentNullException.ThrowIfNull(MergeStrategy);
         this.MergeStrategy = MergeStrategy;
     }
 

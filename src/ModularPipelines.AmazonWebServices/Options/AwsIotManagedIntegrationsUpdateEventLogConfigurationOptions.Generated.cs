@@ -37,7 +37,6 @@ public record AwsIotManagedIntegrationsUpdateEventLogConfigurationOptions : AwsO
     {
         global::System.ArgumentNullException.ThrowIfNull(Id);
         this.Id = Id;
-        global::System.ArgumentNullException.ThrowIfNull(EventLogLevel);
         this.EventLogLevel = EventLogLevel;
     }
 

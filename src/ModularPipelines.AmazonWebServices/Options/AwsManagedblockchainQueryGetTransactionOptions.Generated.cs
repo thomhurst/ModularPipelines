@@ -33,7 +33,6 @@ public record AwsManagedblockchainQueryGetTransactionOptions : AwsOptions, IVali
         AwsManagedblockchainQueryGetTransactionNetwork Network
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Network);
         this.Network = Network;
     }
 

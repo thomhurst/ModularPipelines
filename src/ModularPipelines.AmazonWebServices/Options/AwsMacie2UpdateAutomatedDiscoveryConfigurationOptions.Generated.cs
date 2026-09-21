@@ -33,7 +33,6 @@ public record AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions : AwsOptions
         AwsMacie2UpdateAutomatedDiscoveryConfigurationStatus Status
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

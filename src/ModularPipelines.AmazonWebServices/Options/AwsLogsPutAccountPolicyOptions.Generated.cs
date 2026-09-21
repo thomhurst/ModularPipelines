@@ -41,7 +41,6 @@ public record AwsLogsPutAccountPolicyOptions : AwsOptions, IValidatableObject
         this.PolicyName = PolicyName;
         global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
         this.PolicyDocument = PolicyDocument;
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

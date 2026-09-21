@@ -53,9 +53,7 @@ public record AwsBudgetsCreateBudgetActionOptions : AwsOptions, IValidatableObje
         this.AccountId = AccountId;
         global::System.ArgumentNullException.ThrowIfNull(BudgetName);
         this.BudgetName = BudgetName;
-        global::System.ArgumentNullException.ThrowIfNull(NotificationType);
         this.NotificationType = NotificationType;
-        global::System.ArgumentNullException.ThrowIfNull(ActionType);
         this.ActionType = ActionType;
         global::System.ArgumentNullException.ThrowIfNull(ActionThreshold);
         this.ActionThreshold = ActionThreshold;
@@ -63,7 +61,6 @@ public record AwsBudgetsCreateBudgetActionOptions : AwsOptions, IValidatableObje
         this.Definition = Definition;
         global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
         this.ExecutionRoleArn = ExecutionRoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(ApprovalModel);
         this.ApprovalModel = ApprovalModel;
         {
             global::System.ArgumentNullException.ThrowIfNull(Subscribers);

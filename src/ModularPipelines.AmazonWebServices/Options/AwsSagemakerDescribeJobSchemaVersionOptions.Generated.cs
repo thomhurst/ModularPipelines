@@ -33,7 +33,6 @@ public record AwsSagemakerDescribeJobSchemaVersionOptions : AwsOptions, IValidat
         AwsSagemakerDescribeJobSchemaVersionJobCategory JobCategory
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(JobCategory);
         this.JobCategory = JobCategory;
     }
 

@@ -46,11 +46,9 @@ public record AwsDatazoneAddPolicyGrantOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
         this.DomainIdentifier = DomainIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(EntityType);
         this.EntityType = EntityType;
         global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
         this.EntityIdentifier = EntityIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
         global::System.ArgumentNullException.ThrowIfNull(Principal);
         this.Principal = Principal;

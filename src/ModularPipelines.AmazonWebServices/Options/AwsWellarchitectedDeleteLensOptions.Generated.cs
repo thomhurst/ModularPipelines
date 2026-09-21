@@ -38,7 +38,6 @@ public record AwsWellarchitectedDeleteLensOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(LensAlias);
         this.LensAlias = LensAlias;
-        global::System.ArgumentNullException.ThrowIfNull(LensStatus);
         this.LensStatus = LensStatus;
     }
 

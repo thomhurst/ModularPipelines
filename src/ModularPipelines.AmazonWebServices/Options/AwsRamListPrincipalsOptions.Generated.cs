@@ -34,7 +34,6 @@ public record AwsRamListPrincipalsOptions : AwsOptions, IValidatableObject
         AwsRamListPrincipalsResourceOwner ResourceOwner
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceOwner);
         this.ResourceOwner = ResourceOwner;
     }
 

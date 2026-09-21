@@ -37,7 +37,6 @@ public record AwsComprehendDetectSentimentOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(Text);
         this.Text = Text;
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
     }
 

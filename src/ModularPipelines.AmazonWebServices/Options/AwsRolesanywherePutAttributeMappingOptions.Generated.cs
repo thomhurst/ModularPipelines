@@ -39,7 +39,6 @@ public record AwsRolesanywherePutAttributeMappingOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(ProfileId);
         this.ProfileId = ProfileId;
-        global::System.ArgumentNullException.ThrowIfNull(CertificateField);
         this.CertificateField = CertificateField;
         {
             global::System.ArgumentNullException.ThrowIfNull(MappingRules);

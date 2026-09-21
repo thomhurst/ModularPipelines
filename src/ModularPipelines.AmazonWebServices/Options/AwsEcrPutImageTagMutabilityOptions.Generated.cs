@@ -37,7 +37,6 @@ public record AwsEcrPutImageTagMutabilityOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
         this.RepositoryName = RepositoryName;
-        global::System.ArgumentNullException.ThrowIfNull(ImageTagMutability);
         this.ImageTagMutability = ImageTagMutability;
     }
 

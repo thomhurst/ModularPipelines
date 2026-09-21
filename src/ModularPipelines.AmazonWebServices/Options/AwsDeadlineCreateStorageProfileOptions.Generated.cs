@@ -42,7 +42,6 @@ public record AwsDeadlineCreateStorageProfileOptions : AwsOptions, IValidatableO
         this.FarmId = FarmId;
         global::System.ArgumentNullException.ThrowIfNull(DisplayName);
         this.DisplayName = DisplayName;
-        global::System.ArgumentNullException.ThrowIfNull(OsFamily);
         this.OsFamily = OsFamily;
     }
 

@@ -41,7 +41,6 @@ public record AwsDevopsAgentUpdateApprovalActionOptions : AwsOptions, IValidatab
         this.AgentSpaceId = AgentSpaceId;
         global::System.ArgumentNullException.ThrowIfNull(ApprovalId);
         this.ApprovalId = ApprovalId;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

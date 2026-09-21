@@ -49,7 +49,6 @@ public record AwsSsmDescribeMaintenanceWindowsForTargetOptions : AwsOptions, IVa
             Targets = materialized;
         }
         this.Targets = Targets;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

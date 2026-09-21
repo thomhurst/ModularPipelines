@@ -48,7 +48,6 @@ public record AwsEcsUpdateContainerInstancesStateOptions : AwsOptions, IValidata
             ContainerInstances = materialized;
         }
         this.ContainerInstances = ContainerInstances;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

@@ -38,7 +38,6 @@ public record AwsPartnercentralChannelCreateChannelHandshakeOptions : AwsOptions
         string AssociatedResourceIdentifier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(HandshakeType);
         this.HandshakeType = HandshakeType;
         global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;

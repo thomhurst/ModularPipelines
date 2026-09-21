@@ -39,9 +39,7 @@ public record AwsGrafanaCreateWorkspaceOptions : AwsOptions, IValidatableObject
         IEnumerable<string> AuthenticationProviders
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AccountAccessType);
         this.AccountAccessType = AccountAccessType;
-        global::System.ArgumentNullException.ThrowIfNull(PermissionType);
         this.PermissionType = PermissionType;
         {
             global::System.ArgumentNullException.ThrowIfNull(AuthenticationProviders);

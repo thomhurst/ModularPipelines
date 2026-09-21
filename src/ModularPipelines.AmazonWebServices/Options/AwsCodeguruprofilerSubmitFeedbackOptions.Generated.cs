@@ -41,7 +41,6 @@ public record AwsCodeguruprofilerSubmitFeedbackOptions : AwsOptions, IValidatabl
         this.AnomalyInstanceId = AnomalyInstanceId;
         global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
         this.ProfilingGroupName = ProfilingGroupName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

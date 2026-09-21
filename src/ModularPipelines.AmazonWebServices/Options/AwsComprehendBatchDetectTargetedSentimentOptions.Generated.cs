@@ -48,7 +48,6 @@ public record AwsComprehendBatchDetectTargetedSentimentOptions : AwsOptions, IVa
             TextList = materialized;
         }
         this.TextList = TextList;
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
     }
 

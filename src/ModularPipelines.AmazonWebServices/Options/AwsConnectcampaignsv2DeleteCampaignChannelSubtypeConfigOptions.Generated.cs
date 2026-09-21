@@ -37,7 +37,6 @@ public record AwsConnectcampaignsv2DeleteCampaignChannelSubtypeConfigOptions : A
     {
         global::System.ArgumentNullException.ThrowIfNull(Id);
         this.Id = Id;
-        global::System.ArgumentNullException.ThrowIfNull(ChannelSubtype);
         this.ChannelSubtype = ChannelSubtype;
     }
 

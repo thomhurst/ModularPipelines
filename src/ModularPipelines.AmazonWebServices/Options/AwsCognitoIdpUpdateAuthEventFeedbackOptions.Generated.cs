@@ -50,7 +50,6 @@ public record AwsCognitoIdpUpdateAuthEventFeedbackOptions : AwsOptions, IValidat
         this.EventId = EventId;
         global::System.ArgumentNullException.ThrowIfNull(FeedbackToken);
         this.FeedbackToken = FeedbackToken;
-        global::System.ArgumentNullException.ThrowIfNull(FeedbackValue);
         this.FeedbackValue = FeedbackValue;
     }
 

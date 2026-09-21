@@ -47,7 +47,6 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObjec
         this.ResourceId = ResourceId;
         global::System.ArgumentNullException.ThrowIfNull(HttpMethod);
         this.HttpMethod = HttpMethod;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

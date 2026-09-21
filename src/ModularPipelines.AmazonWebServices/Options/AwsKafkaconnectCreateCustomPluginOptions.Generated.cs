@@ -38,7 +38,6 @@ public record AwsKafkaconnectCreateCustomPluginOptions : AwsOptions, IValidatabl
         string Name
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ContentType);
         this.ContentType = ContentType;
         global::System.ArgumentNullException.ThrowIfNull(Location);
         this.Location = Location;

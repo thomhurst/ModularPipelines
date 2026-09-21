@@ -41,7 +41,6 @@ public record AwsConnectUpdateWorkspaceVisibilityOptions : AwsOptions, IValidata
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
         this.WorkspaceId = WorkspaceId;
-        global::System.ArgumentNullException.ThrowIfNull(Visibility);
         this.Visibility = Visibility;
     }
 

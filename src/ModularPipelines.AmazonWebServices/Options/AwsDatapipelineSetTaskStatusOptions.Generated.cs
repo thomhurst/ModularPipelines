@@ -37,7 +37,6 @@ public record AwsDatapipelineSetTaskStatusOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(TaskId);
         this.TaskId = TaskId;
-        global::System.ArgumentNullException.ThrowIfNull(TaskStatus);
         this.TaskStatus = TaskStatus;
     }
 

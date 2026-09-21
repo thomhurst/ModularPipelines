@@ -39,7 +39,6 @@ public record AwsKinesisvideoUpdateDataRetentionOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
         this.CurrentVersion = CurrentVersion;
-        global::System.ArgumentNullException.ThrowIfNull(Operation);
         this.Operation = Operation;
         this.DataRetentionChangeInHours = DataRetentionChangeInHours;
     }

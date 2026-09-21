@@ -33,7 +33,6 @@ public record AwsBedrockPutAccountDataRetentionOptions : AwsOptions, IValidatabl
         AwsBedrockPutAccountDataRetentionMode Mode
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Mode);
         this.Mode = Mode;
     }
 

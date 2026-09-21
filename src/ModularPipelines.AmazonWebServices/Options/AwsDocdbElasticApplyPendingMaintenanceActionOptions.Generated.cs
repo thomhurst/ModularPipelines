@@ -39,7 +39,6 @@ public record AwsDocdbElasticApplyPendingMaintenanceActionOptions : AwsOptions, 
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplyAction);
         this.ApplyAction = ApplyAction;
-        global::System.ArgumentNullException.ThrowIfNull(OptInType);
         this.OptInType = OptInType;
         global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
         this.ResourceArn = ResourceArn;

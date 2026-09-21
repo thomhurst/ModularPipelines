@@ -28,12 +28,11 @@ public record AwsEc2GetDefaultCreditSpecificationOptions : AwsOptions, IValidata
     /// <summary>
     /// Describes the default credit option for CPU usage of a burstable per- formance instance family. For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceFamily">The instance family. Possible values: o t2 o t3 o t3a o t4g</param>
+    /// <param name="InstanceFamily">The instance family. Possible values: o t2 o t3 o t3a o t4g o t8i</param>
     public AwsEc2GetDefaultCreditSpecificationOptions(
         AwsEc2GetDefaultCreditSpecificationInstanceFamily InstanceFamily
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(InstanceFamily);
         this.InstanceFamily = InstanceFamily;
     }
 
@@ -57,7 +56,7 @@ public record AwsEc2GetDefaultCreditSpecificationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The instance family. Possible values: o t2 o t3 o t3a o t4g
+    /// The instance family. Possible values: o t2 o t3 o t3a o t4g o t8i
     /// </summary>
     [CliOption("--instance-family")]
     public AwsEc2GetDefaultCreditSpecificationInstanceFamily? InstanceFamily { get; private init; }

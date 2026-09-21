@@ -37,7 +37,6 @@ public record AwsSecurityagentUpdateTargetDomainOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(TargetDomainId);
         this.TargetDomainId = TargetDomainId;
-        global::System.ArgumentNullException.ThrowIfNull(VerificationMethod);
         this.VerificationMethod = VerificationMethod;
     }
 

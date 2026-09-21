@@ -42,7 +42,6 @@ public record AwsKendraCreateDataSourceOptions : AwsOptions, IValidatableObject
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(IndexId);
         this.IndexId = IndexId;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

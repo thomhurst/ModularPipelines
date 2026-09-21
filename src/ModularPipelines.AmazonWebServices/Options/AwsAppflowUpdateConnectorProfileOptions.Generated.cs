@@ -40,7 +40,6 @@ public record AwsAppflowUpdateConnectorProfileOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(ConnectorProfileName);
         this.ConnectorProfileName = ConnectorProfileName;
-        global::System.ArgumentNullException.ThrowIfNull(ConnectionMode);
         this.ConnectionMode = ConnectionMode;
         global::System.ArgumentNullException.ThrowIfNull(ConnectorProfileConfig);
         this.ConnectorProfileConfig = ConnectorProfileConfig;

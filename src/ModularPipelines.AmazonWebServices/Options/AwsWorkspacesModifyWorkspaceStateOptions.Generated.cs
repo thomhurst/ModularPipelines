@@ -37,7 +37,6 @@ public record AwsWorkspacesModifyWorkspaceStateOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
         this.WorkspaceId = WorkspaceId;
-        global::System.ArgumentNullException.ThrowIfNull(WorkspaceState);
         this.WorkspaceState = WorkspaceState;
     }
 

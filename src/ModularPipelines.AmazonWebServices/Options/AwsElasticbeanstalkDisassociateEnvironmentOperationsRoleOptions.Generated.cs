@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permis- sions to downstream services during subsequent calls acting on this en- vironment. For more information, see Operations roles in the AWS Elas- tic Beanstalk Developer Guide . See also: AWS API Documentation
+/// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permis- sions to downstream services during subsequent calls acting on this en- vironment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsElasticbeanstalkDisassociateEnvironmentOperationsRoleOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permis- sions to downstream services during subsequent calls acting on this en- vironment. For more information, see Operations roles in the AWS Elas- tic Beanstalk Developer Guide . See also: AWS API Documentation
+    /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permis- sions to downstream services during subsequent calls acting on this en- vironment. See also: AWS API Documentation
     /// </summary>
     /// <param name="EnvironmentName">The name of the environment from which to disassociate the opera- tions role. Constraints: o min: 4 o max: 40</param>
     public AwsElasticbeanstalkDisassociateEnvironmentOperationsRoleOptions(

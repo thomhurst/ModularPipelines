@@ -33,7 +33,6 @@ public record AwsEfsPutAccountPreferencesOptions : AwsOptions, IValidatableObjec
         AwsEfsPutAccountPreferencesResourceIdType ResourceIdType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceIdType);
         this.ResourceIdType = ResourceIdType;
     }
 

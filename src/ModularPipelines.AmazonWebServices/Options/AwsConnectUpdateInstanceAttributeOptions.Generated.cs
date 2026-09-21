@@ -40,7 +40,6 @@ public record AwsConnectUpdateInstanceAttributeOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(AttributeType);
         this.AttributeType = AttributeType;
         global::System.ArgumentNullException.ThrowIfNull(Value);
         this.Value = Value;

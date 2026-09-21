@@ -35,7 +35,6 @@ public record AwsEc2DescribeVpcAttributeOptions : AwsOptions, IValidatableObject
         string VpcId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Attribute);
         this.Attribute = Attribute;
         global::System.ArgumentNullException.ThrowIfNull(VpcId);
         this.VpcId = VpcId;

@@ -45,7 +45,6 @@ public record AwsQuicksightDeleteFolderMembershipOptions : AwsOptions, IValidata
         this.FolderId = FolderId;
         global::System.ArgumentNullException.ThrowIfNull(MemberId);
         this.MemberId = MemberId;
-        global::System.ArgumentNullException.ThrowIfNull(MemberType);
         this.MemberType = MemberType;
     }
 

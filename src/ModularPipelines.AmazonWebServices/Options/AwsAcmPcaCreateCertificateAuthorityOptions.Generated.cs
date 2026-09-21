@@ -38,7 +38,6 @@ public record AwsAcmPcaCreateCertificateAuthorityOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(CertificateAuthorityConfiguration);
         this.CertificateAuthorityConfiguration = CertificateAuthorityConfiguration;
-        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthorityType);
         this.CertificateAuthorityType = CertificateAuthorityType;
     }
 

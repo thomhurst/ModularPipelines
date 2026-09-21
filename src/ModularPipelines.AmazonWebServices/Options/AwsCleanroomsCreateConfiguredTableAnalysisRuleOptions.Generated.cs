@@ -39,7 +39,6 @@ public record AwsCleanroomsCreateConfiguredTableAnalysisRuleOptions : AwsOptions
     {
         global::System.ArgumentNullException.ThrowIfNull(ConfiguredTableIdentifier);
         this.ConfiguredTableIdentifier = ConfiguredTableIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(AnalysisRuleType);
         this.AnalysisRuleType = AnalysisRuleType;
         global::System.ArgumentNullException.ThrowIfNull(AnalysisRulePolicy);
         this.AnalysisRulePolicy = AnalysisRulePolicy;

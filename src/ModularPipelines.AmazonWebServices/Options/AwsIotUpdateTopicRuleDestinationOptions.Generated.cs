@@ -37,7 +37,6 @@ public record AwsIotUpdateTopicRuleDestinationOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(Arn);
         this.Arn = Arn;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

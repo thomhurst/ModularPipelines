@@ -44,7 +44,6 @@ public record AwsPartnercentralSellingCreateEngagementContextOptions : AwsOption
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(EngagementIdentifier);
         this.EngagementIdentifier = EngagementIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(Payload);
         this.Payload = Payload;

@@ -55,7 +55,6 @@ public record AwsQuicksightCreateDlpSettingOptions : AwsOptions, IValidatableObj
         this.ProviderType = ProviderType;
         global::System.ArgumentNullException.ThrowIfNull(ProviderConfig);
         this.ProviderConfig = ProviderConfig;
-        global::System.ArgumentNullException.ThrowIfNull(ProviderOutageAction);
         this.ProviderOutageAction = ProviderOutageAction;
         this.Enabled = Enabled;
     }

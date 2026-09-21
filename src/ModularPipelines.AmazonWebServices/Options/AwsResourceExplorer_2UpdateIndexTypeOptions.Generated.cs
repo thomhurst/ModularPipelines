@@ -37,7 +37,6 @@ public record AwsResourceExplorer_2UpdateIndexTypeOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(Arn);
         this.Arn = Arn;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

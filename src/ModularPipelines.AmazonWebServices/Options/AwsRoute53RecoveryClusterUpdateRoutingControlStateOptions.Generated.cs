@@ -37,7 +37,6 @@ public record AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions : AwsOpt
     {
         global::System.ArgumentNullException.ThrowIfNull(RoutingControlArn);
         this.RoutingControlArn = RoutingControlArn;
-        global::System.ArgumentNullException.ThrowIfNull(RoutingControlState);
         this.RoutingControlState = RoutingControlState;
     }
 

@@ -53,7 +53,6 @@ public record AwsQappsImportDocumentOptions : AwsOptions, IValidatableObject
         this.FileContentsBase64 = FileContentsBase64;
         global::System.ArgumentNullException.ThrowIfNull(FileName);
         this.FileName = FileName;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

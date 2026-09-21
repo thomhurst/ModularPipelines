@@ -48,7 +48,6 @@ public record AwsSchemasGetDiscoveredSchemaOptions : AwsOptions, IValidatableObj
             Events = materialized;
         }
         this.Events = Events;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

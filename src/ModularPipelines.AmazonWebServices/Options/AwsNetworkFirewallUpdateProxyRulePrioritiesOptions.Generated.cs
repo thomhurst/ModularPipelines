@@ -38,7 +38,6 @@ public record AwsNetworkFirewallUpdateProxyRulePrioritiesOptions : AwsOptions, I
         string UpdateToken
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(RuleGroupRequestPhase);
         this.RuleGroupRequestPhase = RuleGroupRequestPhase;
         {
             global::System.ArgumentNullException.ThrowIfNull(Rules);

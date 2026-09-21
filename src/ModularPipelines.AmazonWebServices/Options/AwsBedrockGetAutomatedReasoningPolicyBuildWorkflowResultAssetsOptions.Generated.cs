@@ -41,7 +41,6 @@ public record AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowResultAssetsOpti
         this.PolicyArn = PolicyArn;
         global::System.ArgumentNullException.ThrowIfNull(BuildWorkflowId);
         this.BuildWorkflowId = BuildWorkflowId;
-        global::System.ArgumentNullException.ThrowIfNull(AssetType);
         this.AssetType = AssetType;
     }
 

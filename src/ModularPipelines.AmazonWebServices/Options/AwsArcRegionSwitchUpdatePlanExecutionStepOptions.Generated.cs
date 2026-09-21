@@ -49,7 +49,6 @@ public record AwsArcRegionSwitchUpdatePlanExecutionStepOptions : AwsOptions, IVa
         this.Comment = Comment;
         global::System.ArgumentNullException.ThrowIfNull(StepName);
         this.StepName = StepName;
-        global::System.ArgumentNullException.ThrowIfNull(ActionToTake);
         this.ActionToTake = ActionToTake;
     }
 

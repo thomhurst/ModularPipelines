@@ -42,7 +42,6 @@ public record AwsPiGetResourceMetricsOptions : AwsOptions, IValidatableObject
         string EndTime
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
         this.ServiceType = ServiceType;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;

@@ -41,7 +41,6 @@ public record AwsCustomerProfilesCreateSegmentSnapshotOptions : AwsOptions, IVal
         this.DomainName = DomainName;
         global::System.ArgumentNullException.ThrowIfNull(SegmentDefinitionName);
         this.SegmentDefinitionName = SegmentDefinitionName;
-        global::System.ArgumentNullException.ThrowIfNull(DataFormat);
         this.DataFormat = DataFormat;
     }
 

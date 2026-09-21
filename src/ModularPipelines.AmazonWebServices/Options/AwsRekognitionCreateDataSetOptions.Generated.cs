@@ -36,7 +36,6 @@ public record AwsRekognitionCreateDataSetOptions : AwsOptions, IValidatableObjec
         string ProjectArn
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(DataSetType);
         this.DataSetType = DataSetType;
         global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
         this.ProjectArn = ProjectArn;

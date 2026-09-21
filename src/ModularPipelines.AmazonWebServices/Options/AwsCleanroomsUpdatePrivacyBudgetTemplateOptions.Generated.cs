@@ -41,7 +41,6 @@ public record AwsCleanroomsUpdatePrivacyBudgetTemplateOptions : AwsOptions, IVal
         this.MembershipIdentifier = MembershipIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(PrivacyBudgetTemplateIdentifier);
         this.PrivacyBudgetTemplateIdentifier = PrivacyBudgetTemplateIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(PrivacyBudgetType);
         this.PrivacyBudgetType = PrivacyBudgetType;
     }
 

@@ -43,7 +43,6 @@ public record AwsBedrockAgentcoreControlCreateEvaluatorOptions : AwsOptions, IVa
         this.EvaluatorName = EvaluatorName;
         global::System.ArgumentNullException.ThrowIfNull(EvaluatorConfig);
         this.EvaluatorConfig = EvaluatorConfig;
-        global::System.ArgumentNullException.ThrowIfNull(Level);
         this.Level = Level;
     }
 

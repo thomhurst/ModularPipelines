@@ -34,7 +34,6 @@ public record AwsCodeguruReviewerListCodeReviewsOptions : AwsOptions, IValidatab
         AwsCodeguruReviewerListCodeReviewsType Type
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

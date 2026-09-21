@@ -39,7 +39,6 @@ public record AwsFrauddetectorCreateModelOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(ModelId);
         this.ModelId = ModelId;
-        global::System.ArgumentNullException.ThrowIfNull(ModelType);
         this.ModelType = ModelType;
         global::System.ArgumentNullException.ThrowIfNull(EventTypeName);
         this.EventTypeName = EventTypeName;

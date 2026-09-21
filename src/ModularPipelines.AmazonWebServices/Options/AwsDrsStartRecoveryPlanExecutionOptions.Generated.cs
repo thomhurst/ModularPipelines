@@ -39,7 +39,6 @@ public record AwsDrsStartRecoveryPlanExecutionOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(RecoveryPlanArn);
         this.RecoveryPlanArn = RecoveryPlanArn;
-        global::System.ArgumentNullException.ThrowIfNull(Mode);
         this.Mode = Mode;
     }
 

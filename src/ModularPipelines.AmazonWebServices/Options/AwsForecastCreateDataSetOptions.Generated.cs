@@ -41,9 +41,7 @@ public record AwsForecastCreateDataSetOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(DataSetName);
         this.DataSetName = DataSetName;
-        global::System.ArgumentNullException.ThrowIfNull(Domain);
         this.Domain = Domain;
-        global::System.ArgumentNullException.ThrowIfNull(DataSetType);
         this.DataSetType = DataSetType;
         global::System.ArgumentNullException.ThrowIfNull(Schema);
         this.Schema = Schema;

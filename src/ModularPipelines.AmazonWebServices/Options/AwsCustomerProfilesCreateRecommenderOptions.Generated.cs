@@ -42,7 +42,6 @@ public record AwsCustomerProfilesCreateRecommenderOptions : AwsOptions, IValidat
         this.DomainName = DomainName;
         global::System.ArgumentNullException.ThrowIfNull(RecommenderName);
         this.RecommenderName = RecommenderName;
-        global::System.ArgumentNullException.ThrowIfNull(RecommenderRecipeName);
         this.RecommenderRecipeName = RecommenderRecipeName;
     }
 

@@ -37,7 +37,6 @@ public record AwsCodebuildUpdateProjectVisibilityOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
         this.ProjectArn = ProjectArn;
-        global::System.ArgumentNullException.ThrowIfNull(ProjectVisibility);
         this.ProjectVisibility = ProjectVisibility;
     }
 

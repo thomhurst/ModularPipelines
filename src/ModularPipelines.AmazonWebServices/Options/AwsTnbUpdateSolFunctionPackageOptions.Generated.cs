@@ -35,7 +35,6 @@ public record AwsTnbUpdateSolFunctionPackageOptions : AwsOptions, IValidatableOb
         string VnfPkgId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(OperationalState);
         this.OperationalState = OperationalState;
         global::System.ArgumentNullException.ThrowIfNull(VnfPkgId);
         this.VnfPkgId = VnfPkgId;

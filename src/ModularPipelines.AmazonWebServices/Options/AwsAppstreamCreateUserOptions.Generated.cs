@@ -37,7 +37,6 @@ public record AwsAppstreamCreateUserOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(UserName);
         this.UserName = UserName;
-        global::System.ArgumentNullException.ThrowIfNull(AuthenticationType);
         this.AuthenticationType = AuthenticationType;
     }
 

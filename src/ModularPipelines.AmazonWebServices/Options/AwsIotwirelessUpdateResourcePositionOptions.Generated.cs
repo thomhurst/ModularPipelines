@@ -37,7 +37,6 @@ public record AwsIotwirelessUpdateResourcePositionOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
         this.ResourceIdentifier = ResourceIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

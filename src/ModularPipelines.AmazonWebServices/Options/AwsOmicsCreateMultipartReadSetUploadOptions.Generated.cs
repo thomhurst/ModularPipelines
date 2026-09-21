@@ -45,7 +45,6 @@ public record AwsOmicsCreateMultipartReadSetUploadOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(SequenceStoreId);
         this.SequenceStoreId = SequenceStoreId;
-        global::System.ArgumentNullException.ThrowIfNull(SourceFileType);
         this.SourceFileType = SourceFileType;
         global::System.ArgumentNullException.ThrowIfNull(SubjectId);
         this.SubjectId = SubjectId;

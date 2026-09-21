@@ -40,7 +40,6 @@ public record AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAl
         string MarketplaceRevenueShareRevision
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(ProductId);
         this.ProductId = ProductId;

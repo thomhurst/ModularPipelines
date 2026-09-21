@@ -39,7 +39,6 @@ public record AwsQuicksightCreateAccountSubscriptionOptions : AwsOptions, IValid
         string NotificationEmail
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AuthenticationMethod);
         this.AuthenticationMethod = AuthenticationMethod;
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;

@@ -47,7 +47,6 @@ public record AwsGuarddutyCreateThreatEntitySetOptions : AwsOptions, IValidatabl
         this.DetectorId = DetectorId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
         global::System.ArgumentNullException.ThrowIfNull(Location);
         this.Location = Location;

@@ -43,7 +43,6 @@ public record AwsSagemakerUpdateHubContentOptions : AwsOptions, IValidatableObje
         this.HubName = HubName;
         global::System.ArgumentNullException.ThrowIfNull(HubContentName);
         this.HubContentName = HubContentName;
-        global::System.ArgumentNullException.ThrowIfNull(HubContentType);
         this.HubContentType = HubContentType;
         global::System.ArgumentNullException.ThrowIfNull(HubContentVersion);
         this.HubContentVersion = HubContentVersion;

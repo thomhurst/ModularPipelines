@@ -38,7 +38,6 @@ public record AwsInspector2CreateCodeSecurityIntegrationOptions : AwsOptions, IV
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

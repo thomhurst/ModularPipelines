@@ -46,7 +46,6 @@ public record AwsDatazoneStartNotebookExportOptions : AwsOptions, IValidatableOb
         this.NotebookIdentifier = NotebookIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(OwningProjectIdentifier);
         this.OwningProjectIdentifier = OwningProjectIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(FileFormat);
         this.FileFormat = FileFormat;
     }
 

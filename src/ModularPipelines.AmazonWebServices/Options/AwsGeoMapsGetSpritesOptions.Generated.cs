@@ -40,9 +40,7 @@ public record AwsGeoMapsGetSpritesOptions : AwsOptions
     {
         global::System.ArgumentNullException.ThrowIfNull(FileName);
         this.FileName = FileName;
-        global::System.ArgumentNullException.ThrowIfNull(Style);
         this.Style = Style;
-        global::System.ArgumentNullException.ThrowIfNull(ColorScheme);
         this.ColorScheme = ColorScheme;
         global::System.ArgumentNullException.ThrowIfNull(Variant);
         this.Variant = Variant;

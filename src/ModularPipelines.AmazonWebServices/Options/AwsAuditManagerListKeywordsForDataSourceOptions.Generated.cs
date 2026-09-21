@@ -34,7 +34,6 @@ public record AwsAuditManagerListKeywordsForDataSourceOptions : AwsOptions, IVal
         AwsAuditManagerListKeywordsForDataSourceSource Source
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Source);
         this.Source = Source;
     }
 

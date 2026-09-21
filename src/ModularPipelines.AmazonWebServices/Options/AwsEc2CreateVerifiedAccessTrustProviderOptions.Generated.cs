@@ -36,7 +36,6 @@ public record AwsEc2CreateVerifiedAccessTrustProviderOptions : AwsOptions, IVali
         string PolicyReferenceName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(TrustProviderType);
         this.TrustProviderType = TrustProviderType;
         global::System.ArgumentNullException.ThrowIfNull(PolicyReferenceName);
         this.PolicyReferenceName = PolicyReferenceName;

@@ -37,7 +37,6 @@ public record AwsDsUpdateDirectorySetupOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
         this.DirectoryId = DirectoryId;
-        global::System.ArgumentNullException.ThrowIfNull(UpdateType);
         this.UpdateType = UpdateType;
     }
 

@@ -39,7 +39,6 @@ public record AwsEc2CreateInstanceExportTaskOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(TargetEnvironment);
         this.TargetEnvironment = TargetEnvironment;
         global::System.ArgumentNullException.ThrowIfNull(ExportToS3Task);
         this.ExportToS3Task = ExportToS3Task;

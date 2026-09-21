@@ -38,7 +38,6 @@ public record AwsLexv2ModelsCreateExportOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceSpecification);
         this.ResourceSpecification = ResourceSpecification;
-        global::System.ArgumentNullException.ThrowIfNull(FileFormat);
         this.FileFormat = FileFormat;
     }
 

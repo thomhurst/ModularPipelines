@@ -35,9 +35,7 @@ public record AwsPaymentCryptographyGetParametersForImportOptions : AwsOptions, 
         AwsPaymentCryptographyGetParametersForImportWrappingKeyAlgorithm WrappingKeyAlgorithm
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(KeyMaterialType);
         this.KeyMaterialType = KeyMaterialType;
-        global::System.ArgumentNullException.ThrowIfNull(WrappingKeyAlgorithm);
         this.WrappingKeyAlgorithm = WrappingKeyAlgorithm;
     }
 

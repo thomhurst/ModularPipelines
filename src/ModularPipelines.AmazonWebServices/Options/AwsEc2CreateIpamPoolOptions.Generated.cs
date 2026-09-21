@@ -38,7 +38,6 @@ public record AwsEc2CreateIpamPoolOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(IpamScopeId);
         this.IpamScopeId = IpamScopeId;
-        global::System.ArgumentNullException.ThrowIfNull(AddressFamily);
         this.AddressFamily = AddressFamily;
     }
 

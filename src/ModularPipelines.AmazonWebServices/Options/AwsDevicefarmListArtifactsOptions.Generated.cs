@@ -38,7 +38,6 @@ public record AwsDevicefarmListArtifactsOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Arn);
         this.Arn = Arn;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

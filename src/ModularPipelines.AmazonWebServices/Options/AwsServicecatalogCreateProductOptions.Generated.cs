@@ -42,7 +42,6 @@ public record AwsServicecatalogCreateProductOptions : AwsOptions, IValidatableOb
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(Owner);
         this.Owner = Owner;
-        global::System.ArgumentNullException.ThrowIfNull(ProductType);
         this.ProductType = ProductType;
     }
 

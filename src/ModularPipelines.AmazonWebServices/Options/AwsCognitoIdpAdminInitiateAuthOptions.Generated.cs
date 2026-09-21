@@ -42,7 +42,6 @@ public record AwsCognitoIdpAdminInitiateAuthOptions : AwsOptions, IValidatableOb
         this.UserPoolId = UserPoolId;
         global::System.ArgumentNullException.ThrowIfNull(ClientId);
         this.ClientId = ClientId;
-        global::System.ArgumentNullException.ThrowIfNull(AuthFlow);
         this.AuthFlow = AuthFlow;
     }
 

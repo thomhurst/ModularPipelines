@@ -28,7 +28,7 @@ public record AwsNotificationsTagResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Tags the resource with a tag key and value. For more information, see Tagging your Amazon Web Services resources in the Tagging Amazon Web Services Resources User Guide . NOTE: This is only supported for NotificationConfigurations . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) to use to tag a resource. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) to use to tag a resource. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
     /// <param name="Tags">A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsNotificationsTagResourceOptions(
         string Arn,
@@ -72,7 +72,7 @@ public record AwsNotificationsTagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) to use to tag a resource. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) to use to tag a resource. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }

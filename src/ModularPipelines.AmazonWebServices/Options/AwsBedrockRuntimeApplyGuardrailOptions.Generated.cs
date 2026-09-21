@@ -43,7 +43,6 @@ public record AwsBedrockRuntimeApplyGuardrailOptions : AwsOptions, IValidatableO
         this.GuardrailIdentifier = GuardrailIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(GuardrailVersion);
         this.GuardrailVersion = GuardrailVersion;
-        global::System.ArgumentNullException.ThrowIfNull(Source);
         this.Source = Source;
         {
             global::System.ArgumentNullException.ThrowIfNull(Content);

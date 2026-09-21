@@ -42,7 +42,6 @@ public record AwsBedrockAgentcoreControlCreateRegistryRecordOptions : AwsOptions
         this.RegistryId = RegistryId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(DescriptorType);
         this.DescriptorType = DescriptorType;
     }
 

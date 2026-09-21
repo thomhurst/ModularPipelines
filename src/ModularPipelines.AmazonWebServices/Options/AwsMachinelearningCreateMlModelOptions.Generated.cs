@@ -40,7 +40,6 @@ public record AwsMachinelearningCreateMlModelOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(MlModelId);
         this.MlModelId = MlModelId;
-        global::System.ArgumentNullException.ThrowIfNull(MlModelType);
         this.MlModelType = MlModelType;
         global::System.ArgumentNullException.ThrowIfNull(TrainingDataSourceId);
         this.TrainingDataSourceId = TrainingDataSourceId;

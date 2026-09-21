@@ -42,9 +42,7 @@ public record AwsCodebuildCreateFleetOptions : AwsOptions, IValidatableObject
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
         this.BaseCapacity = BaseCapacity;
-        global::System.ArgumentNullException.ThrowIfNull(EnvironmentType);
         this.EnvironmentType = EnvironmentType;
-        global::System.ArgumentNullException.ThrowIfNull(ComputeType);
         this.ComputeType = ComputeType;
     }
 

@@ -35,7 +35,6 @@ public record AwsEc2ResetSnapshotAttributeOptions : AwsOptions, IValidatableObje
         string SnapshotId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Attribute);
         this.Attribute = Attribute;
         global::System.ArgumentNullException.ThrowIfNull(SnapshotId);
         this.SnapshotId = SnapshotId;

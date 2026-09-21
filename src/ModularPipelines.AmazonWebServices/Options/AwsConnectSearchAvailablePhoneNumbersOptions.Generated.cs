@@ -38,7 +38,6 @@ public record AwsConnectSearchAvailablePhoneNumbersOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(PhoneNumberCountryCode);
         this.PhoneNumberCountryCode = PhoneNumberCountryCode;
-        global::System.ArgumentNullException.ThrowIfNull(PhoneNumberType);
         this.PhoneNumberType = PhoneNumberType;
     }
 

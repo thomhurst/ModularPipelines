@@ -40,7 +40,6 @@ public record AwsDynamodbImportTableOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(S3BucketSource);
         this.S3BucketSource = S3BucketSource;
-        global::System.ArgumentNullException.ThrowIfNull(InputFormat);
         this.InputFormat = InputFormat;
         global::System.ArgumentNullException.ThrowIfNull(TableCreationParameters);
         this.TableCreationParameters = TableCreationParameters;

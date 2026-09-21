@@ -38,7 +38,6 @@ public record AwsPinpointSmsVoiceV2CreatePoolOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(OriginationIdentity);
         this.OriginationIdentity = OriginationIdentity;
-        global::System.ArgumentNullException.ThrowIfNull(MessageType);
         this.MessageType = MessageType;
     }
 

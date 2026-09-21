@@ -37,7 +37,6 @@ public record AwsPiCreatePerformanceAnalysisReportOptions : AwsOptions, IValidat
         string StartTime
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
         this.ServiceType = ServiceType;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;

@@ -43,7 +43,6 @@ public record AwsConnectcasesCreateRelatedItemOptions : AwsOptions, IValidatable
         this.DomainId = DomainId;
         global::System.ArgumentNullException.ThrowIfNull(CaseId);
         this.CaseId = CaseId;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(Content);
         this.Content = Content;

@@ -41,9 +41,7 @@ public record AwsRedshiftCreateUsageLimitOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
         this.ClusterIdentifier = ClusterIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(FeatureType);
         this.FeatureType = FeatureType;
-        global::System.ArgumentNullException.ThrowIfNull(LimitType);
         this.LimitType = LimitType;
         this.Amount = Amount;
     }

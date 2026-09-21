@@ -41,7 +41,6 @@ public record AwsCloud9UpdateEnvironmentMembershipOptions : AwsOptions, IValidat
         this.EnvironmentId = EnvironmentId;
         global::System.ArgumentNullException.ThrowIfNull(UserArn);
         this.UserArn = UserArn;
-        global::System.ArgumentNullException.ThrowIfNull(Permissions);
         this.Permissions = Permissions;
     }
 

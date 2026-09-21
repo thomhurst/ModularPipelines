@@ -42,7 +42,6 @@ public record AwsArcRegionSwitchStartPlanExecutionOptions : AwsOptions, IValidat
         this.PlanArn = PlanArn;
         global::System.ArgumentNullException.ThrowIfNull(TargetRegion);
         this.TargetRegion = TargetRegion;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

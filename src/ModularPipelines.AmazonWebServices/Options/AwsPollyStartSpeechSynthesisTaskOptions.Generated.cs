@@ -39,7 +39,6 @@ public record AwsPollyStartSpeechSynthesisTaskOptions : AwsOptions, IValidatable
         string VoiceId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(OutputFormat);
         this.OutputFormat = OutputFormat;
         global::System.ArgumentNullException.ThrowIfNull(OutputS3BucketName);
         this.OutputS3BucketName = OutputS3BucketName;

@@ -33,7 +33,6 @@ public record AwsEc2ModifyVpcBlockPublicAccessOptionsOptions : AwsOptions, IVali
         AwsEc2ModifyVpcBlockPublicAccessOptionsInternetGatewayBlockMode InternetGatewayBlockMode
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(InternetGatewayBlockMode);
         this.InternetGatewayBlockMode = InternetGatewayBlockMode;
     }
 

@@ -43,7 +43,6 @@ public record AwsPartnercentralSellingDisassociateOpportunityOptions : AwsOption
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(OpportunityIdentifier);
         this.OpportunityIdentifier = OpportunityIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(RelatedEntityType);
         this.RelatedEntityType = RelatedEntityType;
         global::System.ArgumentNullException.ThrowIfNull(RelatedEntityIdentifier);
         this.RelatedEntityIdentifier = RelatedEntityIdentifier;

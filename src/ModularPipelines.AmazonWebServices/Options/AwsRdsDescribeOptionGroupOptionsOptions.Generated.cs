@@ -34,7 +34,6 @@ public record AwsRdsDescribeOptionGroupOptionsOptions : AwsOptions, IValidatable
         AwsRdsDescribeOptionGroupOptionsEngineName EngineName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EngineName);
         this.EngineName = EngineName;
     }
 

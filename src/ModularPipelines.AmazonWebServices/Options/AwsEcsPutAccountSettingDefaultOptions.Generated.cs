@@ -35,7 +35,6 @@ public record AwsEcsPutAccountSettingDefaultOptions : AwsOptions, IValidatableOb
         string Value
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(Value);
         this.Value = Value;

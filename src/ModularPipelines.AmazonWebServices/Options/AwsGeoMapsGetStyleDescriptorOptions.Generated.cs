@@ -32,7 +32,6 @@ public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
         string Outfile
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Style);
         this.Style = Style;
         global::System.ArgumentNullException.ThrowIfNull(Outfile);
         this.Outfile = Outfile;

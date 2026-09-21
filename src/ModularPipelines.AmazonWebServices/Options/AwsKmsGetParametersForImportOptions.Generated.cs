@@ -39,9 +39,7 @@ public record AwsKmsGetParametersForImportOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(KeyId);
         this.KeyId = KeyId;
-        global::System.ArgumentNullException.ThrowIfNull(WrappingAlgorithm);
         this.WrappingAlgorithm = WrappingAlgorithm;
-        global::System.ArgumentNullException.ThrowIfNull(WrappingKeySpec);
         this.WrappingKeySpec = WrappingKeySpec;
     }
 

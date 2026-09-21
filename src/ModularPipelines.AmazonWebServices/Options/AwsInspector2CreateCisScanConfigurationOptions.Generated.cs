@@ -42,7 +42,6 @@ public record AwsInspector2CreateCisScanConfigurationOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(ScanName);
         this.ScanName = ScanName;
-        global::System.ArgumentNullException.ThrowIfNull(SecurityLevel);
         this.SecurityLevel = SecurityLevel;
         global::System.ArgumentNullException.ThrowIfNull(Schedule);
         this.Schedule = Schedule;

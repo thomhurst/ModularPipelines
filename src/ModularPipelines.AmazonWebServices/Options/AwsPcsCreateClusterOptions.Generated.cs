@@ -45,7 +45,6 @@ public record AwsPcsCreateClusterOptions : AwsOptions, IValidatableObject
         this.ClusterName = ClusterName;
         global::System.ArgumentNullException.ThrowIfNull(Scheduler);
         this.Scheduler = Scheduler;
-        global::System.ArgumentNullException.ThrowIfNull(Size);
         this.Size = Size;
         global::System.ArgumentNullException.ThrowIfNull(Networking);
         this.Networking = Networking;

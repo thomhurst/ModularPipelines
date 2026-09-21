@@ -52,7 +52,6 @@ public record AwsBackupStartScanJobOptions : AwsOptions, IValidatableObject
         this.MalwareScanner = MalwareScanner;
         global::System.ArgumentNullException.ThrowIfNull(RecoveryPointArn);
         this.RecoveryPointArn = RecoveryPointArn;
-        global::System.ArgumentNullException.ThrowIfNull(ScanMode);
         this.ScanMode = ScanMode;
         global::System.ArgumentNullException.ThrowIfNull(ScannerRoleArn);
         this.ScannerRoleArn = ScannerRoleArn;

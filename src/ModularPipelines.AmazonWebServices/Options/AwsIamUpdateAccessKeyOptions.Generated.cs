@@ -37,7 +37,6 @@ public record AwsIamUpdateAccessKeyOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(AccessKeyId);
         this.AccessKeyId = AccessKeyId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

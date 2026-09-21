@@ -42,7 +42,6 @@ public record AwsDsCreateDirectoryOptions : AwsOptions, IValidatableObject
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(Password);
         this.Password = Password;
-        global::System.ArgumentNullException.ThrowIfNull(Size);
         this.Size = Size;
     }
 

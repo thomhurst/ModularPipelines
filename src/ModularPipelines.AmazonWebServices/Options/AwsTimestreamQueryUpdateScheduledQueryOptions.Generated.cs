@@ -37,7 +37,6 @@ public record AwsTimestreamQueryUpdateScheduledQueryOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(ScheduledQueryArn);
         this.ScheduledQueryArn = ScheduledQueryArn;
-        global::System.ArgumentNullException.ThrowIfNull(State);
         this.State = State;
     }
 

@@ -37,7 +37,6 @@ public record AwsGroundstationGetConfigOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(ConfigId);
         this.ConfigId = ConfigId;
-        global::System.ArgumentNullException.ThrowIfNull(ConfigType);
         this.ConfigType = ConfigType;
     }
 

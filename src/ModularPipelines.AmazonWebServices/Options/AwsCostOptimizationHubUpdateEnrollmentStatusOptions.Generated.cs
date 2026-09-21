@@ -33,7 +33,6 @@ public record AwsCostOptimizationHubUpdateEnrollmentStatusOptions : AwsOptions, 
         AwsCostOptimizationHubUpdateEnrollmentStatusStatus Status
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

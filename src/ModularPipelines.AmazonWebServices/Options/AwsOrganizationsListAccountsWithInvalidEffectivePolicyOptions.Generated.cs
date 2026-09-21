@@ -34,7 +34,6 @@ public record AwsOrganizationsListAccountsWithInvalidEffectivePolicyOptions : Aw
         AwsOrganizationsListAccountsWithInvalidEffectivePolicyPolicyType PolicyType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

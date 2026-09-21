@@ -41,7 +41,6 @@ public record AwsQuicksightUpdateSelfUpgradeConfigurationOptions : AwsOptions, I
         this.AwsAccountId = AwsAccountId;
         global::System.ArgumentNullException.ThrowIfNull(Namespace);
         this.Namespace = Namespace;
-        global::System.ArgumentNullException.ThrowIfNull(SelfUpgradeStatus);
         this.SelfUpgradeStatus = SelfUpgradeStatus;
     }
 

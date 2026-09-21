@@ -42,7 +42,6 @@ public record AwsQconnectUpdateAiPromptOptions : AwsOptions, IValidatableObject
         this.AssistantId = AssistantId;
         global::System.ArgumentNullException.ThrowIfNull(AiPromptId);
         this.AiPromptId = AiPromptId;
-        global::System.ArgumentNullException.ThrowIfNull(VisibilityStatus);
         this.VisibilityStatus = VisibilityStatus;
     }
 

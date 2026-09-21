@@ -39,7 +39,6 @@ public record AwsWafv2GetRateBasedStatementManagedKeysOptions : AwsOptions, IVal
         string RuleName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         global::System.ArgumentNullException.ThrowIfNull(WebAclName);
         this.WebAclName = WebAclName;

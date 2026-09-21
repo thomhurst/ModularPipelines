@@ -34,7 +34,6 @@ public record AwsDevopsGuruDescribeResourceCollectionHealthOptions : AwsOptions,
         AwsDevopsGuruDescribeResourceCollectionHealthResourceCollectionType ResourceCollectionType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceCollectionType);
         this.ResourceCollectionType = ResourceCollectionType;
     }
 

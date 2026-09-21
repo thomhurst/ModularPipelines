@@ -37,7 +37,6 @@ public record AwsIotSetV2LoggingLevelOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(LogTarget);
         this.LogTarget = LogTarget;
-        global::System.ArgumentNullException.ThrowIfNull(LogLevel);
         this.LogLevel = LogLevel;
     }
 

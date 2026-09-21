@@ -33,7 +33,6 @@ public record AwsLightsailDeleteContactMethodOptions : AwsOptions, IValidatableO
         AwsLightsailDeleteContactMethodProtocol Protocol
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
     }
 

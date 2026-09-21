@@ -37,7 +37,6 @@ public record AwsIotManagedIntegrationsSendConnectorEventOptions : AwsOptions, I
     {
         global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
         this.ConnectorId = ConnectorId;
-        global::System.ArgumentNullException.ThrowIfNull(Operation);
         this.Operation = Operation;
     }
 

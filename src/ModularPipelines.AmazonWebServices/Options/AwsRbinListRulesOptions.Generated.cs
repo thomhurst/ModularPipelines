@@ -34,7 +34,6 @@ public record AwsRbinListRulesOptions : AwsOptions, IValidatableObject
         AwsRbinListRulesResourceType ResourceType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

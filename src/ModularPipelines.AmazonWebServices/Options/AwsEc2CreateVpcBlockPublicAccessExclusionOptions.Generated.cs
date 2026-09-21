@@ -33,7 +33,6 @@ public record AwsEc2CreateVpcBlockPublicAccessExclusionOptions : AwsOptions, IVa
         AwsEc2CreateVpcBlockPublicAccessExclusionInternetGatewayExclusionMode InternetGatewayExclusionMode
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(InternetGatewayExclusionMode);
         this.InternetGatewayExclusionMode = InternetGatewayExclusionMode;
     }
 

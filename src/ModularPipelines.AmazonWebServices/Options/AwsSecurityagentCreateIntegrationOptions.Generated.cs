@@ -38,7 +38,6 @@ public record AwsSecurityagentCreateIntegrationOptions : AwsOptions, IValidatabl
         string IntegrationDisplayName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Provider);
         this.Provider = Provider;
         global::System.ArgumentNullException.ThrowIfNull(Input);
         this.Input = Input;

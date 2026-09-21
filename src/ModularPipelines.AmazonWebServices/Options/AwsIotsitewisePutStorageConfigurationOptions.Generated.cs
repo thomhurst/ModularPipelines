@@ -33,7 +33,6 @@ public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions, IValida
         AwsIotsitewisePutStorageConfigurationStorageType StorageType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(StorageType);
         this.StorageType = StorageType;
     }
 

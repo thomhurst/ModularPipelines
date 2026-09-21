@@ -41,7 +41,6 @@ public record AwsDatazoneUpdateGroupProfileOptions : AwsOptions, IValidatableObj
         this.DomainIdentifier = DomainIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(GroupIdentifier);
         this.GroupIdentifier = GroupIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

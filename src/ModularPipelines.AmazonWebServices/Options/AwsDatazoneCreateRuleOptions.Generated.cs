@@ -50,7 +50,6 @@ public record AwsDatazoneCreateRuleOptions : AwsOptions, IValidatableObject
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(Target);
         this.Target = Target;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
         global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;

@@ -48,9 +48,7 @@ public record AwsMediaconnectCreateRouterInputOptions : AwsOptions, IValidatable
         global::System.ArgumentNullException.ThrowIfNull(Configuration);
         this.Configuration = Configuration;
         this.MaximumBitrate = MaximumBitrate;
-        global::System.ArgumentNullException.ThrowIfNull(RoutingScope);
         this.RoutingScope = RoutingScope;
-        global::System.ArgumentNullException.ThrowIfNull(Tier);
         this.Tier = Tier;
     }
 

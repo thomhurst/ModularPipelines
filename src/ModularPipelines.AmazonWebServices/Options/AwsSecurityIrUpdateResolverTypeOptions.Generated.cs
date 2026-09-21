@@ -37,7 +37,6 @@ public record AwsSecurityIrUpdateResolverTypeOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(CaseId);
         this.CaseId = CaseId;
-        global::System.ArgumentNullException.ThrowIfNull(ResolverType);
         this.ResolverType = ResolverType;
     }
 

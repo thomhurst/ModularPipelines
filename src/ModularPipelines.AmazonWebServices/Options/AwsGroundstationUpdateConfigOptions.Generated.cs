@@ -43,7 +43,6 @@ public record AwsGroundstationUpdateConfigOptions : AwsOptions, IValidatableObje
         this.ConfigId = ConfigId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(ConfigType);
         this.ConfigType = ConfigType;
         global::System.ArgumentNullException.ThrowIfNull(ConfigData);
         this.ConfigData = ConfigData;

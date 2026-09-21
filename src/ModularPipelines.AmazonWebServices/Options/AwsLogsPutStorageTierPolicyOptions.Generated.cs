@@ -33,7 +33,6 @@ public record AwsLogsPutStorageTierPolicyOptions : AwsOptions, IValidatableObjec
         AwsLogsPutStorageTierPolicyStorageTier StorageTier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(StorageTier);
         this.StorageTier = StorageTier;
     }
 

@@ -52,7 +52,6 @@ public record AwsMachinelearningDeleteTagsOptions : AwsOptions, IValidatableObje
         this.TagKeys = TagKeys;
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

@@ -38,7 +38,6 @@ public record AwsEc2CreateNetworkInsightsPathOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(Source);
         this.Source = Source;
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
     }
 

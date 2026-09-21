@@ -41,7 +41,6 @@ public record AwsApplicationSignalsDeleteInstrumentationConfigurationOptions : A
         string LocationIdentifier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(InstrumentationType);
         this.InstrumentationType = InstrumentationType;
         global::System.ArgumentNullException.ThrowIfNull(Service);
         this.Service = Service;

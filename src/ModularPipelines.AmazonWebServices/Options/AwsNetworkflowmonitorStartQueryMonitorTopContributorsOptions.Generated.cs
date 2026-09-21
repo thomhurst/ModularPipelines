@@ -47,9 +47,7 @@ public record AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions : Aws
         this.StartTime = StartTime;
         global::System.ArgumentNullException.ThrowIfNull(EndTime);
         this.EndTime = EndTime;
-        global::System.ArgumentNullException.ThrowIfNull(MetricName);
         this.MetricName = MetricName;
-        global::System.ArgumentNullException.ThrowIfNull(DestinationCategory);
         this.DestinationCategory = DestinationCategory;
     }
 

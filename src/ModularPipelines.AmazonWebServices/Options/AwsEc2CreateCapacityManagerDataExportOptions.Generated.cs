@@ -42,7 +42,6 @@ public record AwsEc2CreateCapacityManagerDataExportOptions : AwsOptions, IValida
         this.S3BucketName = S3BucketName;
         global::System.ArgumentNullException.ThrowIfNull(Schedule);
         this.Schedule = Schedule;
-        global::System.ArgumentNullException.ThrowIfNull(OutputFormat);
         this.OutputFormat = OutputFormat;
     }
 

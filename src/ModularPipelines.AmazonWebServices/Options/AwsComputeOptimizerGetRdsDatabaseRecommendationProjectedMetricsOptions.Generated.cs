@@ -43,7 +43,6 @@ public record AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOpt
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
         this.ResourceArn = ResourceArn;
-        global::System.ArgumentNullException.ThrowIfNull(Stat);
         this.Stat = Stat;
         this.Period = Period;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);

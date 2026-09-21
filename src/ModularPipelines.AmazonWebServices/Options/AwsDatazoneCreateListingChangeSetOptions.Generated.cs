@@ -44,9 +44,7 @@ public record AwsDatazoneCreateListingChangeSetOptions : AwsOptions, IValidatabl
         this.DomainIdentifier = DomainIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
         this.EntityIdentifier = EntityIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(EntityType);
         this.EntityType = EntityType;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

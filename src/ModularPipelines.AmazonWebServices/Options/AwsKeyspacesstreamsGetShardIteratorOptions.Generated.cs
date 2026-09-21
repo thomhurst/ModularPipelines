@@ -41,7 +41,6 @@ public record AwsKeyspacesstreamsGetShardIteratorOptions : AwsOptions, IValidata
         this.StreamArn = StreamArn;
         global::System.ArgumentNullException.ThrowIfNull(ShardId);
         this.ShardId = ShardId;
-        global::System.ArgumentNullException.ThrowIfNull(ShardIteratorType);
         this.ShardIteratorType = ShardIteratorType;
     }
 

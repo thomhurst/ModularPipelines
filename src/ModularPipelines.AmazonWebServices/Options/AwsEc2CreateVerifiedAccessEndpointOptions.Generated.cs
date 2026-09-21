@@ -40,7 +40,6 @@ public record AwsEc2CreateVerifiedAccessEndpointOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(VerifiedAccessGroupId);
         this.VerifiedAccessGroupId = VerifiedAccessGroupId;
-        global::System.ArgumentNullException.ThrowIfNull(EndpointType);
         this.EndpointType = EndpointType;
         global::System.ArgumentNullException.ThrowIfNull(AttachmentType);
         this.AttachmentType = AttachmentType;

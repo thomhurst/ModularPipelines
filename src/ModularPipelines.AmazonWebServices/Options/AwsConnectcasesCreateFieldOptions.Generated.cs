@@ -41,7 +41,6 @@ public record AwsConnectcasesCreateFieldOptions : AwsOptions, IValidatableObject
         this.DomainId = DomainId;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

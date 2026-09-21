@@ -39,7 +39,6 @@ public record AwsHealthlakeCreateDataTransformationProfileOptions : AwsOptions, 
         string ProfileName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(SourceFormat);
         this.SourceFormat = SourceFormat;
         global::System.ArgumentNullException.ThrowIfNull(Source);
         this.Source = Source;

@@ -37,7 +37,6 @@ public record AwsGrafanaDisassociateLicenseOptions : AwsOptions, IValidatableObj
     {
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
         this.WorkspaceId = WorkspaceId;
-        global::System.ArgumentNullException.ThrowIfNull(LicenseType);
         this.LicenseType = LicenseType;
     }
 

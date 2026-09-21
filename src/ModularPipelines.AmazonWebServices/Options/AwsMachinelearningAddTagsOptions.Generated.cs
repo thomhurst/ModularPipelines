@@ -52,7 +52,6 @@ public record AwsMachinelearningAddTagsOptions : AwsOptions, IValidatableObject
         this.Tags = Tags;
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

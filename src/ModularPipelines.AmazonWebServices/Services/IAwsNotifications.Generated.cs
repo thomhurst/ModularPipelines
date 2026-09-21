@@ -102,7 +102,7 @@ public interface IAwsNotifications
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Deregisters a NotificationConfiguration in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationConfiguration are no longer be visible. Recreating a new NotificationConfiguration in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
+    /// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public interface IAwsNotifications
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Registers a NotificationConfiguration in the specified Region. There is a maximum of one NotificationConfiguration per Region. You can have a maximum of 3 NotificationHub resources at a time. See also: AWS API Documentation
+    /// Registers a NotificationHub in the specified Region. There is a maximum of one NotificationHub per Region. You can have a maximum of 3 NotificationHub resources at a time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -399,6 +399,16 @@ public interface IAwsNotifications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UpdateEventRuleAsync(AwsNotificationsUpdateEventRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Updates the isSensitiveEventsSubscribed property of a particular Man- agedNotification channel association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateManagedNotificationChannelAssociationAsync(AwsNotificationsUpdateManagedNotificationChannelAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

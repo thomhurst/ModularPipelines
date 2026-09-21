@@ -39,7 +39,6 @@ public record AwsOutpostsUpdateSiteAddressOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(SiteId);
         this.SiteId = SiteId;
-        global::System.ArgumentNullException.ThrowIfNull(AddressType);
         this.AddressType = AddressType;
         global::System.ArgumentNullException.ThrowIfNull(Address);
         this.Address = Address;

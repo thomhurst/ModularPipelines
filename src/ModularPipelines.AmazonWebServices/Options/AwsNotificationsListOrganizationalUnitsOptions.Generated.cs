@@ -28,7 +28,7 @@ public record AwsNotificationsListOrganizationalUnitsOptions : AwsOptions, IVali
     /// <summary>
     /// Returns a list of organizational units associated with a notification configuration. See also: AWS API Documentation list-organizational-units is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: organiza...
     /// </summary>
-    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the notification configuration used to filter the organizational units. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
+    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the notification configuration used to filter the organizational units. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
     public AwsNotificationsListOrganizationalUnitsOptions(
         string NotificationConfigurationArn
     )
@@ -57,7 +57,7 @@ public record AwsNotificationsListOrganizationalUnitsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the notification configuration used to filter the organizational units. Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the notification configuration used to filter the organizational units. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
     /// </summary>
     [CliOption("--notification-configuration-arn")]
     public string? NotificationConfigurationArn { get; private init; }

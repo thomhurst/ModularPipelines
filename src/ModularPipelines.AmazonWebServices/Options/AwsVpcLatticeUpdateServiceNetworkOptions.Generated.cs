@@ -37,7 +37,6 @@ public record AwsVpcLatticeUpdateServiceNetworkOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(ServiceNetworkIdentifier);
         this.ServiceNetworkIdentifier = ServiceNetworkIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(AuthType);
         this.AuthType = AuthType;
     }
 

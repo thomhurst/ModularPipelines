@@ -38,7 +38,6 @@ public record AwsFsxCreateDataRepositoryTaskOptions : AwsOptions, IValidatableOb
         string Report
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
         this.FileSystemId = FileSystemId;

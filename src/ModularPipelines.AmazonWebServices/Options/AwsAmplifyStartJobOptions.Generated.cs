@@ -41,7 +41,6 @@ public record AwsAmplifyStartJobOptions : AwsOptions, IValidatableObject
         this.AppId = AppId;
         global::System.ArgumentNullException.ThrowIfNull(BranchName);
         this.BranchName = BranchName;
-        global::System.ArgumentNullException.ThrowIfNull(JobType);
         this.JobType = JobType;
     }
 

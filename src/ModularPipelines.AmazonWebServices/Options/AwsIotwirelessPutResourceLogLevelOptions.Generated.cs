@@ -41,7 +41,6 @@ public record AwsIotwirelessPutResourceLogLevelOptions : AwsOptions, IValidatabl
         this.ResourceIdentifier = ResourceIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
-        global::System.ArgumentNullException.ThrowIfNull(LogLevel);
         this.LogLevel = LogLevel;
     }
 

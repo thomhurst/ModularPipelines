@@ -41,9 +41,7 @@ public record AwsFrauddetectorCreateVariableOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(DataType);
         this.DataType = DataType;
-        global::System.ArgumentNullException.ThrowIfNull(DataSource);
         this.DataSource = DataSource;
         global::System.ArgumentNullException.ThrowIfNull(DefaultValue);
         this.DefaultValue = DefaultValue;

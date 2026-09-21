@@ -36,7 +36,6 @@ public record AwsIotsitewiseListExecutionsOptions : AwsOptions, IValidatableObje
         string TargetResourceId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(TargetResourceType);
         this.TargetResourceType = TargetResourceType;
         global::System.ArgumentNullException.ThrowIfNull(TargetResourceId);
         this.TargetResourceId = TargetResourceId;

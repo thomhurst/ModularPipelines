@@ -41,7 +41,6 @@ public record AwsCognitoIdpUpdateUserPoolReplicaOptions : AwsOptions, IValidatab
         this.UserPoolId = UserPoolId;
         global::System.ArgumentNullException.ThrowIfNull(RegionName);
         this.RegionName = RegionName;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

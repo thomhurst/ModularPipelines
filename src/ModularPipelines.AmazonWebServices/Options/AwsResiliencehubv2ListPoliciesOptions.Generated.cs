@@ -22,6 +22,12 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("resiliencehubv2", "list-policies")]
 public record AwsResiliencehubv2ListPoliciesOptions : AwsOptions
 {
+    /// <summary>
+    /// The identifier of the account that owns the policies to include in the results. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

@@ -51,7 +51,6 @@ public record AwsSsoAdminDeleteAccountAssignmentOptions : AwsOptions, IValidatab
         this.TargetType = TargetType;
         global::System.ArgumentNullException.ThrowIfNull(PermissionSetArn);
         this.PermissionSetArn = PermissionSetArn;
-        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
         this.PrincipalType = PrincipalType;
         global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
         this.PrincipalId = PrincipalId;

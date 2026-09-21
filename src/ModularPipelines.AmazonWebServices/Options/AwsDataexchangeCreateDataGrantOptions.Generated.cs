@@ -42,7 +42,6 @@ public record AwsDataexchangeCreateDataGrantOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(GrantDistributionScope);
         this.GrantDistributionScope = GrantDistributionScope;
         global::System.ArgumentNullException.ThrowIfNull(ReceiverPrincipal);
         this.ReceiverPrincipal = ReceiverPrincipal;

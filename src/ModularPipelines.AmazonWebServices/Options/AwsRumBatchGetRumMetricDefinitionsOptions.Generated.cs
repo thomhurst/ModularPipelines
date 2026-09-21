@@ -38,7 +38,6 @@ public record AwsRumBatchGetRumMetricDefinitionsOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(AppMonitorName);
         this.AppMonitorName = AppMonitorName;
-        global::System.ArgumentNullException.ThrowIfNull(Destination);
         this.Destination = Destination;
     }
 

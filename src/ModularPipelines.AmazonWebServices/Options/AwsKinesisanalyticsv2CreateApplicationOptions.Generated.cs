@@ -39,7 +39,6 @@ public record AwsKinesisanalyticsv2CreateApplicationOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
         this.ApplicationName = ApplicationName;
-        global::System.ArgumentNullException.ThrowIfNull(RuntimeEnvironment);
         this.RuntimeEnvironment = RuntimeEnvironment;
         global::System.ArgumentNullException.ThrowIfNull(ServiceExecutionRole);
         this.ServiceExecutionRole = ServiceExecutionRole;

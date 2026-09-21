@@ -39,7 +39,6 @@ public record AwsMigrationHubRefactorSpacesCreateEnvironmentOptions : AwsOptions
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(NetworkFabricType);
         this.NetworkFabricType = NetworkFabricType;
     }
 

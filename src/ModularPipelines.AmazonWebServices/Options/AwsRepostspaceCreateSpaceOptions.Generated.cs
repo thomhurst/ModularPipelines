@@ -42,7 +42,6 @@ public record AwsRepostspaceCreateSpaceOptions : AwsOptions, IValidatableObject
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(Subdomain);
         this.Subdomain = Subdomain;
-        global::System.ArgumentNullException.ThrowIfNull(Tier);
         this.Tier = Tier;
     }
 

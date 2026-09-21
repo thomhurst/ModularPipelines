@@ -40,7 +40,6 @@ public record AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocati
         IEnumerable<string> RevenueShareAllocations
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(RevenueAttributionIdentifier);
         this.RevenueAttributionIdentifier = RevenueAttributionIdentifier;

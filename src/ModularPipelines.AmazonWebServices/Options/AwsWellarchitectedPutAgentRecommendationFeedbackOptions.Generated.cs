@@ -37,7 +37,6 @@ public record AwsWellarchitectedPutAgentRecommendationFeedbackOptions : AwsOptio
     {
         global::System.ArgumentNullException.ThrowIfNull(RecommendationArn);
         this.RecommendationArn = RecommendationArn;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

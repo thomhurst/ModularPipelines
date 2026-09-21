@@ -48,7 +48,6 @@ public record AwsComprehendDetectToxicContentOptions : AwsOptions, IValidatableO
             TextSegments = materialized;
         }
         this.TextSegments = TextSegments;
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
     }
 

@@ -37,7 +37,6 @@ public record AwsFrauddetectorDeleteModelOptions : AwsOptions, IValidatableObjec
     {
         global::System.ArgumentNullException.ThrowIfNull(ModelId);
         this.ModelId = ModelId;
-        global::System.ArgumentNullException.ThrowIfNull(ModelType);
         this.ModelType = ModelType;
     }
 

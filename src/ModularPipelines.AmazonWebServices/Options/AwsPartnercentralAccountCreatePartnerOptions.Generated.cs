@@ -46,7 +46,6 @@ public record AwsPartnercentralAccountCreatePartnerOptions : AwsOptions, IValida
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(LegalName);
         this.LegalName = LegalName;
-        global::System.ArgumentNullException.ThrowIfNull(PrimarySolutionType);
         this.PrimarySolutionType = PrimarySolutionType;
         global::System.ArgumentNullException.ThrowIfNull(AllianceLeadContact);
         this.AllianceLeadContact = AllianceLeadContact;

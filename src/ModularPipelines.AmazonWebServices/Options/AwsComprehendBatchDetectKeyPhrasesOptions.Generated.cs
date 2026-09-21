@@ -48,7 +48,6 @@ public record AwsComprehendBatchDetectKeyPhrasesOptions : AwsOptions, IValidatab
             TextList = materialized;
         }
         this.TextList = TextList;
-        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
         this.LanguageCode = LanguageCode;
     }
 

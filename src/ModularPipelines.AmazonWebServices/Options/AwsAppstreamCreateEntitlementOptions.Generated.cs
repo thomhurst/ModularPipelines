@@ -43,7 +43,6 @@ public record AwsAppstreamCreateEntitlementOptions : AwsOptions, IValidatableObj
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(StackName);
         this.StackName = StackName;
-        global::System.ArgumentNullException.ThrowIfNull(AppVisibility);
         this.AppVisibility = AppVisibility;
         {
             global::System.ArgumentNullException.ThrowIfNull(Attributes);

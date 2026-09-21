@@ -72,7 +72,6 @@ public record AwsArcRegionSwitchCreatePlanOptions : AwsOptions, IValidatableObje
             Regions = materialized;
         }
         this.Regions = Regions;
-        global::System.ArgumentNullException.ThrowIfNull(RecoveryApproach);
         this.RecoveryApproach = RecoveryApproach;
     }
 

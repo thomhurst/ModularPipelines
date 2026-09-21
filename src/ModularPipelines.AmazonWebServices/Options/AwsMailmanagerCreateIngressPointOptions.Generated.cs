@@ -42,7 +42,6 @@ public record AwsMailmanagerCreateIngressPointOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(IngressPointName);
         this.IngressPointName = IngressPointName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(RuleSetId);
         this.RuleSetId = RuleSetId;

@@ -33,7 +33,6 @@ public record AwsMacie2GetFindingStatisticsOptions : AwsOptions, IValidatableObj
         AwsMacie2GetFindingStatisticsGroupBy GroupBy
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(GroupBy);
         this.GroupBy = GroupBy;
     }
 

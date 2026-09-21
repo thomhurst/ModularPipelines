@@ -48,7 +48,6 @@ public record AwsInvoicingCreateProcurementPortalPreferenceOptions : AwsOptions,
         IEnumerable<string> Contacts
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ProcurementPortalName);
         this.ProcurementPortalName = ProcurementPortalName;
         global::System.ArgumentNullException.ThrowIfNull(BuyerDomain);
         this.BuyerDomain = BuyerDomain;

@@ -37,7 +37,6 @@ public record AwsLambdaCreateFunctionUrlConfigOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(FunctionName);
         this.FunctionName = FunctionName;
-        global::System.ArgumentNullException.ThrowIfNull(AuthType);
         this.AuthType = AuthType;
     }
 

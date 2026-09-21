@@ -37,7 +37,6 @@ public record AwsEc2ModifyAvailabilityZoneGroupOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(GroupName);
         this.GroupName = GroupName;
-        global::System.ArgumentNullException.ThrowIfNull(OptInStatus);
         this.OptInStatus = OptInStatus;
     }
 

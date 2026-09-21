@@ -40,13 +40,9 @@ public record AwsCeGetSavingsPlansPurchaseRecommendationOptions : AwsOptions, IV
         AwsCeGetSavingsPlansPurchaseRecommendationLookbackPeriodInDays LookbackPeriodInDays
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(SavingsPlansType);
         this.SavingsPlansType = SavingsPlansType;
-        global::System.ArgumentNullException.ThrowIfNull(TermInYears);
         this.TermInYears = TermInYears;
-        global::System.ArgumentNullException.ThrowIfNull(PaymentOption);
         this.PaymentOption = PaymentOption;
-        global::System.ArgumentNullException.ThrowIfNull(LookbackPeriodInDays);
         this.LookbackPeriodInDays = LookbackPeriodInDays;
     }
 

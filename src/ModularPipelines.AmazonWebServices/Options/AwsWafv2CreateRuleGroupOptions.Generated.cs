@@ -42,7 +42,6 @@ public record AwsWafv2CreateRuleGroupOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
         this.Capacity = Capacity;
         global::System.ArgumentNullException.ThrowIfNull(VisibilityConfig);

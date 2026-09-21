@@ -39,7 +39,6 @@ public record AwsAccessanalyzerCreateAnalyzerOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(AnalyzerName);
         this.AnalyzerName = AnalyzerName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

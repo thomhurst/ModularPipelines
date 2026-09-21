@@ -41,7 +41,6 @@ public record AwsFrauddetectorUpdateDetectorVersionStatusOptions : AwsOptions, I
         this.DetectorId = DetectorId;
         global::System.ArgumentNullException.ThrowIfNull(DetectorVersionId);
         this.DetectorVersionId = DetectorVersionId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

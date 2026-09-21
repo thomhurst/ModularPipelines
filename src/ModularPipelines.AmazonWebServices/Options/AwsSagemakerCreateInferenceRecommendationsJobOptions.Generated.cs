@@ -41,7 +41,6 @@ public record AwsSagemakerCreateInferenceRecommendationsJobOptions : AwsOptions,
     {
         global::System.ArgumentNullException.ThrowIfNull(JobName);
         this.JobName = JobName;
-        global::System.ArgumentNullException.ThrowIfNull(JobType);
         this.JobType = JobType;
         global::System.ArgumentNullException.ThrowIfNull(RoleArn);
         this.RoleArn = RoleArn;

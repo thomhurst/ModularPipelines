@@ -41,7 +41,6 @@ public record AwsMwaaInvokeRestApiOptions : AwsOptions, IValidatableObject
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(Path);
         this.Path = Path;
-        global::System.ArgumentNullException.ThrowIfNull(Method);
         this.Method = Method;
     }
 

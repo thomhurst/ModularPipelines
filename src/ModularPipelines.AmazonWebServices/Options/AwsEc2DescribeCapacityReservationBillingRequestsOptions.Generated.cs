@@ -34,7 +34,6 @@ public record AwsEc2DescribeCapacityReservationBillingRequestsOptions : AwsOptio
         AwsEc2DescribeCapacityReservationBillingRequestsRole Role
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
     }
 

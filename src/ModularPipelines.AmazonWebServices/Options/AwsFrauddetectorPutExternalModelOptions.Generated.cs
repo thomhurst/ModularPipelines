@@ -53,7 +53,6 @@ public record AwsFrauddetectorPutExternalModelOptions : AwsOptions, IValidatable
         this.InputConfiguration = InputConfiguration;
         global::System.ArgumentNullException.ThrowIfNull(OutputConfiguration);
         this.OutputConfiguration = OutputConfiguration;
-        global::System.ArgumentNullException.ThrowIfNull(ModelEndpointStatus);
         this.ModelEndpointStatus = ModelEndpointStatus;
     }
 

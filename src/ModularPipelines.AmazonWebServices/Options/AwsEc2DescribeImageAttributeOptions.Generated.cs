@@ -35,7 +35,6 @@ public record AwsEc2DescribeImageAttributeOptions : AwsOptions, IValidatableObje
         string ImageId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Attribute);
         this.Attribute = Attribute;
         global::System.ArgumentNullException.ThrowIfNull(ImageId);
         this.ImageId = ImageId;

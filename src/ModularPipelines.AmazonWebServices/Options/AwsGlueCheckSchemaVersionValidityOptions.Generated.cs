@@ -35,7 +35,6 @@ public record AwsGlueCheckSchemaVersionValidityOptions : AwsOptions, IValidatabl
         string SchemaDefinition
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(DataFormat);
         this.DataFormat = DataFormat;
         global::System.ArgumentNullException.ThrowIfNull(SchemaDefinition);
         this.SchemaDefinition = SchemaDefinition;

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns AWS resources for this environment. See also: AWS API Documentation
+/// Returns Amazon Web Services resources for this environment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkDescribeEnvironmentResourcesOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the environment to retrieve AWS resource usage data. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the environment to retrieve Amazon Web Services resource usage data. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns Miss- ingRequiredParameter error.
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// The name of the environment to retrieve AWS resource usage data. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. Constraints: o min: 4 o max: 40
+    /// The name of the environment to retrieve Amazon Web Services resource usage data. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns Miss- ingRequiredParameter error. Constraints: o min: 4 o max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }

@@ -38,7 +38,6 @@ public record AwsOrganizationsListEffectivePolicyValidationErrorsOptions : AwsOp
     {
         global::System.ArgumentNullException.ThrowIfNull(AccountId);
         this.AccountId = AccountId;
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

@@ -47,7 +47,6 @@ public record AwsLightsailGetInstanceMetricDataOptions : AwsOptions, IValidatabl
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceName);
         this.InstanceName = InstanceName;
-        global::System.ArgumentNullException.ThrowIfNull(MetricName);
         this.MetricName = MetricName;
         this.Period = Period;
         global::System.ArgumentNullException.ThrowIfNull(StartTime);

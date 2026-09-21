@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a session. A session is a contextual container used for gener- ating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
+/// Creates a session. A session is a contextual container used for gener- ating recommendations. Connect Customer creates a new Amazon Q in Con- nect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +27,7 @@ public record AwsQconnectCreateSessionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a session. A session is a contextual container used for gener- ating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
+    /// Creates a session. A session is a contextual container used for gener- ating recommendations. Connect Customer creates a new Amazon Q in Con- nect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
     /// <param name="Name">The name of the session. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9\s_.,-]+.*</param>
@@ -105,7 +105,7 @@ public record AwsQconnectCreateSessionOptions : AwsOptions, IValidatableObject
     public IReadOnlyList<KeyValue>? AiAgentConfiguration { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the email contact in Amazon Con- nect. Used to retrieve email content and establish session context for AI-powered email assistance. Constraints: o min: 1 o max: 2048 o pattern: arn:[a-z-]+?:[a-z-]+?:[a-z0-9-]*?:([0-9]{12})?:[a-zA-Z0-9-:/]+
+    /// The Amazon Resource Name (ARN) of the email contact in Connect Cus- tomer. Used to retrieve email content and establish session context for AI-powered email assistance. Constraints: o min: 1 o max: 2048 o pattern: arn:[a-z-]+?:[a-z-]+?:[a-z0-9-]*?:([0-9]{12})?:[a-zA-Z0-9-:/]+
     /// </summary>
     [CliOption("--contact-arn")]
     public string? ContactArn { get; set; }

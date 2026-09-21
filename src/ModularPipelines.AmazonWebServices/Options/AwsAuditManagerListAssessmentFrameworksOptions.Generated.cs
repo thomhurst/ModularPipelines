@@ -34,7 +34,6 @@ public record AwsAuditManagerListAssessmentFrameworksOptions : AwsOptions, IVali
         AwsAuditManagerListAssessmentFrameworksFrameworkType FrameworkType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(FrameworkType);
         this.FrameworkType = FrameworkType;
     }
 

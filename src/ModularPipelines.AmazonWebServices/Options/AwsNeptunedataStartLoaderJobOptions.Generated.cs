@@ -42,7 +42,6 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions, IValidatableObje
     {
         global::System.ArgumentNullException.ThrowIfNull(Source);
         this.Source = Source;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
         global::System.ArgumentNullException.ThrowIfNull(S3BucketRegion);
         this.S3BucketRegion = S3BucketRegion;

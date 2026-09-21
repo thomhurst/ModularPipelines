@@ -34,7 +34,6 @@ public record AwsSwfListDomainsOptions : AwsOptions, IValidatableObject
         AwsSwfListDomainsRegistrationStatus RegistrationStatus
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(RegistrationStatus);
         this.RegistrationStatus = RegistrationStatus;
     }
 

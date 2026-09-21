@@ -22,6 +22,9 @@ public enum AwsVpcLatticeCreateResourceConfigurationType
     [EnumValue("CHILD")]
     Child,
 
+    [EnumValue("CIDR")]
+    Cidr,
+
     [EnumValue("GROUP")]
     Group,
 

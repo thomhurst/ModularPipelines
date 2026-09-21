@@ -49,7 +49,6 @@ public record AwsTimestreamInfluxdbCreateDbInstanceOptions : AwsOptions, IValida
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(Password);
         this.Password = Password;
-        global::System.ArgumentNullException.ThrowIfNull(DbInstanceType);
         this.DbInstanceType = DbInstanceType;
         {
             global::System.ArgumentNullException.ThrowIfNull(VpcSubnetIds);

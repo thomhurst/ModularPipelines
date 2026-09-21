@@ -38,7 +38,6 @@ public record AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions 
     {
         global::System.ArgumentNullException.ThrowIfNull(VerifiedDestinationNumberId);
         this.VerifiedDestinationNumberId = VerifiedDestinationNumberId;
-        global::System.ArgumentNullException.ThrowIfNull(VerificationChannel);
         this.VerificationChannel = VerificationChannel;
     }
 

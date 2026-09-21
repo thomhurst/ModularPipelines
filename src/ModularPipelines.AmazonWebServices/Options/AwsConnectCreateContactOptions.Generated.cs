@@ -41,9 +41,7 @@ public record AwsConnectCreateContactOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(Channel);
         this.Channel = Channel;
-        global::System.ArgumentNullException.ThrowIfNull(InitiationMethod);
         this.InitiationMethod = InitiationMethod;
     }
 

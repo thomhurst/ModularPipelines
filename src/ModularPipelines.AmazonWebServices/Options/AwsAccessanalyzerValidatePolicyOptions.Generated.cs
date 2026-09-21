@@ -38,7 +38,6 @@ public record AwsAccessanalyzerValidatePolicyOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
         this.PolicyDocument = PolicyDocument;
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

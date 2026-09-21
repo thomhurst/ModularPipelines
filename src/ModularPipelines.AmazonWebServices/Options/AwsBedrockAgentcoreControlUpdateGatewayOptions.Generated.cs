@@ -45,7 +45,6 @@ public record AwsBedrockAgentcoreControlUpdateGatewayOptions : AwsOptions, IVali
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(RoleArn);
         this.RoleArn = RoleArn;
-        global::System.ArgumentNullException.ThrowIfNull(AuthorizerType);
         this.AuthorizerType = AuthorizerType;
     }
 

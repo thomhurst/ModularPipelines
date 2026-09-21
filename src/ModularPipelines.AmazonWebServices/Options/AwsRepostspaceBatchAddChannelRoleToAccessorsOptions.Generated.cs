@@ -56,7 +56,6 @@ public record AwsRepostspaceBatchAddChannelRoleToAccessorsOptions : AwsOptions, 
             AccessorIds = materialized;
         }
         this.AccessorIds = AccessorIds;
-        global::System.ArgumentNullException.ThrowIfNull(ChannelRole);
         this.ChannelRole = ChannelRole;
     }
 

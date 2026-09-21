@@ -57,7 +57,6 @@ public record AwsSagemakerGeospatialGetTileOptions : AwsOptions
             ImageAssets = materialized;
         }
         this.ImageAssets = ImageAssets;
-        global::System.ArgumentNullException.ThrowIfNull(Target);
         this.Target = Target;
         this.X = X;
         this.Y = Y;

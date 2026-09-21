@@ -33,7 +33,6 @@ public record AwsChimeListSupportedPhoneNumberCountriesOptions : AwsOptions, IVa
         AwsChimeListSupportedPhoneNumberCountriesProductType ProductType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ProductType);
         this.ProductType = ProductType;
     }
 

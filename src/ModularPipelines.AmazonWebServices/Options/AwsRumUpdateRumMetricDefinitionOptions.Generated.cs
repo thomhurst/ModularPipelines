@@ -41,7 +41,6 @@ public record AwsRumUpdateRumMetricDefinitionOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(AppMonitorName);
         this.AppMonitorName = AppMonitorName;
-        global::System.ArgumentNullException.ThrowIfNull(Destination);
         this.Destination = Destination;
         global::System.ArgumentNullException.ThrowIfNull(MetricDefinition);
         this.MetricDefinition = MetricDefinition;

@@ -34,7 +34,6 @@ public record AwsAuditManagerListAssessmentFrameworkShareRequestsOptions : AwsOp
         AwsAuditManagerListAssessmentFrameworkShareRequestsRequestType RequestType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(RequestType);
         this.RequestType = RequestType;
     }
 

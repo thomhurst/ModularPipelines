@@ -49,7 +49,6 @@ public record AwsPaymentCryptographyDataVerifyPinDataOptions : AwsOptions, IVali
         this.VerificationAttributes = VerificationAttributes;
         global::System.ArgumentNullException.ThrowIfNull(EncryptedPinBlock);
         this.EncryptedPinBlock = EncryptedPinBlock;
-        global::System.ArgumentNullException.ThrowIfNull(PinBlockFormat);
         this.PinBlockFormat = PinBlockFormat;
     }
 

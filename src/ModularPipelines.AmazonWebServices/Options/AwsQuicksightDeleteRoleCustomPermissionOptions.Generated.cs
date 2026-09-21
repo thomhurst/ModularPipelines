@@ -37,7 +37,6 @@ public record AwsQuicksightDeleteRoleCustomPermissionOptions : AwsOptions, IVali
         string Namespace
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;

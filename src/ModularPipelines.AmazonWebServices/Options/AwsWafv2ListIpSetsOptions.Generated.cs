@@ -33,7 +33,6 @@ public record AwsWafv2ListIpSetsOptions : AwsOptions, IValidatableObject
         AwsWafv2ListIpSetsScope Scope
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

@@ -36,7 +36,6 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocatio
         string RevenueAttributionIdentifier
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
         global::System.ArgumentNullException.ThrowIfNull(RevenueAttributionIdentifier);
         this.RevenueAttributionIdentifier = RevenueAttributionIdentifier;

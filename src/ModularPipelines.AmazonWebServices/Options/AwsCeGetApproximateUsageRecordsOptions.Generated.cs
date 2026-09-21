@@ -35,9 +35,7 @@ public record AwsCeGetApproximateUsageRecordsOptions : AwsOptions, IValidatableO
         AwsCeGetApproximateUsageRecordsApproximationDimension ApproximationDimension
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Granularity);
         this.Granularity = Granularity;
-        global::System.ArgumentNullException.ThrowIfNull(ApproximationDimension);
         this.ApproximationDimension = ApproximationDimension;
     }
 

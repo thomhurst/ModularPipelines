@@ -53,7 +53,6 @@ public record AwsQappsCreatePresignedUrlOptions : AwsOptions, IValidatableObject
         this.FileContentsSha256 = FileContentsSha256;
         global::System.ArgumentNullException.ThrowIfNull(FileName);
         this.FileName = FileName;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
     }
 

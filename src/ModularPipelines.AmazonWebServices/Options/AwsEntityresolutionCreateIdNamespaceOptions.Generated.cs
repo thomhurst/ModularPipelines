@@ -38,7 +38,6 @@ public record AwsEntityresolutionCreateIdNamespaceOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(IdNamespaceName);
         this.IdNamespaceName = IdNamespaceName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

@@ -37,7 +37,6 @@ public record AwsPinpointSmsVoiceV2PutMessageFeedbackOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(MessageId);
         this.MessageId = MessageId;
-        global::System.ArgumentNullException.ThrowIfNull(MessageFeedbackStatus);
         this.MessageFeedbackStatus = MessageFeedbackStatus;
     }
 

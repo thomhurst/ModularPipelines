@@ -41,7 +41,6 @@ public record AwsConnectDescribeInstanceStorageConfigOptions : AwsOptions, IVali
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(AssociationId);
         this.AssociationId = AssociationId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

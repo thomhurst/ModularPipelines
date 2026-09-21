@@ -53,7 +53,6 @@ public record AwsGlobalacceleratorCreateListenerOptions : AwsOptions, IValidatab
             PortRanges = materialized;
         }
         this.PortRanges = PortRanges;
-        global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
     }
 

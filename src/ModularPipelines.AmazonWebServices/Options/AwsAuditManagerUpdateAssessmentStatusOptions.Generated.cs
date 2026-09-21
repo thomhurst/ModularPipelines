@@ -37,7 +37,6 @@ public record AwsAuditManagerUpdateAssessmentStatusOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(AssessmentId);
         this.AssessmentId = AssessmentId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

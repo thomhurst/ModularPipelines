@@ -41,7 +41,6 @@ public record AwsEc2ModifyIpamPolicyAllocationRulesOptions : AwsOptions, IValida
         this.IpamPolicyId = IpamPolicyId;
         global::System.ArgumentNullException.ThrowIfNull(Locale);
         this.Locale = Locale;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

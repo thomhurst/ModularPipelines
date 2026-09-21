@@ -46,7 +46,6 @@ public record AwsSchemasCreateSchemaOptions : AwsOptions, IValidatableObject
         this.RegistryName = RegistryName;
         global::System.ArgumentNullException.ThrowIfNull(SchemaName);
         this.SchemaName = SchemaName;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

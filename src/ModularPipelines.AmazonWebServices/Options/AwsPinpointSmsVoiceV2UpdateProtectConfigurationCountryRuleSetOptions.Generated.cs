@@ -40,7 +40,6 @@ public record AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetOptio
     {
         global::System.ArgumentNullException.ThrowIfNull(ProtectConfigurationId);
         this.ProtectConfigurationId = ProtectConfigurationId;
-        global::System.ArgumentNullException.ThrowIfNull(NumberCapability);
         this.NumberCapability = NumberCapability;
         {
             global::System.ArgumentNullException.ThrowIfNull(CountryRuleSetUpdates);

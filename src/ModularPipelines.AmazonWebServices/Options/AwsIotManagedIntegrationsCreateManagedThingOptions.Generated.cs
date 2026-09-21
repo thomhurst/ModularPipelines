@@ -39,11 +39,9 @@ public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions, I
         AwsIotManagedIntegrationsCreateManagedThingAuthenticationMaterialType AuthenticationMaterialType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
         global::System.ArgumentNullException.ThrowIfNull(AuthenticationMaterial);
         this.AuthenticationMaterial = AuthenticationMaterial;
-        global::System.ArgumentNullException.ThrowIfNull(AuthenticationMaterialType);
         this.AuthenticationMaterialType = AuthenticationMaterialType;
     }
 

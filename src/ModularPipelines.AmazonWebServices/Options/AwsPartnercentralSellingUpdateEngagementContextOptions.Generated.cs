@@ -51,7 +51,6 @@ public record AwsPartnercentralSellingUpdateEngagementContextOptions : AwsOption
         this.ContextIdentifier = ContextIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(EngagementLastModifiedAt);
         this.EngagementLastModifiedAt = EngagementLastModifiedAt;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(Payload);
         this.Payload = Payload;

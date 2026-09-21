@@ -45,7 +45,6 @@ public record AwsMigrationHubRefactorSpacesCreateRouteOptions : AwsOptions, IVal
         this.ApplicationIdentifier = ApplicationIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
         this.EnvironmentIdentifier = EnvironmentIdentifier;
-        global::System.ArgumentNullException.ThrowIfNull(RouteType);
         this.RouteType = RouteType;
         global::System.ArgumentNullException.ThrowIfNull(ServiceIdentifier);
         this.ServiceIdentifier = ServiceIdentifier;

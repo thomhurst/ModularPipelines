@@ -34,7 +34,6 @@ public record AwsIotsitewiseListDatasetsOptions : AwsOptions, IValidatableObject
         AwsIotsitewiseListDatasetsSourceType SourceType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(SourceType);
         this.SourceType = SourceType;
     }
 

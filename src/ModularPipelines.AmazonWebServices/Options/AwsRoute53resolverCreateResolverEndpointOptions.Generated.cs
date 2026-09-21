@@ -54,7 +54,6 @@ public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions, IVal
             SecurityGroupIds = materialized;
         }
         this.SecurityGroupIds = SecurityGroupIds;
-        global::System.ArgumentNullException.ThrowIfNull(Direction);
         this.Direction = Direction;
         {
             global::System.ArgumentNullException.ThrowIfNull(IpAddresses);

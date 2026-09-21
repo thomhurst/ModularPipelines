@@ -28,7 +28,7 @@ public record AwsNotificationsListManagedNotificationChannelAssociationsOptions 
     /// <summary>
     /// Returns a list of Account contacts and Channels associated with a Man- agedNotificationConfiguration , in paginated format. See also: AWS API Documentation list-managed-notification-channel-associations is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data...
     /// </summary>
-    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to match. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
+    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to match. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
     public AwsNotificationsListManagedNotificationChannelAssociationsOptions(
         string ManagedNotificationConfigurationArn
     )
@@ -57,7 +57,7 @@ public record AwsNotificationsListManagedNotificationChannelAssociationsOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to match. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to match. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
     /// </summary>
     [CliOption("--managed-notification-configuration-arn")]
     public string? ManagedNotificationConfigurationArn { get; private init; }

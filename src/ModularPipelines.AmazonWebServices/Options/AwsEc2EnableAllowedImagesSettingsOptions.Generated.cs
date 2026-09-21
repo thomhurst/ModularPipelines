@@ -33,7 +33,6 @@ public record AwsEc2EnableAllowedImagesSettingsOptions : AwsOptions, IValidatabl
         AwsEc2EnableAllowedImagesSettingsAllowedImagesSettingsState AllowedImagesSettingsState
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AllowedImagesSettingsState);
         this.AllowedImagesSettingsState = AllowedImagesSettingsState;
     }
 

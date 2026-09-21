@@ -54,7 +54,7 @@ public record AwsNotificationsListNotificationEventsOptions : AwsOptions
     public bool? IncludeChildEvents { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the aggregatedNotificationEventArn to match. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifica- tions:[-.a-z0-9]{1,63}:[0-9]{12}:configura- tion/[a-z0-9]{27}/event/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the aggregatedNotificationEventArn to match. Constraints: o pattern: arn:[a-z-]{3,10}:notifica- tions:[-.a-z0-9]{1,63}:[0-9]{12}:configura- tion/[a-z0-9]{27}/event/[a-z0-9]{27}
     /// </summary>
     [CliOption("--aggregate-notification-event-arn")]
     public string? AggregateNotificationEventArn { get; set; }

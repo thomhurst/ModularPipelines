@@ -41,9 +41,7 @@ public record AwsWafv2CreateIpSetOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(Scope);
         this.Scope = Scope;
-        global::System.ArgumentNullException.ThrowIfNull(IpAddressVersion);
         this.IpAddressVersion = IpAddressVersion;
         {
             global::System.ArgumentNullException.ThrowIfNull(Addresses);

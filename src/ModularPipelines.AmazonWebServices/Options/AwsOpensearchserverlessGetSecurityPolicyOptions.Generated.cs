@@ -35,7 +35,6 @@ public record AwsOpensearchserverlessGetSecurityPolicyOptions : AwsOptions, IVal
         string Name
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;

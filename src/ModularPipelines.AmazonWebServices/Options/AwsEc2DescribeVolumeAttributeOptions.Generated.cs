@@ -35,7 +35,6 @@ public record AwsEc2DescribeVolumeAttributeOptions : AwsOptions, IValidatableObj
         string VolumeId
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Attribute);
         this.Attribute = Attribute;
         global::System.ArgumentNullException.ThrowIfNull(VolumeId);
         this.VolumeId = VolumeId;

@@ -38,7 +38,6 @@ public record AwsOpensearchserverlessCreateCollectionGroupOptions : AwsOptions, 
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(StandbyReplicas);
         this.StandbyReplicas = StandbyReplicas;
     }
 

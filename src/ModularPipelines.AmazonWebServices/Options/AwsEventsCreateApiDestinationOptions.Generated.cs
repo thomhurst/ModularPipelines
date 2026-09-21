@@ -45,7 +45,6 @@ public record AwsEventsCreateApiDestinationOptions : AwsOptions, IValidatableObj
         this.ConnectionArn = ConnectionArn;
         global::System.ArgumentNullException.ThrowIfNull(InvocationEndpoint);
         this.InvocationEndpoint = InvocationEndpoint;
-        global::System.ArgumentNullException.ThrowIfNull(HttpMethod);
         this.HttpMethod = HttpMethod;
     }
 

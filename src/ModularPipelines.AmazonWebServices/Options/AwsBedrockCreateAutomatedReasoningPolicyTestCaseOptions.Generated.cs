@@ -42,7 +42,6 @@ public record AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions : AwsOptio
         this.PolicyArn = PolicyArn;
         global::System.ArgumentNullException.ThrowIfNull(GuardContent);
         this.GuardContent = GuardContent;
-        global::System.ArgumentNullException.ThrowIfNull(ExpectedAggregatedFindingsResult);
         this.ExpectedAggregatedFindingsResult = ExpectedAggregatedFindingsResult;
     }
 

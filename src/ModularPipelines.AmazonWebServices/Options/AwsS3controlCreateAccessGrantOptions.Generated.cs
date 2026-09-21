@@ -45,7 +45,6 @@ public record AwsS3controlCreateAccessGrantOptions : AwsOptions, IValidatableObj
         this.AccessGrantsLocationId = AccessGrantsLocationId;
         global::System.ArgumentNullException.ThrowIfNull(Grantee);
         this.Grantee = Grantee;
-        global::System.ArgumentNullException.ThrowIfNull(Permission);
         this.Permission = Permission;
     }
 

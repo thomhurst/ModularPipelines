@@ -29,7 +29,7 @@ public record AwsIvsRealtimeStopParticipantReplicationOptions : AwsOptions, IVal
     /// </summary>
     /// <param name="SourceStageArn">ARN of the stage where the participant is publishing. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
     /// <param name="DestinationStageArn">ARN of the stage where the participant has been replicated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
-    /// <param name="ParticipantId">Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]*</param>
+    /// <param name="ParticipantId">Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*</param>
     public AwsIvsRealtimeStopParticipantReplicationOptions(
         string SourceStageArn,
         string DestinationStageArn,
@@ -76,7 +76,7 @@ public record AwsIvsRealtimeStopParticipantReplicationOptions : AwsOptions, IVal
     public string? DestinationStageArn { get; private init; }
 
     /// <summary>
-    /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]*
+    /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--participant-id")]
     public string? ParticipantId { get; private init; }

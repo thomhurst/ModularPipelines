@@ -45,7 +45,6 @@ public record AwsMigrationhuborchestratorCreateWorkflowStepOptions : AwsOptions,
         this.StepGroupId = StepGroupId;
         global::System.ArgumentNullException.ThrowIfNull(WorkflowId);
         this.WorkflowId = WorkflowId;
-        global::System.ArgumentNullException.ThrowIfNull(StepActionType);
         this.StepActionType = StepActionType;
     }
 

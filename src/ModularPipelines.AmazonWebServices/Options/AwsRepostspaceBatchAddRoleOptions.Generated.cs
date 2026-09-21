@@ -52,7 +52,6 @@ public record AwsRepostspaceBatchAddRoleOptions : AwsOptions, IValidatableObject
             AccessorIds = materialized;
         }
         this.AccessorIds = AccessorIds;
-        global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
     }
 

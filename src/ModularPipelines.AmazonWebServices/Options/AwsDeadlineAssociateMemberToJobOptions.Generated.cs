@@ -51,11 +51,9 @@ public record AwsDeadlineAssociateMemberToJobOptions : AwsOptions, IValidatableO
         this.QueueId = QueueId;
         global::System.ArgumentNullException.ThrowIfNull(JobId);
         this.JobId = JobId;
-        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
         this.PrincipalType = PrincipalType;
         global::System.ArgumentNullException.ThrowIfNull(IdentityStoreId);
         this.IdentityStoreId = IdentityStoreId;
-        global::System.ArgumentNullException.ThrowIfNull(MembershipLevel);
         this.MembershipLevel = MembershipLevel;
         global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
         this.PrincipalId = PrincipalId;

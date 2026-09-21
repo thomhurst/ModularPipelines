@@ -40,7 +40,6 @@ public record AwsLightsailCreateContainerServiceOptions : AwsOptions, IValidatab
     {
         global::System.ArgumentNullException.ThrowIfNull(ServiceName);
         this.ServiceName = ServiceName;
-        global::System.ArgumentNullException.ThrowIfNull(Power);
         this.Power = Power;
         this.Scale = Scale;
     }

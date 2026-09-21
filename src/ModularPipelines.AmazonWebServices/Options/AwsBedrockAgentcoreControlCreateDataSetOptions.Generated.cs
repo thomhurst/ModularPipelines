@@ -43,7 +43,6 @@ public record AwsBedrockAgentcoreControlCreateDataSetOptions : AwsOptions, IVali
         this.DataSetName = DataSetName;
         global::System.ArgumentNullException.ThrowIfNull(Source);
         this.Source = Source;
-        global::System.ArgumentNullException.ThrowIfNull(SchemaType);
         this.SchemaType = SchemaType;
     }
 

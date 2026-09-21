@@ -35,7 +35,6 @@ public record AwsChimeSdkVoiceCreatePhoneNumberOrderOptions : AwsOptions, IValid
         IEnumerable<string> E164PhoneNumbers
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ProductType);
         this.ProductType = ProductType;
         {
             global::System.ArgumentNullException.ThrowIfNull(E164PhoneNumbers);

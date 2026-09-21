@@ -16,6 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppintegrationsCreateApplicationApplicationType
 {
+    [EnumValue("A2A_SERVER")]
+    A2AServer,
+
     [EnumValue("MCP_SERVER")]
     McpServer,
 

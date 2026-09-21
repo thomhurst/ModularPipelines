@@ -43,7 +43,6 @@ public record AwsIotsitewiseCreateAccessPolicyOptions : AwsOptions, IValidatable
         this.AccessPolicyIdentity = AccessPolicyIdentity;
         global::System.ArgumentNullException.ThrowIfNull(AccessPolicyResource);
         this.AccessPolicyResource = AccessPolicyResource;
-        global::System.ArgumentNullException.ThrowIfNull(AccessPolicyPermission);
         this.AccessPolicyPermission = AccessPolicyPermission;
     }
 

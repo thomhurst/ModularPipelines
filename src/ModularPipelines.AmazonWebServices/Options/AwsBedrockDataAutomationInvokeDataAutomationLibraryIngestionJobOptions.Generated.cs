@@ -48,7 +48,6 @@ public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOpt
         this.InputConfiguration = InputConfiguration;
         global::System.ArgumentNullException.ThrowIfNull(EntityType);
         this.EntityType = EntityType;
-        global::System.ArgumentNullException.ThrowIfNull(OperationType);
         this.OperationType = OperationType;
         global::System.ArgumentNullException.ThrowIfNull(OutputConfiguration);
         this.OutputConfiguration = OutputConfiguration;

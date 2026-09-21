@@ -30,19 +30,15 @@ public record AwsConnectReplicateInstanceOptions : AwsOptions, IValidatableObjec
     /// </summary>
     /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId , or the entire ARN. Constraints: o min: 1 o max: 250 o pattern: ^(arn:([a-zA-Z0-9-]+):con- nect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$</param>
     /// <param name="ReplicaRegion">The Amazon Web Services Region where to replicate the Connect Cus- tomer instance. Constraints: o min: 8 o max: 31 o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?</param>
-    /// <param name="ReplicaAlias">The alias for the replicated instance. The ReplicaAlias must be unique. Constraints: o min: 1 o max: 45 o pattern: ^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$</param>
     public AwsConnectReplicateInstanceOptions(
         string InstanceId,
-        string ReplicaRegion,
-        string ReplicaAlias
+        string ReplicaRegion
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(ReplicaRegion);
         this.ReplicaRegion = ReplicaRegion;
-        global::System.ArgumentNullException.ThrowIfNull(ReplicaAlias);
-        this.ReplicaAlias = ReplicaAlias;
     }
 
     private AwsConnectReplicateInstanceOptions()
@@ -77,17 +73,17 @@ public record AwsConnectReplicateInstanceOptions : AwsOptions, IValidatableObjec
     public string? ReplicaRegion { get; private init; }
 
     /// <summary>
-    /// The alias for the replicated instance. The ReplicaAlias must be unique. Constraints: o min: 1 o max: 45 o pattern: ^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$
-    /// </summary>
-    [CliOption("--replica-alias")]
-    public string? ReplicaAlias { get; private init; }
-
-    /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
+
+    /// <summary>
+    /// The alias for the replicated instance. The ReplicaAlias must be unique. Constraints: o min: 1 o max: 45 o pattern: ^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$
+    /// </summary>
+    [CliOption("--replica-alias")]
+    public string? ReplicaAlias { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

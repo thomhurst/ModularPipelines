@@ -36,7 +36,6 @@ public record AwsFsxCreateVolumeOptions : AwsOptions, IValidatableObject
         string Name
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(VolumeType);
         this.VolumeType = VolumeType;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;

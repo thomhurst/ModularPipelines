@@ -37,7 +37,6 @@ public record AwsIamUpdateServiceSpecificCredentialOptions : AwsOptions, IValida
     {
         global::System.ArgumentNullException.ThrowIfNull(ServiceSpecificCredentialId);
         this.ServiceSpecificCredentialId = ServiceSpecificCredentialId;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

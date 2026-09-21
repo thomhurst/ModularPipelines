@@ -40,7 +40,6 @@ public record AwsConnectListEntitySecurityProfilesOptions : AwsOptions, IValidat
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
         this.InstanceId = InstanceId;
-        global::System.ArgumentNullException.ThrowIfNull(EntityType);
         this.EntityType = EntityType;
         global::System.ArgumentNullException.ThrowIfNull(EntityArn);
         this.EntityArn = EntityArn;

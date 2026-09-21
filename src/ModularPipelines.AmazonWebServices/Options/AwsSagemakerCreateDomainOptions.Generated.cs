@@ -39,7 +39,6 @@ public record AwsSagemakerCreateDomainOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(DomainName);
         this.DomainName = DomainName;
-        global::System.ArgumentNullException.ThrowIfNull(AuthMode);
         this.AuthMode = AuthMode;
         global::System.ArgumentNullException.ThrowIfNull(DefaultUserSettings);
         this.DefaultUserSettings = DefaultUserSettings;

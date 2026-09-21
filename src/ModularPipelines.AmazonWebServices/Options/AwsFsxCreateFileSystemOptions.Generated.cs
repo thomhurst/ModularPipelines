@@ -36,7 +36,6 @@ public record AwsFsxCreateFileSystemOptions : AwsOptions, IValidatableObject
         IEnumerable<string> SubnetIds
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(FileSystemType);
         this.FileSystemType = FileSystemType;
         {
             global::System.ArgumentNullException.ThrowIfNull(SubnetIds);

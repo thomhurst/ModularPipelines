@@ -37,7 +37,6 @@ public record AwsGameliftDescribeContainerGroupPortMappingsOptions : AwsOptions,
     {
         global::System.ArgumentNullException.ThrowIfNull(FleetId);
         this.FleetId = FleetId;
-        global::System.ArgumentNullException.ThrowIfNull(ContainerGroupType);
         this.ContainerGroupType = ContainerGroupType;
     }
 

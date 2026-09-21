@@ -41,7 +41,6 @@ public record AwsSagemakerCreateModelCardOptions : AwsOptions, IValidatableObjec
         this.ModelCardName = ModelCardName;
         global::System.ArgumentNullException.ThrowIfNull(Content);
         this.Content = Content;
-        global::System.ArgumentNullException.ThrowIfNull(ModelCardStatus);
         this.ModelCardStatus = ModelCardStatus;
     }
 

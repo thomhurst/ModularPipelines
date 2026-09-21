@@ -44,7 +44,6 @@ public record AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions : AwsOptio
     {
         this.StartTimeInSeconds = StartTimeInSeconds;
         this.EndTimeInSeconds = EndTimeInSeconds;
-        global::System.ArgumentNullException.ThrowIfNull(Quality);
         this.Quality = Quality;
         this.IntervalInSeconds = IntervalInSeconds;
         global::System.ArgumentNullException.ThrowIfNull(Type);

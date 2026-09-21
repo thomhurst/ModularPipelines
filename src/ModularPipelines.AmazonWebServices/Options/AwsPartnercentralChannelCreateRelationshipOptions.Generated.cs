@@ -46,7 +46,6 @@ public record AwsPartnercentralChannelCreateRelationshipOptions : AwsOptions, IV
     {
         global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
-        global::System.ArgumentNullException.ThrowIfNull(AssociationType);
         this.AssociationType = AssociationType;
         global::System.ArgumentNullException.ThrowIfNull(ProgramManagementAccountIdentifier);
         this.ProgramManagementAccountIdentifier = ProgramManagementAccountIdentifier;
@@ -54,7 +53,6 @@ public record AwsPartnercentralChannelCreateRelationshipOptions : AwsOptions, IV
         this.AssociatedAccountId = AssociatedAccountId;
         global::System.ArgumentNullException.ThrowIfNull(DisplayName);
         this.DisplayName = DisplayName;
-        global::System.ArgumentNullException.ThrowIfNull(Sector);
         this.Sector = Sector;
     }
 

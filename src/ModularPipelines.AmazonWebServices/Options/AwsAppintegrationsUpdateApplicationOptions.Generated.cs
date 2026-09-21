@@ -123,10 +123,16 @@ public record AwsAppintegrationsUpdateApplicationOptions : AwsOptions, IValidata
     public string? IframeConfig { get; set; }
 
     /// <summary>
-    /// The type of application. Possible values: o STANDARD o SERVICE o MCP_SERVER
+    /// The type of application. Possible values: o STANDARD o SERVICE o MCP_SERVER o A2A_SERVER
     /// </summary>
     [CliOption("--application-type")]
     public AwsAppintegrationsUpdateApplicationApplicationType? ApplicationType { get; set; }
+
+    /// <summary>
+    /// The authentication settings that Connect Customer uses when calling the external application. AuthType -&gt; (string) The type of authentication used when calling the external appli- cation. Possible values: o API_KEY CredentialProviderIdentifier -&gt; (string) The ARN of the Secrets Manager secret that stores the creden- tials. The secret must be accessible to Connect Customer. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Shorthand Syntax: AuthType=string,CredentialProviderIdentifier=string JSON Syntax: { "AuthType": "API_KEY", "CredentialProviderIdentifier": "string" }
+    /// </summary>
+    [CliOption("--auth-config")]
+    public string? AuthConfig { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

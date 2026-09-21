@@ -41,7 +41,6 @@ public record AwsAppsyncCreateTypeOptions : AwsOptions, IValidatableObject
         this.ApiId = ApiId;
         global::System.ArgumentNullException.ThrowIfNull(Definition);
         this.Definition = Definition;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
     }
 

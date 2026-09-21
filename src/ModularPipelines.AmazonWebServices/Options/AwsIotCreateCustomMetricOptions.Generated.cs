@@ -38,7 +38,6 @@ public record AwsIotCreateCustomMetricOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(MetricName);
         this.MetricName = MetricName;
-        global::System.ArgumentNullException.ThrowIfNull(MetricType);
         this.MetricType = MetricType;
     }
 

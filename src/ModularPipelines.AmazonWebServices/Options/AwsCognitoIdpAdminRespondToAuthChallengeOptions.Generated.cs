@@ -42,7 +42,6 @@ public record AwsCognitoIdpAdminRespondToAuthChallengeOptions : AwsOptions, IVal
         this.UserPoolId = UserPoolId;
         global::System.ArgumentNullException.ThrowIfNull(ClientId);
         this.ClientId = ClientId;
-        global::System.ArgumentNullException.ThrowIfNull(ChallengeName);
         this.ChallengeName = ChallengeName;
     }
 

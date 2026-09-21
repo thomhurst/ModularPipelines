@@ -50,7 +50,6 @@ public record AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions : AwsOptio
         this.GuardContent = GuardContent;
         global::System.ArgumentNullException.ThrowIfNull(LastUpdatedAt);
         this.LastUpdatedAt = LastUpdatedAt;
-        global::System.ArgumentNullException.ThrowIfNull(ExpectedAggregatedFindingsResult);
         this.ExpectedAggregatedFindingsResult = ExpectedAggregatedFindingsResult;
     }
 

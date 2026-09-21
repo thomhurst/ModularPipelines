@@ -35,7 +35,6 @@ public record AwsIotManagedIntegrationsCreateProvisioningProfileOptions : AwsOpt
         AwsIotManagedIntegrationsCreateProvisioningProfileProvisioningType ProvisioningType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ProvisioningType);
         this.ProvisioningType = ProvisioningType;
     }
 

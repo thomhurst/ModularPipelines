@@ -48,7 +48,6 @@ public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions, IVal
         this.PreserveExistingData = PreserveExistingData;
         global::System.ArgumentNullException.ThrowIfNull(TargetName);
         this.TargetName = TargetName;
-        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
         this.NetworkInterfaceId = NetworkInterfaceId;
     }
 

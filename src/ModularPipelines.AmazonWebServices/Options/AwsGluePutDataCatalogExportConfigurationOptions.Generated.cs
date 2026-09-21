@@ -34,7 +34,6 @@ public record AwsGluePutDataCatalogExportConfigurationOptions : AwsOptions, IVal
         AwsGluePutDataCatalogExportConfigurationExportSetting ExportSetting
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ExportSetting);
         this.ExportSetting = ExportSetting;
     }
 

@@ -41,7 +41,6 @@ public record AwsConnectDisassociateFlowOptions : AwsOptions, IValidatableObject
         this.InstanceId = InstanceId;
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
     }
 

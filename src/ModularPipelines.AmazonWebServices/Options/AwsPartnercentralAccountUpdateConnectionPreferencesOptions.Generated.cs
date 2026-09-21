@@ -40,7 +40,6 @@ public record AwsPartnercentralAccountUpdateConnectionPreferencesOptions : AwsOp
         global::System.ArgumentNullException.ThrowIfNull(Catalog);
         this.Catalog = Catalog;
         this.Revision = Revision;
-        global::System.ArgumentNullException.ThrowIfNull(AccessType);
         this.AccessType = AccessType;
     }
 

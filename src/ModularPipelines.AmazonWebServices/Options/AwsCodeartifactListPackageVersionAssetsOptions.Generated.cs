@@ -46,7 +46,6 @@ public record AwsCodeartifactListPackageVersionAssetsOptions : AwsOptions, IVali
         this.Domain = Domain;
         global::System.ArgumentNullException.ThrowIfNull(Repository);
         this.Repository = Repository;
-        global::System.ArgumentNullException.ThrowIfNull(Format);
         this.Format = Format;
         global::System.ArgumentNullException.ThrowIfNull(Package);
         this.Package = Package;

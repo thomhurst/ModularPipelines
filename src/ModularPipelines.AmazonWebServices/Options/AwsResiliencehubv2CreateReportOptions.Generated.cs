@@ -38,7 +38,6 @@ public record AwsResiliencehubv2CreateReportOptions : AwsOptions, IValidatableOb
     {
         global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
         this.ServiceArn = ServiceArn;
-        global::System.ArgumentNullException.ThrowIfNull(ReportType);
         this.ReportType = ReportType;
     }
 

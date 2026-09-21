@@ -33,7 +33,6 @@ public record AwsIotfleetwisePutEncryptionConfigurationOptions : AwsOptions, IVa
         AwsIotfleetwisePutEncryptionConfigurationEncryptionType EncryptionType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EncryptionType);
         this.EncryptionType = EncryptionType;
     }
 

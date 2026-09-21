@@ -41,7 +41,6 @@ public record AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions : AwsOptions, IV
         this.ImageIdentifier = ImageIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(ImageVersion);
         this.ImageVersion = ImageVersion;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

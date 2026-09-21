@@ -61,7 +61,6 @@ public record AwsQuicksightUpdateDataSetOptions : AwsOptions, IValidatableObject
             PhysicalTableMap = materialized;
         }
         this.PhysicalTableMap = PhysicalTableMap;
-        global::System.ArgumentNullException.ThrowIfNull(ImportMode);
         this.ImportMode = ImportMode;
     }
 

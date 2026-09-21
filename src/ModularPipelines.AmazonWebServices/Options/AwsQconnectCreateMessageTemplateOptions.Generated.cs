@@ -39,7 +39,6 @@ public record AwsQconnectCreateMessageTemplateOptions : AwsOptions, IValidatable
     {
         global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
         this.KnowledgeBaseId = KnowledgeBaseId;
-        global::System.ArgumentNullException.ThrowIfNull(ChannelSubtype);
         this.ChannelSubtype = ChannelSubtype;
     }
 
@@ -111,7 +110,7 @@ public record AwsQconnectCreateMessageTemplateOptions : AwsOptions, IValidatable
     public string? DefaultAttributes { get; set; }
 
     /// <summary>
-    /// The configuration information of the grouping of Amazon Q in Connect users. criteria -&gt; (string) The criteria used for grouping Amazon Q in Connect users. The following is the list of supported criteria values. o RoutingProfileArn : Grouping the users by their Amazon Connect routing profile ARN . User should have SearchRoutingProfile and DescribeRoutingProfile permissions when setting criteria to this value. Constraints: o min: 1 o max: 100 values -&gt; (list) The list of values that define different groups of Amazon Q in Connect users. o When setting criteria to RoutingProfileArn , you need to pro- vide a list of ARNs of Amazon Connect routing profiles as val- ues of this parameter. (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: criteria=string,values=string,string JSON Syntax: { "criteria": "string", "values": ["string", ...] }
+    /// The configuration information of the grouping of Amazon Q in Connect users. criteria -&gt; (string) The criteria used for grouping Amazon Q in Connect users. The following is the list of supported criteria values. o RoutingProfileArn : Grouping the users by their Amazon Connect routing profile ARN . User should have SearchRoutingProfile and DescribeRoutingProfile permissions when setting criteria to this value. Constraints: o min: 1 o max: 100 values -&gt; (list) The list of values that define different groups of Amazon Q in Connect users. o When setting criteria to RoutingProfileArn , you need to pro- vide a list of ARNs of Connect Customer routing profiles as values of this parameter. (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: criteria=string,values=string,string JSON Syntax: { "criteria": "string", "values": ["string", ...] }
     /// </summary>
     [CliOption("--grouping-configuration")]
     public string? GroupingConfiguration { get; set; }

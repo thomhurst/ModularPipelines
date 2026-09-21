@@ -44,7 +44,6 @@ public record AwsCognitoSyncRegisterDeviceOptions : AwsOptions, IValidatableObje
         this.IdentityPoolId = IdentityPoolId;
         global::System.ArgumentNullException.ThrowIfNull(IdentityId);
         this.IdentityId = IdentityId;
-        global::System.ArgumentNullException.ThrowIfNull(Platform);
         this.Platform = Platform;
         global::System.ArgumentNullException.ThrowIfNull(Token);
         this.Token = Token;

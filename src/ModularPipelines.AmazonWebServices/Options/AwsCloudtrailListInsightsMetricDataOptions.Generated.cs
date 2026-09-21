@@ -42,7 +42,6 @@ public record AwsCloudtrailListInsightsMetricDataOptions : AwsOptions, IValidata
         this.EventSource = EventSource;
         global::System.ArgumentNullException.ThrowIfNull(EventName);
         this.EventName = EventName;
-        global::System.ArgumentNullException.ThrowIfNull(InsightType);
         this.InsightType = InsightType;
     }
 

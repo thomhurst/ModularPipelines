@@ -41,7 +41,6 @@ public record AwsDynamodbstreamsGetShardIteratorOptions : AwsOptions, IValidatab
         this.StreamArn = StreamArn;
         global::System.ArgumentNullException.ThrowIfNull(ShardId);
         this.ShardId = ShardId;
-        global::System.ArgumentNullException.ThrowIfNull(ShardIteratorType);
         this.ShardIteratorType = ShardIteratorType;
     }
 

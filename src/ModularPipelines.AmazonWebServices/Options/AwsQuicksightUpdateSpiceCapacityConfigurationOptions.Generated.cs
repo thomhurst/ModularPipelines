@@ -37,7 +37,6 @@ public record AwsQuicksightUpdateSpiceCapacityConfigurationOptions : AwsOptions,
     {
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;
-        global::System.ArgumentNullException.ThrowIfNull(PurchaseMode);
         this.PurchaseMode = PurchaseMode;
     }
 

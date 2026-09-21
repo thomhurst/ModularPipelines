@@ -37,7 +37,6 @@ public record AwsQuicksightUpdateQPersonalizationConfigurationOptions : AwsOptio
     {
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
         this.AwsAccountId = AwsAccountId;
-        global::System.ArgumentNullException.ThrowIfNull(PersonalizationMode);
         this.PersonalizationMode = PersonalizationMode;
     }
 

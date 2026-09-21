@@ -41,7 +41,6 @@ public record AwsEcrUpdateImageStorageClassOptions : AwsOptions, IValidatableObj
         this.RepositoryName = RepositoryName;
         global::System.ArgumentNullException.ThrowIfNull(ImageId);
         this.ImageId = ImageId;
-        global::System.ArgumentNullException.ThrowIfNull(TargetStorageClass);
         this.TargetStorageClass = TargetStorageClass;
     }
 

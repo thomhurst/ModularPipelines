@@ -38,7 +38,6 @@ public record AwsAccessanalyzerUpdateFindingsOptions : AwsOptions, IValidatableO
     {
         global::System.ArgumentNullException.ThrowIfNull(AnalyzerArn);
         this.AnalyzerArn = AnalyzerArn;
-        global::System.ArgumentNullException.ThrowIfNull(Status);
         this.Status = Status;
     }
 

@@ -38,7 +38,6 @@ public record AwsServicecatalogDescribePortfolioSharesOptions : AwsOptions, IVal
     {
         global::System.ArgumentNullException.ThrowIfNull(PortfolioId);
         this.PortfolioId = PortfolioId;
-        global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 

@@ -44,7 +44,6 @@ public record AwsAcmPcaIssueCertificateOptions : AwsOptions, IValidatableObject
         this.CertificateAuthorityArn = CertificateAuthorityArn;
         global::System.ArgumentNullException.ThrowIfNull(Csr);
         this.Csr = Csr;
-        global::System.ArgumentNullException.ThrowIfNull(SigningAlgorithm);
         this.SigningAlgorithm = SigningAlgorithm;
         global::System.ArgumentNullException.ThrowIfNull(Validity);
         this.Validity = Validity;

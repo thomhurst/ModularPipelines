@@ -35,7 +35,6 @@ public record AwsBillingUpdateBillingPreferencesOptions : AwsOptions, IValidatab
         IEnumerable<string> BillingPreferencesPerKey
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Feature);
         this.Feature = Feature;
         {
             global::System.ArgumentNullException.ThrowIfNull(BillingPreferencesPerKey);

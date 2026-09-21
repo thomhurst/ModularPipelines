@@ -34,7 +34,6 @@ public record AwsOrganizationsListPoliciesOptions : AwsOptions, IValidatableObje
         AwsOrganizationsListPoliciesFilter Filter
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Filter);
         this.Filter = Filter;
     }
 

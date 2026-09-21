@@ -39,7 +39,6 @@ public record AwsCloudwatchSetAlarmStateOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(AlarmName);
         this.AlarmName = AlarmName;
-        global::System.ArgumentNullException.ThrowIfNull(StateValue);
         this.StateValue = StateValue;
         global::System.ArgumentNullException.ThrowIfNull(StateReason);
         this.StateReason = StateReason;

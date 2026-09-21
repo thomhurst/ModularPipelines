@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the applica- tion with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null . Related Topics o DescribeConfigurationOptions o DescribeConfigurationSetti...
+/// Creates an Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configu- ration settings in a configuration template. You can then use the con- figuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null . Related Topics o DescribeConfigurationOptions o DescribeConfigurationSetting...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsElasticbeanstalkCreateConfigurationTemplateOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the applica- tion with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null . Related Topics o DescribeConfigurationOptions o DescribeConfigurationSetti...
+    /// Creates an Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configu- ration settings in a configuration template. You can then use the con- figuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null . Related Topics o DescribeConfigurationOptions o DescribeConfigurationSetting...
     /// </summary>
     /// <param name="ApplicationName">The name of the Elastic Beanstalk application to associate with this configuration template. Constraints: o min: 1 o max: 100</param>
     /// <param name="TemplateName">The name of the configuration template. Constraint: This name must be unique per application. Constraints: o min: 1 o max: 100</param>
@@ -72,13 +72,13 @@ public record AwsElasticbeanstalkCreateConfigurationTemplateOptions : AwsOptions
     public string? TemplateName { get; private init; }
 
     /// <summary>
-    /// The name of an Elastic Beanstalk solution stack (platform version) that this configuration uses. For example, 64bit Amazon Linux 2013.09 running Tomcat 7 Java 7 . A solution stack specifies the op- erating system, runtime, and application server for a configuration template. It also determines the set of configuration options as well as the possible and default values. For more information, see Supported Platforms in the AWS Elastic Beanstalk Developer Guide . You must specify SolutionStackName if you don't specify PlatformArn , EnvironmentId , or SourceConfiguration . Use the ` ListAvailableSolutionStacks https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_ListAvailableSolutionStacks.html`__ API to obtain a list of available solution stacks.
+    /// The name of an Elastic Beanstalk solution stack (platform version) that this configuration uses. For example, 64bit Amazon Linux 2013.09 running Tomcat 7 Java 7 . A solution stack specifies the op- erating system, runtime, and application server for a configuration template. It also determines the set of configuration options as well as the possible and default values. For more information, see Supported Platforms in the Elastic Beanstalk Developer Guide . You must specify SolutionStackName if you don't specify PlatformArn , EnvironmentId , or SourceConfiguration . Use the ` ListAvailableSolutionStacks https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_ListAvailableSolutionStacks.html`__ API to obtain a list of available solution stacks.
     /// </summary>
     [CliOption("--solution-stack-name")]
     public string? SolutionStackName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the custom platform. For more in- formation, see Custom Platforms in the AWS Elastic Beanstalk Devel- oper Guide . NOTE: If you specify PlatformArn , then don't specify SolutionStack- Name .
+    /// The Amazon Resource Name (ARN) of the custom platform. For more in- formation, see Custom Platforms in the Elastic Beanstalk Developer Guide . NOTE: If you specify PlatformArn , then don't specify SolutionStack- Name .
     /// </summary>
     [CliOption("--platform-arn")]
     public string? PlatformArn { get; set; }
@@ -102,7 +102,7 @@ public record AwsElasticbeanstalkCreateConfigurationTemplateOptions : AwsOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Option values for the Elastic Beanstalk configuration, such as the instance type. If specified, these values override the values ob- tained from the solution stack or the source configuration template. For a complete list of Elastic Beanstalk configuration options, see Option Values in the AWS Elastic Beanstalk Developer Guide . (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the AWS Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated AWS resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
+    /// Option values for the Elastic Beanstalk configuration, such as the instance type. If specified, these values override the values ob- tained from the solution stack or the source configuration template. For a complete list of Elastic Beanstalk configuration options, see Option Values in the Elastic Beanstalk Developer Guide . (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--option-settings", GroupValues = true)]
     public IEnumerable<string>? OptionSettings { get; set; }

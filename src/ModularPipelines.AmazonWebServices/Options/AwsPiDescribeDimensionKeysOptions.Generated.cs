@@ -45,7 +45,6 @@ public record AwsPiDescribeDimensionKeysOptions : AwsOptions, IValidatableObject
         string GroupBy
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
         this.ServiceType = ServiceType;
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
         this.Identifier = Identifier;

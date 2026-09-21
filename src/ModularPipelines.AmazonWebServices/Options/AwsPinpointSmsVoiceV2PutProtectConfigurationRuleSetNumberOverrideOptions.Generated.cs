@@ -42,7 +42,6 @@ public record AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideO
         this.ProtectConfigurationId = ProtectConfigurationId;
         global::System.ArgumentNullException.ThrowIfNull(DestinationPhoneNumber);
         this.DestinationPhoneNumber = DestinationPhoneNumber;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
     }
 

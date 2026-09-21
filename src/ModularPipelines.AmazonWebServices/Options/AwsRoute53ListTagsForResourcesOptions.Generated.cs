@@ -35,7 +35,6 @@ public record AwsRoute53ListTagsForResourcesOptions : AwsOptions, IValidatableOb
         IEnumerable<string> ResourceIds
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
         this.ResourceType = ResourceType;
         {
             global::System.ArgumentNullException.ThrowIfNull(ResourceIds);

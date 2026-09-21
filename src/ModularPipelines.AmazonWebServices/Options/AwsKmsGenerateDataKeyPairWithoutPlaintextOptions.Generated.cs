@@ -39,7 +39,6 @@ public record AwsKmsGenerateDataKeyPairWithoutPlaintextOptions : AwsOptions, IVa
     {
         global::System.ArgumentNullException.ThrowIfNull(KeyId);
         this.KeyId = KeyId;
-        global::System.ArgumentNullException.ThrowIfNull(KeyPairSpec);
         this.KeyPairSpec = KeyPairSpec;
     }
 

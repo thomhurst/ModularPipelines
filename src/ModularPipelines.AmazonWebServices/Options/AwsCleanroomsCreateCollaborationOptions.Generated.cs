@@ -72,7 +72,6 @@ public record AwsCleanroomsCreateCollaborationOptions : AwsOptions, IValidatable
         this.CreatorMemberAbilities = CreatorMemberAbilities;
         global::System.ArgumentNullException.ThrowIfNull(CreatorDisplayName);
         this.CreatorDisplayName = CreatorDisplayName;
-        global::System.ArgumentNullException.ThrowIfNull(QueryLogStatus);
         this.QueryLogStatus = QueryLogStatus;
     }
 

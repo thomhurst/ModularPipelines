@@ -35,7 +35,6 @@ public record AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions : 
         string DestinationName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EventType);
         this.EventType = EventType;
         global::System.ArgumentNullException.ThrowIfNull(DestinationName);
         this.DestinationName = DestinationName;

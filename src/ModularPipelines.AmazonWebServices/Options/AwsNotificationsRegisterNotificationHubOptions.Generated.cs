@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a NotificationConfiguration in the specified Region. There is a maximum of one NotificationConfiguration per Region. You can have a maximum of 3 NotificationHub resources at a time. See also: AWS API Documentation
+/// Registers a NotificationHub in the specified Region. There is a maximum of one NotificationHub per Region. You can have a maximum of 3 NotificationHub resources at a time. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +25,9 @@ public record AwsNotificationsRegisterNotificationHubOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a NotificationConfiguration in the specified Region. There is a maximum of one NotificationConfiguration per Region. You can have a maximum of 3 NotificationHub resources at a time. See also: AWS API Documentation
+    /// Registers a NotificationHub in the specified Region. There is a maximum of one NotificationHub per Region. You can have a maximum of 3 NotificationHub resources at a time. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotificationHubRegion">The Region of the NotificationHub . Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,2})-([a-z]{1,15}-)+([0-9])</param>
+    /// <param name="NotificationHubRegion">The Region of the NotificationHub . Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])</param>
     public AwsNotificationsRegisterNotificationHubOptions(
         string NotificationHubRegion
     )
@@ -56,7 +56,7 @@ public record AwsNotificationsRegisterNotificationHubOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Region of the NotificationHub . Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,2})-([a-z]{1,15}-)+([0-9])
+    /// The Region of the NotificationHub . Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])
     /// </summary>
     [CliOption("--notification-hub-region")]
     public string? NotificationHubRegion { get; private init; }

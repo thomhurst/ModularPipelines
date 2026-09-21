@@ -50,7 +50,6 @@ public record AwsCloudwatchPutLogAlarmOptions : AwsOptions, IValidatableObject
         this.QueryResultsToEvaluate = QueryResultsToEvaluate;
         this.QueryResultsToAlarm = QueryResultsToAlarm;
         this.Threshold = Threshold;
-        global::System.ArgumentNullException.ThrowIfNull(ComparisonOperator);
         this.ComparisonOperator = ComparisonOperator;
     }
 

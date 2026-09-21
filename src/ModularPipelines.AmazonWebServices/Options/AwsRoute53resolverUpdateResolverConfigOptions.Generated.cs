@@ -37,7 +37,6 @@ public record AwsRoute53resolverUpdateResolverConfigOptions : AwsOptions, IValid
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;
-        global::System.ArgumentNullException.ThrowIfNull(AutodefinedReverseFlag);
         this.AutodefinedReverseFlag = AutodefinedReverseFlag;
     }
 

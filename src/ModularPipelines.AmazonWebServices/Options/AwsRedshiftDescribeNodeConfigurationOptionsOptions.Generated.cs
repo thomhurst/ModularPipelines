@@ -34,7 +34,6 @@ public record AwsRedshiftDescribeNodeConfigurationOptionsOptions : AwsOptions, I
         AwsRedshiftDescribeNodeConfigurationOptionsActionType ActionType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ActionType);
         this.ActionType = ActionType;
     }
 

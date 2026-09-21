@@ -45,7 +45,6 @@ public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions, IV
         this.SourceCommitSpecifier = SourceCommitSpecifier;
         global::System.ArgumentNullException.ThrowIfNull(DestinationCommitSpecifier);
         this.DestinationCommitSpecifier = DestinationCommitSpecifier;
-        global::System.ArgumentNullException.ThrowIfNull(MergeOption);
         this.MergeOption = MergeOption;
     }
 

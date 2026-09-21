@@ -38,7 +38,6 @@ public record AwsServiceQuotasStartAutoManagementOptions : AwsOptions, IValidata
     {
         global::System.ArgumentNullException.ThrowIfNull(OptInLevel);
         this.OptInLevel = OptInLevel;
-        global::System.ArgumentNullException.ThrowIfNull(OptInType);
         this.OptInType = OptInType;
     }
 

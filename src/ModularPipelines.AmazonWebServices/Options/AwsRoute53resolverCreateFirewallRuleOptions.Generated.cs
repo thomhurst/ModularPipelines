@@ -42,7 +42,6 @@ public record AwsRoute53resolverCreateFirewallRuleOptions : AwsOptions, IValidat
         global::System.ArgumentNullException.ThrowIfNull(FirewallRuleGroupId);
         this.FirewallRuleGroupId = FirewallRuleGroupId;
         this.Priority = Priority;
-        global::System.ArgumentNullException.ThrowIfNull(Action);
         this.Action = Action;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;

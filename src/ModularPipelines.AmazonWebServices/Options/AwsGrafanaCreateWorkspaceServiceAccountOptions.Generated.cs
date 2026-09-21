@@ -39,7 +39,6 @@ public record AwsGrafanaCreateWorkspaceServiceAccountOptions : AwsOptions, IVali
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
-        global::System.ArgumentNullException.ThrowIfNull(GrafanaRole);
         this.GrafanaRole = GrafanaRole;
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
         this.WorkspaceId = WorkspaceId;

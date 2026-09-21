@@ -41,7 +41,6 @@ public record AwsOpensearchInsightFeedbackOptions : AwsOptions, IValidatableObje
         this.Entity = Entity;
         global::System.ArgumentNullException.ThrowIfNull(InsightId);
         this.InsightId = InsightId;
-        global::System.ArgumentNullException.ThrowIfNull(Thumbs);
         this.Thumbs = Thumbs;
     }
 

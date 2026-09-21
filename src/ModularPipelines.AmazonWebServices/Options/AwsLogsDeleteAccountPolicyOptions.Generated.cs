@@ -37,7 +37,6 @@ public record AwsLogsDeleteAccountPolicyOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(PolicyName);
         this.PolicyName = PolicyName;
-        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
     }
 

@@ -33,7 +33,6 @@ public record AwsFreetierUpgradeAccountPlanOptions : AwsOptions, IValidatableObj
         AwsFreetierUpgradeAccountPlanAccountPlanType AccountPlanType
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AccountPlanType);
         this.AccountPlanType = AccountPlanType;
     }
 
