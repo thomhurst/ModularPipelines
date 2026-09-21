@@ -312,8 +312,9 @@ public partial class GcloudCliScraper : CliScraperBase
         var optionalResourceGroups = UsageSynopsisParser.GetOptionalResourceOptionGroups(usage.Synopsis).ToArray();
         foreach (var (name, content) in ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS"))
         {
-            var argumentGroup = MarkOptionalResourceGroups(
-                ParseSectionArgumentGroup(name, content, optionalResourceGroups), optionalResourceGroups);
+            var parsedGroup = ParseSectionArgumentGroup(name, content, optionalResourceGroups);
+            var documentedOptionalGroups = UsageSynopsisParser.GetOptionalResourceOptionGroups(usage.Synopsis, [parsedGroup]).ToArray();
+            var argumentGroup = MarkOptionalResourceGroups(parsedGroup, documentedOptionalGroups);
             argumentGroups.Add(argumentGroup);
             sections.Add((name, argumentGroup));
             foreach (var argument in argumentGroup.FlattenArguments().Where(argument => !argument.IsPositional))

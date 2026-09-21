@@ -499,9 +499,12 @@ public class OptionTypeEnhancerTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Resource_Identifiers_Clear_Inferred_Secrets_But_Respect_Overrides(bool explicitSecret)
+    [Arguments(false, "TokenAuthUser", "The tokenAuthUser id of the authToken resource.")]
+    [Arguments(true, "TokenAuthUser", "The tokenAuthUser id of the authToken resource.")]
+    [Arguments(false, "ApiKeyConfigHttpElementLocation", "The location of the API key. The default value is QUERY.")]
+    [Arguments(true, "ApiKeyConfigHttpElementLocation", "The location of the API key. The default value is QUERY.")]
+    public async Task Credential_Metadata_Clears_Inferred_Secrets_But_Respects_Overrides(
+        bool explicitSecret, string propertyName, string description)
     {
         var pipeline = new OptionTypeDetectorPipeline(
             explicitSecret ? [new FixedDetector(new OptionTypeDetectionResult
@@ -511,10 +514,10 @@ public class OptionTypeEnhancerTests
         var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
         var tool = CreateTool(new CliOptionDefinition
         {
-            SwitchName = "--token-auth-user",
-            PropertyName = "TokenAuthUser",
+            SwitchName = "--metadata",
+            PropertyName = propertyName,
             CSharpType = "string?",
-            Description = "The tokenAuthUser id of the authToken resource.",
+            Description = description,
             IsSecret = true,
         });
         var enhanced = await enhancer.EnhanceAsync(tool);
