@@ -5,6 +5,115 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    [Arguments("Schema resource - The schema. This must be specified.")]
+    [Arguments("The catalog details. This must be specified.")]
+    public async Task Required_Bundles_Remain_Nested_Within_Unclassified_Settings(string heading)
+    {
+        var section = $$"""
+              Schema settings.
+              --encoding=ENCODING
+                 The encoding.
+
+              {{heading}}
+                --schema=SCHEMA
+                   The schema.
+            """;
+        var settings = TestArgumentGroupScraper.ParseGroups(section,
+            [new HashSet<string>(StringComparer.Ordinal) { "--encoding", "--schema" }]).Groups.Single();
+        await Assert.That(settings.Arguments.Single().SwitchName).IsEqualTo("--encoding");
+        await Assert.That(settings.Groups.Single().Arguments.Single().SwitchName).IsEqualTo("--schema");
+    }
+
+    [Test]
+    public async Task Outer_Choice_Preserves_Peer_Branches_With_Different_Flag_Depths()
+    {
+        const string section = """
+            Exactly one of these must be specified:
+              First branch settings.
+              --first=FIRST
+                 The first branch value.
+
+              Second branch settings.
+                --second=SECOND
+                   The second branch value.
+            """;
+        var choice = TestArgumentGroupScraper.ParseGroups(section).Groups.Single();
+        await Assert.That(choice.Kind)
+            .IsEqualTo(CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne);
+        await Assert.That(choice.Groups).Count().IsEqualTo(2);
+        await Assert.That(choice.Groups.Select(group => group.Arguments.Single().SwitchName))
+            .IsEquivalentTo(["--first", "--second"]);
+    }
+
+    [Test]
+    [Arguments("Arguments for authentication:")]
+    [Arguments("Or use these options:")]
+    public async Task Classified_Ancestors_Preserve_Nested_Choices(string heading)
+    {
+        var section = $$"""
+            {{heading}}
+              --parent=PARENT
+                 The parent value.
+
+              Options for configuring credentials.
+
+                --credential=CREDENTIAL
+                   The credential.
+
+                Options for configuring the instance.
+
+                --size=SIZE
+                   The instance size.
+
+                At most one of these can be specified:
+
+                  --region=REGION
+                     The region.
+
+                  --zone=ZONE
+                     The zone.
+            """;
+        var root = TestArgumentGroupScraper.ParseGroups(section);
+        var parent = root.Groups.Single();
+        await Assert.That(parent.Groups).Count().IsEqualTo(2);
+        var configuration = parent.Groups[1];
+        await Assert.That(configuration.Arguments.Single().SwitchName).IsEqualTo("--size");
+        var choice = configuration.Groups.Single();
+        await Assert.That(choice.Kind).IsEqualTo(CliArgumentGroupKind.AtMostOne);
+        await Assert.That(choice.Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--region", "--zone"]);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Choice_Heading_Depth_Determines_Peer_Or_Nested_Group(bool nested)
+    {
+        var indentation = nested ? "    " : "  ";
+        var section = $"""
+              Options for configuring the instance.
+
+            {indentation}--size=SIZE
+            {indentation}   The instance size.
+
+            {indentation}At most one of these can be specified:
+
+            {indentation}  --region=REGION
+            {indentation}     The region.
+
+            {indentation}  --zone=ZONE
+            {indentation}     The zone.
+            """;
+        var root = TestArgumentGroupScraper.ParseGroups(section);
+        await Assert.That(root.Groups).Count().IsEqualTo(nested ? 1 : 2);
+        var choice = nested ? root.Groups.Single().Groups.Single() : root.Groups[1];
+        await Assert.That(choice.Kind).IsEqualTo(CliArgumentGroupKind.AtMostOne);
+        await Assert.That(choice.Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--region", "--zone"]);
+        await Assert.That(root.Groups[0].Arguments.Single().SwitchName).IsEqualTo("--size");
+    }
+
+    [Test]
     public async Task Classifiable_Sibling_Headings_Preserve_The_Outer_Choice()
     {
         const string section = """

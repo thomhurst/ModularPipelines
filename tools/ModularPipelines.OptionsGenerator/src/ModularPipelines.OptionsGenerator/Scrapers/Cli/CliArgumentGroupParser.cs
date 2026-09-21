@@ -10,7 +10,8 @@ internal static partial class CliArgumentGroupParser
 {
     public static CliArgumentGroup Parse(
         string section,
-        Func<string, CliArgumentDefinition?> parseArgument)
+        Func<string, CliArgumentDefinition?> parseArgument,
+        IReadOnlyList<IReadOnlySet<string>>? optionalOptionGroups = null)
     {
         ArgumentNullException.ThrowIfNull(section);
         ArgumentNullException.ThrowIfNull(parseArgument);
@@ -66,6 +67,27 @@ internal static partial class CliArgumentGroupParser
             var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude)
                 || (preludeIndentation <= declaration.Argument.Indentation
                     && Classify(stack.Peek().Description) == CliArgumentGroupKind.None);
+            // A peer heading can introduce flags indented deeper than the previous
+            // group's flags. Compare headings before treating that depth as nesting.
+            // Within a classified branch, same-depth constraints still belong to that branch.
+            // A synopsis can also establish a shared optional bundle when prose is unclassified.
+            var sharesOptionalGroup = stack.Peek().Arguments.Count > 0
+                && optionalOptionGroups?.Any(group => group.Contains(declaration.Argument.SwitchName)
+                    && stack.Peek().Arguments.All(argument => group.Contains(argument.SwitchName))) == true;
+            var isNestedConstraint =
+                ((Classify(prelude) & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0
+                    || DescribesRequiredBundle(prelude))
+                && (sharesOptionalGroup || stack.Skip(1).Any(group =>
+                    group.IsNamedBundle || Classify(group.Description) != CliArgumentGroupKind.None));
+            while (stack.Count > 1 && preludeStartsGroup
+                   && !isNestedConstraint
+                   && preludeIndentation <= stack.Peek().HeadingIndentation
+                   && declaration.Argument.Indentation > stack.Peek().Indentation
+                   && !stack.Peek().IsNamedBundle)
+            {
+                stack.Pop();
+            }
+
             var parsedArgument = declaration.Argument with
             {
                 Description = description,
@@ -79,7 +101,8 @@ internal static partial class CliArgumentGroupParser
                 stack,
                 parsedArgument,
                 index == 0 && !preludeStartsGroup ? null : prelude,
-                preludeStartsGroup);
+                preludeStartsGroup,
+                preludeIndentation);
         }
 
         return root.Build();
@@ -168,7 +191,8 @@ internal static partial class CliArgumentGroupParser
         MoveToContainingGroup(stack, indentation, GetMinimumContentIndentation(prefix));
         if ((prefixKind & choiceKinds) != 0)
         {
-            BeginArgumentGroup(stack, GetMinimumContentIndentation(prefix) + 1, prefixDescription, true);
+            BeginArgumentGroup(stack, GetMinimumContentIndentation(prefix) + 1, prefixDescription, true,
+                headingIndentation: GetMinimumContentIndentation(prefix));
         }
 
         var end = heading + 1;
@@ -188,9 +212,11 @@ internal static partial class CliArgumentGroupParser
         Stack<ArgumentGroupBuilder> stack,
         CliArgumentDefinition argument,
         string? prelude,
-        bool preludeStartsGroup)
+        bool preludeStartsGroup,
+        int headingIndentation)
     {
-        BeginArgumentGroup(stack, argument.Indentation, prelude, preludeStartsGroup);
+        BeginArgumentGroup(stack, argument.Indentation, prelude, preludeStartsGroup,
+            headingIndentation: headingIndentation);
         stack.Peek().Arguments.Add(argument);
     }
 
@@ -217,7 +243,8 @@ internal static partial class CliArgumentGroupParser
         var parentIndentation = kind.HasFlag(CliArgumentGroupKind.Alternative)
             ? argument.Indentation
             : GetMinimumContentIndentation(preludeLines[..childStart]) + 1;
-        BeginArgumentGroup(stack, parentIndentation, parentDescription, true);
+        BeginArgumentGroup(stack, parentIndentation, parentDescription, true,
+            headingIndentation: GetMinimumContentIndentation(preludeLines[..childStart]));
         var branch = new ArgumentGroupBuilder(argument.Indentation,
             NormalizeDocumentation(preludeLines[childStart..]));
         stack.Peek().Groups.Add(branch);
@@ -227,7 +254,8 @@ internal static partial class CliArgumentGroupParser
     }
 
     private static void BeginArgumentGroup(
-        Stack<ArgumentGroupBuilder> stack, int indentation, string? prelude, bool preludeStartsGroup, bool namedBundle = false)
+        Stack<ArgumentGroupBuilder> stack, int indentation, string? prelude, bool preludeStartsGroup,
+        bool namedBundle = false, int? headingIndentation = null)
     {
         var current = stack.Peek();
         if (indentation == current.Indentation && current.IsNamedBundle && preludeStartsGroup && !namedBundle)
@@ -238,7 +266,7 @@ internal static partial class CliArgumentGroupParser
         }
         if (indentation > current.Indentation)
         {
-            var child = new ArgumentGroupBuilder(indentation, prelude);
+            var child = new ArgumentGroupBuilder(indentation, prelude, headingIndentation);
             current.Groups.Add(child);
             stack.Push(child);
         }
@@ -249,7 +277,7 @@ internal static partial class CliArgumentGroupParser
                 stack.Pop();
             }
 
-            var sibling = new ArgumentGroupBuilder(indentation, prelude);
+            var sibling = new ArgumentGroupBuilder(indentation, prelude, headingIndentation);
             stack.Peek().Groups.Add(sibling);
             stack.Push(sibling);
         }
@@ -378,9 +406,11 @@ internal static partial class CliArgumentGroupParser
         return false;
     }
 
-    private sealed class ArgumentGroupBuilder(int indentation, string? description)
+    private sealed class ArgumentGroupBuilder(int indentation, string? description, int? headingIndentation = null)
     {
         public int Indentation { get; } = indentation;
+
+        public int HeadingIndentation { get; } = Math.Min(headingIndentation ?? indentation, indentation);
 
         public bool IsNamedBundle { get; set; }
 

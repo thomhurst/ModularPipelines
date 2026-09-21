@@ -196,6 +196,42 @@ public class GcloudResourceArgumentTests
     }
 
     [Test]
+    public async Task Captured_Cloud_Source_Trigger_Retains_Nested_Branch_Choices()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", "585.0.0", "gcloud-builds-triggers-update-cloud-source-repositories.txt"));
+        var command = (await ScrapeFixture("builds triggers update cloud-source-repositories", help)).Single();
+        var branch = EnumerateGroups(command.ArgumentGroups).Single(group =>
+            group.Arguments.Any(argument => argument.SwitchName == "--branch-pattern"));
+        await Assert.That(branch.Kind).IsEqualTo(CliArgumentGroupKind.AtMostOne);
+        await Assert.That(branch.Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--branch-pattern", "--tag-pattern"]);
+        await Assert.That(command.Options.Single(option => option.PropertyName == "BranchPattern").Description)
+            .Contains("Or at least one of these can be specified");
+        await Assert.That(command.Options.Single(option => option.PropertyName == "TagPattern").Description)
+            .Contains("Or at least one of these can be specified");
+
+    }
+
+    [Test]
+    public async Task Captured_Iceberg_Catalog_Remains_In_Its_Connection_Branch()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", "585.0.0", "gcloud-oracle-database-goldengate-connections-create.txt"));
+        var command = (await ScrapeFixture("oracle-database goldengate connections create", help)).Single();
+        var iceberg = EnumerateGroups(command.ArgumentGroups).Single(group => group.Arguments.Any(argument =>
+            argument.SwitchName == "--iceberg-connection-properties-technology-type"));
+        await Assert.That(iceberg.Groups.SelectMany(group => group.FlattenArguments())
+            .Any(argument => argument.SwitchName == "--iceberg-connection-properties-catalog-type")).IsTrue();
+        await Assert.That(command.Options.Single(option =>
+            option.SwitchName == "--iceberg-connection-properties-catalog-type").Description)
+            .Contains("The properties of GoldengateIcebergConnection.");
+    }
+
+    private static IEnumerable<CliArgumentGroup> EnumerateGroups(IEnumerable<CliArgumentGroup> groups) =>
+        groups.SelectMany(group => new[] { group }.Concat(EnumerateGroups(group.Groups)));
+
+    [Test]
     public async Task Captured_Manual_Trigger_Retains_Configuration_And_Dockerfile_Constraints()
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
