@@ -895,6 +895,9 @@ public class GeneratorUtilsTests
     [Arguments("CredentialAgeDays")]
     [Arguments("MinimumSessionTokenSize")]
     [Arguments("SsoTokenBufferMinutes")]
+    [Arguments("ApiKeyConfigHttpElementLocation")]
+    [Arguments("TokenLocation")]
+    [Arguments("CredentialLocation")]
     public async Task IsSecretOption_Keeps_Credential_Metadata_Visible_Without_Descriptions(string propertyName)
     {
         await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false)).IsFalse();
@@ -922,6 +925,8 @@ public class GeneratorUtilsTests
     [Arguments("SecretUser", "Name of the secret user to delete.", false)]
     [Arguments("Token", "The token value for the user to create.", true)]
     [Arguments("Token", "The authentication token value used to access the resource.", true)]
+    [Arguments("SecretLocation", "The secret value to store.", true)]
+    [Arguments("PrivateKeyLocation", "The private key content to send.", true)]
     public async Task IsSecretOption_Distinguishes_Material_From_Resource_Identifiers_And_Paths(
         string propertyName, string description, bool secret)
     {
