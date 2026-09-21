@@ -10,6 +10,42 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Optional_Common_Selectors_Remain_Independent_Of_Nested_Alternatives()
+    {
+        var documentedGroup = new CliArgumentGroup
+        {
+            Arguments =
+            [
+                new() { SwitchName = "--host" },
+                new() { SwitchName = "--directory" },
+                new() { SwitchName = "--certificate" },
+            ],
+            Groups =
+            [
+                new()
+                {
+                    Kind = CliArgumentGroupKind.AtMostOne,
+                    Groups =
+                    [
+                        new() { Arguments = [new() { SwitchName = "--token" }] },
+                        new() { Arguments = [new() { SwitchName = "--username" }, new() { SwitchName = "--password" }] },
+                    ],
+                },
+            ],
+        };
+        var groups = UsageSynopsisParser.GetOptionalResourceOptionGroups(
+            "tool run [--host=HOST : --directory=DIR --certificate=CERT --token=TOKEN | [--username=USER : --password=PASSWORD]]",
+            [documentedGroup]).ToArray();
+
+        await Assert.That(groups.Any(group => group.SetEquals(["--directory"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--certificate"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--token"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--username", "--password"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--password"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--directory", "--certificate", "--token"]))).IsFalse();
+    }
+
+    [Test]
     public async Task Optional_Selectors_Preserve_Whole_Alternative_Branches()
     {
         var groups = UsageSynopsisParser.GetOptionalResourceOptionGroups(
