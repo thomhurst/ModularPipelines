@@ -70,10 +70,10 @@ internal static partial class CliArgumentGroupParser
             // group's flags. Compare headings before treating that depth as nesting.
             // Within a classified branch, same-depth constraints still belong to that branch.
             var isNestedConstraint =
-                ((Classify(prelude) & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0
-                    || DescribesRequiredBundle(prelude))
-                && stack.Skip(1).Any(group =>
-                    group.IsNamedBundle || Classify(group.Description) != CliArgumentGroupKind.None);
+                DescribesRequiredBundle(prelude)
+                || ((Classify(prelude) & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0
+                    && stack.Skip(1).Any(group =>
+                        group.IsNamedBundle || Classify(group.Description) != CliArgumentGroupKind.None));
             while (stack.Count > 1 && preludeStartsGroup
                    && !isNestedConstraint
                    && preludeIndentation <= stack.Peek().HeadingIndentation

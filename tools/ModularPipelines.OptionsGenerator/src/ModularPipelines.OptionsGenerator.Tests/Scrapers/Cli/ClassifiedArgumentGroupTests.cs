@@ -5,6 +5,25 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    [Arguments("Schema resource - The schema. This must be specified.")]
+    [Arguments("The catalog details. This must be specified.")]
+    public async Task Required_Bundles_Remain_Nested_Within_Unclassified_Settings(string heading)
+    {
+        var section = $$"""
+              Schema settings.
+              --encoding=ENCODING
+                 The encoding.
+
+              {{heading}}
+                --schema=SCHEMA
+                   The schema.
+            """;
+        var settings = TestArgumentGroupScraper.ParseGroups(section).Groups.Single();
+        await Assert.That(settings.Arguments.Single().SwitchName).IsEqualTo("--encoding");
+        await Assert.That(settings.Groups.Single().Arguments.Single().SwitchName).IsEqualTo("--schema");
+    }
+
+    [Test]
     public async Task Outer_Choice_Preserves_Peer_Branches_With_Different_Flag_Depths()
     {
         const string section = """
