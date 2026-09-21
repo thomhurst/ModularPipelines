@@ -6,6 +6,39 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudSynopsisGroupReconcilerTests
 {
     [Test]
+    public async Task Resource_Bundles_Identify_Their_Single_Primary_Option()
+    {
+        var bundles = UsageSynopsisParser.GetOptionBundles(
+            "tool run [--key=KEY : --keyring=RING] [--host=HOST --secret=SECRET : --certificate=CERT] [--host=HOST : --token=TOKEN | --password=PASSWORD]").ToArray();
+        await Assert.That(bundles.Length).IsEqualTo(2);
+        await Assert.That(bundles[0].PrimarySwitch).IsEqualTo("--key");
+        await Assert.That(bundles[0].OptionSwitches).IsEquivalentTo(["--key", "--keyring"]);
+        await Assert.That(bundles[0].DirectOptionalSwitches).IsEquivalentTo(["--keyring"]);
+        await Assert.That(bundles[1].PrimarySwitch).IsNull();
+        await Assert.That(bundles[1].DirectOptionalSwitches).IsEquivalentTo(["--certificate"]);
+    }
+
+    [Test]
+    public async Task Provider_Selectors_Do_Not_Join_A_Different_Credential_Resource()
+    {
+        var group = Choice("--other", "--host", "--certificate") with
+        {
+            Groups =
+            [
+                new()
+                {
+                    Kind = CliArgumentGroupKind.Resource,
+                    Arguments = [new() { SwitchName = "--secret" }],
+                },
+            ],
+        };
+        var result = Reconcile(group, "[--other=OTHER | [--host=HOST : --secret=SECRET --certificate=CERT]]");
+        var branch = result.Groups.Single();
+        await Assert.That(branch.Arguments.Select(argument => argument.SwitchName)).IsEquivalentTo(["--host", "--certificate"]);
+        await Assert.That(branch.Groups.Single().Arguments.Select(argument => argument.SwitchName)).IsEquivalentTo(["--secret"]);
+    }
+
+    [Test]
     public async Task Explicit_Resource_Branches_Keep_Their_Selectors_Together()
     {
         var group = Choice("--image", "--tag", "--environment", "--location");
@@ -37,5 +70,5 @@ public class GcloudSynopsisGroupReconcilerTests
 
     private static CliArgumentGroup Reconcile(CliArgumentGroup group, string synopsis) =>
         GcloudSynopsisGroupReconciler.Reconcile(group, UsageSynopsisParser.GetOptionChoiceBranches(synopsis).ToArray(),
-            UsageSynopsisParser.GetOptionalResourceOptionGroups(synopsis).ToArray());
+            UsageSynopsisParser.GetOptionBundles(synopsis).ToArray());
 }

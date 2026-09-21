@@ -225,6 +225,17 @@ internal static partial class CliArgumentGroupParser
     {
         var childStart = Array.FindIndex(preludeLines, line => !string.IsNullOrWhiteSpace(line)
             && CliScraperBase.GetIndentation(line) == argument.Indentation);
+        var preludeIndentation = GetMinimumContentIndentation(preludeLines);
+        // Nested choice headings can be shallower than their flags. Keep their
+        // cardinality separate from the outer choice introduced in the same prelude.
+        var nestedChoiceStart = Array.FindIndex(preludeLines, line => !string.IsNullOrWhiteSpace(line)
+            && CliScraperBase.GetIndentation(line) > preludeIndentation
+            && (Classify(line) & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0);
+        var nestedChoiceHeading = nestedChoiceStart > 0 && (childStart <= 0 || nestedChoiceStart < childStart);
+        if (nestedChoiceHeading)
+        {
+            childStart = nestedChoiceStart;
+        }
         if (childStart <= 0)
         {
             return false;
@@ -240,13 +251,13 @@ internal static partial class CliArgumentGroupParser
         // Keep the choice boundary just below its heading: heading-level peers are outside,
         // while resource branches can indent their flags further than a sibling flag.
         // "Or" headings continue the existing choice and retain their nested branch depth.
-        var parentIndentation = kind.HasFlag(CliArgumentGroupKind.Alternative)
+        var parentIndentation = kind.HasFlag(CliArgumentGroupKind.Alternative) && !nestedChoiceHeading
             ? argument.Indentation
             : GetMinimumContentIndentation(preludeLines[..childStart]) + 1;
         BeginArgumentGroup(stack, parentIndentation, parentDescription, true,
             headingIndentation: GetMinimumContentIndentation(preludeLines[..childStart]));
         var branch = new ArgumentGroupBuilder(argument.Indentation,
-            NormalizeDocumentation(preludeLines[childStart..]));
+            NormalizeDocumentation(preludeLines[childStart..]), GetMinimumContentIndentation(preludeLines[childStart..]));
         stack.Peek().Groups.Add(branch);
         stack.Push(branch);
         branch.Arguments.Add(argument);
