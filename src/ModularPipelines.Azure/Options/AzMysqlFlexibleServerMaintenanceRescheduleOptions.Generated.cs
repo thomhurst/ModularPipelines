@@ -24,7 +24,7 @@ public record AzMysqlFlexibleServerMaintenanceRescheduleOptions : AzOptions
     /// Reschedule the ongoing planned maintenance of
     /// </summary>
     /// <param name="MaintenanceName">The name of the maintenance.</param>
-    /// <param name="StartTime">The new start time of the rescheduled maintenance.  Default: 2026-09-20T12:27:38+00:00.</param>
+    /// <param name="StartTime">The new start time of the rescheduled maintenance.  Default: 2026-09-21T12:42:56+00:00.</param>
     public AzMysqlFlexibleServerMaintenanceRescheduleOptions(
         string MaintenanceName,
         string StartTime
@@ -49,7 +49,7 @@ public record AzMysqlFlexibleServerMaintenanceRescheduleOptions : AzOptions
     public string MaintenanceName { get; private init; }
 
     /// <summary>
-    /// The new start time of the rescheduled maintenance.  Default: 2026-09-20T12:27:38+00:00.
+    /// The new start time of the rescheduled maintenance.  Default: 2026-09-21T12:42:56+00:00.
     /// </summary>
     [CliOption("--start-time")]
     public string StartTime { get; private init; }
