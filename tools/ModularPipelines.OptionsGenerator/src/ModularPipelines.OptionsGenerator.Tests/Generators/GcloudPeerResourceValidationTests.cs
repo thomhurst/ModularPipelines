@@ -7,6 +7,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    public async Task Gcloud_Notebook_Image_Branches_Retain_Resource_Selectors()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("notebooks instances create");
+        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("Environment"));
+        await ValidateCapturedGroup(command, group,
+        [
+            ("", true),
+            ("Environment", true),
+            ("Environment,EnvironmentLocation", true),
+            ("EnvironmentLocation", false),
+            ("ContainerRepository", true),
+            ("ContainerRepository,ContainerTag", true),
+            ("ContainerTag", false),
+            ("VmImageProject,VmImageFamily", true),
+            ("VmImageProject,VmImageName", true),
+            ("VmImageFamily,VmImageName", false),
+            ("Environment,ContainerRepository", false),
+            ("Environment,VmImageFamily", false),
+        ]);
+    }
+
+    [Test]
     public async Task Gcloud_Authentication_Branches_Remain_Independent()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("apihub plugins instances create");
