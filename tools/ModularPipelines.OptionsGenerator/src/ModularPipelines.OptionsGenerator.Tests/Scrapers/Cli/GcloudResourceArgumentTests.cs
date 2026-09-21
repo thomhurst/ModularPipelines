@@ -196,6 +196,26 @@ public class GcloudResourceArgumentTests
     }
 
     [Test]
+    public async Task Captured_Cloud_Source_Trigger_Retains_Nested_Branch_Choices()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", "585.0.0", "gcloud-builds-triggers-update-cloud-source-repositories.txt"));
+        var command = (await ScrapeFixture("builds triggers update cloud-source-repositories", help)).Single();
+        var branch = Descendants(command.ArgumentGroups).Single(group =>
+            group.Arguments.Any(argument => argument.SwitchName == "--branch-pattern"));
+        await Assert.That(branch.Kind).IsEqualTo(CliArgumentGroupKind.AtMostOne);
+        await Assert.That(branch.Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--branch-pattern", "--tag-pattern"]);
+        await Assert.That(command.Options.Single(option => option.PropertyName == "BranchPattern").Description)
+            .Contains("Or at least one of these can be specified");
+        await Assert.That(command.Options.Single(option => option.PropertyName == "TagPattern").Description)
+            .Contains("Or at least one of these can be specified");
+
+        static IEnumerable<CliArgumentGroup> Descendants(IEnumerable<CliArgumentGroup> groups) =>
+            groups.SelectMany(group => new[] { group }.Concat(Descendants(group.Groups)));
+    }
+
+    [Test]
     public async Task Captured_Manual_Trigger_Retains_Configuration_And_Dockerfile_Constraints()
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,

@@ -5,6 +5,45 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    [Arguments("Arguments for authentication:")]
+    [Arguments("Or use these options:")]
+    public async Task Classified_Ancestors_Preserve_Nested_Choices(string heading)
+    {
+        var section = $$"""
+            {{heading}}
+              --parent=PARENT
+                 The parent value.
+
+              Options for configuring credentials.
+
+                --credential=CREDENTIAL
+                   The credential.
+
+                Options for configuring the instance.
+
+                --size=SIZE
+                   The instance size.
+
+                At most one of these can be specified:
+
+                  --region=REGION
+                     The region.
+
+                  --zone=ZONE
+                     The zone.
+            """;
+        var root = TestArgumentGroupScraper.ParseGroups(section);
+        var parent = root.Groups.Single();
+        await Assert.That(parent.Groups).Count().IsEqualTo(2);
+        var configuration = parent.Groups[1];
+        await Assert.That(configuration.Arguments.Single().SwitchName).IsEqualTo("--size");
+        var choice = configuration.Groups.Single();
+        await Assert.That(choice.Kind).IsEqualTo(CliArgumentGroupKind.AtMostOne);
+        await Assert.That(choice.Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--region", "--zone"]);
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Choice_Heading_Depth_Determines_Peer_Or_Nested_Group(bool nested)
