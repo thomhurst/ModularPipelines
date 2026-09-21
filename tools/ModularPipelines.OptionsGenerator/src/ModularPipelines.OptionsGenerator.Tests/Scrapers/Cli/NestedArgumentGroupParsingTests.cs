@@ -1912,8 +1912,8 @@ public partial class NestedArgumentGroupParsingTests
 
         public override string OutputDirectory => "src/ModularPipelines.Fake";
 
-        public static CliArgumentGroup ParseGroups(string section) =>
-            ParseArgumentGroups(section, ParseArgument);
+        public static CliArgumentGroup ParseGroups(string section, IReadOnlyList<IReadOnlySet<string>>? optionalOptionGroups = null) =>
+            ParseArgumentGroups(section, ParseArgument, optionalOptionGroups);
 
         protected override IEnumerable<string> ExtractSubcommands(string helpText) => [];
 

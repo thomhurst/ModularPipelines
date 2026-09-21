@@ -238,8 +238,10 @@ public partial class GcloudCliScraper : CliScraperBase
 
     #region Gcloud-Specific Parsing Helpers
 
-    private static CliArgumentGroup ParseSectionArgumentGroup(string name, string content) =>
-        ParseArgumentGroups(content, name == "POSITIONAL ARGUMENTS" ? ParseGcloudResourceArgument : ParseGcloudArgument);
+    private static CliArgumentGroup ParseSectionArgumentGroup(
+        string name, string content, IReadOnlyList<IReadOnlySet<string>>? optionalOptionGroups = null) =>
+        ParseArgumentGroups(content, name == "POSITIONAL ARGUMENTS" ? ParseGcloudResourceArgument : ParseGcloudArgument,
+            optionalOptionGroups);
 
     private static List<string> ExtractFromSection(string helpText, string sectionName)
     {
@@ -310,7 +312,8 @@ public partial class GcloudCliScraper : CliScraperBase
         var optionalResourceGroups = UsageSynopsisParser.GetOptionalResourceOptionGroups(usage.Synopsis).ToArray();
         foreach (var (name, content) in ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS"))
         {
-            var argumentGroup = MarkOptionalResourceGroups(ParseSectionArgumentGroup(name, content), optionalResourceGroups);
+            var argumentGroup = MarkOptionalResourceGroups(
+                ParseSectionArgumentGroup(name, content, optionalResourceGroups), optionalResourceGroups);
             argumentGroups.Add(argumentGroup);
             sections.Add((name, argumentGroup));
             foreach (var argument in argumentGroup.FlattenArguments().Where(argument => !argument.IsPositional))
