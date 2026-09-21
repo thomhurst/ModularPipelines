@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -28,34 +29,46 @@ public record CargoUninstallOptions : CargoOptions
     public string? Root { get; set; }
 
     /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
+
+    /// <summary>
     /// Do not print cargo log messages
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Coloring [possible values: auto, always, never]
+    /// Coloring
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public CargoUninstallColor? Color { get; set; }
 
     /// <summary>
     /// Override a configuration value
     /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
-    /// Print help
+    /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliOption("-Z")]
+    public IEnumerable<string>? Z { get; set; }
+
+    /// <summary>
+    /// Package to uninstall
+    /// </summary>
+    [CliOption("--package", ShortForm = "-p")]
+    public IEnumerable<string>? Package { get; set; }
 
     /// <summary>
     /// Only uninstall the binary NAME
     /// </summary>
     [CliOption("--bin")]
-    public string? Bin { get; set; }
+    public IEnumerable<string>? Bin { get; set; }
 
     /// <summary>
     /// Assert that `Cargo.lock` will remain unchanged

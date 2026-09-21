@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -100,10 +101,10 @@ public record CargoInstallOptions : CargoOptions
     public bool? List { get; set; }
 
     /// <summary>
-    /// Error format [possible values: human, short, json, json-diagnostic-short, json-diagnostic-rendered-ansi, json-render-diagnostics]
+    /// Error format
     /// </summary>
     [CliOption("--message-format")]
-    public string? MessageFormat { get; set; }
+    public IEnumerable<CargoInstallMessageFormat>? MessageFormat { get; set; }
 
     /// <summary>
     /// Build in debug mode (with the 'dev' profile) instead of release mode
@@ -112,28 +113,34 @@ public record CargoInstallOptions : CargoOptions
     public bool? Debug { get; set; }
 
     /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
+
+    /// <summary>
     /// Do not print cargo log messages
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Coloring [possible values: auto, always, never]
+    /// Coloring
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public CargoInstallColor? Color { get; set; }
 
     /// <summary>
     /// Override a configuration value
     /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
-    /// Print help
+    /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliOption("-Z")]
+    public IEnumerable<string>? Z { get; set; }
 
     /// <summary>
     /// Ignore `rust-version` specification in packages
@@ -160,10 +167,22 @@ public record CargoInstallOptions : CargoOptions
     public bool? Frozen { get; set; }
 
     /// <summary>
+    /// Install only the specified binary
+    /// </summary>
+    [CliOption("--bin")]
+    public IEnumerable<string>? Bin { get; set; }
+
+    /// <summary>
     /// Install all binaries
     /// </summary>
     [CliFlag("--bins")]
     public bool? Bins { get; set; }
+
+    /// <summary>
+    /// Install only the specified example
+    /// </summary>
+    [CliOption("--example")]
+    public IEnumerable<string>? Example { get; set; }
 
     /// <summary>
     /// Install all examples
@@ -206,6 +225,12 @@ public record CargoInstallOptions : CargoOptions
     /// </summary>
     [CliOption("--profile")]
     public string? Profile { get; set; }
+
+    /// <summary>
+    /// Build for the target triple
+    /// </summary>
+    [CliOption("--target")]
+    public string? Target { get; set; }
 
     /// <summary>
     /// Directory for all generated artifacts
