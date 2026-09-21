@@ -10,6 +10,7 @@ public class SnykCliScraperTests
     [Test]
     [Arguments("(json|yaml)")]
     [Arguments("{json|yaml}")]
+    [Arguments("<json|yaml>")]
     public async Task Choice_Hints_Use_Shared_Wrapper_Parsing(string hint)
     {
         var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
@@ -21,6 +22,7 @@ public class SnykCliScraperTests
     [Test]
     [Arguments("(true|false)")]
     [Arguments("{true|false}")]
+    [Arguments("<true|false>")]
     public async Task Wrapped_Boolean_Choices_Remain_Value_Options(string hint)
     {
         var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
@@ -41,6 +43,9 @@ public class SnykCliScraperTests
     [Arguments("[]")]
     [Arguments("{}")]
     [Arguments("<>")]
+    [Arguments("<json|yaml")]
+    [Arguments("json|yaml>")]
+    [Arguments("<json|yaml)")]
     public async Task Malformed_Choice_Hints_Remain_In_String_Descriptions(string hint)
     {
         var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],

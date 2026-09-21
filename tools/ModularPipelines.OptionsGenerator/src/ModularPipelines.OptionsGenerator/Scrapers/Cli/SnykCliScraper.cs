@@ -823,7 +823,7 @@ public partial class SnykCliScraper : CliScraperBase
     /// --severity-threshold=&lt;low|medium|high|critical&gt;
     /// --json
     /// </summary>
-    [GeneratedRegex(@"(?<long>--[\w-]+)(?:=(?:<(?<value>[^>\s]+)>?|(?<value>[^\s,]+)))?")]
+    [GeneratedRegex(@"(?<long>--[\w-]+)(?:=(?:(?<value><[^>\s]+>?)|(?<value>[^\s,]+)))?")]
     private static partial Regex SnykOptionPattern();
 
     [GeneratedRegex(@"\bUse (?:the )?-d(?: option)?\b", RegexOptions.IgnoreCase)]
