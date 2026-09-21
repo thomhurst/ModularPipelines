@@ -18,6 +18,9 @@ public class CliDocumentationScraperBaseTests
     [Arguments("json|yaml]")]
     [Arguments("[json|yaml>")]
     [Arguments("[<json|yaml>]")]
+    [Arguments("(json|yaml")]
+    [Arguments("json|yaml)")]
+    [Arguments("(json|yaml]")]
     public async Task DetectEnumValues_Rejects_Annotated_Or_Incomplete_Pipe_Hints(string hint)
     {
         await Assert.That(TestDocumentationScraper.DetectEnumValues(hint)).IsNull();
@@ -36,6 +39,8 @@ public class CliDocumentationScraperBaseTests
     [Arguments("<json|yaml>")]
     [Arguments("{json|yaml}")]
     [Arguments("[json|yaml]")]
+    [Arguments("(json|yaml)")]
+    [Arguments(" ( json|yaml ) ")]
     [Arguments(" [ json|yaml ] ")]
     [Arguments(" < json|yaml > ")]
     [Arguments(" { json|yaml } ")]

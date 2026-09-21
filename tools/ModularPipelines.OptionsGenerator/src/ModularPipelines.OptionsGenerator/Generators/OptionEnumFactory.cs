@@ -5,7 +5,7 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 
 internal static class OptionEnumFactory
 {
-    private static readonly SearchValues<char> HintSyntaxDelimiters = SearchValues.Create("<>{}[]");
+    private static readonly SearchValues<char> HintSyntaxDelimiters = SearchValues.Create("<>{}[]()");
 
     // Inferred hints need a lexical guard; authoritative structured choices may
     // contain numeric or symbolic literals and must retain their original values.
@@ -22,7 +22,7 @@ internal static class OptionEnumFactory
     {
         var trimmed = hint.Trim();
         return trimmed.Length >= 2
-               && (trimmed[0], trimmed[^1]) is ('<', '>') or ('{', '}') or ('[', ']')
+               && (trimmed[0], trimmed[^1]) is ('<', '>') or ('{', '}') or ('[', ']') or ('(', ')')
             ? trimmed[1..^1].Trim()
             : trimmed;
     }
