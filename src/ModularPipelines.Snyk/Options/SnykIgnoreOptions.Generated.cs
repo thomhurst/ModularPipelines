@@ -10,20 +10,25 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Snyk.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Snyk.Enums;
 
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// Usage and description
+/// The snyk ignore command modifies the .snyk policy file to ignore a specified issue according to its Snyk ID for all occurrences, its expiry date, a reason, or according to paths in the filesystem for the policy, the issue, or both.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ignore")]
-public record SnykIgnoreOptions(
-    [property: CliOption("--id", Format = OptionFormat.EqualsSeparated)] string Id
-) : SnykOptions
+public record SnykIgnoreOptions : SnykOptions, IValidatableObject
 {
+    /// <summary>
+    /// Snyk ID for the issue to ignore, omitted if the ignore command used with --file-path, otherwise required.
+    /// </summary>
+    [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
+    public string? Id { get; set; }
+
     /// <summary>
     /// Expiry date in YYYY-MM-DD format.
     /// </summary>
@@ -65,5 +70,15 @@ public record SnykIgnoreOptions(
     /// </summary>
     [CliFlag("-d")]
     public bool? Debug { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Id) || !string.IsNullOrWhiteSpace(FilePath)))
+        {
+            yield return new ValidationResult("At least one of Id or FilePath must be specified.", [nameof(Id), nameof(FilePath)]);
+        }
+        yield break;
+    }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.Snyk.Enums;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// The snyk code test command tests source code for any known security issues (Static Application
+/// The snyk code test command tests source code for any known security issues (Static Application Security Testing).
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -14,7 +14,7 @@ using ModularPipelines.Snyk.Options;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// The snyk monitor command creates a project in your Snyk account to be continuously monitored for
+/// The snyk monitor command creates a project in your Snyk account to be continuously monitored for open-source vulnerabilities and license issues, sending the results to snyk.io https://snyk.io
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

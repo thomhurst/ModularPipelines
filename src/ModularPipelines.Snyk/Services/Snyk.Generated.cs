@@ -38,7 +38,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykAibomOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykAibomOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -47,7 +47,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykAibomTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykAibomTestOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -56,7 +56,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykAuthOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykAuthOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -65,7 +65,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykCodeTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykCodeTestOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -74,7 +74,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -83,7 +83,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -92,7 +92,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -101,7 +101,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacDescribeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -110,7 +110,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -119,7 +119,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacTestOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -128,7 +128,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacUpdateExcludePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykIacUpdateExcludePolicyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -137,7 +137,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -146,7 +146,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykLog4shellOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykLog4shellOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -155,7 +155,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykMonitorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykMonitorOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -164,7 +164,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykPolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykPolicyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -173,7 +173,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -182,7 +182,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -191,7 +191,7 @@ internal partial class Snyk : ISnyk
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SnykTestOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
