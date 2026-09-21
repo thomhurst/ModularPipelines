@@ -6,6 +6,20 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    [Arguments("CopyKnownExtensions", "Constraints on known extensions.", "Constraints on unknown extensions")]
+    [Arguments("DropKnownExtensions", "Constraints on known extensions.", "Constraints on unknown extensions")]
+    [Arguments("CopyExtensionsByOid", "Constraints on unknown extensions by their OIDs.", "Constraints on known extensions.")]
+    [Arguments("DropOidExtensions", "Constraints on unknown extensions by their OIDs.", "Constraints on known extensions.")]
+    public async Task Captured_Privateca_Choice_Descriptions_Stay_With_Their_Own_Members(
+        string property, string ownDescription, string siblingDescription)
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("privateca templates update");
+        var description = command.Options.Single(option => option.PropertyName == property).Description;
+        await Assert.That(description).Contains(ownDescription);
+        await Assert.That(description).DoesNotContain(siblingDescription);
+    }
+
+    [Test]
     public async Task Captured_Privateca_Update_Choices_Stay_Independently_Optional()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("privateca templates update");

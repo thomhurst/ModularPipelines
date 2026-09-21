@@ -234,7 +234,15 @@ internal static partial class CliArgumentGroupParser
         var nestedChoiceHeading = nestedChoiceStart > 0 && (childStart <= 0 || nestedChoiceStart < childStart);
         if (nestedChoiceHeading)
         {
-            childStart = nestedChoiceStart;
+            var introductionStart = FindIntroductionStart(preludeLines, nestedChoiceStart);
+            // A required preamble without an outer choice must stay with its choice
+            // heading so its presence requirement is retained.
+            var parentKind = Classify(NormalizeDocumentation(preludeLines[..introductionStart]));
+            nestedChoiceHeading = (parentKind & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0;
+            if (nestedChoiceHeading)
+            {
+                childStart = introductionStart;
+            }
         }
         if (childStart <= 0)
         {
@@ -262,6 +270,19 @@ internal static partial class CliArgumentGroupParser
         stack.Push(branch);
         branch.Arguments.Add(argument);
         return true;
+    }
+
+    private static int FindIntroductionStart(string[] lines, int headingStart)
+    {
+        var indentation = CliScraperBase.GetIndentation(lines[headingStart]);
+        // The introduction at the nested heading's depth belongs to that choice,
+        // not to its parent, whose prose would also be inherited by sibling choices.
+        while (headingStart > 0 && (string.IsNullOrWhiteSpace(lines[headingStart - 1])
+            || CliScraperBase.GetIndentation(lines[headingStart - 1]) >= indentation))
+        {
+            headingStart--;
+        }
+        return headingStart;
     }
 
     private static void BeginArgumentGroup(
