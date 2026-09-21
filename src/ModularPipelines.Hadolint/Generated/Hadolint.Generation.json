@@ -3,5 +3,5 @@
   "toolName": "hadolint",
   "toolVersion": "Haskell Dockerfile Linter 2.15.1",
   "commandTreeSha256": "aeb27eae3024b418e56e8f019f96d51b3a9c807828bc0b65fc1c600d24a325b5",
-  "generatorSourceSha256": "3c04f8b39c6c54a9dac25bdc0684a2529905122e447265041337bfe69fc485b4"
+  "generatorSourceSha256": "37c8e0e0c64391c208f434ff45de7aad475f8518442af70433012b4009a6998b"
 }
