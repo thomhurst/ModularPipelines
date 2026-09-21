@@ -68,6 +68,7 @@ public partial class NestedArgumentGroupParsingTests
 
               Note: authentication is checked before execution.
               {heading}
+
               --setting=SETTING
                  Configure the independent setting.
             """;
@@ -75,6 +76,27 @@ public partial class NestedArgumentGroupParsingTests
         await Assert.That(root.Groups).Count().IsEqualTo(2);
         await Assert.That(root.Groups[0].Arguments.Single().SwitchName).IsEqualTo("--token");
         await Assert.That(root.Groups[1].Arguments.Single().SwitchName).IsEqualTo("--setting");
+    }
+
+    [Test]
+    [Arguments("At most one of these can be specified:", CliArgumentGroupKind.AtMostOne)]
+    [Arguments("Arguments for authentication:", CliArgumentGroupKind.Resource)]
+    public async Task Configuration_Prose_Without_A_Heading_Break_Preserves_Group_Membership(
+        string heading, CliArgumentGroupKind kind)
+    {
+        var section = $"""
+            {heading}
+              --token=TOKEN
+                 Authenticate with a token.
+
+              Options for authentication include OAuth and API tokens.
+              --profile=PROFILE
+                 Select a saved profile.
+            """;
+        var group = TestArgumentGroupScraper.ParseGroups(section).Groups.Single();
+        await Assert.That(group.Kind).IsEqualTo(kind);
+        await Assert.That(group.Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--token", "--profile"]);
     }
 
     [Test]
