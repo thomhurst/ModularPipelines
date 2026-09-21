@@ -65,7 +65,8 @@ internal static partial class CliArgumentGroupParser
             // argument from an established constraint group without an explicit heading.
             var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude)
                 || (preludeIndentation <= declaration.Argument.Indentation
-                    && Classify(stack.Peek().Description) == CliArgumentGroupKind.None);
+                    && (Classify(stack.Peek().Description)
+                        & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) == 0);
             var parsedArgument = declaration.Argument with
             {
                 Description = description,
