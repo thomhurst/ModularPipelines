@@ -15,8 +15,9 @@ using ModularPipelines.Snyk.Enums;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// Feature availability: This feature is available only to customers on Snyk Enterprise plans.
+/// The snyk sbom command generates an SBOM for a local software project in an ecosystem supported by Snyk.
 /// </summary>
+/// <param name="Format">Required. Specify the output format for the SBOM to be produced.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sbom")]

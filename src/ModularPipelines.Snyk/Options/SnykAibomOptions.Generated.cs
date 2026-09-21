@@ -14,7 +14,7 @@ using ModularPipelines.Snyk.Options;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// -  The snyk aibom feature requires an internet connection.
+/// The snyk aibom command generates an AI-BOM for a local software Project written in Python, Java, JavaScript, or Go. You can use the snyk aibom command to identify AI models, datasets, and map the AI supply chain, including connections to external tools and services using the Model Context Protocol (MCP).
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

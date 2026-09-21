@@ -15,7 +15,7 @@ using ModularPipelines.Snyk.Enums;
 namespace ModularPipelines.Snyk.Options;
 
 /// <summary>
-/// The snyk test command checks projects for open-source vulnerabilities and license issues. The test
+/// The snyk test command checks projects for open-source vulnerabilities and license issues. The test command tries to auto-detect supported manifest files with dependencies and test those.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
