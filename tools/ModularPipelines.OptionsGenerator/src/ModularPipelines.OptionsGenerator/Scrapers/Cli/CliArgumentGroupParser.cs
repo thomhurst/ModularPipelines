@@ -234,7 +234,23 @@ internal static partial class CliArgumentGroupParser
         var nestedChoiceHeading = nestedChoiceStart > 0 && (childStart <= 0 || nestedChoiceStart < childStart);
         if (nestedChoiceHeading)
         {
-            childStart = nestedChoiceStart;
+            var introductionStart = nestedChoiceStart;
+            var nestedIndentation = CliScraperBase.GetIndentation(preludeLines[nestedChoiceStart]);
+            // The introduction at the nested heading's depth belongs to that choice,
+            // not to its parent, whose prose would also be inherited by sibling choices.
+            while (introductionStart > 0 && (string.IsNullOrWhiteSpace(preludeLines[introductionStart - 1])
+                || CliScraperBase.GetIndentation(preludeLines[introductionStart - 1]) >= nestedIndentation))
+            {
+                introductionStart--;
+            }
+            // A required preamble without an outer choice must stay with its choice
+            // heading so its presence requirement is retained.
+            var parentKind = Classify(NormalizeDocumentation(preludeLines[..introductionStart]));
+            nestedChoiceHeading = (parentKind & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0;
+            if (nestedChoiceHeading)
+            {
+                childStart = introductionStart;
+            }
         }
         if (childStart <= 0)
         {

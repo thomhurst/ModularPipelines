@@ -1,0 +1,179 @@
+NAME
+    gcloud agent-identity auth-providers create - create an auth provider
+
+SYNOPSIS
+    gcloud agent-identity auth-providers create
+        (AUTH_PROVIDER : --location=LOCATION)
+        (--api-key=API_KEY
+          | --three-legged-oauth-authorization-url=THREE_LEGGED_OAUTH_AUTHORIZATION_URL --three-legged-oauth-client-id=THREE_LEGGED_OAUTH_CLIENT_ID --three-legged-oauth-client-secret=THREE_LEGGED_OAUTH_CLIENT_SECRET --three-legged-oauth-default-continue-uri=THREE_LEGGED_OAUTH_DEFAULT_CONTINUE_URI --three-legged-oauth-enable-pkce --three-legged-oauth-token-url=THREE_LEGGED_OAUTH_TOKEN_URL | --two-legged-oauth-client-id=TWO_LEGGED_OAUTH_CLIENT_ID --two-legged-oauth-client-secret=TWO_LEGGED_OAUTH_CLIENT_SECRET --two-legged-oauth-token-url=TWO_LEGGED_OAUTH_TOKEN_URL)
+        [--allowed-scopes=[ALLOWED_SCOPES,...]]
+        [--blocked-scopes=[BLOCKED_SCOPES,...]] [--description=DESCRIPTION]
+        [--labels=[LABELS,...]] [--request-id=REQUEST_ID]
+        [--workload-ids=[WORKLOAD_IDS,...]] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Create a new auth provider in a given project and location.
+
+EXAMPLES
+    To create an API key auth provider 'my-auth-provider' in location
+    'us-central1' and project 'my-project', run:
+
+        $ gcloud agent-identity auth-providers create my-auth-provider \
+            --location=us-central1 --project=my-project --api-key=my-api-key
+
+POSITIONAL ARGUMENTS
+     AuthProvider resource - Identifier. The full resource name of the
+     auth_provider. Format:
+     projects/{project}/locations/{location}/authProviders/{auth_provider} The
+     arguments in this group can be used to specify the attributes of this
+     resource. (NOTE) Some attributes are not given arguments in this group but
+     can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument auth_provider on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     This must be specified.
+
+       AUTH_PROVIDER
+          ID of the authProvider or fully qualified identifier for the
+          authProvider.
+
+          To set the auth_provider attribute:
+          + provide the argument auth_provider on the command line.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --location=LOCATION
+          The location id of the authProvider resource.
+
+          To set the location attribute:
+          + provide the argument auth_provider on the command line with a
+            fully specified name;
+          + provide the argument --location on the command line.
+
+REQUIRED FLAGS
+     AuthProvider type specific parameters. Required when creating an
+     auth_provider.
+
+     This must be specified.
+
+       Arguments for the type.
+
+       At most one of these can be specified:
+
+         Message describing ApiKeyParams object.
+
+         --api-key=API_KEY
+            The API key for this auth_provider.
+
+         Message describing ThreeLeggedOAuth object.
+
+         --three-legged-oauth-authorization-url=THREE_LEGGED_OAUTH_AUTHORIZATION_URL
+            The authorization endpoint to send users to for consenting to
+            delegate to the agent. eg. "https://auth.atlassian.com/authorize"
+
+         --three-legged-oauth-client-id=THREE_LEGGED_OAUTH_CLIENT_ID
+            The client ID of the OAuth client.
+
+         --three-legged-oauth-client-secret=THREE_LEGGED_OAUTH_CLIENT_SECRET
+            The client secret of the OAuth client.
+
+         --three-legged-oauth-default-continue-uri=THREE_LEGGED_OAUTH_DEFAULT_CONTINUE_URI
+            The default continue URI for 3LO flow to redirect end users after
+            consent.
+
+         --three-legged-oauth-enable-pkce
+            Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to
+            prevent authorization code interception attacks.
+
+         --three-legged-oauth-token-url=THREE_LEGGED_OAUTH_TOKEN_URL
+            The token endpoint for requesting tokens on behalf of an end user.
+            eg. "https://auth.atlassian.com/oauth/token"
+
+         Message describing TwoLeggedOAuth object.
+
+         --two-legged-oauth-client-id=TWO_LEGGED_OAUTH_CLIENT_ID
+            The client ID of the OAuth client.
+
+         --two-legged-oauth-client-secret=TWO_LEGGED_OAUTH_CLIENT_SECRET
+            The client secret of the OAuth client.
+
+         --two-legged-oauth-token-url=TWO_LEGGED_OAUTH_TOKEN_URL
+            The token endpoint of the OAuth client.
+
+OPTIONAL FLAGS
+     --allowed-scopes=[ALLOWED_SCOPES,...]
+        List of scopes that are allowed to be requested for this auth_provider.
+        If this list is non-empty, only scopes within this list may be
+        requested. If this list is empty, all scopes may be requested. Scopes
+        appearing in blocked_scopes are disallowed even if they appear in
+        allowed_scopes. The number of allowed scopes is limited to 200.
+
+     --blocked-scopes=[BLOCKED_SCOPES,...]
+        List of scopes that are blocked from being requested for this
+        auth_provider. If a scope appears in this list, it will not be
+        requested, even if it also appears in allowed_scopes. blocked_scopes
+        takes precedence over allowed_scopes. The number of blocked scopes is
+        limited to 200.
+
+     --description=DESCRIPTION
+        Description of the resource. Must be less than 256 characters.
+
+     --labels=[LABELS,...]
+        Labels as key value pairs.
+
+         KEY
+            Keys must start with a lowercase character and contain only hyphens
+            (-), underscores (_), lowercase characters, and numbers.
+
+         VALUE
+            Values must contain only hyphens (-), underscores (_), lowercase
+            characters, and numbers.
+
+        Shorthand Example:
+
+            --labels=string=string
+
+        JSON Example:
+
+            --labels='{"string": "string"}'
+
+        File Example:
+
+            --labels=path_to_file.(yaml|json)
+
+     --request-id=REQUEST_ID
+        An optional request ID to identify requests. Specify a unique request
+        ID so that if you must retry your request, the server will know to
+        ignore the request if it has already been completed. The server will
+        guarantee that for at least 60 minutes since the first request.
+
+        For example, consider a situation where you make an initial request and
+        the request times out. If you make the request again with the same
+        request ID, the server can check if original operation with the same
+        request ID was received, and if so, will ignore the second request.
+        This prevents clients from accidentally creating duplicate commitments.
+
+        The request ID must be a valid UUID with the exception that zero UUID
+        is not supported (00000000-0000-0000-0000-000000000000).
+
+     --workload-ids=[WORKLOAD_IDS,...]
+        Represents the workload identity in IAM principal:// format of the
+        agent(s) that will use this AuthProvider. Example:
+        principal://agents.global.org-${ORG_ID}.system.id.goog/resources/aiplatform/projects/{PROJECT_ID}/locations/{LOCATIONS}/reasoningEngines/{ID}
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
+
+API REFERENCE
+    This command uses the agentidentity/v1 API. The full documentation for this
+    API can be found at: https://cloud.google.com/iam/docs/
