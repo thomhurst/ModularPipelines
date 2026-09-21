@@ -10,7 +10,8 @@ internal static partial class CliArgumentGroupParser
 {
     public static CliArgumentGroup Parse(
         string section,
-        Func<string, CliArgumentDefinition?> parseArgument)
+        Func<string, CliArgumentDefinition?> parseArgument,
+        IReadOnlyList<IReadOnlySet<string>>? optionalOptionGroups = null)
     {
         ArgumentNullException.ThrowIfNull(section);
         ArgumentNullException.ThrowIfNull(parseArgument);
@@ -69,11 +70,15 @@ internal static partial class CliArgumentGroupParser
             // A peer heading can introduce flags indented deeper than the previous
             // group's flags. Compare headings before treating that depth as nesting.
             // Within a classified branch, same-depth constraints still belong to that branch.
+            // A synopsis can also establish a shared optional bundle when prose is unclassified.
+            var sharesOptionalGroup = stack.Peek().Arguments.Count > 0
+                && optionalOptionGroups?.Any(group => group.Contains(declaration.Argument.SwitchName)
+                    && stack.Peek().Arguments.All(argument => group.Contains(argument.SwitchName))) == true;
             var isNestedConstraint =
-                DescribesRequiredBundle(prelude)
-                || ((Classify(prelude) & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0
-                    && stack.Skip(1).Any(group =>
-                        group.IsNamedBundle || Classify(group.Description) != CliArgumentGroupKind.None));
+                ((Classify(prelude) & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0
+                    || DescribesRequiredBundle(prelude))
+                && (sharesOptionalGroup || stack.Skip(1).Any(group =>
+                    group.IsNamedBundle || Classify(group.Description) != CliArgumentGroupKind.None));
             while (stack.Count > 1 && preludeStartsGroup
                    && !isNestedConstraint
                    && preludeIndentation <= stack.Peek().HeadingIndentation

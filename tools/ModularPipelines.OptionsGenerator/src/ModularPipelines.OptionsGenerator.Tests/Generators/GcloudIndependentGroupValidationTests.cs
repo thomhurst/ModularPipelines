@@ -6,6 +6,37 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    public async Task Gcloud_Required_Peer_Remains_Mandatory_After_Optional_Settings()
+    {
+        const string help = """
+            NAME
+                gcloud example create - create an example
+            SYNOPSIS
+                gcloud example create [--encoding=ENCODING : --revision=REVISION]
+                    (--schema=SCHEMA : --schema-project=PROJECT)
+            FLAGS
+                 Optional settings.
+                 --encoding=ENCODING
+                    The encoding. This flag argument must be specified if any of the other arguments in this group are specified.
+                 --revision=REVISION
+                    The revision.
+
+                 Schema resource - The schema.
+                 This must be specified.
+
+                   --schema=SCHEMA
+                      The schema. This flag argument must be specified if any of the other arguments in this group are specified.
+                   --schema-project=PROJECT
+                      The schema project.
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("example create", help)).Single();
+        await Assert.That(command.Options.Single(option => option.PropertyName == "Schema").IsRequired).IsTrue();
+        var settings = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("Encoding"));
+        await Assert.That(settings.IsRequired).IsFalse();
+        await Assert.That(settings.PropertyNames).DoesNotContain("Schema");
+    }
+
+    [Test]
     [Arguments("550.0.0")]
     [Arguments("585.0.0")]
     public async Task Gcloud_Topic_Schema_Remains_Conditional_On_Schema_Settings(string version)

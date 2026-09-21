@@ -2267,8 +2267,9 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     protected static CliArgumentGroup ParseArgumentGroups(
         string section,
-        Func<string, CliArgumentDefinition?> parseArgument) =>
-        CliArgumentGroupParser.Parse(section, parseArgument);
+        Func<string, CliArgumentDefinition?> parseArgument,
+        IReadOnlyList<IReadOnlySet<string>>? optionalOptionGroups = null) =>
+        CliArgumentGroupParser.Parse(section, parseArgument, optionalOptionGroups);
 
     private void ValidateOptionShapes(CliCommandDefinition command, string helpText)
     {

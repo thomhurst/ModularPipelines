@@ -18,7 +18,8 @@ public partial class NestedArgumentGroupParsingTests
                 --schema=SCHEMA
                    The schema.
             """;
-        var settings = TestArgumentGroupScraper.ParseGroups(section).Groups.Single();
+        var settings = TestArgumentGroupScraper.ParseGroups(section,
+            [new HashSet<string>(StringComparer.Ordinal) { "--encoding", "--schema" }]).Groups.Single();
         await Assert.That(settings.Arguments.Single().SwitchName).IsEqualTo("--encoding");
         await Assert.That(settings.Groups.Single().Arguments.Single().SwitchName).IsEqualTo("--schema");
     }
