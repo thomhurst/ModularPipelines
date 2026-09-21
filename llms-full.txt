@@ -37043,6 +37043,8 @@ Resolve the service with `context.Tools.Cargo`. Projects using C# 13 or another 
 ```
 using ModularPipelines;
 
+using ModularPipelines.Rust.Enums;
+
 using ModularPipelines.Rust.Options;
 
 
