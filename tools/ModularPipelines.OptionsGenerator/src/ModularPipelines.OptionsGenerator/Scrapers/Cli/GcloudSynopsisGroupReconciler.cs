@@ -6,9 +6,9 @@ internal static class GcloudSynopsisGroupReconciler
 {
     public static CliArgumentGroup Reconcile(CliArgumentGroup group,
         IReadOnlyList<IReadOnlyList<IReadOnlySet<string>>> synopsisChoices,
-        IReadOnlyList<IReadOnlySet<string>> resourceBundles)
+        IReadOnlyList<CliSynopsisOptionBundle> synopsisBundles)
     {
-        group = group with { Groups = [.. group.Groups.Select(child => Reconcile(child, synopsisChoices, resourceBundles))] };
+        group = group with { Groups = [.. group.Groups.Select(child => Reconcile(child, synopsisChoices, synopsisBundles))] };
         if ((group.Kind & (CliArgumentGroupKind.AtMostOne | CliArgumentGroupKind.AtLeastOne)) == 0)
         {
             return group;
@@ -52,7 +52,7 @@ internal static class GcloudSynopsisGroupReconciler
         {
             Description = null,
             Kind = CliArgumentGroupKind.None,
-        }, resourceBundles)).ToArray();
+        }, synopsisBundles)).ToArray();
         bool IsDirectMember(CliArgumentGroup branch) => branch.Arguments.Count == 1 && branch.Groups.Count == 0
             && group.Arguments.Contains(branch.Arguments[0]);
 
@@ -73,16 +73,63 @@ internal static class GcloudSynopsisGroupReconciler
             .Where(child => child.Arguments.Count > 0 || child.Groups.Count > 0)],
     };
 
-    private static CliArgumentGroup Bundle(CliArgumentGroup branch, IReadOnlyList<IReadOnlySet<string>> resourceBundles)
+    private static CliArgumentGroup Bundle(CliArgumentGroup branch, IReadOnlyList<CliSynopsisOptionBundle> synopsisBundles)
     {
-        branch = AttachResourceSelectors(branch, resourceBundles);
+        branch = AttachResourceSelectors(branch, synopsisBundles);
+        branch = RestoreOptionalBundles(branch, synopsisBundles);
         return branch.Arguments.Count == 0 && branch.Groups.Count == 1 ? branch.Groups[0] : branch;
     }
 
-    private static CliArgumentGroup AttachResourceSelectors(CliArgumentGroup branch, IReadOnlyList<IReadOnlySet<string>> resourceBundles)
+    private static CliArgumentGroup RestoreOptionalBundles(CliArgumentGroup group, IReadOnlyList<CliSynopsisOptionBundle> bundles)
+    {
+        var groups = group.Groups.Select(child => RestoreOptionalBundles(child, bundles)).ToList();
+        if ((group.Kind & (CliArgumentGroupKind.AtMostOne | CliArgumentGroupKind.AtLeastOne)) != 0)
+        {
+            return group with { Groups = groups };
+        }
+
+        var arguments = group.Arguments.ToList();
+        var switches = group.FlattenArguments().Select(argument => argument.SwitchName).ToHashSet(StringComparer.Ordinal);
+        // A nested optional synopsis bundle can be flattened to the same help indentation
+        // as its parent. Recreate its scope before interpreting conditional requirements.
+        foreach (var bundle in bundles.Where(bundle => bundle.IsOptional && bundle.OptionSwitches.Count < switches.Count)
+                     .OrderByDescending(bundle => bundle.OptionSwitches.Count))
+        {
+            var members = arguments.Where(argument => bundle.OptionSwitches.Contains(argument.SwitchName)).ToArray();
+            if (members.Length != bundle.OptionSwitches.Count)
+            {
+                continue;
+            }
+
+            groups.Add(RestoreOptionalBundles(new CliArgumentGroup
+            {
+                Kind = CliArgumentGroupKind.Optional,
+                Arguments = members,
+            }, bundles));
+            arguments.RemoveAll(argument => bundle.OptionSwitches.Contains(argument.SwitchName));
+        }
+
+        // Required members after ':' belong to an optional sub-bundle. They become
+        // mandatory only when another member of that sub-bundle is selected.
+        var matching = bundles.FirstOrDefault(bundle => switches.SetEquals(bundle.OptionSwitches));
+        if (matching is not null)
+        {
+            var required = arguments.Where(argument => matching.DirectOptionalSwitches.Contains(argument.SwitchName)
+                && GcloudCliScraper.ArgumentIsConditionallyRequired(argument)).ToArray();
+            if (required.Length > 0)
+            {
+                groups.Add(new CliArgumentGroup { Kind = CliArgumentGroupKind.Optional, Arguments = required });
+                arguments.RemoveAll(required.Contains);
+            }
+        }
+
+        return group with { Arguments = arguments, Groups = groups };
+    }
+
+    private static CliArgumentGroup AttachResourceSelectors(CliArgumentGroup branch, IReadOnlyList<CliSynopsisOptionBundle> synopsisBundles)
     {
         var arguments = branch.Arguments.ToList();
-        var groups = branch.Groups.Select(child => AttachResourceSelectors(child, resourceBundles)).ToList();
+        var groups = branch.Groups.Select(child => AttachResourceSelectors(child, synopsisBundles)).ToList();
         for (var index = 0; index < groups.Count; index++)
         {
             var child = groups[index];
@@ -93,8 +140,9 @@ internal static class GcloudSynopsisGroupReconciler
             }
 
             var childSwitches = child.FlattenArguments().Select(argument => argument.SwitchName).ToArray();
-            var resource = resourceBundles.OrderBy(bundle => bundle.Count)
-                .FirstOrDefault(bundle => childSwitches.All(bundle.Contains));
+            var resource = synopsisBundles.OrderBy(bundle => bundle.OptionSwitches.Count)
+                .FirstOrDefault(bundle => child.Arguments.Any(argument => argument.SwitchName == bundle.PrimarySwitch)
+                    && childSwitches.All(bundle.OptionSwitches.Contains));
             if (resource is null)
             {
                 continue;
@@ -102,9 +150,9 @@ internal static class GcloudSynopsisGroupReconciler
 
             // Only move selectors confirmed by the resource's own synopsis bundle.
             // Other flags in the outer branch do not activate this optional resource.
-            var selectors = arguments.Where(argument => resource.Contains(argument.SwitchName)).ToArray();
+            var selectors = arguments.Where(argument => resource.OptionSwitches.Contains(argument.SwitchName)).ToArray();
             groups[index] = child with { Arguments = [.. child.Arguments, .. selectors] };
-            arguments.RemoveAll(argument => resource.Contains(argument.SwitchName));
+            arguments.RemoveAll(argument => resource.OptionSwitches.Contains(argument.SwitchName));
         }
 
         return branch with { Arguments = arguments, Groups = groups };

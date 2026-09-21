@@ -1369,6 +1369,36 @@ public static class UsageSynopsisParser
         return result.Append(synopsis, offset, synopsis.Length - offset).ToString();
     }
 
+    internal static IEnumerable<CliSynopsisOptionBundle> GetOptionBundles(string? synopsis)
+    {
+        return synopsis is null ? [] : Tokenize(synopsis).SelectMany(token => Visit(token, false));
+
+        static IEnumerable<CliSynopsisOptionBundle> Visit(string token, bool optional)
+        {
+            if (!IsWrapped(token))
+            {
+                yield break;
+            }
+
+            optional |= token.StartsWith('[');
+            var tokens = TokenizeOptionGroup(TrimWrapper(token));
+            var separator = tokens.IndexOf(":");
+            if (separator > 0 && !tokens.Contains("|") && ContainsOnlyInlineOptions(tokens))
+            {
+                var primary = EnumerateInlineOptionSwitches(tokens.Take(separator)).ToArray();
+                yield return new CliSynopsisOptionBundle(primary is [var primarySwitch] ? primarySwitch : null,
+                    EnumerateInlineOptionSwitches(tokens).ToHashSet(StringComparer.Ordinal),
+                    tokens.Skip(separator + 1).Where(part => !IsWrapped(part)).SelectMany(GetOptionSwitches)
+                        .ToHashSet(StringComparer.Ordinal), optional);
+            }
+
+            foreach (var nested in tokens.SelectMany(part => Visit(part, optional && tokens.Count == 1)))
+            {
+                yield return nested;
+            }
+        }
+    }
+
     internal static IEnumerable<IReadOnlyList<IReadOnlySet<string>>> GetOptionChoiceBranches(string? synopsis)
     {
         return synopsis is null ? [] : Tokenize(synopsis).SelectMany(Visit);
