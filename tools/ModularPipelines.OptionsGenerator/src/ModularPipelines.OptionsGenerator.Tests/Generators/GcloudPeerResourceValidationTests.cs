@@ -7,6 +7,47 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    public async Task Gcloud_Kerberos_Choice_Keeps_Its_Resource_Bundle_Optional()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("dataproc clusters create");
+        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("KerberosConfigFile"));
+        await ValidateCapturedGroup(command, group,
+        [
+            ("", true),
+            ("KerberosConfigFile", true),
+            ("EnableKerberos", true),
+            ("EnableKerberos,KerberosRootPrincipalPasswordUri", true),
+            ("EnableKerberos,KerberosKmsKey", true),
+            ("EnableKerberos,KerberosKmsKey,KerberosKmsKeyKeyring", true),
+            ("KerberosKmsKeyKeyring", false),
+            ("EnableKerberos,KerberosConfigFile", false),
+            ("KerberosKmsKey,KerberosConfigFile", false),
+        ]);
+    }
+
+    [Test]
+    public async Task Gcloud_Notebook_Image_Branches_Retain_Resource_Selectors()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("notebooks instances create");
+        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("Environment"));
+        await ValidateCapturedGroup(command, group,
+        [
+            ("", true),
+            ("Environment", true),
+            ("Environment,EnvironmentLocation", true),
+            ("EnvironmentLocation", false),
+            ("ContainerRepository", true),
+            ("ContainerRepository,ContainerTag", true),
+            ("ContainerTag", false),
+            ("VmImageProject,VmImageFamily", true),
+            ("VmImageProject,VmImageName", true),
+            ("VmImageFamily,VmImageName", false),
+            ("Environment,ContainerRepository", false),
+            ("Environment,VmImageFamily", false),
+        ]);
+    }
+
+    [Test]
     public async Task Gcloud_Authentication_Branches_Remain_Independent()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("apihub plugins instances create");
@@ -60,7 +101,8 @@ public partial class RequiredConstructorValidationTests
             var instance = Activator.CreateInstance(optionsType)!;
             foreach (var name in properties.Split(',', StringSplitOptions.RemoveEmptyEntries))
             {
-                optionsType.GetProperty(name)!.SetValue(instance, "value");
+                var property = optionsType.GetProperty(name)!;
+                property.SetValue(instance, property.PropertyType == typeof(bool?) ? true : "value");
             }
 
             var errors = new List<ValidationResult>();

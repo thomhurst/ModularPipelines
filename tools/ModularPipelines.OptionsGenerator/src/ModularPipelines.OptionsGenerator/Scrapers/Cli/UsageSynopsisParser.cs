@@ -1369,6 +1369,33 @@ public static class UsageSynopsisParser
         return result.Append(synopsis, offset, synopsis.Length - offset).ToString();
     }
 
+    internal static IEnumerable<IReadOnlyList<IReadOnlySet<string>>> GetOptionChoiceBranches(string? synopsis)
+    {
+        return synopsis is null ? [] : Tokenize(synopsis).SelectMany(Visit);
+
+        static IEnumerable<IReadOnlyList<IReadOnlySet<string>>> Visit(string token)
+        {
+            if (!IsWrapped(token))
+            {
+                yield break;
+            }
+
+            var content = TrimWrapper(token);
+            var tokens = TokenizeOptionGroup(content);
+            var alternatives = SplitTopLevelAlternatives(content);
+            if (alternatives.Count > 1 && !tokens.Contains(":"))
+            {
+                yield return alternatives.Select(alternative => (IReadOnlySet<string>)
+                    EnumerateInlineOptionSwitches(TokenizeOptionGroup(alternative)).ToHashSet(StringComparer.Ordinal)).ToArray();
+            }
+
+            foreach (var nested in tokens.SelectMany(Visit))
+            {
+                yield return nested;
+            }
+        }
+    }
+
     internal static IEnumerable<IReadOnlySet<string>> GetOptionalResourceOptionGroups(string? synopsis,
         IReadOnlyList<CliArgumentGroup>? documentedGroups = null)
     {
