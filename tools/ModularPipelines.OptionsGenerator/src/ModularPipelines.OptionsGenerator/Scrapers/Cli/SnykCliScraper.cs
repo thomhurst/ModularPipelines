@@ -400,7 +400,8 @@ public partial class SnykCliScraper : CliScraperBase
         HashSet<string> seenOptions)
     {
         var longForm = match.Groups["long"].Value.Trim();
-        var valueHint = OptionEnumFactory.UnwrapChoiceHint(match.Groups["value"].Value);
+        var rawValueHint = match.Groups["value"].Value;
+        var valueHint = OptionEnumFactory.UnwrapChoiceHint(rawValueHint);
         if (!seenOptions.Add(longForm))
         {
             return null;
@@ -412,7 +413,7 @@ public partial class SnykCliScraper : CliScraperBase
         }
 
         var isNumeric = NumericOptions.Contains(longForm);
-        var isFlag = IsFlagOption(longForm, valueHint, isNumeric);
+        var isFlag = IsFlagOption(longForm, rawValueHint, isNumeric);
         var isBoolean = IsBooleanValueHint(valueHint);
         var acceptsMultipleValues = AcceptsMultipleValues(
             commandParts,
@@ -429,7 +430,7 @@ public partial class SnykCliScraper : CliScraperBase
             ShortForm = null,
             PropertyName = propertyName,
             CSharpType = AsCSharpType(scalarType, acceptsMultipleValues),
-            Description = isBoolean ? description : OptionEnumFactory.PreserveValueHint(enumDefinition, description, valueHint),
+            Description = isBoolean ? description : OptionEnumFactory.PreserveValueHint(enumDefinition, description, rawValueHint),
             IsFlag = isFlag,
             IsRequired = description is not null && DescriptionDeclaresRequiredOption(description),
             AcceptsMultipleValues = acceptsMultipleValues,

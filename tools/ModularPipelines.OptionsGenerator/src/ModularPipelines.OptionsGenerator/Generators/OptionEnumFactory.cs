@@ -74,7 +74,7 @@ internal static class OptionEnumFactory
     public static string? PreserveValueHint(CliEnumDefinition? enumDefinition, string? description, string? valueHint)
     {
         if (enumDefinition is not null || string.IsNullOrWhiteSpace(valueHint)
-            || (!valueHint.Contains('|') && !valueHint.StartsWith('{')))
+            || (!valueHint.Contains('|') && !valueHint.StartsWith('{') && UnwrapChoiceHint(valueHint).Length != 0))
         {
             return description;
         }

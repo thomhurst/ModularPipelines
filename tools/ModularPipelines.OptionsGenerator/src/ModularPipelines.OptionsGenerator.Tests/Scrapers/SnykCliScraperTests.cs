@@ -36,12 +36,19 @@ public class SnykCliScraperTests
     [Arguments("json|yaml)")]
     [Arguments("json||yaml")]
     [Arguments("true||false")]
+    [Arguments("(json||yaml)")]
+    [Arguments("()")]
+    [Arguments("[]")]
+    [Arguments("{}")]
+    [Arguments("<>")]
     public async Task Malformed_Choice_Hints_Remain_In_String_Descriptions(string hint)
     {
         var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
             $"Options\n  --mode={hint}\n    Select mode."))!;
         var option = command.Options.Single();
         await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
         await Assert.That(option.EnumDefinition).IsNull();
         await Assert.That(option.Description).Contains(hint);
     }
