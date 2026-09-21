@@ -918,6 +918,9 @@ public class GeneratorUtilsTests
     [Arguments("PrivateKeyFile", "The file holding private key content.", false)]
     [Arguments("AuthToken", "ID of the authToken or fully qualified identifier for the authToken.", false)]
     [Arguments("TokenAuthUser", "The tokenAuthUser id of the authToken resource.", false)]
+    [Arguments("TokenAuthUser", "The name of the token auth user to create.", false)]
+    [Arguments("SecretUser", "Name of the secret user to delete.", false)]
+    [Arguments("Token", "The token value for the user to create.", true)]
     [Arguments("Token", "The authentication token value used to access the resource.", true)]
     public async Task IsSecretOption_Distinguishes_Material_From_Resource_Identifiers_And_Paths(
         string propertyName, string description, bool secret)

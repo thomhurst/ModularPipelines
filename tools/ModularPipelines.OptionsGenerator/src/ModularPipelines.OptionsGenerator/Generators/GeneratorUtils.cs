@@ -1058,7 +1058,8 @@ public static partial class GeneratorUtils
     [GeneratedRegex(@"\bpath\s+to\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex FilePathDescriptionPattern();
 
-    [GeneratedRegex(@"\bID of the \w+ or fully qualified identifier\b|\bthe \w+ id of the \w+ resource\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"\bID of the \w+ or fully qualified identifier\b|\bthe \w+ id of the \w+ resource\b"
+        + @"|^(?:the\s+)?name of (?:the\s+)?[\w -]+?\s+to (?:create|update|delete)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex ResourceIdentifierDescriptionPattern();
 
     private static bool ContainsIdentifierSegment(string propertyName, string segment)

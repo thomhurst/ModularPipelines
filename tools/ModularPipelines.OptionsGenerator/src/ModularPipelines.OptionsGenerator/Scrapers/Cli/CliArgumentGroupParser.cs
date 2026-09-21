@@ -346,11 +346,37 @@ internal static partial class CliArgumentGroupParser
     [GeneratedRegex(@"\bThis must be specified(?:[.:]|$)", RegexOptions.IgnoreCase)]
     private static partial Regex RequiredBundleMarkerPattern();
     private static bool StartsArgumentGroup(
-        IEnumerable<string> lines,
+        IReadOnlyList<string> lines,
         string? description) =>
         Classify(description) != CliArgumentGroupKind.None
         || DescribesRequiredBundle(description)
+        || ContainsConfigurationHeading(lines)
         || lines.Any(line => SectionHeadingPattern().IsMatch(line.Trim()));
+
+    private static bool ContainsConfigurationHeading(IReadOnlyList<string> lines)
+    {
+        for (var index = 0; index < lines.Count; index++)
+        {
+            if (!ConfigurationHeadingPattern().IsMatch(lines[index].Trim()))
+            {
+                continue;
+            }
+
+            // gcloud separates heading paragraphs from their flags with a blank line.
+            // Similar prose immediately before a flag remains in its existing group.
+            while (index < lines.Count && !string.IsNullOrWhiteSpace(lines[index]))
+            {
+                index++;
+            }
+
+            if (index < lines.Count)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private sealed class ArgumentGroupBuilder(int indentation, string? description)
     {
@@ -389,6 +415,9 @@ internal static partial class CliArgumentGroupParser
 
     [GeneratedRegex(@"^(?:(?:Defines the )?configuration for|(?:Bearer token|Basic) authentication with)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex NamedBundleHeadingPattern();
+
+    [GeneratedRegex(@"^(?:(?:[\w-]+\s+)*configuration for\b|options for\b)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ConfigurationHeadingPattern();
 
     [GeneratedRegex(@"\s+", RegexOptions.CultureInvariant)]
     private static partial Regex WhitespacePattern();

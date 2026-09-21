@@ -57,6 +57,49 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    [Arguments("Entraid configuration for the SQL Server instance.")]
+    [Arguments("Options for configuring read pool auto scale.")]
+    public async Task Configuration_Headings_After_Narrative_Start_Sibling_Groups(string heading)
+    {
+        var section = $"""
+            Arguments for authentication:
+              --token=TOKEN
+                 Authenticate with a token.
+
+              Note: authentication is checked before execution.
+              {heading}
+
+              --setting=SETTING
+                 Configure the independent setting.
+            """;
+        var root = TestArgumentGroupScraper.ParseGroups(section);
+        await Assert.That(root.Groups).Count().IsEqualTo(2);
+        await Assert.That(root.Groups[0].Arguments.Single().SwitchName).IsEqualTo("--token");
+        await Assert.That(root.Groups[1].Arguments.Single().SwitchName).IsEqualTo("--setting");
+    }
+
+    [Test]
+    [Arguments("At most one of these can be specified:", CliArgumentGroupKind.AtMostOne)]
+    [Arguments("Arguments for authentication:", CliArgumentGroupKind.Resource)]
+    public async Task Configuration_Prose_Without_A_Heading_Break_Preserves_Group_Membership(
+        string heading, CliArgumentGroupKind kind)
+    {
+        var section = $"""
+            {heading}
+              --token=TOKEN
+                 Authenticate with a token.
+
+              Options for authentication include OAuth and API tokens.
+              --profile=PROFILE
+                 Select a saved profile.
+            """;
+        var group = TestArgumentGroupScraper.ParseGroups(section).Groups.Single();
+        await Assert.That(group.Kind).IsEqualTo(kind);
+        await Assert.That(group.Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--token", "--profile"]);
+    }
+
+    [Test]
     public async Task Explicit_Headings_Can_Start_Siblings_After_Classified_Groups()
     {
         const string section = """
