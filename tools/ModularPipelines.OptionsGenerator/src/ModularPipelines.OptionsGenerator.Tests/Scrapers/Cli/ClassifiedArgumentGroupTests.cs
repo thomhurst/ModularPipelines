@@ -5,6 +5,27 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    public async Task Outer_Choice_Preserves_Peer_Branches_With_Different_Flag_Depths()
+    {
+        const string section = """
+            Exactly one of these must be specified:
+              First branch settings.
+              --first=FIRST
+                 The first branch value.
+
+              Second branch settings.
+                --second=SECOND
+                   The second branch value.
+            """;
+        var choice = TestArgumentGroupScraper.ParseGroups(section).Groups.Single();
+        await Assert.That(choice.Kind)
+            .IsEqualTo(CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne);
+        await Assert.That(choice.Groups).Count().IsEqualTo(2);
+        await Assert.That(choice.Groups.Select(group => group.Arguments.Single().SwitchName))
+            .IsEquivalentTo(["--first", "--second"]);
+    }
+
+    [Test]
     [Arguments("Arguments for authentication:")]
     [Arguments("Or use these options:")]
     public async Task Classified_Ancestors_Preserve_Nested_Choices(string heading)

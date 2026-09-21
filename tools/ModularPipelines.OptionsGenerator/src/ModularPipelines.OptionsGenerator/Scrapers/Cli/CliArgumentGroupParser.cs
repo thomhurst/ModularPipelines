@@ -69,10 +69,12 @@ internal static partial class CliArgumentGroupParser
             // A peer heading can introduce flags indented deeper than the previous
             // group's flags. Compare headings before treating that depth as nesting.
             // Within a classified branch, same-depth constraints still belong to that branch.
-            var hasClassifiedParent = stack.Skip(1).Any(group =>
-                group.IsNamedBundle || Classify(group.Description) != CliArgumentGroupKind.None);
+            var isNestedConstraint =
+                (Classify(prelude) & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0
+                && stack.Skip(1).Any(group =>
+                    group.IsNamedBundle || Classify(group.Description) != CliArgumentGroupKind.None);
             while (stack.Count > 1 && preludeStartsGroup
-                   && !hasClassifiedParent
+                   && !isNestedConstraint
                    && preludeIndentation <= stack.Peek().HeadingIndentation
                    && declaration.Argument.Indentation > stack.Peek().Indentation
                    && !stack.Peek().IsNamedBundle)
